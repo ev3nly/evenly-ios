@@ -1,0 +1,495 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2D513647E3894A1A8D42D301 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CE045D00404F4EA21A23EC /* libPods.a */; };
+		9C981B23174FD95600BE9506 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B22174FD95600BE9506 /* UIKit.framework */; };
+		9C981B25174FD95600BE9506 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B24174FD95600BE9506 /* Foundation.framework */; };
+		9C981B27174FD95600BE9506 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B26174FD95600BE9506 /* CoreGraphics.framework */; };
+		9C981B2D174FD95600BE9506 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C981B2B174FD95600BE9506 /* InfoPlist.strings */; };
+		9C981B2F174FD95600BE9506 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C981B2E174FD95600BE9506 /* main.m */; };
+		9C981B33174FD95600BE9506 /* EVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C981B32174FD95600BE9506 /* EVAppDelegate.m */; };
+		9C981B35174FD95600BE9506 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C981B34174FD95600BE9506 /* Default.png */; };
+		9C981B37174FD95600BE9506 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C981B36174FD95600BE9506 /* Default@2x.png */; };
+		9C981B39174FD95600BE9506 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C981B38174FD95600BE9506 /* Default-568h@2x.png */; };
+		9C981B41174FD95600BE9506 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B40174FD95600BE9506 /* SenTestingKit.framework */; };
+		9C981B42174FD95600BE9506 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B22174FD95600BE9506 /* UIKit.framework */; };
+		9C981B43174FD95600BE9506 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B24174FD95600BE9506 /* Foundation.framework */; };
+		9C981B4B174FD95600BE9506 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C981B49174FD95600BE9506 /* InfoPlist.strings */; };
+		9C981B4E174FD95600BE9506 /* EvenlyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C981B4D174FD95600BE9506 /* EvenlyTests.m */; };
+		9CEEB7B51755250800C24C2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB7B41755250800C24C2A /* QuartzCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9C981B44174FD95600BE9506 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9C981B17174FD95600BE9506 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9C981B1E174FD95600BE9506;
+			remoteInfo = Evenly;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		58CE045D00404F4EA21A23EC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C981B1F174FD95600BE9506 /* Evenly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Evenly.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C981B22174FD95600BE9506 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		9C981B24174FD95600BE9506 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		9C981B26174FD95600BE9506 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		9C981B2A174FD95600BE9506 /* Evenly-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Evenly-Info.plist"; sourceTree = "<group>"; };
+		9C981B2C174FD95600BE9506 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9C981B2E174FD95600BE9506 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		9C981B30174FD95600BE9506 /* Evenly-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Evenly-Prefix.pch"; sourceTree = "<group>"; };
+		9C981B31174FD95600BE9506 /* EVAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVAppDelegate.h; sourceTree = "<group>"; };
+		9C981B32174FD95600BE9506 /* EVAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVAppDelegate.m; sourceTree = "<group>"; };
+		9C981B34174FD95600BE9506 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		9C981B36174FD95600BE9506 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		9C981B38174FD95600BE9506 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		9C981B3F174FD95600BE9506 /* EvenlyTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EvenlyTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C981B40174FD95600BE9506 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		9C981B48174FD95600BE9506 /* EvenlyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "EvenlyTests-Info.plist"; sourceTree = "<group>"; };
+		9C981B4A174FD95600BE9506 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9C981B4C174FD95600BE9506 /* EvenlyTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EvenlyTests.h; sourceTree = "<group>"; };
+		9C981B4D174FD95600BE9506 /* EvenlyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EvenlyTests.m; sourceTree = "<group>"; };
+		9CEEB7B41755250800C24C2A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9C981B1C174FD95600BE9506 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9CEEB7B51755250800C24C2A /* QuartzCore.framework in Frameworks */,
+				9C981B23174FD95600BE9506 /* UIKit.framework in Frameworks */,
+				9C981B25174FD95600BE9506 /* Foundation.framework in Frameworks */,
+				9C981B27174FD95600BE9506 /* CoreGraphics.framework in Frameworks */,
+				2D513647E3894A1A8D42D301 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9C981B3B174FD95600BE9506 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C981B41174FD95600BE9506 /* SenTestingKit.framework in Frameworks */,
+				9C981B42174FD95600BE9506 /* UIKit.framework in Frameworks */,
+				9C981B43174FD95600BE9506 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9C981B16174FD95600BE9506 = {
+			isa = PBXGroup;
+			children = (
+				9C981B28174FD95600BE9506 /* Evenly */,
+				9C981B46174FD95600BE9506 /* EvenlyTests */,
+				9C981B21174FD95600BE9506 /* Frameworks */,
+				9C981B20174FD95600BE9506 /* Products */,
+				4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		9C981B20174FD95600BE9506 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9C981B1F174FD95600BE9506 /* Evenly.app */,
+				9C981B3F174FD95600BE9506 /* EvenlyTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9C981B21174FD95600BE9506 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9C981B26174FD95600BE9506 /* CoreGraphics.framework */,
+				9C981B24174FD95600BE9506 /* Foundation.framework */,
+				58CE045D00404F4EA21A23EC /* libPods.a */,
+				9CEEB7B41755250800C24C2A /* QuartzCore.framework */,
+				9C981B40174FD95600BE9506 /* SenTestingKit.framework */,
+				9C981B22174FD95600BE9506 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9C981B28174FD95600BE9506 /* Evenly */ = {
+			isa = PBXGroup;
+			children = (
+				9C981B31174FD95600BE9506 /* EVAppDelegate.h */,
+				9C981B32174FD95600BE9506 /* EVAppDelegate.m */,
+				9C981B29174FD95600BE9506 /* Supporting Files */,
+			);
+			path = Evenly;
+			sourceTree = "<group>";
+		};
+		9C981B29174FD95600BE9506 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9C981B2A174FD95600BE9506 /* Evenly-Info.plist */,
+				9C981B2B174FD95600BE9506 /* InfoPlist.strings */,
+				9C981B2E174FD95600BE9506 /* main.m */,
+				9C981B30174FD95600BE9506 /* Evenly-Prefix.pch */,
+				9C981B34174FD95600BE9506 /* Default.png */,
+				9C981B36174FD95600BE9506 /* Default@2x.png */,
+				9C981B38174FD95600BE9506 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		9C981B46174FD95600BE9506 /* EvenlyTests */ = {
+			isa = PBXGroup;
+			children = (
+				9C981B4C174FD95600BE9506 /* EvenlyTests.h */,
+				9C981B4D174FD95600BE9506 /* EvenlyTests.m */,
+				9C981B47174FD95600BE9506 /* Supporting Files */,
+			);
+			path = EvenlyTests;
+			sourceTree = "<group>";
+		};
+		9C981B47174FD95600BE9506 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				9C981B48174FD95600BE9506 /* EvenlyTests-Info.plist */,
+				9C981B49174FD95600BE9506 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9C981B1E174FD95600BE9506 /* Evenly */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9C981B51174FD95600BE9506 /* Build configuration list for PBXNativeTarget "Evenly" */;
+			buildPhases = (
+				43C1A90B520E4C8ABD9C01C0 /* Check Pods Manifest.lock */,
+				9C981B1B174FD95600BE9506 /* Sources */,
+				9C981B1C174FD95600BE9506 /* Frameworks */,
+				9C981B1D174FD95600BE9506 /* Resources */,
+				EFA221CF498943E39E46FCE5 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Evenly;
+			productName = Evenly;
+			productReference = 9C981B1F174FD95600BE9506 /* Evenly.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9C981B3E174FD95600BE9506 /* EvenlyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9C981B54174FD95600BE9506 /* Build configuration list for PBXNativeTarget "EvenlyTests" */;
+			buildPhases = (
+				9C981B3A174FD95600BE9506 /* Sources */,
+				9C981B3B174FD95600BE9506 /* Frameworks */,
+				9C981B3C174FD95600BE9506 /* Resources */,
+				9C981B3D174FD95600BE9506 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9C981B45174FD95600BE9506 /* PBXTargetDependency */,
+			);
+			name = EvenlyTests;
+			productName = EvenlyTests;
+			productReference = 9C981B3F174FD95600BE9506 /* EvenlyTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9C981B17174FD95600BE9506 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = EV;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = Evenly;
+			};
+			buildConfigurationList = 9C981B1A174FD95600BE9506 /* Build configuration list for PBXProject "Evenly" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9C981B16174FD95600BE9506;
+			productRefGroup = 9C981B20174FD95600BE9506 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9C981B1E174FD95600BE9506 /* Evenly */,
+				9C981B3E174FD95600BE9506 /* EvenlyTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9C981B1D174FD95600BE9506 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C981B2D174FD95600BE9506 /* InfoPlist.strings in Resources */,
+				9C981B35174FD95600BE9506 /* Default.png in Resources */,
+				9C981B37174FD95600BE9506 /* Default@2x.png in Resources */,
+				9C981B39174FD95600BE9506 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9C981B3C174FD95600BE9506 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C981B4B174FD95600BE9506 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		43C1A90B520E4C8ABD9C01C0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sanbox is not in sync with the Podfile.lock. Run 'pod install'.\nEOM\n    exit 1\nfi\n";
+		};
+		9C981B3D174FD95600BE9506 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		EFA221CF498943E39E46FCE5 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9C981B1B174FD95600BE9506 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C981B2F174FD95600BE9506 /* main.m in Sources */,
+				9C981B33174FD95600BE9506 /* EVAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9C981B3A174FD95600BE9506 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9C981B4E174FD95600BE9506 /* EvenlyTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9C981B45174FD95600BE9506 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9C981B1E174FD95600BE9506 /* Evenly */;
+			targetProxy = 9C981B44174FD95600BE9506 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9C981B2B174FD95600BE9506 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9C981B2C174FD95600BE9506 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9C981B49174FD95600BE9506 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9C981B4A174FD95600BE9506 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9C981B4F174FD95600BE9506 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		9C981B50174FD95600BE9506 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9C981B52174FD95600BE9506 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
+				INFOPLIST_FILE = "Evenly/Evenly-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		9C981B53174FD95600BE9506 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
+				INFOPLIST_FILE = "Evenly/Evenly-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		9C981B55174FD95600BE9506 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Evenly.app/Evenly";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
+				INFOPLIST_FILE = "EvenlyTests/EvenlyTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		9C981B56174FD95600BE9506 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Evenly.app/Evenly";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
+				INFOPLIST_FILE = "EvenlyTests/EvenlyTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9C981B1A174FD95600BE9506 /* Build configuration list for PBXProject "Evenly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C981B4F174FD95600BE9506 /* Debug */,
+				9C981B50174FD95600BE9506 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9C981B51174FD95600BE9506 /* Build configuration list for PBXNativeTarget "Evenly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C981B52174FD95600BE9506 /* Debug */,
+				9C981B53174FD95600BE9506 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9C981B54174FD95600BE9506 /* Build configuration list for PBXNativeTarget "EvenlyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9C981B55174FD95600BE9506 /* Debug */,
+				9C981B56174FD95600BE9506 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9C981B17174FD95600BE9506 /* Project object */;
+}

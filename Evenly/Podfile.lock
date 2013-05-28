@@ -1,0 +1,51 @@
+PODS:
+  - AFNetworking (1.2.1)
+  - JRSwizzle (1.0)
+  - libextobjc/EXTConcreteProtocol (0.2.5):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTKeyPathCoding (0.2.5):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTScope (0.2.5):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/RuntimeExtensions (0.2.5)
+  - MBProgressHUD (0.6)
+  - Mixpanel (1.1.1)
+  - NewRelicAgent (1.309.0)
+  - PaymentKit (1.0.0)
+  - ReactiveCocoa (1.5.0):
+    - ReactiveCocoa/Core
+    - ReactiveCocoa/RACExtensions
+  - ReactiveCocoa/Core (1.5.0):
+    - JRSwizzle (~> 1.0)
+    - libextobjc/EXTConcreteProtocol (~> 0.2.5)
+    - libextobjc/EXTKeyPathCoding (~> 0.2.5)
+    - libextobjc/EXTScope (~> 0.2.5)
+  - ReactiveCocoa/RACExtensions (1.5.0):
+    - ReactiveCocoa/Core
+  - SSKeychain (1.0.4)
+
+DEPENDENCIES:
+  - AFNetworking (~> 1.0)
+  - MBProgressHUD (~> 0.6)
+  - Mixpanel (~> 1.1.1)
+  - NewRelicAgent (~> 1.309.0)
+  - PaymentKit (from `https://github.com/stripe/PaymentKit.git`)
+  - ReactiveCocoa (~> 1.5.0)
+  - SSKeychain (~> 1.0.2)
+
+EXTERNAL SOURCES:
+  PaymentKit:
+    :git: https://github.com/stripe/PaymentKit.git
+
+SPEC CHECKSUMS:
+  AFNetworking: a44069e3c9c89867544f6639482f155c7e5f9b41
+  JRSwizzle: 6242ff38485d870fc2636899048ee1ab883ae587
+  libextobjc: 2cbc74caf8bdc74a86fdf24673f773c83424ea98
+  MBProgressHUD: 9b55a90566fb5d07df0602f6fd9fa04510ad5d52
+  Mixpanel: 388e78ffe1c4878b65a86127b5dab70be36479ad
+  NewRelicAgent: 3caf67341dd34afff1a224aace0bd053c0f7fd5d
+  PaymentKit: 40e5673a9a0960d7ef111d66d0604af245caf635
+  ReactiveCocoa: aacb9fe6272d638a0a0b629e304e81bfc4e5959a
+  SSKeychain: 9b4a6249ae46b6d1f39a013621bd803f3baba1e3
+
+COCOAPODS: 0.18.1
