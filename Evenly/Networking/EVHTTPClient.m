@@ -9,6 +9,7 @@
 #import "EVHTTPClient.h"
 #import "EVErrorHandler.h"
 #import "EVConstants.h"
+#import "AFURLConnectionOperation.h"
 
 @interface EVJSONRequestOperation(private)
 
@@ -40,7 +41,9 @@
         [self setDefaultHeader:@"Ios-Version" value:EV_APP_VERSION];
         [self setDefaultHeader:@"Ios-Build" value:EV_APP_BUILD];
     #ifndef DEBUG
+#ifdef _AFNETWORKING_PIN_SSL_CERTIFICATES_
         [self setDefaultSSLPinningMode:AFSSLPinningModePublicKey];
+#endif
     #else
 //        [self setDefaultSSLPinningMode:AFSSLPinningModeNone];
     #endif
