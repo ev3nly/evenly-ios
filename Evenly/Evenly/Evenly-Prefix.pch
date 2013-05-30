@@ -9,9 +9,16 @@
 #endif
 
 #ifdef __OBJC__
+    //For stupid AFNetworking
+    #import <SystemConfiguration/SystemConfiguration.h>
+    #import <MobileCoreServices/MobileCoreServices.h>
+    #define _AFNETWORKING_PIN_SSL_CERTIFICATES_
+
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "EVMacros.h"
     #import "EVUtilities.h"
     #import "EVConstants.h"
 #endif
+
+#define _AFNETWORKING_PIN_SSL_CERTIFICATES_
