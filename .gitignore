@@ -17,3 +17,6 @@ profile
 DerivedData
 .idea/
 Pods/
+*.ipa
+*.app.dSYM.zip
+
