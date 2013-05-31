@@ -55,6 +55,8 @@
 		9C981B43174FD95600BE9506 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B24174FD95600BE9506 /* Foundation.framework */; };
 		9C981B4B174FD95600BE9506 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C981B49174FD95600BE9506 /* InfoPlist.strings */; };
 		9C981B4E174FD95600BE9506 /* EvenlyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C981B4D174FD95600BE9506 /* EvenlyTests.m */; };
+		9CE05EF1175942610095CCFC /* JASidePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EEE175942610095CCFC /* JASidePanelController.m */; };
+		9CE05EF2175942610095CCFC /* UIViewController+JASidePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */; };
 		9CEEB7B51755250800C24C2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB7B41755250800C24C2A /* QuartzCore.framework */; };
 		9CEEB7F01755261500C24C2A /* EVError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB7D91755261500C24C2A /* EVError.m */; };
 		9CEEB7F11755261500C24C2A /* EVErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB7DB1755261500C24C2A /* EVErrorHandler.m */; };
@@ -184,6 +186,10 @@
 		9C981B4A174FD95600BE9506 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9C981B4C174FD95600BE9506 /* EvenlyTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EvenlyTests.h; sourceTree = "<group>"; };
 		9C981B4D174FD95600BE9506 /* EvenlyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EvenlyTests.m; sourceTree = "<group>"; };
+		9CE05EED175942610095CCFC /* JASidePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JASidePanelController.h; sourceTree = "<group>"; };
+		9CE05EEE175942610095CCFC /* JASidePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JASidePanelController.m; sourceTree = "<group>"; };
+		9CE05EEF175942610095CCFC /* UIViewController+JASidePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+JASidePanel.h"; sourceTree = "<group>"; };
+		9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+JASidePanel.m"; sourceTree = "<group>"; };
 		9CEEB7B41755250800C24C2A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9CEEB7D81755261500C24C2A /* EVError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EVError.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		9CEEB7D91755261500C24C2A /* EVError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EVError.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -462,6 +468,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		9CE05EEC175942610095CCFC /* JASidePanel */ = {
+			isa = PBXGroup;
+			children = (
+				9CE05EED175942610095CCFC /* JASidePanelController.h */,
+				9CE05EEE175942610095CCFC /* JASidePanelController.m */,
+				9CE05EEF175942610095CCFC /* UIViewController+JASidePanel.h */,
+				9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */,
+			);
+			path = JASidePanel;
+			sourceTree = "<group>";
+		};
 		9CEEB7D71755261500C24C2A /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -482,6 +499,7 @@
 			children = (
 				9CEEB82D175526EC00C24C2A /* ABContactHelper */,
 				9CEEB834175526EC00C24C2A /* AESCrypt-ObjC */,
+				9CE05EEC175942610095CCFC /* JASidePanel */,
 				9CEEB840175526EC00C24C2A /* KeychainItemWrapper */,
 			);
 			path = Libraries;
@@ -730,6 +748,8 @@
 				9C1F482C175691B600B26A1B /* EVSession.m in Sources */,
 				9C1F482D175691B600B26A1B /* EVUser.m in Sources */,
 				9C1F482E175691B600B26A1B /* EVWithdrawal.m in Sources */,
+				9CE05EF1175942610095CCFC /* JASidePanelController.m in Sources */,
+				9CE05EF2175942610095CCFC /* UIViewController+JASidePanel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
