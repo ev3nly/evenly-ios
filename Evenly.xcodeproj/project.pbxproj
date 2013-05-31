@@ -40,6 +40,7 @@
 		9C1F482C175691B600B26A1B /* EVSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F481A175691B600B26A1B /* EVSession.m */; };
 		9C1F482D175691B600B26A1B /* EVUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F481C175691B600B26A1B /* EVUser.m */; };
 		9C1F482E175691B600B26A1B /* EVWithdrawal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F481E175691B600B26A1B /* EVWithdrawal.m */; };
+		9C2FCEF817592062003F13BC /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C2FCEF717592062003F13BC /* Crashlytics.framework */; };
 		9C981B23174FD95600BE9506 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B22174FD95600BE9506 /* UIKit.framework */; };
 		9C981B25174FD95600BE9506 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B24174FD95600BE9506 /* Foundation.framework */; };
 		9C981B27174FD95600BE9506 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B26174FD95600BE9506 /* CoreGraphics.framework */; };
@@ -163,6 +164,7 @@
 		9C1F481C175691B600B26A1B /* EVUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVUser.m; sourceTree = "<group>"; };
 		9C1F481D175691B600B26A1B /* EVWithdrawal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWithdrawal.h; sourceTree = "<group>"; };
 		9C1F481E175691B600B26A1B /* EVWithdrawal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWithdrawal.m; sourceTree = "<group>"; };
+		9C2FCEF717592062003F13BC /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Frameworks/Crashlytics.framework; sourceTree = "<group>"; };
 		9C981B1F174FD95600BE9506 /* Evenly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Evenly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C981B22174FD95600BE9506 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9C981B24174FD95600BE9506 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -211,7 +213,7 @@
 		9CEEB83F175526EC00C24C2A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		9CEEB841175526EC00C24C2A /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainItemWrapper.h; sourceTree = "<group>"; };
 		9CEEB842175526EC00C24C2A /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainItemWrapper.m; sourceTree = "<group>"; };
-		9CEEB8521755271100C24C2A /* Balanced.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Balanced.framework; sourceTree = "<group>"; };
+		9CEEB8521755271100C24C2A /* Balanced.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Balanced.framework; path = Frameworks/Balanced.framework; sourceTree = "<group>"; };
 		9CEEB8541755272100C24C2A /* EVMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMacros.h; sourceTree = "<group>"; };
 		9CEEB8551755854300C24C2A /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		9CEEB8561755854300C24C2A /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -252,6 +254,7 @@
 				9C981B27174FD95600BE9506 /* CoreGraphics.framework in Frameworks */,
 				2D513647E3894A1A8D42D301 /* libPods.a in Frameworks */,
 				9CEEB8531755271100C24C2A /* Balanced.framework in Frameworks */,
+				9C2FCEF817592062003F13BC /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,6 +398,7 @@
 				9C981B26174FD95600BE9506 /* CoreGraphics.framework */,
 				9CEEB85B1755854400C24C2A /* CoreLocation.framework */,
 				9CEEB85C1755854400C24C2A /* CoreTelephony.framework */,
+				9C2FCEF717592062003F13BC /* Crashlytics.framework */,
 				9C981B24174FD95600BE9506 /* Foundation.framework */,
 				58CE045D00404F4EA21A23EC /* libPods.a */,
 				9CEEB85D1755854400C24C2A /* MessageUI.framework */,
@@ -535,6 +539,7 @@
 				9C981B1C174FD95600BE9506 /* Frameworks */,
 				9C981B1D174FD95600BE9506 /* Resources */,
 				EFA221CF498943E39E46FCE5 /* Copy Pods Resources */,
+				9C2FCEF61759202E003F13BC /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -631,6 +636,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sanbox is not in sync with the Podfile.lock. Run 'pod install'.\nEOM\n    exit 1\nfi\n";
+		};
+		9C2FCEF61759202E003F13BC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Frameworks/Crashlytics.framework/run 57feb0d7e994889c02aae5608c93b9891426fff9";
 		};
 		9C981B3D174FD95600BE9506 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -816,6 +834,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
@@ -833,6 +852,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/Frameworks\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
