@@ -8,6 +8,10 @@
 
 #import "EVAppDelegate.h"
 #import <Crashlytics/Crashlytics.h>
+#import "JASidePanelController.h"
+#import "EVMenuViewController.h"
+#import "EVHomeViewController.h"
+#import "EVWalletViewController.h"
 
 @implementation EVAppDelegate
 
@@ -16,8 +20,14 @@
     [Crashlytics startWithAPIKey:@"57feb0d7e994889c02aae5608c93b9891426fff9"];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    
+    self.sidePanelController = [[JASidePanelController alloc] init];
+    self.sidePanelController.leftPanel = [[EVMenuViewController alloc] init];
+    self.sidePanelController.centerPanel = [[UINavigationController alloc] initWithRootViewController:[[EVHomeViewController alloc] init]];
+    self.sidePanelController.rightPanel = [[EVWalletViewController alloc] init];
+    
+    self.window.rootViewController = self.sidePanelController;
+    self.window.backgroundColor = [UIColor cyanColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
