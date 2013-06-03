@@ -12,9 +12,9 @@ pod 'ReactiveCocoa', '~> 1.5.0'
 # pod 'SocketRocket', :podspec => 'SocketRocket.podspec'
 # pod 'PonyDebugger', :podspec => 'PonyDebugger.podspec'
 
-# target :KiwiUnitTest, exclusive: true do
-#  pod 'Kiwi', '~> 2.0.6'
-# end
+target :KiwiUnitTest, exclusive: true do
+  pod 'Kiwi', '~> 2.0.6'
+end
 
 post_install do |installer|
     prefix_header = installer.config.project_pods_root + 'Pods-prefix.pch'
