@@ -18,10 +18,10 @@
 
 + (instancetype)sharedManager;
 
-@property (nonatomic, readonly) EVHomeViewController *homeViewController;
-@property (nonatomic, readonly) EVProfileViewController *profileViewController;
-@property (nonatomic, readonly) EVInviteViewController *inviteViewController;
-@property (nonatomic, readonly) EVSettingsViewController *settingsViewController;
+@property (nonatomic, readonly) UIViewController *homeViewController;
+@property (nonatomic, readonly) UIViewController *profileViewController;
+@property (nonatomic, readonly) UIViewController *inviteViewController;
+@property (nonatomic, readonly) UIViewController *settingsViewController;
 
 - (UIViewController *)viewControllerForMainMenuOption:(EVMainMenuOption)option;
 

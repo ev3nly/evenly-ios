@@ -24,7 +24,7 @@
     
     self.sidePanelController = [[JASidePanelController alloc] init];
     self.sidePanelController.leftPanel = [[EVMainMenuViewController alloc] init];
-    self.sidePanelController.centerPanel = [[UINavigationController alloc] initWithRootViewController:[[EVNavigationManager sharedManager] homeViewController]];
+    self.sidePanelController.centerPanel = [[EVNavigationManager sharedManager] homeViewController];
     self.sidePanelController.rightPanel = [[EVWalletViewController alloc] init];
     
     self.window.rootViewController = self.sidePanelController;

@@ -7,6 +7,7 @@
 //
 
 #import "EVMainMenuViewController.h"
+#import "EVNavigationManager.h"
 
 @interface EVMainMenuViewController ()
 
@@ -69,10 +70,48 @@
     return cell;    
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == EVMainMenuOptionSupport)
+    {
+        MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
+        [composer setToRecipients:@[ [EVStringUtility supportEmail] ]];
+        [composer setSubject:[EVStringUtility supportEmailSubjectLine]];
+        [composer setMailComposeDelegate:self];
+        [self presentViewController:composer
+                           animated:YES
+                         completion:nil];
+        return;
+    }
+    
+    UIViewController *viewController = nil;
+    switch (indexPath.row) {
+        case EVMainMenuOptionHome:
+            viewController = [[EVNavigationManager sharedManager] homeViewController];
+            break;
+        case EVMainMenuOptionProfile:
+            viewController = [[EVNavigationManager sharedManager] profileViewController];
+            break;
+        case EVMainMenuOptionSettings:
+            viewController = [[EVNavigationManager sharedManager] settingsViewController];
+            break;
+        case EVMainMenuOptionInvite:
+            viewController = [[EVNavigationManager sharedManager] inviteViewController];
+            break;
+        case EVMainMenuOptionSupport:
+        default:
+            break;
+    }
+    if (viewController)
+    {
+        self.sidePanelController.centerPanel = viewController;
+    }
+}
+
+
+#pragma mark - Mail Compose Delegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "EVViewController.h"
+#import <MessageUI/MessageUI.h>
 
 typedef enum {
     EVMainMenuOptionHome = 0,
@@ -17,7 +18,7 @@ typedef enum {
     EVMainMenuOptionCOUNT
 } EVMainMenuOption;
 
-@interface EVMainMenuViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
+@interface EVMainMenuViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
