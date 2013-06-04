@@ -11,10 +11,10 @@
 static EVNavigationManager *_sharedManager;
 
 @interface EVNavigationManager () {
-    EVHomeViewController *_homeViewController;
-    EVProfileViewController *_profileViewController;
-    EVInviteViewController *_inviteViewController;
-    EVSettingsViewController *_settingsViewController;
+    UINavigationController *_homeViewController;
+    UINavigationController *_profileViewController;
+    UINavigationController *_inviteViewController;
+    UINavigationController *_settingsViewController;
 }
 
 @end
@@ -29,27 +29,27 @@ static EVNavigationManager *_sharedManager;
     return _sharedManager;
 }
 
-- (EVHomeViewController *)homeViewController {
+- (UINavigationController *)homeViewController {
     if (!_homeViewController)
-        _homeViewController = [[EVHomeViewController alloc] init];
+        _homeViewController = [[UINavigationController alloc] initWithRootViewController:[[EVHomeViewController alloc] init]];
     return _homeViewController;
 }
 
-- (EVProfileViewController *)profileViewController {
+- (UINavigationController *)profileViewController {
     if (!_profileViewController)
-        _profileViewController = [[EVProfileViewController alloc] init];
+        _profileViewController = [[UINavigationController alloc] initWithRootViewController:[[EVProfileViewController alloc] init]];
     return _profileViewController;
 }
 
-- (EVInviteViewController *)inviteViewController {
+- (UINavigationController *)inviteViewController {
     if (!_inviteViewController)
-        _inviteViewController = [[EVInviteViewController alloc] init];
+        _inviteViewController = [[UINavigationController alloc] initWithRootViewController:[[EVInviteViewController alloc] init]];
     return _inviteViewController;
 }
 
-- (EVSettingsViewController *)settingsViewController {
+- (UINavigationController *)settingsViewController {
     if (!_settingsViewController)
-        _settingsViewController = [[EVSettingsViewController alloc] init];
+        _settingsViewController = [[UINavigationController alloc] initWithRootViewController:[[EVSettingsViewController alloc] init]];
     return _settingsViewController;
 }
 

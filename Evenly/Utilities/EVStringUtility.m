@@ -227,6 +227,10 @@ static NSDateFormatter *_detailDateFormatter;
     return @"support@paywithivy.com";
 }
 
++ (NSString *)supportEmailSubjectLine {
+    return @"Evenly Help";
+}
+
 + (NSString *)feedbackEmail {
     return @"feedback@paywithivy.com";
 }

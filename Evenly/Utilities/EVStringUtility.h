@@ -36,6 +36,7 @@
 #pragma mark - Contact Methods
 
 + (NSString *)supportEmail;
++ (NSString *)supportEmailSubjectLine;
 + (NSString *)feedbackEmail;
 + (NSString *)generalEmail;
 
