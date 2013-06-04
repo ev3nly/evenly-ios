@@ -22,7 +22,7 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    self.sidePanelController = [[JASidePanelController alloc] init];
+    self.sidePanelController = [[EVNavigationManager sharedManager] sidePanelController];
     self.sidePanelController.leftPanel = [[EVMainMenuViewController alloc] init];
     self.sidePanelController.centerPanel = [[EVNavigationManager sharedManager] homeViewController];
     self.sidePanelController.rightPanel = [[EVWalletViewController alloc] init];

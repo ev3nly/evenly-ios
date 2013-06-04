@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVViewController.h"
+#import "EVSidePanelViewController.h"
 #import <MessageUI/MessageUI.h>
 
 typedef enum {
@@ -18,7 +18,7 @@ typedef enum {
     EVMainMenuOptionCOUNT
 } EVMainMenuOption;
 
-@interface EVMainMenuViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
+@interface EVMainMenuViewController : EVSidePanelViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 

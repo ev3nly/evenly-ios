@@ -31,6 +31,7 @@ static EVCentralIntelligence *_sharedInstance;
     self = [super init];
     if (self) {
         self.dataCache = [[NSCache alloc] init];
+        [self reloadAllWithCompletion:NULL];
     }
     return self;
 }
