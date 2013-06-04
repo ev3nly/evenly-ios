@@ -26,6 +26,10 @@
      UIRemoteNotificationTypeSound];
 }
 
++ (EVAppDelegate *)appDelegate {
+    return (EVAppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
 + (EVFundingSource *)activeFundingSourceFromArray:(NSArray *)array {
     __block EVFundingSource *activeCard = nil;
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
