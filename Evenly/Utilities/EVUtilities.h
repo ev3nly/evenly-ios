@@ -20,6 +20,7 @@
 #import "NSTimer+Blocks.h"
 #import "UIView+EVAdditions.h"
 #import "UITableView+EVAdditions.h"
+#import "UIViewController+EVAdditions.h"
 
 #import "MBProgressHUD.h"
 
