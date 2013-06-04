@@ -17,7 +17,7 @@ typedef enum {
     EVMainMenuOptionCOUNT
 } EVMainMenuOption;
 
-@interface EVMenuViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
+@interface EVMainMenuViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 

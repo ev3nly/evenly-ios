@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVMenuViewController.h"
+#import "EVMainMenuViewController.h"
 
-@interface EVMenuViewController ()
+@interface EVMainMenuViewController ()
 
 @end
 
-@implementation EVMenuViewController
+@implementation EVMainMenuViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

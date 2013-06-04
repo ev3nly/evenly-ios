@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "EVMenuViewController.h"
+#import "EVMainMenuViewController.h"
 #import "EVHomeViewController.h"
 #import "EVProfileViewController.h"
 #import "EVInviteViewController.h"
