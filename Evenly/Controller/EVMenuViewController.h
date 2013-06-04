@@ -9,13 +9,13 @@
 #import "EVViewController.h"
 
 typedef enum {
-    EVMenuSectionHome = 0,
-    EVMenuSectionProfile,
-    EVMenuSectionSettings,
-    EVMenuSectionSupport,
-    EVMenuSectionInvite,
-    EVMenuSectionCOUNT
-} EVMenuSection;
+    EVMainMenuOptionHome = 0,
+    EVMainMenuOptionProfile,
+    EVMainMenuOptionSettings,
+    EVMainMenuOptionSupport,
+    EVMainMenuOptionInvite,
+    EVMainMenuOptionCOUNT
+} EVMainMenuOption;
 
 @interface EVMenuViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
 

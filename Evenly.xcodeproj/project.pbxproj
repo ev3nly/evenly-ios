@@ -21,7 +21,12 @@
 		9C0EC748175D479F003B93E2 /* EVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC747175D479F003B93E2 /* EVViewController.m */; };
 		9C0EC74B175D47B0003B93E2 /* EVMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC74A175D47B0003B93E2 /* EVMenuViewController.m */; };
 		9C0EC74E175D47B7003B93E2 /* EVWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC74D175D47B7003B93E2 /* EVWalletViewController.m */; };
-		9C0EC751175D47BE003B93E2 /* EVHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC750175D47BE003B93E2 /* EVHomeViewController.m */; };
+		9C0EC759175D7CFC003B93E2 /* EVHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC754175D7CFC003B93E2 /* EVHomeViewController.m */; };
+		9C0EC75E175D7F73003B93E2 /* EVSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC75D175D7F73003B93E2 /* EVSettingsManager.m */; };
+		9C0EC761175D7F8F003B93E2 /* EVNavigationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC760175D7F8F003B93E2 /* EVNavigationManager.m */; };
+		9C0EC764175D80A5003B93E2 /* EVProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC763175D80A5003B93E2 /* EVProfileViewController.m */; };
+		9C0EC767175D80B1003B93E2 /* EVInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC766175D80B1003B93E2 /* EVInviteViewController.m */; };
+		9C0EC76A175D80BB003B93E2 /* EVSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC769175D80BB003B93E2 /* EVSettingsViewController.m */; };
 		9C1F47EE1756914B00B26A1B /* NSArray+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47CE1756914B00B26A1B /* NSArray+EVAdditions.m */; };
 		9C1F47EF1756914B00B26A1B /* NSDictionary+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47D01756914B00B26A1B /* NSDictionary+EVAdditions.m */; };
 		9C1F47F01756914B00B26A1B /* NSString+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47D21756914B00B26A1B /* NSString+EVAdditions.m */; };
@@ -34,7 +39,6 @@
 		9C1F47F71756914B00B26A1B /* EVImageUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47E01756914B00B26A1B /* EVImageUtility.m */; };
 		9C1F47F81756914B00B26A1B /* EVKeyboardTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47E21756914B00B26A1B /* EVKeyboardTracker.m */; };
 		9C1F47F91756914B00B26A1B /* EVPINUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47E41756914B00B26A1B /* EVPINUtility.m */; };
-		9C1F47FA1756914B00B26A1B /* EVSettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47E61756914B00B26A1B /* EVSettingsManager.m */; };
 		9C1F47FB1756914B00B26A1B /* EVStringUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47E81756914B00B26A1B /* EVStringUtility.m */; };
 		9C1F47FC1756914B00B26A1B /* EVUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47EA1756914B00B26A1B /* EVUtilities.m */; };
 		9C1F47FD1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47ED1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m */; };
@@ -139,8 +143,18 @@
 		9C0EC74A175D47B0003B93E2 /* EVMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMenuViewController.m; sourceTree = "<group>"; };
 		9C0EC74C175D47B7003B93E2 /* EVWalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletViewController.h; sourceTree = "<group>"; };
 		9C0EC74D175D47B7003B93E2 /* EVWalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletViewController.m; sourceTree = "<group>"; };
-		9C0EC74F175D47BE003B93E2 /* EVHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHomeViewController.h; sourceTree = "<group>"; };
-		9C0EC750175D47BE003B93E2 /* EVHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHomeViewController.m; sourceTree = "<group>"; };
+		9C0EC753175D7CFC003B93E2 /* EVHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHomeViewController.h; sourceTree = "<group>"; };
+		9C0EC754175D7CFC003B93E2 /* EVHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHomeViewController.m; sourceTree = "<group>"; };
+		9C0EC75C175D7F73003B93E2 /* EVSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSettingsManager.h; sourceTree = "<group>"; };
+		9C0EC75D175D7F73003B93E2 /* EVSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSettingsManager.m; sourceTree = "<group>"; };
+		9C0EC75F175D7F8F003B93E2 /* EVNavigationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNavigationManager.h; sourceTree = "<group>"; };
+		9C0EC760175D7F8F003B93E2 /* EVNavigationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNavigationManager.m; sourceTree = "<group>"; };
+		9C0EC762175D80A5003B93E2 /* EVProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVProfileViewController.h; sourceTree = "<group>"; };
+		9C0EC763175D80A5003B93E2 /* EVProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVProfileViewController.m; sourceTree = "<group>"; };
+		9C0EC765175D80B1003B93E2 /* EVInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteViewController.h; sourceTree = "<group>"; };
+		9C0EC766175D80B1003B93E2 /* EVInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteViewController.m; sourceTree = "<group>"; };
+		9C0EC768175D80BB003B93E2 /* EVSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSettingsViewController.h; sourceTree = "<group>"; };
+		9C0EC769175D80BB003B93E2 /* EVSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSettingsViewController.m; sourceTree = "<group>"; };
 		9C1F47CD1756914B00B26A1B /* NSArray+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+EVAdditions.h"; sourceTree = "<group>"; };
 		9C1F47CE1756914B00B26A1B /* NSArray+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+EVAdditions.m"; sourceTree = "<group>"; };
 		9C1F47CF1756914B00B26A1B /* NSDictionary+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+EVAdditions.h"; sourceTree = "<group>"; };
@@ -165,8 +179,6 @@
 		9C1F47E21756914B00B26A1B /* EVKeyboardTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVKeyboardTracker.m; sourceTree = "<group>"; };
 		9C1F47E31756914B00B26A1B /* EVPINUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPINUtility.h; sourceTree = "<group>"; };
 		9C1F47E41756914B00B26A1B /* EVPINUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPINUtility.m; sourceTree = "<group>"; };
-		9C1F47E51756914B00B26A1B /* EVSettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSettingsManager.h; sourceTree = "<group>"; };
-		9C1F47E61756914B00B26A1B /* EVSettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSettingsManager.m; sourceTree = "<group>"; };
 		9C1F47E71756914B00B26A1B /* EVStringUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStringUtility.h; sourceTree = "<group>"; };
 		9C1F47E81756914B00B26A1B /* EVStringUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStringUtility.m; sourceTree = "<group>"; };
 		9C1F47E91756914B00B26A1B /* EVUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVUtilities.h; sourceTree = "<group>"; };
@@ -342,10 +354,59 @@
 				9C0EC74A175D47B0003B93E2 /* EVMenuViewController.m */,
 				9C0EC74C175D47B7003B93E2 /* EVWalletViewController.h */,
 				9C0EC74D175D47B7003B93E2 /* EVWalletViewController.m */,
-				9C0EC74F175D47BE003B93E2 /* EVHomeViewController.h */,
-				9C0EC750175D47BE003B93E2 /* EVHomeViewController.m */,
+				9C0EC752175D7CFC003B93E2 /* Home */,
+				9C0EC755175D7CFC003B93E2 /* Invite */,
+				9C0EC756175D7CFC003B93E2 /* Prophile */,
+				9C0EC758175D7CFC003B93E2 /* Settings */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		9C0EC752175D7CFC003B93E2 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				9C0EC753175D7CFC003B93E2 /* EVHomeViewController.h */,
+				9C0EC754175D7CFC003B93E2 /* EVHomeViewController.m */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		9C0EC755175D7CFC003B93E2 /* Invite */ = {
+			isa = PBXGroup;
+			children = (
+				9C0EC765175D80B1003B93E2 /* EVInviteViewController.h */,
+				9C0EC766175D80B1003B93E2 /* EVInviteViewController.m */,
+			);
+			path = Invite;
+			sourceTree = "<group>";
+		};
+		9C0EC756175D7CFC003B93E2 /* Prophile */ = {
+			isa = PBXGroup;
+			children = (
+				9C0EC762175D80A5003B93E2 /* EVProfileViewController.h */,
+				9C0EC763175D80A5003B93E2 /* EVProfileViewController.m */,
+			);
+			path = Prophile;
+			sourceTree = "<group>";
+		};
+		9C0EC758175D7CFC003B93E2 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9C0EC768175D80BB003B93E2 /* EVSettingsViewController.h */,
+				9C0EC769175D80BB003B93E2 /* EVSettingsViewController.m */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		9C0EC75B175D7F73003B93E2 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				9C0EC75F175D7F8F003B93E2 /* EVNavigationManager.h */,
+				9C0EC760175D7F8F003B93E2 /* EVNavigationManager.m */,
+				9C0EC75C175D7F73003B93E2 /* EVSettingsManager.h */,
+				9C0EC75D175D7F73003B93E2 /* EVSettingsManager.m */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		9C1F47CB1756914B00B26A1B /* Utilities */ = {
@@ -365,8 +426,6 @@
 				9C1F47E21756914B00B26A1B /* EVKeyboardTracker.m */,
 				9C1F47E31756914B00B26A1B /* EVPINUtility.h */,
 				9C1F47E41756914B00B26A1B /* EVPINUtility.m */,
-				9C1F47E51756914B00B26A1B /* EVSettingsManager.h */,
-				9C1F47E61756914B00B26A1B /* EVSettingsManager.m */,
 				9C1F47E71756914B00B26A1B /* EVStringUtility.h */,
 				9C1F47E81756914B00B26A1B /* EVStringUtility.m */,
 				9C1F47E91756914B00B26A1B /* EVUtilities.h */,
@@ -503,6 +562,7 @@
 				9CEEB7F41755268B00C24C2A /* EVConstants.h */,
 				9C1F47FE175691B600B26A1B /* Model */,
 				9C0EC745175D478A003B93E2 /* Controller */,
+				9C0EC75B175D7F73003B93E2 /* Managers */,
 				9CEEB7D71755261500C24C2A /* Networking */,
 				9CEEB82C175526EC00C24C2A /* Libraries */,
 				9C1F47CB1756914B00B26A1B /* Utilities */,
@@ -904,7 +964,6 @@
 				9C1F47F71756914B00B26A1B /* EVImageUtility.m in Sources */,
 				9C1F47F81756914B00B26A1B /* EVKeyboardTracker.m in Sources */,
 				9C1F47F91756914B00B26A1B /* EVPINUtility.m in Sources */,
-				9C1F47FA1756914B00B26A1B /* EVSettingsManager.m in Sources */,
 				9C1F47FB1756914B00B26A1B /* EVStringUtility.m in Sources */,
 				9C1F47FC1756914B00B26A1B /* EVUtilities.m in Sources */,
 				9C1F47FD1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m in Sources */,
@@ -929,7 +988,12 @@
 				9C0EC748175D479F003B93E2 /* EVViewController.m in Sources */,
 				9C0EC74B175D47B0003B93E2 /* EVMenuViewController.m in Sources */,
 				9C0EC74E175D47B7003B93E2 /* EVWalletViewController.m in Sources */,
-				9C0EC751175D47BE003B93E2 /* EVHomeViewController.m in Sources */,
+				9C0EC759175D7CFC003B93E2 /* EVHomeViewController.m in Sources */,
+				9C0EC75E175D7F73003B93E2 /* EVSettingsManager.m in Sources */,
+				9C0EC761175D7F8F003B93E2 /* EVNavigationManager.m in Sources */,
+				9C0EC764175D80A5003B93E2 /* EVProfileViewController.m in Sources */,
+				9C0EC767175D80B1003B93E2 /* EVInviteViewController.m in Sources */,
+				9C0EC76A175D80BB003B93E2 /* EVSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

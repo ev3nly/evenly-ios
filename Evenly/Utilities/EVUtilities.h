@@ -12,6 +12,7 @@
 #import "EVStringUtility.h"
 #import "EVImageUtility.h"
 #import "EVAnalyticsUtility.h"
+#import "EVAppDelegate.h"
 
 #import "NSArray+EVAdditions.h"
 #import "NSDictionary+EVAdditions.h"
@@ -28,6 +29,8 @@
 
 + (void)showAlertForError:(NSError *)error;
 + (void)registerForPushNotifications;
+
++ (EVAppDelegate *)appDelegate;
 
 + (EVFundingSource *)activeFundingSourceFromArray:(NSArray *)array;
 

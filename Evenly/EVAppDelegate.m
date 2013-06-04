@@ -9,6 +9,7 @@
 #import "EVAppDelegate.h"
 #import <Crashlytics/Crashlytics.h>
 #import "JASidePanelController.h"
+#import "EVNavigationManager.h"
 #import "EVMenuViewController.h"
 #import "EVHomeViewController.h"
 #import "EVWalletViewController.h"
@@ -23,7 +24,7 @@
     
     self.sidePanelController = [[JASidePanelController alloc] init];
     self.sidePanelController.leftPanel = [[EVMenuViewController alloc] init];
-    self.sidePanelController.centerPanel = [[UINavigationController alloc] initWithRootViewController:[[EVHomeViewController alloc] init]];
+    self.sidePanelController.centerPanel = [[UINavigationController alloc] initWithRootViewController:[[EVNavigationManager sharedManager] homeViewController]];
     self.sidePanelController.rightPanel = [[EVWalletViewController alloc] init];
     
     self.window.rootViewController = self.sidePanelController;

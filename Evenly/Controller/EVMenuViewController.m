@@ -34,7 +34,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return EVMenuSectionCOUNT;
+    return EVMainMenuOptionCOUNT;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -46,19 +46,19 @@
     
     NSString *title = nil;
     switch (indexPath.row) {
-        case EVMenuSectionHome:
+        case EVMainMenuOptionHome:
             title = @"Home";
             break;
-        case EVMenuSectionProfile:
+        case EVMainMenuOptionProfile:
             title = @"Profile";
             break;
-        case EVMenuSectionSettings:
+        case EVMainMenuOptionSettings:
             title = @"Settings";
             break;
-        case EVMenuSectionSupport:
+        case EVMainMenuOptionSupport:
             title = @"Support";
             break;
-        case EVMenuSectionInvite:
+        case EVMainMenuOptionInvite:
             title = @"Invite";
             break;
             
