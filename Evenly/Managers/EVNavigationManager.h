@@ -18,6 +18,8 @@
 
 + (instancetype)sharedManager;
 
+@property (nonatomic, readonly) JASidePanelController *sidePanelController;
+
 @property (nonatomic, readonly) UIViewController *homeViewController;
 @property (nonatomic, readonly) UIViewController *profileViewController;
 @property (nonatomic, readonly) UIViewController *inviteViewController;
