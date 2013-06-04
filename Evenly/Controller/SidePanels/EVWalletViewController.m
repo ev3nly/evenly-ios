@@ -7,6 +7,7 @@
 //
 
 #import "EVWalletViewController.h"
+#import "EVNavigationManager.h"
 
 @interface EVWalletViewController ()
 
@@ -27,16 +28,21 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    
-    
-	// Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    DLog(@"View will appear");
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    DLog(@"View will disappear");
+}
+
+#pragma mark - EVSidePanelViewController Overrides
+
+- (JASidePanelState)visibleState {
+    return JASidePanelRightVisible;
 }
 
 @end

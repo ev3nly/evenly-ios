@@ -11,6 +11,8 @@
 static EVNavigationManager *_sharedManager;
 
 @interface EVNavigationManager () {
+    JASidePanelController *_sidePanelController;
+    
     UINavigationController *_homeViewController;
     UINavigationController *_profileViewController;
     UINavigationController *_inviteViewController;
@@ -27,6 +29,12 @@ static EVNavigationManager *_sharedManager;
         _sharedManager = [[EVNavigationManager alloc] init];
     });
     return _sharedManager;
+}
+
+- (JASidePanelController *)sidePanelController {
+    if (!_sidePanelController)
+        _sidePanelController = [[JASidePanelController alloc] init];
+    return _sidePanelController;
 }
 
 - (UINavigationController *)homeViewController {
