@@ -9,14 +9,6 @@
 /* Begin PBXBuildFile section */
 		2D513647E3894A1A8D42D301 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CE045D00404F4EA21A23EC /* libPods.a */; };
 		4816BE3B1BA94FE69128633A /* libPods-KiwiUnitTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AECA7FADBCD48EB8F56C9B4 /* libPods-KiwiUnitTest.a */; };
-		9C0EC73C175D1C2E003B93E2 /* IVUserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC733175D1C2E003B93E2 /* IVUserTest.m */; };
-		9C0EC73D175D1C2E003B93E2 /* IVSessionTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC734175D1C2E003B93E2 /* IVSessionTest.m */; };
-		9C0EC73E175D1C2E003B93E2 /* IVChargeTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC735175D1C2E003B93E2 /* IVChargeTest.m */; };
-		9C0EC73F175D1C2E003B93E2 /* IVPaymentTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC736175D1C2E003B93E2 /* IVPaymentTest.m */; };
-		9C0EC740175D1C2E003B93E2 /* IVBankAccountTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC737175D1C2E003B93E2 /* IVBankAccountTest.m */; };
-		9C0EC741175D1C2E003B93E2 /* IVCreditCardTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC738175D1C2E003B93E2 /* IVCreditCardTest.m */; };
-		9C0EC742175D1C2E003B93E2 /* IVWithdrawalTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC739175D1C2E003B93E2 /* IVWithdrawalTest.m */; };
-		9C0EC743175D1C2E003B93E2 /* IVActivityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC73A175D1C2E003B93E2 /* IVActivityTest.m */; };
 		9C0EC744175D1D6D003B93E2 /* KWSpec+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC732175D1C2E003B93E2 /* KWSpec+Helper.m */; };
 		9C0EC748175D479F003B93E2 /* EVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC747175D479F003B93E2 /* EVViewController.m */; };
 		9C0EC74B175D47B0003B93E2 /* EVMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC74A175D47B0003B93E2 /* EVMainMenuViewController.m */; };
@@ -130,14 +122,6 @@
 		6AECA7FADBCD48EB8F56C9B4 /* libPods-KiwiUnitTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KiwiUnitTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C0EC731175D1C2E003B93E2 /* KWSpec+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KWSpec+Helper.h"; sourceTree = "<group>"; };
 		9C0EC732175D1C2E003B93E2 /* KWSpec+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KWSpec+Helper.m"; sourceTree = "<group>"; };
-		9C0EC733175D1C2E003B93E2 /* IVUserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVUserTest.m; sourceTree = "<group>"; };
-		9C0EC734175D1C2E003B93E2 /* IVSessionTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVSessionTest.m; sourceTree = "<group>"; };
-		9C0EC735175D1C2E003B93E2 /* IVChargeTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IVChargeTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		9C0EC736175D1C2E003B93E2 /* IVPaymentTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVPaymentTest.m; sourceTree = "<group>"; };
-		9C0EC737175D1C2E003B93E2 /* IVBankAccountTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IVBankAccountTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		9C0EC738175D1C2E003B93E2 /* IVCreditCardTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IVCreditCardTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		9C0EC739175D1C2E003B93E2 /* IVWithdrawalTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IVWithdrawalTest.m; sourceTree = "<group>"; };
-		9C0EC73A175D1C2E003B93E2 /* IVActivityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = IVActivityTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9C0EC746175D479F003B93E2 /* EVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVViewController.h; sourceTree = "<group>"; };
 		9C0EC747175D479F003B93E2 /* EVViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVViewController.m; sourceTree = "<group>"; };
 		9C0EC749175D47B0003B93E2 /* EVMainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMainMenuViewController.h; sourceTree = "<group>"; };
@@ -627,14 +611,6 @@
 				9CE703F4175D1A7200561ADA /* KiwiUnitTest.m */,
 				9C0EC731175D1C2E003B93E2 /* KWSpec+Helper.h */,
 				9C0EC732175D1C2E003B93E2 /* KWSpec+Helper.m */,
-				9C0EC733175D1C2E003B93E2 /* IVUserTest.m */,
-				9C0EC734175D1C2E003B93E2 /* IVSessionTest.m */,
-				9C0EC735175D1C2E003B93E2 /* IVChargeTest.m */,
-				9C0EC736175D1C2E003B93E2 /* IVPaymentTest.m */,
-				9C0EC737175D1C2E003B93E2 /* IVBankAccountTest.m */,
-				9C0EC738175D1C2E003B93E2 /* IVCreditCardTest.m */,
-				9C0EC739175D1C2E003B93E2 /* IVWithdrawalTest.m */,
-				9C0EC73A175D1C2E003B93E2 /* IVActivityTest.m */,
 				9CE703EE175D1A7200561ADA /* Supporting Files */,
 			);
 			path = KiwiUnitTest;
@@ -1016,14 +992,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CE703F5175D1A7200561ADA /* KiwiUnitTest.m in Sources */,
-				9C0EC73C175D1C2E003B93E2 /* IVUserTest.m in Sources */,
-				9C0EC73D175D1C2E003B93E2 /* IVSessionTest.m in Sources */,
-				9C0EC73E175D1C2E003B93E2 /* IVChargeTest.m in Sources */,
-				9C0EC73F175D1C2E003B93E2 /* IVPaymentTest.m in Sources */,
-				9C0EC740175D1C2E003B93E2 /* IVBankAccountTest.m in Sources */,
-				9C0EC741175D1C2E003B93E2 /* IVCreditCardTest.m in Sources */,
-				9C0EC742175D1C2E003B93E2 /* IVWithdrawalTest.m in Sources */,
-				9C0EC743175D1C2E003B93E2 /* IVActivityTest.m in Sources */,
 				9C0EC744175D1D6D003B93E2 /* KWSpec+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
