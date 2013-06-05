@@ -11,49 +11,99 @@
 
 SPEC_BEGIN(EVValidatorTest)
 
-describe(@"EVValidator", ^{
+describe(@"For EVValidator", ^{
     
-    context(@"when validating emails", ^{
+    context(@"a valid email", ^{
         
-        __block EVValidator *validator;
+        EVValidator *validator = [EVValidator sharedValidator];
+        __block NSString *email;
         
-        beforeAll(^{
-            validator = [EVValidator sharedValidator];
-        });
-       
-        it(@"should reject these", ^{
-            
-            NSArray *emails = @[ @"hey",
-                                 @"hey.com",
-                                 @"hey@COM",
-                                 @"justin.paywithivy@com",
-                                 @"@ivy.com",
-                                 @"justin@ivy.",
-                                 @"justin@.com",
-                                 @"@.",
-//                                 @"justin@test.whatubhlj",
-                                 @"justin@hey.i" ];
-            
-            for (NSString *email in emails) {
-                BOOL isValid = [validator stringIsValidEmail:email];
-                [[theValue(isValid) should] equal:theValue(NO)];
-            }
+        beforeEach(^{
+            email = nil;
         });
         
-        it(@"should accept these", ^{
-            NSArray *emails = @[ @"justin@paywithivy.com",
-                                 @"ju_stin@even.ly",
-                                 @"j%b@oh.no",
-                                 @"JUSTIN@yo.no",
-                                 @"justin@HEY.COM",
-                                 @"yo@bit.ly",
-                                 @"sup@me.co.uk",
-                                 @"hello@s.info" ];
-            
-            for (NSString *email in emails) {
-                BOOL isValid = [validator stringIsValidEmail:email];
-                [[theValue(isValid) should] equal:theValue(YES)];
-            }
+        it(@"should have a .", ^{
+            email = @"hey";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(NO)];
+        });
+        
+        it(@"should have an @", ^{
+            email = @"hey@COM";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(NO)];
+        });
+        
+        it(@"should have an @ before a .", ^{
+            email = @"justin.paywithivy@com";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(NO)];
+        });
+        
+        it(@"should have text before the @", ^{
+            email = @"@ivy.com";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(NO)];
+        });
+        
+        it(@"should have text after the .", ^{
+            email = @"justin@ivy.";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(NO)];
+        });
+        
+        it(@"should have text between the @ and .", ^{
+            email = @"justin@.com";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(NO)];
+        });
+        
+        it(@"should have at least 2 characters after the .", ^{
+            email = @"justin@hey.i";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(NO)];
+        });
+        
+        it(@"should have no more than 4 characters after the .", ^{
+            email = @"justin@test.whatup";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(NO)];
+        });
+        
+        it(@"can have a _ in the beginning", ^{
+            email = @"justin_brunet@even.ly";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(YES)];
+        });
+        
+        it(@"can have a . in the beginning", ^{
+            email = @"justin.brunet@gmail.com";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(YES)];
+        });
+        
+        it(@"can be in all caps", ^{
+            email = @"JUSTIN@OH.NO";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(YES)];
+        });
+        
+        it(@"can be pretty short", ^{
+            email = @"a@a.ly";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(YES)];
+        });
+        
+        it(@"can have a four letter domain", ^{
+            email = @"justin@evenly.info";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(YES)];
+        });
+        
+        it(@"can have a two part domain", ^{
+            email = @"justin@evenly.co.uk";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(YES)];
         });
         
     });
