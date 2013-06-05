@@ -13,6 +13,8 @@
 #import "EVMainMenuViewController.h"
 #import "EVHomeViewController.h"
 #import "EVWalletViewController.h"
+#import "EVSession.h"
+#import "EVCache.h"
 
 @implementation EVAppDelegate
 
@@ -30,6 +32,21 @@
     self.window.rootViewController = self.masterViewController;
     self.window.backgroundColor = [UIColor cyanColor];
     [self.window makeKeyAndVisible];
+    
+    [EVSession createWithEmail:@"joe@paywithivy.com" password:@"haijoe" success:^{
+        //retrieve user from session call, cache user
+        EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
+        [EVUser setMe:me];
+        [EVCache setUser:me];
+        
+        [EVUtilities registerForPushNotifications];
+        
+        //cache session
+        [EVCache setSession:[EVSession sharedSession]];
+    } failure:^(NSError *error) {
+        DLog(@"Failure?! %@", error);
+    }];
+    
     return YES;
 }
 
