@@ -50,13 +50,13 @@
         {
             if (newState == self.visibleState)
             {
-                [self viewWillAppear:YES];
-                [self viewDidAppear:YES];
+                [self beginAppearanceTransition:YES animated:YES];
+                [self endAppearanceTransition];
             }
             else if (oldState == self.visibleState)
             {
-                [self viewWillDisappear:YES];
-                [self viewDidDisappear:YES];
+                [self beginAppearanceTransition:NO animated:YES];
+                [self endAppearanceTransition];
             }
         }
     }
