@@ -34,9 +34,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     self.masterViewController = [[EVNavigationManager sharedManager] masterViewController];
-    self.masterViewController.leftPanel = [[EVMainMenuViewController alloc] init];
+    self.masterViewController.leftPanel = [[EVNavigationManager sharedManager] mainMenuViewController];
     self.masterViewController.centerPanel = [[EVNavigationManager sharedManager] homeViewController];
-    self.masterViewController.rightPanel = [[EVWalletViewController alloc] init];
+    self.masterViewController.rightPanel = [[EVNavigationManager sharedManager] walletViewController];
     
     self.window.rootViewController = self.masterViewController;
     self.window.backgroundColor = [UIColor cyanColor];
