@@ -34,7 +34,25 @@ static EVValidator *_sharedValidator = nil;
 }
 
 - (BOOL)stringIsValidEmail:(NSString *)string {
-    return NO;
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[\\w]+@[\\w]+\\.[\\w]{2,4}"
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    
+    __block BOOL foundMatching = NO;
+    [regex enumerateMatchesInString:string
+                            options:0
+                              range:NSMakeRange(0, string.length)
+                         usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+                             foundMatching = YES;
+                             *stop = YES;
+                         }];
+    return foundMatching;
+    if ([string rangeOfString:@"."].location == NSNotFound)
+        return NO;
+    if ([string rangeOfString:@"@"].location == NSNotFound)
+        return NO;
+    return YES;
 }
 
 @end
