@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface EVCentralIntelligence : NSObject
+@interface EVCIA : NSObject
 
 @property (nonatomic, strong) NSCache *imageCache;
 

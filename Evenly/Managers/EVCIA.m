@@ -6,23 +6,23 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVCentralIntelligence.h"
+#import "EVCIA.h"
 #import "EVActivity.h"
 
-static EVCentralIntelligence *_sharedInstance;
+static EVCIA *_sharedInstance;
 
-@interface EVCentralIntelligence ()
+@interface EVCIA ()
 
-@property (nonatomic, strong) NSCache *dataCache;
+@property (nonatomic, strong) NSCache *internalCache;
 
 @end
 
-@implementation EVCentralIntelligence
+@implementation EVCIA
 
 + (instancetype)sharedInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedInstance = [[EVCentralIntelligence alloc] init];
+        _sharedInstance = [[EVCIA alloc] init];
     });
     return _sharedInstance;
 }
@@ -30,7 +30,8 @@ static EVCentralIntelligence *_sharedInstance;
 - (id)init {
     self = [super init];
     if (self) {
-        self.dataCache = [[NSCache alloc] init];
+        self.imageCache = [[NSCache alloc] init];
+        self.internalCache = [[NSCache alloc] init];
         [self reloadAllWithCompletion:NULL];
     }
     return self;
@@ -39,7 +40,7 @@ static EVCentralIntelligence *_sharedInstance;
 - (void)reloadAllWithCompletion:(void (^)(void))completion {
     [EVActivity allWithSuccess:^(id result) {
         for (id key in [result allKeys]) {
-            [self.dataCache setObject:[result objectForKey:key] forKey:key];
+            [self.internalCache setObject:[result objectForKey:key] forKey:key];
         }
     } failure:^(NSError *error) {
         DLog(@"Failed to reload: %@", error);
@@ -49,35 +50,35 @@ static EVCentralIntelligence *_sharedInstance;
 }
 
 - (NSArray *)pendingReceivedTransactions {
-    return [self.dataCache objectForKey:@"pending_received"];
+    return [self.internalCache objectForKey:@"pending_received"];
 }
 
 - (void)reloadPendingReceivedTransactionsWithCompletion:(void (^)(NSArray *transactions))completion {
     [self reloadAllWithCompletion:^{
         if (completion)
-            completion([self.dataCache objectForKey:@"pending_received"]);
+            completion([self.internalCache objectForKey:@"pending_received"]);
     }];
 }
 
 - (NSArray *)pendingSentTransactions {
-    return [self.dataCache objectForKey:@"pending_sent"];
+    return [self.internalCache objectForKey:@"pending_sent"];
 }
 
 - (void)reloadPendingSentTransactionsWithCompletion:(void (^)(NSArray *transactions))completion {
     [self reloadAllWithCompletion:^{
         if (completion)
-            completion([self.dataCache objectForKey:@"pending_sent"]);
+            completion([self.internalCache objectForKey:@"pending_sent"]);
     }];
 }
 
 - (NSArray *)history {
-    return [self.dataCache objectForKey:@"recent"];
+    return [self.internalCache objectForKey:@"recent"];
 }
 
 - (void)reloadHistoryWithCompletion:(void (^)(NSArray *history))completion {
     [self reloadAllWithCompletion:^{
         if (completion)
-            completion([self.dataCache objectForKey:@"recent"]);
+            completion([self.internalCache objectForKey:@"recent"]);
     }];
 }
 
