@@ -13,6 +13,6 @@
 @interface EVAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) JASidePanelController *sidePanelController;
+@property (strong, nonatomic) JASidePanelController *masterViewController;
 
 @end

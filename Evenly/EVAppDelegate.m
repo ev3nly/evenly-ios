@@ -7,30 +7,85 @@
 //
 
 #import "EVAppDelegate.h"
+
 #import <Crashlytics/Crashlytics.h>
+#import <NewRelicAgent/NewRelicAgent.h>
+#import "Mixpanel.h"
+
 #import "JASidePanelController.h"
 #import "EVNavigationManager.h"
 #import "EVMainMenuViewController.h"
 #import "EVHomeViewController.h"
 #import "EVWalletViewController.h"
+#import "EVSession.h"
+#import "EVCache.h"
+#import "EVSettingsManager.h"
+#import "EVHTTPClient.h"
+#import "EVAppErrorHandler.h"
 
 @implementation EVAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [Crashlytics startWithAPIKey:@"57feb0d7e994889c02aae5608c93b9891426fff9"];
+
+    [self registerWithServices];
+    [self configure];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    self.sidePanelController = [[EVNavigationManager sharedManager] sidePanelController];
-    self.sidePanelController.leftPanel = [[EVMainMenuViewController alloc] init];
-    self.sidePanelController.centerPanel = [[EVNavigationManager sharedManager] homeViewController];
-    self.sidePanelController.rightPanel = [[EVWalletViewController alloc] init];
+    self.masterViewController = [[EVNavigationManager sharedManager] masterViewController];
+    self.masterViewController.leftPanel = [[EVNavigationManager sharedManager] mainMenuViewController];
+    self.masterViewController.centerPanel = [[EVNavigationManager sharedManager] homeViewController];
+    self.masterViewController.rightPanel = [[EVNavigationManager sharedManager] walletViewController];
     
-    self.window.rootViewController = self.sidePanelController;
+    self.window.rootViewController = self.masterViewController;
     self.window.backgroundColor = [UIColor cyanColor];
     [self.window makeKeyAndVisible];
+    
+    // STRICTLY TEMPORARY
+    if (![EVSession sharedSession])
+    {
+        [EVSession createWithEmail:@"joe@paywithivy.com" password:@"haijoe" success:^{
+            //retrieve user from session call, cache user
+            EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
+            [EVUser setMe:me];
+            [EVCache setUser:me];
+            
+            [EVUtilities registerForPushNotifications];
+            
+            //cache session
+            [EVCache setSession:[EVSession sharedSession]];
+        } failure:^(NSError *error) {
+            DLog(@"Failure?! %@", error);
+        }];
+    }
+    
     return YES;
+}
+
+- (void)registerWithServices {
+    [Crashlytics startWithAPIKey:@"57feb0d7e994889c02aae5608c93b9891426fff9"];
+    [NewRelicAgent startWithApplicationToken:@"AA4424ba31b14b47817d4f97239eb1accee8d301fc"];
+    //    [Parse setApplicationId:@"O1LVB8cEUNOYvAjjWjKSKzgx3CkEt4jDykr5H8ah"
+    //                  clientKey:@"IylwifyGsv729Cg6HuiIsHkQBUvdrLttQIQTPlFV"];
+    
+#ifdef DEBUG //Germ
+    [Mixpanel sharedInstanceWithToken:@"1d7eede1da7d22f6623a22c694f2a97f"];
+#else //Vine
+    [Mixpanel sharedInstanceWithToken:@"8025271500dfae2a28c360e58a7a9756"];
+#endif
+}
+
+- (void)configure {
+    // Set up HTTP client.
+    [EVHTTPClient setErrorHandlerClass:[EVAppErrorHandler class]];
+    
+    // Load user and session from cache.
+    [EVUser setMe:[EVCache user]];
+    [EVSession setSharedSession:[EVCache session]];
+    
+    // Load user's settings from server.
+    [[EVSettingsManager sharedManager] loadSettingsFromServer];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

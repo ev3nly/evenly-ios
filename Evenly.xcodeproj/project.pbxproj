@@ -68,6 +68,8 @@
 		9CCA9013175EA8E9003462DC /* EVMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9010175EA8E9003462DC /* EVMainMenuViewController.m */; };
 		9CCA9014175EA8E9003462DC /* EVWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9012175EA8E9003462DC /* EVWalletViewController.m */; };
 		9CCA9017175EA8FC003462DC /* EVSidePanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9016175EA8FC003462DC /* EVSidePanelViewController.m */; };
+		9CCA901A175EBCCC003462DC /* EVAppErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9019175EBCCC003462DC /* EVAppErrorHandler.m */; };
+		9CCA901D175EBD47003462DC /* EVMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA901C175EBD47003462DC /* EVMasterViewController.m */; };
 		9CE05EF1175942610095CCFC /* JASidePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EEE175942610095CCFC /* JASidePanelController.m */; };
 		9CE05EF2175942610095CCFC /* UIViewController+JASidePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */; };
 		9CE703EA175D1A7200561ADA /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B40174FD95600BE9506 /* SenTestingKit.framework */; };
@@ -230,6 +232,10 @@
 		9CCA9012175EA8E9003462DC /* EVWalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletViewController.m; sourceTree = "<group>"; };
 		9CCA9015175EA8FC003462DC /* EVSidePanelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSidePanelViewController.h; sourceTree = "<group>"; };
 		9CCA9016175EA8FC003462DC /* EVSidePanelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSidePanelViewController.m; sourceTree = "<group>"; };
+		9CCA9018175EBCCC003462DC /* EVAppErrorHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAppErrorHandler.h; sourceTree = "<group>"; };
+		9CCA9019175EBCCC003462DC /* EVAppErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAppErrorHandler.m; sourceTree = "<group>"; };
+		9CCA901B175EBD47003462DC /* EVMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMasterViewController.h; sourceTree = "<group>"; };
+		9CCA901C175EBD47003462DC /* EVMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMasterViewController.m; sourceTree = "<group>"; };
 		9CE05EED175942610095CCFC /* JASidePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JASidePanelController.h; sourceTree = "<group>"; };
 		9CE05EEE175942610095CCFC /* JASidePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JASidePanelController.m; sourceTree = "<group>"; };
 		9CE05EEF175942610095CCFC /* UIViewController+JASidePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+JASidePanel.h"; sourceTree = "<group>"; };
@@ -343,6 +349,8 @@
 			children = (
 				9C0EC746175D479F003B93E2 /* EVViewController.h */,
 				9C0EC747175D479F003B93E2 /* EVViewController.m */,
+				9CCA901B175EBD47003462DC /* EVMasterViewController.h */,
+				9CCA901C175EBD47003462DC /* EVMasterViewController.m */,
 				9CCA900E175EA8E8003462DC /* SidePanels */,
 				9C0EC752175D7CFC003B93E2 /* Home */,
 				9C0EC755175D7CFC003B93E2 /* Invite */,
@@ -651,6 +659,8 @@
 				9CEEB7D91755261500C24C2A /* EVError.m */,
 				9CEEB7DA1755261500C24C2A /* EVErrorHandler.h */,
 				9CEEB7DB1755261500C24C2A /* EVErrorHandler.m */,
+				9CCA9018175EBCCC003462DC /* EVAppErrorHandler.h */,
+				9CCA9019175EBCCC003462DC /* EVAppErrorHandler.m */,
 				9CEEB7DC1755261500C24C2A /* EVHTTPClient.h */,
 				9CEEB7DD1755261500C24C2A /* EVHTTPClient.m */,
 				9CEEB7DE1755261500C24C2A /* EVNetworkManager.h */,
@@ -996,6 +1006,8 @@
 				9CCA9013175EA8E9003462DC /* EVMainMenuViewController.m in Sources */,
 				9CCA9014175EA8E9003462DC /* EVWalletViewController.m in Sources */,
 				9CCA9017175EA8FC003462DC /* EVSidePanelViewController.m in Sources */,
+				9CCA901A175EBCCC003462DC /* EVAppErrorHandler.m in Sources */,
+				9CCA901D175EBD47003462DC /* EVMasterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

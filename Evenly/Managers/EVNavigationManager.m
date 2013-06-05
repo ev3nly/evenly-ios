@@ -7,11 +7,13 @@
 //
 
 #import "EVNavigationManager.h"
-
 static EVNavigationManager *_sharedManager;
 
 @interface EVNavigationManager () {
-    JASidePanelController *_sidePanelController;
+    EVMasterViewController *_masterViewController;
+    
+    EVMainMenuViewController *_mainMenuViewController;
+    EVWalletViewController *_walletViewController;
     
     UINavigationController *_homeViewController;
     UINavigationController *_profileViewController;
@@ -31,10 +33,22 @@ static EVNavigationManager *_sharedManager;
     return _sharedManager;
 }
 
-- (JASidePanelController *)sidePanelController {
-    if (!_sidePanelController)
-        _sidePanelController = [[JASidePanelController alloc] init];
-    return _sidePanelController;
+- (EVMasterViewController *)masterViewController {
+    if (!_masterViewController)
+        _masterViewController = [[EVMasterViewController alloc] init];
+    return _masterViewController;
+}
+
+- (EVMainMenuViewController *)mainMenuViewController {
+    if (!_mainMenuViewController)
+        _mainMenuViewController = [[EVMainMenuViewController alloc] init];
+    return _mainMenuViewController;
+}
+
+- (EVWalletViewController *)walletViewController {
+    if (!_walletViewController)
+        _walletViewController = [[EVWalletViewController alloc] init];
+    return _walletViewController;
 }
 
 - (UINavigationController *)homeViewController {
