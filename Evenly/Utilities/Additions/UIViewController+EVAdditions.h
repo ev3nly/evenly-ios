@@ -11,6 +11,6 @@
 
 @interface UIViewController (EVAdditions)
 
-@property (nonatomic, readonly) JASidePanelController *sidePanelController;
+@property (nonatomic, readonly) JASidePanelController *masterViewController;
 
 @end

@@ -14,7 +14,7 @@
 #define EV_API_LOCAL_URL @"http://localhost:3000/api/v1/"
 
 #ifdef DEBUG
-    #define EV_API_URL EV_API_LOCAL_URL
+    #define EV_API_URL EV_API_STAGING_URL
 
     // To enable PonyDebugger, change this define from 0 to 1, uncomment the relevant lines in the
     // main Podfile, and run `pod install`.

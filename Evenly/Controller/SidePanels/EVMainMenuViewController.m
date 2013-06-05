@@ -115,7 +115,7 @@
     }
     if (viewController)
     {
-        self.sidePanelController.centerPanel = viewController;
+        self.masterViewController.centerPanel = viewController;
     }
 }
 
