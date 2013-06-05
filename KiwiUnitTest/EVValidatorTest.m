@@ -106,6 +106,12 @@ describe(@"For EVValidator", ^{
             [[theValue(isValid) should] equal:theValue(YES)];
         });
         
+        it(@"can have a tag", ^{
+            email = @"justin+brunet@gmail.com";
+            BOOL isValid = [validator stringIsValidEmail:email];
+            [[theValue(isValid) should] equal:theValue(YES)];
+        });
+        
     });
 });
 
