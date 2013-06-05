@@ -7,10 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EVSession.h"
 
 @interface EVCIA : NSObject
 
 @property (nonatomic, strong) NSCache *imageCache;
+
+@property (nonatomic, strong) EVUser *me;
+@property (nonatomic, strong) EVSession *session;
 
 + (instancetype)sharedInstance;
 

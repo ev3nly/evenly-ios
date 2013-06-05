@@ -9,7 +9,7 @@
 #import "EVSession.h"
 #import "EVNetworkManager.h"
 #import "EVPINUtility.h"
-#import "EVCache.h"
+#import "EVCIA.h"
 
 #import "AESCrypt.h"
 
@@ -72,8 +72,8 @@ static EVSession *_sharedSession = nil;
 }
 
 + (void)signOutWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
-    [EVCache setSession:nil];
-    [EVCache setUser:nil];
+    [[EVCIA sharedInstance] setSession:nil];
+    [[EVCIA sharedInstance] setMe:nil];
     
     [EVUser setMe:nil];
     [EVSession setSharedSession:nil];

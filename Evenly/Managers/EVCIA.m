@@ -9,11 +9,15 @@
 #import "EVCIA.h"
 #import "EVActivity.h"
 
+NSString *const EVCachedUserKey = @"EVCachedUserKey";
+NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKey";
+
 static EVCIA *_sharedInstance;
 
 @interface EVCIA ()
 
 @property (nonatomic, strong) NSCache *internalCache;
+@property (nonatomic, strong) EVUser *cachedUser;
 
 @end
 
@@ -36,6 +40,49 @@ static EVCIA *_sharedInstance;
     }
     return self;
 }
+
+#pragma mark - Me
+
+- (EVUser *)me {
+    if (!self.cachedUser)
+        self.cachedUser = [NSKeyedUnarchiver unarchiveObjectWithData:[[NSUserDefaults standardUserDefaults] objectForKey:EVCachedUserKey]];
+    
+    if (self.cachedUser.dbid)
+        return self.cachedUser;
+    return nil;
+}
+
+- (void)setMe:(EVUser *)user {
+    self.cachedUser = user;
+    if (user == nil) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:EVCachedUserKey];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:user] forKey:EVCachedUserKey];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - Session
+
+- (EVSession *)session {
+    EVSession *session = [[EVSession alloc] init];
+    session.authenticationToken = [[NSUserDefaults standardUserDefaults] objectForKey:EVCachedAuthenticationTokenKey];
+    
+    if (session.authenticationToken)
+        return session;
+    return nil;
+}
+
+- (void)setSession:(EVSession *)session {
+    if (session == nil) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:EVCachedAuthenticationTokenKey];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setObject:session.authenticationToken forKey:EVCachedAuthenticationTokenKey];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 
 - (void)reloadAllWithCompletion:(void (^)(void))completion {
     [EVActivity allWithSuccess:^(id result) {
