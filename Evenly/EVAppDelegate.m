@@ -22,12 +22,12 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    self.sidePanelController = [[EVNavigationManager sharedManager] sidePanelController];
-    self.sidePanelController.leftPanel = [[EVMainMenuViewController alloc] init];
-    self.sidePanelController.centerPanel = [[EVNavigationManager sharedManager] homeViewController];
-    self.sidePanelController.rightPanel = [[EVWalletViewController alloc] init];
+    self.masterViewController = [[EVNavigationManager sharedManager] masterViewController];
+    self.masterViewController.leftPanel = [[EVMainMenuViewController alloc] init];
+    self.masterViewController.centerPanel = [[EVNavigationManager sharedManager] homeViewController];
+    self.masterViewController.rightPanel = [[EVWalletViewController alloc] init];
     
-    self.window.rootViewController = self.sidePanelController;
+    self.window.rootViewController = self.masterViewController;
     self.window.backgroundColor = [UIColor cyanColor];
     [self.window makeKeyAndVisible];
     return YES;

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "EVMasterViewController.h"
+
 #import "EVMainMenuViewController.h"
 #import "EVHomeViewController.h"
 #import "EVProfileViewController.h"
@@ -18,7 +20,7 @@
 
 + (instancetype)sharedManager;
 
-@property (nonatomic, readonly) JASidePanelController *sidePanelController;
+@property (nonatomic, readonly) EVMasterViewController *masterViewController;
 
 @property (nonatomic, readonly) UIViewController *homeViewController;
 @property (nonatomic, readonly) UIViewController *profileViewController;

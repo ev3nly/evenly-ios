@@ -29,20 +29,20 @@
 }
 
 - (void)observeSidePanelController {
-    [[[EVNavigationManager sharedManager] sidePanelController] addObserver:self
+    [[[EVNavigationManager sharedManager] masterViewController] addObserver:self
                                                                 forKeyPath:@"state"
                                                                    options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
                                                                    context:NULL];
 }
 
 - (void)stopObservingSidePanelController {
-    [[[EVNavigationManager sharedManager] sidePanelController] removeObserver:self forKeyPath:@"state"];
+    [[[EVNavigationManager sharedManager] masterViewController] removeObserver:self forKeyPath:@"state"];
 }
 
 #pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if (object == self.sidePanelController && [keyPath isEqualToString:@"state"])
+    if (object == self.masterViewController && [keyPath isEqualToString:@"state"])
     {
         JASidePanelState oldState = [[change objectForKey:NSKeyValueChangeOldKey] intValue];
         JASidePanelState newState = [[change objectForKey:NSKeyValueChangeNewKey] intValue];
