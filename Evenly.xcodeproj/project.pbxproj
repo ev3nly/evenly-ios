@@ -34,7 +34,6 @@
 		9C1F47FD1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47ED1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m */; };
 		9C1F481F175691B600B26A1B /* EVActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4800175691B600B26A1B /* EVActivity.m */; };
 		9C1F4820175691B600B26A1B /* EVBankAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4802175691B600B26A1B /* EVBankAccount.m */; };
-		9C1F4821175691B600B26A1B /* EVCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4804175691B600B26A1B /* EVCache.m */; };
 		9C1F4822175691B600B26A1B /* EVCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4806175691B600B26A1B /* EVCharge.m */; };
 		9C1F4823175691B600B26A1B /* EVCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4808175691B600B26A1B /* EVCreditCard.m */; };
 		9C1F4824175691B600B26A1B /* EVExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F480A175691B600B26A1B /* EVExchange.m */; };
@@ -64,7 +63,7 @@
 		9C981B4B174FD95600BE9506 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C981B49174FD95600BE9506 /* InfoPlist.strings */; };
 		9C981B4E174FD95600BE9506 /* EvenlyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C981B4D174FD95600BE9506 /* EvenlyTests.m */; };
 		9CCA900A175E6C90003462DC /* UIViewController+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */; };
-		9CCA900D175E82D7003462DC /* EVCentralIntelligence.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA900C175E82D7003462DC /* EVCentralIntelligence.m */; };
+		9CCA900D175E82D7003462DC /* EVCIA.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA900C175E82D7003462DC /* EVCIA.m */; };
 		9CCA9013175EA8E9003462DC /* EVMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9010175EA8E9003462DC /* EVMainMenuViewController.m */; };
 		9CCA9014175EA8E9003462DC /* EVWalletViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9012175EA8E9003462DC /* EVWalletViewController.m */; };
 		9CCA9017175EA8FC003462DC /* EVSidePanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9016175EA8FC003462DC /* EVSidePanelViewController.m */; };
@@ -174,8 +173,6 @@
 		9C1F4800175691B600B26A1B /* EVActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVActivity.m; sourceTree = "<group>"; };
 		9C1F4801175691B600B26A1B /* EVBankAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVBankAccount.h; sourceTree = "<group>"; };
 		9C1F4802175691B600B26A1B /* EVBankAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVBankAccount.m; sourceTree = "<group>"; };
-		9C1F4803175691B600B26A1B /* EVCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCache.h; sourceTree = "<group>"; };
-		9C1F4804175691B600B26A1B /* EVCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCache.m; sourceTree = "<group>"; };
 		9C1F4805175691B600B26A1B /* EVCharge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCharge.h; sourceTree = "<group>"; };
 		9C1F4806175691B600B26A1B /* EVCharge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCharge.m; sourceTree = "<group>"; };
 		9C1F4807175691B600B26A1B /* EVCreditCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCreditCard.h; sourceTree = "<group>"; };
@@ -224,8 +221,8 @@
 		9C981B4D174FD95600BE9506 /* EvenlyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EvenlyTests.m; sourceTree = "<group>"; };
 		9CCA9008175E6C90003462DC /* UIViewController+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+EVAdditions.h"; sourceTree = "<group>"; };
 		9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+EVAdditions.m"; sourceTree = "<group>"; };
-		9CCA900B175E82D7003462DC /* EVCentralIntelligence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCentralIntelligence.h; sourceTree = "<group>"; };
-		9CCA900C175E82D7003462DC /* EVCentralIntelligence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCentralIntelligence.m; sourceTree = "<group>"; };
+		9CCA900B175E82D7003462DC /* EVCIA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCIA.h; sourceTree = "<group>"; };
+		9CCA900C175E82D7003462DC /* EVCIA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCIA.m; sourceTree = "<group>"; };
 		9CCA900F175EA8E9003462DC /* EVMainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMainMenuViewController.h; sourceTree = "<group>"; };
 		9CCA9010175EA8E9003462DC /* EVMainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMainMenuViewController.m; sourceTree = "<group>"; };
 		9CCA9011175EA8E9003462DC /* EVWalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletViewController.h; sourceTree = "<group>"; };
@@ -403,8 +400,8 @@
 				9C0EC760175D7F8F003B93E2 /* EVNavigationManager.m */,
 				9C0EC75C175D7F73003B93E2 /* EVSettingsManager.h */,
 				9C0EC75D175D7F73003B93E2 /* EVSettingsManager.m */,
-				9CCA900B175E82D7003462DC /* EVCentralIntelligence.h */,
-				9CCA900C175E82D7003462DC /* EVCentralIntelligence.m */,
+				9CCA900B175E82D7003462DC /* EVCIA.h */,
+				9CCA900C175E82D7003462DC /* EVCIA.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -471,8 +468,6 @@
 				9C1F4800175691B600B26A1B /* EVActivity.m */,
 				9C1F4801175691B600B26A1B /* EVBankAccount.h */,
 				9C1F4802175691B600B26A1B /* EVBankAccount.m */,
-				9C1F4803175691B600B26A1B /* EVCache.h */,
-				9C1F4804175691B600B26A1B /* EVCache.m */,
 				9C1F4805175691B600B26A1B /* EVCharge.h */,
 				9C1F4806175691B600B26A1B /* EVCharge.m */,
 				9C1F4807175691B600B26A1B /* EVCreditCard.h */,
@@ -978,7 +973,6 @@
 				9C1F47FD1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m in Sources */,
 				9C1F481F175691B600B26A1B /* EVActivity.m in Sources */,
 				9C1F4820175691B600B26A1B /* EVBankAccount.m in Sources */,
-				9C1F4821175691B600B26A1B /* EVCache.m in Sources */,
 				9C1F4822175691B600B26A1B /* EVCharge.m in Sources */,
 				9C1F4823175691B600B26A1B /* EVCreditCard.m in Sources */,
 				9C1F4824175691B600B26A1B /* EVExchange.m in Sources */,
@@ -1002,7 +996,7 @@
 				9C0EC767175D80B1003B93E2 /* EVInviteViewController.m in Sources */,
 				9C0EC76A175D80BB003B93E2 /* EVSettingsViewController.m in Sources */,
 				9CCA900A175E6C90003462DC /* UIViewController+EVAdditions.m in Sources */,
-				9CCA900D175E82D7003462DC /* EVCentralIntelligence.m in Sources */,
+				9CCA900D175E82D7003462DC /* EVCIA.m in Sources */,
 				9CCA9013175EA8E9003462DC /* EVMainMenuViewController.m in Sources */,
 				9CCA9014175EA8E9003462DC /* EVWalletViewController.m in Sources */,
 				9CCA9017175EA8FC003462DC /* EVSidePanelViewController.m in Sources */,
