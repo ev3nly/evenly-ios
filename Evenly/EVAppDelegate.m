@@ -27,11 +27,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
     [self registerWithServices];
     [self configure];
-
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [self setUpAppearance];
     
     self.masterViewController = [[EVNavigationManager sharedManager] masterViewController];
     self.masterViewController.leftPanel = [[EVNavigationManager sharedManager] mainMenuViewController];
@@ -39,7 +40,7 @@
     self.masterViewController.rightPanel = [[EVNavigationManager sharedManager] walletViewController];
     
     self.window.rootViewController = self.masterViewController;
-    self.window.backgroundColor = [UIColor cyanColor];
+    self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
     
     // STRICTLY TEMPORARY
@@ -86,6 +87,10 @@
     
     // Load user's settings from server.
     [[EVSettingsManager sharedManager] loadSettingsFromServer];
+}
+
+- (void)setUpAppearance {
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Header"] forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
