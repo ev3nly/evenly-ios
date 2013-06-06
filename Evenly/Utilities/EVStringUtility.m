@@ -245,6 +245,13 @@ static NSDateFormatter *_detailDateFormatter;
     return @"Sorry about this -- we're temporarily down for server maintenance.  Please try again soon.";
 }
 
+#pragma mark - File Naming
+
++ (NSString *)cachePathFromURL:(NSURL *)url {
+    NSString *hashedURL = EV_STRING_FROM_INT([url hash]);
+    NSString *cachePath = EV_CACHE_PATH(hashedURL);
+    return cachePath;
+}
 
 
 @end

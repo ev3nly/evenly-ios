@@ -30,7 +30,7 @@
 
     [self registerWithServices];
     [self configure];
-    
+
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     self.masterViewController = [[EVNavigationManager sharedManager] masterViewController];
