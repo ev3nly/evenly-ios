@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+#import "EVMasterViewController.h"
+
 #import "EVMainMenuViewController.h"
+#import "EVWalletViewController.h"
+
 #import "EVHomeViewController.h"
 #import "EVProfileViewController.h"
 #import "EVInviteViewController.h"
@@ -17,6 +21,11 @@
 @interface EVNavigationManager : NSObject
 
 + (instancetype)sharedManager;
+
+@property (nonatomic, readonly) EVMasterViewController *masterViewController;
+
+@property (nonatomic, readonly) EVMainMenuViewController *mainMenuViewController;
+@property (nonatomic, readonly) EVWalletViewController *walletViewController;
 
 @property (nonatomic, readonly) UIViewController *homeViewController;
 @property (nonatomic, readonly) UIViewController *profileViewController;

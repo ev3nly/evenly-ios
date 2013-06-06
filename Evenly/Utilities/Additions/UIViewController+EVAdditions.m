@@ -10,7 +10,7 @@
 
 @implementation UIViewController (EVAdditions)
 
-- (JASidePanelController *)sidePanelController {
+- (JASidePanelController *)masterViewController {
     UIResponder *responder = self;
     while ((responder = [responder nextResponder])) {
         if ([responder isKindOfClass:[JASidePanelController class]]) {

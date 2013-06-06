@@ -34,6 +34,18 @@
     [self.view addSubview:self.tableView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    DLog(@"View will appear");
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    DLog(@"View did appear");
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    DLog(@"View will disappear");
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return EVMainMenuOptionCOUNT;
 }
@@ -103,7 +115,7 @@
     }
     if (viewController)
     {
-        self.sidePanelController.centerPanel = viewController;
+        self.masterViewController.centerPanel = viewController;
     }
 }
 
@@ -112,6 +124,12 @@
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
     [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+#pragma mark - EVSidePanelViewController Overrides
+
+- (JASidePanelState)visibleState {
+    return JASidePanelLeftVisible;
 }
 
 @end

@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVViewController.h"
+#import "EVSidePanelViewController.h"
 
-@interface EVWalletViewController : EVViewController <UITableViewDelegate, UITableViewDataSource>
+@interface EVWalletViewController : EVSidePanelViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView;
