@@ -19,7 +19,6 @@
 @implementation EVObject
 
 @synthesize originalDictionary = _originalDictionary;
-@synthesize isValid = _isValid;
 
 + (NSString *)controllerName {
     return nil; // abstract
@@ -94,6 +93,7 @@ static NSDateFormatter *_dateFormatter = nil;
     if (self) {
         _originalDictionary = dictionary;
         [self setProperties:dictionary];
+        [self validate];
     }
     return self;
 }
@@ -111,8 +111,8 @@ static NSDateFormatter *_dateFormatter = nil;
     return _originalDictionary;
 }
 
-- (BOOL)isValid {
-    return YES;
+- (void)validate {
+    self.valid = YES;
 }
 
 #pragma mark - CRUD methods

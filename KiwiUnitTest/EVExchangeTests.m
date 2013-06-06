@@ -19,7 +19,7 @@ describe(@"An EVExchange", ^{
         __block EVExchange *exchange;
         
         beforeEach(^{
-            exchange = [[EVExchange alloc] init];
+            exchange = [[EVExchange alloc] initWithDictionary:nil];
             exchange.amount = [NSDecimalNumber decimalNumberWithString:@"14.87"];
             exchange.memo = @"Sai's";
             
@@ -32,6 +32,12 @@ describe(@"An EVExchange", ^{
             fromPerson.name = @"Justin Brunet";
             fromPerson.email = @"justin@paywithivy.com";
             exchange.from = fromPerson;
+            
+            [exchange validate];
+        });
+        
+        it(@"should be valid initially", ^{
+            [[theValue(exchange.isValid) should] equal:theValue(YES)];
         });
         
         it(@"should have a non-nil amount", ^{

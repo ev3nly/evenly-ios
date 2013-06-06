@@ -92,16 +92,20 @@
 
 #pragma mark - Overrides
 
-- (BOOL)isValid {
+- (void)validate {
+    BOOL isValid;
     if (!self.amount || [self.amount isEqualToNumber:[NSDecimalNumber notANumber]] || [self.amount isEqualToNumber:[NSNumber numberWithInt:0]])
-        return NO;
-    if (!self.memo || [self.memo isEqualToString:@""])
-        return NO;
-    if (!self.to || !self.to.isValid)
-        return NO;
-    if (!self.from || !self.from.isValid)
-        return NO;
-    return YES;
+        isValid = NO;
+    else if (EV_IS_EMPTY_STRING(self.memo))
+        isValid = NO;
+    else if (!self.to)
+        isValid = NO;
+    else if (!self.from)
+        isValid = NO;
+    else
+        isValid = YES;
+    
+    self.valid = isValid;
 }
 
 @end
