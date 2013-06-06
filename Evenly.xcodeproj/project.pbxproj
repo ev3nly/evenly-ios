@@ -151,6 +151,8 @@
 		9CEEB86C1755854500C24C2A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB85F1755854500C24C2A /* Security.framework */; };
 		9CEEB86D1755854500C24C2A /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB8601755854500C24C2A /* Social.framework */; };
 		9CEEB86E1755854500C24C2A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB8611755854500C24C2A /* SystemConfiguration.framework */; };
+		D02CAB0C1761480B00323025 /* EVValidatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0B1761480B00323025 /* EVValidatorTest.m */; };
+		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -377,6 +379,9 @@
 		9CEEB85F1755854500C24C2A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9CEEB8601755854500C24C2A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		9CEEB8611755854500C24C2A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		D02CAB0B1761480B00323025 /* EVValidatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidatorTest.m; sourceTree = "<group>"; };
+		D02CAB0D1761483500323025 /* EVValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVValidator.h; sourceTree = "<group>"; };
+		D02CAB0E1761483500323025 /* EVValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -582,6 +587,8 @@
 				9C1F481A175691B600B26A1B /* EVSession.m */,
 				9C1F481B175691B600B26A1B /* EVUser.h */,
 				9C1F481C175691B600B26A1B /* EVUser.m */,
+				D02CAB0D1761483500323025 /* EVValidator.h */,
+				D02CAB0E1761483500323025 /* EVValidator.m */,
 				9C1F481D175691B600B26A1B /* EVWithdrawal.h */,
 				9C1F481E175691B600B26A1B /* EVWithdrawal.m */,
 			);
@@ -815,6 +822,7 @@
 				9CE703F4175D1A7200561ADA /* KiwiUnitTest.m */,
 				9C0EC731175D1C2E003B93E2 /* KWSpec+Helper.h */,
 				9C0EC732175D1C2E003B93E2 /* KWSpec+Helper.m */,
+				D02CAB0B1761480B00323025 /* EVValidatorTest.m */,
 				9CE703EE175D1A7200561ADA /* Supporting Files */,
 			);
 			path = KiwiUnitTest;
@@ -1230,6 +1238,7 @@
 				9CCA9017175EA8FC003462DC /* EVSidePanelViewController.m in Sources */,
 				9CCA901A175EBCCC003462DC /* EVAppErrorHandler.m in Sources */,
 				9CCA901D175EBD47003462DC /* EVMasterViewController.m in Sources */,
+				D02CAB0F1761483500323025 /* EVValidator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1247,6 +1256,7 @@
 			files = (
 				9CE703F5175D1A7200561ADA /* KiwiUnitTest.m in Sources */,
 				9C0EC744175D1D6D003B93E2 /* KWSpec+Helper.m in Sources */,
+				D02CAB0C1761480B00323025 /* EVValidatorTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

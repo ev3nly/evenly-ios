@@ -44,4 +44,8 @@
 
 + (NSString *)serverMaintenanceError;
 
+#pragma mark - File Naming
+
++ (NSString *)cachePathFromURL:(NSURL *)url;
+
 @end
