@@ -11,8 +11,12 @@
 
 @interface EVCIA : NSObject
 
+#pragma mark - Image Caching
 @property (nonatomic, strong) NSCache *imageCache;
+- (UIImage *)imageForURL:(NSURL *)url;
+- (void)setImage:(UIImage *)image forURL:(NSURL *)url;
 
+#pragma mark - Data Caching
 @property (nonatomic, strong) EVUser *me;
 @property (nonatomic, strong) EVSession *session;
 

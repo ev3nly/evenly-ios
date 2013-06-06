@@ -41,6 +41,53 @@ static EVCIA *_sharedInstance;
     return self;
 }
 
+#pragma mark - Image Caching
+
+
+
+- (UIImage *)imageForURL:(NSURL *)url {
+    UIImage *image = nil;
+    // Check memory cache
+    if ((image = [self.imageCache objectForKey:url]))
+        return image;
+    else // Check disk cache
+    {
+        NSError *error = nil;
+        NSData *data = [NSData dataWithContentsOfFile:[EVStringUtility cachePathFromURL:url]
+                                              options:0
+                                                error:&error];
+        if (data && !error)
+        {
+            DLog(@"Got disk-cached data at path %@", [EVStringUtility cachePathFromURL:url]);
+            image = [UIImage imageWithData:data];
+            [self.imageCache setObject:image forKey:url];
+        }
+    }
+    return image;
+}
+
+- (void)setImage:(UIImage *)image forURL:(NSURL *)url {
+    if (!image) // remove image from memory and disk caches
+    {
+        [self.imageCache removeObjectForKey:url];
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtPath:[EVStringUtility cachePathFromURL:url]
+                                                   error:&error];
+        if (error)
+            DLog(@"Error: %@", error);
+        return;
+    }
+    else // store in memory and disk caches
+    {
+        [self.imageCache setObject:image forKey:url];
+        BOOL success = [UIImagePNGRepresentation(image) writeToFile:[EVStringUtility cachePathFromURL:url]
+                                                         atomically:YES];
+        if (success)
+            DLog(@"Wrote to file at %@", [EVStringUtility cachePathFromURL:url]);
+    }
+}
+
+
 #pragma mark - Me
 
 - (EVUser *)me {
