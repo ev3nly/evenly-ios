@@ -107,6 +107,7 @@
 		9CEEB86C1755854500C24C2A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB85F1755854500C24C2A /* Security.framework */; };
 		9CEEB86D1755854500C24C2A /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB8601755854500C24C2A /* Social.framework */; };
 		9CEEB86E1755854500C24C2A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB8611755854500C24C2A /* SystemConfiguration.framework */; };
+		D0926D75175FF19600FB427A /* EVExchangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D0926D74175FF19600FB427A /* EVExchangeTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -290,6 +291,7 @@
 		9CEEB85F1755854500C24C2A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9CEEB8601755854500C24C2A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		9CEEB8611755854500C24C2A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		D0926D74175FF19600FB427A /* EVExchangeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -637,6 +639,7 @@
 				9CE703F4175D1A7200561ADA /* KiwiUnitTest.m */,
 				9C0EC731175D1C2E003B93E2 /* KWSpec+Helper.h */,
 				9C0EC732175D1C2E003B93E2 /* KWSpec+Helper.m */,
+				D0926D74175FF19600FB427A /* EVExchangeTests.m */,
 				9CE703EE175D1A7200561ADA /* Supporting Files */,
 			);
 			path = KiwiUnitTest;
@@ -1025,6 +1028,7 @@
 			files = (
 				9CE703F5175D1A7200561ADA /* KiwiUnitTest.m in Sources */,
 				9C0EC744175D1D6D003B93E2 /* KWSpec+Helper.m in Sources */,
+				D0926D75175FF19600FB427A /* EVExchangeTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

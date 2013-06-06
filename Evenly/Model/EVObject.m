@@ -19,6 +19,7 @@
 @implementation EVObject
 
 @synthesize originalDictionary = _originalDictionary;
+@synthesize isValid = _isValid;
 
 + (NSString *)controllerName {
     return nil; // abstract

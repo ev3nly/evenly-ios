@@ -90,4 +90,18 @@
     return NO;
 }
 
+#pragma mark - Overrides
+
+- (BOOL)isValid {
+    if (!self.amount || [self.amount isEqualToNumber:[NSDecimalNumber notANumber]] || [self.amount isEqualToNumber:[NSNumber numberWithInt:0]])
+        return NO;
+    if (!self.memo || [self.memo isEqualToString:@""])
+        return NO;
+    if (!self.to || !self.to.isValid)
+        return NO;
+    if (!self.from || !self.from.isValid)
+        return NO;
+    return YES;
+}
+
 @end

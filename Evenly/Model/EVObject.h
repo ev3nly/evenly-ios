@@ -23,6 +23,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *operation, NSError *error
 @property (nonatomic, strong) NSString *dbid;
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, readonly) NSDictionary *originalDictionary;
+@property (nonatomic, assign) BOOL isValid;
 
 + (NSString *)controllerName;
 + (NSMutableURLRequest *)requestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters;
@@ -40,7 +41,6 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *operation, NSError *error
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 - (void)setProperties:(NSDictionary *)properties;
 - (NSDictionary *)dictionaryRepresentation;
-- (BOOL)isValid;
 
 #pragma mark - CRUD methods
 
