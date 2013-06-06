@@ -182,15 +182,17 @@ static EVUser *_me;
 #pragma mark Images
 
 - (void)loadAvatar {
-    if ([[[EVCIA sharedInstance] imageCache] objectForKey:self.avatarURL]) {
-        self.avatar = [[[EVCIA sharedInstance] imageCache] objectForKey:self.avatarURL];
+    UIImage *image = [[EVCIA sharedInstance] imageForURL:self.avatarURL];
+    if (image) {
+        self.avatar = image;
         return;
     }
     NSURLRequest *request = [NSURLRequest requestWithURL:self.avatarURL];
     AFImageRequestOperation *imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
                                                                                           imageProcessingBlock:NULL
                                                                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                                                                           [[[EVCIA sharedInstance] imageCache] setObject:image forKey:self.avatarURL];
+                                                                                                           [[EVCIA sharedInstance] setImage:image forURL:self.avatarURL];
+//                                                                                                           [[[EVCIA sharedInstance] imageCache] setObject:image forKey:self.avatarURL];
                                                                                                            self.avatar = image;
                                                                                                            DLog(@"Downloaded image, see? %@", self.avatar);
                                                                                                        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
@@ -200,8 +202,9 @@ static EVUser *_me;
 }
 
 - (void)evictAvatarFromCache {
-    if ([[[EVCIA sharedInstance] imageCache] objectForKey:self.avatarURL])
-        [[[EVCIA sharedInstance] imageCache] removeObjectForKey:self.avatarURL];
+    [[EVCIA sharedInstance] setImage:nil forURL:self.avatarURL];
+//    if ([[[EVCIA sharedInstance] imageCache] objectForKey:self.avatarURL])
+//        [[[EVCIA sharedInstance] imageCache] removeObjectForKey:self.avatarURL];
 }
 
 #pragma mark - NSCoding
