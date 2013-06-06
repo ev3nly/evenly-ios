@@ -7,7 +7,8 @@
 //
 
 #import "EVUser.h"
-#import "EVCache.h"
+#import "EVCIA.h"
+
 /* Used to get and update User via the /me controller */
 
 @interface EVMe : EVUser
@@ -100,7 +101,7 @@ static EVUser *_me;
             //this might not be the right call, in the long term.
             [_me setProperties:[result originalDictionary]];
             
-            [EVCache setUser:_me];
+            [[EVCIA sharedInstance] setMe:_me];
             
             if (success)
                 success();
@@ -181,15 +182,15 @@ static EVUser *_me;
 #pragma mark Images
 
 - (void)loadAvatar {
-    if ([[EVCache imageCache] objectForKey:self.avatarURL]) {
-        self.avatar = [[EVCache imageCache] objectForKey:self.avatarURL];
+    if ([[[EVCIA sharedInstance] imageCache] objectForKey:self.avatarURL]) {
+        self.avatar = [[[EVCIA sharedInstance] imageCache] objectForKey:self.avatarURL];
         return;
     }
     NSURLRequest *request = [NSURLRequest requestWithURL:self.avatarURL];
     AFImageRequestOperation *imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
                                                                                           imageProcessingBlock:NULL
                                                                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                                                                           [[EVCache imageCache] setObject:image forKey:self.avatarURL];
+                                                                                                           [[[EVCIA sharedInstance] imageCache] setObject:image forKey:self.avatarURL];
                                                                                                            self.avatar = image;
                                                                                                            DLog(@"Downloaded image, see? %@", self.avatar);
                                                                                                        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
@@ -199,8 +200,8 @@ static EVUser *_me;
 }
 
 - (void)evictAvatarFromCache {
-    if ([[EVCache imageCache] objectForKey:self.avatarURL])
-        [[EVCache imageCache] removeObjectForKey:self.avatarURL];
+    if ([[[EVCIA sharedInstance] imageCache] objectForKey:self.avatarURL])
+        [[[EVCIA sharedInstance] imageCache] removeObjectForKey:self.avatarURL];
 }
 
 #pragma mark - NSCoding

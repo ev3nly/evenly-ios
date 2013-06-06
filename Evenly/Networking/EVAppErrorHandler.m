@@ -13,7 +13,7 @@
 
 #import "EVSession.h"
 #import "EVUser.h"
-#import "EVCache.h"
+#import "EVCIA.h"
 
 #import "EVActivity.h"
 
@@ -92,7 +92,7 @@ withOriginalSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObje
     //no cached user, get credentials, reauthenticate
     EVUser *me = [EVUser me];
     if (me.email == nil || me.password == nil) {
-        [EVCache setSession:nil];
+        [[EVCIA sharedInstance] setSession:nil];
 		showLogin();
         return;
     }
@@ -100,7 +100,7 @@ withOriginalSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObje
     //cached user exists, use cached creds to reauthenticate
     [EVSession createWithEmail:me.email password:me.password success:^{
         //success!  cache session, replay request
-        [EVCache setSession:[EVSession sharedSession]];
+        [[EVCIA sharedInstance] setSession:[EVSession sharedSession]];
 		replayRequest();
         
     } failure:^(NSError *error) {
@@ -167,8 +167,8 @@ withOriginalSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObje
 + (void (^)(void))showLoginBlockWithAuthenticationSuccess:(void(^)(void))authenticationSuccess {
     return ^{
 		[[[EVNavigationManager sharedManager] masterViewController] showLoginViewControllerWithCompletion:^{
-			[EVCache setSession:nil];
-			[EVCache setUser:nil];
+			[[EVCIA sharedInstance] setSession:nil];
+			[[EVCIA sharedInstance] setMe:nil];
 		} animated:YES authenticationSuccess:^{
 			if (authenticationSuccess)
                 authenticationSuccess();

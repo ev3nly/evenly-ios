@@ -18,7 +18,7 @@
 #import "EVHomeViewController.h"
 #import "EVWalletViewController.h"
 #import "EVSession.h"
-#import "EVCache.h"
+#import "EVCIA.h"
 #import "EVSettingsManager.h"
 #import "EVHTTPClient.h"
 #import "EVAppErrorHandler.h"
@@ -49,12 +49,12 @@
             //retrieve user from session call, cache user
             EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
             [EVUser setMe:me];
-            [EVCache setUser:me];
+            [[EVCIA sharedInstance] setMe:me];
             
             [EVUtilities registerForPushNotifications];
             
             //cache session
-            [EVCache setSession:[EVSession sharedSession]];
+            [[EVCIA sharedInstance] setSession:[EVSession sharedSession]];
         } failure:^(NSError *error) {
             DLog(@"Failure?! %@", error);
         }];
@@ -81,8 +81,8 @@
     [EVHTTPClient setErrorHandlerClass:[EVAppErrorHandler class]];
     
     // Load user and session from cache.
-    [EVUser setMe:[EVCache user]];
-    [EVSession setSharedSession:[EVCache session]];
+    [EVUser setMe:[[EVCIA sharedInstance] me]];
+    [EVSession setSharedSession:[[EVCIA sharedInstance] session]];
     
     // Load user's settings from server.
     [[EVSettingsManager sharedManager] loadSettingsFromServer];
