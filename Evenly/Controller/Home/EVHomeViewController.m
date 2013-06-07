@@ -11,6 +11,9 @@
 
 @interface EVHomeViewController ()
 
+@property (nonatomic, strong) UILabel *balanceLabel;
+@property (nonatomic, strong) EVCIA *cia;
+
 @end
 
 @implementation EVHomeViewController
@@ -29,8 +32,38 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor underPageBackgroundColor];
+    [self loadBalanceLabel];
+    [self loadRightBarButtonItem];
+}
+
+- (void)loadBalanceLabel {
+    self.balanceLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.balanceLabel.font = [EVFont boldFontOfSize:21];
+    self.balanceLabel.shadowColor = [UIColor colorWithWhite:0.5 alpha:1.0];
+    self.balanceLabel.shadowOffset = CGSizeMake(0, 1);
+    self.balanceLabel.backgroundColor = [UIColor clearColor];
+    self.balanceLabel.textColor = [UIColor whiteColor];
+    [self.balanceLabel setText:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
+    [self.balanceLabel sizeToFit];
+    self.navigationItem.titleView = self.balanceLabel;
+
+    // RACAble prefers to operate on properties of self, so we can make the CIA a property of self
+    // for a little syntactic sugar.
+    self.cia = [EVCIA sharedInstance];
+    [RACAble(self.cia.me.balance) subscribeNext:^(NSDecimalNumber *balance) {
+        [self.balanceLabel setText:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
+        [self.balanceLabel sizeToFit];
+    }];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshButtonPress:)];
+}
+
+- (void)loadRightBarButtonItem {
+    UIImage *image = [UIImage imageNamed:@"Wallet"];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + 14, image.size.height)];
+    [button setImage:image forState:UIControlStateNormal];
+    [button addTarget:self.masterViewController action:@selector(toggleRightPanel:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = barButtonItem;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
