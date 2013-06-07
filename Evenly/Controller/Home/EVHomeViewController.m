@@ -7,6 +7,7 @@
 //
 
 #import "EVHomeViewController.h"
+#import "EVUser.h"
 
 @interface EVHomeViewController ()
 
@@ -28,11 +29,26 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor underPageBackgroundColor];
-	// Do any additional setup after loading the view.
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshButtonPress:)];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     DLog(@"View will disappear");
+}
+
+- (void)refreshButtonPress:(id)sender {
+    [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
+        DLog(@"Newsfeed: %@", newsfeed);
+    } failure:^(NSError *error) {
+        DLog(@"Error: %@", error);
+    }];
 }
 
 - (void)didReceiveMemoryWarning
