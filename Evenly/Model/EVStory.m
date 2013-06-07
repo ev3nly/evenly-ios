@@ -46,5 +46,8 @@
     [self.owner setDbid:properties[@"owner_id"]];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<EVStory: 0x%x> %@ %@ %@ for %@", (int)self, [self.subject name], self.verb, [self.target name], self.storyDescription];
+}
 
 @end
