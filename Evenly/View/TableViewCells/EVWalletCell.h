@@ -1,5 +1,5 @@
 //
-//  EVMainMenuCell.h
+//  EVWalletCell.h
 //  Evenly
 //
 //  Created by Joseph Hankin on 6/6/13.
@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "EVSidePanelCell.h"
 
-@interface EVMainMenuCell : EVSidePanelCell
+@interface EVWalletCell : EVSidePanelCell
 
-@property (nonatomic, strong) UIImageView *iconView;
-@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *valueLabel;
 
 @end

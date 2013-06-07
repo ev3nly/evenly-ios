@@ -35,6 +35,9 @@
     #define BALANCED_URI BALANCED_PRODUCTION_URI
 #endif
 
+#pragma mark - Master View Controller
+
+#define EV_RIGHT_OVERHANG_MARGIN 45.0
 
 #pragma mark - Animation
 

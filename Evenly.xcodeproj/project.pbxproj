@@ -48,6 +48,10 @@
 		9C1F482D175691B600B26A1B /* EVUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F481C175691B600B26A1B /* EVUser.m */; };
 		9C1F482E175691B600B26A1B /* EVWithdrawal.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F481E175691B600B26A1B /* EVWithdrawal.m */; };
 		9C2FCEF817592062003F13BC /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C2FCEF717592062003F13BC /* Crashlytics.framework */; };
+		9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6EF176186A500084FA7 /* EVWalletCell.m */; };
+		9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6F21761871000084FA7 /* EVSidePanelCell.m */; };
+		9C35B6F717618A4400084FA7 /* WalletArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F517618A4400084FA7 /* WalletArrow.png */; };
+		9C35B6F817618A4400084FA7 /* WalletArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F617618A4400084FA7 /* WalletArrow@2x.png */; };
 		9C6F1B951761054100974850 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B941761054100974850 /* Default.png */; };
 		9C6F1B971761054400974850 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B961761054400974850 /* Default@2x.png */; };
 		9C6F1B991761054700974850 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B981761054700974850 /* Default-568h@2x.png */; };
@@ -250,6 +254,12 @@
 		9C1F481D175691B600B26A1B /* EVWithdrawal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWithdrawal.h; sourceTree = "<group>"; };
 		9C1F481E175691B600B26A1B /* EVWithdrawal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWithdrawal.m; sourceTree = "<group>"; };
 		9C2FCEF717592062003F13BC /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Frameworks/Crashlytics.framework; sourceTree = "<group>"; };
+		9C35B6EE176186A500084FA7 /* EVWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletCell.h; sourceTree = "<group>"; };
+		9C35B6EF176186A500084FA7 /* EVWalletCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletCell.m; sourceTree = "<group>"; };
+		9C35B6F11761871000084FA7 /* EVSidePanelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSidePanelCell.h; sourceTree = "<group>"; };
+		9C35B6F21761871000084FA7 /* EVSidePanelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSidePanelCell.m; sourceTree = "<group>"; };
+		9C35B6F517618A4400084FA7 /* WalletArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WalletArrow.png; sourceTree = "<group>"; };
+		9C35B6F617618A4400084FA7 /* WalletArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WalletArrow@2x.png"; sourceTree = "<group>"; };
 		9C6F1B941761054100974850 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9C6F1B961761054400974850 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9C6F1B981761054700974850 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -605,6 +615,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		9C35B6F417618A4400084FA7 /* Wallet */ = {
+			isa = PBXGroup;
+			children = (
+				9C35B6F517618A4400084FA7 /* WalletArrow.png */,
+				9C35B6F617618A4400084FA7 /* WalletArrow@2x.png */,
+			);
+			path = Wallet;
+			sourceTree = "<group>";
+		};
 		9C6F1B9A1761059800974850 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -725,6 +744,7 @@
 				9CB285701761521E009B26BB /* MainMenu */,
 				9CB2857A1761521E009B26BB /* NavBar */,
 				9CB285811761521E009B26BB /* Tombstone */,
+				9C35B6F417618A4400084FA7 /* Wallet */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -816,6 +836,10 @@
 			children = (
 				9CB285C6176164EC009B26BB /* EVMainMenuCell.h */,
 				9CB285C7176164EC009B26BB /* EVMainMenuCell.m */,
+				9C35B6EE176186A500084FA7 /* EVWalletCell.h */,
+				9C35B6EF176186A500084FA7 /* EVWalletCell.m */,
+				9C35B6F11761871000084FA7 /* EVSidePanelCell.h */,
+				9C35B6F21761871000084FA7 /* EVSidePanelCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -1084,6 +1108,8 @@
 				9CB285BF1761521E009B26BB /* Transfer.png in Resources */,
 				9CB285C01761521E009B26BB /* Transfer@2x.png in Resources */,
 				9CB285CC17616AA2009B26BB /* Support.png in Resources */,
+				9C35B6F717618A4400084FA7 /* WalletArrow.png in Resources */,
+				9C35B6F817618A4400084FA7 /* WalletArrow@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1271,6 +1297,8 @@
 				D02CAB0F1761483500323025 /* EVValidator.m in Sources */,
 				9CB285C8176164EC009B26BB /* EVMainMenuCell.m in Sources */,
 				9CB285C3176157ED009B26BB /* EVStory.m in Sources */,
+				9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */,
+				9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

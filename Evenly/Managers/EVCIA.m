@@ -8,6 +8,8 @@
 
 #import "EVCIA.h"
 #import "EVActivity.h"
+#import "EVCreditCard.h"
+#import "EVBankAccount.h"
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
 NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKey";
@@ -175,6 +177,49 @@ static EVCIA *_sharedInstance;
             completion([self.internalCache objectForKey:@"recent"]);
     }];
 }
+
+#pragma mark - Credit Cards
+
+- (NSArray *)creditCards {
+    return [self.internalCache objectForKey:@"credit_cards"];
+}
+
+- (EVCreditCard *)activeCreditCard {
+    return (EVCreditCard *)[EVUtilities activeFundingSourceFromArray:[self creditCards]];
+}
+
+- (void)reloadCreditCardsWithCompletion:(void (^)(NSArray *creditCards))completion {
+    [EVCreditCard allWithSuccess:^(id result){
+        
+        NSArray *cards = [result sortedArrayUsingSelector:@selector(compareByBrandAndLastFour:)];
+        [self.internalCache setObject:cards forKey:@"credit_cards"];
+        if (completion)
+            completion(cards);
+    } failure:^(NSError *error){
+        
+    }];
+}
+
+#pragma mark - Bank Accounts
+
+- (NSArray *)bankAccounts {
+    return [self.internalCache objectForKey:@"bank_accounts"];
+}
+
+- (EVBankAccount *)activeBankAccount {
+    return (EVBankAccount *)[EVUtilities activeFundingSourceFromArray:[self bankAccounts]];
+}
+
+- (void)reloadBankAccountsWithCompletion:(void (^)(NSArray *bankAccounts))completion {
+    [EVBankAccount allWithSuccess:^(id result){
+        [self.internalCache setObject:result forKey:@"bank_accounts"];
+        if (completion)
+            completion(result);
+    } failure:^(NSError *error){
+        
+    }];
+}
+
 
 
 

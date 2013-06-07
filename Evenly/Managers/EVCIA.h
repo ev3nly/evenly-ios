@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "EVSession.h"
 
+@class EVCreditCard;
+@class EVBankAccount;
+
 @interface EVCIA : NSObject
 
 #pragma mark - Image Caching
@@ -32,5 +35,13 @@
 
 - (NSArray *)history;
 - (void)reloadHistoryWithCompletion:(void (^)(NSArray *history))completion;
+
+- (NSArray *)creditCards;
+- (EVCreditCard *)activeCreditCard;
+- (void)reloadCreditCardsWithCompletion:(void (^)(NSArray *creditCards))completion;
+
+- (NSArray *)bankAccounts;
+- (EVBankAccount *)activeBankAccount;
+- (void)reloadBankAccountsWithCompletion:(void (^)(NSArray *bankAccounts))completion;
 
 @end

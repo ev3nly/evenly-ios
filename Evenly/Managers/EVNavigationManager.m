@@ -34,8 +34,10 @@ static EVNavigationManager *_sharedManager;
 }
 
 - (EVMasterViewController *)masterViewController {
-    if (!_masterViewController)
+    if (!_masterViewController) {
         _masterViewController = [[EVMasterViewController alloc] init];
+        _masterViewController.rightFixedWidth = [UIScreen mainScreen].applicationFrame.size.width - EV_RIGHT_OVERHANG_MARGIN;
+    }
     return _masterViewController;
 }
 

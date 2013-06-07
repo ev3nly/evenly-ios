@@ -8,6 +8,13 @@
 
 #import "EVSidePanelViewController.h"
 
+typedef enum {
+    EVWalletRowCash,
+    EVWalletRowCards,
+    EVWalletRowBanks,
+    EVWalletRowHistory
+} EVWalletRow;
+
 @interface EVWalletViewController : EVSidePanelViewController <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UISearchBar *searchBar;
