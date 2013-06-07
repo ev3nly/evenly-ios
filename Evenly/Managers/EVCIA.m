@@ -8,6 +8,8 @@
 
 #import "EVCIA.h"
 #import "EVActivity.h"
+#import "EVCreditCard.h"
+#import "EVBankAccount.h"
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
 NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKey";
@@ -36,9 +38,20 @@ static EVCIA *_sharedInstance;
     if (self) {
         self.imageCache = [[NSCache alloc] init];
         self.internalCache = [[NSCache alloc] init];
-        [self reloadAllWithCompletion:NULL];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)didSignIn:(NSNotification *)notification {
+    [self reloadAllWithCompletion:NULL];
+    [self reloadCreditCardsWithCompletion:NULL];
+    [self reloadBankAccountsWithCompletion:NULL];
 }
 
 #pragma mark - Image Caching
@@ -143,22 +156,22 @@ static EVCIA *_sharedInstance;
         completion();
 }
 
-- (NSArray *)pendingReceivedTransactions {
+- (NSArray *)pendingReceivedExchanges {
     return [self.internalCache objectForKey:@"pending_received"];
 }
 
-- (void)reloadPendingReceivedTransactionsWithCompletion:(void (^)(NSArray *transactions))completion {
+- (void)reloadPendingReceivedExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
     [self reloadAllWithCompletion:^{
         if (completion)
             completion([self.internalCache objectForKey:@"pending_received"]);
     }];
 }
 
-- (NSArray *)pendingSentTransactions {
+- (NSArray *)pendingSentExchanges {
     return [self.internalCache objectForKey:@"pending_sent"];
 }
 
-- (void)reloadPendingSentTransactionsWithCompletion:(void (^)(NSArray *transactions))completion {
+- (void)reloadPendingSentExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
     [self reloadAllWithCompletion:^{
         if (completion)
             completion([self.internalCache objectForKey:@"pending_sent"]);
@@ -175,6 +188,49 @@ static EVCIA *_sharedInstance;
             completion([self.internalCache objectForKey:@"recent"]);
     }];
 }
+
+#pragma mark - Credit Cards
+
+- (NSArray *)creditCards {
+    return [self.internalCache objectForKey:@"credit_cards"];
+}
+
+- (EVCreditCard *)activeCreditCard {
+    return (EVCreditCard *)[EVUtilities activeFundingSourceFromArray:[self creditCards]];
+}
+
+- (void)reloadCreditCardsWithCompletion:(void (^)(NSArray *creditCards))completion {
+    [EVCreditCard allWithSuccess:^(id result){
+        
+        NSArray *cards = [result sortedArrayUsingSelector:@selector(compareByBrandAndLastFour:)];
+        [self.internalCache setObject:cards forKey:@"credit_cards"];
+        if (completion)
+            completion(cards);
+    } failure:^(NSError *error){
+        
+    }];
+}
+
+#pragma mark - Bank Accounts
+
+- (NSArray *)bankAccounts {
+    return [self.internalCache objectForKey:@"bank_accounts"];
+}
+
+- (EVBankAccount *)activeBankAccount {
+    return (EVBankAccount *)[EVUtilities activeFundingSourceFromArray:[self bankAccounts]];
+}
+
+- (void)reloadBankAccountsWithCompletion:(void (^)(NSArray *bankAccounts))completion {
+    [EVBankAccount allWithSuccess:^(id result){
+        [self.internalCache setObject:result forKey:@"bank_accounts"];
+        if (completion)
+            completion(result);
+    } failure:^(NSError *error){
+        
+    }];
+}
+
 
 
 

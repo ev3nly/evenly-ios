@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVSidePanelCell.h"
 
-@interface EVMainMenuCell : UITableViewCell
+@interface EVMainMenuCell : EVSidePanelCell
 
 @property (nonatomic, strong) UIImageView *iconView;
 @property (nonatomic, strong) UILabel *label;

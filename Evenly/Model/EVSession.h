@@ -8,6 +8,7 @@
 
 #import "EVObject.h"
 
+extern NSString *const EVSessionSignedInNotification;
 extern NSString *const EVSessionUserExplicitlySignedOutNotification;
 
 @interface EVSession : EVObject

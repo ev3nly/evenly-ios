@@ -15,7 +15,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.iconView = [[UIImageView alloc] initWithFrame:CGRectMake(0,
                                                                       0,
                                                                       self.frame.size.height,
@@ -44,11 +43,6 @@
         
     }
     return self;
-}
-
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-    [super setHighlighted:highlighted animated:animated];
-    [self setBackgroundColor:(highlighted ? [EVColor sidePanelSelectedColor] : [UIColor clearColor])];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

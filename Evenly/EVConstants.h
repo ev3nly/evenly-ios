@@ -35,21 +35,24 @@
     #define BALANCED_URI BALANCED_PRODUCTION_URI
 #endif
 
+#pragma mark - Master View Controller
+
+#define EV_RIGHT_OVERHANG_MARGIN 45.0
 
 #pragma mark - Animation
 
 #define EV_DEFAULT_ANIMATION_DURATION 0.25f
 
-#pragma mark - Transaction Fields
+#pragma mark - Exchange Fields
 
 typedef enum {
-    EVTransactionDetailFieldFrom = 0,
-    EVTransactionDetailFieldTo,
-    EVTransactionDetailFieldAmount,
-    EVTransactionDetailFieldNote,
-    EVTransactionDetailFieldDate,
-    EVTransactionDetailFieldCOUNT
-} EVTransactionDetailField;
+    EVExchangeDetailFieldFrom = 0,
+    EVExchangeDetailFieldTo,
+    EVExchangeDetailFieldAmount,
+    EVExchangeDetailFieldNote,
+    EVExchangeDetailFieldDate,
+    EVExchangeDetailFieldCOUNT
+} EVExchangeDetailField;
 
 #pragma mark - Signup Phases
 
