@@ -19,16 +19,10 @@ describe(@"An EVFundingSource", ^{
         
         beforeEach(^{
             fundingSource = [[EVFundingSource alloc] initWithDictionary:nil];
-            fundingSource.uri = @"http://evenly.com/";
         });
         
         it(@"should be valid initially", ^{
             [[theValue(fundingSource.isValid) should] equal:theValue(YES)];
-        });
-        
-        it(@"should have a uri", ^{
-            fundingSource.uri = nil;
-            [[theValue(fundingSource.isValid) should] equal:theValue(NO)];
         });
         
     });

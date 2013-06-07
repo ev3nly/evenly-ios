@@ -157,6 +157,7 @@
 		D01418FE17619675003ED527 /* EVExchangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D01418FC17619675003ED527 /* EVExchangeTests.m */; };
 		D01418FF17619675003ED527 /* EVValidatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D01418FD17619675003ED527 /* EVValidatorTest.m */; };
 		D0141901176196B5003ED527 /* EVFundingSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D0141900176196B5003ED527 /* EVFundingSourceTests.m */; };
+		D01419031761AF02003ED527 /* EVBankAccountTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D01419021761AF02003ED527 /* EVBankAccountTests.m */; };
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
 /* End PBXBuildFile section */
 
@@ -392,6 +393,7 @@
 		D01418FC17619675003ED527 /* EVExchangeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeTests.m; sourceTree = "<group>"; };
 		D01418FD17619675003ED527 /* EVValidatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidatorTest.m; sourceTree = "<group>"; };
 		D0141900176196B5003ED527 /* EVFundingSourceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFundingSourceTests.m; sourceTree = "<group>"; };
+		D01419021761AF02003ED527 /* EVBankAccountTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVBankAccountTests.m; sourceTree = "<group>"; };
 		D02CAB0D1761483500323025 /* EVValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVValidator.h; sourceTree = "<group>"; };
 		D02CAB0E1761483500323025 /* EVValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -945,6 +947,7 @@
 				D01418FC17619675003ED527 /* EVExchangeTests.m */,
 				D01418FD17619675003ED527 /* EVValidatorTest.m */,
 				D0141900176196B5003ED527 /* EVFundingSourceTests.m */,
+				D01419021761AF02003ED527 /* EVBankAccountTests.m */,
 			);
 			path = ObjectValidation;
 			sourceTree = "<group>";
@@ -1305,6 +1308,7 @@
 				D01418FE17619675003ED527 /* EVExchangeTests.m in Sources */,
 				D01418FF17619675003ED527 /* EVValidatorTest.m in Sources */,
 				D0141901176196B5003ED527 /* EVFundingSourceTests.m in Sources */,
+				D01419031761AF02003ED527 /* EVBankAccountTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

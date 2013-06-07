@@ -44,14 +44,7 @@
 #pragma mark - Overrides
 
 - (void)validate {
-    BOOL isValid;
-    
-    if (!self.uri)
-        isValid = NO;
-    else
-        isValid = YES;
-    
-    self.valid = isValid;
+    self.valid = YES;
 }
 
 @end

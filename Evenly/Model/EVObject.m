@@ -93,8 +93,8 @@ static NSDateFormatter *_dateFormatter = nil;
     self = [super init];
     if (self) {
         _originalDictionary = dictionary;
-        [self setProperties:dictionary];
         [self configureAutomaticPropertyValidation];
+        [self setProperties:dictionary];
     }
     return self;
 }
