@@ -14,6 +14,8 @@
 #import "EVAnalyticsUtility.h"
 #import "EVAppDelegate.h"
 
+#import "EVCIA.h"
+
 #import "NSArray+EVAdditions.h"
 #import "NSDictionary+EVAdditions.h"
 #import "NSString+EVAdditions.h"

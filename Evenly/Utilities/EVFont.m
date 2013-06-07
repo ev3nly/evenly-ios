@@ -10,8 +10,16 @@
 
 @implementation EVFont
 
-+ (UIFont *)defaultFormFont {
-    return [UIFont systemFontOfSize:18.0];
++ (UIFont *)defaultFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Avenir" size:fontSize];    
+}
+
++ (UIFont *)boldFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
+}
+
++ (UIFont *)defaultFont {
+    return [UIFont fontWithName:@"Avenir" size:16.0];
 }
 
 @end
