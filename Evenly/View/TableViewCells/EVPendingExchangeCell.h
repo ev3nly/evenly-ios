@@ -1,5 +1,5 @@
 //
-//  EVPendingTransactionCell.h
+//  EVPendingExchangeCell.h
 //  Evenly
 //
 //  Created by Joseph Hankin on 6/7/13.
@@ -10,11 +10,11 @@
 #import "EVWalletCell.h"
 #import "EVAvatarView.h"
 
-@interface EVPendingTransactionCell : EVWalletCell
+@interface EVPendingExchangeCell : EVWalletCell
 
 @property (nonatomic, strong) EVAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *label;
 
-+ (CGSize)sizeForTransaction:(EVExchange *)exchange;
++ (CGSize)sizeForExchange:(EVExchange *)exchange;
 
 @end

@@ -225,22 +225,22 @@ static NSDateFormatter *_detailDateFormatter;
     return _detailDateFormatter;
 }
 
-+ (NSString *)nameForDetailField:(EVTransactionDetailField)field {
++ (NSString *)nameForDetailField:(EVExchangeDetailField)field {
     NSString *name = nil;
     switch (field) {
-        case EVTransactionDetailFieldFrom:
+        case EVExchangeDetailFieldFrom:
             name = @"From:";
             break;
-        case EVTransactionDetailFieldTo:
+        case EVExchangeDetailFieldTo:
             name = @"To:";
             break;
-        case EVTransactionDetailFieldAmount:
+        case EVExchangeDetailFieldAmount:
             name = @"Amount:";
             break;
-        case EVTransactionDetailFieldNote:
+        case EVExchangeDetailFieldNote:
             name = @"Note:";
             break;
-        case EVTransactionDetailFieldDate:
+        case EVExchangeDetailFieldDate:
             name = @"Date:";
             break;
         default:

@@ -158,7 +158,7 @@
 		9CEEB86C1755854500C24C2A /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB85F1755854500C24C2A /* Security.framework */; };
 		9CEEB86D1755854500C24C2A /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB8601755854500C24C2A /* Social.framework */; };
 		9CEEB86E1755854500C24C2A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB8611755854500C24C2A /* SystemConfiguration.framework */; };
-		9CFDBAAD17625F5600D4E36C /* EVPendingTransactionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDBAAC17625F5600D4E36C /* EVPendingTransactionCell.m */; };
+		9CFDBAAD17625F5600D4E36C /* EVPendingExchangeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDBAAC17625F5600D4E36C /* EVPendingExchangeCell.m */; };
 		9CFDBAB117625F7200D4E36C /* EVAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDBAB017625F7200D4E36C /* EVAvatarView.m */; };
 		D01418FE17619675003ED527 /* EVExchangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D01418FC17619675003ED527 /* EVExchangeTests.m */; };
 		D01418FF17619675003ED527 /* EVValidatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D01418FD17619675003ED527 /* EVValidatorTest.m */; };
@@ -336,8 +336,8 @@
 		9CB285CB17616AA2009B26BB /* Support.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Support.png; sourceTree = "<group>"; };
 		9CCA9008175E6C90003462DC /* UIViewController+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+EVAdditions.h"; sourceTree = "<group>"; };
 		9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+EVAdditions.m"; sourceTree = "<group>"; };
-		9CCA900B175E82D7003462DC /* EVCIA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCIA.h; sourceTree = "<group>"; };
-		9CCA900C175E82D7003462DC /* EVCIA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCIA.m; sourceTree = "<group>"; };
+		9CCA900B175E82D7003462DC /* EVCIA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EVCIA.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		9CCA900C175E82D7003462DC /* EVCIA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EVCIA.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		9CCA900F175EA8E9003462DC /* EVMainMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMainMenuViewController.h; sourceTree = "<group>"; };
 		9CCA9010175EA8E9003462DC /* EVMainMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMainMenuViewController.m; sourceTree = "<group>"; };
 		9CCA9011175EA8E9003462DC /* EVWalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletViewController.h; sourceTree = "<group>"; };
@@ -402,8 +402,8 @@
 		9CEEB85F1755854500C24C2A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9CEEB8601755854500C24C2A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		9CEEB8611755854500C24C2A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		9CFDBAAB17625F5600D4E36C /* EVPendingTransactionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPendingTransactionCell.h; sourceTree = "<group>"; };
-		9CFDBAAC17625F5600D4E36C /* EVPendingTransactionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPendingTransactionCell.m; sourceTree = "<group>"; };
+		9CFDBAAB17625F5600D4E36C /* EVPendingExchangeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPendingExchangeCell.h; sourceTree = "<group>"; };
+		9CFDBAAC17625F5600D4E36C /* EVPendingExchangeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPendingExchangeCell.m; sourceTree = "<group>"; };
 		9CFDBAAF17625F7200D4E36C /* EVAvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAvatarView.h; sourceTree = "<group>"; };
 		9CFDBAB017625F7200D4E36C /* EVAvatarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAvatarView.m; sourceTree = "<group>"; };
 		D01418FC17619675003ED527 /* EVExchangeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeTests.m; sourceTree = "<group>"; };
@@ -851,8 +851,8 @@
 				9CB285C7176164EC009B26BB /* EVMainMenuCell.m */,
 				9C35B6EE176186A500084FA7 /* EVWalletCell.h */,
 				9C35B6EF176186A500084FA7 /* EVWalletCell.m */,
-				9CFDBAAB17625F5600D4E36C /* EVPendingTransactionCell.h */,
-				9CFDBAAC17625F5600D4E36C /* EVPendingTransactionCell.m */,
+				9CFDBAAB17625F5600D4E36C /* EVPendingExchangeCell.h */,
+				9CFDBAAC17625F5600D4E36C /* EVPendingExchangeCell.m */,
 				9C35B6F11761871000084FA7 /* EVSidePanelCell.h */,
 				9C35B6F21761871000084FA7 /* EVSidePanelCell.m */,
 			);
@@ -1334,7 +1334,7 @@
 				9CB285C3176157ED009B26BB /* EVStory.m in Sources */,
 				9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */,
 				9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */,
-				9CFDBAAD17625F5600D4E36C /* EVPendingTransactionCell.m in Sources */,
+				9CFDBAAD17625F5600D4E36C /* EVPendingExchangeCell.m in Sources */,
 				9CFDBAB117625F7200D4E36C /* EVAvatarView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

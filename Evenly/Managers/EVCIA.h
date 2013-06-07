@@ -27,11 +27,11 @@
 
 - (void)reloadAllWithCompletion:(void (^)(void))completion;
 
-- (NSArray *)pendingReceivedTransactions;
-- (void)reloadPendingReceivedTransactionsWithCompletion:(void (^)(NSArray *transactions))completion;
+- (NSArray *)pendingReceivedExchanges;
+- (void)reloadPendingReceivedExchangesWithCompletion:(void (^)(NSArray *exchanges))completion;
 
-- (NSArray *)pendingSentTransactions;
-- (void)reloadPendingSentTransactionsWithCompletion:(void (^)(NSArray *transactions))completion;
+- (NSArray *)pendingSentExchanges;
+- (void)reloadPendingSentExchangesWithCompletion:(void (^)(NSArray *exchanges))completion;
 
 - (NSArray *)history;
 - (void)reloadHistoryWithCompletion:(void (^)(NSArray *history))completion;

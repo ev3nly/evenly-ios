@@ -43,16 +43,16 @@
 
 #define EV_DEFAULT_ANIMATION_DURATION 0.25f
 
-#pragma mark - Transaction Fields
+#pragma mark - Exchange Fields
 
 typedef enum {
-    EVTransactionDetailFieldFrom = 0,
-    EVTransactionDetailFieldTo,
-    EVTransactionDetailFieldAmount,
-    EVTransactionDetailFieldNote,
-    EVTransactionDetailFieldDate,
-    EVTransactionDetailFieldCOUNT
-} EVTransactionDetailField;
+    EVExchangeDetailFieldFrom = 0,
+    EVExchangeDetailFieldTo,
+    EVExchangeDetailFieldAmount,
+    EVExchangeDetailFieldNote,
+    EVExchangeDetailFieldDate,
+    EVExchangeDetailFieldCOUNT
+} EVExchangeDetailField;
 
 #pragma mark - Signup Phases
 

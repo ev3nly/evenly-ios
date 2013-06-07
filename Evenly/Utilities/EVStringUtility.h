@@ -30,7 +30,7 @@
 + (NSString *)userNameForObject:(EVObject<EVExchangeable> *)object;
 
 + (NSDateFormatter *)detailDateFormatter;
-+ (NSString *)nameForDetailField:(EVTransactionDetailField)field;
++ (NSString *)nameForDetailField:(EVExchangeDetailField)field;
 + (NSString *)detailStringFromDate:(NSDate *)date;
 
 #pragma mark - Marketing Materials

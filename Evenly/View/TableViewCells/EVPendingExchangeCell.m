@@ -1,26 +1,26 @@
 //
-//  EVPendingTransactionCell.m
+//  EVPendingExchangeCell.m
 //  Evenly
 //
 //  Created by Joseph Hankin on 6/7/13.
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVPendingTransactionCell.h"
+#import "EVPendingExchangeCell.h"
 
-#define EV_PENDING_TRANSACTION_CELL_MARGIN 10.0
+#define EV_PENDING_EXCHANGE_CELL_MARGIN 10.0
 
-#define EV_PENDING_TRANSACTION_CELL_FONT [EVFont defaultFontOfSize:14]
-@implementation EVPendingTransactionCell
+#define EV_PENDING_EXCHANGE_CELL_FONT [EVFont defaultFontOfSize:14]
+@implementation EVPendingExchangeCell
 
-+ (CGSize)sizeForTransaction:(EVExchange *)exchange {
++ (CGSize)sizeForExchange:(EVExchange *)exchange {
     NSString *string = [EVStringUtility stringForExchange:exchange];
-    CGFloat margination = EV_RIGHT_OVERHANG_MARGIN + 3*EV_PENDING_TRANSACTION_CELL_MARGIN + [EVAvatarView avatarSize].width;
+    CGFloat margination = EV_RIGHT_OVERHANG_MARGIN + 3*EV_PENDING_EXCHANGE_CELL_MARGIN + [EVAvatarView avatarSize].width;
     CGFloat maxWidth = [UIScreen mainScreen].applicationFrame.size.width - margination;
-    CGSize size = [string sizeWithFont:EV_PENDING_TRANSACTION_CELL_FONT
-                     constrainedToSize:CGSizeMake(maxWidth, 3*EV_PENDING_TRANSACTION_CELL_FONT.lineHeight)
+    CGSize size = [string sizeWithFont:EV_PENDING_EXCHANGE_CELL_FONT
+                     constrainedToSize:CGSizeMake(maxWidth, 3*EV_PENDING_EXCHANGE_CELL_FONT.lineHeight)
                          lineBreakMode:NSLineBreakByTruncatingMiddle];
-    return CGSizeMake(maxWidth, size.height + 2*EV_PENDING_TRANSACTION_CELL_MARGIN);
+    return CGSizeMake(maxWidth, size.height + 2*EV_PENDING_EXCHANGE_CELL_MARGIN);
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -28,7 +28,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
 
-        CGFloat margin = EV_PENDING_TRANSACTION_CELL_MARGIN;
+        CGFloat margin = EV_PENDING_EXCHANGE_CELL_MARGIN;
         
         self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(margin,
                                                                          margin,
@@ -44,7 +44,7 @@
         self.label.textColor = [UIColor whiteColor];
         self.label.numberOfLines = 3;
         self.label.lineBreakMode = NSLineBreakByTruncatingMiddle;
-        self.label.font = EV_PENDING_TRANSACTION_CELL_FONT;
+        self.label.font = EV_PENDING_EXCHANGE_CELL_FONT;
         self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [self.containerView addSubview:self.label];
         

@@ -156,22 +156,22 @@ static EVCIA *_sharedInstance;
         completion();
 }
 
-- (NSArray *)pendingReceivedTransactions {
+- (NSArray *)pendingReceivedExchanges {
     return [self.internalCache objectForKey:@"pending_received"];
 }
 
-- (void)reloadPendingReceivedTransactionsWithCompletion:(void (^)(NSArray *transactions))completion {
+- (void)reloadPendingReceivedExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
     [self reloadAllWithCompletion:^{
         if (completion)
             completion([self.internalCache objectForKey:@"pending_received"]);
     }];
 }
 
-- (NSArray *)pendingSentTransactions {
+- (NSArray *)pendingSentExchanges {
     return [self.internalCache objectForKey:@"pending_sent"];
 }
 
-- (void)reloadPendingSentTransactionsWithCompletion:(void (^)(NSArray *transactions))completion {
+- (void)reloadPendingSentExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
     [self reloadAllWithCompletion:^{
         if (completion)
             completion([self.internalCache objectForKey:@"pending_sent"]);

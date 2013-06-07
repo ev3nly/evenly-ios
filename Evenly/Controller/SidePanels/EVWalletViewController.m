@@ -9,7 +9,7 @@
 #import "EVWalletViewController.h"
 #import "EVNavigationManager.h"
 #import "EVWalletCell.h"
-#import "EVPendingTransactionCell.h"
+#import "EVPendingExchangeCell.h"
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
 #import "EVExchange.h"
@@ -45,7 +45,7 @@
     self.tableView.separatorColor = [UIColor clearColor];
     
     [self.tableView registerClass:[EVWalletCell class] forCellReuseIdentifier:@"cell"];
-    [self.tableView registerClass:[EVPendingTransactionCell class] forCellReuseIdentifier:@"pendingCell"];
+    [self.tableView registerClass:[EVPendingExchangeCell class] forCellReuseIdentifier:@"pendingCell"];
     [self.view addSubview:self.tableView];
     
     self.walletHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
@@ -61,7 +61,7 @@
     DLog(@"View will appear");
     
     [[EVCIA sharedInstance] reloadAllWithCompletion:^{
-        DLog(@"Pending transactions: %@", [[EVCIA sharedInstance] pendingReceivedTransactions]);
+        DLog(@"Pending exchanges: %@", [[EVCIA sharedInstance] pendingReceivedExchanges]);
     }];
     [[EVCIA sharedInstance] reloadBankAccountsWithCompletion:^(NSArray *bankAccounts) {
         [self.tableView reloadData];
@@ -72,24 +72,24 @@
     }];
 }
 
-- (BOOL)hasPendingTransactions {
-    return [[[EVCIA sharedInstance] pendingReceivedTransactions] count] > 0;
+- (BOOL)hasPendingExchanges {
+    return [[[EVCIA sharedInstance] pendingReceivedExchanges] count] > 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if ([self hasPendingTransactions])
+    if ([self hasPendingExchanges])
         return 2;
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([self hasPendingTransactions] && section == EVWalletSectionPending)
-        return [[[EVCIA sharedInstance] pendingReceivedTransactions] count];
+    if ([self hasPendingExchanges] && section == EVWalletSectionPending)
+        return [[[EVCIA sharedInstance] pendingReceivedExchanges] count];
     return 4;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if ([self hasPendingTransactions] && section == EVWalletSectionPending)
+    if ([self hasPendingExchanges] && section == EVWalletSectionPending)
         return self.pendingHeader;
     return self.walletHeader;
 }
@@ -99,20 +99,20 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self hasPendingTransactions] && indexPath.section == EVWalletSectionPending)
+    if ([self hasPendingExchanges] && indexPath.section == EVWalletSectionPending)
     {
-        EVExchange *exchange = (EVExchange *)[[[EVCIA sharedInstance] pendingReceivedTransactions] objectAtIndex:indexPath.row];
-        return [EVPendingTransactionCell sizeForTransaction:exchange].height;
+        EVExchange *exchange = (EVExchange *)[[[EVCIA sharedInstance] pendingReceivedExchanges] objectAtIndex:indexPath.row];
+        return [EVPendingExchangeCell sizeForExchange:exchange].height;
     }
     return 44.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([self hasPendingTransactions] && indexPath.section == EVWalletSectionPending)
+    if ([self hasPendingExchanges] && indexPath.section == EVWalletSectionPending)
     {
-        EVPendingTransactionCell *cell = (EVPendingTransactionCell *)[tableView dequeueReusableCellWithIdentifier:@"pendingCell" forIndexPath:indexPath];
-        EVExchange *exchange = (EVExchange *)[[[EVCIA sharedInstance] pendingReceivedTransactions] objectAtIndex:indexPath.row];
+        EVPendingExchangeCell *cell = (EVPendingExchangeCell *)[tableView dequeueReusableCellWithIdentifier:@"pendingCell" forIndexPath:indexPath];
+        EVExchange *exchange = (EVExchange *)[[[EVCIA sharedInstance] pendingReceivedExchanges] objectAtIndex:indexPath.row];
         [cell.avatarView setImage:[[exchange from] avatar]];
         NSString *text = [EVStringUtility stringForExchange:exchange];
         cell.label.text = text;
