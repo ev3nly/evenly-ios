@@ -7,7 +7,9 @@
 //
 
 #import "EVUser.h"
-#import "EVCache.h"
+#import "EVCIA.h"
+#import "EVStory.h"
+
 /* Used to get and update User via the /me controller */
 
 @interface EVMe : EVUser
@@ -100,7 +102,7 @@ static EVUser *_me;
             //this might not be the right call, in the long term.
             [_me setProperties:[result originalDictionary]];
             
-            [EVCache setUser:_me];
+            [[EVCIA sharedInstance] setMe:_me];
             
             if (success)
                 success();
@@ -119,6 +121,30 @@ static EVUser *_me;
 + (void)saveMeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
 	EVMe *me = [[EVMe alloc] initWithDictionary:[EVUser me].dictionaryRepresentation];
 	[me updateWithSuccess:success failure:failure];
+}
+
++ (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET" path:@"newsfeed" parameters:nil];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSDictionary *dict in responseObject)
+        {
+            EVStory *story = [[EVStory alloc] init];
+            [story setProperties:dict];
+            [array addObject:story];
+        }
+        success(array);
+    };
+    
+    AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
+                                                                      success:successBlock
+                                                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                          if (failure)
+                                                                              failure(error);
+                                                                      }];
+    
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
 - (void)saveWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
@@ -181,15 +207,17 @@ static EVUser *_me;
 #pragma mark Images
 
 - (void)loadAvatar {
-    if ([[EVCache imageCache] objectForKey:self.avatarURL]) {
-        self.avatar = [[EVCache imageCache] objectForKey:self.avatarURL];
+    UIImage *image = [[EVCIA sharedInstance] imageForURL:self.avatarURL];
+    if (image) {
+        self.avatar = image;
         return;
     }
     NSURLRequest *request = [NSURLRequest requestWithURL:self.avatarURL];
     AFImageRequestOperation *imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
                                                                                           imageProcessingBlock:NULL
                                                                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                                                                           [[EVCache imageCache] setObject:image forKey:self.avatarURL];
+                                                                                                           [[EVCIA sharedInstance] setImage:image forURL:self.avatarURL];
+//                                                                                                           [[[EVCIA sharedInstance] imageCache] setObject:image forKey:self.avatarURL];
                                                                                                            self.avatar = image;
                                                                                                            DLog(@"Downloaded image, see? %@", self.avatar);
                                                                                                        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
@@ -199,8 +227,9 @@ static EVUser *_me;
 }
 
 - (void)evictAvatarFromCache {
-    if ([[EVCache imageCache] objectForKey:self.avatarURL])
-        [[EVCache imageCache] removeObjectForKey:self.avatarURL];
+    [[EVCIA sharedInstance] setImage:nil forURL:self.avatarURL];
+//    if ([[[EVCIA sharedInstance] imageCache] objectForKey:self.avatarURL])
+//        [[[EVCIA sharedInstance] imageCache] removeObjectForKey:self.avatarURL];
 }
 
 #pragma mark - NSCoding

@@ -18,7 +18,7 @@
 #import "EVHomeViewController.h"
 #import "EVWalletViewController.h"
 #import "EVSession.h"
-#import "EVCache.h"
+#import "EVCIA.h"
 #import "EVSettingsManager.h"
 #import "EVHTTPClient.h"
 #import "EVAppErrorHandler.h"
@@ -27,11 +27,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-
-    [self registerWithServices];
-    [self configure];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    [self registerWithServices];
+    [self configure];
+    [self setUpAppearance];
     
     self.masterViewController = [[EVNavigationManager sharedManager] masterViewController];
     self.masterViewController.leftPanel = [[EVNavigationManager sharedManager] mainMenuViewController];
@@ -39,8 +40,11 @@
     self.masterViewController.rightPanel = [[EVNavigationManager sharedManager] walletViewController];
     
     self.window.rootViewController = self.masterViewController;
-    self.window.backgroundColor = [UIColor cyanColor];
+    self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
+    
+    NSArray *array = [UIFont fontNamesForFamilyName:@"Avenir"];
+    DLog(@"Avenir variants: %@", array);
     
     // STRICTLY TEMPORARY
     if (![EVSession sharedSession])
@@ -49,12 +53,12 @@
             //retrieve user from session call, cache user
             EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
             [EVUser setMe:me];
-            [EVCache setUser:me];
+            [[EVCIA sharedInstance] setMe:me];
             
             [EVUtilities registerForPushNotifications];
             
             //cache session
-            [EVCache setSession:[EVSession sharedSession]];
+            [[EVCIA sharedInstance] setSession:[EVSession sharedSession]];
         } failure:^(NSError *error) {
             DLog(@"Failure?! %@", error);
         }];
@@ -81,11 +85,17 @@
     [EVHTTPClient setErrorHandlerClass:[EVAppErrorHandler class]];
     
     // Load user and session from cache.
-    [EVUser setMe:[EVCache user]];
-    [EVSession setSharedSession:[EVCache session]];
+    [EVUser setMe:[[EVCIA sharedInstance] me]];
+    [EVSession setSharedSession:[[EVCIA sharedInstance] session]];
     
     // Load user's settings from server.
     [[EVSettingsManager sharedManager] loadSettingsFromServer];
+}
+
+- (void)setUpAppearance {
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Header"] forBarMetrics:UIBarMetricsDefault];
+    
+    [[UILabel appearance] setBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

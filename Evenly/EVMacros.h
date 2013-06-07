@@ -14,7 +14,7 @@
 #define EV_DOCUMENT_PATH(inPath) [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:inPath]
 #define EV_BUNDLE_PATH(inPath) [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:inPath]
 #define EV_TEMPORARY_PATH(inPath) [NSTemporaryDirectory() stringByAppendingPathComponent:inPath]
-
+#define EV_CACHE_PATH(inPath) [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:inPath]
 ////////////////////////////////////////////////
 // Memory Management
 ////////////////////////////////////////////////
