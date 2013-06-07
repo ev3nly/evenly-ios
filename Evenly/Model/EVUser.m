@@ -217,7 +217,6 @@ static EVUser *_me;
                                                                                           imageProcessingBlock:NULL
                                                                                                        success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
                                                                                                            [[EVCIA sharedInstance] setImage:image forURL:self.avatarURL];
-//                                                                                                           [[[EVCIA sharedInstance] imageCache] setObject:image forKey:self.avatarURL];
                                                                                                            self.avatar = image;
                                                                                                            DLog(@"Downloaded image, see? %@", self.avatar);
                                                                                                        } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
@@ -228,8 +227,6 @@ static EVUser *_me;
 
 - (void)evictAvatarFromCache {
     [[EVCIA sharedInstance] setImage:nil forURL:self.avatarURL];
-//    if ([[[EVCIA sharedInstance] imageCache] objectForKey:self.avatarURL])
-//        [[[EVCIA sharedInstance] imageCache] removeObjectForKey:self.avatarURL];
 }
 
 #pragma mark - NSCoding
@@ -270,6 +267,8 @@ static EVUser *_me;
 
 
 @implementation EVContact
+
+@synthesize avatar;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];

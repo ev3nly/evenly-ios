@@ -35,10 +35,52 @@ static NSDateFormatter *_shortDateFormatter;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _shortDateFormatter = [[NSDateFormatter alloc] init];
-        _shortDateFormatter.dateFormat = @"MMM d";
+        _shortDateFormatter.dateFormat = @"MMM\u00A0d";
     });
     return _shortDateFormatter;
 }
+
+
++ (NSString *)stringForExchange:(EVExchange *)exchange {
+    NSDictionary *components = [self subjectVerbAndObjectForExchange:exchange];
+    NSString *string = [NSString stringWithFormat:@"%@ %@ %@ %@ for %@\u00A0\u00A0\u00A0•\u00A0\u00A0\u00A0%@",
+                        components[@"subject"],
+                        components[@"verb"],
+                        components[@"object"],
+                        [self amountStringForAmount:exchange.amount],
+                        exchange.memo,
+                        [[self shortDateFormatter] stringFromDate:exchange.createdAt]];
+    return string;
+}
+
++ (NSDictionary *)subjectVerbAndObjectForExchange:(EVExchange *)exchange {
+    NSString *subject;
+    NSString *object;
+    NSString *verb;
+    if ([exchange isKindOfClass:[EVPayment class]]) {
+        verb = @"paid";
+        if (exchange.from == nil) {
+            subject = @"You";
+            object = exchange.to.name;
+        } else { // to = nil
+            subject = exchange.from.name;
+            object = @"You";
+        }
+    } else {
+        if (exchange.from == nil) {
+            subject = exchange.to.name;
+            verb = @"owes";
+            object = @"You";
+        } else { // to = nil
+            subject = @"You";
+            verb = @"owe";
+            object = exchange.from.name;
+        }
+    }
+    return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
+}
+
+
 
 + (NSArray *)attributedStringsForObject:(EVObject *)object {
 	if ([object isKindOfClass:[EVExchange class]])
@@ -138,11 +180,11 @@ static NSDateFormatter *_shortDateFormatter;
     if (EV_IS_EMPTY_STRING(subject))
         format = @"%@ ";
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:format, verb]
-                                                                       attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12] }]];
+                                                                       attributes:@{ NSFontAttributeName : [EVFont defaultFontOfSize:14] }]];
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:object
-                                                                       attributes:@{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12] }]];
+                                                                       attributes:@{ NSFontAttributeName : [EVFont boldFontOfSize:14] }]];
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", preposition]
-                                                                       attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12] }]];
+                                                                       attributes:@{ NSFontAttributeName : [EVFont defaultFontOfSize:14] }]];
     return attrString;
 }
 
@@ -183,22 +225,22 @@ static NSDateFormatter *_detailDateFormatter;
     return _detailDateFormatter;
 }
 
-+ (NSString *)nameForDetailField:(EVTransactionDetailField)field {
++ (NSString *)nameForDetailField:(EVExchangeDetailField)field {
     NSString *name = nil;
     switch (field) {
-        case EVTransactionDetailFieldFrom:
+        case EVExchangeDetailFieldFrom:
             name = @"From:";
             break;
-        case EVTransactionDetailFieldTo:
+        case EVExchangeDetailFieldTo:
             name = @"To:";
             break;
-        case EVTransactionDetailFieldAmount:
+        case EVExchangeDetailFieldAmount:
             name = @"Amount:";
             break;
-        case EVTransactionDetailFieldNote:
+        case EVExchangeDetailFieldNote:
             name = @"Note:";
             break;
-        case EVTransactionDetailFieldDate:
+        case EVExchangeDetailFieldDate:
             name = @"Date:";
             break;
         default:

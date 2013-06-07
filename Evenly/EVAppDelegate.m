@@ -47,7 +47,7 @@
     DLog(@"Avenir variants: %@", array);
     
     // STRICTLY TEMPORARY
-    if (![EVSession sharedSession])
+    if (![[EVCIA sharedInstance] session])
     {
         [EVSession createWithEmail:@"joe@paywithivy.com" password:@"haijoe" success:^{
             //retrieve user from session call, cache user
@@ -59,9 +59,15 @@
             
             //cache session
             [[EVCIA sharedInstance] setSession:[EVSession sharedSession]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedInNotification object:nil];
         } failure:^(NSError *error) {
             DLog(@"Failure?! %@", error);
         }];
+    }
+    else
+    {
+        [EVSession setSharedSession:[[EVCIA sharedInstance] session]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedInNotification object:nil];
     }
     
     return YES;
