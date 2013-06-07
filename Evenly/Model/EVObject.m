@@ -93,7 +93,7 @@ static NSDateFormatter *_dateFormatter = nil;
     if (self) {
         _originalDictionary = dictionary;
         [self setProperties:dictionary];
-        [self setPropertiesToValidate];
+        [self configureValidationReactions];
     }
     return self;
 }
@@ -115,7 +115,7 @@ static NSDateFormatter *_dateFormatter = nil;
     self.valid = YES;
 }
 
-- (void)setPropertiesToValidate {
+- (void)configureValidationReactions {
     //implement in subclass
 }
 

@@ -110,7 +110,7 @@
     self.valid = isValid;
 }
 
-- (void)setPropertiesToValidate {
+- (void)configureValidationReactions {
     [RACAble(self.amount) subscribeNext:^(id x) {
         [self validate];
     }];

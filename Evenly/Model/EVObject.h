@@ -42,7 +42,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *operation, NSError *error
 - (void)setProperties:(NSDictionary *)properties;
 - (NSDictionary *)dictionaryRepresentation;
 - (void)validate;
-- (void)setPropertiesToValidate;
+- (void)configureValidationReactions;
 
 #pragma mark - CRUD methods
 
