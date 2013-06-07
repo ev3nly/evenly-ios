@@ -10,4 +10,7 @@
 
 @interface EVMainMenuCell : UITableViewCell
 
+@property (nonatomic, strong) UIImageView *iconView;
+@property (nonatomic, strong) UILabel *label;
+
 @end

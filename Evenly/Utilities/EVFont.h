@@ -10,6 +10,10 @@
 
 @interface EVFont : NSObject
 
-+ (UIFont *)defaultFormFont;
+
++ (UIFont *)defaultFontOfSize:(CGFloat)fontSize;
++ (UIFont *)boldFontOfSize:(CGFloat)fontSize;
+
++ (UIFont *)defaultFont;
 
 @end

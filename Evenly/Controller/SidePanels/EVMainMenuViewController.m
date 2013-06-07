@@ -8,7 +8,7 @@
 
 #import "EVMainMenuViewController.h"
 #import "EVNavigationManager.h"
-
+#import "EVMainMenuCell.h"
 @interface EVMainMenuViewController ()
 
 @end
@@ -31,19 +31,11 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.backgroundColor = [EVColor sidePanelBackgroundColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [self.tableView registerClass:[EVMainMenuCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    DLog(@"View will appear");
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    DLog(@"View did appear");
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    DLog(@"View will disappear");
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -51,34 +43,38 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    }
+    EVMainMenuCell *cell = (EVMainMenuCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
     NSString *title = nil;
+    UIImage *icon = nil;
     switch (indexPath.row) {
         case EVMainMenuOptionHome:
             title = @"Home";
+            icon = [UIImage imageNamed:@"Home"];
             break;
         case EVMainMenuOptionProfile:
-            title = @"Profile";
+            title = [[[EVCIA sharedInstance] me] name] ?: @"Profile";
+            icon = [UIImage imageNamed:@"User"];
             break;
         case EVMainMenuOptionSettings:
             title = @"Settings";
+            icon = [UIImage imageNamed:@"Settings"];
             break;
         case EVMainMenuOptionSupport:
             title = @"Support";
+            icon = [UIImage imageNamed:@"Support"];
             break;
         case EVMainMenuOptionInvite:
             title = @"Invite";
+            icon = [UIImage imageNamed:@"Invite"];
             break;
             
         default:
             break;
     }
-    [cell.textLabel setText:title];
+    [cell.label setText:title];
+    [cell.iconView setImage:icon];
+    
     return cell;    
 }
 
