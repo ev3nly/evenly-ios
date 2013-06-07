@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *email;
+@property (nonatomic, readonly) UIImage *avatar;
 
 @end
 
@@ -36,7 +37,6 @@
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSDecimalNumber *balance;
 @property (nonatomic, strong) NSURL *avatarURL;
-@property (nonatomic, readonly) UIImage *avatar;
 @property (nonatomic, strong) UIImage *updatedAvatar;
 @property (nonatomic, getter = isConfirmed) BOOL confirmed;
 

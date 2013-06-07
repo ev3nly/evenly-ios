@@ -113,7 +113,7 @@
     {
         EVPendingTransactionCell *cell = (EVPendingTransactionCell *)[tableView dequeueReusableCellWithIdentifier:@"pendingCell" forIndexPath:indexPath];
         EVExchange *exchange = (EVExchange *)[[[EVCIA sharedInstance] pendingReceivedTransactions] objectAtIndex:indexPath.row];
-        [cell.avatarView setImage:[(EVUser *)[exchange from] avatar]];
+        [cell.avatarView setImage:[[exchange from] avatar]];
         NSString *text = [EVStringUtility stringForExchange:exchange];
         cell.label.text = text;
         [cell.label sizeToFit];

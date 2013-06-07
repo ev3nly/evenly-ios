@@ -268,6 +268,8 @@ static EVUser *_me;
 
 @implementation EVContact
 
+@synthesize avatar;
+
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
