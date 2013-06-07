@@ -107,6 +107,7 @@
 		9CB285BE1761521E009B26BB /* PendingPayment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB285911761521E009B26BB /* PendingPayment@2x.png */; };
 		9CB285BF1761521E009B26BB /* Transfer.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB285921761521E009B26BB /* Transfer.png */; };
 		9CB285C01761521E009B26BB /* Transfer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB285931761521E009B26BB /* Transfer@2x.png */; };
+		9CB285C8176164EC009B26BB /* EVMainMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB285C7176164EC009B26BB /* EVMainMenuCell.m */; };
 		9CCA900A175E6C90003462DC /* UIViewController+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */; };
 		9CCA900D175E82D7003462DC /* EVCIA.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA900C175E82D7003462DC /* EVCIA.m */; };
 		9CCA9013175EA8E9003462DC /* EVMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9010175EA8E9003462DC /* EVMainMenuViewController.m */; };
@@ -311,6 +312,8 @@
 		9CB285911761521E009B26BB /* PendingPayment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PendingPayment@2x.png"; sourceTree = "<group>"; };
 		9CB285921761521E009B26BB /* Transfer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Transfer.png; sourceTree = "<group>"; };
 		9CB285931761521E009B26BB /* Transfer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Transfer@2x.png"; sourceTree = "<group>"; };
+		9CB285C6176164EC009B26BB /* EVMainMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMainMenuCell.h; sourceTree = "<group>"; };
+		9CB285C7176164EC009B26BB /* EVMainMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMainMenuCell.m; sourceTree = "<group>"; };
 		9CCA9008175E6C90003462DC /* UIViewController+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+EVAdditions.h"; sourceTree = "<group>"; };
 		9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+EVAdditions.m"; sourceTree = "<group>"; };
 		9CCA900B175E82D7003462DC /* EVCIA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCIA.h; sourceTree = "<group>"; };
@@ -667,6 +670,7 @@
 				9CEEB7F41755268B00C24C2A /* EVConstants.h */,
 				9C1F47FE175691B600B26A1B /* Model */,
 				9C0EC745175D478A003B93E2 /* Controller */,
+				9CB285C4176164D2009B26BB /* View */,
 				9C0EC75B175D7F73003B93E2 /* Managers */,
 				9CEEB7D71755261500C24C2A /* Networking */,
 				9CEEB82C175526EC00C24C2A /* Libraries */,
@@ -789,6 +793,23 @@
 				9CB285931761521E009B26BB /* Transfer@2x.png */,
 			);
 			path = Tombstone;
+			sourceTree = "<group>";
+		};
+		9CB285C4176164D2009B26BB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9CB285C5176164E1009B26BB /* TableViewCells */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		9CB285C5176164E1009B26BB /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				9CB285C6176164EC009B26BB /* EVMainMenuCell.h */,
+				9CB285C7176164EC009B26BB /* EVMainMenuCell.m */,
+			);
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		9CCA900E175EA8E8003462DC /* SidePanels */ = {
@@ -1239,6 +1260,7 @@
 				9CCA901A175EBCCC003462DC /* EVAppErrorHandler.m in Sources */,
 				9CCA901D175EBD47003462DC /* EVMasterViewController.m in Sources */,
 				D02CAB0F1761483500323025 /* EVValidator.m in Sources */,
+				9CB285C8176164EC009B26BB /* EVMainMenuCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

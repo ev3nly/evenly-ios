@@ -10,4 +10,8 @@
 
 @interface EVColor : NSObject
 
++ (UIColor *)sidePanelBackgroundColor;
++ (UIColor *)sidePanelSelectedColor;
++ (UIColor *)sidePanelStripeColor;
+
 @end
