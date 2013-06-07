@@ -43,11 +43,13 @@
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
     
+    NSArray *array = [UIFont fontNamesForFamilyName:@"Avenir"];
+    DLog(@"Avenir variants: %@", array);
+    
     // STRICTLY TEMPORARY
     if (![EVSession sharedSession])
     {
-//        [EVSession createWithEmail:@"joe@paywithivy.com" password:@"haijoe" success:^{
-        [EVSession createWithEmail:@"joseph.hankin@gmail.com" password:@"changeme" success:^{
+        [EVSession createWithEmail:@"joe@paywithivy.com" password:@"haijoe" success:^{
             //retrieve user from session call, cache user
             EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
             [EVUser setMe:me];
@@ -92,6 +94,8 @@
 
 - (void)setUpAppearance {
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Header"] forBarMetrics:UIBarMetricsDefault];
+    
+    [[UILabel appearance] setBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
