@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "EVSidePanelCell.h"
 
+#define EV_WALLET_CELL_MARGIN 12.0
+
+@class EVWalletStamp;
+
 @interface EVWalletCell : EVSidePanelCell
 
 @property (nonatomic, strong) UIView *containerView;
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *valueLabel;
 
 @end
 
