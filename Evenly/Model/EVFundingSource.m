@@ -41,4 +41,10 @@
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
+#pragma mark - Overrides
+
+- (void)validate {
+    self.valid = YES;
+}
+
 @end

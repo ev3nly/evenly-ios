@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Foundation/NSObjCRuntime.h>
+#import <objc/runtime.h>
 #import "AFNetworking.h"
 #import "EVNetworkManager.h"
 #import "EVHTTPClient.h"
+#import "ReactiveCocoa.h"
 
 #define setValueForKeyIfNonNil(value, key) if (value) { [mutableDictionary setObject:value forKey:key]; };
 
@@ -42,7 +45,6 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *operation, NSError *error
 - (void)setProperties:(NSDictionary *)properties;
 - (NSDictionary *)dictionaryRepresentation;
 - (void)validate;
-- (void)configureValidationReactions;
 
 #pragma mark - CRUD methods
 

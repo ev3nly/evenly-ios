@@ -31,15 +31,6 @@ static NSDateFormatter *_dateFormatter = nil;
     self.accountNumber = [properties valueForKey:@"account_number"];
 }
 
-- (BOOL)isValid {
-    if ([self.name length] == 0) { return NO; }
-    if ([self.routingNumber length] == 0) { return NO; }
-    if ([self.accountNumber length] == 0) { return NO; }
-    if ([self.type length] == 0) { return NO; }
-    
-    return YES;
-}
-
 + (NSString *)controllerName {
     return @"bankaccounts";
 }
@@ -81,6 +72,25 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<0x%x> %@ account number %@", (int)self, self.bankName, self.accountNumber];
+}
+
+#pragma mark - Overrides
+
+- (void)validate {
+    BOOL isValid;
+    
+    if (EV_IS_EMPTY_STRING(self.bankName))
+        isValid = NO;
+    else if (EV_IS_EMPTY_STRING(self.type))
+        isValid = NO;
+    else if (EV_IS_EMPTY_STRING(self.routingNumber))
+        isValid = NO;
+    else if (EV_IS_EMPTY_STRING(self.accountNumber))
+        isValid = NO;
+    else
+        isValid = YES;
+    
+    self.valid = isValid;
 }
 
 @end
