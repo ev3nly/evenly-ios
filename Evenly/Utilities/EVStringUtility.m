@@ -35,7 +35,7 @@ static NSDateFormatter *_shortDateFormatter;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _shortDateFormatter = [[NSDateFormatter alloc] init];
-        _shortDateFormatter.dateFormat = @"MMM d";
+        _shortDateFormatter.dateFormat = @"MMM\u00A0d";
     });
     return _shortDateFormatter;
 }
@@ -43,12 +43,13 @@ static NSDateFormatter *_shortDateFormatter;
 
 + (NSString *)stringForExchange:(EVExchange *)exchange {
     NSDictionary *components = [self subjectVerbAndObjectForExchange:exchange];
-    NSString *string = [NSString stringWithFormat:@"%@ %@ %@ %@ for %@",
+    NSString *string = [NSString stringWithFormat:@"%@ %@ %@ %@ for %@\u00A0\u00A0\u00A0•\u00A0\u00A0\u00A0%@",
                         components[@"subject"],
                         components[@"verb"],
                         components[@"object"],
                         [self amountStringForAmount:exchange.amount],
-                        exchange.memo];
+                        exchange.memo,
+                        [[self shortDateFormatter] stringFromDate:exchange.createdAt]];
     return string;
 }
 
