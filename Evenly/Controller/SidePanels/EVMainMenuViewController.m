@@ -9,6 +9,7 @@
 #import "EVMainMenuViewController.h"
 #import "EVNavigationManager.h"
 #import "EVMainMenuCell.h"
+
 @interface EVMainMenuViewController ()
 
 @end
