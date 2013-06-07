@@ -93,6 +93,7 @@ static NSDateFormatter *_dateFormatter = nil;
     if (self) {
         _originalDictionary = dictionary;
         [self setProperties:dictionary];
+        [self configureValidationReactions];
     }
     return self;
 }
@@ -110,8 +111,12 @@ static NSDateFormatter *_dateFormatter = nil;
     return _originalDictionary;
 }
 
-- (BOOL)isValid {
-    return YES;
+- (void)validate {
+    self.valid = YES;
+}
+
+- (void)configureValidationReactions {
+    //implement in subclass
 }
 
 #pragma mark - CRUD methods
