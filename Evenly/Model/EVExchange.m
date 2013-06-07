@@ -11,6 +11,8 @@
 #import "EVCharge.h"
 #import "EVPayment.h"
 
+#import "ReactiveCocoa.h"
+
 /* 
  {
     amount = "10.0";
@@ -88,6 +90,39 @@
     else
         [NSException raise:@"EVInvalidExchangeClassException" format:@"Exchange is neither a charge nor a payment but rather a %@", [self class]];
     return NO;
+}
+
+#pragma mark - Overrides
+
+- (void)validate {
+    BOOL isValid;
+    if (!self.amount || [self.amount isEqualToNumber:[NSDecimalNumber notANumber]] || [self.amount isEqualToNumber:[NSNumber numberWithInt:0]])
+        isValid = NO;
+    else if (EV_IS_EMPTY_STRING(self.memo))
+        isValid = NO;
+    else if (!self.to)
+        isValid = NO;
+    else if (!self.from)
+        isValid = NO;
+    else
+        isValid = YES;
+    
+    self.valid = isValid;
+}
+
+- (void)configureValidationReactions {
+    [RACAble(self.amount) subscribeNext:^(id x) {
+        [self validate];
+    }];
+    [RACAble(self.memo) subscribeNext:^(id x) {
+        [self validate];
+    }];
+    [RACAble(self.to) subscribeNext:^(id x) {
+        [self validate];
+    }];
+    [RACAble(self.from) subscribeNext:^(id x) {
+        [self validate];
+    }];
 }
 
 @end
