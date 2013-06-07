@@ -13,6 +13,7 @@
 @interface EVObject ()
 
 + (NSDateFormatter *)dateFormatter;
+- (void)configureAutomaticPropertyValidation;
 
 @end
 
@@ -92,6 +93,7 @@ static NSDateFormatter *_dateFormatter = nil;
     self = [super init];
     if (self) {
         _originalDictionary = dictionary;
+        [self configureAutomaticPropertyValidation];
         [self setProperties:dictionary];
     }
     return self;
@@ -110,8 +112,22 @@ static NSDateFormatter *_dateFormatter = nil;
     return _originalDictionary;
 }
 
-- (BOOL)isValid {
-    return YES;
+- (void)validate {
+    self.valid = YES;
+}
+
+- (void)configureAutomaticPropertyValidation {
+    unsigned int outCount, i;
+    objc_property_t *properties = class_copyPropertyList([self class], &outCount);
+    for (i = 0; i < outCount; i++) {
+    	objc_property_t property = properties[i];
+    	NSString *propertyName = [NSString stringWithCString:property_getName(property)
+                                                    encoding:NSStringEncodingConversionAllowLossy];
+        [[self rac_signalForKeyPath:[NSString stringWithFormat:@"self.%@", propertyName]
+                           observer:self] subscribeNext:^(id x) {
+            [self validate];
+        }];
+    }
 }
 
 #pragma mark - CRUD methods

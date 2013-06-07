@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Foundation/NSObjCRuntime.h>
+#import <objc/runtime.h>
 #import "AFNetworking.h"
 #import "EVNetworkManager.h"
 #import "EVHTTPClient.h"
+#import "ReactiveCocoa.h"
 
 #define setValueForKeyIfNonNil(value, key) if (value) { [mutableDictionary setObject:value forKey:key]; };
 
@@ -23,6 +26,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *operation, NSError *error
 @property (nonatomic, strong) NSString *dbid;
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, readonly) NSDictionary *originalDictionary;
+@property (nonatomic, assign, getter=isValid) BOOL valid;
 
 + (NSString *)controllerName;
 + (NSMutableURLRequest *)requestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters;
@@ -40,7 +44,7 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *operation, NSError *error
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 - (void)setProperties:(NSDictionary *)properties;
 - (NSDictionary *)dictionaryRepresentation;
-- (BOOL)isValid;
+- (void)validate;
 
 #pragma mark - CRUD methods
 
