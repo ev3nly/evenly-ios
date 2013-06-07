@@ -138,11 +138,11 @@ static NSDateFormatter *_shortDateFormatter;
     if (EV_IS_EMPTY_STRING(subject))
         format = @"%@ ";
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:format, verb]
-                                                                       attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12] }]];
+                                                                       attributes:@{ NSFontAttributeName : [EVFont defaultFontOfSize:14] }]];
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:object
-                                                                       attributes:@{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12] }]];
+                                                                       attributes:@{ NSFontAttributeName : [EVFont boldFontOfSize:14] }]];
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", preposition]
-                                                                       attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12] }]];
+                                                                       attributes:@{ NSFontAttributeName : [EVFont defaultFontOfSize:14] }]];
     return attrString;
 }
 

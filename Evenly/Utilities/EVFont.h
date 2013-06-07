@@ -15,5 +15,6 @@
 + (UIFont *)boldFontOfSize:(CGFloat)fontSize;
 
 + (UIFont *)defaultFont;
++ (UIFont *)walletHeaderFont;
 
 @end

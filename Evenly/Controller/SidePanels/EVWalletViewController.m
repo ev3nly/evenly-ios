@@ -9,10 +9,17 @@
 #import "EVWalletViewController.h"
 #import "EVNavigationManager.h"
 #import "EVWalletCell.h"
+#import "EVPendingTransactionCell.h"
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
+#import "EVExchange.h"
+
+
 
 @interface EVWalletViewController ()
+
+@property (nonatomic, strong) EVWalletSectionHeader *walletHeader;
+@property (nonatomic, strong) EVWalletSectionHeader *pendingHeader;
 
 @end
 
@@ -35,16 +42,27 @@
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [EVColor sidePanelBackgroundColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.separatorColor = [UIColor clearColor];
     
     [self.tableView registerClass:[EVWalletCell class] forCellReuseIdentifier:@"cell"];
+    [self.tableView registerClass:[EVPendingTransactionCell class] forCellReuseIdentifier:@"pendingCell"];
     [self.view addSubview:self.tableView];
     
-
+    self.walletHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    self.walletHeader.label.text = @"WALLET";
+    
+    self.pendingHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    self.pendingHeader.label.text = @"PENDING";
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     DLog(@"View will appear");
+    
+    [[EVCIA sharedInstance] reloadAllWithCompletion:^{
+        DLog(@"Pending transactions: %@", [[EVCIA sharedInstance] pendingReceivedTransactions]);
+    }];
     [[EVCIA sharedInstance] reloadBankAccountsWithCompletion:^(NSArray *bankAccounts) {
         [self.tableView reloadData];
     }];
@@ -54,19 +72,48 @@
     }];
 }
 
+- (BOOL)hasPendingTransactions {
+    return [[[EVCIA sharedInstance] pendingReceivedTransactions] count] > 0;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if ([[[EVCIA sharedInstance] pendingReceivedTransactions] count])
+    if ([self hasPendingTransactions])
         return 2;
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([[[EVCIA sharedInstance] pendingReceivedTransactions] count] && section == 0)
+    if ([self hasPendingTransactions] && section == EVWalletSectionPending)
         return [[[EVCIA sharedInstance] pendingReceivedTransactions] count];
     return 4;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if ([self hasPendingTransactions] && section == EVWalletSectionPending)
+        return self.pendingHeader;
+    return self.walletHeader;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 44.0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self hasPendingTransactions] && indexPath.section == EVWalletSectionPending)
+        return 64.0;
+    return 44.0;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self hasPendingTransactions] && indexPath.section == EVWalletSectionPending)
+    {
+        EVPendingTransactionCell *cell = (EVPendingTransactionCell *)[tableView dequeueReusableCellWithIdentifier:@"pendingCell" forIndexPath:indexPath];
+        EVExchange *exchange = (EVExchange *)[[[EVCIA sharedInstance] pendingReceivedTransactions] objectAtIndex:indexPath.row];
+        [cell.avatarView setImage:[(EVUser *)[exchange from] avatar]];
+        return cell;
+    }
+    
     EVWalletCell *cell = (EVWalletCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
     NSString *title = nil;
@@ -101,7 +148,7 @@
         }
         case EVWalletRowHistory:
             title = @"History";
-            value = @"A BILLION";
+            value = EV_STRING_FROM_INT([[[EVCIA sharedInstance] history] count]);
             break;
         default:
             break;

@@ -22,7 +22,7 @@
                                                                   1)];
         stripe.backgroundColor = [EVColor sidePanelStripeColor];
         stripe.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        [self.contentView addSubview:stripe];
+        [self addSubview:stripe];
         self.stripe = stripe;
     }
     return self;

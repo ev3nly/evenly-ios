@@ -11,7 +11,14 @@
 
 @interface EVWalletCell : EVSidePanelCell
 
+@property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *valueLabel;
+
+@end
+
+@interface EVWalletSectionHeader : EVSidePanelCell
+
+@property (nonatomic, strong) UILabel *label;
 
 @end

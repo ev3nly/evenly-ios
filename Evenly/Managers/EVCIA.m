@@ -38,9 +38,21 @@ static EVCIA *_sharedInstance;
     if (self) {
         self.imageCache = [[NSCache alloc] init];
         self.internalCache = [[NSCache alloc] init];
-        [self reloadAllWithCompletion:NULL];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)didSignIn:(NSNotification *)notification {
+    [self reloadAllWithCompletion:NULL];
+    [self reloadCreditCardsWithCompletion:NULL];
+    [self reloadBankAccountsWithCompletion:NULL];
+    
 }
 
 #pragma mark - Image Caching
