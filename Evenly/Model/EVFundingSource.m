@@ -16,12 +16,6 @@
     self.active = [[properties valueForKey:@"status"] isEqualToString:@"active"];
 }
 
-- (void)configureValidationReactions {
-    [RACAble(self.uri) subscribeNext:^(id x) {
-        [self validate];
-    }];
-}
-
 - (NSDictionary *)dictionaryRepresentation {
     return @{ @"uri" : self.uri };
 }
@@ -45,6 +39,19 @@
                                                                               success:successBlock
                                                                               failure:failureBlock];
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
+#pragma mark - Overrides
+
+- (void)validate {
+    BOOL isValid;
+    
+    if (!self.uri)
+        isValid = NO;
+    else
+        isValid = YES;
+    
+    self.valid = isValid;
 }
 
 @end

@@ -18,11 +18,21 @@ describe(@"An EVFundingSource", ^{
         __block EVFundingSource *fundingSource;
         
         beforeEach(^{
-//            fundingSource = [[EVFundingSource alloc] init];
-            
+            fundingSource = [[EVFundingSource alloc] initWithDictionary:nil];
+            fundingSource.uri = @"http://evenly.com/";
+        });
+        
+        it(@"should be valid initially", ^{
+            [[theValue(fundingSource.isValid) should] equal:theValue(YES)];
+        });
+        
+        it(@"should have a uri", ^{
+            fundingSource.uri = nil;
+            [[theValue(fundingSource.isValid) should] equal:theValue(NO)];
         });
         
     });
+    
 });
 
 SPEC_END

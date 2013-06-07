@@ -94,6 +94,7 @@
 
 - (void)validate {
     BOOL isValid;
+    
     if (!self.amount || [self.amount isEqualToNumber:[NSDecimalNumber notANumber]] || [self.amount isEqualToNumber:[NSNumber numberWithInt:0]])
         isValid = NO;
     else if (EV_IS_EMPTY_STRING(self.memo))
