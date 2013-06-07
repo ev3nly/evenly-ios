@@ -100,7 +100,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self hasPendingTransactions] && indexPath.section == EVWalletSectionPending)
-        return 64.0;
+    {
+        EVExchange *exchange = (EVExchange *)[[[EVCIA sharedInstance] pendingReceivedTransactions] objectAtIndex:indexPath.row];
+        return [EVPendingTransactionCell sizeForTransaction:exchange].height;
+    }
     return 44.0;
 }
 
@@ -111,6 +114,8 @@
         EVPendingTransactionCell *cell = (EVPendingTransactionCell *)[tableView dequeueReusableCellWithIdentifier:@"pendingCell" forIndexPath:indexPath];
         EVExchange *exchange = (EVExchange *)[[[EVCIA sharedInstance] pendingReceivedTransactions] objectAtIndex:indexPath.row];
         [cell.avatarView setImage:[(EVUser *)[exchange from] avatar]];
+        NSString *text = [EVStringUtility stringForExchange:exchange];
+        cell.label.text = text;
         return cell;
     }
     

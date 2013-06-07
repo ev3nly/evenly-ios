@@ -17,6 +17,11 @@
 
 @interface EVStringUtility : NSObject
 
++ (NSString *)stringForExchange:(EVExchange *)exchange;
++ (NSDictionary *)subjectVerbAndObjectForExchange:(EVExchange *)exchange;
+
+
+
 + (NSArray *)attributedStringsForObject:(EVObject *)object;
 + (NSArray *)attributedStringsForExchange:(EVExchange *)exchange;
 + (NSArray *)attributedStringsForGroupCharge:(EVGroupCharge *)groupCharge;

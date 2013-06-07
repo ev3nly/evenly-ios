@@ -48,7 +48,6 @@
     
     // STRICTLY TEMPORARY
     if (![[EVCIA sharedInstance] session])
-//    if (![EVSession sharedSession])
     {
         [EVSession createWithEmail:@"joe@paywithivy.com" password:@"haijoe" success:^{
             //retrieve user from session call, cache user

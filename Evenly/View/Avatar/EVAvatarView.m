@@ -18,6 +18,8 @@
 
 @implementation EVAvatarView
 
++ (CGSize)avatarSize { return CGSizeMake(44.0, 44.0);  }
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -34,8 +36,9 @@
         self.imageView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         [self addSubview:self.imageView];
         
+        CGSize avatarSize = [[self class] avatarSize];
         CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-        shapeLayer.path = [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, 44, 44) cornerRadius:4.0] CGPath];
+        shapeLayer.path = [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, avatarSize.width, avatarSize.height) cornerRadius:4.0] CGPath];
         [shapeLayer setFillColor:[[UIColor blackColor] CGColor]];
         self.imageView.layer.mask = shapeLayer;
         

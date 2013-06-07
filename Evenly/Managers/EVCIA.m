@@ -52,7 +52,6 @@ static EVCIA *_sharedInstance;
     [self reloadAllWithCompletion:NULL];
     [self reloadCreditCardsWithCompletion:NULL];
     [self reloadBankAccountsWithCompletion:NULL];
-    
 }
 
 #pragma mark - Image Caching

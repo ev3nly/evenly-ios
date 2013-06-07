@@ -40,6 +40,47 @@ static NSDateFormatter *_shortDateFormatter;
     return _shortDateFormatter;
 }
 
+
++ (NSString *)stringForExchange:(EVExchange *)exchange {
+    NSDictionary *components = [self subjectVerbAndObjectForExchange:exchange];
+    NSString *string = [NSString stringWithFormat:@"%@ %@ %@ %@ for %@",
+                        components[@"subject"],
+                        components[@"verb"],
+                        components[@"object"],
+                        [self amountStringForAmount:exchange.amount],
+                        exchange.memo];
+    return string;
+}
+
++ (NSDictionary *)subjectVerbAndObjectForExchange:(EVExchange *)exchange {
+    NSString *subject;
+    NSString *object;
+    NSString *verb;
+    if ([exchange isKindOfClass:[EVPayment class]]) {
+        verb = @"paid";
+        if (exchange.from == nil) {
+            subject = @"You";
+            object = exchange.to.name;
+        } else { // to = nil
+            subject = exchange.from.name;
+            object = @"You";
+        }
+    } else {
+        if (exchange.from == nil) {
+            subject = exchange.to.name;
+            verb = @"owes";
+            object = @"You";
+        } else { // to = nil
+            subject = @"You";
+            verb = @"owe";
+            object = exchange.from.name;
+        }
+    }
+    return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
+}
+
+
+
 + (NSArray *)attributedStringsForObject:(EVObject *)object {
 	if ([object isKindOfClass:[EVExchange class]])
 		return [self attributedStringsForExchange:(EVExchange *)object];

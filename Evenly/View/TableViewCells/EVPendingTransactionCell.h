@@ -13,6 +13,7 @@
 @interface EVPendingTransactionCell : EVWalletCell
 
 @property (nonatomic, strong) EVAvatarView *avatarView;
+@property (nonatomic, strong) UILabel *label;
 
 + (CGSize)sizeForTransaction:(EVExchange *)exchange;
 

@@ -10,6 +10,8 @@
 
 @interface EVAvatarView : UIView
 
++ (CGSize)avatarSize;
+
 @property (nonatomic, strong) UIImage *image;
 
 @end
