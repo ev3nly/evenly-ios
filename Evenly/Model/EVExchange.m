@@ -11,6 +11,8 @@
 #import "EVCharge.h"
 #import "EVPayment.h"
 
+#import "ReactiveCocoa.h"
+
 /* 
  {
     amount = "10.0";
@@ -106,6 +108,21 @@
         isValid = YES;
     
     self.valid = isValid;
+}
+
+- (void)setPropertiesToValidate {
+    [RACAble(self.amount) subscribeNext:^(id x) {
+        [self validate];
+    }];
+    [RACAble(self.memo) subscribeNext:^(id x) {
+        [self validate];
+    }];
+    [RACAble(self.to) subscribeNext:^(id x) {
+        [self validate];
+    }];
+    [RACAble(self.from) subscribeNext:^(id x) {
+        [self validate];
+    }];
 }
 
 @end

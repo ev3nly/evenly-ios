@@ -93,7 +93,7 @@ static NSDateFormatter *_dateFormatter = nil;
     if (self) {
         _originalDictionary = dictionary;
         [self setProperties:dictionary];
-        [self validate];
+        [self setPropertiesToValidate];
     }
     return self;
 }
@@ -113,6 +113,10 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (void)validate {
     self.valid = YES;
+}
+
+- (void)setPropertiesToValidate {
+    //implement in subclass
 }
 
 #pragma mark - CRUD methods

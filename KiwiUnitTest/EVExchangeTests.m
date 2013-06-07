@@ -31,9 +31,7 @@ describe(@"An EVExchange", ^{
             EVObject<EVExchangeable> *fromPerson = [EVUser new];
             fromPerson.name = @"Justin Brunet";
             fromPerson.email = @"justin@paywithivy.com";
-            exchange.from = fromPerson;
-            
-            [exchange validate];
+            exchange.from = fromPerson;            
         });
         
         it(@"should be valid initially", ^{
@@ -69,16 +67,6 @@ describe(@"An EVExchange", ^{
             exchange.from = nil;
             [[theValue(exchange.isValid) should] equal:theValue(NO)];
         });
-        
-//        it(@"should have a valid to", ^{
-//            exchange.to.email = @"";
-//            [[theValue(exchange.isValid) should] equal:theValue(NO)];
-//        });
-//        
-//        it(@"should have a valid from", ^{
-//            exchange.from.email = @"";
-//            [[theValue(exchange.isValid) should] equal:theValue(NO)];
-//        });
         
     });
     
