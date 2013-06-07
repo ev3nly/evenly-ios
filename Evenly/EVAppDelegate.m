@@ -46,7 +46,8 @@
     // STRICTLY TEMPORARY
     if (![EVSession sharedSession])
     {
-        [EVSession createWithEmail:@"joe@paywithivy.com" password:@"haijoe" success:^{
+//        [EVSession createWithEmail:@"joe@paywithivy.com" password:@"haijoe" success:^{
+        [EVSession createWithEmail:@"joseph.hankin@gmail.com" password:@"changeme" success:^{
             //retrieve user from session call, cache user
             EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
             [EVUser setMe:me];

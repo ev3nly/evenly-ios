@@ -108,6 +108,7 @@
 		9CB285BF1761521E009B26BB /* Transfer.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB285921761521E009B26BB /* Transfer.png */; };
 		9CB285C01761521E009B26BB /* Transfer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB285931761521E009B26BB /* Transfer@2x.png */; };
 		9CB285C8176164EC009B26BB /* EVMainMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB285C7176164EC009B26BB /* EVMainMenuCell.m */; };
+		9CB285C3176157ED009B26BB /* EVStory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB285C2176157ED009B26BB /* EVStory.m */; };
 		9CCA900A175E6C90003462DC /* UIViewController+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */; };
 		9CCA900D175E82D7003462DC /* EVCIA.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA900C175E82D7003462DC /* EVCIA.m */; };
 		9CCA9013175EA8E9003462DC /* EVMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9010175EA8E9003462DC /* EVMainMenuViewController.m */; };
@@ -314,6 +315,8 @@
 		9CB285931761521E009B26BB /* Transfer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Transfer@2x.png"; sourceTree = "<group>"; };
 		9CB285C6176164EC009B26BB /* EVMainMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMainMenuCell.h; sourceTree = "<group>"; };
 		9CB285C7176164EC009B26BB /* EVMainMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMainMenuCell.m; sourceTree = "<group>"; };
+		9CB285C1176157ED009B26BB /* EVStory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStory.h; sourceTree = "<group>"; };
+		9CB285C2176157ED009B26BB /* EVStory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStory.m; sourceTree = "<group>"; };
 		9CCA9008175E6C90003462DC /* UIViewController+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+EVAdditions.h"; sourceTree = "<group>"; };
 		9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+EVAdditions.m"; sourceTree = "<group>"; };
 		9CCA900B175E82D7003462DC /* EVCIA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCIA.h; sourceTree = "<group>"; };
@@ -588,6 +591,8 @@
 				9C1F4818175691B600B26A1B /* EVSerializer.m */,
 				9C1F4819175691B600B26A1B /* EVSession.h */,
 				9C1F481A175691B600B26A1B /* EVSession.m */,
+				9CB285C1176157ED009B26BB /* EVStory.h */,
+				9CB285C2176157ED009B26BB /* EVStory.m */,
 				9C1F481B175691B600B26A1B /* EVUser.h */,
 				9C1F481C175691B600B26A1B /* EVUser.m */,
 				D02CAB0D1761483500323025 /* EVValidator.h */,
@@ -1261,6 +1266,7 @@
 				9CCA901D175EBD47003462DC /* EVMasterViewController.m in Sources */,
 				D02CAB0F1761483500323025 /* EVValidator.m in Sources */,
 				9CB285C8176164EC009B26BB /* EVMainMenuCell.m in Sources */,
+				9CB285C3176157ED009B26BB /* EVStory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

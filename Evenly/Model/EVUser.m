@@ -8,6 +8,7 @@
 
 #import "EVUser.h"
 #import "EVCIA.h"
+#import "EVStory.h"
 
 /* Used to get and update User via the /me controller */
 
@@ -120,6 +121,30 @@ static EVUser *_me;
 + (void)saveMeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
 	EVMe *me = [[EVMe alloc] initWithDictionary:[EVUser me].dictionaryRepresentation];
 	[me updateWithSuccess:success failure:failure];
+}
+
++ (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET" path:@"newsfeed" parameters:nil];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSDictionary *dict in responseObject)
+        {
+            EVStory *story = [[EVStory alloc] init];
+            [story setProperties:dict];
+            [array addObject:story];
+        }
+        success(array);
+    };
+    
+    AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
+                                                                      success:successBlock
+                                                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                          if (failure)
+                                                                              failure(error);
+                                                                      }];
+    
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
 - (void)saveWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
