@@ -61,7 +61,8 @@
     DLog(@"View will appear");
     
     [[EVCIA sharedInstance] reloadAllWithCompletion:^{
-        DLog(@"Pending exchanges: %@", [[EVCIA sharedInstance] pendingReceivedExchanges]);
+        DLog(@"Pending exchanges: %@", [self pendingExchanges]);
+        [self.tableView reloadData];
     }];
     [[EVCIA sharedInstance] reloadBankAccountsWithCompletion:^(NSArray *bankAccounts) {
         [self.tableView reloadData];
@@ -72,8 +73,12 @@
     }];
 }
 
+- (NSArray *)pendingExchanges {
+    return [[EVCIA sharedInstance] pendingReceivedExchanges];
+}
+
 - (BOOL)hasPendingExchanges {
-    return [[[EVCIA sharedInstance] pendingReceivedExchanges] count] > 0;
+    return [[self pendingExchanges] count] > 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -84,7 +89,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([self hasPendingExchanges] && section == EVWalletSectionPending)
-        return [[[EVCIA sharedInstance] pendingReceivedExchanges] count];
+        return [[self pendingExchanges] count];
     return 4;
 }
 
@@ -101,7 +106,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self hasPendingExchanges] && indexPath.section == EVWalletSectionPending)
     {
-        EVExchange *exchange = (EVExchange *)[[[EVCIA sharedInstance] pendingReceivedExchanges] objectAtIndex:indexPath.row];
+        EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
         return [EVPendingExchangeCell sizeForExchange:exchange].height;
     }
     return 44.0;
@@ -112,7 +117,7 @@
     if ([self hasPendingExchanges] && indexPath.section == EVWalletSectionPending)
     {
         EVPendingExchangeCell *cell = (EVPendingExchangeCell *)[tableView dequeueReusableCellWithIdentifier:@"pendingCell" forIndexPath:indexPath];
-        EVExchange *exchange = (EVExchange *)[[[EVCIA sharedInstance] pendingReceivedExchanges] objectAtIndex:indexPath.row];
+        EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
         [cell.avatarView setImage:[[exchange from] avatar]];
         NSString *text = [EVStringUtility stringForExchange:exchange];
         cell.label.text = text;
