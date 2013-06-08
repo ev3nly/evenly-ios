@@ -8,6 +8,14 @@
 
 #import "EVObject.h"
 
+typedef enum {
+    EVStoryTypeNotInvolved,
+    EVStoryTypePendingIncoming,
+    EVStoryTypePendingOutgoing,
+    EVStoryTypeIncoming,
+    EVStoryTypeOutgoing
+} EVStoryType;
+
 @interface EVStory : EVObject
 
 @property (nonatomic, strong) id subject;
@@ -18,5 +26,7 @@
 @property (nonatomic, assign) BOOL isPrivate;
 @property (nonatomic, strong) id owner;
 @property (nonatomic, strong) id source;
+@property (nonatomic, readonly) NSAttributedString *attributedString;
+@property (nonatomic, readonly) EVStoryType storyType;
 
 @end

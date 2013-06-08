@@ -14,4 +14,13 @@
 + (UIColor *)sidePanelSelectedColor;
 + (UIColor *)sidePanelStripeColor;
 
++ (UIColor *)creamColor;
+
++ (UIColor *)newsfeedStripeColor;
++ (UIColor *)newsfeedNounColor;
++ (UIColor *)newsfeedTextColor;
+
++ (UIColor *)lightGreenColor;
++ (UIColor *)lightRedColor;
+
 @end

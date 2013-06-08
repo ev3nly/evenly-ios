@@ -8,6 +8,6 @@
 
 #import "EVViewController.h"
 
-@interface EVHomeViewController : EVViewController
+@interface EVHomeViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end
