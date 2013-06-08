@@ -11,6 +11,12 @@
 #import "EVAvatarView.h"
 
 #define EV_STORY_CELL_BACKGROUND_MARGIN 12.0
+#define EV_STORY_CELL_INTERIOR_MARGIN 10.0
+#define EV_STORY_CELL_LABEL_WIDTH 200.0
+#define EV_STORY_CELL_LABEL_HEIGHT 44.0
+
+#define EV_STORY_CELL_HORIZONTAL_RULE_Y 64.0
+#define EV_STORY_CELL_VERTICAL_RULE_X 148.0
 
 @interface EVStoryCell ()
 
@@ -60,15 +66,16 @@
 }
 
 - (void)loadAvatarView {
-    self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(10, 10, [EVAvatarView avatarSize].width, [EVAvatarView avatarSize].height)];
+    self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(EV_STORY_CELL_INTERIOR_MARGIN,
+                                                                     EV_STORY_CELL_INTERIOR_MARGIN, [EVAvatarView avatarSize].width, [EVAvatarView avatarSize].height)];
     [self.tombstoneBackground addSubview:self.avatarView];
 }
 
 - (void)loadStoryLabel {
-    self.storyLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.avatarView.frame) + 10,
-                                                                10,
-                                                                200,
-                                                                44)];
+    self.storyLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.avatarView.frame) + EV_STORY_CELL_INTERIOR_MARGIN,
+                                                                EV_STORY_CELL_INTERIOR_MARGIN,
+                                                                EV_STORY_CELL_LABEL_WIDTH,
+                                                                EV_STORY_CELL_LABEL_HEIGHT)];
     self.storyLabel.backgroundColor = [UIColor clearColor];
     self.storyLabel.numberOfLines = 3;
     self.storyLabel.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -77,11 +84,17 @@
 }
 
 - (void)loadRules {
-    self.horizontalRule = [[UIView alloc] initWithFrame:CGRectMake(0, 64, self.tombstoneBackground.frame.size.width, 1)];
+    self.horizontalRule = [[UIView alloc] initWithFrame:CGRectMake(0,
+                                                                   EV_STORY_CELL_HORIZONTAL_RULE_Y,
+                                                                   self.tombstoneBackground.frame.size.width,
+                                                                   1)];
     self.horizontalRule.backgroundColor = [EVColor newsfeedStripeColor];
     [self.tombstoneBackground addSubview:self.horizontalRule];
     
-    self.verticalRule = [[UIView alloc] initWithFrame:CGRectMake(148, 64, 1, self.tombstoneBackground.frame.size.height - 64)];
+    self.verticalRule = [[UIView alloc] initWithFrame:CGRectMake(EV_STORY_CELL_VERTICAL_RULE_X,
+                                                                 EV_STORY_CELL_HORIZONTAL_RULE_Y,
+                                                                 1,
+                                                                 self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y)];
     self.verticalRule.backgroundColor = [EVColor newsfeedStripeColor];
     [self.tombstoneBackground addSubview:self.verticalRule];
 }
