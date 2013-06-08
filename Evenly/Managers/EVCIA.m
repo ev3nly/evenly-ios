@@ -129,8 +129,10 @@ static EVCIA *_sharedInstance;
     EVSession *session = [[EVSession alloc] init];
     session.authenticationToken = [[NSUserDefaults standardUserDefaults] objectForKey:EVCachedAuthenticationTokenKey];
     
-    if (session.authenticationToken)
+    if (session.authenticationToken) {
+        DLog(@"Auth token: %@", session.authenticationToken);
         return session;
+    }
     return nil;
 }
 
@@ -139,6 +141,7 @@ static EVCIA *_sharedInstance;
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:EVCachedAuthenticationTokenKey];
     } else {
         [[NSUserDefaults standardUserDefaults] setObject:session.authenticationToken forKey:EVCachedAuthenticationTokenKey];
+        DLog(@"Auth token: %@", session.authenticationToken);
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
 }

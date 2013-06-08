@@ -7,7 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVAvatarView.h"
+@class EVStory;
 
 @interface EVStoryCell : UITableViewCell
+
++ (CGFloat)cellHeight;
+
+@property (nonatomic, weak) EVStory *story;
+@property (nonatomic, strong) UIView *tombstoneBackground;
+@property (nonatomic, strong) UIImageView *typeIndicator;
+@property (nonatomic, strong) EVAvatarView *avatarView;
+@property (nonatomic, strong) UILabel *storyLabel;
+@property (nonatomic, strong) UILabel *timeLabel;
 
 @end

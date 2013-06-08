@@ -18,5 +18,6 @@
 @property (nonatomic, assign) BOOL isPrivate;
 @property (nonatomic, strong) id owner;
 @property (nonatomic, strong) id source;
+@property (nonatomic, readonly) NSAttributedString *attributedString;
 
 @end

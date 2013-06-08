@@ -8,11 +8,16 @@
 
 #import "EVHomeViewController.h"
 #import "EVUser.h"
+#import "EVStory.h"
+#import "EVStoryCell.h"
 
 @interface EVHomeViewController ()
 
+@property (nonatomic, weak) EVCIA *cia;
+
 @property (nonatomic, strong) UILabel *balanceLabel;
-@property (nonatomic, strong) EVCIA *cia;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray *newsfeed;
 
 @end
 
@@ -34,6 +39,10 @@
     self.view.backgroundColor = [UIColor underPageBackgroundColor];
     [self loadBalanceLabel];
     [self loadRightBarButtonItem];
+    [self loadTableView];
+    [self loadFloatingButton];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
 }
 
 - (void)loadBalanceLabel {
@@ -54,7 +63,6 @@
         [self.balanceLabel setText:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
         [self.balanceLabel sizeToFit];
     }];
-    
 }
 
 - (void)loadRightBarButtonItem {
@@ -66,28 +74,88 @@
     self.navigationItem.rightBarButtonItem = barButtonItem;
 }
 
+- (void)loadTableView {
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    self.tableView.separatorColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [EVColor creamColor];
+    [self.tableView registerClass:[EVStoryCell class] forCellReuseIdentifier:@"storyCell"];
+    [self.view addSubview:self.tableView];
+}
+
+- (void)loadFloatingButton {
+    
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self reloadNewsFeed];
+
+}
+
+- (void)didSignIn:(NSNotification *)notification {
+    [self reloadNewsFeed];
+}
+
+- (void)reloadNewsFeed {
     
-
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    DLog(@"View will disappear");
-}
-
-- (void)refreshButtonPress:(id)sender {
+//    NSMutableArray *array = [NSMutableArray array];
+//    for (int i=0; i < 10; i++) {
+//        EVStory *story = [[EVStory alloc] initWithDictionary:@{
+//                          @"verb" : @"paid",
+//                          @"private" : @(NO),
+//                          @"description" : @"beer and weed",
+//                          @"amount" : [NSDecimalNumber numberWithFloat:20.0f],
+//                          @"subject_type" : @"User",
+//                          @"subject_name" : @"Sean Yu",
+//                          @"subject_id" : @(9),
+//                          @"target_type" : @"User",
+//                          @"target_name" : @"Zach Abrams",
+//                          @"target_id" : @(10),
+//                          @"owner_type" : @"User",
+//                          @"owner_id" : @(14) }];
+//        [array addObject:story];
+//    }
+//    self.newsfeed = array;
+//    [self.tableView reloadData];
+    
+                          
+    
     [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
+        self.newsfeed = newsfeed;
+        [self.tableView reloadData];
         DLog(@"Newsfeed: %@", newsfeed);
     } failure:^(NSError *error) {
         DLog(@"Error: %@", error);
     }];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSInteger count = [self.newsfeed count];
+    return count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [EVStoryCell cellHeight];
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    EVStoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storyCell" forIndexPath:indexPath];
+    [cell setStory:[self.newsfeed objectAtIndex:indexPath.row]];
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];    
+}
 @end

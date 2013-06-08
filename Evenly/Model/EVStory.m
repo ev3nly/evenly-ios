@@ -46,6 +46,49 @@
     [self.owner setDbid:properties[@"owner_id"]];
 }
 
+- (NSAttributedString *)attributedString {
+    CGFloat fontSize = 15;
+    NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
+                                      NSForegroundColorAttributeName : [EVColor newsfeedNounColor] };
+    NSDictionary *copyAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:fontSize],
+                                      NSForegroundColorAttributeName : [EVColor newsfeedTextColor] };
+    NSDictionary *positiveAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
+                                          NSForegroundColorAttributeName : [EVColor lightGreenColor] };
+    NSDictionary *negativeAttributes =  @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
+                                           NSForegroundColorAttributeName : [EVColor lightRedColor] };
+    
+    NSAttributedString *subject = [[NSAttributedString alloc] initWithString:[self.subject name]
+                                                                  attributes:nounAttributes];
+    NSAttributedString *verb = [[NSAttributedString alloc] initWithString:self.verb
+                                                               attributes:copyAttributes];
+    NSAttributedString *target = [[NSAttributedString alloc] initWithString:[self.target name]
+                                                                 attributes:nounAttributes];
+    NSAttributedString *amount = nil;
+    if ([self.amount compare:[NSDecimalNumber zero]] == NSOrderedAscending)
+        amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
+                                                 attributes:negativeAttributes];
+    else if ([self.amount compare:[NSDecimalNumber zero]] == NSOrderedSame)
+        amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
+                                                 attributes:nounAttributes];
+    else
+        amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
+                                                 attributes:positiveAttributes];
+    NSAttributedString *description = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"for %@", self.storyDescription]
+                                                                      attributes:copyAttributes];
+    NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" " attributes:copyAttributes];
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:subject];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:verb];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:target];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:amount];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:description];
+    return attrString;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<EVStory: 0x%x> %@ %@ %@ for %@", (int)self, [self.subject name], self.verb, [self.target name], self.storyDescription];
 }
