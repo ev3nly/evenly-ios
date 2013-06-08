@@ -8,7 +8,8 @@
 
 #import "EVWalletViewController.h"
 #import "EVNavigationManager.h"
-#import "EVWalletCell.h"
+#import "EVWalletItemCell.h"
+#import "EVWalletStamp.h"
 #import "EVPendingExchangeCell.h"
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
@@ -44,7 +45,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.separatorColor = [UIColor clearColor];
     
-    [self.tableView registerClass:[EVWalletCell class] forCellReuseIdentifier:@"cell"];
+    [self.tableView registerClass:[EVWalletItemCell class] forCellReuseIdentifier:@"cell"];
     [self.tableView registerClass:[EVPendingExchangeCell class] forCellReuseIdentifier:@"pendingCell"];
     [self.view addSubview:self.tableView];
     
@@ -122,10 +123,12 @@
         NSString *text = [EVStringUtility stringForExchange:exchange];
         cell.label.text = text;
         [cell.label sizeToFit];
+        
+        
         return cell;
     }
     
-    EVWalletCell *cell = (EVWalletCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    EVWalletItemCell *cell = (EVWalletItemCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     
     NSString *title = nil;
     NSString *value = nil;
@@ -141,6 +144,11 @@
             EVCreditCard *activeCard = [[EVCIA sharedInstance] activeCreditCard];
             if (activeCard) {
                 value = [activeCard lastFour];
+                DLog(@"activeCard brand: %@", activeCard.brand);
+                EVWalletStamp *stamp = [[EVWalletStamp alloc] initWithText:activeCard.brand
+                                                                  maxWidth:100];
+                cell.stamp = stamp;
+
             } else {
                 value = @"none";
             }
@@ -151,7 +159,10 @@
             title = @"Banks";
             EVBankAccount *activeAccount = [[EVCIA sharedInstance] activeBankAccount];
             if (activeAccount) {
-                value = [activeAccount name];
+                value = [[activeAccount accountNumber] substringFromIndex:[activeAccount accountNumber].length - 4];
+                EVWalletStamp *stamp = [[EVWalletStamp alloc] initWithText:activeAccount.bankName
+                                                                  maxWidth:100];
+                cell.stamp = stamp;
             } else {
                 value = @"none";
             }

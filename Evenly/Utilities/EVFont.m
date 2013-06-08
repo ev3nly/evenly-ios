@@ -18,6 +18,10 @@
     return [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
 }
 
++ (UIFont *)blackFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Avenir-Black" size:fontSize];    
+}
+
 + (UIFont *)defaultFont {
     return [UIFont fontWithName:@"Avenir" size:16.0];
 }
