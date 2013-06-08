@@ -11,6 +11,12 @@
 #import "EVPayment.h"
 #import "EVCharge.h"
 
+@interface EVStory ()
+
+@property (nonatomic, assign) EVStoryType storyType;
+
+@end
+
 @implementation EVStory
 
 - (void)setProperties:(NSDictionary *)properties {
@@ -29,7 +35,7 @@
     NSString *subjectClass = [NSString stringWithFormat:@"EV%@", properties[@"subject_type"]];
     self.subject = [[NSClassFromString(subjectClass) alloc] init];
     [self.subject setName:properties[@"subject_name"]];
-    [self.subject setDbid:properties[@"subject_id"]];
+    [self.subject setDbid:[properties[@"subject_id"] stringValue]];
     
     // Target
     if (properties[@"target_type"] != [NSNull null])
@@ -37,13 +43,37 @@
         NSString *targetClass = [NSString stringWithFormat:@"EV%@", properties[@"target_type"]];
         self.target = [[NSClassFromString(targetClass) alloc] init];
         [self.target setName:properties[@"target_name"]];
-        [self.target setDbid:properties[@"target_id"]];
+        [self.target setDbid:[properties[@"target_id"] stringValue]];
     }
     
     // Owner
     NSString *ownerClass = [NSString stringWithFormat:@"EV%@", properties[@"owner_type"]];
     self.owner = [[NSClassFromString(ownerClass) alloc] init];
-    [self.owner setDbid:properties[@"owner_id"]];
+    [self.owner setDbid:[properties[@"owner_id"] stringValue]];
+    
+    EVUser *me = [[EVCIA sharedInstance] me];
+    if (![[self.subject dbid] isEqualToString:me.dbid] && ![[self.target dbid] isEqualToString:me.dbid])
+        self.storyType = EVStoryTypeNotInvolved;
+    else
+    {
+        if ([[self.subject dbid] isEqualToString:me.dbid])
+        {
+            if ([self.verb isEqualToString:@"paid"]) {
+                self.storyType = EVStoryTypeOutgoing;
+            } else if ([self.verb isEqualToString:@"charged"]) {
+                self.storyType = EVStoryTypePendingIncoming;
+            }
+        }
+        else
+        {
+            if ([self.verb isEqualToString:@"paid"]) {
+                self.storyType = EVStoryTypeIncoming;
+            } else if ([self.verb isEqualToString:@"charged"]) {
+                self.storyType = EVStoryTypePendingOutgoing;
+            }
+        }
+    }
+    
 }
 
 - (NSAttributedString *)attributedString {
@@ -64,10 +94,10 @@
     NSAttributedString *target = [[NSAttributedString alloc] initWithString:[self.target name]
                                                                  attributes:nounAttributes];
     NSAttributedString *amount = nil;
-    if ([self.amount compare:[NSDecimalNumber zero]] == NSOrderedAscending)
+    if (self.storyType == EVStoryTypeOutgoing || self.storyType == EVStoryTypePendingOutgoing)
         amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
                                                  attributes:negativeAttributes];
-    else if ([self.amount compare:[NSDecimalNumber zero]] == NSOrderedSame)
+    else if (self.storyType == EVStoryTypeNotInvolved)
         amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
                                                  attributes:nounAttributes];
     else
