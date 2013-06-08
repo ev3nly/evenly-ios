@@ -51,6 +51,10 @@
     self.owner = [[NSClassFromString(ownerClass) alloc] init];
     [self.owner setDbid:[properties[@"owner_id"] stringValue]];
     
+    [self determineStoryType];
+}
+
+- (void)determineStoryType {
     EVUser *me = [[EVCIA sharedInstance] me];
     if (![[self.subject dbid] isEqualToString:me.dbid] && ![[self.target dbid] isEqualToString:me.dbid])
         self.storyType = EVStoryTypeNotInvolved;
@@ -73,7 +77,6 @@
             }
         }
     }
-    
 }
 
 - (NSAttributedString *)attributedString {
