@@ -20,6 +20,8 @@ static EVCIA *_sharedInstance;
 
 @property (nonatomic, strong) NSCache *internalCache;
 @property (nonatomic, strong) EVUser *cachedUser;
+@property (nonatomic, readwrite) BOOL loadingCreditCards;
+@property (nonatomic, readwrite) BOOL loadingBankAccounts;
 
 @end
 
@@ -219,8 +221,9 @@ NSString *const EVCIAUpdatedCreditCardsNotification = @"EVCIAUpdatedCreditCardsN
 }
 
 - (void)reloadCreditCardsWithCompletion:(void (^)(NSArray *creditCards))completion {
+    self.loadingCreditCards = YES;
     [EVCreditCard allWithSuccess:^(id result){
-        
+        self.loadingCreditCards = NO;
         NSArray *cards = [result sortedArrayUsingSelector:@selector(compareByBrandAndLastFour:)];
         NSArray *oldCards = [self creditCards];
         if (![cards isEqualToArray:oldCards])
@@ -233,7 +236,7 @@ NSString *const EVCIAUpdatedCreditCardsNotification = @"EVCIAUpdatedCreditCardsN
         if (completion)
             completion(cards);
     } failure:^(NSError *error){
-        
+        self.loadingCreditCards = NO;
     }];
 }
 
@@ -250,7 +253,9 @@ NSString *const EVCIAUpdatedBankAccountsNotification = @"EVCIAUpdatedBankAccount
 }
 
 - (void)reloadBankAccountsWithCompletion:(void (^)(NSArray *bankAccounts))completion {
+    self.loadingBankAccounts = YES;
     [EVBankAccount allWithSuccess:^(id result){
+        self.loadingBankAccounts = NO;
         NSArray *oldAccounts = [self bankAccounts];
         if (![oldAccounts isEqualToArray:result])
         {
@@ -262,7 +267,7 @@ NSString *const EVCIAUpdatedBankAccountsNotification = @"EVCIAUpdatedBankAccount
         if (completion)
             completion(result);
     } failure:^(NSError *error){
-        
+        self.loadingBankAccounts = NO;
     }];
 }
 
