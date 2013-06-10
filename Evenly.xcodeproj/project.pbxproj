@@ -121,9 +121,9 @@
 		9CCA9017175EA8FC003462DC /* EVSidePanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9016175EA8FC003462DC /* EVSidePanelViewController.m */; };
 		9CCA901A175EBCCC003462DC /* EVAppErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9019175EBCCC003462DC /* EVAppErrorHandler.m */; };
 		9CCA901D175EBD47003462DC /* EVMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA901C175EBD47003462DC /* EVMasterViewController.m */; };
-		9CD306AB1762970300D23852 /* EVStoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306AA1762970300D23852 /* EVStoryCell.m */; };
 		9CD306A5176287E400D23852 /* EVWalletStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306A4176287E400D23852 /* EVWalletStamp.m */; };
 		9CD306A817628E7E00D23852 /* EVWalletItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306A717628E7E00D23852 /* EVWalletItemCell.m */; };
+		9CD306AB1762970300D23852 /* EVStoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306AA1762970300D23852 /* EVStoryCell.m */; };
 		9CE05EF1175942610095CCFC /* JASidePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EEE175942610095CCFC /* JASidePanelController.m */; };
 		9CE05EF2175942610095CCFC /* UIViewController+JASidePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */; };
 		9CE703EA175D1A7200561ADA /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B40174FD95600BE9506 /* SenTestingKit.framework */; };
@@ -167,6 +167,8 @@
 		D01418FF17619675003ED527 /* EVValidatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D01418FD17619675003ED527 /* EVValidatorTest.m */; };
 		D0141901176196B5003ED527 /* EVFundingSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D0141900176196B5003ED527 /* EVFundingSourceTests.m */; };
 		D01419031761AF02003ED527 /* EVBankAccountTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D01419021761AF02003ED527 /* EVBankAccountTests.m */; };
+		D021152F176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = D021152C176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m */; };
+		D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */; };
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
 /* End PBXBuildFile section */
 
@@ -351,12 +353,12 @@
 		9CCA9019175EBCCC003462DC /* EVAppErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAppErrorHandler.m; sourceTree = "<group>"; };
 		9CCA901B175EBD47003462DC /* EVMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMasterViewController.h; sourceTree = "<group>"; };
 		9CCA901C175EBD47003462DC /* EVMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMasterViewController.m; sourceTree = "<group>"; };
-		9CD306A91762970300D23852 /* EVStoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStoryCell.h; sourceTree = "<group>"; };
-		9CD306AA1762970300D23852 /* EVStoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStoryCell.m; sourceTree = "<group>"; };
 		9CD306A3176287E400D23852 /* EVWalletStamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletStamp.h; sourceTree = "<group>"; };
 		9CD306A4176287E400D23852 /* EVWalletStamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletStamp.m; sourceTree = "<group>"; };
 		9CD306A617628E7E00D23852 /* EVWalletItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletItemCell.h; sourceTree = "<group>"; };
 		9CD306A717628E7E00D23852 /* EVWalletItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletItemCell.m; sourceTree = "<group>"; };
+		9CD306A91762970300D23852 /* EVStoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStoryCell.h; sourceTree = "<group>"; };
+		9CD306AA1762970300D23852 /* EVStoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStoryCell.m; sourceTree = "<group>"; };
 		9CE05EED175942610095CCFC /* JASidePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JASidePanelController.h; sourceTree = "<group>"; };
 		9CE05EEE175942610095CCFC /* JASidePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JASidePanelController.m; sourceTree = "<group>"; };
 		9CE05EEF175942610095CCFC /* UIViewController+JASidePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+JASidePanel.h"; sourceTree = "<group>"; };
@@ -419,6 +421,11 @@
 		D01418FD17619675003ED527 /* EVValidatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidatorTest.m; sourceTree = "<group>"; };
 		D0141900176196B5003ED527 /* EVFundingSourceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFundingSourceTests.m; sourceTree = "<group>"; };
 		D01419021761AF02003ED527 /* EVBankAccountTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVBankAccountTests.m; sourceTree = "<group>"; };
+		D021152A176687C30063EE03 /* SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPullToRefresh.h; sourceTree = "<group>"; };
+		D021152B176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVInfiniteScrolling.h"; sourceTree = "<group>"; };
+		D021152C176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVInfiniteScrolling.m"; sourceTree = "<group>"; };
+		D021152D176687C30063EE03 /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
+		D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
 		D02CAB0D1761483500323025 /* EVValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVValidator.h; sourceTree = "<group>"; };
 		D02CAB0E1761483500323025 /* EVValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -945,6 +952,7 @@
 				9CEEB834175526EC00C24C2A /* AESCrypt-ObjC */,
 				9CE05EEC175942610095CCFC /* JASidePanel */,
 				9CEEB840175526EC00C24C2A /* KeychainItemWrapper */,
+				D0211529176687A50063EE03 /* SVPullToRefresh */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -1007,6 +1015,18 @@
 				D01419021761AF02003ED527 /* EVBankAccountTests.m */,
 			);
 			path = ObjectValidation;
+			sourceTree = "<group>";
+		};
+		D0211529176687A50063EE03 /* SVPullToRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				D021152A176687C30063EE03 /* SVPullToRefresh.h */,
+				D021152B176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.h */,
+				D021152C176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m */,
+				D021152D176687C30063EE03 /* UIScrollView+SVPullToRefresh.h */,
+				D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */,
+			);
+			path = SVPullToRefresh;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1354,6 +1374,8 @@
 				9CD306AB1762970300D23852 /* EVStoryCell.m in Sources */,
 				9CD306A5176287E400D23852 /* EVWalletStamp.m in Sources */,
 				9CD306A817628E7E00D23852 /* EVWalletItemCell.m in Sources */,
+				D021152F176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m in Sources */,
+				D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
