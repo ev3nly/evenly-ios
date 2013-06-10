@@ -8,6 +8,12 @@
 
 #import "EVViewController.h"
 
+@class EVFloatingButton;
+
 @interface EVHomeViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) UIView *floatingView;
+@property (nonatomic, strong) EVFloatingButton *requestButton;
+@property (nonatomic, strong) EVFloatingButton *payButton;
 
 @end

@@ -10,6 +10,8 @@
 #import "EVUser.h"
 #import "EVStory.h"
 #import "EVStoryCell.h"
+#import "EVFloatingRequestButton.h"
+#import "EVFloatingPaymentButton.h"
 
 @interface EVHomeViewController ()
 
@@ -40,7 +42,7 @@
     [self loadBalanceLabel];
     [self loadRightBarButtonItem];
     [self loadTableView];
-    [self loadFloatingButton];
+    [self loadFloatingView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
 }
@@ -86,7 +88,22 @@
     [self.view addSubview:self.tableView];
 }
 
-- (void)loadFloatingButton {
+- (void)loadFloatingView {
+    
+    self.requestButton = [[EVFloatingRequestButton alloc] init];
+    self.payButton = [[EVFloatingPaymentButton alloc] init];
+    
+    CGFloat x, y, width, height;
+    y = self.view.frame.size.height - self.requestButton.frame.size.height;
+    width = self.requestButton.frame.size.width + self.payButton.frame.size.width;
+    x = (int)((self.view.frame.size.width - width) / 2.0);
+    height = self.requestButton.frame.size.height;
+    self.floatingView = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    self.floatingView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    [self.floatingView addSubview:self.requestButton];
+    [self.floatingView addSubview:self.payButton];
+    
+    [self.view addSubview:self.floatingView];
     
 }
 
