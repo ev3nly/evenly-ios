@@ -49,7 +49,7 @@ static EVCIA *_sharedInstance;
 }
 
 - (void)didSignIn:(NSNotification *)notification {
-    [self reloadAllWithCompletion:NULL];
+    [self reloadAllExchangesWithCompletion:NULL];
     [self reloadCreditCardsWithCompletion:NULL];
     [self reloadBankAccountsWithCompletion:NULL];
 }
@@ -146,12 +146,26 @@ static EVCIA *_sharedInstance;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+#pragma mark - Exchanges
 
-- (void)reloadAllWithCompletion:(void (^)(void))completion {
+NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotification";
+
+- (void)reloadAllExchangesWithCompletion:(void (^)(void))completion {
     [EVActivity allWithSuccess:^(id result) {
+        
+        BOOL updated = NO;
         for (id key in [result allKeys]) {
-            [self.internalCache setObject:[result objectForKey:key] forKey:key];
+            NSArray *oldResult = [self.internalCache objectForKey:key];
+            if (!oldResult || ![oldResult isEqualToArray:[result objectForKey:key]])
+            {
+                updated = YES;
+                [self.internalCache setObject:[result objectForKey:key] forKey:key];
+            }
         }
+        if (updated)
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
+                                                                object:self
+                                                              userInfo:nil];
     } failure:^(NSError *error) {
         DLog(@"Failed to reload: %@", error);
     }];
@@ -164,7 +178,7 @@ static EVCIA *_sharedInstance;
 }
 
 - (void)reloadPendingReceivedExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
-    [self reloadAllWithCompletion:^{
+    [self reloadAllExchangesWithCompletion:^{
         if (completion)
             completion([self.internalCache objectForKey:@"pending_received"]);
     }];
@@ -175,7 +189,7 @@ static EVCIA *_sharedInstance;
 }
 
 - (void)reloadPendingSentExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
-    [self reloadAllWithCompletion:^{
+    [self reloadAllExchangesWithCompletion:^{
         if (completion)
             completion([self.internalCache objectForKey:@"pending_sent"]);
     }];
@@ -186,13 +200,15 @@ static EVCIA *_sharedInstance;
 }
 
 - (void)reloadHistoryWithCompletion:(void (^)(NSArray *history))completion {
-    [self reloadAllWithCompletion:^{
+    [self reloadAllExchangesWithCompletion:^{
         if (completion)
             completion([self.internalCache objectForKey:@"recent"]);
     }];
 }
 
 #pragma mark - Credit Cards
+
+NSString *const EVCIAUpdatedCreditCardsNotification = @"EVCIAUpdatedCreditCardsNotification";
 
 - (NSArray *)creditCards {
     return [self.internalCache objectForKey:@"credit_cards"];
@@ -206,7 +222,14 @@ static EVCIA *_sharedInstance;
     [EVCreditCard allWithSuccess:^(id result){
         
         NSArray *cards = [result sortedArrayUsingSelector:@selector(compareByBrandAndLastFour:)];
-        [self.internalCache setObject:cards forKey:@"credit_cards"];
+        NSArray *oldCards = [self creditCards];
+        if (![cards isEqualToArray:oldCards])
+        {
+            [self.internalCache setObject:cards forKey:@"credit_cards"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
+                                                                object:self
+                                                              userInfo:@{ @"cards" : cards }];
+        }
         if (completion)
             completion(cards);
     } failure:^(NSError *error){
@@ -215,6 +238,8 @@ static EVCIA *_sharedInstance;
 }
 
 #pragma mark - Bank Accounts
+
+NSString *const EVCIAUpdatedBankAccountsNotification = @"EVCIAUpdatedBankAccountsNotification";
 
 - (NSArray *)bankAccounts {
     return [self.internalCache objectForKey:@"bank_accounts"];
@@ -226,7 +251,14 @@ static EVCIA *_sharedInstance;
 
 - (void)reloadBankAccountsWithCompletion:(void (^)(NSArray *bankAccounts))completion {
     [EVBankAccount allWithSuccess:^(id result){
-        [self.internalCache setObject:result forKey:@"bank_accounts"];
+        NSArray *oldAccounts = [self bankAccounts];
+        if (![oldAccounts isEqualToArray:result])
+        {
+            [self.internalCache setObject:result forKey:@"bank_accounts"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedBankAccountsNotification
+                                                                object:self
+                                                              userInfo:@{ @"accounts" : result }];
+        }
         if (completion)
             completion(result);
     } failure:^(NSError *error){

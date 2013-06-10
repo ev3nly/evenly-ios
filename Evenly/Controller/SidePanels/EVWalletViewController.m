@@ -61,7 +61,7 @@
     [super viewWillAppear:animated];
     DLog(@"View will appear");
     
-    [[EVCIA sharedInstance] reloadAllWithCompletion:^{
+    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
         DLog(@"Pending exchanges: %@", [self pendingExchanges]);
         [self.tableView reloadData];
     }];
