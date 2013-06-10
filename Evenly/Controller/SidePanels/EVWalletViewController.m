@@ -55,23 +55,62 @@
     self.pendingHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     self.pendingHeader.label.text = @"PENDING";
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(exchangesDidUpdate:)
+                                                 name:EVCIAUpdatedExchangesNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(creditCardsDidUpdate:)
+                                                 name:EVCIAUpdatedCreditCardsNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(bankAccountsDidUpdate:)
+                                                 name:EVCIAUpdatedBankAccountsNotification
+                                               object:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    DLog(@"View will appear");
-    
-    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
-        DLog(@"Pending exchanges: %@", [self pendingExchanges]);
-        [self.tableView reloadData];
-    }];
-    [[EVCIA sharedInstance] reloadBankAccountsWithCompletion:^(NSArray *bankAccounts) {
-        [self.tableView reloadData];
-    }];
-    
-    [[EVCIA sharedInstance] reloadCreditCardsWithCompletion:^(NSArray *creditCards) {
-        [self.tableView reloadData];
-    }];
+- (void)exchangesDidUpdate:(NSNotification *)notification {
+    if ([self hasPendingExchanges])
+    {
+        if ([self.tableView numberOfSections] == 1)
+        {
+            [self.tableView beginUpdates];
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:EVWalletSectionPending] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView endUpdates];
+        }
+        else
+        {
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:EVWalletSectionPending] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+    }
+    else
+    {
+        if ([self.tableView numberOfSections] == 2)
+        {
+            [self.tableView beginUpdates];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:EVWalletSectionPending] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView endUpdates];
+        }
+    }
+}
+
+- (void)creditCardsDidUpdate:(NSNotification *)notification {
+    NSInteger sectionIndex = ([self hasPendingExchanges] ? 1 : 0);
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowCards
+                                                                 inSection:sectionIndex] ]
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
+}
+
+- (void)bankAccountsDidUpdate:(NSNotification *)notification {
+    NSInteger sectionIndex = ([self hasPendingExchanges] ? 1 : 0);
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowBanks
+                                                                 inSection:sectionIndex] ]
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
+
 }
 
 - (NSArray *)pendingExchanges {
