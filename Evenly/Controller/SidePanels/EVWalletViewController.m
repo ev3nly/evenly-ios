@@ -92,6 +92,14 @@
             [self.tableView endUpdates];
         }
     }
+    
+    // Reload History cell.
+    NSInteger sectionIndex = ([self hasPendingExchanges] ? 1 : 0);
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowHistory
+                                                                 inSection:sectionIndex] ]
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
 }
 
 - (void)creditCardsDidUpdate:(NSNotification *)notification {
@@ -180,30 +188,44 @@
         {
             
             title = @"Cards";
-            EVCreditCard *activeCard = [[EVCIA sharedInstance] activeCreditCard];
-            if (activeCard) {
-                value = [activeCard lastFour];
-                DLog(@"activeCard brand: %@", activeCard.brand);
-                EVWalletStamp *stamp = [[EVWalletStamp alloc] initWithText:activeCard.brand
-                                                                  maxWidth:100];
-                cell.stamp = stamp;
-
-            } else {
-                value = @"none";
+            if ([[EVCIA sharedInstance] loadingCreditCards])
+            {
+                value = @"loading...";
+            }
+            else
+            {
+                EVCreditCard *activeCard = [[EVCIA sharedInstance] activeCreditCard];
+                if (activeCard) {
+                    value = [activeCard lastFour];
+                    DLog(@"activeCard brand: %@", activeCard.brand);
+                    EVWalletStamp *stamp = [[EVWalletStamp alloc] initWithText:activeCard.brand
+                                                                      maxWidth:100];
+                    cell.stamp = stamp;
+                    
+                } else {
+                    value = @"none";
+                }
             }
             break;
         }
         case EVWalletRowBanks:
         {
             title = @"Banks";
-            EVBankAccount *activeAccount = [[EVCIA sharedInstance] activeBankAccount];
-            if (activeAccount) {
-                value = [[activeAccount accountNumber] substringFromIndex:[activeAccount accountNumber].length - 4];
-                EVWalletStamp *stamp = [[EVWalletStamp alloc] initWithText:activeAccount.bankName
-                                                                  maxWidth:100];
-                cell.stamp = stamp;
-            } else {
-                value = @"none";
+            if ([[EVCIA sharedInstance] loadingBankAccounts])
+            {
+                value = @"loading...";
+            }
+            else
+            {
+                EVBankAccount *activeAccount = [[EVCIA sharedInstance] activeBankAccount];
+                if (activeAccount) {
+                    value = [[activeAccount accountNumber] substringFromIndex:[activeAccount accountNumber].length - 4];
+                    EVWalletStamp *stamp = [[EVWalletStamp alloc] initWithText:activeAccount.bankName
+                                                                      maxWidth:100];
+                    cell.stamp = stamp;
+                } else {
+                    value = @"none";
+                }
             }
             break;
         }
