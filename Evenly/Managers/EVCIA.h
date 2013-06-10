@@ -25,22 +25,35 @@
 
 + (instancetype)sharedInstance;
 
-- (void)reloadAllWithCompletion:(void (^)(void))completion;
+#pragma mark - Exchanges
+
+extern NSString *const EVCIAUpdatedExchangesNotification;
+
+- (void)reloadAllExchangesWithCompletion:(void (^)(void))completion;
 
 - (NSArray *)pendingReceivedExchanges;
-- (void)reloadPendingReceivedExchangesWithCompletion:(void (^)(NSArray *exchanges))completion;
-
 - (NSArray *)pendingSentExchanges;
-- (void)reloadPendingSentExchangesWithCompletion:(void (^)(NSArray *exchanges))completion;
-
 - (NSArray *)history;
+
+- (void)reloadPendingReceivedExchangesWithCompletion:(void (^)(NSArray *exchanges))completion;
+- (void)reloadPendingSentExchangesWithCompletion:(void (^)(NSArray *exchanges))completion;
 - (void)reloadHistoryWithCompletion:(void (^)(NSArray *history))completion;
+
+#pragma mark - Credit Cards
+
+extern NSString *const EVCIAUpdatedCreditCardsNotification;
+
+- (void)reloadCreditCardsWithCompletion:(void (^)(NSArray *creditCards))completion;
 
 - (NSArray *)creditCards;
 - (EVCreditCard *)activeCreditCard;
-- (void)reloadCreditCardsWithCompletion:(void (^)(NSArray *creditCards))completion;
+
+#pragma mark - Bank Accounts
+
+extern NSString *const EVCIAUpdatedBankAccountsNotification;
 
 - (NSArray *)bankAccounts;
+
 - (EVBankAccount *)activeBankAccount;
 - (void)reloadBankAccountsWithCompletion:(void (^)(NSArray *bankAccounts))completion;
 
