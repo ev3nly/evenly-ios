@@ -44,7 +44,7 @@ extern NSString *const EVCIAUpdatedExchangesNotification;
 extern NSString *const EVCIAUpdatedCreditCardsNotification;
 
 - (void)reloadCreditCardsWithCompletion:(void (^)(NSArray *creditCards))completion;
-
+@property (nonatomic, readonly) BOOL loadingCreditCards;
 - (NSArray *)creditCards;
 - (EVCreditCard *)activeCreditCard;
 
@@ -52,9 +52,9 @@ extern NSString *const EVCIAUpdatedCreditCardsNotification;
 
 extern NSString *const EVCIAUpdatedBankAccountsNotification;
 
-- (NSArray *)bankAccounts;
-
-- (EVBankAccount *)activeBankAccount;
 - (void)reloadBankAccountsWithCompletion:(void (^)(NSArray *bankAccounts))completion;
+@property (nonatomic, readonly) BOOL loadingBankAccounts;
+- (NSArray *)bankAccounts;
+- (EVBankAccount *)activeBankAccount;
 
 @end

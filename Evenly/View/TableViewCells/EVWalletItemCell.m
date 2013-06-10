@@ -41,6 +41,15 @@
     return self;
 }
 
+- (void)setStamp:(EVWalletStamp *)stamp {
+    if (_stamp) {
+        [_stamp removeFromSuperview];
+        _stamp = nil;
+    }
+    _stamp = stamp;
+    [self setNeedsLayout];
+}
+
 
 - (void)layoutSubviews {
     [self.titleLabel sizeToFit];
