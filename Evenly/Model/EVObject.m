@@ -109,13 +109,6 @@ static NSDateFormatter *_dateFormatter = nil;
             [[EVCIA sharedInstance] cacheObject:self];
         }
     }
-    
-//    self = [super init];
-//    if (self) {
-//        _originalDictionary = dictionary;
-//        [self configureAutomaticPropertyValidation];
-//        [self setProperties:dictionary];
-//    }
     return self;
 }
 
