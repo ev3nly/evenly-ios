@@ -109,7 +109,7 @@
     CGFloat x, y, width, height;
     y = self.view.frame.size.height - self.requestButton.frame.size.height;
     width = self.requestButton.frame.size.width + self.payButton.frame.size.width;
-    x = (int)((self.view.frame.size.width - width) / 2.0);
+    x = (int)((self.view.frame.size.width - width) / 2.0) + 1;
     height = self.requestButton.frame.size.height;
     self.floatingView = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, height)];
     self.floatingView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
@@ -118,6 +118,7 @@
     
     [self.view addSubview:self.floatingView];
     
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.floatingView.frame.size.height, 0);
 }
 
 - (void)configurePullToRefresh {
