@@ -10,4 +10,8 @@
 
 @interface EVViewController : UIViewController
 
+@property (nonatomic, readonly) UILabel *titleLabel;
+
+- (void)loadTitleLabel;
+
 @end
