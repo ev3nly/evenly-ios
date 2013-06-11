@@ -10,6 +10,8 @@
 #import "EVUser.h"
 #import "EVStory.h"
 #import "EVStoryCell.h"
+#import "EVFloatingRequestButton.h"
+#import "EVFloatingPaymentButton.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 
@@ -44,7 +46,7 @@
     [self loadBalanceLabel];
     [self loadRightBarButtonItem];
     [self loadTableView];
-    [self loadFloatingButton];
+    [self loadFloatingView];
     [self configurePullToRefresh];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
@@ -91,7 +93,28 @@
     [self.view addSubview:self.tableView];
 }
 
-- (void)loadFloatingButton {
+- (void)loadFloatingView {
+    
+    self.requestButton = [[EVFloatingRequestButton alloc] init];
+    [self.requestButton addTarget:self
+                           action:@selector(requestButtonPress:)
+                 forControlEvents:UIControlEventTouchUpInside];
+    self.payButton = [[EVFloatingPaymentButton alloc] init];
+    [self.payButton addTarget:self
+                           action:@selector(payButtonPress:)
+                 forControlEvents:UIControlEventTouchUpInside];
+    
+    CGFloat x, y, width, height;
+    y = self.view.frame.size.height - self.requestButton.frame.size.height;
+    width = self.requestButton.frame.size.width + self.payButton.frame.size.width;
+    x = (int)((self.view.frame.size.width - width) / 2.0);
+    height = self.requestButton.frame.size.height;
+    self.floatingView = [[UIView alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    self.floatingView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    [self.floatingView addSubview:self.requestButton];
+    [self.floatingView addSubview:self.payButton];
+    
+    [self.view addSubview:self.floatingView];
     
 }
 
@@ -147,7 +170,15 @@
     }];
 }
 
+#pragma mark - Button Actions
 
+- (void)requestButtonPress:(id)sender {
+    
+}
+
+- (void)payButtonPress:(id)sender {
+    
+}
 
 #pragma mark - UITableViewDataSource
 
