@@ -10,6 +10,20 @@
 
 @implementation EVColor
 
++ (UIColor *)creamColor {
+    return EV_RGB_COLOR(0.9765, 0.9686, 0.9647);
+}
+
++ (UIColor *)lightGreenColor {
+    return EV_RGB_COLOR(0.1294, 0.7490, 0.6784);
+}
+
++ (UIColor *)lightRedColor {
+    return EV_RGB_COLOR(0.9882, 0.4157, 0.3373);
+}
+
+#pragma mark - Side Panels
+
 + (UIColor *)sidePanelBackgroundColor {
     return EV_RGB_COLOR(0.1412, 0.1765, 0.1961);
 }
@@ -22,9 +36,7 @@
     return EV_RGB_COLOR(0.1804, 0.2118, 0.2314);
 }
 
-+ (UIColor *)creamColor {
-    return EV_RGB_COLOR(0.9765, 0.9686, 0.9647);
-}
+#pragma mark - Newsfeed
 
 + (UIColor *)newsfeedStripeColor {
     return EV_RGB_COLOR(0.9020, 0.8941, 0.8902);
@@ -38,16 +50,12 @@
     return EV_RGB_COLOR(0.6, 0.5882, 0.5804);
 }
 
-+ (UIColor *)newsfeedDateLabelColor {
++ (UIColor *)newsfeedButtonLabelColor {
     return EV_RGB_COLOR(0.5686, 0.5647, 0.5569);
 }
 
-+ (UIColor *)lightGreenColor {
-    return EV_RGB_COLOR(0.1294, 0.7490, 0.6784);
-}
-
-+ (UIColor *)lightRedColor {	
-    return EV_RGB_COLOR(0.9882, 0.4157, 0.3373);
++ (UIColor *)newsfeedButtonHighlightColor {
+    return EV_RGB_COLOR(0.9725, 0.9725, 0.9725);
 }
 
 @end

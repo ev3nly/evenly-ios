@@ -8,7 +8,7 @@
 
 #import "EVStoryCell.h"
 #import "EVStory.h"
-#import "EVAvatarView.h"
+
 #import <FormatterKit/TTTTimeIntervalFormatter.h>
 
 #define EV_STORY_CELL_BACKGROUND_MARGIN 12.0
@@ -60,7 +60,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
         [self loadStoryLabel];
         [self loadRules];
         [self loadDateLabel];
-//        [self loadLikeButton];
+        [self loadLikeButton];
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
@@ -75,6 +75,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
                                                 EV_STORY_CELL_BACKGROUND_MARGIN,
                                                 image.size.width,
                                                 image.size.height);
+    self.tombstoneBackground.userInteractionEnabled = YES;
     [self.contentView addSubview:self.tombstoneBackground];
 }
 
@@ -119,9 +120,29 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
                                                                self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y)];
     self.dateLabel.textAlignment = NSTextAlignmentCenter;
     self.dateLabel.font = [EVFont boldFontOfSize:14];
-    self.dateLabel.textColor = [EVColor newsfeedDateLabelColor];
+    self.dateLabel.textColor = [EVColor newsfeedButtonLabelColor];
     self.dateLabel.backgroundColor = [UIColor clearColor];
     [self.tombstoneBackground addSubview:self.dateLabel];
+}
+
+- (void)loadLikeButton {
+    CGRect rect = CGRectMake(EV_STORY_CELL_VERTICAL_RULE_X,
+                             EV_STORY_CELL_HORIZONTAL_RULE_Y,
+                             EV_STORY_CELL_VERTICAL_RULE_X,
+                             self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
+    rect = CGRectInset(rect, 1, 1);
+    self.likeButton = [[EVLikeButton alloc] initWithFrame:rect];
+    [self.likeButton setTitle:@"Like"];
+    [self.likeButton addTarget:self action:@selector(likeButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [self.tombstoneBackground addSubview:self.likeButton];
+}
+
+- (void)likeButtonPress:(id)sender {
+    self.likeButton.selected = !self.likeButton.selected;
+    if (self.likeButton.selected)
+        [self.likeButton setTitle:@"You like this"];
+    else
+        [self.likeButton setTitle:@"Like"];
 }
 
 - (void)setStory:(EVStory *)story {
