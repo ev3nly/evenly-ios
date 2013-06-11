@@ -19,6 +19,7 @@
 + (UIColor *)newsfeedStripeColor;
 + (UIColor *)newsfeedNounColor;
 + (UIColor *)newsfeedTextColor;
++ (UIColor *)newsfeedDateLabelColor;
 
 + (UIColor *)lightGreenColor;
 + (UIColor *)lightRedColor;

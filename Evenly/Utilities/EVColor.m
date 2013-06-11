@@ -38,11 +38,15 @@
     return EV_RGB_COLOR(0.6, 0.5882, 0.5804);
 }
 
++ (UIColor *)newsfeedDateLabelColor {
+    return EV_RGB_COLOR(0.5686, 0.5647, 0.5569);
+}
+
 + (UIColor *)lightGreenColor {
     return EV_RGB_COLOR(0.1294, 0.7490, 0.6784);
 }
 
-+ (UIColor *)lightRedColor {
++ (UIColor *)lightRedColor {	
     return EV_RGB_COLOR(0.9882, 0.4157, 0.3373);
 }
 

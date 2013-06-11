@@ -19,6 +19,6 @@
 @property (nonatomic, strong) UIImageView *typeIndicator;
 @property (nonatomic, strong) EVAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *storyLabel;
-@property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UILabel *dateLabel;
 
 @end
