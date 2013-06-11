@@ -12,6 +12,8 @@
 #import "EVStoryCell.h"
 #import "EVFloatingRequestButton.h"
 #import "EVFloatingPaymentButton.h"
+#import "UIScrollView+SVPullToRefresh.h"
+#import "UIScrollView+SVInfiniteScrolling.h"
 
 @interface EVHomeViewController ()
 
@@ -20,6 +22,8 @@
 @property (nonatomic, strong) UILabel *balanceLabel;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *newsfeed;
+
+- (void)configurePullToRefresh;
 
 @end
 
@@ -43,6 +47,7 @@
     [self loadRightBarButtonItem];
     [self loadTableView];
     [self loadFloatingView];
+    [self configurePullToRefresh];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
 }
@@ -113,10 +118,18 @@
     
 }
 
+- (void)configurePullToRefresh {
+    __block EVHomeViewController *homeController = self;
+    
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [homeController reloadNewsFeed];
+    }];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self reloadNewsFeed];
 
+    [self reloadNewsFeed];
 }
 
 - (void)didSignIn:(NSNotification *)notification {
@@ -150,6 +163,7 @@
     [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
         self.newsfeed = newsfeed;
         [self.tableView reloadData];
+        [self.tableView.pullToRefreshView stopAnimating];
         DLog(@"Newsfeed: %@", newsfeed);
     } failure:^(NSError *error) {
         DLog(@"Error: %@", error);

@@ -176,6 +176,8 @@
 		D01418FF17619675003ED527 /* EVValidatorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D01418FD17619675003ED527 /* EVValidatorTest.m */; };
 		D0141901176196B5003ED527 /* EVFundingSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D0141900176196B5003ED527 /* EVFundingSourceTests.m */; };
 		D01419031761AF02003ED527 /* EVBankAccountTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D01419021761AF02003ED527 /* EVBankAccountTests.m */; };
+		D021152F176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = D021152C176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m */; };
+		D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */; };
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
 /* End PBXBuildFile section */
 
@@ -440,6 +442,11 @@
 		D01418FD17619675003ED527 /* EVValidatorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidatorTest.m; sourceTree = "<group>"; };
 		D0141900176196B5003ED527 /* EVFundingSourceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFundingSourceTests.m; sourceTree = "<group>"; };
 		D01419021761AF02003ED527 /* EVBankAccountTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVBankAccountTests.m; sourceTree = "<group>"; };
+		D021152A176687C30063EE03 /* SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVPullToRefresh.h; sourceTree = "<group>"; };
+		D021152B176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVInfiniteScrolling.h"; sourceTree = "<group>"; };
+		D021152C176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVInfiniteScrolling.m"; sourceTree = "<group>"; };
+		D021152D176687C30063EE03 /* UIScrollView+SVPullToRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+SVPullToRefresh.h"; sourceTree = "<group>"; };
+		D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
 		D02CAB0D1761483500323025 /* EVValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVValidator.h; sourceTree = "<group>"; };
 		D02CAB0E1761483500323025 /* EVValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidator.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -986,6 +993,7 @@
 				9CEEB834175526EC00C24C2A /* AESCrypt-ObjC */,
 				9CE05EEC175942610095CCFC /* JASidePanel */,
 				9CEEB840175526EC00C24C2A /* KeychainItemWrapper */,
+				D0211529176687A50063EE03 /* SVPullToRefresh */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -1048,6 +1056,18 @@
 				D01419021761AF02003ED527 /* EVBankAccountTests.m */,
 			);
 			path = ObjectValidation;
+			sourceTree = "<group>";
+		};
+		D0211529176687A50063EE03 /* SVPullToRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				D021152A176687C30063EE03 /* SVPullToRefresh.h */,
+				D021152B176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.h */,
+				D021152C176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m */,
+				D021152D176687C30063EE03 /* UIScrollView+SVPullToRefresh.h */,
+				D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */,
+			);
+			path = SVPullToRefresh;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1404,6 +1424,8 @@
 				9C2684B9176683BB00AEA624 /* EVFloatingButton.m in Sources */,
 				9C2684BC176683CB00AEA624 /* EVFloatingRequestButton.m in Sources */,
 				9C2684BF176683D600AEA624 /* EVFloatingPaymentButton.m in Sources */,
+				D021152F176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m in Sources */,
+				D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
