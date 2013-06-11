@@ -37,4 +37,6 @@
 
 + (EVFundingSource *)activeFundingSourceFromArray:(NSArray *)array;
 
++ (NSString *)dbidFromDictionary:(NSDictionary *)dictionary;
+
 @end

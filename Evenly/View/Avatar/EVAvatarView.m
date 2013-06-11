@@ -9,6 +9,8 @@
 #import "EVAvatarView.h"
 #import <QuartzCore/QuartzCore.h>
 
+static void *EVAvatarViewContext = &EVAvatarViewContext;
+
 @interface EVAvatarView ()
 
 @property (nonatomic, strong) UIImageView *imageView;
@@ -34,6 +36,7 @@
         
         self.imageView = [[UIImageView alloc] initWithFrame:self.bounds];
         self.imageView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+        self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:self.imageView];
         
         CGSize avatarSize = [[self class] avatarSize];
@@ -46,6 +49,32 @@
         
     }
     return self;
+}
+
+- (void)dealloc {
+    [_avatarOwner removeObserver:self
+                      forKeyPath:@"avatar"
+                         context:&EVAvatarViewContext];
+}
+
+- (void)setAvatarOwner:(id<EVAvatarOwning>)avatarOwner {
+    [_avatarOwner removeObserver:self
+                      forKeyPath:@"avatar"
+                         context:&EVAvatarViewContext];
+    _avatarOwner = avatarOwner;
+    self.imageView.image = _avatarOwner.avatar;
+    [_avatarOwner addObserver:self
+                   forKeyPath:@"avatar"
+                      options:NSKeyValueObservingOptionNew
+                      context:&EVAvatarViewContext];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if (context != &EVAvatarViewContext) {
+		[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+		return;
+	}
+    self.imageView.image = _avatarOwner.avatar;
 }
 
 - (void)setImage:(UIImage *)image {
