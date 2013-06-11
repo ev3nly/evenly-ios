@@ -9,7 +9,8 @@
 #import "EVFloatingPaymentButton.h"
 
 #define EV_FLOATING_PAYMENT_BUTTON_TEXT_MARGIN 12.0
-#define EV_FLOATING_PAYMENT_BUTTON_ARROW_MARGIN 25.0
+#define EV_FLOATING_PAYMENT_BUTTON_ARROW_MARGIN 20.0
+#define EV_FLOATING_PAYMENT_BUTTON_DROP_SHADOW_OFFSET 4.0
 
 @implementation EVFloatingPaymentButton
 
@@ -39,13 +40,13 @@
     x = EV_FLOATING_PAYMENT_BUTTON_TEXT_MARGIN;
     width = self.label.frame.size.width;
     height = self.label.frame.size.height;
-    y = (int)((self.frame.size.height - height) / 2.0);
+    y = (int)((self.frame.size.height - height) / 2.0) - EV_FLOATING_PAYMENT_BUTTON_DROP_SHADOW_OFFSET;
     self.label.frame = CGRectMake(x, y, width, height);
 
     width = self.arrowImageView.image.size.width;
     x = self.frame.size.width - EV_FLOATING_PAYMENT_BUTTON_ARROW_MARGIN - width;
     height = self.arrowImageView.image.size.height;
-    y = (int)((self.frame.size.height - height) / 2.0) - 10.0;
+    y = (int)((self.frame.size.height - height) / 2.0) - EV_FLOATING_PAYMENT_BUTTON_DROP_SHADOW_OFFSET;
     self.arrowImageView.frame = CGRectMake(x, y, width, height);
 }
 

@@ -10,8 +10,10 @@
 
 @implementation EVFloatingRequestButton
 
-#define EV_FLOATING_REQUEST_BUTTON_ARROW_MARGIN 14.0
+#define EV_FLOATING_REQUEST_BUTTON_ARROW_MARGIN 20.0
 #define EV_FLOATING_REQUEST_BUTTON_TEXT_MARGIN 12.0
+#define EV_FLOATING_REQUEST_BUTTON_DROP_SHADOW_OFFSET 4.0
+
 
 - (id)init
 {
@@ -37,7 +39,7 @@
     x = EV_FLOATING_REQUEST_BUTTON_ARROW_MARGIN;
     width = self.arrowImageView.image.size.width;
     height = self.arrowImageView.image.size.height;
-    y = (int)((self.frame.size.height - height) / 2.0);
+    y = (int)((self.frame.size.height - height) / 2.0) - EV_FLOATING_REQUEST_BUTTON_DROP_SHADOW_OFFSET;
     self.arrowImageView.frame = CGRectMake(x, y, width, height);
     
     [self.label sizeToFit];
@@ -45,7 +47,7 @@
     x = self.frame.size.width - EV_FLOATING_REQUEST_BUTTON_TEXT_MARGIN - self.label.frame.size.width;
     width = self.label.frame.size.width;
     height = self.label.frame.size.height;
-    y = (int)((self.frame.size.height - height) / 2.0);
+    y = (int)((self.frame.size.height - height) / 2.0) - EV_FLOATING_REQUEST_BUTTON_DROP_SHADOW_OFFSET;
     self.label.frame = CGRectMake(x, y, width, height);
 }
 

@@ -20,7 +20,7 @@
         self.label = [[UILabel alloc] initWithFrame:self.bounds];
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = [UIColor whiteColor];
-        self.label.font = [EVFont blackFontOfSize:14];
+        self.label.font = [EVFont blackFontOfSize:13];
         [self addSubview:self.label];
     }
     return self;
