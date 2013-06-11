@@ -91,7 +91,13 @@
 - (void)loadFloatingView {
     
     self.requestButton = [[EVFloatingRequestButton alloc] init];
+    [self.requestButton addTarget:self
+                           action:@selector(requestButtonPress:)
+                 forControlEvents:UIControlEventTouchUpInside];
     self.payButton = [[EVFloatingPaymentButton alloc] init];
+    [self.payButton addTarget:self
+                           action:@selector(payButtonPress:)
+                 forControlEvents:UIControlEventTouchUpInside];
     
     CGFloat x, y, width, height;
     y = self.view.frame.size.height - self.requestButton.frame.size.height;
@@ -150,7 +156,15 @@
     }];
 }
 
+#pragma mark - Button Actions
 
+- (void)requestButtonPress:(id)sender {
+    
+}
+
+- (void)payButtonPress:(id)sender {
+    
+}
 
 #pragma mark - UITableViewDataSource
 
