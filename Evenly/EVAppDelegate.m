@@ -100,8 +100,6 @@
 
 - (void)setUpAppearance {
     [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Header"] forBarMetrics:UIBarMetricsDefault];
-    
-    [[UILabel appearance] setBackgroundColor:[UIColor clearColor]];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
