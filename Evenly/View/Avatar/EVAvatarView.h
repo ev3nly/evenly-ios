@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVUser.h"
 
 @interface EVAvatarView : UIView
 
 + (CGSize)avatarSize;
 
+@property (nonatomic, weak) NSObject<EVAvatarOwning> *avatarOwner;
 @property (nonatomic, strong) UIImage *image;
 
 @end

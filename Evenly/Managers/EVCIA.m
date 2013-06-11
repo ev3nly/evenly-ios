@@ -7,6 +7,7 @@
 //
 
 #import "EVCIA.h"
+#import "EVObject.h"
 #import "EVActivity.h"
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
@@ -147,6 +148,25 @@ static EVCIA *_sharedInstance;
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
+#pragma mark - Data Caching
+
+- (NSString *)cacheStringFromClassName:(NSString *)className dbid:(NSString *)dbid {
+    return [NSString stringWithFormat:@"%@_%@", className, dbid];
+}
+
+- (NSString *)cacheStringFromObject:(EVObject *)object {
+    return [self cacheStringFromClassName:NSStringFromClass([object class]) dbid:[object dbid]];
+}
+
+- (EVObject *)cachedObjectWithClassName:(NSString *)className dbid:(NSString *)dbid {
+    return [self.internalCache objectForKey:[self cacheStringFromClassName:className dbid:dbid]];
+}
+
+- (void)cacheObject:(EVObject *)object {
+    [self.internalCache setObject:object forKey:[self cacheStringFromObject:object]];
+}
+
 
 #pragma mark - Exchanges
 
