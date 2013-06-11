@@ -186,6 +186,7 @@
 		D021152F176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = D021152C176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m */; };
 		D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */; };
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
+		D03F1E1C1767BB070067A428 /* EVExchangeFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -466,6 +467,8 @@
 		D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
 		D02CAB0D1761483500323025 /* EVValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVValidator.h; sourceTree = "<group>"; };
 		D02CAB0E1761483500323025 /* EVValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidator.m; sourceTree = "<group>"; };
+		D03F1E1A1767BB070067A428 /* EVExchangeFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeFormView.h; sourceTree = "<group>"; };
+		D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeFormView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -922,6 +925,7 @@
 			children = (
 				9CFDBAAE17625F6900D4E36C /* Avatar */,
 				9C2684B6176683B100AEA624 /* Buttons */,
+				D03F1E191767BAEF0067A428 /* Exchanges */,
 				9CB285C5176164E1009B26BB /* TableViewCells */,
 			);
 			path = View;
@@ -1103,6 +1107,15 @@
 				D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */,
 			);
 			path = SVPullToRefresh;
+			sourceTree = "<group>";
+		};
+		D03F1E191767BAEF0067A428 /* Exchanges */ = {
+			isa = PBXGroup;
+			children = (
+				D03F1E1A1767BB070067A428 /* EVExchangeFormView.h */,
+				D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */,
+			);
+			path = Exchanges;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1468,6 +1481,7 @@
 				9C778DE017679AA70053F9D6 /* EVNavigationBarButton.m in Sources */,
 				9CE76DBD17679BDC005953C8 /* EVExchangeViewController.m in Sources */,
 				9CE76DC01767A92F005953C8 /* EVLikeButton.m in Sources */,
+				D03F1E1C1767BB070067A428 /* EVExchangeFormView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -172,7 +172,8 @@
 }
 
 - (void)payButtonPress:(id)sender {
-    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVExchangeViewController alloc] init]];
+    [self presentViewController:navController animated:YES completion:NULL];    
 }
 
 #pragma mark - UITableViewDataSource
