@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EVExchangeFormView : UIView
+@interface EVExchangeFormView : UIView <UITextFieldDelegate, UITextViewDelegate>
 
 @end

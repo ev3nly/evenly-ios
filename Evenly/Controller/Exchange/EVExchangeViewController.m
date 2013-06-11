@@ -26,7 +26,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -54,10 +54,9 @@
 
 - (void)loadFormView {
     CGRect formRect = self.view.bounds;
-    formRect.size.height -= KEYBOARD_HEIGHT - 44;
+    formRect.size.height -= (KEYBOARD_HEIGHT + 44);
     
     EVExchangeFormView *formView = [[EVExchangeFormView alloc] initWithFrame:formRect];
-    formView.backgroundColor = [UIColor blueColor];
     [self.view addSubview:formView];
 }
 
