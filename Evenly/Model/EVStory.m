@@ -122,6 +122,25 @@
     return attrString;
 }
 
+- (NSString *)likeButtonString {
+    NSString *string = nil;
+    if (self.liked)
+    {
+        if (self.likeCount == 0)
+            string = @"You like this";
+        else
+            string = [NSString stringWithFormat:@"You + %d", self.likeCount];
+    }
+    else
+    {
+        if (self.likeCount == 0)
+            string = @"Like";
+        else
+            string = EV_STRING_FROM_INT(self.likeCount);
+    }
+    return string;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<EVStory: 0x%x> %@ %@ %@ for %@", (int)self, [self.subject name], self.verb, [self.target name], self.storyDescription];
 }
