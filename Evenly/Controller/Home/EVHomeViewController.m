@@ -12,6 +12,8 @@
 #import "EVStoryCell.h"
 #import "EVFloatingRequestButton.h"
 #import "EVFloatingPaymentButton.h"
+#import "EVExchangeViewController.h"
+
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 
@@ -173,7 +175,8 @@
 #pragma mark - Button Actions
 
 - (void)requestButtonPress:(id)sender {
-    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVExchangeViewController alloc] init]];
+    [self presentViewController:navController animated:YES completion:NULL];
 }
 
 - (void)payButtonPress:(id)sender {
