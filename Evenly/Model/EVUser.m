@@ -37,6 +37,13 @@ static EVUser *_me;
 @implementation EVUser
 
 @synthesize avatar;
+@synthesize avatarURL;
+
+- (id)initWithDictionary:(NSDictionary *)dictionary {
+    if ([[EVUtilities dbidFromDictionary:dictionary] isEqualToString:_me.dbid])
+        return _me;
+    return [super initWithDictionary:dictionary];
+}
 
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
@@ -83,7 +90,7 @@ static EVUser *_me;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"User %@: %@ (balance: %@)", self.dbid, self.name, [self.balance description]];
+    return [NSString stringWithFormat:@"<0x%x> User %@: %@ (balance: %@)", (int)self, self.dbid, self.name, [self.balance description]];
 }
 
 + (EVUser *)me {
@@ -201,7 +208,6 @@ static EVUser *_me;
                                                                                       failure(error);
                                                                               }];
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
-
 }
 
 #pragma mark Images
@@ -269,6 +275,7 @@ static EVUser *_me;
 @implementation EVContact
 
 @synthesize avatar;
+@synthesize avatarURL;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];

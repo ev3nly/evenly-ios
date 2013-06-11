@@ -145,6 +145,9 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 - (void)setStory:(EVStory *)story {
     _story = story;
+    DLog(@"Story subject: %@", [story subject]);
+    [self.avatarView setAvatarOwner:[story subject]];
+    
     self.storyLabel.attributedText = [story attributedString];
     self.dateLabel.text = [_timeIntervalFormatter stringForTimeIntervalFromDate:[NSDate date]
                                                                          toDate:[story createdAt]];

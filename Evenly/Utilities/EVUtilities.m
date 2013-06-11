@@ -41,4 +41,13 @@
     return activeCard;
 }
 
++ (NSString *)dbidFromDictionary:(NSDictionary *)dictionary {
+    NSString *dbid;
+    if ([[dictionary valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
+        dbid = [[dictionary valueForKey:@"id"] stringValue];
+    else
+        dbid = [dictionary valueForKey:@"id"];
+    return dbid;
+}
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "EVObject.h"
+#import "EVUtilities.h"
 #import "EVNetworkManager.h"
 #import "EVSerializer.h"
 
@@ -88,14 +89,33 @@ static NSDateFormatter *_dateFormatter = nil;
     return _dateFormatter;
 }
 
-
 - (id)initWithDictionary:(NSDictionary *)dictionary {
-    self = [super init];
-    if (self) {
-        _originalDictionary = dictionary;
-        [self configureAutomaticPropertyValidation];
+    id cachedObject = [[EVCIA sharedInstance] cachedObjectWithClassName:NSStringFromClass([self class])
+                                                                   dbid:[EVUtilities dbidFromDictionary:dictionary]];
+    if (cachedObject)
+    {
+        self = cachedObject;
+        self->_originalDictionary = dictionary;
         [self setProperties:dictionary];
     }
+    else
+    {
+        self = [super init];
+        if (self)
+        {
+            _originalDictionary = dictionary;
+            [self configureAutomaticPropertyValidation];
+            [self setProperties:dictionary];
+            [[EVCIA sharedInstance] cacheObject:self];
+        }
+    }
+    
+//    self = [super init];
+//    if (self) {
+//        _originalDictionary = dictionary;
+//        [self configureAutomaticPropertyValidation];
+//        [self setProperties:dictionary];
+//    }
     return self;
 }
 
