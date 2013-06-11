@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "EVAvatarView.h"
+#import "EVLikeButton.h"
+
 @class EVStory;
 
 @interface EVStoryCell : UITableViewCell
@@ -19,6 +21,7 @@
 @property (nonatomic, strong) UIImageView *typeIndicator;
 @property (nonatomic, strong) EVAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *storyLabel;
-@property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UILabel *dateLabel;
+@property (nonatomic, strong) EVLikeButton *likeButton;
 
 @end

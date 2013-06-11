@@ -146,6 +146,7 @@
 		9CE703F2175D1A7200561ADA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9CE703F0175D1A7200561ADA /* InfoPlist.strings */; };
 		9CE703F5175D1A7200561ADA /* KiwiUnitTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE703F4175D1A7200561ADA /* KiwiUnitTest.m */; };
 		9CE76DBD17679BDC005953C8 /* EVExchangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE76DBC17679BDC005953C8 /* EVExchangeViewController.m */; };
+		9CE76DC01767A92F005953C8 /* EVLikeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE76DBF1767A92F005953C8 /* EVLikeButton.m */; };
 		9CEEB7B51755250800C24C2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB7B41755250800C24C2A /* QuartzCore.framework */; };
 		9CEEB7F01755261500C24C2A /* EVError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB7D91755261500C24C2A /* EVError.m */; };
 		9CEEB7F11755261500C24C2A /* EVErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB7DB1755261500C24C2A /* EVErrorHandler.m */; };
@@ -404,6 +405,8 @@
 		9CE703F6175D1A7200561ADA /* KiwiUnitTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KiwiUnitTest-Prefix.pch"; sourceTree = "<group>"; };
 		9CE76DBB17679BDC005953C8 /* EVExchangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeViewController.h; sourceTree = "<group>"; };
 		9CE76DBC17679BDC005953C8 /* EVExchangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeViewController.m; sourceTree = "<group>"; };
+		9CE76DBE1767A92F005953C8 /* EVLikeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVLikeButton.h; sourceTree = "<group>"; };
+		9CE76DBF1767A92F005953C8 /* EVLikeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVLikeButton.m; sourceTree = "<group>"; };
 		9CEEB7B41755250800C24C2A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9CEEB7D81755261500C24C2A /* EVError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EVError.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		9CEEB7D91755261500C24C2A /* EVError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EVError.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -690,6 +693,8 @@
 				9C2684BE176683D600AEA624 /* EVFloatingPaymentButton.m */,
 				9C778DDE17679AA70053F9D6 /* EVNavigationBarButton.h */,
 				9C778DDF17679AA70053F9D6 /* EVNavigationBarButton.m */,
+				9CE76DBE1767A92F005953C8 /* EVLikeButton.h */,
+				9CE76DBF1767A92F005953C8 /* EVLikeButton.m */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -1462,6 +1467,7 @@
 				D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */,
 				9C778DE017679AA70053F9D6 /* EVNavigationBarButton.m in Sources */,
 				9CE76DBD17679BDC005953C8 /* EVExchangeViewController.m in Sources */,
+				9CE76DC01767A92F005953C8 /* EVLikeButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

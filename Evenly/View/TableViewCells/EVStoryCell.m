@@ -8,7 +8,8 @@
 
 #import "EVStoryCell.h"
 #import "EVStory.h"
-#import "EVAvatarView.h"
+
+#import <FormatterKit/TTTTimeIntervalFormatter.h>
 
 #define EV_STORY_CELL_BACKGROUND_MARGIN 12.0
 #define EV_STORY_CELL_INTERIOR_MARGIN 10.0
@@ -17,6 +18,9 @@
 
 #define EV_STORY_CELL_HORIZONTAL_RULE_Y 64.0
 #define EV_STORY_CELL_VERTICAL_RULE_X 148.0
+
+
+static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 @interface EVStoryCell ()
 
@@ -27,6 +31,8 @@
 - (void)loadAvatarView;
 - (void)loadStoryLabel;
 - (void)loadRules;
+- (void)loadDateLabel;
+- (void)loadLikeButton;
 
 @end
 
@@ -41,6 +47,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
+        });
+        
         self.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor clearColor];
         
@@ -48,6 +59,8 @@
         [self loadAvatarView];
         [self loadStoryLabel];
         [self loadRules];
+        [self loadDateLabel];
+        [self loadLikeButton];
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
@@ -62,6 +75,7 @@
                                                 EV_STORY_CELL_BACKGROUND_MARGIN,
                                                 image.size.width,
                                                 image.size.height);
+    self.tombstoneBackground.userInteractionEnabled = YES;
     [self.contentView addSubview:self.tombstoneBackground];
 }
 
@@ -99,10 +113,43 @@
     [self.tombstoneBackground addSubview:self.verticalRule];
 }
 
+- (void)loadDateLabel {
+    self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,
+                                                               EV_STORY_CELL_HORIZONTAL_RULE_Y,
+                                                               EV_STORY_CELL_VERTICAL_RULE_X,
+                                                               self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y)];
+    self.dateLabel.textAlignment = NSTextAlignmentCenter;
+    self.dateLabel.font = [EVFont boldFontOfSize:14];
+    self.dateLabel.textColor = [EVColor newsfeedButtonLabelColor];
+    self.dateLabel.backgroundColor = [UIColor clearColor];
+    [self.tombstoneBackground addSubview:self.dateLabel];
+}
+
+- (void)loadLikeButton {
+    CGRect rect = CGRectMake(EV_STORY_CELL_VERTICAL_RULE_X,
+                             EV_STORY_CELL_HORIZONTAL_RULE_Y,
+                             EV_STORY_CELL_VERTICAL_RULE_X,
+                             self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
+    rect = CGRectInset(rect, 1, 1);
+    self.likeButton = [[EVLikeButton alloc] initWithFrame:rect];
+    [self.likeButton setTitle:@"Like"];
+    [self.likeButton addTarget:self action:@selector(likeButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [self.tombstoneBackground addSubview:self.likeButton];
+}
+
+- (void)likeButtonPress:(id)sender {
+    self.likeButton.selected = !self.likeButton.selected;
+    if (self.likeButton.selected)
+        [self.likeButton setTitle:@"You like this"];
+    else
+        [self.likeButton setTitle:@"Like"];
+}
 
 - (void)setStory:(EVStory *)story {
     _story = story;
     self.storyLabel.attributedText = [story attributedString];
+    self.dateLabel.text = [_timeIntervalFormatter stringForTimeIntervalFromDate:[NSDate date]
+                                                                         toDate:[story createdAt]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

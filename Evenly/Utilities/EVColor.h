@@ -10,17 +10,23 @@
 
 @interface EVColor : NSObject
 
++ (UIColor *)creamColor;
++ (UIColor *)lightGreenColor;
++ (UIColor *)lightRedColor;
+
+#pragma mark - Side Panels
+
 + (UIColor *)sidePanelBackgroundColor;
 + (UIColor *)sidePanelSelectedColor;
 + (UIColor *)sidePanelStripeColor;
 
-+ (UIColor *)creamColor;
+#pragma mark - Newsfeed
 
 + (UIColor *)newsfeedStripeColor;
 + (UIColor *)newsfeedNounColor;
 + (UIColor *)newsfeedTextColor;
++ (UIColor *)newsfeedButtonLabelColor;
++ (UIColor *)newsfeedButtonHighlightColor;
 
-+ (UIColor *)lightGreenColor;
-+ (UIColor *)lightRedColor;
 
 @end
