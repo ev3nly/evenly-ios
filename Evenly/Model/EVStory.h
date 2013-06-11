@@ -26,7 +26,11 @@ typedef enum {
 @property (nonatomic, assign) BOOL isPrivate;
 @property (nonatomic, strong) id owner;
 @property (nonatomic, strong) id source;
+@property (nonatomic) BOOL liked;
+@property (nonatomic) NSInteger likeCount;
+
 @property (nonatomic, readonly) NSAttributedString *attributedString;
 @property (nonatomic, readonly) EVStoryType storyType;
+@property (nonatomic, readonly) NSString *likeButtonString;
 
 @end
