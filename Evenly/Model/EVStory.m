@@ -32,18 +32,16 @@
         self.amount = [NSDecimalNumber decimalNumberWithString:properties[@"amount"]];
     
     // Subject
-    NSString *subjectClass = [NSString stringWithFormat:@"EV%@", properties[@"subject_type"]];
-    self.subject = [[NSClassFromString(subjectClass) alloc] init];
-    [self.subject setName:properties[@"subject_name"]];
-    [self.subject setDbid:[properties[@"subject_id"] stringValue]];
+    NSDictionary *subject = properties[@"subject"];
+    NSString *subjectClass = [NSString stringWithFormat:@"EV%@", subject[@"class"]];
+    self.subject = [[NSClassFromString(subjectClass) alloc] initWithDictionary:subject];
     
     // Target
-    if (properties[@"target_type"] != [NSNull null])
+    if (properties[@"target"] != [NSNull null])
     {
-        NSString *targetClass = [NSString stringWithFormat:@"EV%@", properties[@"target_type"]];
-        self.target = [[NSClassFromString(targetClass) alloc] init];
-        [self.target setName:properties[@"target_name"]];
-        [self.target setDbid:[properties[@"target_id"] stringValue]];
+        NSDictionary *target = properties[@"target"];
+        NSString *targetClass = [NSString stringWithFormat:@"EV%@", target[@"class"]];
+        self.target = [[NSClassFromString(targetClass) alloc] initWithDictionary:target];
     }
     
     // Owner
