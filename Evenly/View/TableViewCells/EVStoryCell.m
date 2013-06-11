@@ -139,10 +139,8 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 - (void)likeButtonPress:(id)sender {
     self.likeButton.selected = !self.likeButton.selected;
-    if (self.likeButton.selected)
-        [self.likeButton setTitle:@"You like this"];
-    else
-        [self.likeButton setTitle:@"Like"];
+    [self.story setLiked:!self.story.liked];
+    [self.likeButton setTitle:[self.story likeButtonString]];
 }
 
 - (void)setStory:(EVStory *)story {
@@ -150,6 +148,8 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     self.storyLabel.attributedText = [story attributedString];
     self.dateLabel.text = [_timeIntervalFormatter stringForTimeIntervalFromDate:[NSDate date]
                                                                          toDate:[story createdAt]];
+    [self.likeButton setSelected:story.liked];
+    [self.likeButton setTitle:[story likeButtonString]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
