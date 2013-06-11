@@ -14,9 +14,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        
-        CGFloat margin = EV_WALLET_CELL_MARGIN;
+    if (self) {        
         UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(EV_RIGHT_OVERHANG_MARGIN, 0, self.contentView.frame.size.width - EV_RIGHT_OVERHANG_MARGIN, self.contentView.frame.size.height)];
         containerView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         containerView.autoresizesSubviews = YES;
