@@ -8,17 +8,29 @@
 
 #import "EVObject.h"
 
+/*
+ 
+ EVAvatarOwning - protocol that defines needed properties for avatar data
+ 
+ */
+
+@protocol EVAvatarOwning <NSObject>
+
+@property (nonatomic, readonly) UIImage *avatar;
+@property (nonatomic, strong) NSURL *avatarURL;
+
+@end
+
 /* 
  
  EVExchangeable - protocol that defines needed properties for Payment and Charge
 
  */
 
-@protocol EVExchangeable <NSObject>
+@protocol EVExchangeable <EVAvatarOwning>
 
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *email;
-@property (nonatomic, readonly) UIImage *avatar;
 
 @end
 
@@ -36,7 +48,6 @@
 @property (nonatomic, strong) NSString *phoneNumber;
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSDecimalNumber *balance;
-@property (nonatomic, strong) NSURL *avatarURL;
 @property (nonatomic, strong) UIImage *updatedAvatar;
 @property (nonatomic, getter = isConfirmed) BOOL confirmed;
 

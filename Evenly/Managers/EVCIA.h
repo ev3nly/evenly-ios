@@ -9,21 +9,27 @@
 #import <Foundation/Foundation.h>
 #import "EVSession.h"
 
+@class EVObject;
 @class EVCreditCard;
 @class EVBankAccount;
 
 @interface EVCIA : NSObject
 
++ (instancetype)sharedInstance;
+
 #pragma mark - Image Caching
+
 @property (nonatomic, strong) NSCache *imageCache;
 - (UIImage *)imageForURL:(NSURL *)url;
 - (void)setImage:(UIImage *)image forURL:(NSURL *)url;
 
 #pragma mark - Data Caching
+
 @property (nonatomic, strong) EVUser *me;
 @property (nonatomic, strong) EVSession *session;
 
-+ (instancetype)sharedInstance;
+- (EVObject *)cachedObjectWithClassName:(NSString *)className dbid:(NSString *)dbid;
+- (void)cacheObject:(EVObject *)object;
 
 #pragma mark - Exchanges
 

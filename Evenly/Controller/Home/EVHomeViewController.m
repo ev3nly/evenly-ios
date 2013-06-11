@@ -55,22 +55,13 @@
 }
 
 - (void)loadBalanceLabel {
-    self.balanceLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.balanceLabel.font = [EVFont boldFontOfSize:21];
-    self.balanceLabel.shadowColor = [UIColor colorWithWhite:0.5 alpha:1.0];
-    self.balanceLabel.shadowOffset = CGSizeMake(0, 1);
-    self.balanceLabel.backgroundColor = [UIColor clearColor];
-    self.balanceLabel.textColor = [UIColor whiteColor];
-    [self.balanceLabel setText:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
-    [self.balanceLabel sizeToFit];
-    self.navigationItem.titleView = self.balanceLabel;
-
+    [self setTitle:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
+    
     // RACAble prefers to operate on properties of self, so we can make the CIA a property of self
     // for a little syntactic sugar.
     self.cia = [EVCIA sharedInstance];
     [RACAble(self.cia.me.balance) subscribeNext:^(NSDecimalNumber *balance) {
-        [self.balanceLabel setText:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
-        [self.balanceLabel sizeToFit];
+        [self setTitle:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
     }];
 }
 
