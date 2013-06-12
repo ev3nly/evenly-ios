@@ -27,6 +27,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL isPrivate;
 @property (nonatomic, strong) id owner;
 @property (nonatomic, strong) id source;
+@property (nonatomic, strong) NSDate *publishedAt;
 @property (nonatomic) BOOL liked;
 @property (nonatomic) NSInteger likeCount;
 

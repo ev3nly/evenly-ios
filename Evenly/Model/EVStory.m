@@ -26,11 +26,14 @@
     self.verb = properties[@"verb"];
     self.isPrivate = [properties[@"private"] boolValue];
     self.storyDescription = properties[@"description"];
+    if (![properties[@"published_at"] isKindOfClass:[NSNull class]])
+        self.publishedAt = [[[self class] dateFormatter] dateFromString:properties[@"published_at"]];
     if ([properties[@"amount"] isKindOfClass:[NSDecimalNumber class]])
         self.amount = properties[@"amount"];
     else
         self.amount = [NSDecimalNumber decimalNumberWithString:properties[@"amount"]];
     
+
     // Subject
     NSDictionary *subject = properties[@"subject"];
     NSString *subjectClass = [NSString stringWithFormat:@"EV%@", subject[@"class"]];
