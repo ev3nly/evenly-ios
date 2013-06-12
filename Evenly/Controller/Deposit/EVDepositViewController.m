@@ -251,6 +251,32 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
+- (void)depositButtonPress:(id)sender {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.view findAndResignFirstResponder];
+    
+    // TODO: Add code to set bank account for withdrawal, once endpoint is ready.
+    self.withdrawal.bankAccount = self.chosenAccount;
+    [self.withdrawal saveWithSuccess:^{
+        
+        hud.labelText = @"Success!";
+        hud.mode = MBProgressHUDModeText;
+        
+        dispatch_queue_t queue = dispatch_get_main_queue();
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), queue, ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            self.cia.me.balance = [self.cia.me.balance decimalNumberBySubtracting:self.withdrawal.amount];
+            self.validForm = NO;
+            self.amountCell.textField.text = nil;
+        });
+        
+    } failure:^(NSError *error){
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+    }];
+}
+
 - (void)tapRecognized:(UITapGestureRecognizer *)recognizer {
     if ([self.amountCell.textField isFirstResponder])
         [self.amountCell.textField resignFirstResponder];

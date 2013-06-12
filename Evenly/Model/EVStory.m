@@ -58,12 +58,15 @@
         self.storyType = EVStoryTypeNotInvolved;
     else
     {
+        
         if ([[self.subject dbid] isEqualToString:me.dbid])
         {
             if ([self.verb isEqualToString:@"paid"]) {
                 self.storyType = EVStoryTypeOutgoing;
             } else if ([self.verb isEqualToString:@"charged"]) {
                 self.storyType = EVStoryTypePendingIncoming;
+            } else if ([self.verb isEqualToString:@"withdrew"]) {
+                self.storyType = EVStoryTypeWithdrawal;
             }
         }
         else
@@ -78,6 +81,7 @@
 }
 
 - (NSAttributedString *)attributedString {
+    
     CGFloat fontSize = 15;
     NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
                                       NSForegroundColorAttributeName : [EVColor newsfeedNounColor] };
@@ -88,35 +92,42 @@
     NSDictionary *negativeAttributes =  @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
                                            NSForegroundColorAttributeName : [EVColor lightRedColor] };
     
-    NSAttributedString *subject = [[NSAttributedString alloc] initWithString:[self.subject name]
-                                                                  attributes:nounAttributes];
-    NSAttributedString *verb = [[NSAttributedString alloc] initWithString:self.verb
-                                                               attributes:copyAttributes];
-    NSAttributedString *target = [[NSAttributedString alloc] initWithString:[self.target name]
-                                                                 attributes:nounAttributes];
-    NSAttributedString *amount = nil;
+    NSAttributedString *subject, *verb, *target, *amount, *description = nil;
+    subject = [[NSAttributedString alloc] initWithString:[self.subject name]
+                                              attributes:nounAttributes];
+    verb = [[NSAttributedString alloc] initWithString:self.verb
+                                           attributes:copyAttributes];
+    if (self.target)
+        target = [[NSAttributedString alloc] initWithString:[self.target name]
+                                                 attributes:nounAttributes];
+    
     if (self.storyType == EVStoryTypeOutgoing || self.storyType == EVStoryTypePendingOutgoing)
         amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
                                                  attributes:negativeAttributes];
-    else if (self.storyType == EVStoryTypeNotInvolved)
+    else if (self.storyType == EVStoryTypeNotInvolved || self.storyType == EVStoryTypeWithdrawal)
         amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
                                                  attributes:nounAttributes];
     else
         amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
                                                  attributes:positiveAttributes];
-    NSAttributedString *description = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"for %@", self.storyDescription]
-                                                                      attributes:copyAttributes];
+    if (!EV_IS_EMPTY_STRING(self.storyDescription))
+        description = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"for %@", self.storyDescription]
+                                                      attributes:copyAttributes];
     NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" " attributes:copyAttributes];
     
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:subject];
     [attrString appendAttributedString:space];
     [attrString appendAttributedString:verb];
-    [attrString appendAttributedString:space];
-    [attrString appendAttributedString:target];
+    if (target) {
+        [attrString appendAttributedString:space];
+        [attrString appendAttributedString:target];
+    }
     [attrString appendAttributedString:space];
     [attrString appendAttributedString:amount];
-    [attrString appendAttributedString:space];
-    [attrString appendAttributedString:description];
+    if (description) {
+        [attrString appendAttributedString:space];
+        [attrString appendAttributedString:description];
+    }
     return attrString;
 }
 

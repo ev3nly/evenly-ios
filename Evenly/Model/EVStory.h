@@ -13,7 +13,8 @@ typedef enum {
     EVStoryTypePendingIncoming,
     EVStoryTypePendingOutgoing,
     EVStoryTypeIncoming,
-    EVStoryTypeOutgoing
+    EVStoryTypeOutgoing,
+    EVStoryTypeWithdrawal
 } EVStoryType;
 
 @interface EVStory : EVObject
