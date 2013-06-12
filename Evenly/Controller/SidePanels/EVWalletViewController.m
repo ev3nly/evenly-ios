@@ -15,7 +15,7 @@
 #import "EVBankAccount.h"
 #import "EVExchange.h"
 
-
+#import "EVDepositViewController.h"
 
 @interface EVWalletViewController ()
 
@@ -129,6 +129,8 @@
     return [[self pendingExchanges] count] > 0;
 }
 
+#pragma mark - UITableViewDataSource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if ([self hasPendingExchanges])
         return 2;
@@ -240,6 +242,22 @@
     cell.valueLabel.text = value;
     
     return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([self hasPendingExchanges] && indexPath.section == EVWalletSectionPending)
+    {
+        return;
+    }
+    
+    if (indexPath.row == EVWalletRowCash)
+    {
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
+        [self presentViewController:navController animated:YES completion:NULL];
+    }
 }
 
 
