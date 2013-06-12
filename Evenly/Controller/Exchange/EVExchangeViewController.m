@@ -8,8 +8,15 @@
 
 #import "EVExchangeViewController.h"
 #import "EVNavigationBarButton.h"
+#import "EVExchangeFormView.h"
+
+#define KEYBOARD_HEIGHT 216
 
 @interface EVExchangeViewController ()
+
+- (void)loadLeftButton;
+- (void)loadRightButton;
+- (void)loadFormView;
 
 @end
 
@@ -20,6 +27,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Exchange";
+        self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -28,14 +36,29 @@
 {
     [super viewDidLoad];
     
+    [self loadLeftButton];
+    [self loadRightButton];
+    [self loadFormView];
+}
+
+- (void)loadLeftButton {
     EVNavigationBarButton *leftButton = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
     [leftButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
-    
+}
+
+- (void)loadRightButton {
     EVNavigationBarButton *payButton = [EVNavigationBarButton buttonWithTitle:@"Pay"];
     [payButton addTarget:self action:@selector(payButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:payButton];
-	// Do any additional setup after loading the view.
+}
+
+- (void)loadFormView {
+    CGRect formRect = self.view.bounds;
+    formRect.size.height -= (KEYBOARD_HEIGHT + 44);
+    
+    EVExchangeFormView *formView = [[EVExchangeFormView alloc] initWithFrame:formRect];
+    [self.view addSubview:formView];
 }
 
 - (void)cancelButtonPress:(id)sender {
