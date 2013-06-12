@@ -137,7 +137,6 @@
 }
 
 - (BOOL)hasPendingExchanges {
-    return NO;
     return [[self pendingExchanges] count] > 0;
 }
 
@@ -189,8 +188,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-
     if (tableView == self.pendingTableView)
     {
         return [self pendingCellForRowAtIndexPath:indexPath];
@@ -226,7 +223,6 @@
 
 - (EVWalletItemCell *)walletCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVWalletItemCell *cell = (EVWalletItemCell *)[self.walletTableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    
     NSString *title = nil;
     NSString *value = nil;
     switch (indexPath.row) {
@@ -296,15 +292,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if ([self hasPendingExchanges] && indexPath.section == EVWalletSectionPending)
-    {
+
+    if (tableView == self.pendingTableView) {
         return;
     }
-    
-    if (indexPath.row == EVWalletRowCash)
-    {
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
-        [self presentViewController:navController animated:YES completion:NULL];
+    else if (tableView == self.walletTableView) {
+        if (indexPath.row == EVWalletRowCash)
+        {
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
+            [self presentViewController:navController animated:YES completion:NULL];
+        }
     }
 }
 
