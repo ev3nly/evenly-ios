@@ -63,3 +63,5 @@ typedef enum {
     EVSignUpPhasePicture,
     EVSignUpPhaseCOUNT
 } EVSignUpPhase;
+
+#define EV_MINIMUM_DEPOSIT_AMOUNT 0.50

@@ -13,7 +13,6 @@
 
 @interface EVObject ()
 
-+ (NSDateFormatter *)dateFormatter;
 - (void)configureAutomaticPropertyValidation;
 
 @end
@@ -84,7 +83,7 @@ static NSDateFormatter *_dateFormatter = nil;
     if (_dateFormatter == nil) {
         _dateFormatter = [[NSDateFormatter alloc] init];
         _dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-        _dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+        _dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
     }
     return _dateFormatter;
 }
