@@ -11,6 +11,7 @@
 #import "EVWithdrawal.h"
 #import "EVBankAccount.h"
 #import "EVBlueButton.h"
+#import "EVPrivacyNotice.h"
 #import "EVCurrencyTextFieldFormatter.h"
 
 #define EV_DEPOSIT_MARGIN 10.0
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) UIPickerView *pickerView;
 
 @property (nonatomic, strong) EVBlueButton *depositButton;
+@property (nonatomic, strong) EVPrivacyNotice *privacyNotice;
 
 @property (nonatomic, strong) EVBankAccount *chosenAccount;
 
@@ -169,7 +171,12 @@
 }
 
 - (void)loadReassuringMessage {
-    
+    self.privacyNotice = [[EVPrivacyNotice alloc] initWithFrame:CGRectMake(EV_DEPOSIT_MARGIN,
+                                                                           CGRectGetMaxY(self.depositButton.frame) + EV_DEPOSIT_MARGIN,
+                                                                           self.view.frame.size.width - 2*EV_DEPOSIT_MARGIN,
+                                                                           EV_DEPOSIT_BUTTON_HEIGHT)];
+    self.privacyNotice.label.text = @"100% Free.  Transfers take about 1-2 days.";
+    [self.view addSubview:self.privacyNotice];
 }
 
 - (void)setUpReactions {
