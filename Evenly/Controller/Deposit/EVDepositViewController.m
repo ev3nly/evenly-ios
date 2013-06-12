@@ -165,6 +165,7 @@
                                                                         EV_DEPOSIT_BUTTON_HEIGHT)];
     [self.depositButton addTarget:self action:@selector(depositButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.depositButton];
+    [self.depositButton setEnabled:NO];
 }
 
 - (void)loadReassuringMessage {
@@ -201,14 +202,18 @@
     }];
     
     // Form validity
-    RAC(self.validForm) = [RACSignal combineLatest:@[self.amountCell.textField.rac_textSignal]
-                                            reduce:^(NSString *amountText) {
+    RAC(self.validForm) = [RACSignal combineLatest:@[self.amountCell.textField.rac_textSignal,
+                                                     RACAble(self.chosenAccount)]
+                                            reduce:^(NSString *amountText, EVBankAccount *account) {
+                                                
+                                                if (account == nil)
+                                                    return @(NO);
                                                 
                                                 amountText = [amountText stringByReplacingOccurrencesOfString:@"$" withString:@""];
                                                 if ([amountText length] == 0)
                                                     return @(NO);
                                                 
-                                                if ([amountText floatValue] == 0)
+                                                if ([amountText floatValue] < EV_MINIMUM_DEPOSIT_AMOUNT)
                                                     return @(NO);
                                                 
                                                 BOOL valid = NO;
@@ -223,6 +228,9 @@
                                                 return @(valid);
                                                 
                                             }];
+    [RACAble(self.validForm) subscribeNext:^(NSNumber *boolNumber) {
+        [self.depositButton setEnabled:[boolNumber boolValue]];
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
