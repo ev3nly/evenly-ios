@@ -9,6 +9,7 @@
 #import "EVConstants.h"
 #import "EVColor.h"
 #import "EVFont.h"
+#import "EVImages.h"
 #import "EVStringUtility.h"
 #import "EVImageUtility.h"
 #import "EVAnalyticsUtility.h"
