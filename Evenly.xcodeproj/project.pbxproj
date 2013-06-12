@@ -193,6 +193,8 @@
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
 		D03F1E1C1767BB070067A428 /* EVExchangeFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */; };
 		D0828FB11768E6B10032D62E /* EVPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB01768E6B10032D62E /* EVPaymentViewController.m */; };
+		D0828FB41768E7D60032D62E /* EVNetworkSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB31768E7D60032D62E /* EVNetworkSelectorView.m */; };
+		D0828FB717690EE20032D62E /* EVNetworkSelectorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB617690EE20032D62E /* EVNetworkSelectorCell.m */; };
 		D0A77EED1768243D0091AF09 /* EVRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEC1768243D0091AF09 /* EVRequestViewController.m */; };
 		D0A77EF0176824830091AF09 /* EVRequestFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEF176824830091AF09 /* EVRequestFormView.m */; };
 /* End PBXBuildFile section */
@@ -487,6 +489,10 @@
 		D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeFormView.m; sourceTree = "<group>"; };
 		D0828FAF1768E6B10032D62E /* EVPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPaymentViewController.h; sourceTree = "<group>"; };
 		D0828FB01768E6B10032D62E /* EVPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPaymentViewController.m; sourceTree = "<group>"; };
+		D0828FB21768E7D60032D62E /* EVNetworkSelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNetworkSelectorView.h; sourceTree = "<group>"; };
+		D0828FB31768E7D60032D62E /* EVNetworkSelectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNetworkSelectorView.m; sourceTree = "<group>"; };
+		D0828FB517690EE20032D62E /* EVNetworkSelectorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNetworkSelectorCell.h; sourceTree = "<group>"; };
+		D0828FB617690EE20032D62E /* EVNetworkSelectorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNetworkSelectorCell.m; sourceTree = "<group>"; };
 		D0A77EEB1768243D0091AF09 /* EVRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestViewController.h; sourceTree = "<group>"; };
 		D0A77EEC1768243D0091AF09 /* EVRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestViewController.m; sourceTree = "<group>"; };
 		D0A77EEE176824830091AF09 /* EVRequestFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestFormView.h; sourceTree = "<group>"; };
@@ -1158,6 +1164,10 @@
 				D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */,
 				D0A77EEE176824830091AF09 /* EVRequestFormView.h */,
 				D0A77EEF176824830091AF09 /* EVRequestFormView.m */,
+				D0828FB21768E7D60032D62E /* EVNetworkSelectorView.h */,
+				D0828FB31768E7D60032D62E /* EVNetworkSelectorView.m */,
+				D0828FB517690EE20032D62E /* EVNetworkSelectorCell.h */,
+				D0828FB617690EE20032D62E /* EVNetworkSelectorCell.m */,
 			);
 			path = Exchanges;
 			sourceTree = "<group>";
@@ -1534,6 +1544,8 @@
 				D0A77EED1768243D0091AF09 /* EVRequestViewController.m in Sources */,
 				D0A77EF0176824830091AF09 /* EVRequestFormView.m in Sources */,
 				D0828FB11768E6B10032D62E /* EVPaymentViewController.m in Sources */,
+				D0828FB41768E7D60032D62E /* EVNetworkSelectorView.m in Sources */,
+				D0828FB717690EE20032D62E /* EVNetworkSelectorCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

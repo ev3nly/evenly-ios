@@ -15,7 +15,7 @@
 
 #define DESCRIPTION_PLACEHOLDER_TEXT @"Lunch, dinner, taxi, or anything else"
 
-@interface EVExchangeFormView ()
+@interface EVExchangeFormView () 
 
 - (void)loadPayLabel;
 - (void)loadToField;
@@ -67,7 +67,7 @@
     toField.placeholder = @"Name, email, phone number";
     toField.frame = [self toFieldFrame];
     [self addSubview:toField];
-    [toField becomeFirstResponder];
+//    [toField becomeFirstResponder];
 }
 
 - (void)loadAmountField
