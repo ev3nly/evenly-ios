@@ -27,7 +27,7 @@
 }
 
 + (UIFont *)walletHeaderFont {
-    return [UIFont fontWithName:@"Avenir-Black" size:14.0];
+    return [UIFont fontWithName:@"Avenir-Black" size:13.0];
 }
 
 @end

@@ -12,4 +12,9 @@
 
 + (UIImage *)resizableTombstoneBackground;
 
+#pragma mark - Button Backgrounds
+
++ (UIImage *)blueButtonBackground;
++ (UIImage *)blueButtonBackgroundPress;
+
 @end
