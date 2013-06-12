@@ -25,11 +25,8 @@
 - (void)loadDivider;
 
 - (UILabel *)configuredLabel;
-- (UITextField *)configuredTextField;
 
-- (CGRect)payLabelFrame;
 - (CGRect)toFieldFrame;
-- (CGRect)amountFieldFrame;
 - (CGRect)forLabelFrame;
 - (CGRect)descriptionFieldFrame;
 - (CGRect)dividerFrame;
@@ -130,7 +127,7 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if ([textField.text rangeOfString:@"$"].location == NSNotFound) {
-        textField.text = [@"$" stringByAppendingString:textField.text];
+        textField.text = [[self amountPrefix] stringByAppendingString:textField.text];
     }
     return YES;
 }
@@ -154,17 +151,19 @@
 
 - (CGRect)toFieldFrame {
     float xOrigin = CGRectGetMaxX([self payLabelFrame]) + LABEL_FIELD_BUFFER;
+    UILabel *label = [self configuredLabel];
+    CGSize labelSize = [@"To" sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
     return CGRectMake(xOrigin,
-                      [self payLabelFrame].origin.y,
-                      self.bounds.size.width - LEFT_RIGHT_BUFFER - MAX_AMOUNT_WIDTH - LABEL_FIELD_BUFFER - xOrigin,
-                      [self payLabelFrame].size.height);
+                      LINE_HEIGHT/2 - labelSize.height/2,
+                      self.bounds.size.width - LEFT_RIGHT_BUFFER - [self maxAmountWidth] - LABEL_FIELD_BUFFER - xOrigin,
+                      labelSize.height);
 }
 
 - (CGRect)amountFieldFrame {
-    return CGRectMake(self.bounds.size.width - LEFT_RIGHT_BUFFER - MAX_AMOUNT_WIDTH,
-                      [self payLabelFrame].origin.y,
-                      MAX_AMOUNT_WIDTH,
-                      [self payLabelFrame].size.height);
+    return CGRectMake(self.bounds.size.width - LEFT_RIGHT_BUFFER - [self maxAmountWidth],
+                      [self toFieldFrame].origin.y,
+                      [self maxAmountWidth],
+                      [self toFieldFrame].size.height);
 }
 
 - (CGRect)forLabelFrame {
@@ -189,6 +188,14 @@
                       LINE_HEIGHT,
                       self.bounds.size.width,
                       1);
+}
+
+- (float)maxAmountWidth {
+    return MAX_AMOUNT_WIDTH;
+}
+
+- (NSString *)amountPrefix {
+    return @"$";
 }
 
 @end

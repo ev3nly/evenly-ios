@@ -10,4 +10,10 @@
 
 @interface EVExchangeFormView : UIView <UITextFieldDelegate, UITextViewDelegate>
 
+- (UITextField *)configuredTextField;
+- (CGRect)payLabelFrame;
+- (CGRect)amountFieldFrame;
+- (float)maxAmountWidth;
+- (NSString *)amountPrefix;
+
 @end
