@@ -25,7 +25,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"New Payment";
+        self.title = @"Exchange";
         self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
