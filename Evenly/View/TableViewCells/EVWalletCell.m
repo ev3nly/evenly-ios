@@ -7,6 +7,7 @@
 //
 
 #import "EVWalletCell.h"
+#import "EVSpreadLabel.h"
 
 @implementation EVWalletCell
 
@@ -33,11 +34,10 @@
     // Configure the view for the selected state
 }
 
-
 @end
 
-@implementation EVWalletSectionHeader
 
+@implementation EVWalletSectionHeader
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -50,7 +50,7 @@
         containerView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         containerView.autoresizesSubviews = YES;
         [self.contentView addSubview:containerView];
-        self.label = [[UILabel alloc] initWithFrame:CGRectMake(margin,
+        self.label = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(margin,
                                                                     0.0,
                                                                     containerView.frame.size.width / 2.0 - margin,
                                                                     containerView.frame.size.height)];
@@ -58,6 +58,7 @@
         self.label.textColor = [UIColor whiteColor];
         self.label.font = [EVFont walletHeaderFont];
         self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+        [(EVSpreadLabel *)self.label setCharacterSpacing:2.0];
         [containerView addSubview:self.label];
     }
     return self;

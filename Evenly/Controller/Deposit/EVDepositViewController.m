@@ -10,11 +10,14 @@
 #import "EVDepositCell.h"
 #import "EVWithdrawal.h"
 #import "EVBankAccount.h"
+#import "EVBlueButton.h"
+#import "EVPrivacyNotice.h"
 #import "EVCurrencyTextFieldFormatter.h"
 
 #define EV_DEPOSIT_MARGIN 10.0
 #define EV_DEPOSIT_BALANCE_PANE_HEIGHT 96.0
 #define EV_DEPOSIT_CELL_HEIGHT 44.0
+#define EV_DEPOSIT_BUTTON_HEIGHT 44.0
 
 @interface EVDepositViewController ()
 
@@ -27,6 +30,10 @@
 @property (nonatomic, strong) EVDepositCell *amountCell;
 @property (nonatomic, strong) EVDepositCell *bankCell;
 @property (nonatomic, strong) UIPickerView *pickerView;
+
+@property (nonatomic, strong) EVBlueButton *depositButton;
+@property (nonatomic, strong) EVPrivacyNotice *privacyNotice;
+
 @property (nonatomic, strong) EVBankAccount *chosenAccount;
 
 @property (nonatomic, strong) EVWithdrawal *withdrawal;
@@ -154,11 +161,22 @@
 }
 
 - (void)loadDepositButton {
-    
+    self.depositButton = [[EVBlueButton alloc] initWithFrame:CGRectMake(EV_DEPOSIT_MARGIN,
+                                                                        CGRectGetMaxY(self.cellContainer.frame) + EV_DEPOSIT_MARGIN,
+                                                                        self.view.frame.size.width - 2*EV_DEPOSIT_MARGIN,
+                                                                        EV_DEPOSIT_BUTTON_HEIGHT)];
+    [self.depositButton addTarget:self action:@selector(depositButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.depositButton];
+    [self.depositButton setEnabled:NO];
 }
 
 - (void)loadReassuringMessage {
-    
+    self.privacyNotice = [[EVPrivacyNotice alloc] initWithFrame:CGRectMake(EV_DEPOSIT_MARGIN,
+                                                                           CGRectGetMaxY(self.depositButton.frame) + EV_DEPOSIT_MARGIN,
+                                                                           self.view.frame.size.width - 2*EV_DEPOSIT_MARGIN,
+                                                                           EV_DEPOSIT_BUTTON_HEIGHT)];
+    self.privacyNotice.label.text = @"100% Free.  Transfers take about 1-2 days.";
+    [self.view addSubview:self.privacyNotice];
 }
 
 - (void)setUpReactions {
@@ -182,16 +200,27 @@
         }
         [self.bankCell setNeedsLayout];
     }];
+   
+    // Button text
+    [self.amountCell.textField.rac_textSignal subscribeNext:^(NSString *amountText) {
+        if (EV_IS_EMPTY_STRING(amountText))
+            amountText = self.amountCell.textField.placeholder;
+        [self.depositButton setTitle:[NSString stringWithFormat:@"DEPOSIT %@", amountText] forState:UIControlStateNormal];
+    }];
     
     // Form validity
-    RAC(self.validForm) = [RACSignal combineLatest:@[self.amountCell.textField.rac_textSignal]
-                                            reduce:^(NSString *amountText) {
+    RAC(self.validForm) = [RACSignal combineLatest:@[self.amountCell.textField.rac_textSignal,
+                                                     RACAble(self.chosenAccount)]
+                                            reduce:^(NSString *amountText, EVBankAccount *account) {
+                                                
+                                                if (account == nil)
+                                                    return @(NO);
                                                 
                                                 amountText = [amountText stringByReplacingOccurrencesOfString:@"$" withString:@""];
                                                 if ([amountText length] == 0)
                                                     return @(NO);
                                                 
-                                                if ([amountText floatValue] == 0)
+                                                if ([amountText floatValue] < EV_MINIMUM_DEPOSIT_AMOUNT)
                                                     return @(NO);
                                                 
                                                 BOOL valid = NO;
@@ -206,6 +235,9 @@
                                                 return @(valid);
                                                 
                                             }];
+    [RACAble(self.validForm) subscribeNext:^(NSNumber *boolNumber) {
+        [self.depositButton setEnabled:[boolNumber boolValue]];
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -217,6 +249,32 @@
 
 - (void)cancelButtonPress:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)depositButtonPress:(id)sender {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.view findAndResignFirstResponder];
+    
+    // TODO: Add code to set bank account for withdrawal, once endpoint is ready.
+    self.withdrawal.bankAccount = self.chosenAccount;
+    [self.withdrawal saveWithSuccess:^{
+        
+        hud.labelText = @"Success!";
+        hud.mode = MBProgressHUDModeText;
+        
+        dispatch_queue_t queue = dispatch_get_main_queue();
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), queue, ^{
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            self.cia.me.balance = [self.cia.me.balance decimalNumberBySubtracting:self.withdrawal.amount];
+            self.validForm = NO;
+            self.amountCell.textField.text = nil;
+        });
+        
+    } failure:^(NSError *error){
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
+    }];
 }
 
 - (void)tapRecognized:(UITapGestureRecognizer *)recognizer {

@@ -17,6 +17,8 @@
 
 #import "EVDepositViewController.h"
 
+#define EV_WALLET_ROW_HEIGHT 44.0
+
 @interface EVWalletViewController ()
 
 @property (nonatomic, strong) EVWalletSectionHeader *walletHeader;
@@ -38,16 +40,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.backgroundColor = [EVColor sidePanelBackgroundColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.separatorColor = [UIColor clearColor];
-    
-    [self.tableView registerClass:[EVWalletItemCell class] forCellReuseIdentifier:@"cell"];
-    [self.tableView registerClass:[EVPendingExchangeCell class] forCellReuseIdentifier:@"pendingCell"];
-    [self.view addSubview:self.tableView];
+    [self loadWalletTableView];
+    [self loadPendingTableView];
+
     
     self.walletHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     self.walletHeader.label.text = @"WALLET";
@@ -69,56 +64,72 @@
                                                object:nil];
 }
 
+- (void)loadWalletTableView {
+    
+    CGFloat totalHeight = ((EVWalletRowCOUNT+1) * EV_WALLET_ROW_HEIGHT);
+    self.walletTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,
+                                                                         self.view.frame.size.height - totalHeight,
+                                                                         self.view.frame.size.width,
+                                                                         totalHeight)
+                                                        style:UITableViewStylePlain];
+    
+    self.walletTableView.delegate = self;
+    self.walletTableView.dataSource = self;
+    self.walletTableView.backgroundColor = [EVColor sidePanelBackgroundColor];
+    self.walletTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.walletTableView.separatorColor = [UIColor clearColor];
+    self.walletTableView.scrollEnabled = NO;
+    [self.walletTableView registerClass:[EVWalletItemCell class] forCellReuseIdentifier:@"cell"];
+    [self.view addSubview:self.walletTableView];
+}
+
+- (void)loadPendingTableView {
+    self.pendingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,
+                                                                          0,
+                                                                          self.view.frame.size.width,
+                                                                          CGRectGetMinY(self.walletTableView.frame))
+                                                         style:UITableViewStylePlain];
+    self.pendingTableView.delegate = self;
+    self.pendingTableView.dataSource = self;
+    self.pendingTableView.backgroundColor = [EVColor sidePanelBackgroundColor];
+    self.pendingTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.pendingTableView.separatorColor = [UIColor clearColor];
+    self.pendingTableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    
+    [self.pendingTableView registerClass:[EVPendingExchangeCell class] forCellReuseIdentifier:@"pendingCell"];
+    [self.pendingTableView registerClass:[EVNoPendingExchangesCell class] forCellReuseIdentifier:@"noPendingCell"];
+
+    [self.view addSubview:self.pendingTableView];
+}
+
 - (void)exchangesDidUpdate:(NSNotification *)notification {
-    if ([self hasPendingExchanges])
-    {
-        if ([self.tableView numberOfSections] == 1)
-        {
-            [self.tableView beginUpdates];
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:EVWalletSectionPending] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.tableView endUpdates];
-        }
-        else
-        {
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:EVWalletSectionPending] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-    }
-    else
-    {
-        if ([self.tableView numberOfSections] == 2)
-        {
-            [self.tableView beginUpdates];
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:EVWalletSectionPending] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self.tableView endUpdates];
-        }
-    }
+    [self.pendingTableView beginUpdates];
+    [self.pendingTableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.pendingTableView endUpdates];
     
     // Reload History cell.
-    NSInteger sectionIndex = ([self hasPendingExchanges] ? 1 : 0);
-    [self.tableView beginUpdates];
-    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowHistory
-                                                                 inSection:sectionIndex] ]
-                          withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView endUpdates];
+    [self.walletTableView beginUpdates];
+    [self.walletTableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowHistory
+                                                                       inSection:0] ]
+                                withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.walletTableView endUpdates];
 }
 
 - (void)creditCardsDidUpdate:(NSNotification *)notification {
-    NSInteger sectionIndex = ([self hasPendingExchanges] ? 1 : 0);
-    [self.tableView beginUpdates];
-    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowCards
-                                                                 inSection:sectionIndex] ]
-                          withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView endUpdates];
+    [self.walletTableView beginUpdates];
+    [self.walletTableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowCards
+                                                                       inSection:0] ]
+                                withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.walletTableView endUpdates];
 }
 
 - (void)bankAccountsDidUpdate:(NSNotification *)notification {
-    NSInteger sectionIndex = ([self hasPendingExchanges] ? 1 : 0);
-    [self.tableView beginUpdates];
-    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowBanks
-                                                                 inSection:sectionIndex] ]
-                          withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView endUpdates];
-
+    [self.walletTableView beginUpdates];
+    [self.walletTableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowBanks
+                                                                       inSection:0] ]
+                                withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.walletTableView endUpdates];
+    
 }
 
 - (NSArray *)pendingExchanges {
@@ -132,21 +143,32 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if ([self hasPendingExchanges])
-        return 2;
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([self hasPendingExchanges] && section == EVWalletSectionPending)
-        return [[self pendingExchanges] count];
-    return 4;
+    NSInteger count;
+    if (tableView == self.pendingTableView)
+    {
+        if ([self hasPendingExchanges])
+            count = [[self pendingExchanges] count];
+        else
+            count = 1;
+    }
+    else
+    {
+        count = 4;
+    }
+    return count;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if ([self hasPendingExchanges] && section == EVWalletSectionPending)
-        return self.pendingHeader;
-    return self.walletHeader;
+    UIView *headerView = nil;
+    if (tableView == self.pendingTableView)
+        headerView = self.pendingHeader;
+    else
+        headerView = self.walletHeader;
+    return headerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -154,31 +176,53 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self hasPendingExchanges] && indexPath.section == EVWalletSectionPending)
+    if (tableView == self.pendingTableView)
     {
-        EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
-        return [EVPendingExchangeCell sizeForExchange:exchange].height;
+        if ([self hasPendingExchanges])
+        {
+            EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
+            return [EVPendingExchangeCell sizeForExchange:exchange].height;
+        }
     }
     return 44.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if ([self hasPendingExchanges] && indexPath.section == EVWalletSectionPending)
+    if (tableView == self.pendingTableView)
     {
-        EVPendingExchangeCell *cell = (EVPendingExchangeCell *)[tableView dequeueReusableCellWithIdentifier:@"pendingCell" forIndexPath:indexPath];
+        return [self pendingCellForRowAtIndexPath:indexPath];
+    }
+    if (tableView == self.walletTableView)
+    {
+        return [self walletCellForRowAtIndexPath:indexPath];
+    }
+    return nil;
+}
+
+- (EVPendingExchangeCell *)pendingCellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    EVPendingExchangeCell *cell = nil;
+    if ([self hasPendingExchanges])
+    {
+        cell = (EVPendingExchangeCell *)[self.pendingTableView dequeueReusableCellWithIdentifier:@"pendingCell"
+                                                                                                           forIndexPath:indexPath];
         EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
         [cell.avatarView setImage:[[exchange from] avatar]];
         NSString *text = [EVStringUtility stringForExchange:exchange];
         cell.label.text = text;
         [cell.label sizeToFit];
         
-        
-        return cell;
     }
-    
-    EVWalletItemCell *cell = (EVWalletItemCell *)[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    
+    else
+    {
+        cell = (EVPendingExchangeCell *)[self.pendingTableView dequeueReusableCellWithIdentifier:@"noPendingCell" forIndexPath:indexPath];
+    }
+    return cell;
+}
+
+
+
+- (EVWalletItemCell *)walletCellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    EVWalletItemCell *cell = (EVWalletItemCell *)[self.walletTableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     NSString *title = nil;
     NSString *value = nil;
     switch (indexPath.row) {
@@ -248,15 +292,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if ([self hasPendingExchanges] && indexPath.section == EVWalletSectionPending)
-    {
+
+    if (tableView == self.pendingTableView) {
         return;
     }
-    
-    if (indexPath.row == EVWalletRowCash)
-    {
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
-        [self presentViewController:navController animated:YES completion:NULL];
+    else if (tableView == self.walletTableView) {
+        if (indexPath.row == EVWalletRowCash)
+        {
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
+            [self presentViewController:navController animated:YES completion:NULL];
+        }
     }
 }
 
