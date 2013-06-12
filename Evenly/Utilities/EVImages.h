@@ -12,4 +12,17 @@
 
 + (UIImage *)resizableTombstoneBackground;
 
+#pragma mark - Button Backgrounds
+
++ (UIImage *)blueButtonBackground;
++ (UIImage *)blueButtonBackgroundPress;
++ (UIImage *)grayButtonBackground;
++ (UIImage *)grayButtonBackgroundPress;
+
+#pragma mark - Icons
+
++ (UIImage *)friendsIcon;
++ (UIImage *)globeIcon;
++ (UIImage *)lockIcon;
+
 @end
