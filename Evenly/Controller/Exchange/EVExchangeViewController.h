@@ -10,4 +10,6 @@
 
 @interface EVExchangeViewController : EVViewController
 
+- (void)loadFormView;
+
 @end

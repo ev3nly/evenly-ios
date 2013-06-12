@@ -16,7 +16,6 @@
 
 - (void)loadLeftButton;
 - (void)loadRightButton;
-- (void)loadFormView;
 
 @end
 
@@ -26,7 +25,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Exchange";
+        self.title = @"New Payment";
         self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
