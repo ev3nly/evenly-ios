@@ -12,7 +12,8 @@ typedef enum {
     EVWalletRowCash,
     EVWalletRowCards,
     EVWalletRowBanks,
-    EVWalletRowHistory
+    EVWalletRowHistory,
+    EVWalletRowCOUNT
 } EVWalletRow;
 
 typedef enum {
@@ -22,7 +23,7 @@ typedef enum {
 
 @interface EVWalletViewController : EVSidePanelViewController <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) UISearchBar *searchBar;
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UITableView *pendingTableView;
+@property (nonatomic, strong) UITableView *walletTableView;
 
 @end

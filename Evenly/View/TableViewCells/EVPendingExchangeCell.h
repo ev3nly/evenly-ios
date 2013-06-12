@@ -18,3 +18,7 @@
 + (CGSize)sizeForExchange:(EVExchange *)exchange;
 
 @end
+
+@interface EVNoPendingExchangesCell : EVPendingExchangeCell
+
+@end
