@@ -14,4 +14,12 @@
     return [[UIImage imageNamed:@"FeedContainer"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
 }
 
++ (UIImage *)blueButtonBackground {
+    return [[UIImage imageNamed:@"btn_blue"] resizableImageWithCapInsets:UIEdgeInsetsMake(21, 3, 21, 3)];
+}
+
++ (UIImage *)blueButtonBackgroundPress {
+    return [[UIImage imageNamed:@"btn_blue-active"] resizableImageWithCapInsets:UIEdgeInsetsMake(21, 3, 21, 3)];
+}
+
 @end
