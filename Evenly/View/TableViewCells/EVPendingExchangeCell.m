@@ -60,3 +60,21 @@
 }
 
 @end
+
+@implementation EVNoPendingExchangesCell
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.label.font = [EVFont boldFontOfSize:14];
+        self.label.textAlignment = NSTextAlignmentCenter;
+        self.label.numberOfLines = 1;
+        self.label.text = @"No pending transactions";
+        self.label.frame = self.containerView.bounds;
+        [self.avatarView removeFromSuperview];
+        self.avatarView = nil;
+        self.accessoryView = nil;        
+    }
+    return self;
+}
+@end
