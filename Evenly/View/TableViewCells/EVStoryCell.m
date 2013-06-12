@@ -149,7 +149,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     
     self.storyLabel.attributedText = [story attributedString];
     self.dateLabel.text = [_timeIntervalFormatter stringForTimeIntervalFromDate:[NSDate date]
-                                                                         toDate:[story createdAt]];
+                                                                         toDate:[story publishedAt]];
     [self.likeButton setSelected:story.liked];
     [self.likeButton setTitle:[story likeButtonString]];
 }

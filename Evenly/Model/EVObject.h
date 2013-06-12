@@ -28,6 +28,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *operation, NSError *error
 @property (nonatomic, readonly) NSDictionary *originalDictionary;
 @property (nonatomic, assign, getter=isValid) BOOL valid;
 
++ (NSDateFormatter *)dateFormatter;
+
 + (NSString *)controllerName;
 + (NSMutableURLRequest *)requestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters;
 + (NSMutableURLRequest *)multipartFormRequestWithMethod:(NSString *)method
