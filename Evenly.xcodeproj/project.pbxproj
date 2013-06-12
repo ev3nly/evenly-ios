@@ -76,6 +76,17 @@
 		9C900D181767E96700E2F4C4 /* Close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C900D161767E96700E2F4C4 /* Close@2x.png */; };
 		9C900D1B1767EB8600E2F4C4 /* EVImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D1A1767EB8600E2F4C4 /* EVImages.m */; };
 		9C900D1E1767F08D00E2F4C4 /* EVDepositCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D1D1767F08D00E2F4C4 /* EVDepositCell.m */; };
+		9C900D281767FA5200E2F4C4 /* btn_blue-active.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C900D201767FA5200E2F4C4 /* btn_blue-active.png */; };
+		9C900D291767FA5200E2F4C4 /* btn_blue-active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C900D211767FA5200E2F4C4 /* btn_blue-active@2x.png */; };
+		9C900D2A1767FA5200E2F4C4 /* btn_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C900D221767FA5200E2F4C4 /* btn_blue.png */; };
+		9C900D2B1767FA5200E2F4C4 /* btn_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C900D231767FA5200E2F4C4 /* btn_blue@2x.png */; };
+		9C900D2C1767FA5200E2F4C4 /* btn_gray-active.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C900D241767FA5200E2F4C4 /* btn_gray-active.png */; };
+		9C900D2D1767FA5200E2F4C4 /* btn_gray-active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C900D251767FA5200E2F4C4 /* btn_gray-active@2x.png */; };
+		9C900D2E1767FA5200E2F4C4 /* btn_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C900D261767FA5200E2F4C4 /* btn_gray.png */; };
+		9C900D2F1767FA5200E2F4C4 /* btn_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C900D271767FA5200E2F4C4 /* btn_gray@2x.png */; };
+		9C900D321767FAA600E2F4C4 /* EVBlueButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D311767FAA600E2F4C4 /* EVBlueButton.m */; };
+		9C900D341768028D00E2F4C4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C900D331768028D00E2F4C4 /* CoreText.framework */; };
+		9C900D38176802FF00E2F4C4 /* EVSpreadLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D37176802FF00E2F4C4 /* EVSpreadLabel.m */; };
 		9C981B23174FD95600BE9506 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B22174FD95600BE9506 /* UIKit.framework */; };
 		9C981B25174FD95600BE9506 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B24174FD95600BE9506 /* Foundation.framework */; };
 		9C981B27174FD95600BE9506 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B26174FD95600BE9506 /* CoreGraphics.framework */; };
@@ -323,6 +334,19 @@
 		9C900D1A1767EB8600E2F4C4 /* EVImages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVImages.m; sourceTree = "<group>"; };
 		9C900D1C1767F08D00E2F4C4 /* EVDepositCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVDepositCell.h; sourceTree = "<group>"; };
 		9C900D1D1767F08D00E2F4C4 /* EVDepositCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVDepositCell.m; sourceTree = "<group>"; };
+		9C900D201767FA5200E2F4C4 /* btn_blue-active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_blue-active.png"; sourceTree = "<group>"; };
+		9C900D211767FA5200E2F4C4 /* btn_blue-active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_blue-active@2x.png"; sourceTree = "<group>"; };
+		9C900D221767FA5200E2F4C4 /* btn_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_blue.png; sourceTree = "<group>"; };
+		9C900D231767FA5200E2F4C4 /* btn_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_blue@2x.png"; sourceTree = "<group>"; };
+		9C900D241767FA5200E2F4C4 /* btn_gray-active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_gray-active.png"; sourceTree = "<group>"; };
+		9C900D251767FA5200E2F4C4 /* btn_gray-active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_gray-active@2x.png"; sourceTree = "<group>"; };
+		9C900D261767FA5200E2F4C4 /* btn_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_gray.png; sourceTree = "<group>"; };
+		9C900D271767FA5200E2F4C4 /* btn_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_gray@2x.png"; sourceTree = "<group>"; };
+		9C900D301767FAA600E2F4C4 /* EVBlueButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVBlueButton.h; sourceTree = "<group>"; };
+		9C900D311767FAA600E2F4C4 /* EVBlueButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVBlueButton.m; sourceTree = "<group>"; };
+		9C900D331768028D00E2F4C4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		9C900D36176802FF00E2F4C4 /* EVSpreadLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpreadLabel.h; sourceTree = "<group>"; };
+		9C900D37176802FF00E2F4C4 /* EVSpreadLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSpreadLabel.m; sourceTree = "<group>"; };
 		9C981B1F174FD95600BE9506 /* Evenly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Evenly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C981B22174FD95600BE9506 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9C981B24174FD95600BE9506 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -489,6 +513,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C900D341768028D00E2F4C4 /* CoreText.framework in Frameworks */,
 				9CEEB8621755854500C24C2A /* Accounts.framework in Frameworks */,
 				9CEEB8631755854500C24C2A /* AddressBook.framework in Frameworks */,
 				9CEEB8641755854500C24C2A /* AddressBookUI.framework in Frameworks */,
@@ -714,6 +739,8 @@
 				9C778DDF17679AA70053F9D6 /* EVNavigationBarButton.m */,
 				9CE76DBE1767A92F005953C8 /* EVLikeButton.h */,
 				9CE76DBF1767A92F005953C8 /* EVLikeButton.m */,
+				9C900D301767FAA600E2F4C4 /* EVBlueButton.h */,
+				9C900D311767FAA600E2F4C4 /* EVBlueButton.m */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -744,9 +771,34 @@
 			path = Deposit;
 			sourceTree = "<group>";
 		};
+		9C900D1F1767FA3E00E2F4C4 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				9C900D201767FA5200E2F4C4 /* btn_blue-active.png */,
+				9C900D211767FA5200E2F4C4 /* btn_blue-active@2x.png */,
+				9C900D221767FA5200E2F4C4 /* btn_blue.png */,
+				9C900D231767FA5200E2F4C4 /* btn_blue@2x.png */,
+				9C900D241767FA5200E2F4C4 /* btn_gray-active.png */,
+				9C900D251767FA5200E2F4C4 /* btn_gray-active@2x.png */,
+				9C900D261767FA5200E2F4C4 /* btn_gray.png */,
+				9C900D271767FA5200E2F4C4 /* btn_gray@2x.png */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		9C900D35176802F700E2F4C4 /* Labels */ = {
+			isa = PBXGroup;
+			children = (
+				9C900D36176802FF00E2F4C4 /* EVSpreadLabel.h */,
+				9C900D37176802FF00E2F4C4 /* EVSpreadLabel.m */,
+			);
+			path = Labels;
+			sourceTree = "<group>";
+		};
 		9C981B16174FD95600BE9506 = {
 			isa = PBXGroup;
 			children = (
+				9C900D331768028D00E2F4C4 /* CoreText.framework */,
 				9C6F1B981761054700974850 /* Default-568h@2x.png */,
 				9C6F1B961761054400974850 /* Default@2x.png */,
 				9C6F1B941761054100974850 /* Default.png */,
@@ -852,6 +904,7 @@
 		9CB285621761521E009B26BB /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				9C900D1F1767FA3E00E2F4C4 /* Buttons */,
 				9CB285631761521E009B26BB /* Feed */,
 				9CB285701761521E009B26BB /* MainMenu */,
 				9CB2857A1761521E009B26BB /* NavBar */,
@@ -953,6 +1006,7 @@
 				9CFDBAAE17625F6900D4E36C /* Avatar */,
 				9C2684B6176683B100AEA624 /* Buttons */,
 				D03F1E191767BAEF0067A428 /* Exchanges */,
+				9C900D35176802F700E2F4C4 /* Labels */,
 				9CB285C5176164E1009B26BB /* TableViewCells */,
 			);
 			path = View;
@@ -1310,6 +1364,14 @@
 				9C778DE817679ADA0053F9D6 /* Btn_Header_Normal@2x.png in Resources */,
 				9C900D171767E96700E2F4C4 /* Close.png in Resources */,
 				9C900D181767E96700E2F4C4 /* Close@2x.png in Resources */,
+				9C900D281767FA5200E2F4C4 /* btn_blue-active.png in Resources */,
+				9C900D291767FA5200E2F4C4 /* btn_blue-active@2x.png in Resources */,
+				9C900D2A1767FA5200E2F4C4 /* btn_blue.png in Resources */,
+				9C900D2B1767FA5200E2F4C4 /* btn_blue@2x.png in Resources */,
+				9C900D2C1767FA5200E2F4C4 /* btn_gray-active.png in Resources */,
+				9C900D2D1767FA5200E2F4C4 /* btn_gray-active@2x.png in Resources */,
+				9C900D2E1767FA5200E2F4C4 /* btn_gray.png in Resources */,
+				9C900D2F1767FA5200E2F4C4 /* btn_gray@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1516,6 +1578,8 @@
 				9C900D141767E84400E2F4C4 /* EVDepositViewController.m in Sources */,
 				9C900D1B1767EB8600E2F4C4 /* EVImages.m in Sources */,
 				9C900D1E1767F08D00E2F4C4 /* EVDepositCell.m in Sources */,
+				9C900D321767FAA600E2F4C4 /* EVBlueButton.m in Sources */,
+				9C900D38176802FF00E2F4C4 /* EVSpreadLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
