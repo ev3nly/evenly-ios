@@ -16,11 +16,16 @@
 @interface EVNetworkSelectorView ()
 
 - (void)loadDividers;
+- (void)loadCells;
+
 - (CGRect)frameForDividerIndex:(int)index;
+- (CGRect)frameForCellIndex:(int)index;
 
 @end
 
 @implementation EVNetworkSelectorView
+
+#pragma mark - Lifecycle
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -28,9 +33,12 @@
     {
         self.backgroundColor = [UIColor clearColor];
         [self loadDividers];
+        [self loadCells];
     }
     return self;
 }
+
+#pragma mark - View Loading
 
 - (void)loadDividers
 {
@@ -41,11 +49,29 @@
     }
 }
 
+- (void)loadCells
+{
+    for (int i = 0; i < NUM_LINES; i++) {
+        EVNetworkSelectorCell *cell = [[EVNetworkSelectorCell alloc] initWithFrame:[self frameForCellIndex:i]
+                                                                           andType:i];
+        [self addSubview:cell];
+    }
+}
+
+#pragma mark - Frame Defines
+
 - (CGRect)frameForDividerIndex:(int)index {
     return CGRectMake(0,
                       LINE_HEIGHT * index,
                       self.bounds.size.width,
                       1);
+}
+
+- (CGRect)frameForCellIndex:(int)index {
+    return CGRectMake(0,
+                      LINE_HEIGHT * index,
+                      self.bounds.size.width,
+                      LINE_HEIGHT);
 }
 
 @end
