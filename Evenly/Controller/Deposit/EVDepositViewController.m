@@ -10,11 +10,13 @@
 #import "EVDepositCell.h"
 #import "EVWithdrawal.h"
 #import "EVBankAccount.h"
+#import "EVBlueButton.h"
 #import "EVCurrencyTextFieldFormatter.h"
 
 #define EV_DEPOSIT_MARGIN 10.0
 #define EV_DEPOSIT_BALANCE_PANE_HEIGHT 96.0
 #define EV_DEPOSIT_CELL_HEIGHT 44.0
+#define EV_DEPOSIT_BUTTON_HEIGHT 44.0
 
 @interface EVDepositViewController ()
 
@@ -27,6 +29,9 @@
 @property (nonatomic, strong) EVDepositCell *amountCell;
 @property (nonatomic, strong) EVDepositCell *bankCell;
 @property (nonatomic, strong) UIPickerView *pickerView;
+
+@property (nonatomic, strong) EVBlueButton *depositButton;
+
 @property (nonatomic, strong) EVBankAccount *chosenAccount;
 
 @property (nonatomic, strong) EVWithdrawal *withdrawal;
@@ -154,7 +159,12 @@
 }
 
 - (void)loadDepositButton {
-    
+    self.depositButton = [[EVBlueButton alloc] initWithFrame:CGRectMake(EV_DEPOSIT_MARGIN,
+                                                                        CGRectGetMaxY(self.cellContainer.frame) + EV_DEPOSIT_MARGIN,
+                                                                        self.view.frame.size.width - 2*EV_DEPOSIT_MARGIN,
+                                                                        EV_DEPOSIT_BUTTON_HEIGHT)];
+    [self.depositButton addTarget:self action:@selector(depositButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.depositButton];
 }
 
 - (void)loadReassuringMessage {
@@ -181,6 +191,13 @@
             self.bankCell.textField.enabled = NO;
         }
         [self.bankCell setNeedsLayout];
+    }];
+   
+    // Button text
+    [self.amountCell.textField.rac_textSignal subscribeNext:^(NSString *amountText) {
+        if (EV_IS_EMPTY_STRING(amountText))
+            amountText = self.amountCell.textField.placeholder;
+        [self.depositButton setTitle:[NSString stringWithFormat:@"DEPOSIT %@", amountText] forState:UIControlStateNormal];
     }];
     
     // Form validity
