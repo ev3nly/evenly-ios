@@ -47,6 +47,7 @@
     self.emailField.placeholder = @"example@college.edu";
     self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.emailField.delegate = self;
+    self.emailField.returnKeyType = UIReturnKeyNext;
     [emailRow setContentView:self.emailField];
 
     EVFormRow *passwordRow = [[EVFormRow alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
@@ -59,6 +60,7 @@
     self.passwordField.secureTextEntry = YES;
     self.passwordField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.passwordField.delegate = self;
+    self.passwordField.returnKeyType = UIReturnKeyGo;
 
     [(EVTextField *)self.emailField setNext:self.passwordField];
 
