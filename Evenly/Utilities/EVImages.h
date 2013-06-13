@@ -24,5 +24,7 @@
 + (UIImage *)friendsIcon;
 + (UIImage *)globeIcon;
 + (UIImage *)lockIcon;
++ (UIImage *)dropdownArrow;
++ (UIImage *)checkIcon;
 
 @end

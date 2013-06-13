@@ -15,7 +15,7 @@
 
 #define DESCRIPTION_PLACEHOLDER_TEXT @"Lunch, dinner, taxi, or anything else"
 
-@interface EVExchangeFormView ()
+@interface EVExchangeFormView () 
 
 - (void)loadPayLabel;
 - (void)loadToField;
@@ -111,7 +111,7 @@
     UILabel *label = [UILabel new];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = EV_RGB_COLOR(40, 40, 40);
-    label.font = [EVFont blackFontOfSize:14];
+    label.font = [EVFont darkExchangeFormFont];
     return label;
 }
 
@@ -119,7 +119,7 @@
     UITextField *textField = [UITextField new];
     textField.backgroundColor = [UIColor clearColor];
     textField.textColor = EV_RGB_COLOR(180, 180, 180);
-    textField.font = [EVFont defaultFontOfSize:14];
+    textField.font = [EVFont lightExchangeFormFont];
     return textField;
 }
 
