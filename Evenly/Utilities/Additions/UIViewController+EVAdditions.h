@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JASidePanelController.h"
+#import "EVMasterViewController.h"
 
 @interface UIViewController (EVAdditions)
 
-@property (nonatomic, readonly) JASidePanelController *masterViewController;
+@property (nonatomic, readonly) EVMasterViewController *masterViewController;
 
 @end

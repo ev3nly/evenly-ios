@@ -9,6 +9,9 @@
 #import "EVSettingsViewController.h"
 #import "EVSettingsRow.h"
 
+#import "EVSession.h"
+#import "EVNavigationManager.h"
+
 #define EV_SETTINGS_MARGIN 10.0
 #define EV_SETTINGS_ROW_HEIGHT 50.0
 #define EV_SETTINGS_STRIPE_HEIGHT 1.0
@@ -93,6 +96,30 @@
 }
 
 - (void)logoutButtonPress:(id)sender {
+    [self showLogOutActionSheet];
+}
+
+- (void)showLogOutActionSheet {
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Log out" otherButtonTitles:nil];
+    [sheet showInView:self.masterViewController.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if ([actionSheet cancelButtonIndex] == buttonIndex)
+        return;
+    
+    [EVSession signOutWithSuccess:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionUserExplicitlySignedOutNotification object:nil];
+        [self.masterViewController showLoginViewControllerWithCompletion:^{
+            [self.masterViewController setCenterPanel:[[EVNavigationManager sharedManager] homeViewController]];
+        }
+                                                                animated:YES
+                                                   authenticationSuccess:^{
+//                                                       [self.masterViewController promptToSetPIN];
+                                                   } ];
+    } failure:^(NSError *error) {
+        DLog(@"Error: %@", error);
+    }];
     
 }
 
