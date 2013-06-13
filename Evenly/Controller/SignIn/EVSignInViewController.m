@@ -10,10 +10,17 @@
 #import "EVFormView.h"
 #import "EVFormRow.h"
 #import "EVTextField.h"
+#import "EVNavigationBarButton.h"
 
 #import "EVSession.h"
 
 @interface EVSignInViewController ()
+
+@property (nonatomic, strong) EVNavigationBarButton *doneButton;
+
+- (void)loadDoneButton;
+- (void)loadForm;
+- (void)setUpReactions;
 
 @end
 
@@ -37,6 +44,20 @@
 {
     [super viewDidLoad];
     
+    [self loadDoneButton];
+    [self loadForm];
+    [self setUpReactions];
+}
+
+- (void)loadDoneButton {
+    
+    self.doneButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
+    [self.doneButton addTarget:self action:@selector(doneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];
+    
+}
+
+- (void)loadForm {
     EVFormRow *emailRow = [[EVFormRow alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
     [emailRow.fieldLabel setText:@"Email"];
     self.emailField = [[EVTextField alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
@@ -49,7 +70,7 @@
     self.emailField.delegate = self;
     self.emailField.returnKeyType = UIReturnKeyNext;
     [emailRow setContentView:self.emailField];
-
+    
     EVFormRow *passwordRow = [[EVFormRow alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
     [passwordRow.fieldLabel setText:@"Password"];
     self.passwordField = [[EVTextField alloc] initWithFrame:CGRectMake(0, 0, 300, 20)];
@@ -61,15 +82,24 @@
     self.passwordField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.passwordField.delegate = self;
     self.passwordField.returnKeyType = UIReturnKeyGo;
-
+    
     [(EVTextField *)self.emailField setNext:self.passwordField];
-
+    
     [passwordRow setContentView:self.passwordField];
-
+    
     EVFormView *formView = [[EVFormView alloc] initWithFrame:CGRectMake(10, 10, 300, 50)];
     [self.view addSubview:formView];
     [formView setFormRows:@[ emailRow, passwordRow ]];
+}
 
+- (void)setUpReactions {
+    RACSignal *formValidSignal = [RACSignal combineLatest:@[self.emailField.rac_textSignal,
+                                  self.passwordField.rac_textSignal]
+                                                   reduce:^(NSString *email, NSString *password) {
+                                                       return @([email isEmail] && [password length] > 0);
+                                                   }];
+    
+    RAC(self.doneButton.enabled) = formValidSignal;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
