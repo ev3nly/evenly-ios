@@ -15,8 +15,8 @@
 
 @interface EVNetworkSelectorView ()
 
-- (void)loadDividers;
 - (void)loadCells;
+- (void)loadDividers;
 
 - (CGRect)frameForDividerIndex:(int)index;
 - (CGRect)frameForCellIndex:(int)index;
@@ -32,22 +32,13 @@
     if (self = [super initWithFrame:frame])
     {
         self.backgroundColor = [UIColor clearColor];
-        [self loadDividers];
         [self loadCells];
+        [self loadDividers];
     }
     return self;
 }
 
 #pragma mark - View Loading
-
-- (void)loadDividers
-{
-    for (int i = 0; i < NUM_LINES+1; i++) {
-        UIView *divider = [[UIView alloc] initWithFrame:[self frameForDividerIndex:i]];
-        divider.backgroundColor = EV_RGB_COLOR(DIVIDER_HUE, DIVIDER_HUE, DIVIDER_HUE);
-        [self addSubview:divider];
-    }
-}
 
 - (void)loadCells
 {
@@ -55,6 +46,15 @@
         EVNetworkSelectorCell *cell = [[EVNetworkSelectorCell alloc] initWithFrame:[self frameForCellIndex:i]
                                                                            andType:i];
         [self addSubview:cell];
+    }
+}
+
+- (void)loadDividers
+{
+    for (int i = 0; i < NUM_LINES+1; i++) {
+        UIView *divider = [[UIView alloc] initWithFrame:[self frameForDividerIndex:i]];
+        divider.backgroundColor = EV_RGB_COLOR(DIVIDER_HUE, DIVIDER_HUE, DIVIDER_HUE);
+        [self addSubview:divider];
     }
 }
 

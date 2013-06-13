@@ -21,4 +21,7 @@ typedef enum {
 
 - (id)initWithFrame:(CGRect)frame andType:(EVNetworkSelectorCellType)type;
 
+- (void)showCheck;
+- (void)hideCheck;
+
 @end
