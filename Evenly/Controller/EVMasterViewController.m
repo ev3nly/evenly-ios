@@ -7,6 +7,7 @@
 //
 
 #import "EVMasterViewController.h"
+#import "EVSignInViewController.h"
 
 @interface EVMasterViewController ()
 
@@ -38,7 +39,9 @@
 - (void)showLoginViewControllerWithCompletion:(void (^)(void))completion
 									 animated:(BOOL)animated
 						authenticationSuccess:(void (^)(void))success {
-    
+    EVSignInViewController *signInViewController = [[EVSignInViewController alloc] initWithAuthenticationSuccess:success];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signInViewController];
+    [self presentViewController:navController animated:animated completion:completion];
 }
 
 @end

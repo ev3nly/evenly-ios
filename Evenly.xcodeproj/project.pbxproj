@@ -67,6 +67,10 @@
 		9C2DD07E1769050700EAA3D1 /* Privacy-Lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD0761769050700EAA3D1 /* Privacy-Lock.png */; };
 		9C2DD07F1769050700EAA3D1 /* Privacy-Lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD0771769050700EAA3D1 /* Privacy-Lock@2x.png */; };
 		9C2DD083176906BA00EAA3D1 /* EVPrivacyNotice.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD082176906BA00EAA3D1 /* EVPrivacyNotice.m */; };
+		9C2DD09F176A37E800EAA3D1 /* EVFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD09E176A37E800EAA3D1 /* EVFormView.m */; };
+		9C2DD0A3176A3CF000EAA3D1 /* EVSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD0A2176A3CF000EAA3D1 /* EVSignInViewController.m */; };
+		9C2DD0A6176A4B2C00EAA3D1 /* EVFormRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD0A5176A4B2B00EAA3D1 /* EVFormRow.m */; };
+		9C2DD0AA176A4DD600EAA3D1 /* EVTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD0A9176A4DD600EAA3D1 /* EVTextField.m */; };
 		9C2DD0871769278E00EAA3D1 /* EVSettingsRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD0861769278E00EAA3D1 /* EVSettingsRow.m */; };
 		9C2DD08F176928A500EAA3D1 /* Settings_logout_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD089176928A500EAA3D1 /* Settings_logout_arrow.png */; };
 		9C2DD090176928A500EAA3D1 /* Settings_logout_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD08A176928A500EAA3D1 /* Settings_logout_arrow@2x.png */; };
@@ -340,6 +344,14 @@
 		9C2DD0771769050700EAA3D1 /* Privacy-Lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Privacy-Lock@2x.png"; sourceTree = "<group>"; };
 		9C2DD081176906BA00EAA3D1 /* EVPrivacyNotice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPrivacyNotice.h; sourceTree = "<group>"; };
 		9C2DD082176906BA00EAA3D1 /* EVPrivacyNotice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacyNotice.m; sourceTree = "<group>"; };
+		9C2DD09D176A37E800EAA3D1 /* EVFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFormView.h; sourceTree = "<group>"; };
+		9C2DD09E176A37E800EAA3D1 /* EVFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFormView.m; sourceTree = "<group>"; };
+		9C2DD0A1176A3CF000EAA3D1 /* EVSignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSignInViewController.h; sourceTree = "<group>"; };
+		9C2DD0A2176A3CF000EAA3D1 /* EVSignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSignInViewController.m; sourceTree = "<group>"; };
+		9C2DD0A4176A4B2B00EAA3D1 /* EVFormRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFormRow.h; sourceTree = "<group>"; };
+		9C2DD0A5176A4B2B00EAA3D1 /* EVFormRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFormRow.m; sourceTree = "<group>"; };
+		9C2DD0A8176A4DD600EAA3D1 /* EVTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTextField.h; sourceTree = "<group>"; };
+		9C2DD0A9176A4DD600EAA3D1 /* EVTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTextField.m; sourceTree = "<group>"; };
 		9C2DD0851769278E00EAA3D1 /* EVSettingsRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSettingsRow.h; sourceTree = "<group>"; };
 		9C2DD0861769278E00EAA3D1 /* EVSettingsRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSettingsRow.m; sourceTree = "<group>"; };
 		9C2DD089176928A500EAA3D1 /* Settings_logout_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Settings_logout_arrow.png; sourceTree = "<group>"; };
@@ -619,6 +631,7 @@
 				9C0EC755175D7CFC003B93E2 /* Invite */,
 				9C0EC756175D7CFC003B93E2 /* Prophile */,
 				9C0EC758175D7CFC003B93E2 /* Settings */,
+				9C2DD0A0176A3CE400EAA3D1 /* SignIn */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -809,8 +822,30 @@
 			children = (
 				9C2DD081176906BA00EAA3D1 /* EVPrivacyNotice.h */,
 				9C2DD082176906BA00EAA3D1 /* EVPrivacyNotice.m */,
+				9C2DD09D176A37E800EAA3D1 /* EVFormView.h */,
+				9C2DD09E176A37E800EAA3D1 /* EVFormView.m */,
+				9C2DD0A4176A4B2B00EAA3D1 /* EVFormRow.h */,
+				9C2DD0A5176A4B2B00EAA3D1 /* EVFormRow.m */,
 			);
 			path = General;
+			sourceTree = "<group>";
+		};
+		9C2DD0A0176A3CE400EAA3D1 /* SignIn */ = {
+			isa = PBXGroup;
+			children = (
+				9C2DD0A1176A3CF000EAA3D1 /* EVSignInViewController.h */,
+				9C2DD0A2176A3CF000EAA3D1 /* EVSignInViewController.m */,
+			);
+			path = SignIn;
+			sourceTree = "<group>";
+		};
+		9C2DD0A7176A4DCC00EAA3D1 /* TextFields */ = {
+			isa = PBXGroup;
+			children = (
+				9C2DD0A8176A4DD600EAA3D1 /* EVTextField.h */,
+				9C2DD0A9176A4DD600EAA3D1 /* EVTextField.m */,
+			);
+			path = TextFields;
 			sourceTree = "<group>";
 		};
 		9C2DD0841769278100EAA3D1 /* Settings */ = {
@@ -1104,6 +1139,7 @@
 				9C900D35176802F700E2F4C4 /* Labels */,
 				9C2DD0841769278100EAA3D1 /* Settings */,
 				9CB285C5176164E1009B26BB /* TableViewCells */,
+				9C2DD0A7176A4DCC00EAA3D1 /* TextFields */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1699,6 +1735,10 @@
 				9C2DD083176906BA00EAA3D1 /* EVPrivacyNotice.m in Sources */,
 				D0A77EED1768243D0091AF09 /* EVRequestViewController.m in Sources */,
 				D0A77EF0176824830091AF09 /* EVRequestFormView.m in Sources */,
+				9C2DD09F176A37E800EAA3D1 /* EVFormView.m in Sources */,
+				9C2DD0A3176A3CF000EAA3D1 /* EVSignInViewController.m in Sources */,
+				9C2DD0A6176A4B2C00EAA3D1 /* EVFormRow.m in Sources */,
+				9C2DD0AA176A4DD600EAA3D1 /* EVTextField.m in Sources */,
 				9C2DD0871769278E00EAA3D1 /* EVSettingsRow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

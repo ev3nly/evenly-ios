@@ -28,5 +28,10 @@
 + (UIColor *)newsfeedButtonLabelColor;
 + (UIColor *)newsfeedButtonHighlightColor;
 
+#pragma mark - Text
+
++ (UIColor *)darkLabelColor;
++ (UIColor *)placeholderColor;
++ (UIColor *)inputTextColor;
 
 @end

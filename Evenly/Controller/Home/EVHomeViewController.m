@@ -53,6 +53,11 @@
     [self configurePullToRefresh];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignOut:) name:EVSessionUserExplicitlySignedOutNotification object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)loadBalanceLabel {
@@ -129,6 +134,11 @@
 
 - (void)didSignIn:(NSNotification *)notification {
     [self reloadNewsFeed];
+}
+
+- (void)didSignOut:(NSNotification *)notification {
+    self.newsfeed = [NSArray array];
+    [self.tableView reloadData];
 }
 
 - (void)reloadNewsFeed {
