@@ -9,12 +9,12 @@
 #import "EVExchangeViewController.h"
 #import "EVNavigationBarButton.h"
 #import "EVExchangeFormView.h"
-#import "EVNetworkSelectorView.h"
+#import "EVPrivacySelectorView.h"
 
 #define KEYBOARD_HEIGHT 216
 
 @interface EVExchangeViewController () {
-    EVNetworkSelectorView *_networkSelector;
+    EVPrivacySelectorView *_networkSelector;
 }
 
 - (void)loadLeftButton;
@@ -73,7 +73,7 @@
 
 - (void)loadNetworkSelector
 {
-    _networkSelector = [[EVNetworkSelectorView alloc] initWithFrame:[self networkSelectorFrame]];
+    _networkSelector = [[EVPrivacySelectorView alloc] initWithFrame:[self networkSelectorFrame]];
     [self.view addSubview:_networkSelector];
 }
 

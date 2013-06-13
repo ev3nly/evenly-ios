@@ -1,19 +1,22 @@
 //
-//  EVNetworkSelectorView.m
+//  EVPrivacySelectorView.m
 //  Evenly
 //
 //  Created by Justin Brunet on 6/12/13.
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVNetworkSelectorView.h"
-#import "EVNetworkSelectorCell.h"
+#import "EVPrivacySelectorView.h"
+#import "EVPrivacySelectorLine.h"
+#import "EVPrivacySelectorHeader.h"
+#import "EVPrivacySelectorOption.h"
+#import "EVUser.h"
 
 #define LINE_HEIGHT 40
 #define NUM_LINES 4
 #define DIVIDER_HUE 230
 
-@interface EVNetworkSelectorView ()
+@interface EVPrivacySelectorView ()
 
 - (void)loadCells;
 - (void)loadDividers;
@@ -23,7 +26,7 @@
 
 @end
 
-@implementation EVNetworkSelectorView
+@implementation EVPrivacySelectorView
 
 #pragma mark - Lifecycle
 
@@ -43,9 +46,14 @@
 - (void)loadCells
 {
     for (int i = 0; i < NUM_LINES; i++) {
-        EVNetworkSelectorCell *cell = [[EVNetworkSelectorCell alloc] initWithFrame:[self frameForCellIndex:i]
-                                                                           andType:i];
-        [self addSubview:cell];
+        EVPrivacySelectorLine *line;
+        
+        if (i == 0)
+            line = [[EVPrivacySelectorHeader alloc] initWithFrame:[self frameForCellIndex:i] andSetting:[EVUser me].privacySetting];
+        else
+            line = [[EVPrivacySelectorOption alloc] initWithFrame:[self frameForCellIndex:i] andSetting:i-1];
+        
+        [self addSubview:line];
     }
 }
 

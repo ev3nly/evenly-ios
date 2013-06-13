@@ -1,5 +1,5 @@
 //
-//  EVNetworkSelectorView.h
+//  EVPrivacySelectorView.h
 //  Evenly
 //
 //  Created by Justin Brunet on 6/12/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EVNetworkSelectorView : UIView
+@interface EVPrivacySelectorView : UIView
 
 @end
