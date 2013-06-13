@@ -8,6 +8,6 @@
 
 #import "EVViewController.h"
 
-@interface EVSettingsViewController : EVViewController
+@interface EVSettingsViewController : EVViewController <UIActionSheetDelegate>
 
 @end

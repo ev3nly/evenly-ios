@@ -14,6 +14,7 @@
 
 #import "JASidePanelController.h"
 #import "EVNavigationManager.h"
+#import "EVMasterViewController.h"
 #import "EVMainMenuViewController.h"
 #import "EVHomeViewController.h"
 #import "EVWalletViewController.h"
@@ -51,10 +52,7 @@
     // STRICTLY TEMPORARY
     if (![[EVCIA sharedInstance] session])
     {
-        EVSignInViewController *signInViewController = [[EVSignInViewController alloc] init];
-        [self.masterViewController presentViewController:[[UINavigationController alloc] initWithRootViewController:signInViewController]
-                                                animated:YES
-                                              completion:NULL];
+        [self.masterViewController showLoginViewControllerWithCompletion:NULL];
     }
     else
     {

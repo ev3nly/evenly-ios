@@ -19,14 +19,19 @@
 
 @implementation EVSignInViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (id)init {
+    return [self initWithAuthenticationSuccess:NULL];
+}
+
+- (id)initWithAuthenticationSuccess:(void (^)(void))success {
+    self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.title = @"Sign In";
+        self.authenticationSuccess = success;
     }
     return self;
 }
+
 
 - (void)viewDidLoad
 {

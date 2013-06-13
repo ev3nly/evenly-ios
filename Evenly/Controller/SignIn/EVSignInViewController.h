@@ -16,4 +16,6 @@
 @property (nonatomic, strong) EVTextField *passwordField;
 @property (nonatomic, strong) void (^authenticationSuccess)(void);
 
+- (id)initWithAuthenticationSuccess:(void (^)(void))success;
+
 @end
