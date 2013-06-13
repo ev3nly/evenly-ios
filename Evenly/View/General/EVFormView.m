@@ -62,6 +62,7 @@
             UIView *stripe = [self stripeAtPoint:origin];
             [self addSubview:stripe];
             [self.stripes addObject:stripe];
+            origin.y += stripe.frame.size.height;
         }
     }
 }
