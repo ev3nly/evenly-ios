@@ -25,6 +25,7 @@
 
 #pragma mark - Data Caching
 
+- (void)cacheNewSession;
 @property (nonatomic, strong) EVUser *me;
 @property (nonatomic, strong) EVSession *session;
 

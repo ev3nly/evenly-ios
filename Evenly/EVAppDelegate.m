@@ -23,6 +23,8 @@
 #import "EVHTTPClient.h"
 #import "EVAppErrorHandler.h"
 
+#import "EVSignInViewController.h"
+
 @implementation EVAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -49,20 +51,10 @@
     // STRICTLY TEMPORARY
     if (![[EVCIA sharedInstance] session])
     {
-        [EVSession createWithEmail:@"joe@paywithivy.com" password:@"haijoe" success:^{
-            //retrieve user from session call, cache user
-            EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
-            [EVUser setMe:me];
-            [[EVCIA sharedInstance] setMe:me];
-            
-            [EVUtilities registerForPushNotifications];
-            
-            //cache session
-            [[EVCIA sharedInstance] setSession:[EVSession sharedSession]];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedInNotification object:nil];
-        } failure:^(NSError *error) {
-            DLog(@"Failure?! %@", error);
-        }];
+        EVSignInViewController *signInViewController = [[EVSignInViewController alloc] init];
+        [self.masterViewController presentViewController:[[UINavigationController alloc] initWithRootViewController:signInViewController]
+                                                animated:YES
+                                              completion:NULL];
     }
     else
     {

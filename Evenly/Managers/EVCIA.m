@@ -59,8 +59,6 @@ static EVCIA *_sharedInstance;
 
 #pragma mark - Image Caching
 
-
-
 - (UIImage *)imageForURL:(NSURL *)url {
     UIImage *image = nil;
     // Check memory cache
@@ -105,6 +103,19 @@ static EVCIA *_sharedInstance;
 
 
 #pragma mark - Me
+
+- (void)cacheNewSession {
+    //retrieve user from session call, cache user
+    EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
+    [EVUser setMe:me];
+    [self setMe:me];
+    
+    [EVUtilities registerForPushNotifications];
+    
+    //cache session
+    [self setSession:[EVSession sharedSession]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedInNotification object:nil];
+}
 
 - (EVUser *)me {
     if (!self.cachedUser)
