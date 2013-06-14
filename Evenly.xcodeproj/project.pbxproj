@@ -228,6 +228,15 @@
 		D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */; };
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
 		D03F1E1C1767BB070067A428 /* EVExchangeFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */; };
+		D06DFAF61769473A00A06564 /* Privacy-Check.png in Resources */ = {isa = PBXBuildFile; fileRef = D06DFAF41769473A00A06564 /* Privacy-Check.png */; };
+		D06DFAF71769473A00A06564 /* Privacy-Check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D06DFAF51769473A00A06564 /* Privacy-Check@2x.png */; };
+		D07A3902176A661D00EABEB7 /* EVTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A3901176A661D00EABEB7 /* EVTapGestureRecognizer.m */; };
+		D07A3908176A7B4B00EABEB7 /* EVPrivacySelectorOption.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A3907176A7B4B00EABEB7 /* EVPrivacySelectorOption.m */; };
+		D07A390B176A7D1F00EABEB7 /* EVPrivacySelectorLine.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A390A176A7D1F00EABEB7 /* EVPrivacySelectorLine.m */; };
+		D07A3910176AA2AA00EABEB7 /* UIColor+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A390F176AA2AA00EABEB7 /* UIColor+EVAdditions.m */; };
+		D0828FB11768E6B10032D62E /* EVPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB01768E6B10032D62E /* EVPaymentViewController.m */; };
+		D0828FB41768E7D60032D62E /* EVPrivacySelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB31768E7D60032D62E /* EVPrivacySelectorView.m */; };
+		D0828FB717690EE20032D62E /* EVPrivacySelectorHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB617690EE20032D62E /* EVPrivacySelectorHeader.m */; };
 		D0A77EED1768243D0091AF09 /* EVRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEC1768243D0091AF09 /* EVRequestViewController.m */; };
 		D0A77EF0176824830091AF09 /* EVRequestFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEF176824830091AF09 /* EVRequestFormView.m */; };
 /* End PBXBuildFile section */
@@ -565,6 +574,22 @@
 		D02CAB0E1761483500323025 /* EVValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidator.m; sourceTree = "<group>"; };
 		D03F1E1A1767BB070067A428 /* EVExchangeFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeFormView.h; sourceTree = "<group>"; };
 		D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeFormView.m; sourceTree = "<group>"; };
+		D06DFAF41769473A00A06564 /* Privacy-Check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Privacy-Check.png"; sourceTree = "<group>"; };
+		D06DFAF51769473A00A06564 /* Privacy-Check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Privacy-Check@2x.png"; sourceTree = "<group>"; };
+		D07A3900176A661D00EABEB7 /* EVTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTapGestureRecognizer.h; sourceTree = "<group>"; };
+		D07A3901176A661D00EABEB7 /* EVTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTapGestureRecognizer.m; sourceTree = "<group>"; };
+		D07A3906176A7B4B00EABEB7 /* EVPrivacySelectorOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPrivacySelectorOption.h; sourceTree = "<group>"; };
+		D07A3907176A7B4B00EABEB7 /* EVPrivacySelectorOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacySelectorOption.m; sourceTree = "<group>"; };
+		D07A3909176A7D1F00EABEB7 /* EVPrivacySelectorLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPrivacySelectorLine.h; sourceTree = "<group>"; };
+		D07A390A176A7D1F00EABEB7 /* EVPrivacySelectorLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacySelectorLine.m; sourceTree = "<group>"; };
+		D07A390E176AA2AA00EABEB7 /* UIColor+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+EVAdditions.h"; sourceTree = "<group>"; };
+		D07A390F176AA2AA00EABEB7 /* UIColor+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+EVAdditions.m"; sourceTree = "<group>"; };
+		D0828FAF1768E6B10032D62E /* EVPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPaymentViewController.h; sourceTree = "<group>"; };
+		D0828FB01768E6B10032D62E /* EVPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPaymentViewController.m; sourceTree = "<group>"; };
+		D0828FB21768E7D60032D62E /* EVPrivacySelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPrivacySelectorView.h; sourceTree = "<group>"; };
+		D0828FB31768E7D60032D62E /* EVPrivacySelectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacySelectorView.m; sourceTree = "<group>"; };
+		D0828FB517690EE20032D62E /* EVPrivacySelectorHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPrivacySelectorHeader.h; sourceTree = "<group>"; };
+		D0828FB617690EE20032D62E /* EVPrivacySelectorHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacySelectorHeader.m; sourceTree = "<group>"; };
 		D0A77EEB1768243D0091AF09 /* EVRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestViewController.h; sourceTree = "<group>"; };
 		D0A77EEC1768243D0091AF09 /* EVRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestViewController.m; sourceTree = "<group>"; };
 		D0A77EEE176824830091AF09 /* EVRequestFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestFormView.h; sourceTree = "<group>"; };
@@ -738,6 +763,8 @@
 				9C1F47D81756914B00B26A1B /* UITableView+EVAdditions.m */,
 				9CCA9008175E6C90003462DC /* UIViewController+EVAdditions.h */,
 				9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */,
+				D07A390E176AA2AA00EABEB7 /* UIColor+EVAdditions.h */,
+				D07A390F176AA2AA00EABEB7 /* UIColor+EVAdditions.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -822,6 +849,8 @@
 				9C2DD0751769050700EAA3D1 /* Privacy-Globe@2x.png */,
 				9C2DD0761769050700EAA3D1 /* Privacy-Lock.png */,
 				9C2DD0771769050700EAA3D1 /* Privacy-Lock@2x.png */,
+				D06DFAF41769473A00A06564 /* Privacy-Check.png */,
+				D06DFAF51769473A00A06564 /* Privacy-Check@2x.png */,
 			);
 			path = Privacy;
 			sourceTree = "<group>";
@@ -835,6 +864,8 @@
 				9C2DD09E176A37E800EAA3D1 /* EVFormView.m */,
 				9C2DD0A4176A4B2B00EAA3D1 /* EVFormRow.h */,
 				9C2DD0A5176A4B2B00EAA3D1 /* EVFormRow.m */,
+				D07A3900176A661D00EABEB7 /* EVTapGestureRecognizer.h */,
+				D07A3901176A661D00EABEB7 /* EVTapGestureRecognizer.m */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -1232,6 +1263,8 @@
 				9CE76DBC17679BDC005953C8 /* EVExchangeViewController.m */,
 				D0A77EEB1768243D0091AF09 /* EVRequestViewController.h */,
 				D0A77EEC1768243D0091AF09 /* EVRequestViewController.m */,
+				D0828FAF1768E6B10032D62E /* EVPaymentViewController.h */,
+				D0828FB01768E6B10032D62E /* EVPaymentViewController.m */,
 			);
 			path = Exchange;
 			sourceTree = "<group>";
@@ -1344,6 +1377,14 @@
 				D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */,
 				D0A77EEE176824830091AF09 /* EVRequestFormView.h */,
 				D0A77EEF176824830091AF09 /* EVRequestFormView.m */,
+				D0828FB21768E7D60032D62E /* EVPrivacySelectorView.h */,
+				D0828FB31768E7D60032D62E /* EVPrivacySelectorView.m */,
+				D07A3909176A7D1F00EABEB7 /* EVPrivacySelectorLine.h */,
+				D07A390A176A7D1F00EABEB7 /* EVPrivacySelectorLine.m */,
+				D0828FB517690EE20032D62E /* EVPrivacySelectorHeader.h */,
+				D0828FB617690EE20032D62E /* EVPrivacySelectorHeader.m */,
+				D07A3906176A7B4B00EABEB7 /* EVPrivacySelectorOption.h */,
+				D07A3907176A7B4B00EABEB7 /* EVPrivacySelectorOption.m */,
 			);
 			path = Exchanges;
 			sourceTree = "<group>";
@@ -1537,6 +1578,8 @@
 				9C2DD09C176928BE00EAA3D1 /* Close@2x.png in Resources */,
 				9C2DD0B0176A923400EAA3D1 /* Back.png in Resources */,
 				9C2DD0B1176A923400EAA3D1 /* Back@2x.png in Resources */,
+				D06DFAF61769473A00A06564 /* Privacy-Check.png in Resources */,
+				D06DFAF71769473A00A06564 /* Privacy-Check@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1754,6 +1797,13 @@
 				9C2DD0AA176A4DD600EAA3D1 /* EVTextField.m in Sources */,
 				9C2DD0871769278E00EAA3D1 /* EVSettingsRow.m in Sources */,
 				9C2DD0AD176A8FAA00EAA3D1 /* EVNotificationsViewController.m in Sources */,
+				D0828FB11768E6B10032D62E /* EVPaymentViewController.m in Sources */,
+				D0828FB41768E7D60032D62E /* EVPrivacySelectorView.m in Sources */,
+				D0828FB717690EE20032D62E /* EVPrivacySelectorHeader.m in Sources */,
+				D07A3902176A661D00EABEB7 /* EVTapGestureRecognizer.m in Sources */,
+				D07A3908176A7B4B00EABEB7 /* EVPrivacySelectorOption.m in Sources */,
+				D07A390B176A7D1F00EABEB7 /* EVPrivacySelectorLine.m in Sources */,
+				D07A3910176AA2AA00EABEB7 /* UIColor+EVAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

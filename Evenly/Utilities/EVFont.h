@@ -18,4 +18,7 @@
 + (UIFont *)defaultFont;
 + (UIFont *)walletHeaderFont;
 
++ (UIFont *)darkExchangeFormFont;
++ (UIFont *)lightExchangeFormFont;
+
 @end

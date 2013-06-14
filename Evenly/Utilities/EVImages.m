@@ -30,7 +30,7 @@
     return [[UIImage imageNamed:@"btn_gray-active"] resizableImageWithCapInsets:UIEdgeInsetsMake(21, 3, 21, 3)];
 }
 
-#pragma mark - Icons
+#pragma mark - Privacy
 
 + (UIImage *)friendsIcon {
     return [UIImage imageNamed:@"Privacy-Friends"];
@@ -42,6 +42,14 @@
 
 + (UIImage *)lockIcon {
     return [UIImage imageNamed:@"Privacy-Lock"];
+}
+
++ (UIImage *)dropdownArrow {
+    return [UIImage imageNamed:@"Privacy-Dropdown"];
+}
+
++ (UIImage *)checkIcon {
+    return [UIImage imageNamed:@"Privacy-Check"];
 }
 
 @end
