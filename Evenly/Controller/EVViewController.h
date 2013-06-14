@@ -11,6 +11,7 @@
 @interface EVViewController : UIViewController
 
 @property (nonatomic, readonly) UILabel *titleLabel;
+@property (nonatomic, strong) UISwipeGestureRecognizer *swipeGestureRecognizer;
 
 - (void)loadTitleLabel;
 

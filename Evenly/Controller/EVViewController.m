@@ -21,7 +21,6 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
 
     }
     return self;
@@ -30,12 +29,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureRecognized:)];
+    [self.swipeGestureRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
     if (self.navigationController.viewControllers.count > 1 && self.navigationController.viewControllers.lastObject == self)
+    {
         [self loadBackButton];
+        [self.navigationController.view addGestureRecognizer:self.swipeGestureRecognizer];
+    }
     
     self.view.backgroundColor = [EVColor creamColor];
     
     [self loadTitleLabel];
+    
+
+    
 }
 
 - (void)loadTitleLabel {
@@ -65,6 +72,10 @@
     [button setImageEdgeInsets:edgeInsets];
     [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
+- (void)swipeGestureRecognized:(UISwipeGestureRecognizer *)recognizer {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)backButtonPress:(id)sender {
