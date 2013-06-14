@@ -295,5 +295,15 @@ static NSDateFormatter *_detailDateFormatter;
     return cachePath;
 }
 
+#pragma mark - General
+
++ (NSString *)onString {
+    return @"On";
+}
+
++ (NSString *)offString {
+    return @"Off";
+}
+
 
 @end
