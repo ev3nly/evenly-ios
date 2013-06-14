@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class JASidePanelController;
+@class EVMasterViewController;
 
 @interface EVAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) JASidePanelController *masterViewController;
+@property (strong, nonatomic) EVMasterViewController *masterViewController;
 
 @end

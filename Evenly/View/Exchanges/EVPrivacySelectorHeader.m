@@ -42,6 +42,8 @@
     [super layoutSubviews];
     
     _dropdownArrow.frame = [self dropdownArrowFrame];
+    self.privacyImageView.frame = [self imageViewFrame];
+    self.label.frame = [self labelFrame];
 }
 
 #pragma mark - View Loading

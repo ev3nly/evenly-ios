@@ -58,4 +58,19 @@
     return EV_RGB_COLOR(0.9725, 0.9725, 0.9725);
 }
 
+#pragma mark - Text
+
++ (UIColor *)darkLabelColor {
+    return EV_RGB_COLOR(0x28, 0x27, 0x26);
+}
+
++ (UIColor *)placeholderColor {
+    return EV_RGB_COLOR(0xd0, 0xce, 0xce);
+}
+
++ (UIColor *)inputTextColor {
+    return EV_RGB_COLOR(0x99, 0x96, 0x94);    
+}
+
+
 @end

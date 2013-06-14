@@ -14,6 +14,7 @@
 
 #import "JASidePanelController.h"
 #import "EVNavigationManager.h"
+#import "EVMasterViewController.h"
 #import "EVMainMenuViewController.h"
 #import "EVHomeViewController.h"
 #import "EVWalletViewController.h"
@@ -22,6 +23,8 @@
 #import "EVSettingsManager.h"
 #import "EVHTTPClient.h"
 #import "EVAppErrorHandler.h"
+
+#import "EVSignInViewController.h"
 
 @implementation EVAppDelegate
 
@@ -49,20 +52,7 @@
     // STRICTLY TEMPORARY
     if (![[EVCIA sharedInstance] session])
     {
-        [EVSession createWithEmail:@"joe@paywithivy.com" password:@"haijoe" success:^{
-            //retrieve user from session call, cache user
-            EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
-            [EVUser setMe:me];
-            [[EVCIA sharedInstance] setMe:me];
-            
-            [EVUtilities registerForPushNotifications];
-            
-            //cache session
-            [[EVCIA sharedInstance] setSession:[EVSession sharedSession]];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedInNotification object:nil];
-        } failure:^(NSError *error) {
-            DLog(@"Failure?! %@", error);
-        }];
+        [self.masterViewController showLoginViewControllerWithCompletion:NULL];
     }
     else
     {
