@@ -82,6 +82,9 @@
 		9C2DD0A3176A3CF000EAA3D1 /* EVSignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD0A2176A3CF000EAA3D1 /* EVSignInViewController.m */; };
 		9C2DD0A6176A4B2C00EAA3D1 /* EVFormRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD0A5176A4B2B00EAA3D1 /* EVFormRow.m */; };
 		9C2DD0AA176A4DD600EAA3D1 /* EVTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD0A9176A4DD600EAA3D1 /* EVTextField.m */; };
+		9C2DD0AD176A8FAA00EAA3D1 /* EVNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD0AC176A8FAA00EAA3D1 /* EVNotificationsViewController.m */; };
+		9C2DD0B0176A923400EAA3D1 /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD0AE176A923400EAA3D1 /* Back.png */; };
+		9C2DD0B1176A923400EAA3D1 /* Back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD0AF176A923400EAA3D1 /* Back@2x.png */; };
 		9C2FCEF817592062003F13BC /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C2FCEF717592062003F13BC /* Crashlytics.framework */; };
 		9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6EF176186A500084FA7 /* EVWalletCell.m */; };
 		9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6F21761871000084FA7 /* EVSidePanelCell.m */; };
@@ -373,6 +376,10 @@
 		9C2DD0A5176A4B2B00EAA3D1 /* EVFormRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFormRow.m; sourceTree = "<group>"; };
 		9C2DD0A8176A4DD600EAA3D1 /* EVTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTextField.h; sourceTree = "<group>"; };
 		9C2DD0A9176A4DD600EAA3D1 /* EVTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTextField.m; sourceTree = "<group>"; };
+		9C2DD0AB176A8FAA00EAA3D1 /* EVNotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNotificationsViewController.h; sourceTree = "<group>"; };
+		9C2DD0AC176A8FAA00EAA3D1 /* EVNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNotificationsViewController.m; sourceTree = "<group>"; };
+		9C2DD0AE176A923400EAA3D1 /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
+		9C2DD0AF176A923400EAA3D1 /* Back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back@2x.png"; sourceTree = "<group>"; };
 		9C2FCEF717592062003F13BC /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Frameworks/Crashlytics.framework; sourceTree = "<group>"; };
 		9C35B6EE176186A500084FA7 /* EVWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletCell.h; sourceTree = "<group>"; };
 		9C35B6EF176186A500084FA7 /* EVWalletCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletCell.m; sourceTree = "<group>"; };
@@ -693,6 +700,8 @@
 			children = (
 				9C0EC768175D80BB003B93E2 /* EVSettingsViewController.h */,
 				9C0EC769175D80BB003B93E2 /* EVSettingsViewController.m */,
+				9C2DD0AB176A8FAA00EAA3D1 /* EVNotificationsViewController.h */,
+				9C2DD0AC176A8FAA00EAA3D1 /* EVNotificationsViewController.m */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1119,6 +1128,8 @@
 		9CB2857A1761521E009B26BB /* NavBar */ = {
 			isa = PBXGroup;
 			children = (
+				9C2DD0AE176A923400EAA3D1 /* Back.png */,
+				9C2DD0AF176A923400EAA3D1 /* Back@2x.png */,
 				9C2DD099176928BE00EAA3D1 /* Close.png */,
 				9C2DD09A176928BE00EAA3D1 /* Close@2x.png */,
 				9C778DE117679ADA0053F9D6 /* Btn_Header_Active.png */,
@@ -1565,6 +1576,8 @@
 				9C2DD098176928B200EAA3D1 /* Arrow@2x.png in Resources */,
 				9C2DD09B176928BE00EAA3D1 /* Close.png in Resources */,
 				9C2DD09C176928BE00EAA3D1 /* Close@2x.png in Resources */,
+				9C2DD0B0176A923400EAA3D1 /* Back.png in Resources */,
+				9C2DD0B1176A923400EAA3D1 /* Back@2x.png in Resources */,
 				D06DFAF61769473A00A06564 /* Privacy-Check.png in Resources */,
 				D06DFAF71769473A00A06564 /* Privacy-Check@2x.png in Resources */,
 			);
@@ -1783,6 +1796,7 @@
 				9C2DD0A6176A4B2C00EAA3D1 /* EVFormRow.m in Sources */,
 				9C2DD0AA176A4DD600EAA3D1 /* EVTextField.m in Sources */,
 				9C2DD0871769278E00EAA3D1 /* EVSettingsRow.m in Sources */,
+				9C2DD0AD176A8FAA00EAA3D1 /* EVNotificationsViewController.m in Sources */,
 				D0828FB11768E6B10032D62E /* EVPaymentViewController.m in Sources */,
 				D0828FB41768E7D60032D62E /* EVPrivacySelectorView.m in Sources */,
 				D0828FB717690EE20032D62E /* EVPrivacySelectorHeader.m in Sources */,
