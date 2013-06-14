@@ -41,14 +41,14 @@
     _check.backgroundColor = [UIColor clearColor];
     _check.frame = [self checkFrame];
     [self addSubview:_check];
-    _check.alpha = (self.setting == [EVUser me].privacySetting);
+    _check.alpha = (self.setting == [EVCIA me].privacySetting);
 }
 
 #pragma mark - Gesture Handling
 
 - (void)handleTouchUpInside
 {
-    [EVUser me].privacySetting = self.setting;
+    [EVCIA me].privacySetting = self.setting;
 }
 
 - (void)setHighlighted:(BOOL)highlighted

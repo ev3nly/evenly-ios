@@ -87,6 +87,7 @@
     NSNumber *newSetting = [change objectForKey:NSKeyValueChangeNewKey];
     
     self.privacyImageView.image = [self imageForSetting:[newSetting intValue]];
+    self.setting = [newSetting intValue];
     self.label.text = [self textForSetting:[newSetting intValue]];
     [self setNeedsLayout];
 }

@@ -29,6 +29,7 @@
 @property (nonatomic, strong) EVUser *me;
 @property (nonatomic, strong) EVSession *session;
 
++ (EVUser *)me;
 - (EVObject *)cachedObjectWithClassName:(NSString *)className dbid:(NSString *)dbid;
 - (void)cacheObject:(EVObject *)object;
 

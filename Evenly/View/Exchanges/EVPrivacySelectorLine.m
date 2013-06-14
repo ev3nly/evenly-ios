@@ -35,14 +35,14 @@
         [self loadImageView];
         [self loadLabel];
         [self addTapRecognizer];
-        [[EVUser me] addObserver:self forKeyPath:@"privacySetting" options:NSKeyValueObservingOptionNew context:NULL];
+        [[EVCIA me] addObserver:self forKeyPath:@"privacySetting" options:NSKeyValueObservingOptionNew context:NULL];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [[EVUser me] removeObserver:self forKeyPath:@"privacySetting"];
+    [[EVCIA me] removeObserver:self forKeyPath:@"privacySetting"];
 }
 
 #pragma mark - View Loading

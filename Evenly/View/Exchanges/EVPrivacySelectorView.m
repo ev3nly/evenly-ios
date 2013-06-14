@@ -49,7 +49,7 @@
         EVPrivacySelectorLine *line;
         
         if (i == 0)
-            line = [[EVPrivacySelectorHeader alloc] initWithFrame:[self frameForCellIndex:i] andSetting:[EVUser me].privacySetting];
+            line = [[EVPrivacySelectorHeader alloc] initWithFrame:[self frameForCellIndex:i] andSetting:[EVCIA me].privacySetting];
         else
             line = [[EVPrivacySelectorOption alloc] initWithFrame:[self frameForCellIndex:i] andSetting:i-1];
         

@@ -64,4 +64,10 @@ typedef enum {
     EVSignUpPhaseCOUNT
 } EVSignUpPhase;
 
+typedef enum {
+    EVPrivacySettingNetwork,
+    EVPrivacySettingFriends,
+    EVPrivacySettingPrivate
+} EVPrivacySetting;
+
 #define EV_MINIMUM_DEPOSIT_AMOUNT 0.50

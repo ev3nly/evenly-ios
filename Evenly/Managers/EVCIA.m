@@ -104,6 +104,10 @@ static EVCIA *_sharedInstance;
 
 #pragma mark - Me
 
++ (EVUser *)me {
+    return ((EVCIA *)[self sharedInstance]).me;
+}
+
 - (void)cacheNewSession {
     //retrieve user from session call, cache user
     EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
