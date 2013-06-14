@@ -64,6 +64,10 @@
     return EV_RGB_COLOR(0x28, 0x27, 0x26);
 }
 
++ (UIColor *)lightLabelColor {
+    return EV_RGB_COLOR(160, 160, 160);
+}
+
 + (UIColor *)placeholderColor {
     return EV_RGB_COLOR(0xd0, 0xce, 0xce);
 }

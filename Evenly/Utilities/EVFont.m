@@ -30,4 +30,12 @@
     return [UIFont fontWithName:@"Avenir-Black" size:13.0];
 }
 
++ (UIFont *)darkExchangeFormFont {
+    return [self blackFontOfSize:14];
+}
+
++ (UIFont *)lightExchangeFormFont {
+    return [self defaultFontOfSize:14];
+}
+
 @end

@@ -50,6 +50,7 @@
 @property (nonatomic, strong) NSDecimalNumber *balance;
 @property (nonatomic, strong) UIImage *updatedAvatar;
 @property (nonatomic, getter = isConfirmed) BOOL confirmed;
+@property (nonatomic, assign) EVPrivacySetting privacySetting;
 
 + (EVUser *)me;
 + (void)setMe:(EVUser *)user;

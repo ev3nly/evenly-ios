@@ -9,23 +9,31 @@
 #import "EVExchangeViewController.h"
 #import "EVNavigationBarButton.h"
 #import "EVExchangeFormView.h"
+#import "EVPrivacySelectorView.h"
 
 #define KEYBOARD_HEIGHT 216
 
-@interface EVExchangeViewController ()
+@interface EVExchangeViewController () {
+    EVPrivacySelectorView *_networkSelector;
+}
 
 - (void)loadLeftButton;
 - (void)loadRightButton;
+- (void)loadNetworkSelector;
+
+- (CGRect)networkSelectorFrame;
 
 @end
 
 @implementation EVExchangeViewController
 
+#pragma mark - Lifecycle
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"New Payment";
+        self.title = @"Exchange";
         self.view.backgroundColor = [UIColor whiteColor];
     }
     return self;
@@ -38,7 +46,10 @@
     [self loadLeftButton];
     [self loadRightButton];
     [self loadFormView];
+    [self loadNetworkSelector];
 }
+
+#pragma mark - View Loading
 
 - (void)loadLeftButton {
     EVNavigationBarButton *leftButton = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
@@ -60,14 +71,26 @@
     [self.view addSubview:formView];
 }
 
+- (void)loadNetworkSelector
+{
+    _networkSelector = [[EVPrivacySelectorView alloc] initWithFrame:[self networkSelectorFrame]];
+    [self.view addSubview:_networkSelector];
+}
+
+#pragma mark - Button Handling
+
 - (void)cancelButtonPress:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - Frame Defines
+
+#define NETWORK_LINE_HEIGHT 40
+- (CGRect)networkSelectorFrame {
+    return CGRectMake(0,
+                      self.view.bounds.size.height - KEYBOARD_HEIGHT - NETWORK_LINE_HEIGHT - 44,
+                      self.view.bounds.size.width,
+                      NETWORK_LINE_HEIGHT * 4);
 }
 
 @end

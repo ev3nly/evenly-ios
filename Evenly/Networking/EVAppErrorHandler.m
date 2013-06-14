@@ -90,7 +90,7 @@ withOriginalSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObje
 	void (^showLogin)(void) = [self showLoginBlockWithAuthenticationSuccess:replayRequest];
 
     //no cached user, get credentials, reauthenticate
-    EVUser *me = [EVUser me];
+    EVUser *me = [EVCIA me];
     if (me.email == nil || me.password == nil) {
         [[EVCIA sharedInstance] setSession:nil];
 		showLogin();
