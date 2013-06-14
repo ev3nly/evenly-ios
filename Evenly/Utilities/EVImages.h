@@ -27,8 +27,4 @@
 + (UIImage *)dropdownArrow;
 + (UIImage *)checkIcon;
 
-#pragma mark - Image Coloring
-
-+ (UIImage *)overlayImage:(UIImage *)image withColor:(UIColor *)overlayColor identifier:(NSString *)imageIdentifier;
-
 @end

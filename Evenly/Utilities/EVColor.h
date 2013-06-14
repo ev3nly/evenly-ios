@@ -31,6 +31,7 @@
 #pragma mark - Text
 
 + (UIColor *)darkLabelColor;
++ (UIColor *)lightLabelColor;
 + (UIColor *)placeholderColor;
 + (UIColor *)inputTextColor;
 

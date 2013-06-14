@@ -150,7 +150,7 @@
 }
 
 - (UIColor *)labelColor {
-    return EV_RGB_COLOR(160, 160, 160);
+    return [EVColor lightLabelColor];
 }
 
 @end

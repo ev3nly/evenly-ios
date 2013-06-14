@@ -10,7 +10,6 @@
 #import "EVImages.h"
 
 #define DROPDOWN_BUFFER 4
-#define DARK_COLOR EV_RGB_COLOR(50, 50, 50)
 
 @interface EVPrivacySelectorHeader () {
     UIImageView *_dropdownArrow;
@@ -66,13 +65,13 @@
 - (void)setHighlighted:(BOOL)highlighted
 {
     if (highlighted) {
-        self.label.textColor = DARK_COLOR;
-        self.privacyImageView.image = [EVImages overlayImage:[self imageForSetting:self.setting]
-                                                   withColor:DARK_COLOR
-                                                  identifier:[NSString stringWithFormat:@"privacySetting-%i", self.setting]];
-        _dropdownArrow.image = [EVImages overlayImage:[EVImages dropdownArrow]
-                                            withColor:DARK_COLOR
-                                           identifier:@"dropdownArrow"];
+        self.label.textColor = [EVColor darkLabelColor];
+        self.privacyImageView.image = [EVImageUtility overlayImage:[self imageForSetting:self.setting]
+                                                         withColor:[EVColor darkLabelColor]
+                                                        identifier:[NSString stringWithFormat:@"privacySetting-%i", self.setting]];
+        _dropdownArrow.image = [EVImageUtility overlayImage:[EVImages dropdownArrow]
+                                                  withColor:[EVColor darkLabelColor]
+                                                 identifier:@"dropdownArrow"];
     }
     else {
         self.label.textColor = [self labelColor];
@@ -96,8 +95,8 @@
 
 - (CGRect)dropdownArrowFrame {
     float labelWidth = [self.label.text sizeWithFont:self.label.font
-                               constrainedToSize:CGSizeMake(self.bounds.size.width, self.label.bounds.size.height)
-                                   lineBreakMode:self.label.lineBreakMode].width;
+                                   constrainedToSize:CGSizeMake(self.bounds.size.width, self.label.bounds.size.height)
+                                       lineBreakMode:self.label.lineBreakMode].width;
     return CGRectMake(self.label.frame.origin.x + labelWidth + DROPDOWN_BUFFER,
                       self.bounds.size.height/2 - _dropdownArrow.image.size.height/2,
                       _dropdownArrow.image.size.width,

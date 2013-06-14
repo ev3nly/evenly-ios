@@ -56,12 +56,12 @@
     if (highlighted) {
         self.backgroundColor = [UIColor lightGrayColor];
         self.label.textColor = [UIColor whiteColor];
-        self.privacyImageView.image = [EVImages overlayImage:[self imageForSetting:self.setting]
-                                                   withColor:[UIColor whiteColor]
-                                                  identifier:[NSString stringWithFormat:@"privacySetting-%i", self.setting]];
-        _check.image = [EVImages overlayImage:[EVImages checkIcon]
-                                    withColor:[UIColor whiteColor]
-                                   identifier:@"checkIcon"];
+        self.privacyImageView.image = [EVImageUtility overlayImage:[self imageForSetting:self.setting]
+                                                         withColor:[UIColor whiteColor]
+                                                        identifier:[NSString stringWithFormat:@"privacySetting-%i", self.setting]];
+        _check.image = [EVImageUtility overlayImage:[EVImages checkIcon]
+                                          withColor:[UIColor whiteColor]
+                                         identifier:@"checkIcon"];
     }
     else {
         self.backgroundColor = [UIColor clearColor];
@@ -77,7 +77,7 @@
 {
     NSNumber *newSetting = [change objectForKey:NSKeyValueChangeNewKey];
     
-    [UIView animateWithDuration:0.2
+    [UIView animateWithDuration:0.05
                      animations:^{
                          _check.alpha = ([newSetting intValue] == self.setting);
                      }];
@@ -86,7 +86,7 @@
 #pragma mark - View Defines
 
 - (UIColor *)labelColor {
-    return EV_RGB_COLOR(50, 50, 50);
+    return [EVColor darkLabelColor];
 }
 
 - (CGRect)imageViewFrame {

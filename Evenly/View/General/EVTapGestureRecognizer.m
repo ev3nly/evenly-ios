@@ -34,7 +34,11 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    self.state = UIGestureRecognizerStateEnded;
+    self.withinView = [self viewContainsTouch:[touches anyObject]];
+    if ([self isWithinView])
+        self.state = UIGestureRecognizerStateEnded;
+    else
+        self.state = UIGestureRecognizerStateCancelled;
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
