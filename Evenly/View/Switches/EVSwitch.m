@@ -30,7 +30,11 @@
 
 - (void)updateBackgroundImage;
 
-- (void)_setOn:(BOOL)on animated:(BOOL)animated; // for internal use only, sends actions
+// For internal use only.  Changing the value of the switch in response to gesture
+// recognition should call this method, which will send the actions for the control event.
+// (The public method does not send actinos.)
+- (void)_setOn:(BOOL)on animated:(BOOL)animated;
+
 @end
 
 @implementation EVSwitch
@@ -204,7 +208,6 @@
 
 - (CGRect)labelFrameForState:(BOOL)isOn {
     return [self labelFrameForPercentage:(isOn ? 1.0 : 0.0)];
-
 }
 
 - (CGRect)labelFrameForPercentage:(float)percentage {
