@@ -1,0 +1,206 @@
+//
+//  EVSwitch.m
+//  Evenly
+//
+//  Created by Joseph Hankin on 6/14/13.
+//  Copyright (c) 2013 Evenly. All rights reserved.
+//
+
+#import "EVSwitch.h"
+
+#define EV_SWITCH_HANDLE_MARGIN 2.0
+#define EV_SWITCH_HANDLE_LABEL_OFFSET 7.0
+
+@interface EVSwitch ()
+
+@property (nonatomic, strong) UIImageView *backgroundImageView;
+@property (nonatomic, strong) UIImageView *handleImageView;
+@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
+@property (nonatomic, strong) UISwipeGestureRecognizer *leftSwipeGestureRecognizer;
+@property (nonatomic, strong) UISwipeGestureRecognizer *rightSwipeGestureRecognizer;
+@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
+
+@property (nonatomic) CGPoint startingOrigin;
+
+- (void)loadBackground;
+- (void)loadHandle;
+- (void)loadLabel;
+- (void)loadGestureRecognizers;
+
+- (void)updateBackgroundImage;
+
+@end
+
+@implementation EVSwitch
+
+- (id)initWithFrame:(CGRect)frame
+{
+    CGSize size = [self offImage].size;
+    self = [super initWithFrame:(CGRect){frame.origin, size}];
+    if (self) {
+        self.on = NO;
+        
+        [self loadBackground];
+        [self loadHandle];
+        [self loadLabel];
+        [self loadGestureRecognizers];
+
+    }
+    return self;
+}
+
+#pragma mark - View Loading
+
+- (void)loadBackground {
+    self.backgroundImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+    [self addSubview:self.backgroundImageView];
+    self.backgroundImageView.userInteractionEnabled = YES;
+    [self updateBackgroundImage];
+}
+
+- (void)loadHandle {
+    self.handleImageView = [[UIImageView alloc] initWithImage:[self handleImage]];
+    self.handleImageView.frame = CGRectMake(EV_SWITCH_HANDLE_MARGIN,
+                                            EV_SWITCH_HANDLE_MARGIN,
+                                            self.handleImageView.frame.size.width,
+                                            self.handleImageView.frame.size.height);
+    [self addSubview:self.handleImageView];
+    self.handleImageView.userInteractionEnabled = YES;
+}
+
+- (void)loadLabel {
+    self.label = [[UILabel alloc] initWithFrame:[self labelFrameForState:self.on]];
+    self.label.backgroundColor = [UIColor clearColor];
+    self.label.textColor = [UIColor whiteColor];
+    self.label.font = [EVFont blackFontOfSize:15];
+    self.label.textAlignment = NSTextAlignmentCenter;
+    self.label.text = [self labelTextForState:self.on];
+    [self insertSubview:self.label belowSubview:self.handleImageView];
+}
+
+- (void)loadGestureRecognizers {
+    self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGestureRecognized:)];
+    [self addGestureRecognizer:self.panGestureRecognizer];
+    
+    self.leftSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(leftSwipeGestureRecognized:)];
+    [self.leftSwipeGestureRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [self addGestureRecognizer:self.leftSwipeGestureRecognizer];
+    
+    self.rightSwipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(rightSwipeGestureRecognized:)];
+    [self.rightSwipeGestureRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self addGestureRecognizer:self.rightSwipeGestureRecognizer];
+    
+    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognized:)];
+    [self addGestureRecognizer:self.tapGestureRecognizer];
+}
+
+#pragma mark - Public Interface
+
+- (void)setOn:(BOOL)on {
+    [self setOn:on animated:NO];
+}
+
+- (void)setOn:(BOOL)on animated:(BOOL)animated {
+    _on = on;
+    [UIView animateWithDuration:(animated ? EV_DEFAULT_ANIMATION_DURATION : 0.0) animations:^{
+        [self.handleImageView setFrame:[self handleFrameForState:on]];
+        [self.label setFrame:[self labelFrameForState:on]];
+        [self.label setText:[self labelTextForState:on]];
+        [self updateBackgroundImage];
+    }];
+}
+
+#pragma mark - Gesture Recognizers
+
+- (void)panGestureRecognized:(UIPanGestureRecognizer *)panRecognizer {
+    if (panRecognizer.state == UIGestureRecognizerStateBegan)
+        self.startingOrigin = self.handleImageView.frame.origin;
+    
+    CGPoint translation = [panRecognizer translationInView:self];
+    CGPoint location = CGPointMake(self.startingOrigin.x + translation.x, self.startingOrigin.y);
+    
+    CGFloat minX = EV_SWITCH_HANDLE_MARGIN;
+    CGFloat maxX = self.frame.size.width - self.handleImageView.frame.size.width - EV_SWITCH_HANDLE_MARGIN;
+    CGFloat halfwayPoint = (minX + maxX) / 2.0;
+    if (location.x < minX)
+        location.x = minX;
+    else if (location.x > maxX)
+        location.x = maxX;
+    location.y = EV_SWITCH_HANDLE_MARGIN;
+
+    [self.handleImageView setOrigin:location];
+    if (panRecognizer.state == UIGestureRecognizerStateEnded) {
+        [self setOn:(location.x >= halfwayPoint) animated:YES];
+    }
+}
+
+- (void)leftSwipeGestureRecognized:(UISwipeGestureRecognizer *)swipeRecognizer {
+    [self setOn:NO animated:YES];
+}
+
+- (void)rightSwipeGestureRecognized:(UISwipeGestureRecognizer *)swipeRecognizer {
+    [self setOn:YES animated:YES];
+}
+
+- (void)tapGestureRecognized:(UITapGestureRecognizer *)tapRecognizer {
+    [self setOn:!self.on animated:YES];
+}
+
+#pragma mark - Private Methods
+
+- (void)updateBackgroundImage {
+    self.backgroundImageView.image = (self.on ? [self onImage] : [self offImage]);
+}
+
+- (UIImage *)offImage {
+    return [UIImage imageNamed:@"toggle_off_bg"];
+}
+
+- (UIImage *)onImage {
+    return [UIImage imageNamed:@"toggle_on_bg"];
+}
+
+- (UIImage *)handleImage {
+    return [UIImage imageNamed:@"toggle_handle"];
+}
+
+#pragma mark Handle
+
+- (CGRect)handleFrameForState:(BOOL)isOn {
+    CGRect frame = CGRectMake(EV_SWITCH_HANDLE_MARGIN,
+                              EV_SWITCH_HANDLE_MARGIN,
+                              self.handleImageView.frame.size.width,
+                              self.handleImageView.frame.size.height);
+    if (isOn) {
+        frame.origin.x = self.frame.size.width - self.handleImageView.frame.size.width - EV_SWITCH_HANDLE_MARGIN;
+    }
+    return frame;
+}
+
+#pragma mark Label
+
+- (CGRect)labelFrameForState:(BOOL)isOn {
+    CGRect frame = CGRectMake(EV_SWITCH_HANDLE_MARGIN + EV_SWITCH_HANDLE_LABEL_OFFSET,
+                              EV_SWITCH_HANDLE_MARGIN,
+                              self.frame.size.width - [self handleImageView].frame.size.width - 2*EV_SWITCH_HANDLE_MARGIN - EV_SWITCH_HANDLE_LABEL_OFFSET,
+                              self.frame.size.height - EV_SWITCH_HANDLE_MARGIN);
+    if (!isOn)
+        frame.origin.x = CGRectGetMaxX(self.handleImageView.frame) + EV_SWITCH_HANDLE_MARGIN;
+    return frame;
+}
+
+- (NSString *)labelTextForState:(BOOL)isOn {
+    return (isOn ? [EVStringUtility onString] : [EVStringUtility offString]);
+}
+
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect
+{
+    // Drawing code
+}
+*/
+
+@end

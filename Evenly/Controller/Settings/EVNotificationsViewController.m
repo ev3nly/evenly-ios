@@ -10,6 +10,7 @@
 
 #import "EVFormView.h"
 #import "EVFormRow.h"
+#import "EVSwitch.h"
 
 #define CONTEXT_LABEL_X_MARGIN 20.0
 #define CONTEXT_LABEL_Y_MARGIN 15.0
@@ -21,8 +22,13 @@
 
 @interface EVNotificationsViewController ()
 
+@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *contextLabel;
 @property (nonatomic, strong) EVFormView *form;
+
+@property (nonatomic, strong) EVSwitch *pushSwitch;
+@property (nonatomic, strong) EVSwitch *emailSwitch;
+@property (nonatomic, strong) EVSwitch *smsSwitch;
 
 - (void)loadContextLabel;
 - (void)loadForm;
@@ -45,9 +51,19 @@
 {
     [super viewDidLoad];
     
+    [self loadTableView]; // Use the table view for the scrolling feel, nothing else.
+    
     [self loadContextLabel];
     [self loadForm];
     [self loadRows];
+}
+
+- (void)loadTableView {
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundView = nil;
+    [self.view addSubview:self.tableView];
 }
 
 - (void)loadContextLabel {
@@ -59,7 +75,7 @@
     self.contextLabel.textColor = [EVColor inputTextColor];
     self.contextLabel.font = [EVFont blackFontOfSize:15];
     self.contextLabel.text = @"Send me notifications via...";
-    [self.view addSubview:self.contextLabel];
+    [self.tableView addSubview:self.contextLabel];
 }
 
 - (void)loadForm {
@@ -67,7 +83,7 @@
                                                              FORM_Y_ORIGIN,
                                                              self.view.frame.size.width - 2*FORM_MARGIN,
                                                              3*FORM_ROW_HEIGHT)];
-    [self.view addSubview:self.form];
+    [self.tableView addSubview:self.form];
 }
 
 - (void)loadRows {
@@ -77,14 +93,20 @@
     
     row = [[EVFormRow alloc] initWithFrame:rect];
     row.fieldLabel.text = @"Push";
+    self.pushSwitch = [[EVSwitch alloc] initWithFrame:CGRectZero];
+    row.contentView = self.pushSwitch;
     [array addObject:row];
     
     row = [[EVFormRow alloc] initWithFrame:rect];
     row.fieldLabel.text = @"Email";
+    self.emailSwitch = [[EVSwitch alloc] initWithFrame:CGRectZero];
+    row.contentView = self.emailSwitch;
     [array addObject:row];
     
     row = [[EVFormRow alloc] initWithFrame:rect];
     row.fieldLabel.text = @"SMS";
+    self.smsSwitch = [[EVSwitch alloc] initWithFrame:CGRectZero];
+    row.contentView = self.smsSwitch;
     [array addObject:row];
     
     [self.form setFormRows:array];
