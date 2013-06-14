@@ -53,4 +53,9 @@
 
 + (NSString *)cachePathFromURL:(NSURL *)url;
 
+#pragma mark - General 
+
++ (NSString *)onString;
++ (NSString *)offString;
+
 @end
