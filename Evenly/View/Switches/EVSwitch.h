@@ -10,7 +10,7 @@
 
 @interface EVSwitch : UIControl
 
-@property(nonatomic,getter=isOn) BOOL on;
+@property (nonatomic, getter = isOn) BOOL on;
 
 - (id)initWithFrame:(CGRect)frame;              // This class enforces a size appropriate for the control. The frame size is ignored.
 

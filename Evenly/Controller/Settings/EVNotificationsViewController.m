@@ -94,28 +94,37 @@
     row = [[EVFormRow alloc] initWithFrame:rect];
     row.fieldLabel.text = @"Push";
     self.pushSwitch = [[EVSwitch alloc] initWithFrame:CGRectZero];
+    [self.pushSwitch addTarget:self action:@selector(pushSwitchChanged:) forControlEvents:UIControlEventValueChanged];
     row.contentView = self.pushSwitch;
     [array addObject:row];
     
     row = [[EVFormRow alloc] initWithFrame:rect];
     row.fieldLabel.text = @"Email";
     self.emailSwitch = [[EVSwitch alloc] initWithFrame:CGRectZero];
+    [self.emailSwitch addTarget:self action:@selector(emailSwitchChanged:) forControlEvents:UIControlEventValueChanged];
     row.contentView = self.emailSwitch;
     [array addObject:row];
     
     row = [[EVFormRow alloc] initWithFrame:rect];
     row.fieldLabel.text = @"SMS";
     self.smsSwitch = [[EVSwitch alloc] initWithFrame:CGRectZero];
+    [self.smsSwitch addTarget:self action:@selector(smsSwitchChanged:) forControlEvents:UIControlEventValueChanged];
     row.contentView = self.smsSwitch;
     [array addObject:row];
     
     [self.form setFormRows:array];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)pushSwitchChanged:(EVSwitch *)sender {
+    DLog(@"switch changed: %@", ([sender isOn] ? @"ON" : @"OFF"));
+}
+
+- (void)emailSwitchChanged:(EVSwitch *)sender {
+    DLog(@"switch changed: %@", ([sender isOn] ? @"ON" : @"OFF"));
+}
+
+- (void)smsSwitchChanged:(EVSwitch *)sender {
+    DLog(@"switch changed: %@", ([sender isOn] ? @"ON" : @"OFF"));
 }
 
 @end

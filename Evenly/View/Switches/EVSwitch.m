@@ -30,6 +30,7 @@
 
 - (void)updateBackgroundImage;
 
+- (void)_setOn:(BOOL)on animated:(BOOL)animated; // for internal use only, sends actions
 @end
 
 @implementation EVSwitch
@@ -45,7 +46,6 @@
         [self loadHandle];
         [self loadLabel];
         [self loadGestureRecognizers];
-
     }
     return self;
 }
@@ -115,39 +115,55 @@
 
 - (void)panGestureRecognized:(UIPanGestureRecognizer *)panRecognizer {
     if (panRecognizer.state == UIGestureRecognizerStateBegan)
+    {
         self.startingOrigin = self.handleImageView.frame.origin;
+    }
     
     CGPoint translation = [panRecognizer translationInView:self];
     CGPoint location = CGPointMake(self.startingOrigin.x + translation.x, self.startingOrigin.y);
-    
+
     CGFloat minX = EV_SWITCH_HANDLE_MARGIN;
     CGFloat maxX = self.frame.size.width - self.handleImageView.frame.size.width - EV_SWITCH_HANDLE_MARGIN;
     CGFloat halfwayPoint = (minX + maxX) / 2.0;
+
     if (location.x < minX)
         location.x = minX;
     else if (location.x > maxX)
         location.x = maxX;
-    location.y = EV_SWITCH_HANDLE_MARGIN;
-
-    [self.handleImageView setOrigin:location];
-    if (panRecognizer.state == UIGestureRecognizerStateEnded) {
-        [self setOn:(location.x >= halfwayPoint) animated:YES];
+    
+    if (panRecognizer.state == UIGestureRecognizerStateChanged)
+    {
+        float percentage = (location.x - minX) / (maxX - minX);
+        [self.handleImageView setFrame:[self handleFrameForPercentage:percentage]];
+        [self.label setFrame:[self labelFrameForPercentage:percentage]];
+        [self.handleImageView setOrigin:location];
+    }
+    
+    if (panRecognizer.state == UIGestureRecognizerStateEnded)
+    {
+        [self _setOn:(location.x >= halfwayPoint) animated:YES];
     }
 }
 
 - (void)leftSwipeGestureRecognized:(UISwipeGestureRecognizer *)swipeRecognizer {
-    [self setOn:NO animated:YES];
+    [self _setOn:NO animated:YES];
 }
 
 - (void)rightSwipeGestureRecognized:(UISwipeGestureRecognizer *)swipeRecognizer {
-    [self setOn:YES animated:YES];
+    [self _setOn:YES animated:YES];
 }
 
 - (void)tapGestureRecognized:(UITapGestureRecognizer *)tapRecognizer {
-    [self setOn:!self.on animated:YES];
+    [self _setOn:!self.on animated:YES];
 }
 
 #pragma mark - Private Methods
+
+
+- (void)_setOn:(BOOL)on animated:(BOOL)animated {
+    [self setOn:on animated:animated];
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
+}
 
 - (void)updateBackgroundImage {
     self.backgroundImageView.image = (self.on ? [self onImage] : [self offImage]);
@@ -168,39 +184,45 @@
 #pragma mark Handle
 
 - (CGRect)handleFrameForState:(BOOL)isOn {
+    return [self handleFrameForPercentage:(isOn ? 1.0 : 0.0)];
+}
+
+- (CGRect)handleFrameForPercentage:(float)percentage {
     CGRect frame = CGRectMake(EV_SWITCH_HANDLE_MARGIN,
                               EV_SWITCH_HANDLE_MARGIN,
                               self.handleImageView.frame.size.width,
                               self.handleImageView.frame.size.height);
-    if (isOn) {
-        frame.origin.x = self.frame.size.width - self.handleImageView.frame.size.width - EV_SWITCH_HANDLE_MARGIN;
-    }
+    CGFloat minX = frame.origin.x;
+    CGFloat maxX = self.frame.size.width - self.handleImageView.frame.size.width - EV_SWITCH_HANDLE_MARGIN;
+    CGFloat difference = maxX - minX;
+    CGFloat x = minX + (difference * percentage);
+    frame.origin.x = x;
     return frame;
 }
 
 #pragma mark Label
 
 - (CGRect)labelFrameForState:(BOOL)isOn {
-    CGRect frame = CGRectMake(EV_SWITCH_HANDLE_MARGIN + EV_SWITCH_HANDLE_LABEL_OFFSET,
+    return [self labelFrameForPercentage:(isOn ? 1.0 : 0.0)];
+
+}
+
+- (CGRect)labelFrameForPercentage:(float)percentage {
+    
+    CGRect frame = CGRectMake(0,
                               EV_SWITCH_HANDLE_MARGIN,
                               self.frame.size.width - [self handleImageView].frame.size.width - 2*EV_SWITCH_HANDLE_MARGIN - EV_SWITCH_HANDLE_LABEL_OFFSET,
                               self.frame.size.height - EV_SWITCH_HANDLE_MARGIN);
-    if (!isOn)
-        frame.origin.x = CGRectGetMaxX(self.handleImageView.frame) + EV_SWITCH_HANDLE_MARGIN;
+    CGFloat minX = self.handleImageView.frame.size.width + EV_SWITCH_HANDLE_MARGIN;
+    CGFloat maxX = EV_SWITCH_HANDLE_MARGIN + EV_SWITCH_HANDLE_LABEL_OFFSET;
+    CGFloat difference = MAX(0, minX - maxX);
+    CGFloat x = minX - (difference * percentage);
+    frame.origin.x = x;
     return frame;
 }
 
 - (NSString *)labelTextForState:(BOOL)isOn {
     return (isOn ? [EVStringUtility onString] : [EVStringUtility offString]);
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end
