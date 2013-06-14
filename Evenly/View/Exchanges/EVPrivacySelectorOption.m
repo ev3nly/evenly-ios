@@ -22,6 +22,8 @@
 
 @implementation EVPrivacySelectorOption
 
+#pragma mark Lifecycle
+
 - (id)initWithFrame:(CGRect)frame andSetting:(EVPrivacySetting)setting
 {
     if (self = [super initWithFrame:frame andSetting:setting])
@@ -31,15 +33,18 @@
     return self;
 }
 
+#pragma mark - View Loading
+
 - (void)loadCheck
 {
     _check = [[UIImageView alloc] initWithImage:[EVImages checkIcon]];
     _check.backgroundColor = [UIColor clearColor];
     _check.frame = [self checkFrame];
     [self addSubview:_check];
-    if (self.setting != [EVUser me].privacySetting)
-        _check.alpha = 0;
+    _check.alpha = (self.setting == [EVUser me].privacySetting);
 }
+
+#pragma mark - Gesture Handling
 
 - (void)handleTouchUpInside
 {
@@ -51,13 +56,34 @@
     if (highlighted) {
         self.backgroundColor = [UIColor lightGrayColor];
         self.label.textColor = [UIColor whiteColor];
+        self.privacyImageView.image = [EVImages overlayImage:[self imageForSetting:self.setting]
+                                                   withColor:[UIColor whiteColor]
+                                                  identifier:[NSString stringWithFormat:@"privacySetting-%i", self.setting]];
+        _check.image = [EVImages overlayImage:[EVImages checkIcon]
+                                    withColor:[UIColor whiteColor]
+                                   identifier:@"checkIcon"];
     }
     else {
         self.backgroundColor = [UIColor clearColor];
         self.label.textColor = [self labelColor];
-
+        self.privacyImageView.image = [self imageForSetting:self.setting];
+        _check.image = [EVImages checkIcon];
     }
 }
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSNumber *newSetting = [change objectForKey:NSKeyValueChangeNewKey];
+    
+    [UIView animateWithDuration:0.2
+                     animations:^{
+                         _check.alpha = ([newSetting intValue] == self.setting);
+                     }];
+}
+
+#pragma mark - View Defines
 
 - (UIColor *)labelColor {
     return EV_RGB_COLOR(50, 50, 50);

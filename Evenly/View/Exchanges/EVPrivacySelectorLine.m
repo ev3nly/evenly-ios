@@ -21,12 +21,11 @@
 - (void)addTapRecognizer;
 - (void)handleTap:(EVTapGestureRecognizer *)tapRecognizer;
 
-- (UIImage *)imageForSetting:(EVPrivacySetting)setting;
-- (NSString *)textForSetting:(EVPrivacySetting)setting;
-
 @end
 
 @implementation EVPrivacySelectorLine
+
+#pragma mark - Lifecycle
 
 - (id)initWithFrame:(CGRect)frame andSetting:(EVPrivacySetting)setting
 {
@@ -36,9 +35,17 @@
         [self loadImageView];
         [self loadLabel];
         [self addTapRecognizer];
+        [[EVUser me] addObserver:self forKeyPath:@"privacySetting" options:NSKeyValueObservingOptionNew context:NULL];
     }
     return self;
 }
+
+- (void)dealloc
+{
+    [[EVUser me] removeObserver:self forKeyPath:@"privacySetting"];
+}
+
+#pragma mark - View Loading
 
 - (void)loadImageView
 {
@@ -118,6 +125,12 @@
         default:
             return nil;
     }
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    //implement in subclass
 }
 
 #pragma mark - View Defines

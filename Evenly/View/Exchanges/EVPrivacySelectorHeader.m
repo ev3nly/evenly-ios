@@ -10,6 +10,7 @@
 #import "EVImages.h"
 
 #define DROPDOWN_BUFFER 4
+#define DARK_COLOR EV_RGB_COLOR(50, 50, 50)
 
 @interface EVPrivacySelectorHeader () {
     UIImageView *_dropdownArrow;
@@ -63,11 +64,30 @@
 - (void)setHighlighted:(BOOL)highlighted
 {
     if (highlighted) {
-        self.label.textColor = [UIColor blackColor];
+        self.label.textColor = DARK_COLOR;
+        self.privacyImageView.image = [EVImages overlayImage:[self imageForSetting:self.setting]
+                                                   withColor:DARK_COLOR
+                                                  identifier:[NSString stringWithFormat:@"privacySetting-%i", self.setting]];
+        _dropdownArrow.image = [EVImages overlayImage:[EVImages dropdownArrow]
+                                            withColor:DARK_COLOR
+                                           identifier:@"dropdownArrow"];
     }
     else {
         self.label.textColor = [self labelColor];
+        self.privacyImageView.image = [self imageForSetting:self.setting];
+        _dropdownArrow.image = [EVImages dropdownArrow];
     }
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSNumber *newSetting = [change objectForKey:NSKeyValueChangeNewKey];
+    
+    self.privacyImageView.image = [self imageForSetting:[newSetting intValue]];
+    self.label.text = [self textForSetting:[newSetting intValue]];
+    [self setNeedsLayout];
 }
 
 #pragma mark - Frame Defines

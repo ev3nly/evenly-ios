@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "EVUser.h"
 #import "EVTapGestureRecognizer.h"
+#import "ReactiveCocoa.h"
 
 @interface EVPrivacySelectorLine : UIView
 
@@ -21,6 +22,9 @@
 
 - (void)handleTouchUpInside;
 - (void)setHighlighted:(BOOL)highlighted;
+
+- (UIImage *)imageForSetting:(EVPrivacySetting)setting;
+- (NSString *)textForSetting:(EVPrivacySetting)setting;
 
 - (CGRect)imageViewFrame;
 - (CGRect)labelFrame;
