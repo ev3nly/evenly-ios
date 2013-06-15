@@ -97,6 +97,8 @@
 		9C58DC55176BAFE80057C019 /* toggle_off_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C58DC4F176BAFE80057C019 /* toggle_off_bg@2x.png */; };
 		9C58DC56176BAFE80057C019 /* toggle_on_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C58DC50176BAFE80057C019 /* toggle_on_bg.png */; };
 		9C58DC57176BAFE80057C019 /* toggle_on_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C58DC51176BAFE80057C019 /* toggle_on_bg@2x.png */; };
+		9C58DC5B176BEA040057C019 /* EVCardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C58DC5A176BEA040057C019 /* EVCardsViewController.m */; };
+		9C58DC5E176BECBD0057C019 /* EVGroupTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C58DC5D176BECBD0057C019 /* EVGroupTableViewCell.m */; };
 		9C6F1B951761054100974850 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B941761054100974850 /* Default.png */; };
 		9C6F1B971761054400974850 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B961761054400974850 /* Default@2x.png */; };
 		9C6F1B991761054700974850 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B981761054700974850 /* Default-568h@2x.png */; };
@@ -402,6 +404,10 @@
 		9C58DC4F176BAFE80057C019 /* toggle_off_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toggle_off_bg@2x.png"; sourceTree = "<group>"; };
 		9C58DC50176BAFE80057C019 /* toggle_on_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toggle_on_bg.png; sourceTree = "<group>"; };
 		9C58DC51176BAFE80057C019 /* toggle_on_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toggle_on_bg@2x.png"; sourceTree = "<group>"; };
+		9C58DC59176BEA040057C019 /* EVCardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCardsViewController.h; sourceTree = "<group>"; };
+		9C58DC5A176BEA040057C019 /* EVCardsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCardsViewController.m; sourceTree = "<group>"; };
+		9C58DC5C176BECBD0057C019 /* EVGroupTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupTableViewCell.h; sourceTree = "<group>"; };
+		9C58DC5D176BECBD0057C019 /* EVGroupTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupTableViewCell.m; sourceTree = "<group>"; };
 		9C6F1B941761054100974850 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9C6F1B961761054400974850 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9C6F1B981761054700974850 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -671,6 +677,7 @@
 				9C0EC747175D479F003B93E2 /* EVViewController.m */,
 				9CCA901B175EBD47003462DC /* EVMasterViewController.h */,
 				9CCA901C175EBD47003462DC /* EVMasterViewController.m */,
+				9C58DC58176BE9CC0057C019 /* Cards */,
 				9CCA900E175EA8E8003462DC /* SidePanels */,
 				9C900D111767E83700E2F4C4 /* Deposit */,
 				9CE76DBA17679BCC005953C8 /* Exchange */,
@@ -956,6 +963,15 @@
 				9C58DC51176BAFE80057C019 /* toggle_on_bg@2x.png */,
 			);
 			path = Switches;
+			sourceTree = "<group>";
+		};
+		9C58DC58176BE9CC0057C019 /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				9C58DC59176BEA040057C019 /* EVCardsViewController.h */,
+				9C58DC5A176BEA040057C019 /* EVCardsViewController.m */,
+			);
+			path = Cards;
 			sourceTree = "<group>";
 		};
 		9C6F1B9A1761059800974850 /* Resources */ = {
@@ -1244,6 +1260,8 @@
 				9CD306AA1762970300D23852 /* EVStoryCell.m */,
 				9C900D1C1767F08D00E2F4C4 /* EVDepositCell.h */,
 				9C900D1D1767F08D00E2F4C4 /* EVDepositCell.m */,
+				9C58DC5C176BECBD0057C019 /* EVGroupTableViewCell.h */,
+				9C58DC5D176BECBD0057C019 /* EVGroupTableViewCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -1850,6 +1868,8 @@
 				D07A390B176A7D1F00EABEB7 /* EVPrivacySelectorLine.m in Sources */,
 				D07A3910176AA2AA00EABEB7 /* UIColor+EVAdditions.m in Sources */,
 				9C58DC4A176BAFA20057C019 /* EVSwitch.m in Sources */,
+				9C58DC5B176BEA040057C019 /* EVCardsViewController.m in Sources */,
+				9C58DC5E176BECBD0057C019 /* EVGroupTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
