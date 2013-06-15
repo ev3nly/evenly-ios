@@ -8,18 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EVGroupTableViewCell : UITableViewCell
-
-@end
-
 typedef enum{
     EVGroupTableViewCellPositionTop,
     EVGroupTableViewCellPositionCenter,
     EVGroupTableViewCellPositionBottom
 } EVGroupTableViewCellPosition;
 
+@interface EVGroupTableViewCell : UITableViewCell
+
+@property (nonatomic) EVGroupTableViewCellPosition position;
+
+@end
+
 @interface EVGroupTableViewCellBackground : UIView
 
 @property (nonatomic) EVGroupTableViewCellPosition position;
+@property (nonatomic, strong) UIColor *fillColor;
+@property (nonatomic, strong) UIColor *strokeColor;
 
 @end

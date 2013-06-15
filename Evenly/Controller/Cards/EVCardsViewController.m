@@ -35,8 +35,8 @@
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundView = nil;
-    self.tableView.separatorColor = [EVColor newsfeedStripeColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.separatorColor = [UIColor clearColor];  // newsfeedStripeColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
 }
 
@@ -53,16 +53,9 @@
     if (!cell)
         cell = [[EVGroupTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     
-    EVGroupTableViewCellBackground *background = (EVGroupTableViewCellBackground *)cell.backgroundView;
-    background.position = (EVGroupTableViewCellPosition)indexPath.row;
-    
-//    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[EVImages resizableTombstoneBackground]];
-//    [backgroundView setFrame:cell.bounds];
-//    [cell setBackgroundView:backgroundView];
-    
+    cell.position = (EVGroupTableViewCellPosition)indexPath.row;
     cell.textLabel.text = @"test";
     cell.textLabel.backgroundColor = [UIColor clearColor];
-//    cell.backgroundColor = [UIColor clearColor];
     return cell;
     
 }

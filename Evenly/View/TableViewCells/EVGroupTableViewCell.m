@@ -17,8 +17,19 @@
         EVGroupTableViewCellBackground *background = [[EVGroupTableViewCellBackground alloc] initWithFrame:self.bounds];
         background.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         self.backgroundView = background;
+        
+        EVGroupTableViewCellBackground *selectedBackground = [[EVGroupTableViewCellBackground alloc] initWithFrame:self.bounds];
+        selectedBackground.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+        selectedBackground.fillColor = [EVColor newsfeedButtonHighlightColor];
+        self.selectedBackgroundView = selectedBackground;
     }
     return self;
+}
+
+- (void)setPosition:(EVGroupTableViewCellPosition)position {
+    _position = position;
+    [(EVGroupTableViewCellBackground *)self.backgroundView setPosition:_position];
+    [(EVGroupTableViewCellBackground *)self.selectedBackgroundView setPosition:_position];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -38,6 +49,8 @@
     self =[super initWithFrame:frame];
     if (self) {
         self.opaque = NO;
+        self.fillColor = [UIColor whiteColor];
+        self.strokeColor = [EVColor newsfeedStripeColor];
     }
     return self;
 }
@@ -123,8 +136,8 @@
     [path setLineJoinStyle:kCGLineJoinRound];
     [path setLineWidth:2.0];
     [path addClip]; // very important!  Keeps the rounded corners from looking all overflowed and shitty
-    [[UIColor whiteColor] setFill];
-    [[EVColor newsfeedStripeColor] setStroke];
+    [self.fillColor setFill];
+    [self.strokeColor setStroke];
     [path fill];
     [path stroke];
 }
