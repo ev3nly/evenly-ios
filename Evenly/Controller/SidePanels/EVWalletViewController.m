@@ -16,6 +16,7 @@
 #import "EVExchange.h"
 
 #import "EVDepositViewController.h"
+#import "EVCardsViewController.h"
 
 #define EV_WALLET_ROW_HEIGHT 44.0
 
@@ -300,6 +301,11 @@
         if (indexPath.row == EVWalletRowCash)
         {
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
+            [self presentViewController:navController animated:YES completion:NULL];
+        }
+        else if (indexPath.row == EVWalletRowCards)
+        {
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVCardsViewController alloc] init]];
             [self presentViewController:navController animated:YES completion:NULL];
         }
     }
