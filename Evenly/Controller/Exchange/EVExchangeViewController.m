@@ -8,10 +8,11 @@
 
 #import "EVExchangeViewController.h"
 #import "EVNavigationBarButton.h"
-#import "EVExchangeFormView.h"
 #import "EVPrivacySelectorView.h"
 #import "EVUserAutocompletionCell.h"
 #import "EVKeyboardTracker.h"
+#import "EVPayment.h"
+#import "EVCharge.h"
 
 #import "ABContactsHelper.h"
 
@@ -20,8 +21,6 @@
 @interface EVExchangeViewController () {
     EVPrivacySelectorView *_networkSelector;
 }
-
-@property (nonatomic, strong) EVExchangeFormView *formView;
 
 - (void)loadLeftButton;
 - (void)loadRightButton;
@@ -97,30 +96,32 @@
 }
 
 - (void)reloadTableView {
-    if (![self.formView.toField isFirstResponder]) {
-        [self hideTableView];
-        return;
-    }
-    
-    if (self.suggestions.count > 0) {
-        [self showTableView];
-    } else {
-        [self hideTableView];
-    }
-    [self.suggestionsTableView reloadData];
+    EV_PERFORM_ON_MAIN_QUEUE(^ (void) {
+        if (![self.formView.toField isFirstResponder]) {
+            [self hideTableView];
+            return;
+        }
+        
+        if (self.suggestions.count > 0) {
+            [self showTableView];
+        } else {
+            [self hideTableView];
+        }
+        [self.suggestionsTableView reloadData];
+    });
 }
 
 - (void)showTableView {
     CGRect keyboardFrame = [[EVKeyboardTracker sharedTracker] keyboardFrame];
     //    CGRect toTextFieldFrame = [self.view convertRect:self.transactionForm.toTextField.frame fromView:self.transactionForm];
     
-//    UIEdgeInsets tableViewInsets = UIEdgeInsetsMake(self.form.horizontalStripe.frame.origin.y + 1, 3, self.view.frame.origin.y, 3);
+    //    UIEdgeInsets tableViewInsets = UIEdgeInsetsMake(self.form.horizontalStripe.frame.origin.y + 1, 3, self.view.frame.origin.y, 3);
     
     CGRect tableViewFrame = CGRectMake(self.formView.frame.origin.x,
-                                       self.formView.frame.origin.y,
+                                       self.formView.frame.origin.y + 40,
                                        self.formView.frame.size.width,
-                                       CGRectGetMinY(keyboardFrame) - self.formView.frame.origin.y);
-//    tableViewFrame = UIEdgeInsetsInsetRect(tableViewFrame, tableViewInsets);
+                                       CGRectGetMinY(keyboardFrame) - self.formView.frame.origin.y - 44 - 40);
+    //    tableViewFrame = UIEdgeInsetsInsetRect(tableViewFrame, tableViewInsets);
     //    DLog(@"\nKeyboardFrame: %@   \nToFieldFrame (in self.view's coordinates): %@  \nTable view frame: %@", NSStringFromCGRect(keyboardFrame), NSStringFromCGRect(toTextFieldFrame), NSStringFromCGRect(tableViewFrame));
     
     self.suggestionsTableView.frame = tableViewFrame;
@@ -145,7 +146,7 @@
     EVUserAutocompletionCell *cell = (EVUserAutocompletionCell *)[tableView dequeueReusableCellWithIdentifier:@"userAutocomplete"];
     
     id contact = [self.suggestions objectAtIndex:indexPath.row];
-    if ([contact isKindOfClass:[EVContact class]]) {
+    if ([contact isKindOfClass:[EVUser class]]) {
         cell.nameLabel.text = [contact name];
         cell.emailLabel.text = [contact email];
     } else if ([contact isKindOfClass:[ABContact class]]) {
@@ -185,7 +186,8 @@
             [self reloadTableView];
             if (!EV_IS_EMPTY_STRING(toString)) {
                 [EVUser allWithParams:@{ @"query" : toString } success:^(id result) {
-                    self.suggestions = [(NSArray *)result arrayByAddingObjectsFromArray:self.suggestions];
+                    self.suggestions = [self.suggestions arrayByAddingObjectsFromArray:(NSArray *)result];
+                    [self reloadTableView];
                 } failure:^(NSError *error) {
                     DLog(@"error: %@", error);
                 }];
@@ -202,15 +204,26 @@
         self.exchange.to.dbid = nil;
     }];
     [self.formView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
+        amountString = [amountString stringByReplacingOccurrencesOfString:@"owes me " withString:@""];
         self.exchange.amount = [NSDecimalNumber decimalNumberWithString:[amountString stringByReplacingOccurrencesOfString:@"$" withString:@""]];
     }];
     [self.formView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
         self.exchange.memo = descriptionString;
     }];
-    [RACAble(self.exchange.isValid) subscribeNext:^(id x) {
+    [RACAble(self.exchange.valid) subscribeNext:^(id x) {
         BOOL valid = [(NSNumber *)x boolValue];
         self.navigationItem.rightBarButtonItem.enabled = valid;
     }];
+    [RACAble(self.exchange.to) subscribeNext:^(EVObject<EVExchangeable> *to) {
+        if (to == nil)
+            return;
+        
+		if (to.name)
+			self.formView.toField.text = to.name;
+		else
+			self.formView.toField.text = to.email;
+        DLog(@"Reacting to TO");
+	}];
 }
 
 #pragma mark - Button Handling
@@ -220,7 +233,32 @@
 }
 
 - (void)completeExchangePress:(id)sender {
-    //implement in subclass
+    [self.view resignFirstResponder];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    [self.exchange saveWithSuccess:^{
+        DLog(@"created %@", NSStringFromClass([self.exchange class]));
+        
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"Success!";
+        
+        if ([self.exchange isKindOfClass:[EVPayment class]]) {
+            [EVCIA me].balance = [[EVCIA me].balance decimalNumberBySubtracting:self.exchange.amount];
+        }
+        
+        double delayInSeconds = 1.0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+               //reload?
+            }];
+        });
+    } failure:^(NSError *error) {
+        DLog(@"failed to create %@", NSStringFromClass([self.exchange class]));
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
 }
 
 #pragma mark - Frame Defines

@@ -63,10 +63,10 @@ describe(@"An EVExchange", ^{
             [[theValue(exchange.isValid) should] equal:theValue(NO)];
         });
         
-        it(@"should have a non-nil from", ^{
-            exchange.from = nil;
-            [[theValue(exchange.isValid) should] equal:theValue(NO)];
-        });
+//        it(@"should have a non-nil from", ^{
+//            exchange.from = nil;
+//            [[theValue(exchange.isValid) should] equal:theValue(NO)];
+//        });
         
     });
     
