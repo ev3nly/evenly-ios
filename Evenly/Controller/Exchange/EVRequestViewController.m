@@ -8,6 +8,7 @@
 
 #import "EVRequestViewController.h"
 #import "EVRequestFormView.h"
+#import "EVCharge.h"
 
 #define KEYBOARD_HEIGHT 216
 
@@ -22,6 +23,7 @@
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
     {
         self.title = @"New Request";
+        self.exchange = [EVCharge new];
     }
     return self;
 }

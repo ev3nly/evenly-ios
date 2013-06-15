@@ -7,6 +7,7 @@
 //
 
 #import "EVPaymentViewController.h"
+#import "EVPayment.h"
 
 @interface EVPaymentViewController ()
 
@@ -19,8 +20,14 @@
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
     {
         self.title = @"New Payment";
+        self.exchange = [EVExchange new];
     }
     return self;
+}
+
+- (void)completeExchangePress:(id)sender
+{
+    
 }
 
 @end

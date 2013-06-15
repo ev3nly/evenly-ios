@@ -7,9 +7,14 @@
 //
 
 #import "EVViewController.h"
+#import "EVExchange.h"
+#import "ReactiveCocoa.h"
 
 @interface EVExchangeViewController : EVViewController
 
+@property (nonatomic, strong) EVExchange *exchange;
+
 - (void)loadFormView;
+- (void)completeExchangePress:(id)sender;
 
 @end

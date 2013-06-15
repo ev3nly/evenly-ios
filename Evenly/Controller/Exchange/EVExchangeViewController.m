@@ -17,9 +17,12 @@
     EVPrivacySelectorView *_networkSelector;
 }
 
+@property (nonatomic, strong) EVExchangeFormView *formView;
+
 - (void)loadLeftButton;
 - (void)loadRightButton;
 - (void)loadNetworkSelector;
+- (void)configureReactions;
 
 - (CGRect)networkSelectorFrame;
 
@@ -47,6 +50,7 @@
     [self loadRightButton];
     [self loadFormView];
     [self loadNetworkSelector];
+    [self configureReactions];
 }
 
 #pragma mark - View Loading
@@ -59,7 +63,8 @@
 
 - (void)loadRightButton {
     EVNavigationBarButton *payButton = [EVNavigationBarButton buttonWithTitle:@"Pay"];
-    [payButton addTarget:self action:@selector(payButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [payButton addTarget:self action:@selector(completeExchangePress:) forControlEvents:UIControlEventTouchUpInside];
+    payButton.enabled = NO;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:payButton];
 }
 
@@ -67,8 +72,8 @@
     CGRect formRect = self.view.bounds;
     formRect.size.height -= (KEYBOARD_HEIGHT + 44);
     
-    EVExchangeFormView *formView = [[EVExchangeFormView alloc] initWithFrame:formRect];
-    [self.view addSubview:formView];
+    self.formView = [[EVExchangeFormView alloc] initWithFrame:formRect];
+    [self.view addSubview:self.formView];
 }
 
 - (void)loadNetworkSelector
@@ -77,10 +82,34 @@
     [self.view addSubview:_networkSelector];
 }
 
+- (void)configureReactions
+{
+    [self.formView.toField.rac_textSignal subscribeNext:^(NSString *toString) {
+        if (self.exchange.to == nil)
+            self.exchange.to = [EVUser new];
+        self.exchange.to.email = toString;
+        self.exchange.to.dbid = nil;
+    }];
+    [self.formView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
+        self.exchange.amount = [NSDecimalNumber decimalNumberWithString:[amountString stringByReplacingOccurrencesOfString:@"$" withString:@""]];
+    }];
+    [self.formView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
+        self.exchange.memo = descriptionString;
+    }];
+    [RACAble(self.exchange.isValid) subscribeNext:^(id x) {
+        BOOL valid = [(NSNumber *)x boolValue];
+        self.navigationItem.rightBarButtonItem.enabled = valid;
+    }];
+}
+
 #pragma mark - Button Handling
 
 - (void)cancelButtonPress:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)completeExchangePress:(id)sender {
+    //implement in subclass
 }
 
 #pragma mark - Frame Defines

@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVTextField.h"
 
 @interface EVExchangeFormView : UIView <UITextFieldDelegate, UITextViewDelegate>
 
-- (UITextField *)configuredTextField;
+@property (nonatomic, strong) EVTextField *toField;
+@property (nonatomic, strong) EVTextField *amountField;
+@property (nonatomic, strong) UITextView *descriptionField;
+
+- (EVTextField *)configuredTextField;
 - (CGRect)payLabelFrame;
 - (CGRect)amountFieldFrame;
 - (float)maxAmountWidth;
