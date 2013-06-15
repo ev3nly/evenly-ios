@@ -10,9 +10,11 @@
 #import "EVExchange.h"
 #import "ReactiveCocoa.h"
 
-@interface EVExchangeViewController : EVViewController
+@interface EVExchangeViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) EVExchange *exchange;
+@property (nonatomic, strong) NSArray *suggestions;
+@property (nonatomic, strong) UITableView *suggestionsTableView;
 
 - (void)loadFormView;
 - (void)completeExchangePress:(id)sender;
