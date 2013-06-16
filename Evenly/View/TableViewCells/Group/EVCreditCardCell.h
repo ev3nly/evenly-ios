@@ -10,6 +10,6 @@
 
 @interface EVCreditCardCell : EVGroupTableViewCell
 
-- (id)initWithLastFour:(NSString *)lastFour andBrandImage:(UIImage *)brandImage;
+- (void)setUpWithLastFour:(NSString *)lastFour andBrandImage:(UIImage *)brandImage;
 
 @end

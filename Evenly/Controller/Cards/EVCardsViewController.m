@@ -7,7 +7,7 @@
 //
 
 #import "EVCardsViewController.h"
-#import "EVGroupTableViewCell.h"
+#import "EVCreditCardCell.h"
 
 @interface EVCardsViewController ()
 
@@ -70,9 +70,13 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVGroupTableViewCell *cell = (EVGroupTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell)
-        cell = [[EVGroupTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    
+    if (indexPath.section == EVCardsSectionCards)
+    {
+        
+    }
+    
+    EVCreditCardCell *cell = (EVCreditCardCell *)[tableView dequeueReusableCellWithIdentifier:@"creditCardCell" forIndexPath:indexPath];
     
     cell.position = EVGroupTableViewCellPositionSingle;
     cell.textLabel.text = @"test";

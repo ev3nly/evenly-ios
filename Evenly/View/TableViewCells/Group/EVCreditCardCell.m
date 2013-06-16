@@ -17,13 +17,9 @@
 
 @implementation EVCreditCardCell
 
-- (id)initWithLastFour:(NSString *)lastFour andBrandImage:(UIImage *)brandImage {
-    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CreditCardCell"];
-    if (self) {
-        [self setUpBrandImage:brandImage];
-        [self setUpLastFour:lastFour];
-    }
-    return self;
+- (void)setUpWithLastFour:(NSString *)lastFour andBrandImage:(UIImage *)brandImage {
+    [self setUpLastFour:lastFour];
+    [self setUpBrandImage:brandImage];
 }
 
 - (void)setUpBrandImage:(UIImage *)brandImage {

@@ -50,11 +50,9 @@
 }
 
 - (void)loadDoneButton {
-    
     self.doneButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
     [self.doneButton addTarget:self action:@selector(doneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];
-    
 }
 
 - (void)loadForm {
@@ -130,6 +128,7 @@
         DLog(@"Failure?! %@", error);
     }];
 }
+
 
 - (void)didReceiveMemoryWarning
 {
