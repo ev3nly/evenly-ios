@@ -66,6 +66,7 @@
     self.toField = [self configuredTextField];
     self.toField.placeholder = @"Name, email, phone number";
     self.toField.frame = [self toFieldFrame];
+    self.toField.returnKeyType = UIReturnKeyNext;
     [self addSubview:self.toField];
     [self.toField becomeFirstResponder];
 }
@@ -78,6 +79,7 @@
     self.amountField.textAlignment = NSTextAlignmentRight;
     self.amountField.keyboardType = UIKeyboardTypeDecimalPad;
     self.amountField.delegate = self;
+    self.amountField.returnKeyType = UIReturnKeyNext;
     [self addSubview:self.amountField];
     self.toField.next = self.amountField;
 }
@@ -97,6 +99,7 @@
     self.descriptionField.textColor = self.toField.textColor;
     self.descriptionField.font = self.toField.font;
     self.descriptionField.delegate = self;
+    self.descriptionField.returnKeyType = UIReturnKeyGo;
     [self addSubview:self.descriptionField];
     self.amountField.next = self.descriptionField;
 }
@@ -136,6 +139,17 @@
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     if ([textView.text isEqualToString:DESCRIPTION_PLACEHOLDER_TEXT])
         textView.text = @"";
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([(EVTextField *)textField next]) {
+        [[(EVTextField *)textField next] becomeFirstResponder];
+        return NO;
+    } else if (textField == self.descriptionField) {
+        [self signIn];
+        return NO;
+    }
     return YES;
 }
 
