@@ -14,13 +14,13 @@
 
 - (void)loadAmountField
 {
-    UITextField *amountField = [self configuredTextField];
-    amountField.placeholder = @"owes me $0.00";
-    amountField.frame = [self amountFieldFrame];
-    amountField.textAlignment = NSTextAlignmentRight;
-    amountField.keyboardType = UIKeyboardTypeDecimalPad;
-    amountField.delegate = self;
-    [self addSubview:amountField];
+    self.amountField = [self configuredTextField];
+    self.amountField.placeholder = @"owes me $0.00";
+    self.amountField.frame = [self amountFieldFrame];
+    self.amountField.textAlignment = NSTextAlignmentRight;
+    self.amountField.keyboardType = UIKeyboardTypeDecimalPad;
+    self.amountField.delegate = self;
+    [self addSubview:self.amountField];
 }
 
 - (CGRect)payLabelFrame {

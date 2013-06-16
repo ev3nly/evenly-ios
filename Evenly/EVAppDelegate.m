@@ -23,6 +23,7 @@
 #import "EVSettingsManager.h"
 #import "EVHTTPClient.h"
 #import "EVAppErrorHandler.h"
+#import "EVKeyboardTracker.h"
 
 #import "EVSignInViewController.h"
 
@@ -83,6 +84,8 @@
     // Load user and session from cache.
     [EVUser setMe:[[EVCIA sharedInstance] me]];
     [EVSession setSharedSession:[[EVCIA sharedInstance] session]];
+    
+    [[EVKeyboardTracker sharedTracker] registerForNotifications];
     
     // Load user's settings from server.
     [[EVSettingsManager sharedManager] loadSettingsFromServer];

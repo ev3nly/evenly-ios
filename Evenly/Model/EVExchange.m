@@ -101,8 +101,8 @@
         isValid = NO;
     else if (!self.to)
         isValid = NO;
-    else if (!self.from)
-        isValid = NO;
+//    else if (!self.from)
+//        isValid = NO;
     else
         isValid = YES;
     
