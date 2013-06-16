@@ -42,7 +42,6 @@
 
 @property (nonatomic) BOOL validForm;
 
-- (void)loadCancelButton;
 - (void)loadBalancePane;
 - (void)loadPickerView;
 - (void)loadCells;
@@ -77,7 +76,6 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bankAccountsDidLoad:) name:EVCIAUpdatedBankAccountsNotification object:nil];
 
-    [self loadCancelButton];
     [self loadBalancePane];
     [self loadPickerView];
     [self loadCells];
@@ -88,15 +86,6 @@
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
     self.tapRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:self.tapRecognizer];
-}
-
-- (void)loadCancelButton {
-    UIImage *closeImage = [UIImage imageNamed:@"Close"];
-    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, closeImage.size.width + 20.0, closeImage.size.height)];
-    [cancelButton setImage:closeImage forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [cancelButton setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:cancelButton]];
 }
 
 - (void)loadPickerView {
@@ -246,10 +235,6 @@
 }
 
 #pragma mark - Button Actions
-
-- (void)cancelButtonPress:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-}
 
 - (void)depositButtonPress:(id)sender {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];

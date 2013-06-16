@@ -11,7 +11,8 @@
 typedef enum{
     EVGroupTableViewCellPositionTop,
     EVGroupTableViewCellPositionCenter,
-    EVGroupTableViewCellPositionBottom
+    EVGroupTableViewCellPositionBottom,
+    EVGroupTableViewCellPositionSingle
 } EVGroupTableViewCellPosition;
 
 @interface EVGroupTableViewCell : UITableViewCell

@@ -85,6 +85,7 @@
 		9C2DD0AD176A8FAA00EAA3D1 /* EVNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD0AC176A8FAA00EAA3D1 /* EVNotificationsViewController.m */; };
 		9C2DD0B0176A923400EAA3D1 /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD0AE176A923400EAA3D1 /* Back.png */; };
 		9C2DD0B1176A923400EAA3D1 /* Back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD0AF176A923400EAA3D1 /* Back@2x.png */; };
+		9C2E4F9D176E6B4700ACE30E /* EVModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2E4F9C176E6B4700ACE30E /* EVModalViewController.m */; };
 		9C2FCEF817592062003F13BC /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C2FCEF717592062003F13BC /* Crashlytics.framework */; };
 		9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6EF176186A500084FA7 /* EVWalletCell.m */; };
 		9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6F21761871000084FA7 /* EVSidePanelCell.m */; };
@@ -390,6 +391,8 @@
 		9C2DD0AC176A8FAA00EAA3D1 /* EVNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNotificationsViewController.m; sourceTree = "<group>"; };
 		9C2DD0AE176A923400EAA3D1 /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
 		9C2DD0AF176A923400EAA3D1 /* Back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back@2x.png"; sourceTree = "<group>"; };
+		9C2E4F9B176E6B4700ACE30E /* EVModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EVModalViewController.h; path = Evenly/Controller/EVModalViewController.h; sourceTree = SOURCE_ROOT; };
+		9C2E4F9C176E6B4700ACE30E /* EVModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EVModalViewController.m; path = Evenly/Controller/EVModalViewController.m; sourceTree = SOURCE_ROOT; };
 		9C2FCEF717592062003F13BC /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Frameworks/Crashlytics.framework; sourceTree = "<group>"; };
 		9C35B6EE176186A500084FA7 /* EVWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletCell.h; sourceTree = "<group>"; };
 		9C35B6EF176186A500084FA7 /* EVWalletCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletCell.m; sourceTree = "<group>"; };
@@ -680,6 +683,8 @@
 				9C0EC747175D479F003B93E2 /* EVViewController.m */,
 				9CCA901B175EBD47003462DC /* EVMasterViewController.h */,
 				9CCA901C175EBD47003462DC /* EVMasterViewController.m */,
+				9C2E4F9B176E6B4700ACE30E /* EVModalViewController.h */,
+				9C2E4F9C176E6B4700ACE30E /* EVModalViewController.m */,
 				9C58DC58176BE9CC0057C019 /* Cards */,
 				9CCA900E175EA8E8003462DC /* SidePanels */,
 				9C900D111767E83700E2F4C4 /* Deposit */,
@@ -1876,6 +1881,7 @@
 				9C58DC4A176BAFA20057C019 /* EVSwitch.m in Sources */,
 				9C58DC5B176BEA040057C019 /* EVCardsViewController.m in Sources */,
 				9C58DC5E176BECBD0057C019 /* EVGroupTableViewCell.m in Sources */,
+				9C2E4F9D176E6B4700ACE30E /* EVModalViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

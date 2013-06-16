@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVViewController.h"
+#import "EVModalViewController.h"
 
-@interface EVCardsViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
+@interface EVCardsViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

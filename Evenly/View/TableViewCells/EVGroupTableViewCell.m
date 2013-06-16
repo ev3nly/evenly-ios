@@ -131,7 +131,14 @@
         [path addLineToPoint:CGPointMake(CGRectGetMaxX(rect), rect.origin.y)];
 
     }
-    
+    else if (self.position == EVGroupTableViewCellPositionSingle)
+    {
+        /*
+         If there's only one cell, just do a simple rounded rect.
+         */        
+        path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:CORNER_RADIUS];
+    }
+
     [path setLineCapStyle:kCGLineCapRound];
     [path setLineJoinStyle:kCGLineJoinRound];
     [path setLineWidth:2.0];

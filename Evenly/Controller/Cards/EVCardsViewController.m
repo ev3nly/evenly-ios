@@ -45,7 +45,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -53,7 +53,7 @@
     if (!cell)
         cell = [[EVGroupTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     
-    cell.position = (EVGroupTableViewCellPosition)indexPath.row;
+    cell.position = EVGroupTableViewCellPositionSingle;
     cell.textLabel.text = @"test";
     cell.textLabel.backgroundColor = [UIColor clearColor];
     return cell;
