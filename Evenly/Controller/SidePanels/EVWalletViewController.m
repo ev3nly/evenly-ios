@@ -43,7 +43,6 @@
     [super viewDidLoad];
     [self loadWalletTableView];
     [self loadPendingTableView];
-
     
     self.walletHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     self.walletHeader.label.text = @"WALLET";

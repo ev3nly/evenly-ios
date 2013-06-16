@@ -8,6 +8,18 @@
 
 #import "EVModalViewController.h"
 
+typedef enum {
+    EVCardsSectionCards,
+    EVCardsSectionAddNew,
+    EVCardsSectionCOUNT
+} EVCardsSection;
+
+typedef enum {
+    EVCardsAddNewRowCredit,
+    EVCardsAddNewRowDebit,
+    EVCardsAddNewRowCOUNT
+} EVCardsAddNewRow;
+
 @interface EVCardsViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

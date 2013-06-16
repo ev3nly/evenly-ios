@@ -13,6 +13,8 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 
+- (void)loadTableView;
+
 @end
 
 @implementation EVCardsViewController
@@ -30,22 +32,41 @@
 {
     [super viewDidLoad];
     
+    [self loadTableView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(creditCardsDidUpdate:)
+                                                 name:EVCIAUpdatedCreditCardsNotification
+                                               object:nil];
+
+}
+
+- (void)loadTableView {
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundView = nil;
-    self.tableView.separatorColor = [UIColor clearColor];  // newsfeedStripeColor];
+    self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
 }
 
+#pragma mark - UITableViewDataSource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return EVCardsSectionCOUNT;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    if (section == EVCardsSectionCards)
+    {
+        if ([[EVCIA sharedInstance] loadingCreditCards])
+            return 1;
+        else
+            return MAX(1, [[[EVCIA sharedInstance] creditCards] count]);
+    }
+    return EVCardsAddNewRowCOUNT;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -60,10 +81,12 @@
     
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - Notifications
+
+- (void)creditCardsDidUpdate:(NSNotification *)notification {
+    [self.tableView beginUpdates];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
 }
 
 @end
