@@ -15,7 +15,7 @@
 
 #define DESCRIPTION_PLACEHOLDER_TEXT @"Lunch, dinner, taxi, or anything else"
 
-@interface EVExchangeFormView () 
+@interface EVExchangeFormView ()
 
 - (void)loadPayLabel;
 - (void)loadToField;
@@ -63,22 +63,26 @@
 
 - (void)loadToField
 {
-    UITextField *toField = [self configuredTextField];
-    toField.placeholder = @"Name, email, phone number";
-    toField.frame = [self toFieldFrame];
-    [self addSubview:toField];
-    [toField becomeFirstResponder];
+    self.toField = [self configuredTextField];
+    self.toField.placeholder = @"Name, email, phone number";
+    self.toField.frame = [self toFieldFrame];
+    self.toField.returnKeyType = UIReturnKeyNext;
+    self.toField.delegate = self;
+    [self addSubview:self.toField];
+    [self.toField becomeFirstResponder];
 }
 
 - (void)loadAmountField
 {
-    UITextField *amountField = [self configuredTextField];
-    amountField.placeholder = @"$0.00";
-    amountField.frame = [self amountFieldFrame];
-    amountField.textAlignment = NSTextAlignmentRight;
-    amountField.keyboardType = UIKeyboardTypeDecimalPad;
-    amountField.delegate = self;
-    [self addSubview:amountField];
+    self.amountField = [self configuredTextField];
+    self.amountField.placeholder = @"$0.00";
+    self.amountField.frame = [self amountFieldFrame];
+    self.amountField.textAlignment = NSTextAlignmentRight;
+    self.amountField.keyboardType = UIKeyboardTypeDecimalPad;
+    self.amountField.delegate = self;
+    self.amountField.returnKeyType = UIReturnKeyNext;
+    [self addSubview:self.amountField];
+    self.toField.next = self.amountField;
 }
 
 - (void)loadForLabel
@@ -91,13 +95,13 @@
 
 - (void)loadDescriptionField
 {
-    UITextField *defaultField = [self configuredTextField];
-    UITextView *descriptionField = [[UITextView alloc] initWithFrame:[self descriptionFieldFrame]];
-    descriptionField.text = DESCRIPTION_PLACEHOLDER_TEXT;
-    descriptionField.textColor = defaultField.textColor;
-    descriptionField.font = defaultField.font;
-    descriptionField.delegate = self;
-    [self addSubview:descriptionField];
+    self.descriptionField = [[UITextView alloc] initWithFrame:[self descriptionFieldFrame]];
+    self.descriptionField.text = DESCRIPTION_PLACEHOLDER_TEXT;
+    self.descriptionField.textColor = self.toField.textColor;
+    self.descriptionField.font = self.toField.font;
+    self.descriptionField.delegate = self;
+    [self addSubview:self.descriptionField];
+    self.amountField.next = self.descriptionField;
 }
 
 - (void)loadDivider
@@ -115,8 +119,8 @@
     return label;
 }
 
-- (UITextField *)configuredTextField {
-    UITextField *textField = [UITextField new];
+- (EVTextField *)configuredTextField {
+    EVTextField *textField = [EVTextField new];
     textField.backgroundColor = [UIColor clearColor];
     textField.textColor = EV_RGB_COLOR(180, 180, 180);
     textField.font = [EVFont lightExchangeFormFont];
@@ -126,7 +130,7 @@
 #pragma mark - TextField/View Delegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if ([textField.text rangeOfString:@"$"].location == NSNotFound) {
+    if (textField == self.amountField && [textField.text rangeOfString:@"$"].location == NSNotFound) {
         textField.text = [[self amountPrefix] stringByAppendingString:textField.text];
     }
     return YES;
@@ -135,6 +139,14 @@
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     if ([textView.text isEqualToString:DESCRIPTION_PLACEHOLDER_TEXT])
         textView.text = @"";
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([(EVTextField *)textField next]) {
+        [[(EVTextField *)textField next] becomeFirstResponder];
+        return NO;
+    } 
     return YES;
 }
 
