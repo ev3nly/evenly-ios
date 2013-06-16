@@ -22,6 +22,8 @@
 
 @interface EVSettingsViewController ()
 
+@property (nonatomic, strong) UITableView *tableView;
+
 @property (nonatomic, strong) EVFormView *panel;
 @property (nonatomic, strong) EVSettingsRow *notificationsRow;
 @property (nonatomic, strong) EVSettingsRow *passcodeRow;
@@ -43,12 +45,33 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.panel = [[EVFormView alloc] initWithFrame:CGRectMake(EV_SETTINGS_MARGIN,
-                                                               EV_SETTINGS_MARGIN,
-                                                               self.view.frame.size.width - 2*EV_SETTINGS_MARGIN,
-                                                               EV_SETTINGS_ROW_HEIGHT * 3 + EV_SETTINGS_STRIPE_HEIGHT * 4)];
-    [self.view addSubview:self.panel];
     
+    [self loadTableView]; // Use the table view for the scrolling feel, nothing else.
+    [self loadPanel];
+    [self loadRows];
+
+    [self.notificationsRow addTarget:self action:@selector(notificationsButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [self.passcodeRow addTarget:self action:@selector(passcodeButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [self.logoutRow addTarget:self action:@selector(logoutButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)loadTableView {
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundView = nil;
+    [self.view addSubview:self.tableView];
+}
+
+- (void)loadPanel {
+    self.panel = [[EVFormView alloc] initWithFrame:CGRectMake(EV_SETTINGS_MARGIN,
+                                                              EV_SETTINGS_MARGIN,
+                                                              self.view.frame.size.width - 2*EV_SETTINGS_MARGIN,
+                                                              EV_SETTINGS_ROW_HEIGHT * 3 + EV_SETTINGS_STRIPE_HEIGHT * 4)];
+    [self.tableView addSubview:self.panel];
+}
+
+- (void)loadRows {
     CGFloat yOrigin = 1.0;
     EVSettingsRow *row = nil;
     CGRect frame = CGRectMake(1, 1, self.panel.frame.size.width-2, EV_SETTINGS_ROW_HEIGHT);
@@ -64,7 +87,7 @@
     row.label.text = @"Passcode";
     self.passcodeRow = row;
     yOrigin += EV_SETTINGS_ROW_HEIGHT;
-
+    
     row = [[EVSettingsRow alloc] initWithFrame:frame];
     row.iconView.image = [UIImage imageNamed:@"Settings_logout_arrow"];
     row.label.text = @"Logout";
@@ -72,10 +95,6 @@
     yOrigin += EV_SETTINGS_ROW_HEIGHT;
     
     [self.panel setFormRows:@[ self.notificationsRow, self.passcodeRow, self.logoutRow ]];
-    
-    [self.notificationsRow addTarget:self action:@selector(notificationsButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [self.passcodeRow addTarget:self action:@selector(passcodeButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [self.logoutRow addTarget:self action:@selector(logoutButtonPress:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)notificationsButtonPress:(id)sender {
