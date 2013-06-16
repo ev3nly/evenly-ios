@@ -85,6 +85,7 @@
 		9C2DD0AD176A8FAA00EAA3D1 /* EVNotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD0AC176A8FAA00EAA3D1 /* EVNotificationsViewController.m */; };
 		9C2DD0B0176A923400EAA3D1 /* Back.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD0AE176A923400EAA3D1 /* Back.png */; };
 		9C2DD0B1176A923400EAA3D1 /* Back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD0AF176A923400EAA3D1 /* Back@2x.png */; };
+		9C2E4FA6176E7A3A00ACE30E /* www.paywithivy.com.cer in Resources */ = {isa = PBXBuildFile; fileRef = 9C2E4FA5176E7A3A00ACE30E /* www.paywithivy.com.cer */; };
 		9C2FCEF817592062003F13BC /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C2FCEF717592062003F13BC /* Crashlytics.framework */; };
 		9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6EF176186A500084FA7 /* EVWalletCell.m */; };
 		9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6F21761871000084FA7 /* EVSidePanelCell.m */; };
@@ -388,6 +389,7 @@
 		9C2DD0AC176A8FAA00EAA3D1 /* EVNotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNotificationsViewController.m; sourceTree = "<group>"; };
 		9C2DD0AE176A923400EAA3D1 /* Back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Back.png; sourceTree = "<group>"; };
 		9C2DD0AF176A923400EAA3D1 /* Back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Back@2x.png"; sourceTree = "<group>"; };
+		9C2E4FA5176E7A3A00ACE30E /* www.paywithivy.com.cer */ = {isa = PBXFileReference; lastKnownFileType = file; path = www.paywithivy.com.cer; sourceTree = "<group>"; };
 		9C2FCEF717592062003F13BC /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Frameworks/Crashlytics.framework; sourceTree = "<group>"; };
 		9C35B6EE176186A500084FA7 /* EVWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletCell.h; sourceTree = "<group>"; };
 		9C35B6EF176186A500084FA7 /* EVWalletCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletCell.m; sourceTree = "<group>"; };
@@ -1082,6 +1084,7 @@
 			isa = PBXGroup;
 			children = (
 				9C981B2A174FD95600BE9506 /* Evenly-Info.plist */,
+				9C2E4FA5176E7A3A00ACE30E /* www.paywithivy.com.cer */,
 				9C981B2B174FD95600BE9506 /* InfoPlist.strings */,
 				9C981B2E174FD95600BE9506 /* main.m */,
 				9C981B30174FD95600BE9506 /* Evenly-Prefix.pch */,
@@ -1630,6 +1633,7 @@
 				9C58DC55176BAFE80057C019 /* toggle_off_bg@2x.png in Resources */,
 				9C58DC56176BAFE80057C019 /* toggle_on_bg.png in Resources */,
 				9C58DC57176BAFE80057C019 /* toggle_on_bg@2x.png in Resources */,
+				9C2E4FA6176E7A3A00ACE30E /* www.paywithivy.com.cer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
