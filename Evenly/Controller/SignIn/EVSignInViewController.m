@@ -131,10 +131,9 @@
     }];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)doneButtonPress:(id)sender {
+    [self.view findAndResignFirstResponder];
+    [self signIn];
 }
 
 @end
