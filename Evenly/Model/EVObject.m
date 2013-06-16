@@ -88,6 +88,13 @@ static NSDateFormatter *_dateFormatter = nil;
     return _dateFormatter;
 }
 
+- (id)init {
+    if (self = [super init]) {
+        [self configureAutomaticPropertyValidation];
+    }
+    return self;
+}
+
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     id cachedObject = [[EVCIA sharedInstance] cachedObjectWithClassName:NSStringFromClass([self class])
                                                                    dbid:[EVUtilities dbidFromDictionary:dictionary]];
@@ -129,12 +136,22 @@ static NSDateFormatter *_dateFormatter = nil;
 }
 
 - (void)configureAutomaticPropertyValidation {
+    NSMutableArray *allProperties = [NSMutableArray arrayWithCapacity:0];
     unsigned int outCount, i;
-    objc_property_t *properties = class_copyPropertyList([self class], &outCount);
-    for (i = 0; i < outCount; i++) {
-    	objc_property_t property = properties[i];
-    	NSString *propertyName = [NSString stringWithCString:property_getName(property)
-                                                    encoding:NSStringEncodingConversionAllowLossy];
+    Class currentClass = [self class];
+    
+    while (currentClass != Nil) {
+        objc_property_t *properties = class_copyPropertyList(currentClass, &outCount);
+        for (i = 0; i < outCount; i++) {
+            objc_property_t property = properties[i];
+            NSString *propertyName = [NSString stringWithCString:property_getName(property)
+                                                        encoding:NSStringEncodingConversionAllowLossy];
+            if (![propertyName isEqualToString:@"valid"])
+                [allProperties addObject:propertyName];
+        }
+        currentClass = class_getSuperclass(currentClass);
+    }
+    for (NSString *propertyName in allProperties) {
         [[self rac_signalForKeyPath:[NSString stringWithFormat:@"self.%@", propertyName]
                            observer:self] subscribeNext:^(id x) {
             [self validate];
@@ -278,6 +295,7 @@ static NSDateFormatter *_dateFormatter = nil;
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
     if (self) {
+        [self configureAutomaticPropertyValidation];
         _dbid = [aDecoder decodeObjectForKey:@"dbid"];
         _originalDictionary = [aDecoder decodeObjectForKey:@"originalDictionary"];
     }
