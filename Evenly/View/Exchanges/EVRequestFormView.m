@@ -21,6 +21,7 @@
     self.amountField.keyboardType = UIKeyboardTypeDecimalPad;
     self.amountField.delegate = self;
     [self addSubview:self.amountField];
+    self.toField.next = self.amountField;
 }
 
 - (CGRect)payLabelFrame {

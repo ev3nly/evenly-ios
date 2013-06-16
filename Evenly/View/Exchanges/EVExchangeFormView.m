@@ -67,6 +67,7 @@
     self.toField.placeholder = @"Name, email, phone number";
     self.toField.frame = [self toFieldFrame];
     self.toField.returnKeyType = UIReturnKeyNext;
+    self.toField.delegate = self;
     [self addSubview:self.toField];
     [self.toField becomeFirstResponder];
 }
@@ -99,7 +100,6 @@
     self.descriptionField.textColor = self.toField.textColor;
     self.descriptionField.font = self.toField.font;
     self.descriptionField.delegate = self;
-    self.descriptionField.returnKeyType = UIReturnKeyGo;
     [self addSubview:self.descriptionField];
     self.amountField.next = self.descriptionField;
 }
@@ -130,7 +130,7 @@
 #pragma mark - TextField/View Delegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    if ([textField.text rangeOfString:@"$"].location == NSNotFound) {
+    if (textField == self.amountField && [textField.text rangeOfString:@"$"].location == NSNotFound) {
         textField.text = [[self amountPrefix] stringByAppendingString:textField.text];
     }
     return YES;
@@ -146,10 +146,7 @@
     if ([(EVTextField *)textField next]) {
         [[(EVTextField *)textField next] becomeFirstResponder];
         return NO;
-    } else if (textField == self.descriptionField) {
-        [self signIn];
-        return NO;
-    }
+    } 
     return YES;
 }
 
