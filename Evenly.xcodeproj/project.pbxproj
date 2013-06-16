@@ -246,6 +246,7 @@
 		D0828FB11768E6B10032D62E /* EVPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB01768E6B10032D62E /* EVPaymentViewController.m */; };
 		D0828FB41768E7D60032D62E /* EVPrivacySelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB31768E7D60032D62E /* EVPrivacySelectorView.m */; };
 		D0828FB717690EE20032D62E /* EVPrivacySelectorHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB617690EE20032D62E /* EVPrivacySelectorHeader.m */; };
+		D08F619A176BE9F900F05A34 /* EVUserAutocompletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D08F6199176BE9F900F05A34 /* EVUserAutocompletionCell.m */; };
 		D0A77EED1768243D0091AF09 /* EVRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEC1768243D0091AF09 /* EVRequestViewController.m */; };
 		D0A77EF0176824830091AF09 /* EVRequestFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEF176824830091AF09 /* EVRequestFormView.m */; };
 /* End PBXBuildFile section */
@@ -611,6 +612,8 @@
 		D0828FB31768E7D60032D62E /* EVPrivacySelectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacySelectorView.m; sourceTree = "<group>"; };
 		D0828FB517690EE20032D62E /* EVPrivacySelectorHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPrivacySelectorHeader.h; sourceTree = "<group>"; };
 		D0828FB617690EE20032D62E /* EVPrivacySelectorHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacySelectorHeader.m; sourceTree = "<group>"; };
+		D08F6198176BE9F900F05A34 /* EVUserAutocompletionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVUserAutocompletionCell.h; sourceTree = "<group>"; };
+		D08F6199176BE9F900F05A34 /* EVUserAutocompletionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVUserAutocompletionCell.m; sourceTree = "<group>"; };
 		D0A77EEB1768243D0091AF09 /* EVRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestViewController.h; sourceTree = "<group>"; };
 		D0A77EEC1768243D0091AF09 /* EVRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestViewController.m; sourceTree = "<group>"; };
 		D0A77EEE176824830091AF09 /* EVRequestFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestFormView.h; sourceTree = "<group>"; };
@@ -1262,6 +1265,8 @@
 				9C900D1D1767F08D00E2F4C4 /* EVDepositCell.m */,
 				9C58DC5C176BECBD0057C019 /* EVGroupTableViewCell.h */,
 				9C58DC5D176BECBD0057C019 /* EVGroupTableViewCell.m */,
+				D08F6198176BE9F900F05A34 /* EVUserAutocompletionCell.h */,
+				D08F6199176BE9F900F05A34 /* EVUserAutocompletionCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -1867,6 +1872,7 @@
 				D07A3908176A7B4B00EABEB7 /* EVPrivacySelectorOption.m in Sources */,
 				D07A390B176A7D1F00EABEB7 /* EVPrivacySelectorLine.m in Sources */,
 				D07A3910176AA2AA00EABEB7 /* UIColor+EVAdditions.m in Sources */,
+				D08F619A176BE9F900F05A34 /* EVUserAutocompletionCell.m in Sources */,
 				9C58DC4A176BAFA20057C019 /* EVSwitch.m in Sources */,
 				9C58DC5B176BEA040057C019 /* EVCardsViewController.m in Sources */,
 				9C58DC5E176BECBD0057C019 /* EVGroupTableViewCell.m in Sources */,

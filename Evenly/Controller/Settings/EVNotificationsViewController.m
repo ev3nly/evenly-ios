@@ -7,6 +7,7 @@
 //
 
 #import "EVNotificationsViewController.h"
+#import "EVSettingsManager.h"
 
 #import "EVFormView.h"
 #import "EVFormRow.h"
@@ -43,6 +44,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Notifications";
+        self->_setting = [[EVSettingsManager sharedManager] notificationSetting];
     }
     return self;
 }
@@ -95,6 +97,7 @@
     row.fieldLabel.text = @"Push";
     self.pushSwitch = [[EVSwitch alloc] initWithFrame:CGRectZero];
     [self.pushSwitch addTarget:self action:@selector(pushSwitchChanged:) forControlEvents:UIControlEventValueChanged];
+    self.pushSwitch.on = self.setting.push;
     row.contentView = self.pushSwitch;
     [array addObject:row];
     
@@ -102,6 +105,7 @@
     row.fieldLabel.text = @"Email";
     self.emailSwitch = [[EVSwitch alloc] initWithFrame:CGRectZero];
     [self.emailSwitch addTarget:self action:@selector(emailSwitchChanged:) forControlEvents:UIControlEventValueChanged];
+    self.emailSwitch.on = self.setting.email;
     row.contentView = self.emailSwitch;
     [array addObject:row];
     
@@ -109,6 +113,7 @@
     row.fieldLabel.text = @"SMS";
     self.smsSwitch = [[EVSwitch alloc] initWithFrame:CGRectZero];
     [self.smsSwitch addTarget:self action:@selector(smsSwitchChanged:) forControlEvents:UIControlEventValueChanged];
+    self.smsSwitch.on = self.setting.sms;
     row.contentView = self.smsSwitch;
     [array addObject:row];
     
@@ -116,15 +121,39 @@
 }
 
 - (void)pushSwitchChanged:(EVSwitch *)sender {
-    DLog(@"switch changed: %@", ([sender isOn] ? @"ON" : @"OFF"));
+    if (sender.on != self.setting.push)
+    {
+        [self.setting setPush:sender.on];
+        [self.setting updateWithSuccess:^{
+            DLog(@"Success");
+        } failure:^(NSError *error) {
+            DLog(@"Failure: %@", error);
+        }];
+    }
 }
 
 - (void)emailSwitchChanged:(EVSwitch *)sender {
-    DLog(@"switch changed: %@", ([sender isOn] ? @"ON" : @"OFF"));
+    if (sender.on != self.setting.email)
+    {
+        [self.setting setEmail:sender.on];
+        [self.setting updateWithSuccess:^{
+            DLog(@"Success");
+        } failure:^(NSError *error) {
+            DLog(@"Failure: %@", error);
+        }];
+    }
 }
 
 - (void)smsSwitchChanged:(EVSwitch *)sender {
-    DLog(@"switch changed: %@", ([sender isOn] ? @"ON" : @"OFF"));
+    if (sender.on != self.setting.sms)
+    {
+        [self.setting setSms:sender.on];
+        [self.setting updateWithSuccess:^{
+            DLog(@"Success");
+        } failure:^(NSError *error) {
+            DLog(@"Failure: %@", error);
+        }];
+    }
 }
 
 @end

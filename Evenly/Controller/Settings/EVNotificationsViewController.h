@@ -7,7 +7,10 @@
 //
 
 #import "EVViewController.h"
+#import "EVNotificationSetting.h"
 
 @interface EVNotificationsViewController : EVViewController
+
+@property (nonatomic, readonly) EVNotificationSetting *setting;
 
 @end
