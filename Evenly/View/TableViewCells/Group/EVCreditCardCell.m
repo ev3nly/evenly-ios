@@ -17,6 +17,21 @@
 
 @implementation EVCreditCardCell
 
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.textLabel.font = [EVFont boldFontOfSize:16];
+        self.textLabel.backgroundColor = [UIColor clearColor];
+    }
+    return self;
+}
+
+- (void)prepareForReuse {
+    [super prepareForReuse];
+    self.imageView.image = nil;
+    self.textLabel.text = nil;
+}
+
 - (void)setUpWithLastFour:(NSString *)lastFour andBrandImage:(UIImage *)brandImage {
     [self setUpLastFour:lastFour];
     [self setUpBrandImage:brandImage];
