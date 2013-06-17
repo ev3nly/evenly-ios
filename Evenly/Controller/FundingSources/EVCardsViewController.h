@@ -6,13 +6,7 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVModalViewController.h"
-
-typedef enum {
-    EVCardsSectionCards,
-    EVCardsSectionAddNew,
-    EVCardsSectionCOUNT
-} EVCardsSection;
+#import "EVFundingSourceViewController.h"
 
 typedef enum {
     EVCardsAddNewRowCredit,
@@ -20,6 +14,6 @@ typedef enum {
     EVCardsAddNewRowCOUNT
 } EVCardsAddNewRow;
 
-@interface EVCardsViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate>
+@interface EVCardsViewController : EVFundingSourceViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

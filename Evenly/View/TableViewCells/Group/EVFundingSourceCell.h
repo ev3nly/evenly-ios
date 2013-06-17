@@ -8,8 +8,10 @@
 
 #import "EVGroupTableViewCell.h"
 
-@interface EVCreditCardCell : EVGroupTableViewCell
+@class EVFundingSource;
 
-- (void)setUpWithLastFour:(NSString *)lastFour andBrandImage:(UIImage *)brandImage;
+@interface EVFundingSourceCell : EVGroupTableViewCell
+
+- (void)setUpWithFundingSource:(EVFundingSource *)fundingSource;
 
 @end
