@@ -25,9 +25,4 @@
     return self;
 }
 
-- (void)completeExchangePress:(id)sender
-{
-    [super completeExchangePress:sender];
-}
-
 @end

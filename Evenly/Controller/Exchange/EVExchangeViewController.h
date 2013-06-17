@@ -18,7 +18,7 @@
 @property (nonatomic, strong) UITableView *suggestionsTableView;
 @property (nonatomic, strong) EVExchangeFormView *formView;
 
-- (void)loadFormView;
-- (void)completeExchangePress:(id)sender;
+- (NSString *)completeExchangeButtonText;
+- (CGRect)formViewFrame;
 
 @end

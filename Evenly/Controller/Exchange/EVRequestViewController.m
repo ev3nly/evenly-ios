@@ -11,8 +11,6 @@
 #import "EVNavigationBarButton.h"
 #import "EVCharge.h"
 
-#define KEYBOARD_HEIGHT 216
-
 @interface EVRequestViewController ()
 
 @end
@@ -29,21 +27,14 @@
     return self;
 }
 
-- (void)loadRightButton {
-    EVNavigationBarButton *payButton = [EVNavigationBarButton buttonWithTitle:@"Request"];
-    [payButton addTarget:self action:@selector(completeExchangePress:) forControlEvents:UIControlEventTouchUpInside];
-    payButton.enabled = NO;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:payButton];
+- (NSString *)completeExchangeButtonText {
+    return @"Request";
 }
 
-- (void)loadFormView
-{
-    CGRect formRect = self.view.bounds;
-    formRect.size.height -= (KEYBOARD_HEIGHT + 44);
-//TODO: need to take into account slider or whatever we end up using
-    
-    self.formView = [[EVRequestFormView alloc] initWithFrame:formRect];
-    [self.view addSubview:self.formView];
+- (CGRect)formViewFrame {
+    CGRect formRect = [super formViewFrame];
+    //TODO: need to take into account slider or whatever we end up using
+    return formRect;
 }
 
 @end

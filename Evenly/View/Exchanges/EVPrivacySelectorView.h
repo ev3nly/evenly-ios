@@ -10,4 +10,7 @@
 
 @interface EVPrivacySelectorView : UIView
 
++ (float)lineHeight;
++ (int)numberOfLines;
+
 @end
