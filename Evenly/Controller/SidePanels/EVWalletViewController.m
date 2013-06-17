@@ -21,6 +21,8 @@
 
 @interface EVWalletViewController ()
 
+@property (nonatomic, weak) EVCIA *cia;
+
 @property (nonatomic, strong) EVWalletSectionHeader *walletHeader;
 @property (nonatomic, strong) EVWalletSectionHeader *pendingHeader;
 
@@ -62,6 +64,7 @@
                                              selector:@selector(bankAccountsDidUpdate:)
                                                  name:EVCIAUpdatedBankAccountsNotification
                                                object:nil];
+    [self setUpReactions];
 }
 
 - (void)loadWalletTableView {
@@ -100,6 +103,18 @@
     [self.pendingTableView registerClass:[EVNoPendingExchangesCell class] forCellReuseIdentifier:@"noPendingCell"];
 
     [self.view addSubview:self.pendingTableView];
+}
+
+- (void)setUpReactions {
+    // RACAble prefers to operate on properties of self, so we can make the CIA a property of self
+    // for a little syntactic sugar.
+    self.cia = [EVCIA sharedInstance];
+    [RACAble(self.cia.me.balance) subscribeNext:^(NSDecimalNumber *balance) {
+        [self.walletTableView beginUpdates];
+        [self.walletTableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowCash inSection:0] ]
+                                    withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.walletTableView endUpdates];
+    }];
 }
 
 - (void)exchangesDidUpdate:(NSNotification *)notification {
