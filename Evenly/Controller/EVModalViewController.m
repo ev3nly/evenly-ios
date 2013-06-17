@@ -26,6 +26,8 @@
     [cancelButton setImage:closeImage forState:UIControlStateNormal];
     [cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [cancelButton setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    cancelButton.adjustsImageWhenHighlighted = NO;
+    cancelButton.showsTouchWhenHighlighted = YES;
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:cancelButton]];
 }
 
