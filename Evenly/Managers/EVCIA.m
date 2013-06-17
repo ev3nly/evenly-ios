@@ -306,6 +306,38 @@ NSString *const EVCIAUpdatedBankAccountsNotification = @"EVCIAUpdatedBankAccount
     }];
 }
 
+#pragma mark - Generic Funding Source
+
+- (void)deleteFundingSource:(EVFundingSource *)fundingSource
+                withSuccess:(void(^)(void))success
+                    failure:(void(^)(NSError *))failure {
+    [fundingSource destroyWithSuccess:^{
+        
+        NSMutableArray *fundingSources;
+        if ([fundingSource isKindOfClass:[EVBankAccount class]]) {
+            fundingSources = [NSMutableArray arrayWithArray:[self bankAccounts]];
+            [fundingSources removeObject:fundingSource];
+            [self.internalCache setObject:fundingSources forKey:@"bank_accounts"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedBankAccountsNotification
+                                                                object:self
+                                                              userInfo:@{ @"accounts" : fundingSources }];
+            
+        } else if ([fundingSource isKindOfClass:[EVCreditCard class]]) {
+            fundingSources = [NSMutableArray arrayWithArray:[self creditCards]];
+            [fundingSources removeObject:fundingSource];
+            [self.internalCache setObject:fundingSources forKey:@"credit_cards"];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
+                                                                object:self
+                                                              userInfo:@{ @"cards" : fundingSources }];
+        }
+        
+        if (success)
+            success();
+    } failure:^(NSError *error) {
+        if (failure)
+            failure(error);
+    }];
+}
 
 
 
