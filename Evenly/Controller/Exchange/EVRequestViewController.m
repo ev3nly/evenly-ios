@@ -31,6 +31,11 @@
     return @"Request";
 }
 
+- (void)loadFormView {
+    self.formView = [[EVRequestFormView alloc] initWithFrame:[self formViewFrame]];
+    [self.view addSubview:self.formView];
+}
+
 - (CGRect)formViewFrame {
     CGRect formRect = [super formViewFrame];
     //TODO: need to take into account slider or whatever we end up using
