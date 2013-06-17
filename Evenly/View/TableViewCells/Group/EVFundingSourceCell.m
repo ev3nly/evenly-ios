@@ -36,8 +36,6 @@
 
 - (void)prepareForReuse {
     [super prepareForReuse];
-    self.imageView.image = nil;
-    self.textLabel.text = nil;
     self.textLabel.textColor = [EVColor newsfeedNounColor];
 }
 

@@ -88,6 +88,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVFundingSourceCell *cell = (EVFundingSourceCell *)[tableView dequeueReusableCellWithIdentifier:@"fundingSourceCell" forIndexPath:indexPath];
+    cell.imageView.image = nil;
+    cell.textLabel.text = nil;
     if (indexPath.section == EVFundingSourceSectionSources)
     {
         if ([self isLoading])
