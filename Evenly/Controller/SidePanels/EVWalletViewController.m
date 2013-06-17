@@ -251,6 +251,7 @@
                     
                 } else {
                     value = @"none";
+                    cell.stamp = nil;
                 }
             }
             break;

@@ -28,8 +28,6 @@
 {
     [super viewDidLoad];
     [self loadTableView];
-    
-	// Do any additional setup after loading the view.
 }
 
 - (void)loadTableView {
@@ -42,6 +40,13 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVFundingSourceCell class] forCellReuseIdentifier:@"fundingSourceCell"];
     [self.view addSubview:self.tableView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView beginUpdates];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
 }
 
 - (void)didReceiveMemoryWarning
@@ -115,56 +120,44 @@
     return ([self.fundingSources count] > 0);
 }
 
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    
-//    NSMutableArray *sourceArray = [NSMutableArray arrayWithArray:self.fundingSources];
-//    EVFundingSource *fundingSource = [sourceArray objectAtIndex:indexPath.row];
-//    
-//    // If we're deleting an active funding source and we have an alternate one available, make one of those the active one
-//    if (fundingSource.isActive && [sourceArray count] > 1)
-//    {
-//        NSInteger sourceIndex = indexPath.row;
-//        if (sourceIndex == [sourceArray count] - 1)
-//            sourceIndex--;
-//        else
-//            sourceIndex++;
-//        EVFundingSource *replacementSource = [sourceArray objectAtIndex:sourceIndex];
-//        [replacementSource activateWithSuccess:^{
-//            DLog(@"Successfully changed funding source.");
-//            [replacementSource setActive:YES];
-//            [fundingSource setActive:NO];
-//            [tableView reloadData];
-//        } failure:^(NSError *error) {
-//            DLog(@"Failed to change funding source.");
-//        }];
-//    }
-//    
-//    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    self.hud.labelText = @"Deleting...";
-//    [fundingSource destroyWithSuccess:^{
-//        
-//        // TODO: MAKE THIS HAPPEN
-//        
-//        
-//        //        [sourceArray removeObjectAtIndex:indexPath.row];
-//        //        if (indexPath.section == IVBanksCardsSectionCards)
-//        //            self.creditCards = sourceArray;
-//        //        else
-//        //            self.bankAccounts = sourceArray;
-//        
-//        [tableView beginUpdates];
-//        if ([sourceArray count] == 0)
-//            [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-//        else
-//            [tableView deleteRowsAtIndexPaths:@[ indexPath ]  withRowAnimation:UITableViewRowAnimationAutomatic];
-//        [tableView endUpdates];
-//        [self showSuccessMessage];
-//    } failure:^(NSError *error) {
-//        DLog(@"Failure: %@", error);
-//        [self showErrorMessage];
-//    }];
-//    
-//}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    __block NSArray *sourceArray = self.fundingSources;
+    EVFundingSource *fundingSource = [sourceArray objectAtIndex:indexPath.row];
+    
+    // If we're deleting an active funding source and we have an alternate one available, make one of those the active one
+    if (fundingSource.isActive && [sourceArray count] > 1)
+    {
+        NSInteger sourceIndex = indexPath.row;
+        if (sourceIndex == [sourceArray count] - 1)
+            sourceIndex--;
+        else
+            sourceIndex++;
+        EVFundingSource *replacementSource = [sourceArray objectAtIndex:sourceIndex];
+        [replacementSource activateWithSuccess:^{
+            DLog(@"Successfully changed funding source.");
+            [replacementSource setActive:YES];
+            [fundingSource setActive:NO];
+            [tableView reloadData];
+        } failure:^(NSError *error) {
+            DLog(@"Failed to change funding source.");
+        }];
+    }
+    
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    self.hud.labelText = @"Deleting...";
+    [[EVCIA sharedInstance] deleteFundingSource:fundingSource
+                                    withSuccess:^{
+                                        [tableView beginUpdates];
+                                        [tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
+                                                 withRowAnimation:UITableViewRowAnimationAutomatic];
+                                        [tableView endUpdates];
+                                        [self showSuccessMessage];
+                                    } failure:^(NSError *error) {
+                                        DLog(@"Failure: %@", error);
+                                        [self showErrorMessage];
+                                    }];
+}
 
 #pragma mark - UITableViewDelegate
 

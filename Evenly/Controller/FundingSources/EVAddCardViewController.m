@@ -88,7 +88,7 @@
             
             NSDictionary *properties = (self.isDebitCard ? @{ @"cardType" : @"debit" } : @{ @"cardType" : @"credit" });
             [EVAnalyticsUtility trackEvent:EVAnalyticsAddedCard properties:properties];
-            
+            [[EVCIA sharedInstance] reloadCreditCardsWithCompletion:NULL];
             [self setSuccess];
         } failure:^(NSError *error){
             [self setError];
