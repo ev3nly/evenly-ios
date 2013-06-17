@@ -19,6 +19,7 @@
 @property (nonatomic, strong) EVExchangeFormView *formView;
 
 - (NSString *)completeExchangeButtonText;
+- (void)loadFormView;
 - (CGRect)formViewFrame;
 
 @end
