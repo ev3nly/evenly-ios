@@ -12,7 +12,7 @@
 #import "EVPrivacySelectorOption.h"
 #import "EVUser.h"
 
-#define LINE_HEIGHT 40
+#define LINE_HEIGHT 40.0
 #define NUM_LINES 4
 #define DIVIDER_HUE 230
 
@@ -34,7 +34,7 @@
 {
     if (self = [super initWithFrame:frame])
     {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
         [self loadCells];
         [self loadDividers];
     }
@@ -45,7 +45,7 @@
 
 - (void)loadCells
 {
-    for (int i = 0; i < NUM_LINES; i++) {
+    for (int i = 0; i < [[self class] numberOfLines]; i++) {
         EVPrivacySelectorLine *line;
         
         if (i == 0)
@@ -59,27 +59,35 @@
 
 - (void)loadDividers
 {
-    for (int i = 0; i < NUM_LINES+1; i++) {
+    for (int i = 0; i < [[self class] numberOfLines]+1; i++) {
         UIView *divider = [[UIView alloc] initWithFrame:[self frameForDividerIndex:i]];
         divider.backgroundColor = EV_RGB_COLOR(DIVIDER_HUE, DIVIDER_HUE, DIVIDER_HUE);
         [self addSubview:divider];
     }
 }
 
-#pragma mark - Frame Defines
+#pragma mark - View Defines
+
++ (float)lineHeight {
+    return LINE_HEIGHT;
+}
+
++ (int)numberOfLines {
+    return NUM_LINES;
+}
 
 - (CGRect)frameForDividerIndex:(int)index {
     return CGRectMake(0,
-                      LINE_HEIGHT * index,
+                      [[self class] lineHeight] * index,
                       self.bounds.size.width,
                       1);
 }
 
 - (CGRect)frameForCellIndex:(int)index {
     return CGRectMake(0,
-                      LINE_HEIGHT * index,
+                      [[self class] lineHeight] * index,
                       self.bounds.size.width,
-                      LINE_HEIGHT);
+                      [[self class] lineHeight]);
 }
 
 @end

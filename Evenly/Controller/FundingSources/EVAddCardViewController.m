@@ -10,6 +10,9 @@
 #import "EVCreditCard.h"
 #import "EVNavigationBarButton.h"
 
+#define PK_VIEW_MARGIN 15
+#define PK_VIEW_HEIGHT 55
+
 @interface EVAddCardViewController ()
 
 @property (nonatomic, strong) PKView *cardView;
@@ -39,9 +42,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
-    self.cardView = [[PKView alloc] initWithFrame:CGRectMake(15,15,290,55)];
+    self.cardView = [[PKView alloc] initWithFrame:CGRectMake(PK_VIEW_MARGIN,
+                                                             PK_VIEW_MARGIN,
+                                                             self.view.frame.size.width - 2*PK_VIEW_MARGIN,
+                                                             PK_VIEW_HEIGHT)];
     self.cardView.delegate = self;
     [self.view addSubview:self.cardView];
 

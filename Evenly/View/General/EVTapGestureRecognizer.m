@@ -23,7 +23,6 @@
 {
     if (self.state == UIGestureRecognizerStatePossible)
         self.state = UIGestureRecognizerStateBegan;
-    NSLog(@"began");
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
