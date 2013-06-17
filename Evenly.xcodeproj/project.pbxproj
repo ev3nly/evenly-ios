@@ -94,6 +94,12 @@
 		9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6F21761871000084FA7 /* EVSidePanelCell.m */; };
 		9C35B6F717618A4400084FA7 /* WalletArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F517618A4400084FA7 /* WalletArrow.png */; };
 		9C35B6F817618A4400084FA7 /* WalletArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F617618A4400084FA7 /* WalletArrow@2x.png */; };
+		9C542858176F76EA0028F141 /* EVAddCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542855176F76EA0028F141 /* EVAddCardViewController.m */; };
+		9C542859176F76EA0028F141 /* EVCardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542857176F76EA0028F141 /* EVCardsViewController.m */; };
+		9C54285C176F77320028F141 /* EVFundingSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C54285B176F76FC0028F141 /* EVFundingSourceViewController.m */; };
+		9C54285F176F7BEA0028F141 /* EVBanksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C54285E176F7BCF0028F141 /* EVBanksViewController.m */; };
+		9C542867176F8EDE0028F141 /* EVAddBankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542866176F8EDE0028F141 /* EVAddBankViewController.m */; };
+		9C54286A176F8F5A0028F141 /* EVTitleTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542869176F8F530028F141 /* EVTitleTextFieldCell.m */; };
 		9C54286D176F9D9B0028F141 /* EVRequestSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C54286C176F9CF30028F141 /* EVRequestSwitch.m */; };
 		9C542876176F9DB60028F141 /* Request-Single-Dark.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C54286E176F9DB60028F141 /* Request-Single-Dark.png */; };
 		9C542877176F9DB60028F141 /* Request-Single-Dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C54286F176F9DB60028F141 /* Request-Single-Dark@2x.png */; };
@@ -108,12 +114,7 @@
 		9C542886176FA0F60028F141 /* Request-Group-Dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C542882176FA0F60028F141 /* Request-Group-Dark@2x.png */; };
 		9C542887176FA0F60028F141 /* Request-Group-Light.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C542883176FA0F60028F141 /* Request-Group-Light.png */; };
 		9C542888176FA0F60028F141 /* Request-Group-Light@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C542884176FA0F60028F141 /* Request-Group-Light@2x.png */; };
-		9C542858176F76EA0028F141 /* EVAddCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542855176F76EA0028F141 /* EVAddCardViewController.m */; };
-		9C542859176F76EA0028F141 /* EVCardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542857176F76EA0028F141 /* EVCardsViewController.m */; };
-		9C54285C176F77320028F141 /* EVFundingSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C54285B176F76FC0028F141 /* EVFundingSourceViewController.m */; };
-		9C54285F176F7BEA0028F141 /* EVBanksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C54285E176F7BCF0028F141 /* EVBanksViewController.m */; };
-		9C542867176F8EDE0028F141 /* EVAddBankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542866176F8EDE0028F141 /* EVAddBankViewController.m */; };
-		9C54286A176F8F5A0028F141 /* EVTitleTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542869176F8F530028F141 /* EVTitleTextFieldCell.m */; };
+		9C54288B176FCE5C0028F141 /* EVGroupRequestFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C54288A176FCE320028F141 /* EVGroupRequestFormView.m */; };
 		9C58DC4A176BAFA20057C019 /* EVSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C58DC49176BAFA20057C019 /* EVSwitch.m */; };
 		9C58DC52176BAFE80057C019 /* toggle_handle.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C58DC4C176BAFE80057C019 /* toggle_handle.png */; };
 		9C58DC53176BAFE80057C019 /* toggle_handle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C58DC4D176BAFE80057C019 /* toggle_handle@2x.png */; };
@@ -426,6 +427,18 @@
 		9C35B6F21761871000084FA7 /* EVSidePanelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSidePanelCell.m; sourceTree = "<group>"; };
 		9C35B6F517618A4400084FA7 /* WalletArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WalletArrow.png; sourceTree = "<group>"; };
 		9C35B6F617618A4400084FA7 /* WalletArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WalletArrow@2x.png"; sourceTree = "<group>"; };
+		9C542854176F76EA0028F141 /* EVAddCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAddCardViewController.h; sourceTree = "<group>"; };
+		9C542855176F76EA0028F141 /* EVAddCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAddCardViewController.m; sourceTree = "<group>"; };
+		9C542856176F76EA0028F141 /* EVCardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCardsViewController.h; sourceTree = "<group>"; };
+		9C542857176F76EA0028F141 /* EVCardsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCardsViewController.m; sourceTree = "<group>"; };
+		9C54285A176F76FC0028F141 /* EVFundingSourceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVFundingSourceViewController.h; sourceTree = "<group>"; };
+		9C54285B176F76FC0028F141 /* EVFundingSourceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVFundingSourceViewController.m; sourceTree = "<group>"; };
+		9C54285D176F7BCF0028F141 /* EVBanksViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVBanksViewController.h; sourceTree = "<group>"; };
+		9C54285E176F7BCF0028F141 /* EVBanksViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVBanksViewController.m; sourceTree = "<group>"; };
+		9C542865176F8EDE0028F141 /* EVAddBankViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAddBankViewController.h; sourceTree = "<group>"; };
+		9C542866176F8EDE0028F141 /* EVAddBankViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAddBankViewController.m; sourceTree = "<group>"; };
+		9C542868176F8F530028F141 /* EVTitleTextFieldCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVTitleTextFieldCell.h; sourceTree = "<group>"; };
+		9C542869176F8F530028F141 /* EVTitleTextFieldCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVTitleTextFieldCell.m; sourceTree = "<group>"; };
 		9C54286B176F9CF30028F141 /* EVRequestSwitch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVRequestSwitch.h; sourceTree = "<group>"; };
 		9C54286C176F9CF30028F141 /* EVRequestSwitch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVRequestSwitch.m; sourceTree = "<group>"; };
 		9C54286E176F9DB60028F141 /* Request-Single-Dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Single-Dark.png"; sourceTree = "<group>"; };
@@ -442,18 +455,8 @@
 		9C542882176FA0F60028F141 /* Request-Group-Dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Group-Dark@2x.png"; sourceTree = "<group>"; };
 		9C542883176FA0F60028F141 /* Request-Group-Light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Group-Light.png"; sourceTree = "<group>"; };
 		9C542884176FA0F60028F141 /* Request-Group-Light@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Group-Light@2x.png"; sourceTree = "<group>"; };
-		9C542854176F76EA0028F141 /* EVAddCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAddCardViewController.h; sourceTree = "<group>"; };
-		9C542855176F76EA0028F141 /* EVAddCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAddCardViewController.m; sourceTree = "<group>"; };
-		9C542856176F76EA0028F141 /* EVCardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCardsViewController.h; sourceTree = "<group>"; };
-		9C542857176F76EA0028F141 /* EVCardsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCardsViewController.m; sourceTree = "<group>"; };
-		9C54285A176F76FC0028F141 /* EVFundingSourceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVFundingSourceViewController.h; sourceTree = "<group>"; };
-		9C54285B176F76FC0028F141 /* EVFundingSourceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVFundingSourceViewController.m; sourceTree = "<group>"; };
-		9C54285D176F7BCF0028F141 /* EVBanksViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVBanksViewController.h; sourceTree = "<group>"; };
-		9C54285E176F7BCF0028F141 /* EVBanksViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVBanksViewController.m; sourceTree = "<group>"; };
-		9C542865176F8EDE0028F141 /* EVAddBankViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAddBankViewController.h; sourceTree = "<group>"; };
-		9C542866176F8EDE0028F141 /* EVAddBankViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAddBankViewController.m; sourceTree = "<group>"; };
-		9C542868176F8F530028F141 /* EVTitleTextFieldCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVTitleTextFieldCell.h; sourceTree = "<group>"; };
-		9C542869176F8F530028F141 /* EVTitleTextFieldCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVTitleTextFieldCell.m; sourceTree = "<group>"; };
+		9C542889176FCE320028F141 /* EVGroupRequestFormView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestFormView.h; sourceTree = "<group>"; };
+		9C54288A176FCE320028F141 /* EVGroupRequestFormView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestFormView.m; sourceTree = "<group>"; };
 		9C58DC48176BAFA20057C019 /* EVSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSwitch.h; sourceTree = "<group>"; };
 		9C58DC49176BAFA20057C019 /* EVSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSwitch.m; sourceTree = "<group>"; };
 		9C58DC4C176BAFE80057C019 /* toggle_handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toggle_handle.png; sourceTree = "<group>"; };
@@ -1531,6 +1534,8 @@
 				D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */,
 				D0A77EEE176824830091AF09 /* EVRequestFormView.h */,
 				D0A77EEF176824830091AF09 /* EVRequestFormView.m */,
+				9C542889176FCE320028F141 /* EVGroupRequestFormView.h */,
+				9C54288A176FCE320028F141 /* EVGroupRequestFormView.m */,
 				D0828FB21768E7D60032D62E /* EVPrivacySelectorView.h */,
 				D0828FB31768E7D60032D62E /* EVPrivacySelectorView.m */,
 				D07A3909176A7D1F00EABEB7 /* EVPrivacySelectorLine.h */,
@@ -1938,6 +1943,7 @@
 				9CCA9013175EA8E9003462DC /* EVMainMenuViewController.m in Sources */,
 				9CCA9014175EA8E9003462DC /* EVWalletViewController.m in Sources */,
 				9CCA9017175EA8FC003462DC /* EVSidePanelViewController.m in Sources */,
+				9C54288B176FCE5C0028F141 /* EVGroupRequestFormView.m in Sources */,
 				9CCA901A175EBCCC003462DC /* EVAppErrorHandler.m in Sources */,
 				9CCA901D175EBD47003462DC /* EVMasterViewController.m in Sources */,
 				D02CAB0F1761483500323025 /* EVValidator.m in Sources */,

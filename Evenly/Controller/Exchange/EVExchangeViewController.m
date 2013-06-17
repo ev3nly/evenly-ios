@@ -7,8 +7,6 @@
 //
 
 #import "EVExchangeViewController.h"
-#import "EVNavigationBarButton.h"
-#import "EVPrivacySelectorView.h"
 #import "EVUserAutocompletionCell.h"
 #import "EVKeyboardTracker.h"
 #import "EVPayment.h"
@@ -19,9 +17,7 @@
 #define DEFAULT_KEYBOARD_HEIGHT 216
 #define CELL_HEIGHT 40
 
-@interface EVExchangeViewController () {
-    EVPrivacySelectorView *_privacySelector;
-}
+@interface EVExchangeViewController ()
 
 - (void)loadLeftButton;
 - (void)loadRightButton;
@@ -65,15 +61,15 @@
 #pragma mark - Setup
 
 - (void)loadLeftButton {
-    EVNavigationBarButton *leftButton = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
-    [leftButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    self.cancelButton = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
+    [self.cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.cancelButton];
 }
 
 - (void)loadRightButton {
-    EVNavigationBarButton *payButton = [EVNavigationBarButton buttonWithTitle:[self completeExchangeButtonText]];
-    [payButton addTarget:self action:@selector(completeExchangePress:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:payButton];
+    self.completeExchangeButton = [EVNavigationBarButton buttonWithTitle:[self completeExchangeButtonText]];
+    [self.completeExchangeButton addTarget:self action:@selector(completeExchangePress:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.completeExchangeButton];
     self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
@@ -101,7 +97,7 @@
 - (void)configureReactions
 {
     [self.formView.toField.rac_textSignal subscribeNext:^(NSString *toString) {
-        [self hanldeToFieldInput:toString];
+        [self handleToFieldInput:toString];
     }];
     [self.formView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
         amountString = [amountString stringByReplacingOccurrencesOfString:@"owes me " withString:@""];
@@ -195,7 +191,7 @@
 
 #pragma mark - To Field Handling
 
-- (void)hanldeToFieldInput:(NSString *)text {
+- (void)handleToFieldInput:(NSString *)text {
     if ([self.formView.toField isFirstResponder]) {
         self.suggestions = [ABContactsHelper contactsWithEmailMatchingName:text];
         [self reloadTableView];

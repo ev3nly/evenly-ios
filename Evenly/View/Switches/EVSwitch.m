@@ -100,9 +100,18 @@
 }
 
 - (void)setOn:(BOOL)on animated:(BOOL)animated {
+    NSTimeInterval duration = (animated ? EV_DEFAULT_ANIMATION_DURATION : 0.0);
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(switchControl:willChangeStateTo:animationDuration:)])
+        [self.delegate switchControl:self willChangeStateTo:on animationDuration:duration];
+
     _on = on;
-    [UIView animateWithDuration:(animated ? EV_DEFAULT_ANIMATION_DURATION : 0.0) animations:^{
+    self.xPercentage = (_on ? 1.0 : 0.0);
+    [UIView animateWithDuration:duration animations:^{
         [self layoutForState];
+    } completion:^(BOOL finished) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(switchControl:didChangeStateTo:)])
+            [self.delegate switchControl:self didChangeStateTo:_on];
     }];
 }
 
@@ -135,9 +144,9 @@
     
     if (panRecognizer.state == UIGestureRecognizerStateChanged)
     {
-        float percentage = (location.x - minX) / (maxX - minX);
-        [self.handleImageView setFrame:[self handleFrameForPercentage:percentage]];
-        [self.label setFrame:[self labelFrameForPercentage:percentage]];
+        self.xPercentage = (location.x - minX) / (maxX - minX);
+        [self.handleImageView setFrame:[self handleFrameForPercentage:self.xPercentage]];
+        [self.label setFrame:[self labelFrameForPercentage:self.xPercentage]];
         [self.handleImageView setOrigin:location];
     }
     
