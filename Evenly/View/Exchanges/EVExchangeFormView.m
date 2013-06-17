@@ -210,4 +210,8 @@
     return @"$";
 }
 
+- (NSString *)descriptionPlaceholderText {
+    return DESCRIPTION_PLACEHOLDER_TEXT;
+}
+
 @end
