@@ -46,7 +46,7 @@
 - (void)setUpLastFour:(NSString *)lastFour {
     self.textLabel.text = [NSString stringWithFormat:@"**** **** **** %@", lastFour];
     self.textLabel.textColor = [EVColor newsfeedTextColor];
-    self.textLabel.font = [UIFont systemFontOfSize:16];
+    self.textLabel.font = [EVFont defaultFontOfSize:16];
 }
 
 /*

@@ -7,7 +7,10 @@
 //
 
 #import "EVViewController.h"
+#import "PKView.h"
 
-@interface EVAddCardViewController : EVViewController
+@interface EVAddCardViewController : EVViewController<PKViewDelegate>
+
+@property (nonatomic) BOOL isDebitCard;
 
 @end
