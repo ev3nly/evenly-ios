@@ -8,12 +8,14 @@
 
 #import "EVAddCardViewController.h"
 #import "EVCreditCard.h"
+#import "EVNavigationBarButton.h"
 
 @interface EVAddCardViewController ()
 
 @property (nonatomic, strong) PKView *cardView;
 @property (nonatomic, strong) EVCreditCard *creditCard;
 @property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) EVNavigationBarButton *saveButton;
 
 - (void)saveCreditCard;
 - (void)setLoading;
@@ -42,10 +44,14 @@
     self.cardView = [[PKView alloc] initWithFrame:CGRectMake(15,15,290,55)];
     self.cardView.delegate = self;
     [self.view addSubview:self.cardView];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
-                                                                                           target:self
-                                                                                           action:@selector(saveCreditCard)];
+
+    [self loadSaveButton];
+}
+
+- (void)loadSaveButton {
+    self.saveButton = [[EVNavigationBarButton alloc] initWithTitle:@"Save"];
+    [self.saveButton addTarget:self action:@selector(saveBankAccount) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.saveButton];
     self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 

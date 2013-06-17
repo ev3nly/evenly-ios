@@ -9,6 +9,7 @@
 #import "EVBanksViewController.h"
 #import "EVFundingSourceCell.h"
 #import "EVBankAccount.h"
+#import "EVAddBankViewController.h"
 
 @interface EVBanksViewController ()
 
@@ -54,10 +55,8 @@
 }
 
 - (void)goToAddNewScreenFromSelectedIndexPath:(NSIndexPath *)indexPath {
-//    EVAddCardViewController *controller = [[EVAddCardViewController alloc] init];
-//    if (indexPath.row == EVCardsAddNewRowDebit)
-//        [controller setIsDebitCard:YES];
-//    [self.navigationController pushViewController:controller animated:YES];
+    EVAddBankViewController *controller = [[EVAddBankViewController alloc] init];
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (NSString *)noFundingSourcesAddedString {
@@ -65,7 +64,7 @@
 }
 
 - (NSString *)changingActiveString {
-    return @"Setting Active Card";
+    return @"Setting Active Account";
 }
 
 #pragma mark - Notifications
