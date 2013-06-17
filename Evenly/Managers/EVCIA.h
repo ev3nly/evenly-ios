@@ -10,6 +10,7 @@
 #import "EVSession.h"
 
 @class EVObject;
+@class EVFundingSource;
 @class EVCreditCard;
 @class EVBankAccount;
 
@@ -64,5 +65,11 @@ extern NSString *const EVCIAUpdatedBankAccountsNotification;
 @property (nonatomic, readonly) BOOL loadingBankAccounts;
 - (NSArray *)bankAccounts;
 - (EVBankAccount *)activeBankAccount;
+
+#pragma mark - Generic Funding Source
+
+- (void)deleteFundingSource:(EVFundingSource *)fundingSource
+                withSuccess:(void(^)(void))success
+                    failure:(void(^)(NSError *))failure;
 
 @end
