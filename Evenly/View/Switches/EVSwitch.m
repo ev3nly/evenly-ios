@@ -13,22 +13,12 @@
 
 @interface EVSwitch ()
 
-@property (nonatomic, strong) UIImageView *backgroundImageView;
-@property (nonatomic, strong) UIImageView *handleImageView;
-@property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *leftSwipeGestureRecognizer;
 @property (nonatomic, strong) UISwipeGestureRecognizer *rightSwipeGestureRecognizer;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 
 @property (nonatomic) CGPoint startingOrigin;
-
-- (void)loadBackground;
-- (void)loadHandle;
-- (void)loadLabel;
-- (void)loadGestureRecognizers;
-
-- (void)updateBackgroundImage;
 
 // For internal use only.  Changing the value of the switch in response to gesture
 // recognition should call this method, which will send the actions for the control event.
@@ -39,9 +29,13 @@
 
 @implementation EVSwitch
 
++ (CGSize)size {
+    return [UIImage imageNamed:@"toggle_off_bg"].size;
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
-    CGSize size = [self offImage].size;
+    CGSize size = [[self class] size];
     self = [super initWithFrame:(CGRect){frame.origin, size}];
     if (self) {
         self.on = NO;
@@ -108,11 +102,15 @@
 - (void)setOn:(BOOL)on animated:(BOOL)animated {
     _on = on;
     [UIView animateWithDuration:(animated ? EV_DEFAULT_ANIMATION_DURATION : 0.0) animations:^{
-        [self.handleImageView setFrame:[self handleFrameForState:on]];
-        [self.label setFrame:[self labelFrameForState:on]];
-        [self.label setText:[self labelTextForState:on]];
-        [self updateBackgroundImage];
+        [self layoutForState];
     }];
+}
+
+- (void)layoutForState {
+    [self.handleImageView setFrame:[self handleFrameForState:self.on]];
+    [self.label setFrame:[self labelFrameForState:self.on]];
+    [self.label setText:[self labelTextForState:self.on]];
+    [self updateBackgroundImage];
 }
 
 #pragma mark - Gesture Recognizers
