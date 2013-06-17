@@ -40,6 +40,11 @@
     return @"Request";
 }
 
+- (void)loadFormView {
+    self.formView = [[EVRequestFormView alloc] initWithFrame:[self formViewFrame]];
+    [self.view addSubview:self.formView];
+}
+
 - (CGRect)formViewFrame {
     CGRect formRect = [super formViewFrame];
     CGSize size = [self requestSwitchSize];

@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVViewController.h"
+#import "EVModalViewController.h"
 
-@interface EVDepositViewController : EVViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
+@interface EVDepositViewController : EVModalViewController <UITextFieldDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 @end

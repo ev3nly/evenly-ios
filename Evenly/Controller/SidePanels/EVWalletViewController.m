@@ -16,10 +16,14 @@
 #import "EVExchange.h"
 
 #import "EVDepositViewController.h"
+#import "EVCardsViewController.h"
+#import "EVBanksViewController.h"
 
 #define EV_WALLET_ROW_HEIGHT 44.0
 
 @interface EVWalletViewController ()
+
+@property (nonatomic, weak) EVCIA *cia;
 
 @property (nonatomic, strong) EVWalletSectionHeader *walletHeader;
 @property (nonatomic, strong) EVWalletSectionHeader *pendingHeader;
@@ -42,7 +46,6 @@
     [super viewDidLoad];
     [self loadWalletTableView];
     [self loadPendingTableView];
-
     
     self.walletHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     self.walletHeader.label.text = @"WALLET";
@@ -62,6 +65,7 @@
                                              selector:@selector(bankAccountsDidUpdate:)
                                                  name:EVCIAUpdatedBankAccountsNotification
                                                object:nil];
+    [self setUpReactions];
 }
 
 - (void)loadWalletTableView {
@@ -100,6 +104,18 @@
     [self.pendingTableView registerClass:[EVNoPendingExchangesCell class] forCellReuseIdentifier:@"noPendingCell"];
 
     [self.view addSubview:self.pendingTableView];
+}
+
+- (void)setUpReactions {
+    // RACAble prefers to operate on properties of self, so we can make the CIA a property of self
+    // for a little syntactic sugar.
+    self.cia = [EVCIA sharedInstance];
+    [RACAble(self.cia.me.balance) subscribeNext:^(NSDecimalNumber *balance) {
+        [self.walletTableView beginUpdates];
+        [self.walletTableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowCash inSection:0] ]
+                                    withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.walletTableView endUpdates];
+    }];
 }
 
 - (void)exchangesDidUpdate:(NSNotification *)notification {
@@ -250,6 +266,7 @@
                     
                 } else {
                     value = @"none";
+                    cell.stamp = nil;
                 }
             }
             break;
@@ -300,6 +317,16 @@
         if (indexPath.row == EVWalletRowCash)
         {
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
+            [self presentViewController:navController animated:YES completion:NULL];
+        }
+        else if (indexPath.row == EVWalletRowCards)
+        {
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVCardsViewController alloc] init]];
+            [self presentViewController:navController animated:YES completion:NULL];
+        }
+        else if (indexPath.row == EVWalletRowBanks)
+        {
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVBanksViewController alloc] init]];
             [self presentViewController:navController animated:YES completion:NULL];
         }
     }
