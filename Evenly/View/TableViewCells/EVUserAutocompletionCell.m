@@ -8,45 +8,98 @@
 
 #import "EVUserAutocompletionCell.h"
 
+#define LABEL_FONT_SIZE 14
+
+#define LEFT_BUFFER 5
+#define TOP_BUFFER 3
+
+#define NAME_LABEL_Y_OFFSET 5
+#define EMAIL_LABEL_Y_OFFSET 2
+#define STRIPE_HEIGHT 1
+
+@interface EVUserAutocompletionCell ()
+
+- (void)loadNameLabel;
+- (void)loadEmailLabel;
+- (void)loadStripe;
+
+- (CGRect)nameLabelFrame;
+- (CGRect)emailLabelFrame;
+- (CGRect)stripeFrame;
+
+@end
+
 @implementation EVUserAutocompletionCell
+
+#pragma mark - Lifecycle
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
+    {
         self.backgroundColor = [UIColor lightGrayColor];
-        
-        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 3, self.contentView.frame.size.width -5, self.contentView.frame.size.height / 2.0 - 5)];
-        self.nameLabel.autoresizingMask = EV_AUTORESIZE_TO_FIT | UIViewAutoresizingFlexibleBottomMargin;
-        self.nameLabel.backgroundColor = [UIColor clearColor];
-        self.nameLabel.textColor = [UIColor blackColor];
-        self.nameLabel.font = [UIFont boldSystemFontOfSize:14];
-        self.nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        [self.nameLabel align];
-        [self.contentView addSubview:self.nameLabel];
-        
-        self.emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, self.contentView.frame.size.height / 2.0, self.contentView.frame.size.width -5, self.contentView.frame.size.height / 2.0 - 2)];
-        self.emailLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        self.emailLabel.backgroundColor = [UIColor clearColor];
-        self.emailLabel.textColor = [EVColor lightLabelColor];
-        self.emailLabel.font = [UIFont systemFontOfSize:14];
-        self.emailLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        [self.emailLabel align];
-        [self.contentView addSubview:self.emailLabel];
-        
-        self.stripe = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];
-        self.stripe.backgroundColor = [EVColor newsfeedStripeColor];
-        self.stripe.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-        [self addSubview:self.stripe];
+        [self loadNameLabel];
+        [self loadEmailLabel];
+//        [self loadStripe];
     }
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+#pragma mark - View Loading
+
+- (void)loadNameLabel
 {
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
+    self.nameLabel = [[UILabel alloc] initWithFrame:[self nameLabelFrame]];
+    self.nameLabel.autoresizingMask = EV_AUTORESIZE_TO_FIT | UIViewAutoresizingFlexibleBottomMargin;
+    self.nameLabel.backgroundColor = [UIColor clearColor];
+    self.nameLabel.textColor = [UIColor blackColor];
+    self.nameLabel.font = [UIFont boldSystemFontOfSize:LABEL_FONT_SIZE];
+    self.nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    [self.nameLabel align];
+    [self.contentView addSubview:self.nameLabel];
+}
+
+- (void)loadEmailLabel
+{
+    self.emailLabel = [[UILabel alloc] initWithFrame:[self emailLabelFrame]];
+    self.emailLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    self.emailLabel.backgroundColor = [UIColor clearColor];
+    self.emailLabel.textColor = [EVColor lightLabelColor];
+    self.emailLabel.font = [UIFont systemFontOfSize:LABEL_FONT_SIZE];
+    self.emailLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    [self.emailLabel align];
+    [self.contentView addSubview:self.emailLabel];
+}
+
+- (void)loadStripe
+{
+    self.stripe = [[UIView alloc] initWithFrame:[self stripeFrame]];
+    self.stripe.backgroundColor = [EVColor newsfeedStripeColor];
+    self.stripe.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    [self addSubview:self.stripe];
+}
+
+#pragma mark - Frame Defines
+
+- (CGRect)nameLabelFrame {
+    return CGRectMake(LEFT_BUFFER,
+                      TOP_BUFFER,
+                      self.contentView.frame.size.width - LEFT_BUFFER,
+                      self.contentView.frame.size.height / 2.0 - NAME_LABEL_Y_OFFSET);
+}
+
+- (CGRect)emailLabelFrame {
+    return CGRectMake(LEFT_BUFFER,
+                      self.contentView.frame.size.height / 2.0,
+                      self.contentView.frame.size.width - LEFT_BUFFER,
+                      self.contentView.frame.size.height / 2.0 - EMAIL_LABEL_Y_OFFSET);
+}
+
+- (CGRect)stripeFrame {
+    return CGRectMake(0,
+                      self.frame.size.height - STRIPE_HEIGHT,
+                      self.frame.size.width,
+                      STRIPE_HEIGHT);
 }
 
 @end

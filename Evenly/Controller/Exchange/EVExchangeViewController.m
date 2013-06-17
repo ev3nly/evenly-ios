@@ -16,18 +16,24 @@
 
 #import "ABContactsHelper.h"
 
-#define KEYBOARD_HEIGHT 216
+#define DEFAULT_KEYBOARD_HEIGHT 216
+#define CELL_HEIGHT 40
 
 @interface EVExchangeViewController () {
-    EVPrivacySelectorView *_networkSelector;
+    EVPrivacySelectorView *_privacySelector;
 }
 
 - (void)loadLeftButton;
 - (void)loadRightButton;
-- (void)loadNetworkSelector;
+- (void)loadFormView;
+- (void)loadPrivacySelector;
+- (void)loadSuggestionsTableView;
 - (void)configureReactions;
 
-- (CGRect)networkSelectorFrame;
+- (void)completeExchangePress:(id)sender;
+
+- (CGRect)privacySelectorFrame;
+- (CGRect)suggestionsTableViewFrame;
 
 @end
 
@@ -37,10 +43,8 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.title = @"Exchange";
-        self.view.backgroundColor = [UIColor whiteColor];
         self.suggestions = [NSArray array];
     }
     return self;
@@ -50,12 +54,41 @@
 {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor whiteColor];
     [self loadLeftButton];
     [self loadRightButton];
     [self loadFormView];
-    [self loadNetworkSelector];
+    [self loadPrivacySelector];
+    [self loadSuggestionsTableView];
     [self configureReactions];
-    
+}
+
+#pragma mark - Setup
+
+- (void)loadLeftButton {
+    EVNavigationBarButton *leftButton = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
+    [leftButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+}
+
+- (void)loadRightButton {
+    EVNavigationBarButton *payButton = [EVNavigationBarButton buttonWithTitle:[self completeExchangeButtonText]];
+    [payButton addTarget:self action:@selector(completeExchangePress:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:payButton];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+}
+
+- (void)loadFormView {
+    self.formView = [[EVExchangeFormView alloc] initWithFrame:[self formViewFrame]];
+    [self.view addSubview:self.formView];
+}
+
+- (void)loadPrivacySelector {
+    _privacySelector = [[EVPrivacySelectorView alloc] initWithFrame:[self privacySelectorFrame]];
+    [self.view addSubview:_privacySelector];
+}
+
+- (void)loadSuggestionsTableView {
     self.suggestionsTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.suggestionsTableView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
     self.suggestionsTableView.delegate = self;
@@ -66,34 +99,31 @@
     self.suggestionsTableView.separatorColor = [UIColor colorWithWhite:0.8 alpha:1.0];
 }
 
-#pragma mark - View Loading
-
-- (void)loadLeftButton {
-    EVNavigationBarButton *leftButton = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
-    [leftButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
-}
-
-- (void)loadRightButton {
-    EVNavigationBarButton *payButton = [EVNavigationBarButton buttonWithTitle:@"Pay"];
-    [payButton addTarget:self action:@selector(completeExchangePress:) forControlEvents:UIControlEventTouchUpInside];
-    payButton.enabled = NO;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:payButton];
-}
-
-- (void)loadFormView {
-    CGRect formRect = self.view.bounds;
-    formRect.size.height -= (KEYBOARD_HEIGHT + 44);
-    
-    self.formView = [[EVExchangeFormView alloc] initWithFrame:formRect];
-    [self.view addSubview:self.formView];
-}
-
-- (void)loadNetworkSelector
+- (void)configureReactions
 {
-    _networkSelector = [[EVPrivacySelectorView alloc] initWithFrame:[self networkSelectorFrame]];
-    [self.view addSubview:_networkSelector];
+    [self.formView.toField.rac_textSignal subscribeNext:^(NSString *toString) {
+        [self hanldeToFieldInput:toString];
+    }];
+    [self.formView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
+        amountString = [amountString stringByReplacingOccurrencesOfString:@"owes me " withString:@""];
+        self.exchange.amount = [NSDecimalNumber decimalNumberWithString:[amountString stringByReplacingOccurrencesOfString:@"$" withString:@""]];
+    }];
+    [self.formView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
+        if (![descriptionString isEqualToString:[self.formView descriptionPlaceholderText]])
+            self.exchange.memo = descriptionString;
+    }];
+    [RACAble(self.exchange.valid) subscribeNext:^(id x) {
+        BOOL valid = [(NSNumber *)x boolValue];
+        self.navigationItem.rightBarButtonItem.enabled = valid;
+    }];
+    [RACAble(self.exchange.to) subscribeNext:^(EVObject<EVExchangeable> *to) {
+        if (to == nil)
+            return;
+        self.formView.toField.text = to.name ? to.name : to.email;
+	}];
 }
+
+#pragma mark - TableView Utility
 
 - (void)reloadTableView {
     EV_PERFORM_ON_MAIN_QUEUE(^ (void) {
@@ -102,29 +132,17 @@
             return;
         }
         
-        if (self.suggestions.count > 0) {
+        if (self.suggestions.count > 0)
             [self showTableView];
-        } else {
+        else
             [self hideTableView];
-        }
+        
         [self.suggestionsTableView reloadData];
     });
 }
 
 - (void)showTableView {
-    CGRect keyboardFrame = [[EVKeyboardTracker sharedTracker] keyboardFrame];
-    //    CGRect toTextFieldFrame = [self.view convertRect:self.transactionForm.toTextField.frame fromView:self.transactionForm];
-    
-    //    UIEdgeInsets tableViewInsets = UIEdgeInsetsMake(self.form.horizontalStripe.frame.origin.y + 1, 3, self.view.frame.origin.y, 3);
-    
-    CGRect tableViewFrame = CGRectMake(self.formView.frame.origin.x,
-                                       self.formView.frame.origin.y + 40,
-                                       self.formView.frame.size.width,
-                                       CGRectGetMinY(keyboardFrame) - self.formView.frame.origin.y - 44 - 40);
-    //    tableViewFrame = UIEdgeInsetsInsetRect(tableViewFrame, tableViewInsets);
-    //    DLog(@"\nKeyboardFrame: %@   \nToFieldFrame (in self.view's coordinates): %@  \nTable view frame: %@", NSStringFromCGRect(keyboardFrame), NSStringFromCGRect(toTextFieldFrame), NSStringFromCGRect(tableViewFrame));
-    
-    self.suggestionsTableView.frame = tableViewFrame;
+    self.suggestionsTableView.frame = [self suggestionsTableViewFrame];
     [self.view addSubview:self.suggestionsTableView];
 }
 
@@ -139,7 +157,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 40.0;
+    return CELL_HEIGHT;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -149,7 +167,8 @@
     if ([contact isKindOfClass:[EVUser class]]) {
         cell.nameLabel.text = [contact name];
         cell.emailLabel.text = [contact email];
-    } else if ([contact isKindOfClass:[ABContact class]]) {
+    }
+    else if ([contact isKindOfClass:[ABContact class]]) {
         cell.nameLabel.text = [contact compositeName];
         cell.emailLabel.text = [[contact emailArray] objectAtIndex:0];
     }
@@ -161,69 +180,44 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     id contact = [self.suggestions objectAtIndex:indexPath.row];
-    NSString *emailAddress = nil;
     if ([contact isKindOfClass:[EVUser class]]) {
 		self.exchange.to = contact;
-    } else if ([contact isKindOfClass:[ABContact class]]) {
-        emailAddress = [[contact emailArray] objectAtIndex:0];
+    }
+    else if ([contact isKindOfClass:[ABContact class]]) {
+        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
 		EVContact *toContact = [[EVContact alloc] init];
 		toContact.email = emailAddress;
 		self.exchange.to = toContact;
     }
-    //    self.transactionForm.toTextField.text = emailAddress;
+    
     [self hideTableView];
     [self.formView.amountField becomeFirstResponder];
 }
 
-- (void)configureReactions
-{
-    [self.formView.toField.rac_textSignal subscribeNext:^(NSString *toString) {
-        if ([self.formView.toField isFirstResponder])
-        {
-            NSArray *results = [ABContactsHelper contactsWithEmailMatchingName:toString];
-            self.suggestions = results;
-            
-            [self reloadTableView];
-            if (!EV_IS_EMPTY_STRING(toString)) {
-                [EVUser allWithParams:@{ @"query" : toString } success:^(id result) {
-                    self.suggestions = [self.suggestions arrayByAddingObjectsFromArray:(NSArray *)result];
-                    [self reloadTableView];
-                } failure:^(NSError *error) {
-                    DLog(@"error: %@", error);
-                }];
-            }
-        }
-        else
-        {
-            [self hideTableView];
-            self.suggestions = [NSArray array];
-        }
-        if (self.exchange.to == nil)
-            self.exchange.to = [EVUser new];
-        self.exchange.to.email = toString;
-        self.exchange.to.dbid = nil;
-    }];
-    [self.formView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
-        amountString = [amountString stringByReplacingOccurrencesOfString:@"owes me " withString:@""];
-        self.exchange.amount = [NSDecimalNumber decimalNumberWithString:[amountString stringByReplacingOccurrencesOfString:@"$" withString:@""]];
-    }];
-    [self.formView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
-        self.exchange.memo = descriptionString;
-    }];
-    [RACAble(self.exchange.valid) subscribeNext:^(id x) {
-        BOOL valid = [(NSNumber *)x boolValue];
-        self.navigationItem.rightBarButtonItem.enabled = valid;
-    }];
-    [RACAble(self.exchange.to) subscribeNext:^(EVObject<EVExchangeable> *to) {
-        if (to == nil)
-            return;
+#pragma mark - To Field Handling
+
+- (void)hanldeToFieldInput:(NSString *)text {
+    if ([self.formView.toField isFirstResponder]) {
+        self.suggestions = [ABContactsHelper contactsWithEmailMatchingName:text];
+        [self reloadTableView];
         
-		if (to.name)
-			self.formView.toField.text = to.name;
-		else
-			self.formView.toField.text = to.email;
-        DLog(@"Reacting to TO");
-	}];
+        if (!EV_IS_EMPTY_STRING(text)) {
+            [EVUser allWithParams:@{ @"query" : text } success:^(id result) {
+                self.suggestions = [self.suggestions arrayByAddingObjectsFromArray:(NSArray *)result];
+                [self reloadTableView];
+            } failure:^(NSError *error) {
+                DLog(@"error: %@", error);
+            }];
+        }
+    }
+    else {
+        [self hideTableView];
+        self.suggestions = [NSArray array];
+    }
+    if (!self.exchange.to)
+        self.exchange.to = [EVUser new];
+    self.exchange.to.email = text;
+    self.exchange.to.dbid = nil;
 }
 
 #pragma mark - Button Handling
@@ -233,26 +227,18 @@
 }
 
 - (void)completeExchangePress:(id)sender {
-    [self.view resignFirstResponder];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    
     [self.exchange saveWithSuccess:^{
-        DLog(@"created %@", NSStringFromClass([self.exchange class]));
-        
         hud.mode = MBProgressHUDModeText;
         hud.labelText = @"Success!";
         
-        if ([self.exchange isKindOfClass:[EVPayment class]]) {
+        if ([self.exchange isKindOfClass:[EVPayment class]])
             [EVCIA me].balance = [[EVCIA me].balance decimalNumberBySubtracting:self.exchange.amount];
-        }
         
-        double delayInSeconds = 1.0;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        EV_DISPATCH_AFTER(1.0, ^(void) {
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-               //reload?
             }];
         });
     } failure:^(NSError *error) {
@@ -261,14 +247,33 @@
     }];
 }
 
-#pragma mark - Frame Defines
+#pragma mark - View Defines
 
-#define NETWORK_LINE_HEIGHT 40
-- (CGRect)networkSelectorFrame {
+- (NSString *)completeExchangeButtonText {
+    return @"Pay";
+}
+
+- (CGRect)formViewFrame {
+    CGRect formRect = self.view.bounds;
+    formRect.size.height -= (DEFAULT_KEYBOARD_HEIGHT + self.navigationController.navigationBar.bounds.size.height);
+    return formRect;
+}
+
+- (CGRect)privacySelectorFrame {
+    float yOrigin = self.view.bounds.size.height - DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorView lineHeight] - self.navigationController.navigationBar.bounds.size.height;
     return CGRectMake(0,
-                      self.view.bounds.size.height - KEYBOARD_HEIGHT - NETWORK_LINE_HEIGHT - 44,
+                      yOrigin,
                       self.view.bounds.size.width,
-                      NETWORK_LINE_HEIGHT * 4);
+                      [EVPrivacySelectorView lineHeight] * [EVPrivacySelectorView numberOfLines]);
+}
+
+- (CGRect)suggestionsTableViewFrame {
+    CGRect keyboardFrame = [[EVKeyboardTracker sharedTracker] keyboardFrame];
+    float tableHeight = CGRectGetMinY(keyboardFrame) - self.formView.frame.origin.y - self.navigationController.navigationBar.bounds.size.height - CELL_HEIGHT;
+    return CGRectMake(self.formView.frame.origin.x,
+                      self.formView.frame.origin.y + CELL_HEIGHT,
+                      self.formView.frame.size.width,
+                      tableHeight);
 }
 
 @end

@@ -20,5 +20,6 @@
 - (CGRect)amountFieldFrame;
 - (float)maxAmountWidth;
 - (NSString *)amountPrefix;
+- (NSString *)descriptionPlaceholderText;
 
 @end
