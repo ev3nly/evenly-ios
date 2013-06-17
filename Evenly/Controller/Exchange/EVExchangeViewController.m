@@ -25,7 +25,6 @@
 
 - (void)loadLeftButton;
 - (void)loadRightButton;
-- (void)loadFormView;
 - (void)loadPrivacySelector;
 - (void)loadSuggestionsTableView;
 - (void)configureReactions;
