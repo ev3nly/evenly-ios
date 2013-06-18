@@ -115,6 +115,9 @@
     self.singleAmountView = [[EVRequestSingleAmountView alloc] initWithFrame:[self contentViewFrame]];
     self.singleAmountView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
+    self.detailsView = [[EVRequestDetailsView alloc] initWithFrame:[self contentViewFrame]];
+    self.detailsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    
     [self.view addSubview:self.initialView];
     [self.viewStack addObject:self.initialView];
     [self.view bringSubviewToFront:self.privacySelector];
@@ -139,11 +142,17 @@
 - (void)nextButtonPress:(id)sender {
     if (self.phase == EVRequestPhaseWho)
     {
-        [self.singleAmountView setDebtorName:@"Zach Abrams"];
+        [self.singleAmountView.titleLabel setText:@"Zach Abrams owes me"];
         [self pushView:self.singleAmountView animated:YES];
         self.phase = EVRequestPhaseHowMuch;
     }
-    
+    else if (self.phase == EVRequestPhaseHowMuch)
+    {
+        NSString *title = [NSString stringWithFormat:@"Zach Abrams owes me %@ for", self.singleAmountView.amountField.text];
+        [self.detailsView.titleLabel setText:title];
+        [self pushView:self.detailsView animated:YES];
+        self.phase = EVRequestPhaseWhatFor;
+    }
     [self setUpNavBar];
 }
 
@@ -162,7 +171,6 @@
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:leftView] animated:YES];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:rightView] animated:YES];
     [self.pageControl setCurrentPage:self.phase];
-
 }
 
 @end

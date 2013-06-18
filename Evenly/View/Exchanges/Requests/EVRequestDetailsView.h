@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVRequestView.h"
 
-@interface EVRequestDetailsView : UIView
+@interface EVRequestDetailsView : EVRequestView
 
 @end

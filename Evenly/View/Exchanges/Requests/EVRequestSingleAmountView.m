@@ -32,11 +32,6 @@
     return self;
 }
 
-- (void)setDebtorName:(NSString *)debtorName {
-    _debtorName = debtorName;
-    self.titleLabel.text = [NSString stringWithFormat:@"%@ owes me", debtorName];
-}
-
 - (void)loadBigAmountField {
     self.bigAmountContainer = [[UIImageView alloc] initWithFrame:CGRectMake(BIG_AMOUNT_CONTAINER_MARGIN,
                                                                             CGRectGetMaxY(self.titleLabel.frame) + BIG_AMOUNT_CONTAINER_MARGIN,

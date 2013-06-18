@@ -12,7 +12,6 @@
 
 @interface EVRequestSingleAmountView : EVRequestView<UITextFieldDelegate>
 
-@property (nonatomic, strong) NSString *debtorName;
 @property (nonatomic, strong) EVTextField *amountField;
 
 @end
