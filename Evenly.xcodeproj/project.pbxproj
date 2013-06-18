@@ -106,7 +106,6 @@
 		9C504433177119160090D865 /* EVAutocompleteTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5044321771190B0090D865 /* EVAutocompleteTableViewDataSource.m */; };
 		9C504472177122850090D865 /* JSBackspaceReportingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C504467177122850090D865 /* JSBackspaceReportingTextField.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9C504473177122850090D865 /* JSTokenButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C504469177122850090D865 /* JSTokenButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9C504474177122850090D865 /* JSTokenField-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C50446A177122850090D865 /* JSTokenField-Info.plist */; };
 		9C504475177122850090D865 /* JSTokenField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50446D177122850090D865 /* JSTokenField.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9C504476177122850090D865 /* tokenHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C50446E177122850090D865 /* tokenHighlighted.png */; };
 		9C504477177122850090D865 /* tokenHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C50446F177122850090D865 /* tokenHighlighted@2x.png */; };
@@ -478,8 +477,6 @@
 		9C504467177122850090D865 /* JSBackspaceReportingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSBackspaceReportingTextField.m; sourceTree = "<group>"; };
 		9C504468177122850090D865 /* JSTokenButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTokenButton.h; sourceTree = "<group>"; };
 		9C504469177122850090D865 /* JSTokenButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTokenButton.m; sourceTree = "<group>"; };
-		9C50446A177122850090D865 /* JSTokenField-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JSTokenField-Info.plist"; sourceTree = "<group>"; };
-		9C50446B177122850090D865 /* JSTokenField-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSTokenField-Prefix.pch"; sourceTree = "<group>"; };
 		9C50446C177122850090D865 /* JSTokenField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTokenField.h; sourceTree = "<group>"; };
 		9C50446D177122850090D865 /* JSTokenField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTokenField.m; sourceTree = "<group>"; };
 		9C50446E177122850090D865 /* tokenHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tokenHighlighted.png; sourceTree = "<group>"; };
@@ -1121,8 +1118,6 @@
 				9C504467177122850090D865 /* JSBackspaceReportingTextField.m */,
 				9C504468177122850090D865 /* JSTokenButton.h */,
 				9C504469177122850090D865 /* JSTokenButton.m */,
-				9C50446A177122850090D865 /* JSTokenField-Info.plist */,
-				9C50446B177122850090D865 /* JSTokenField-Prefix.pch */,
 				9C50446C177122850090D865 /* JSTokenField.h */,
 				9C50446D177122850090D865 /* JSTokenField.m */,
 				9C50446E177122850090D865 /* tokenHighlighted.png */,
@@ -1860,7 +1855,6 @@
 				9CB285BD1761521E009B26BB /* PendingPayment.png in Resources */,
 				9CB285BE1761521E009B26BB /* PendingPayment@2x.png in Resources */,
 				9CB285BF1761521E009B26BB /* Transfer.png in Resources */,
-				9C504474177122850090D865 /* JSTokenField-Info.plist in Resources */,
 				9CB285C01761521E009B26BB /* Transfer@2x.png in Resources */,
 				9C54287D176F9DB60028F141 /* Request-Slider-White@2x.png in Resources */,
 				9CB285CC17616AA2009B26BB /* Support.png in Resources */,
