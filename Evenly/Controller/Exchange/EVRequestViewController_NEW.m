@@ -12,6 +12,10 @@
 #import "EVPrivacySelectorView.h"
 #import "EVBackButton.h"
 
+#import "EVAutocompleteTableViewDataSource.h"
+#import "EVUserAutocompletionCell.h"
+#import "EVKeyboardTracker.h"
+
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
 @interface EVRequestViewController_NEW ()
@@ -23,6 +27,9 @@
 @property (nonatomic, strong) EVPageControl *pageControl;
 @property (nonatomic, strong) EVPrivacySelectorView *privacySelector;
 
+@property (nonatomic, strong) UITableView *autocompleteTableView;
+@property (nonatomic, strong) EVAutocompleteTableViewDataSource *autocompleteDataSource;
+
 - (void)loadCancelButton;
 - (void)loadBackButton;
 - (void)loadNextButton;
@@ -30,6 +37,7 @@
 - (void)loadPageControl;
 - (void)loadPrivacySelector;
 - (void)loadContentViews;
+- (void)loadAutocomplete;
 
 @end
 
@@ -55,6 +63,7 @@
     [self loadPageControl];
     [self loadPrivacySelector];
     [self loadContentViews];
+    [self loadAutocomplete];
     
     [self setUpReactions];
 }
@@ -128,6 +137,34 @@
 
 - (CGRect)contentViewFrame {
     return CGRectMake(0, 0, self.view.frame.size.width, self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT);
+}
+
+- (void)loadAutocomplete {
+    self.autocompleteDataSource = [[EVAutocompleteTableViewDataSource alloc] init];
+    
+    CGRect keyboardFrame = [[EVKeyboardTracker sharedTracker] keyboardFrame];
+    float tableHeight = self.initialView.frame.size.height - CGRectGetMaxY(self.initialView.toField.frame);
+    CGRect tableFrame =  CGRectMake(0,
+                      CGRectGetMaxY(self.initialView.toField.frame),
+                      self.initialView.frame.size.width,
+                      tableHeight);
+    DLog(@"Table frame: %@", NSStringFromCGRect(tableFrame));
+    self.autocompleteTableView = [[UITableView alloc] initWithFrame:tableFrame style:UITableViewStylePlain];
+    
+    self.autocompleteTableView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+    self.autocompleteTableView.delegate = self;
+    self.autocompleteTableView.dataSource = self.autocompleteDataSource;
+    self.autocompleteTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.autocompleteTableView registerClass:[EVUserAutocompletionCell class]
+                      forCellReuseIdentifier:@"userAutocomplete"];
+    self.autocompleteTableView.separatorColor = [UIColor colorWithWhite:0.8 alpha:1.0];
+    
+    self.autocompleteDataSource.tableView = self.autocompleteTableView;
+    self.autocompleteDataSource.textField = self.initialView.toField;
+    [self.autocompleteDataSource setUpReactions];
+    
+    [self.initialView addSubview:self.autocompleteTableView];
+    [self.autocompleteTableView setHidden:YES];
 }
 
 - (void)setUpReactions {

@@ -44,7 +44,6 @@
     EVPlaceholderTextView *field = [[EVPlaceholderTextView alloc] initWithFrame:[self descriptionFieldFrame]];
     field.placeholder = [EVStringUtility requestDescriptionPlaceholder];
     self.descriptionField = field;
-    self.descriptionField.text = [EVStringUtility requestDescriptionPlaceholder];
     self.descriptionField.textColor = [UIColor blackColor];
     self.descriptionField.font = [EVFont lightExchangeFormFont];
     self.descriptionField.delegate = self;

@@ -22,7 +22,7 @@ typedef enum {
 } EVRequestPhase;
 
 
-@interface EVRequestViewController_NEW : EVPushPopViewController
+@interface EVRequestViewController_NEW : EVPushPopViewController <UITableViewDelegate>
 
 @property (nonatomic) EVRequestPhase phase;
 

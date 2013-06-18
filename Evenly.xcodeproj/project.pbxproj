@@ -103,6 +103,7 @@
 		9C50442A1770F8780090D865 /* EVRequestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5044291770F8260090D865 /* EVRequestView.m */; };
 		9C50442D1770FC250090D865 /* EVBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50442C1770FC050090D865 /* EVBackButton.m */; };
 		9C504430177114580090D865 /* EVPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50442F177114460090D865 /* EVPlaceholderTextView.m */; };
+		9C504433177119160090D865 /* EVAutocompleteTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5044321771190B0090D865 /* EVAutocompleteTableViewDataSource.m */; };
 		9C542858176F76EA0028F141 /* EVAddCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542855176F76EA0028F141 /* EVAddCardViewController.m */; };
 		9C542859176F76EA0028F141 /* EVCardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542857176F76EA0028F141 /* EVCardsViewController.m */; };
 		9C54285C176F77320028F141 /* EVFundingSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C54285B176F76FC0028F141 /* EVFundingSourceViewController.m */; };
@@ -463,6 +464,8 @@
 		9C50442C1770FC050090D865 /* EVBackButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVBackButton.m; sourceTree = "<group>"; };
 		9C50442E177114460090D865 /* EVPlaceholderTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVPlaceholderTextView.h; sourceTree = "<group>"; };
 		9C50442F177114460090D865 /* EVPlaceholderTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVPlaceholderTextView.m; sourceTree = "<group>"; };
+		9C5044311771190B0090D865 /* EVAutocompleteTableViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVAutocompleteTableViewDataSource.h; sourceTree = "<group>"; };
+		9C5044321771190B0090D865 /* EVAutocompleteTableViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVAutocompleteTableViewDataSource.m; sourceTree = "<group>"; };
 		9C542854176F76EA0028F141 /* EVAddCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAddCardViewController.h; sourceTree = "<group>"; };
 		9C542855176F76EA0028F141 /* EVAddCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAddCardViewController.m; sourceTree = "<group>"; };
 		9C542856176F76EA0028F141 /* EVCardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCardsViewController.h; sourceTree = "<group>"; };
@@ -1523,6 +1526,8 @@
 				D0828FB01768E6B10032D62E /* EVPaymentViewController.m */,
 				9C5044151770E5880090D865 /* EVRequestViewController_NEW.h */,
 				9C5044161770E5880090D865 /* EVRequestViewController_NEW.m */,
+				9C5044311771190B0090D865 /* EVAutocompleteTableViewDataSource.h */,
+				9C5044321771190B0090D865 /* EVAutocompleteTableViewDataSource.m */,
 			);
 			path = Exchange;
 			sourceTree = "<group>";
@@ -2064,6 +2069,7 @@
 				9CCA9017175EA8FC003462DC /* EVSidePanelViewController.m in Sources */,
 				9C54288B176FCE5C0028F141 /* EVGroupRequestFormView.m in Sources */,
 				9CCA901A175EBCCC003462DC /* EVAppErrorHandler.m in Sources */,
+				9C504433177119160090D865 /* EVAutocompleteTableViewDataSource.m in Sources */,
 				9CCA901D175EBD47003462DC /* EVMasterViewController.m in Sources */,
 				D02CAB0F1761483500323025 /* EVValidator.m in Sources */,
 				9CB285C8176164EC009B26BB /* EVMainMenuCell.m in Sources */,

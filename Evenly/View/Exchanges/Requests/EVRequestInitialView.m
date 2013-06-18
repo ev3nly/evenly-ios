@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UIView *requestSwitchBackground;
 @property (nonatomic, strong) UIView *upperStripe;
 @property (nonatomic, strong) UIView *lowerStripe;
+@property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 
 @end
 
@@ -34,6 +35,7 @@
         [self loadRequestSwitch];
         [self loadToField];
         [self loadInstructionLabel];
+        [self loadTapRecognizer];
     }
     return self;
 }
@@ -85,9 +87,6 @@
     self.toField.returnKeyType = UIReturnKeyNext;
     self.toField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self addSubview:self.toField];
-    [self.toField becomeFirstResponder];
-    
-
 
     self.lowerStripe = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.toField.frame) + 2.0, self.frame.size.width, 1)];
     self.lowerStripe.backgroundColor = [EVColor newsfeedStripeColor];
@@ -109,7 +108,15 @@
     self.instructionLabel.text = @"Add friends now or invite them later on.";
     self.instructionLabel.alpha = 0.0;
     [self addSubview:self.instructionLabel];
-    
+}
+
+- (void)loadTapRecognizer {
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
+    [self addGestureRecognizer:self.tapRecognizer];
+}
+
+- (void)tapRecognized:(UITapGestureRecognizer *)recognizer {
+    [self resignFirstResponder];
 }
 
 - (EVTextField *)configuredTextField {
@@ -126,6 +133,10 @@
 
 - (BOOL)becomeFirstResponder {
     return [self.toField becomeFirstResponder];
+}
+
+- (BOOL)resignFirstResponder {
+    return [self.toField resignFirstResponder];
 }
 
 @end
