@@ -53,8 +53,10 @@
     [self loadNextButton];
     [self loadRequestButton];
     [self loadPageControl];
-//    [self loadPrivacySelector];
+    [self loadPrivacySelector];
     [self loadContentViews];
+    
+    [self setUpReactions];
 }
 
 - (void)loadCancelButton {
@@ -115,8 +117,9 @@
     self.singleAmountView = [[EVRequestSingleAmountView alloc] initWithFrame:[self contentViewFrame]];
     self.singleAmountView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.detailsView = [[EVRequestDetailsView alloc] initWithFrame:[self contentViewFrame]];
-    self.detailsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    self.detailsView = [[EVRequestDetailsView alloc] initWithFrame:[self.view bounds]];
+    self.detailsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;    
+    [self.detailsView addSubview:self.privacySelector];
     
     [self.view addSubview:self.initialView];
     [self.viewStack addObject:self.initialView];
@@ -125,6 +128,10 @@
 
 - (CGRect)contentViewFrame {
     return CGRectMake(0, 0, self.view.frame.size.width, self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT);
+}
+
+- (void)setUpReactions {
+
 }
 
 #pragma mark - Button Actions
@@ -148,7 +155,7 @@
     }
     else if (self.phase == EVRequestPhaseHowMuch)
     {
-        NSString *title = [NSString stringWithFormat:@"Zach Abrams owes me %@ for", self.singleAmountView.amountField.text];
+        NSString *title = [NSString stringWithFormat:@"Zach Abrams owes me %@", self.singleAmountView.amountField.text];
         [self.detailsView.titleLabel setText:title];
         [self pushView:self.detailsView animated:YES];
         self.phase = EVRequestPhaseWhatFor;

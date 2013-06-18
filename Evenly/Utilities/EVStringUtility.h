@@ -33,6 +33,8 @@
 + (NSString *)nameForDetailField:(EVExchangeDetailField)field;
 + (NSString *)detailStringFromDate:(NSDate *)date;
 
++ (NSString *)requestDescriptionPlaceholder;
+
 #pragma mark - Marketing Materials
 
 + (NSString *)appName;

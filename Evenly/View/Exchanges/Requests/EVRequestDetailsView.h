@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "EVRequestView.h"
+#import "EVTextField.h"
 
-@interface EVRequestDetailsView : EVRequestView
+@interface EVRequestDetailsView : EVRequestView <UITextViewDelegate>
+
+@property (nonatomic, strong) UITextView *descriptionField;
 
 @end

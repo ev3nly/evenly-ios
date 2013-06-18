@@ -253,6 +253,10 @@ static NSDateFormatter *_detailDateFormatter;
     return [[self detailDateFormatter] stringFromDate:date];
 }
 
++ (NSString *)requestDescriptionPlaceholder {
+    return @"Lunch, dinner, taxi, or anything else";
+}
+
 #pragma mark - Marketing Materials
 
 + (NSString *)appName {

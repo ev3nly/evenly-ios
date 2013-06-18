@@ -102,6 +102,7 @@
 		9C5044271770EC990090D865 /* EVPushPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5044261770EC7A0090D865 /* EVPushPopViewController.m */; };
 		9C50442A1770F8780090D865 /* EVRequestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5044291770F8260090D865 /* EVRequestView.m */; };
 		9C50442D1770FC250090D865 /* EVBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50442C1770FC050090D865 /* EVBackButton.m */; };
+		9C504430177114580090D865 /* EVPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50442F177114460090D865 /* EVPlaceholderTextView.m */; };
 		9C542858176F76EA0028F141 /* EVAddCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542855176F76EA0028F141 /* EVAddCardViewController.m */; };
 		9C542859176F76EA0028F141 /* EVCardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542857176F76EA0028F141 /* EVCardsViewController.m */; };
 		9C54285C176F77320028F141 /* EVFundingSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C54285B176F76FC0028F141 /* EVFundingSourceViewController.m */; };
@@ -460,6 +461,8 @@
 		9C5044291770F8260090D865 /* EVRequestView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVRequestView.m; sourceTree = "<group>"; };
 		9C50442B1770FC050090D865 /* EVBackButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVBackButton.h; sourceTree = "<group>"; };
 		9C50442C1770FC050090D865 /* EVBackButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVBackButton.m; sourceTree = "<group>"; };
+		9C50442E177114460090D865 /* EVPlaceholderTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVPlaceholderTextView.h; sourceTree = "<group>"; };
+		9C50442F177114460090D865 /* EVPlaceholderTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVPlaceholderTextView.m; sourceTree = "<group>"; };
 		9C542854176F76EA0028F141 /* EVAddCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAddCardViewController.h; sourceTree = "<group>"; };
 		9C542855176F76EA0028F141 /* EVAddCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAddCardViewController.m; sourceTree = "<group>"; };
 		9C542856176F76EA0028F141 /* EVCardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCardsViewController.h; sourceTree = "<group>"; };
@@ -1041,6 +1044,8 @@
 			children = (
 				9C2DD0A8176A4DD600EAA3D1 /* EVTextField.h */,
 				9C2DD0A9176A4DD600EAA3D1 /* EVTextField.m */,
+				9C50442E177114460090D865 /* EVPlaceholderTextView.h */,
+				9C50442F177114460090D865 /* EVPlaceholderTextView.m */,
 			);
 			path = TextFields;
 			sourceTree = "<group>";
@@ -2036,6 +2041,7 @@
 				9C1F4827175691B600B26A1B /* EVInvite.m in Sources */,
 				9C542867176F8EDE0028F141 /* EVAddBankViewController.m in Sources */,
 				9C1F4828175691B600B26A1B /* EVNotificationSetting.m in Sources */,
+				9C504430177114580090D865 /* EVPlaceholderTextView.m in Sources */,
 				9C1F4829175691B600B26A1B /* EVObject.m in Sources */,
 				9C1F482A175691B600B26A1B /* EVPayment.m in Sources */,
 				9C1F482B175691B600B26A1B /* EVSerializer.m in Sources */,
