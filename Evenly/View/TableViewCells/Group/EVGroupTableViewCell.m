@@ -30,6 +30,7 @@
     _position = position;
     [(EVGroupTableViewCellBackground *)self.backgroundView setPosition:_position];
     [(EVGroupTableViewCellBackground *)self.selectedBackgroundView setPosition:_position];
+    [self.backgroundView setNeedsDisplay];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

@@ -140,7 +140,7 @@ static NSDateFormatter *_dateFormatter = nil;
     }
     [cell setTitle:[self displayStringForDate:historyItem.createdAt] subtitle:subtitle amount:amount];
     cell.position = [self cellPositionForIndexPath:indexPath];
-    
+
     return cell;
 }
 
