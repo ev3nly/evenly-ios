@@ -54,7 +54,6 @@
 - (void)loadNextButton {
     self.nextButton = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
     [self.nextButton addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    // Position the Skip button correctly for when we need it.
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.nextButton];
 }
 

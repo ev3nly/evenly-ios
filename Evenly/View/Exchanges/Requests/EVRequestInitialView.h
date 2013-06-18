@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "EVTextField.h"
+
 @interface EVRequestInitialView : UIView
+
+@property (nonatomic, strong) EVTextField *textField;
+@property (nonatomic, strong) UILabel *instructionLabel;
 
 @end
