@@ -18,6 +18,7 @@
 
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) UITextField *hiddenTextField;
+@property (nonatomic, strong) EVNavigationBarButton *requestButton;
 
 - (void)loadRequestSwitch;
 - (void)loadContainerView;
@@ -41,6 +42,7 @@
 {
     [super viewDidLoad];
     [self loadRequestSwitch];
+    [self loadRequestButton];
     [self loadContainerView];
     [self loadHiddenTextField];
     [self loadPrivacySelector];
@@ -63,7 +65,13 @@
     self.requestSwitch.panningEnabled = NO;
     [self.requestSwitch addTarget:self action:@selector(requestSwitchChanged:) forControlEvents:UIControlEventValueChanged];
     [requestSwitchBackground addSubview:self.requestSwitch];
+}
 
+- (void)loadRequestButton {
+    self.requestButton = [[EVNavigationBarButton alloc] initWithTitle:@"Request"];
+    [self.requestButton addTarget:self action:@selector(requestButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    self.requestButton.enabled = NO;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.requestButton];    
 }
 
 - (void)loadContainerView {
@@ -103,9 +111,9 @@
 }
 
 - (void)setUpReactions {
-    
     [RACAble(self.activeViewController.exchange.isValid) subscribeNext:^(NSNumber *boolNumber) {
         DLog(@"Is valid: %@", [boolNumber boolValue] ? @"YES" : @"NO");
+        self.requestButton.enabled = [boolNumber boolValue];
     }];
 }
 
@@ -115,16 +123,8 @@
     [self addChildViewController:self.groupRequestController]; 
 }
 
-- (void)requestSwitchChanged:(EVSwitch *)theSwitch {
-    if ((EVRequestType)[theSwitch isOn] == EVRequestTypeFriend) {
-        [self setActiveViewController:self.friendRequestController animated:YES];
-    } else {
-        [self setActiveViewController:self.groupRequestController animated:YES];
-    }
-}
-
 - (void)setActiveViewController:(EVViewController *)viewController animated:(BOOL)animated {
-    EVViewController<EVExchangeCreator> *fromViewController, *toViewController;
+    EVViewController<EVExchangeCreator>  *fromViewController, *toViewController;
     UIViewAnimationOptions options;
     if (viewController == self.friendRequestController)
     {
@@ -209,6 +209,18 @@
 //}
 
 
+#pragma mark - Actions
 
+- (void)requestButtonPress:(id)sender {
+    
+}
+
+- (void)requestSwitchChanged:(EVSwitch *)theSwitch {
+    if ((EVRequestType)[theSwitch isOn] == EVRequestTypeFriend) {
+        [self setActiveViewController:self.friendRequestController animated:YES];
+    } else {
+        [self setActiveViewController:self.groupRequestController animated:YES];
+    }
+}
 
 @end

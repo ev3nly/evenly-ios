@@ -8,6 +8,7 @@
 
 #import "EVViewController.h"
 #import "EVExchangeViewController.h"
+
 @interface EVGroupRequestViewController : EVViewController <EVExchangeCreator>
 
 @end
