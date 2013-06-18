@@ -13,6 +13,8 @@
 #import "EVPageControl.h"
 #import "EVCharge.h"
 
+#define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
+
 @interface EVRequestViewController ()
 
 @property (nonatomic, strong) EVRequestSwitch *requestSwitch;
@@ -112,8 +114,7 @@
     [requestSwitchBackground addSubview:self.requestSwitch];
     
     [RACAble(self.requestSwitch.xPercentage) subscribeNext:^(NSNumber *percentage) {
-        [self.formView setOrigin:CGPointMake(self.view.frame.size.width * [percentage floatValue], self.formView.frame.origin.y)];
-        [self.groupChargeForm setOrigin:CGPointMake(-self.groupChargeForm.frame.size.width + (self.groupChargeForm.frame.size.width * [percentage floatValue]), self.groupChargeForm.frame.origin.y)];
+        [self positionSubviewsForPercentage:[percentage floatValue]];
     }];    
 }
 
@@ -134,29 +135,30 @@
     // TODO: 
 }
 
+- (void)positionSubviewsForPercentage:(float)percentage {
+    [self.formView setOrigin:CGPointMake(self.view.frame.size.width * percentage,
+                                         self.formView.frame.origin.y)];
+    CGFloat formWidth = self.groupChargeForm.frame.size.width;
+    [self.groupChargeForm setOrigin:CGPointMake(-formWidth + (formWidth * percentage),
+                                                self.groupChargeForm.frame.origin.y)];
+    
+    CGFloat positionAdjustment = (-TITLE_PAGE_CONTROL_Y_OFFSET * percentage);
+    [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:positionAdjustment
+                                                                  forBarMetrics:UIBarMetricsDefault];
+    CGRect rect = self.titleLabelFrame;
+    rect.origin.y += positionAdjustment;
+    [self.navigationItem.titleView setFrame:rect];
+    [self.pageControl setAlpha:percentage];
+}
+
 #pragma mark - EVSwitchDelegate
 
 - (void)switchControl:(EVSwitch *)switchControl willChangeStateTo:(BOOL)onOff animationDuration:(NSTimeInterval)duration {
     if (duration > 0) {
         [UIView animateWithDuration:duration animations:^{
             float percentage = (onOff ? 1.0 : 0.0);
-            [self.formView setOrigin:CGPointMake(self.view.frame.size.width * percentage, self.formView.frame.origin.y)];
-            [self.groupChargeForm setOrigin:CGPointMake(-self.groupChargeForm.frame.size.width + (self.groupChargeForm.frame.size.width * percentage), self.groupChargeForm.frame.origin.y)];
-            
+            [self positionSubviewsForPercentage:percentage];
             self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:(onOff ? self.skipButton : self.completeExchangeButton)];
-            
-            DLog(@"Title label frame: %@", NSStringFromCGRect(self.titleLabel.frame));
-            if (onOff) {
-                [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:-5.0 forBarMetrics:UIBarMetricsDefault];
-                CGRect rect = self.titleLabelFrame;
-                rect.origin.y -= 5.0;
-                [self.navigationItem.titleView setFrame:rect];
-                [self.pageControl setAlpha:1.0];
-            } else {
-                [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:0.0 forBarMetrics:UIBarMetricsDefault];
-                [self.titleLabel setFrame:self.titleLabelFrame];
-                [self.pageControl setAlpha:0.0];
-            }
         }];
     }
 }
