@@ -120,4 +120,12 @@
     return textField;
 }
 
+- (BOOL)isFirstResponder {
+    return self.toField.isFirstResponder;
+}
+
+- (BOOL)becomeFirstResponder {
+    return [self.toField becomeFirstResponder];
+}
+
 @end

@@ -14,6 +14,14 @@
 
 @implementation EVPushPopViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.viewStack = [NSMutableArray array];
+    }
+    return self;
+}
+
 
 #pragma mark - Pushing and Popping Views
 
@@ -27,6 +35,7 @@
     } completion:^(BOOL finished) {
         [currentView removeFromSuperview];
         [self.viewStack addObject:incomingView];
+        [incomingView becomeFirstResponder];
     }];
 }
 
@@ -44,6 +53,7 @@
     } completion:^(BOOL finished) {
         [currentView removeFromSuperview];
         [self.viewStack removeLastObject];
+        [previousView becomeFirstResponder];
     }];
 }
 

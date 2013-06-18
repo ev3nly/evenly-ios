@@ -15,7 +15,16 @@
 #import "EVRequestMultipleAmountsView.h"
 #import "EVRequestDetailsView.h"
 
+typedef enum {
+    EVRequestPhaseWho = 0,
+    EVRequestPhaseHowMuch,
+    EVRequestPhaseWhatFor
+} EVRequestPhase;
+
+
 @interface EVRequestViewController_NEW : EVPushPopViewController
+
+@property (nonatomic) EVRequestPhase phase;
 
 @property (nonatomic, strong) EVRequestSwitch *requestSwitch;
 @property (nonatomic, strong) EVExchange *exchange;

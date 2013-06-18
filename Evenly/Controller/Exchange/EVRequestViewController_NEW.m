@@ -10,18 +10,23 @@
 #import "EVNavigationBarButton.h"
 #import "EVPageControl.h"
 #import "EVPrivacySelectorView.h"
+#import "EVBackButton.h"
 
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
 @interface EVRequestViewController_NEW ()
 
 @property (nonatomic, strong) EVNavigationBarButton *cancelButton;
+@property (nonatomic, strong) EVBackButton *backButton;
 @property (nonatomic, strong) EVNavigationBarButton *nextButton;
+@property (nonatomic, strong) EVNavigationBarButton *requestButton;
 @property (nonatomic, strong) EVPageControl *pageControl;
 @property (nonatomic, strong) EVPrivacySelectorView *privacySelector;
 
-
+- (void)loadCancelButton;
+- (void)loadBackButton;
 - (void)loadNextButton;
+- (void)loadRequestButton;
 - (void)loadPageControl;
 - (void)loadPrivacySelector;
 - (void)loadContentViews;
@@ -35,6 +40,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"New Request";
+        self.phase = EVRequestPhaseWho;
     }
     return self;
 }
@@ -43,7 +49,9 @@
 {
     [super viewDidLoad];
     [self loadCancelButton];
+    [self loadBackButton];
     [self loadNextButton];
+    [self loadRequestButton];
     [self loadPageControl];
 //    [self loadPrivacySelector];
     [self loadContentViews];
@@ -55,10 +63,20 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.cancelButton];
 }
 
+- (void)loadBackButton {
+    self.backButton = [EVBackButton button];
+    [self.backButton addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+}
+
 - (void)loadNextButton {
     self.nextButton = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
     [self.nextButton addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.nextButton];
+}
+
+- (void)loadRequestButton {
+    self.requestButton = [[EVNavigationBarButton alloc] initWithTitle:@"Request"];
+    [self.requestButton addTarget:self action:@selector(requestButtonPress:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)loadPageControl {
@@ -94,9 +112,11 @@
     self.initialView = [[EVRequestInitialView alloc] initWithFrame:[self contentViewFrame]];
     self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
+    self.singleAmountView = [[EVRequestSingleAmountView alloc] initWithFrame:[self contentViewFrame]];
+    self.singleAmountView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    
-    [self pushView:self.initialView animated:YES];
+    [self.view addSubview:self.initialView];
+    [self.viewStack addObject:self.initialView];
     [self.view bringSubviewToFront:self.privacySelector];
 }
 
@@ -110,8 +130,39 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
+- (void)backButtonPress:(id)sender {
+    [self popViewAnimated:YES];
+    self.phase--;
+    [self setUpNavBar];
+}
+
 - (void)nextButtonPress:(id)sender {
+    if (self.phase == EVRequestPhaseWho)
+    {
+        [self.singleAmountView setDebtorName:@"Zach Abrams"];
+        [self pushView:self.singleAmountView animated:YES];
+        self.phase = EVRequestPhaseHowMuch;
+    }
     
+    [self setUpNavBar];
+}
+
+- (void)setUpNavBar {
+    UIView *leftView, *rightView;
+    leftView = self.backButton;
+    rightView = self.nextButton;
+    if (self.phase == EVRequestPhaseWho)
+    {
+        leftView = self.cancelButton;
+    }
+    else if (self.phase == EVRequestPhaseWhatFor)
+    {
+        rightView = self.requestButton;
+    }
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:leftView] animated:YES];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:rightView] animated:YES];
+    [self.pageControl setCurrentPage:self.phase];
+
 }
 
 @end
