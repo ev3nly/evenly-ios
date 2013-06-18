@@ -80,4 +80,14 @@
     return NO;
 }
 
+- (UIView *)currentFirstResponder {
+    if (self.isFirstResponder)
+        return self;
+    for (UIView *subview in self.subviews) {
+        if ([subview currentFirstResponder])
+            return [subview currentFirstResponder];
+    }
+    return nil;
+}
+
 @end

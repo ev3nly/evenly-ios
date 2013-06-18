@@ -26,5 +26,6 @@
 - (void)logSuperviews;
 
 - (BOOL)findAndResignFirstResponder;
+- (UIView *)currentFirstResponder;
 
 @end
