@@ -14,6 +14,7 @@
 #import "EVCharge.h"
 
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
+#define GROUP_CHARGE_FORM_INFORMATIONAL_LABEL_MARGIN 40.0
 
 @interface EVRequestViewController ()
 
@@ -77,10 +78,11 @@
     self.groupChargeForm = [[EVGroupRequestFormView alloc] initWithFrame:[self formViewFrame]];
     [self.groupChargeForm setOrigin:CGPointMake(-self.groupChargeForm.frame.size.width, self.groupChargeForm.frame.origin.y)];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(40,
+    CGFloat margin = GROUP_CHARGE_FORM_INFORMATIONAL_LABEL_MARGIN;
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(margin,
                                                                CGRectGetMaxY(self.groupChargeForm.toField.frame),
-                                                               self.groupChargeForm.frame.size.width - 80,
-                                                               self.groupChargeForm.frame.size.height - CGRectGetMaxY(self.groupChargeForm.toField.frame) - self.requestSwitch.frame.size.height - 40.0)];
+                                                               self.groupChargeForm.frame.size.width - 2*margin,
+                                                               self.groupChargeForm.frame.size.height - CGRectGetMaxY(self.groupChargeForm.toField.frame) - self.requestSwitch.frame.size.height - margin)];
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [EVFont blackFontOfSize:16];
     label.backgroundColor = [UIColor clearColor];
@@ -105,11 +107,14 @@
 }
 
 - (void)loadRequestSwitch {
-    UIView *requestSwitchBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self requestSwitchSize].width, [self requestSwitchSize].height)];
+    UIView *requestSwitchBackground = [[UIView alloc] initWithFrame:CGRectMake(0,
+                                                                               0,
+                                                                               [self requestSwitchSize].width,
+                                                                               [self requestSwitchSize].height)];
     requestSwitchBackground.backgroundColor = [EVColor creamColor];
     [self.view addSubview:requestSwitchBackground];
     
-    self.requestSwitch = [[EVRequestSwitch alloc] initWithFrame:CGRectMake(10, 7, 300, 35)];
+    self.requestSwitch = [[EVRequestSwitch alloc] initWithFrame:[self requestSwitchFrame]];
     self.requestSwitch.delegate = self;
     [requestSwitchBackground addSubview:self.requestSwitch];
     
@@ -118,12 +123,17 @@
     }];    
 }
 
+- (CGRect)requestSwitchFrame {
+    return CGRectMake(10, 7, 300, 35);
+}
+
 - (void)loadPageControl {
     self.pageControl = [[EVPageControl alloc] init];
     self.pageControl.numberOfPages = 3;
     self.pageControl.currentPage = 0;
     [self.pageControl sizeToFit];
-    [self.pageControl setCenter:CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0, self.titleLabel.frame.size.height + 5.0)];
+    [self.pageControl setCenter:CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0,
+                                            self.titleLabel.frame.size.height + 5.0)];
     [self.navigationController.navigationBar addSubview:self.pageControl];
     self.pageControl.alpha = 0.0f;
     self.titleLabelFrame = self.titleLabel.frame;
