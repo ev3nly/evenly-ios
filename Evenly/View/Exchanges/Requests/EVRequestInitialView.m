@@ -11,13 +11,8 @@
 #define REQUEST_SWITCH_HEIGHT 45
 
 #define LEFT_RIGHT_BUFFER 10
-#define LABEL_FIELD_BUFFER 6
-
-#define TITLE_LABEL_HEIGHT 25
-
+#define TO_FIELD_HEIGHT 25
 #define LINE_HEIGHT 40
-
-
 #define INSTRUCTION_LABEL_BUFFER 30.0
 
 @interface EVRequestInitialView ()
@@ -34,8 +29,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
-        [self loadTitleLabel];
+        self.titleLabel.text = @"Who owes you money?";
 
         [self loadRequestSwitch];
         [self loadToField];
@@ -46,10 +40,9 @@
 
 - (void)loadRequestSwitch {
     self.requestSwitchBackground = [[UIView alloc] initWithFrame:CGRectMake(0,
-//                                                                               0,
                                                                             CGRectGetMaxY(self.titleLabel.frame),
-                                                                               self.frame.size.width,
-                                                                               REQUEST_SWITCH_HEIGHT)];
+                                                                            self.frame.size.width,
+                                                                            REQUEST_SWITCH_HEIGHT)];
     self.requestSwitchBackground.backgroundColor = [UIColor clearColor];
     [self addSubview:self.requestSwitchBackground];
     
@@ -73,26 +66,11 @@
     return CGRectMake(10, 7, 300, 35);
 }
 
-- (void)loadTitleLabel {
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,
-                                                                LABEL_FIELD_BUFFER,
-//                                                                CGRectGetMaxY(self.requestSwitchBackground.frame) + 2.0,
-                                                                self.frame.size.width,
-                                                                TITLE_LABEL_HEIGHT)];
-    self.titleLabel.font = [EVFont blackFontOfSize:18];
-    self.titleLabel.textAlignment = NSTextAlignmentCenter;
-    self.titleLabel.textColor = [UIColor blackColor];
-    self.titleLabel.backgroundColor = [UIColor clearColor];
-    self.titleLabel.text = @"Who owes you money?";
-    self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [self addSubview:self.titleLabel];
-}
 
 - (void)loadToField
 {
     self.upperStripe = [[UIView alloc] initWithFrame:CGRectMake(0,
-//                                                                CGRectGetMaxY(self.titleLabel.frame) + LABEL_FIELD_BUFFER,
-                                                                CGRectGetMaxY(self.requestSwitchBackground.frame) + LABEL_FIELD_BUFFER,
+                                                                CGRectGetMaxY(self.requestSwitchBackground.frame) + EV_REQUEST_VIEW_LABEL_FIELD_BUFFER,
                                                                 self.frame.size.width,
                                                                 1)];
     self.upperStripe.backgroundColor = [EVColor newsfeedStripeColor];
@@ -101,9 +79,9 @@
     self.toField = [self configuredTextField];
     self.toField.placeholder = @"Name, email, phone number";
     self.toField.frame = CGRectMake(LEFT_RIGHT_BUFFER,
-                                    CGRectGetMaxY(self.upperStripe.frame) + LABEL_FIELD_BUFFER,
+                                    CGRectGetMaxY(self.upperStripe.frame) + EV_REQUEST_VIEW_LABEL_FIELD_BUFFER,
                                     self.frame.size.width - 2*LEFT_RIGHT_BUFFER,
-                                    TITLE_LABEL_HEIGHT);
+                                    TO_FIELD_HEIGHT);
     self.toField.returnKeyType = UIReturnKeyNext;
     self.toField.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self addSubview:self.toField];
