@@ -51,15 +51,6 @@
     return TOP_TEXT_BUFFER + titleSize.height + TITLE_SUBTITLE_BUFFER + subtitleSize.height + TOP_TEXT_BUFFER;
 }
 
-static NSNumberFormatter *_numberFormatter;
-+ (NSNumberFormatter *)numberFormatter {
-    if (!_numberFormatter) {
-        _numberFormatter = [NSNumberFormatter new];
-        _numberFormatter.numberStyle = NSNumberFormatterCurrencyStyle;
-    }
-    return _numberFormatter;
-}
-
 #pragma mark - Lifecycle
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -120,7 +111,7 @@ static NSNumberFormatter *_numberFormatter;
     self.titleLabel.text = title;
     self.subtitleLabel.text = subtitle;
     
-    NSString *currencyString = [[[self class] numberFormatter] stringFromNumber:amount];
+    NSString *currencyString = [EVStringUtility amountStringForAmount:amount];
     if ([currencyString rangeOfString:@"("].location != NSNotFound) {
         currencyString = [currencyString stringByReplacingOccurrencesOfString:@"(" withString:@"-"];
         currencyString = [currencyString stringByReplacingOccurrencesOfString:@")" withString:@""];
@@ -128,7 +119,7 @@ static NSNumberFormatter *_numberFormatter;
         currencyString = [@"+" stringByAppendingString:currencyString];
     }
     
-    self.amountLabel.text = currencyString;// [[[self class] numberFormatter] stringFromNumber:amount];// [NSString stringWithFormat:@"%@$%@", amountPrefix, absoluteAmountString];
+    self.amountLabel.text = currencyString;
     self.amountLabel.textColor = ([amount floatValue] > 0) ? [EVColor lightGreenColor] : [EVColor lightRedColor];
     
     [self setNeedsLayout];
