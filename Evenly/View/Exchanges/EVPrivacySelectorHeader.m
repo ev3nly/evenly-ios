@@ -8,12 +8,16 @@
 
 #import "EVPrivacySelectorHeader.h"
 #import "EVImages.h"
+#import "EVCIA.h"
+#import "ReactiveCocoa.h"
 
 #define DROPDOWN_BUFFER 4
 
 @interface EVPrivacySelectorHeader () {
     UIImageView *_dropdownArrow;
 }
+
+@property (nonatomic, weak) UIView *savedFirstResponder;
 
 - (void)loadDropdownArrow;
 
@@ -57,9 +61,9 @@
 
 #pragma mark - Tap Handling
 
-- (void)handleTouchUpInside
-{
-    [self.window findAndResignFirstResponder];
+- (void)handleTouchUpInside {
+    self.savedFirstResponder = [self.window currentFirstResponder];
+    [self.savedFirstResponder resignFirstResponder];
 }
 
 - (void)setHighlighted:(BOOL)highlighted
@@ -89,6 +93,8 @@
     self.privacyImageView.image = [self imageForSetting:[newSetting intValue]];
     self.setting = [newSetting intValue];
     self.label.text = [self textForSetting:[newSetting intValue]];
+    [self.savedFirstResponder becomeFirstResponder];
+    self.savedFirstResponder = nil;
     [self setNeedsLayout];
 }
 
