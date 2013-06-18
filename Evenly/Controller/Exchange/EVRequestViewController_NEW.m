@@ -9,6 +9,7 @@
 #import "EVRequestViewController_NEW.h"
 #import "EVNavigationBarButton.h"
 #import "EVPageControl.h"
+#import "EVPrivacySelectorView.h"
 
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
@@ -17,6 +18,7 @@
 @property (nonatomic, strong) EVNavigationBarButton *cancelButton;
 @property (nonatomic, strong) EVNavigationBarButton *nextButton;
 @property (nonatomic, strong) EVPageControl *pageControl;
+@property (nonatomic, strong) EVPrivacySelectorView *privacySelector;
 
 
 - (void)loadNextButton;
@@ -43,6 +45,8 @@
     [self loadCancelButton];
     [self loadNextButton];
     [self loadPageControl];
+//    [self loadPrivacySelector];
+    [self loadContentViews];
 }
 
 - (void)loadCancelButton {
@@ -71,6 +75,33 @@
     CGRect rect = self.titleLabel.frame;
     rect.origin.y += positionAdjustment;
     [self.navigationItem.titleView setFrame:rect];
+}
+
+- (void)loadPrivacySelector {
+    _privacySelector = [[EVPrivacySelectorView alloc] initWithFrame:[self privacySelectorFrame]];
+    [self.view addSubview:_privacySelector];
+}
+
+- (CGRect)privacySelectorFrame {
+    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorView lineHeight] - self.navigationController.navigationBar.bounds.size.height;
+    return CGRectMake(0,
+                      yOrigin,
+                      self.view.bounds.size.width,
+                      [EVPrivacySelectorView lineHeight] * [EVPrivacySelectorView numberOfLines]);
+}
+
+- (void)loadContentViews {
+    self.initialView = [[EVRequestInitialView alloc] initWithFrame:[self contentViewFrame]];
+    self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    
+    
+    
+    [self pushView:self.initialView animated:YES];
+    [self.view bringSubviewToFront:self.privacySelector];
+}
+
+- (CGRect)contentViewFrame {
+    return CGRectMake(0, 0, self.view.frame.size.width, self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT);
 }
 
 #pragma mark - Button Actions

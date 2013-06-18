@@ -9,10 +9,13 @@
 #import <UIKit/UIKit.h>
 
 #import "EVTextField.h"
+#import "EVRequestSwitch.h"
 
-@interface EVRequestInitialView : UIView
+@interface EVRequestInitialView : UIView<EVSwitchDelegate>
 
-@property (nonatomic, strong) EVTextField *textField;
+@property (nonatomic, strong) EVRequestSwitch *requestSwitch;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) EVTextField *toField;
 @property (nonatomic, strong) UILabel *instructionLabel;
 
 @end
