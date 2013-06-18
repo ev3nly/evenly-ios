@@ -8,6 +8,8 @@
 
 #import "EVModalViewController.h"
 
-@interface EVHistoryViewController : EVModalViewController
+@interface EVHistoryViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) NSArray *exchanges;
 
 @end
