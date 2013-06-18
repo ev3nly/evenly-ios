@@ -14,7 +14,6 @@
 
 #import "ABContactsHelper.h"
 
-#define DEFAULT_KEYBOARD_HEIGHT 216
 #define CELL_HEIGHT 40
 
 @interface EVExchangeViewController ()
@@ -250,12 +249,12 @@
 
 - (CGRect)formViewFrame {
     CGRect formRect = self.view.bounds;
-    formRect.size.height -= (DEFAULT_KEYBOARD_HEIGHT + self.navigationController.navigationBar.bounds.size.height);
+    formRect.size.height -= (EV_DEFAULT_KEYBOARD_HEIGHT + self.navigationController.navigationBar.bounds.size.height);
     return formRect;
 }
 
 - (CGRect)privacySelectorFrame {
-    float yOrigin = self.view.bounds.size.height - DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorView lineHeight] - self.navigationController.navigationBar.bounds.size.height;
+    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorView lineHeight] - self.navigationController.navigationBar.bounds.size.height;
     return CGRectMake(0,
                       yOrigin,
                       self.view.bounds.size.width,

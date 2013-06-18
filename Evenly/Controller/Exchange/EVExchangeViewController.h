@@ -13,7 +13,13 @@
 #import "EVPrivacySelectorView.h"
 #import "EVNavigationBarButton.h"
 
-@interface EVExchangeViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
+@protocol EVExchangeCreator <NSObject>
+
+@property (nonatomic, readonly) EVExchange *exchange;
+
+@end
+
+@interface EVExchangeViewController : EVViewController<EVExchangeCreator, UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) EVNavigationBarButton *cancelButton;
 @property (nonatomic, strong) EVNavigationBarButton *completeExchangeButton;

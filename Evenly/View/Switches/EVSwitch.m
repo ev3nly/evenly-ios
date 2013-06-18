@@ -93,6 +93,11 @@
     [self addGestureRecognizer:self.tapGestureRecognizer];
 }
 
+- (void)setPanningEnabled:(BOOL)panningEnabled {
+    _panningEnabled = panningEnabled;
+    [self.panGestureRecognizer setEnabled:_panningEnabled];
+}
+
 #pragma mark - Public Interface
 
 - (void)setOn:(BOOL)on {

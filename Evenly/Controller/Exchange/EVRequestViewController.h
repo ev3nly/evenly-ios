@@ -7,8 +7,7 @@
 //
 
 #import "EVExchangeViewController.h"
-#import "EVRequestSwitch.h"
 
-@interface EVRequestViewController : EVExchangeViewController <EVSwitchDelegate>
+@interface EVRequestViewController : EVExchangeViewController
 
 @end

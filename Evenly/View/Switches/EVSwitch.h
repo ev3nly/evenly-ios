@@ -21,6 +21,7 @@
 @interface EVSwitch : UIControl
 
 @property (nonatomic, getter = isOn) BOOL on;
+@property (nonatomic) BOOL panningEnabled;
 @property (nonatomic, weak) id<EVSwitchDelegate> delegate;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, strong) UIImageView *handleImageView;

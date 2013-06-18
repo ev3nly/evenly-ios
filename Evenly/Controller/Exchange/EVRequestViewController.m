@@ -18,20 +18,10 @@
 
 @interface EVRequestViewController ()
 
-@property (nonatomic, strong) EVRequestSwitch *requestSwitch;
 
-@property (nonatomic, strong) EVGroupRequestFormView *groupChargeForm;
-@property (nonatomic, strong) EVTextField *textField;
-
-@property (nonatomic, strong) EVNavigationBarButton *skipButton;
 
 @property (nonatomic, strong) EVPageControl *pageControl;
 @property (nonatomic) CGRect titleLabelFrame;
-
-- (void)loadRequestSwitch;
-- (void)loadGroupFormView;
-- (void)loadSkipButton;
-- (void)loadPageControl;
 
 @end
 
@@ -50,23 +40,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self loadSkipButton];
-    [self loadRequestSwitch];
-    [self loadGroupFormView];
-    [self loadPageControl];
 }
 
 - (NSString *)completeExchangeButtonText {
     return @"Request";
-}
-
-- (void)loadSkipButton {
-    self.skipButton = [[EVNavigationBarButton alloc] initWithTitle:@"Skip"];
-    [self.skipButton addTarget:self action:@selector(skipButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    // Position the Skip button correctly for when we need it.
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.skipButton];
-    // Then switch back to the Request button, which we'll start with.
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.completeExchangeButton];
 }
 
 - (void)loadFormView {
@@ -74,58 +51,15 @@
     [self.view addSubview:self.formView];
 }
 
-- (void)loadGroupFormView {
-    self.groupChargeForm = [[EVGroupRequestFormView alloc] initWithFrame:[self formViewFrame]];
-    [self.groupChargeForm setOrigin:CGPointMake(-self.groupChargeForm.frame.size.width, self.groupChargeForm.frame.origin.y)];
-    
-    CGFloat margin = GROUP_CHARGE_FORM_INFORMATIONAL_LABEL_MARGIN;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(margin,
-                                                               CGRectGetMaxY(self.groupChargeForm.toField.frame),
-                                                               self.groupChargeForm.frame.size.width - 2*margin,
-                                                               self.groupChargeForm.frame.size.height - CGRectGetMaxY(self.groupChargeForm.toField.frame) - self.requestSwitch.frame.size.height - margin)];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.font = [EVFont blackFontOfSize:16];
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [EVColor newsfeedTextColor];
-    label.text = @"Add names now or add them later in the dashboard.";
-    label.numberOfLines = 0;
-    label.lineBreakMode = NSLineBreakByWordWrapping;
-    [self.groupChargeForm addSubview:label];
-    
-    [self.view insertSubview:self.groupChargeForm belowSubview:self.privacySelector];
-}
-
 - (CGRect)formViewFrame {
     CGRect formRect = [super formViewFrame];
-    CGSize size = [self requestSwitchSize];
-    formRect.origin.y += size.height;
     return formRect;
 }
 
-- (CGSize)requestSwitchSize {
-    return CGSizeMake(self.view.frame.size.width, 50.0);
+- (void)loadPrivacySelector {
+    // override to no-op
 }
 
-- (void)loadRequestSwitch {
-    UIView *requestSwitchBackground = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                                               0,
-                                                                               [self requestSwitchSize].width,
-                                                                               [self requestSwitchSize].height)];
-    requestSwitchBackground.backgroundColor = [EVColor creamColor];
-    [self.view addSubview:requestSwitchBackground];
-    
-    self.requestSwitch = [[EVRequestSwitch alloc] initWithFrame:[self requestSwitchFrame]];
-    self.requestSwitch.delegate = self;
-    [requestSwitchBackground addSubview:self.requestSwitch];
-    
-    [RACAble(self.requestSwitch.xPercentage) subscribeNext:^(NSNumber *percentage) {
-        [self positionSubviewsForPercentage:[percentage floatValue]];
-    }];    
-}
-
-- (CGRect)requestSwitchFrame {
-    return CGRectMake(10, 7, 300, 35);
-}
 
 - (void)loadPageControl {
     self.pageControl = [[EVPageControl alloc] init];
@@ -145,39 +79,21 @@
     // TODO: 
 }
 
-- (void)positionSubviewsForPercentage:(float)percentage {
-    [self.formView setOrigin:CGPointMake(self.view.frame.size.width * percentage,
-                                         self.formView.frame.origin.y)];
-    CGFloat formWidth = self.groupChargeForm.frame.size.width;
-    [self.groupChargeForm setOrigin:CGPointMake(-formWidth + (formWidth * percentage),
-                                                self.groupChargeForm.frame.origin.y)];
-    
-    CGFloat positionAdjustment = (-TITLE_PAGE_CONTROL_Y_OFFSET * percentage);
-    [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:positionAdjustment
-                                                                  forBarMetrics:UIBarMetricsDefault];
-    CGRect rect = self.titleLabelFrame;
-    rect.origin.y += positionAdjustment;
-    [self.navigationItem.titleView setFrame:rect];
-    [self.pageControl setAlpha:percentage];
-}
+//- (void)positionSubviewsForPercentage:(float)percentage {
+//    [self.formView setOrigin:CGPointMake(self.view.frame.size.width * percentage,
+//                                         self.formView.frame.origin.y)];
+//    CGFloat formWidth = self.groupChargeForm.frame.size.width;
+//    [self.groupChargeForm setOrigin:CGPointMake(-formWidth + (formWidth * percentage),
+//                                                self.groupChargeForm.frame.origin.y)];
+//    
+//    CGFloat positionAdjustment = (-TITLE_PAGE_CONTROL_Y_OFFSET * percentage);
+//    [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:positionAdjustment
+//                                                                  forBarMetrics:UIBarMetricsDefault];
+//    CGRect rect = self.titleLabelFrame;
+//    rect.origin.y += positionAdjustment;
+//    [self.navigationItem.titleView setFrame:rect];
+//    [self.pageControl setAlpha:percentage];
+//}
 
-#pragma mark - EVSwitchDelegate
 
-- (void)switchControl:(EVSwitch *)switchControl willChangeStateTo:(BOOL)onOff animationDuration:(NSTimeInterval)duration {
-    if (duration > 0) {
-        [UIView animateWithDuration:duration animations:^{
-            float percentage = (onOff ? 1.0 : 0.0);
-            [self positionSubviewsForPercentage:percentage];
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:(onOff ? self.skipButton : self.completeExchangeButton)];
-        }];
-    }
-}
-
-- (void)switchControl:(EVSwitch *)switchControl didChangeStateTo:(BOOL)onOff {
-    if (onOff == NO) {
-        [self.formView.toField becomeFirstResponder];
-    } else {
-        [self.groupChargeForm.toField becomeFirstResponder];
-    }
-}
 @end
