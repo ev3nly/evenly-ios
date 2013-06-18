@@ -18,6 +18,7 @@
 #import "EVDepositViewController.h"
 #import "EVCardsViewController.h"
 #import "EVBanksViewController.h"
+#import "EVHistoryViewController.h"
 
 #define EV_WALLET_ROW_HEIGHT 44.0
 
@@ -327,6 +328,11 @@
         else if (indexPath.row == EVWalletRowBanks)
         {
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVBanksViewController alloc] init]];
+            [self presentViewController:navController animated:YES completion:NULL];
+        }
+        else if (indexPath.row == EVWalletRowHistory)
+        {
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVHistoryViewController new]];
             [self presentViewController:navController animated:YES completion:NULL];
         }
     }

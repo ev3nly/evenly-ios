@@ -22,6 +22,8 @@
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + 14, image.size.height)];
     [button setImage:image forState:UIControlStateNormal];
     [button addTarget:self action:@selector(toggleLeftPanel:) forControlEvents:UIControlEventTouchUpInside];
+    button.adjustsImageWhenHighlighted = NO;
+    button.showsTouchWhenHighlighted = YES;
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     return barButtonItem;
 }
