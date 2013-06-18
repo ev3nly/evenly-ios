@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVRequestView.h"
 
-@interface EVRequestSingleAmountView : UIView
+@interface EVRequestSingleAmountView : EVRequestView
+
+@property (nonatomic, strong) NSString *debtorName;
 
 @end

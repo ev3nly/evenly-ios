@@ -14,12 +14,14 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        
-        
-        // Initialization code
+                
     }
     return self;
+}
+
+- (void)setDebtorName:(NSString *)debtorName {
+    _debtorName = debtorName;
+    self.titleLabel.text = [NSString stringWithFormat:@"%@ owes me", debtorName];
 }
 
 /*
