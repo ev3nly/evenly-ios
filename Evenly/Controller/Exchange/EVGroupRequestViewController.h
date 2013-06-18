@@ -8,7 +8,8 @@
 
 #import "EVViewController.h"
 #import "EVExchangeViewController.h"
+#import "EVPagingScrollView.h"
 
-@interface EVGroupRequestViewController : EVViewController <EVExchangeCreator>
+@interface EVGroupRequestViewController : EVViewController <EVExchangeCreator, EVPagingScrollViewDataSource, EVPagingScrollViewDelegate>
 
 @end

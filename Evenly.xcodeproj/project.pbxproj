@@ -124,6 +124,8 @@
 		9C54289F176FD6650028F141 /* EVPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C54289E176FD6650028F141 /* EVPageControl.m */; };
 		9C5428A9176FFF0B0028F141 /* EVGroupRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5428A8176FFF020028F141 /* EVGroupRequestViewController.m */; };
 		9C5428AC176FFF680028F141 /* EVRequestParentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5428AB176FFF680028F141 /* EVRequestParentViewController.m */; };
+		9C5428B817700FCD0028F141 /* EVPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5428B517700FCD0028F141 /* EVPageView.m */; };
+		9C5428B917700FCD0028F141 /* EVPagingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5428B717700FCD0028F141 /* EVPagingScrollView.m */; };
 		9C58DC4A176BAFA20057C019 /* EVSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C58DC49176BAFA20057C019 /* EVSwitch.m */; };
 		9C58DC52176BAFE80057C019 /* toggle_handle.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C58DC4C176BAFE80057C019 /* toggle_handle.png */; };
 		9C58DC53176BAFE80057C019 /* toggle_handle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C58DC4D176BAFE80057C019 /* toggle_handle@2x.png */; };
@@ -478,6 +480,10 @@
 		9C5428A8176FFF020028F141 /* EVGroupRequestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestViewController.m; sourceTree = "<group>"; };
 		9C5428AA176FFF680028F141 /* EVRequestParentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestParentViewController.h; sourceTree = "<group>"; };
 		9C5428AB176FFF680028F141 /* EVRequestParentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestParentViewController.m; sourceTree = "<group>"; };
+		9C5428B417700FCD0028F141 /* EVPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPageView.h; sourceTree = "<group>"; };
+		9C5428B517700FCD0028F141 /* EVPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPageView.m; sourceTree = "<group>"; };
+		9C5428B617700FCD0028F141 /* EVPagingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPagingScrollView.h; sourceTree = "<group>"; };
+		9C5428B717700FCD0028F141 /* EVPagingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPagingScrollView.m; sourceTree = "<group>"; };
 		9C58DC48176BAFA20057C019 /* EVSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSwitch.h; sourceTree = "<group>"; };
 		9C58DC49176BAFA20057C019 /* EVSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSwitch.m; sourceTree = "<group>"; };
 		9C58DC4C176BAFE80057C019 /* toggle_handle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toggle_handle.png; sourceTree = "<group>"; };
@@ -1077,6 +1083,17 @@
 			path = PageControls;
 			sourceTree = "<group>";
 		};
+		9C5428AD17700F6B0028F141 /* PagingScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				9C5428B417700FCD0028F141 /* EVPageView.h */,
+				9C5428B517700FCD0028F141 /* EVPageView.m */,
+				9C5428B617700FCD0028F141 /* EVPagingScrollView.h */,
+				9C5428B717700FCD0028F141 /* EVPagingScrollView.m */,
+			);
+			path = PagingScrollView;
+			sourceTree = "<group>";
+		};
 		9C58DC47176BAF980057C019 /* Switches */ = {
 			isa = PBXGroup;
 			children = (
@@ -1378,6 +1395,7 @@
 				9C2DD080176906AE00EAA3D1 /* General */,
 				9C900D35176802F700E2F4C4 /* Labels */,
 				9C54289C176FD65D0028F141 /* PageControls */,
+				9C5428AD17700F6B0028F141 /* PagingScrollView */,
 				9C2DD0841769278100EAA3D1 /* Settings */,
 				9C58DC47176BAF980057C019 /* Switches */,
 				9CB285C5176164E1009B26BB /* TableViewCells */,
@@ -1978,6 +1996,7 @@
 				9C1F4825175691B600B26A1B /* EVFundingSource.m in Sources */,
 				9C1F4826175691B600B26A1B /* EVGroupCharge.m in Sources */,
 				9C1F4827175691B600B26A1B /* EVInvite.m in Sources */,
+				9C5428B817700FCD0028F141 /* EVPageView.m in Sources */,
 				9C542867176F8EDE0028F141 /* EVAddBankViewController.m in Sources */,
 				9C1F4828175691B600B26A1B /* EVNotificationSetting.m in Sources */,
 				9C1F4829175691B600B26A1B /* EVObject.m in Sources */,
@@ -2020,6 +2039,7 @@
 				D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */,
 				9C778DE017679AA70053F9D6 /* EVNavigationBarButton.m in Sources */,
 				9CE76DBD17679BDC005953C8 /* EVExchangeViewController.m in Sources */,
+				9C5428B917700FCD0028F141 /* EVPagingScrollView.m in Sources */,
 				9CE76DC01767A92F005953C8 /* EVLikeButton.m in Sources */,
 				D03F1E1C1767BB070067A428 /* EVExchangeFormView.m in Sources */,
 				9C542859176F76EA0028F141 /* EVCardsViewController.m in Sources */,

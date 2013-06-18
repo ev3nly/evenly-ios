@@ -43,9 +43,10 @@
     [super viewDidLoad];
     [self loadRequestSwitch];
     [self loadRequestButton];
-    [self loadContainerView];
     [self loadHiddenTextField];
     [self loadPrivacySelector];
+    [self loadContainerView];
+
     [self loadFriendRequestController];
     [self loadGroupRequestController];
     
@@ -78,10 +79,11 @@
     self.containerView = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                   CGRectGetMaxY(self.requestSwitch.frame),
                                                                   self.view.frame.size.width,
-                                                                  self.view.frame.size.height- CGRectGetMaxY(self.requestSwitch.frame))];
-    self.containerView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+                                                                  CGRectGetMinY(self.privacySelector.frame) - CGRectGetMaxY(self.requestSwitch.frame))];
+//    self.containerView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     self.containerView.autoresizesSubviews = YES;
     [self.view addSubview:self.containerView];
+    [self.view bringSubviewToFront:self.privacySelector];
 }
 
 - (void)loadHiddenTextField {
@@ -120,7 +122,12 @@
 - (void)loadGroupRequestController {
     self.groupRequestController = [[EVGroupRequestViewController alloc] init];
     [self.groupRequestController.view setFrame:self.containerView.bounds];
-    [self addChildViewController:self.groupRequestController]; 
+    [self addChildViewController:self.groupRequestController];
+    [self.containerView addSubview:self.groupRequestController.view];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self setActiveViewController:self.activeViewController animated:animated];
 }
 
 - (void)setActiveViewController:(EVViewController *)viewController animated:(BOOL)animated {
@@ -141,14 +148,23 @@
     }
         [self.hiddenTextField becomeFirstResponder];
     
+//    [UIView transitionWithView:self.containerView
+//                      duration:0.5f
+//                       options:options animations:^{
+//                           [fromViewController.view removeFromSuperview];
+//                           [self.containerView addSubview:toViewController.view];
+//                       } completion:^(BOOL finished) {
+//                       }];
+    
     [self transitionFromViewController:fromViewController
                       toViewController:toViewController
                               duration:0.5f
                                options:options
-                            animations:^{ } completion:^(BOOL finished) {
+                            animations:^{
+//                                toViewController.view.frame = self.containerView.bounds;
+                            } completion:^(BOOL finished) {
                                 DLog(@"Finished? %@", (finished ? @"YES" : @"NO"));
                                 self.activeViewController = toViewController;
-                                //                                [toViewController becomeFirstResponder];
                             }];
 }
 
