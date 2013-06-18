@@ -30,7 +30,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.titleLabel.text = @"Who owes you money?";
+        [self.titleLabel removeFromSuperview];
 
         [self loadRequestSwitch];
         [self loadToField];
@@ -42,7 +42,7 @@
 
 - (void)loadRequestSwitch {
     self.requestSwitchBackground = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                                            CGRectGetMaxY(self.titleLabel.frame),
+                                                                            0,
                                                                             self.frame.size.width,
                                                                             REQUEST_SWITCH_HEIGHT)];
     self.requestSwitchBackground.backgroundColor = [UIColor clearColor];

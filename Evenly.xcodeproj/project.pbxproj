@@ -104,6 +104,14 @@
 		9C50442D1770FC250090D865 /* EVBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50442C1770FC050090D865 /* EVBackButton.m */; };
 		9C504430177114580090D865 /* EVPlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50442F177114460090D865 /* EVPlaceholderTextView.m */; };
 		9C504433177119160090D865 /* EVAutocompleteTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5044321771190B0090D865 /* EVAutocompleteTableViewDataSource.m */; };
+		9C504472177122850090D865 /* JSBackspaceReportingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C504467177122850090D865 /* JSBackspaceReportingTextField.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9C504473177122850090D865 /* JSTokenButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C504469177122850090D865 /* JSTokenButton.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9C504474177122850090D865 /* JSTokenField-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9C50446A177122850090D865 /* JSTokenField-Info.plist */; };
+		9C504475177122850090D865 /* JSTokenField.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50446D177122850090D865 /* JSTokenField.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9C504476177122850090D865 /* tokenHighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C50446E177122850090D865 /* tokenHighlighted.png */; };
+		9C504477177122850090D865 /* tokenHighlighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C50446F177122850090D865 /* tokenHighlighted@2x.png */; };
+		9C504478177122850090D865 /* tokenNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C504470177122850090D865 /* tokenNormal.png */; };
+		9C504479177122850090D865 /* tokenNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C504471177122850090D865 /* tokenNormal@2x.png */; };
 		9C542858176F76EA0028F141 /* EVAddCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542855176F76EA0028F141 /* EVAddCardViewController.m */; };
 		9C542859176F76EA0028F141 /* EVCardsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C542857176F76EA0028F141 /* EVCardsViewController.m */; };
 		9C54285C176F77320028F141 /* EVFundingSourceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C54285B176F76FC0028F141 /* EVFundingSourceViewController.m */; };
@@ -466,6 +474,18 @@
 		9C50442F177114460090D865 /* EVPlaceholderTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVPlaceholderTextView.m; sourceTree = "<group>"; };
 		9C5044311771190B0090D865 /* EVAutocompleteTableViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVAutocompleteTableViewDataSource.h; sourceTree = "<group>"; };
 		9C5044321771190B0090D865 /* EVAutocompleteTableViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVAutocompleteTableViewDataSource.m; sourceTree = "<group>"; };
+		9C504466177122850090D865 /* JSBackspaceReportingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSBackspaceReportingTextField.h; sourceTree = "<group>"; };
+		9C504467177122850090D865 /* JSBackspaceReportingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSBackspaceReportingTextField.m; sourceTree = "<group>"; };
+		9C504468177122850090D865 /* JSTokenButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTokenButton.h; sourceTree = "<group>"; };
+		9C504469177122850090D865 /* JSTokenButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTokenButton.m; sourceTree = "<group>"; };
+		9C50446A177122850090D865 /* JSTokenField-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "JSTokenField-Info.plist"; sourceTree = "<group>"; };
+		9C50446B177122850090D865 /* JSTokenField-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSTokenField-Prefix.pch"; sourceTree = "<group>"; };
+		9C50446C177122850090D865 /* JSTokenField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSTokenField.h; sourceTree = "<group>"; };
+		9C50446D177122850090D865 /* JSTokenField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSTokenField.m; sourceTree = "<group>"; };
+		9C50446E177122850090D865 /* tokenHighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tokenHighlighted.png; sourceTree = "<group>"; };
+		9C50446F177122850090D865 /* tokenHighlighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tokenHighlighted@2x.png"; sourceTree = "<group>"; };
+		9C504470177122850090D865 /* tokenNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tokenNormal.png; sourceTree = "<group>"; };
+		9C504471177122850090D865 /* tokenNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tokenNormal@2x.png"; sourceTree = "<group>"; };
 		9C542854176F76EA0028F141 /* EVAddCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAddCardViewController.h; sourceTree = "<group>"; };
 		9C542855176F76EA0028F141 /* EVAddCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAddCardViewController.m; sourceTree = "<group>"; };
 		9C542856176F76EA0028F141 /* EVCardsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCardsViewController.h; sourceTree = "<group>"; };
@@ -1094,6 +1114,25 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
+		9C504465177122850090D865 /* JSTokenField */ = {
+			isa = PBXGroup;
+			children = (
+				9C504466177122850090D865 /* JSBackspaceReportingTextField.h */,
+				9C504467177122850090D865 /* JSBackspaceReportingTextField.m */,
+				9C504468177122850090D865 /* JSTokenButton.h */,
+				9C504469177122850090D865 /* JSTokenButton.m */,
+				9C50446A177122850090D865 /* JSTokenField-Info.plist */,
+				9C50446B177122850090D865 /* JSTokenField-Prefix.pch */,
+				9C50446C177122850090D865 /* JSTokenField.h */,
+				9C50446D177122850090D865 /* JSTokenField.m */,
+				9C50446E177122850090D865 /* tokenHighlighted.png */,
+				9C50446F177122850090D865 /* tokenHighlighted@2x.png */,
+				9C504470177122850090D865 /* tokenNormal.png */,
+				9C504471177122850090D865 /* tokenNormal@2x.png */,
+			);
+			path = JSTokenField;
+			sourceTree = "<group>";
+		};
 		9C542853176F76EA0028F141 /* FundingSources */ = {
 			isa = PBXGroup;
 			children = (
@@ -1555,6 +1594,7 @@
 				9CEEB82D175526EC00C24C2A /* ABContactHelper */,
 				9CEEB834175526EC00C24C2A /* AESCrypt-ObjC */,
 				9CE05EEC175942610095CCFC /* JASidePanel */,
+				9C504465177122850090D865 /* JSTokenField */,
 				9CEEB840175526EC00C24C2A /* KeychainItemWrapper */,
 				D0211529176687A50063EE03 /* SVPullToRefresh */,
 			);
@@ -1775,10 +1815,12 @@
 				9CB285991761521E009B26BB /* FeedActionRightArrow@2x.png in Resources */,
 				9CB2859A1761521E009B26BB /* Pin.png in Resources */,
 				9C542876176F9DB60028F141 /* Request-Single-Dark.png in Resources */,
+				9C504476177122850090D865 /* tokenHighlighted.png in Resources */,
 				9CB2859B1761521E009B26BB /* Pin@2x.png in Resources */,
 				9CB2859C1761521E009B26BB /* Refresh.png in Resources */,
 				9CB2859D1761521E009B26BB /* Refresh@2x.png in Resources */,
 				9CB2859E1761521E009B26BB /* Selector.png in Resources */,
+				9C504479177122850090D865 /* tokenNormal@2x.png in Resources */,
 				9CB2859F1761521E009B26BB /* Selector@2x.png in Resources */,
 				9CB285A01761521E009B26BB /* Home.png in Resources */,
 				9CB285A11761521E009B26BB /* Home@2x.png in Resources */,
@@ -1793,6 +1835,7 @@
 				9CB285A81761521E009B26BB /* User@2x.png in Resources */,
 				9C54287C176F9DB60028F141 /* Request-Slider-White.png in Resources */,
 				9CB285A91761521E009B26BB /* Hamburger.png in Resources */,
+				9C504477177122850090D865 /* tokenHighlighted@2x.png in Resources */,
 				9C542878176F9DB60028F141 /* Request-Single-Light.png in Resources */,
 				9CB285AA1761521E009B26BB /* Hamburger@2x.png in Resources */,
 				9CB285AB1761521E009B26BB /* Header.png in Resources */,
@@ -1817,6 +1860,7 @@
 				9CB285BD1761521E009B26BB /* PendingPayment.png in Resources */,
 				9CB285BE1761521E009B26BB /* PendingPayment@2x.png in Resources */,
 				9CB285BF1761521E009B26BB /* Transfer.png in Resources */,
+				9C504474177122850090D865 /* JSTokenField-Info.plist in Resources */,
 				9CB285C01761521E009B26BB /* Transfer@2x.png in Resources */,
 				9C54287D176F9DB60028F141 /* Request-Slider-White@2x.png in Resources */,
 				9CB285CC17616AA2009B26BB /* Support.png in Resources */,
@@ -1829,6 +1873,7 @@
 				9C2684CB1766851700AEA624 /* Action_PaymentActive@2x.png in Resources */,
 				9C2684CC1766851700AEA624 /* Action_Request.png in Resources */,
 				9C2684CD1766851700AEA624 /* Action_Request@2x.png in Resources */,
+				9C504478177122850090D865 /* tokenNormal.png in Resources */,
 				9C542896176FD6470028F141 /* Request-header-dot-hole.png in Resources */,
 				9C2684CE1766851700AEA624 /* Action_RequestActive.png in Resources */,
 				9C2684CF1766851700AEA624 /* Action_RequestActive@2x.png in Resources */,
@@ -2019,6 +2064,7 @@
 				9CEEB84D175526EC00C24C2A /* NSData+CommonCrypto.m in Sources */,
 				9CEEB84E175526EC00C24C2A /* NSString+Base64.m in Sources */,
 				9CEEB850175526EC00C24C2A /* KeychainItemWrapper.m in Sources */,
+				9C504475177122850090D865 /* JSTokenField.m in Sources */,
 				9C1F47EE1756914B00B26A1B /* NSArray+EVAdditions.m in Sources */,
 				9C1F47EF1756914B00B26A1B /* NSDictionary+EVAdditions.m in Sources */,
 				9C1F47F01756914B00B26A1B /* NSString+EVAdditions.m in Sources */,
@@ -2027,6 +2073,7 @@
 				9C1F47F31756914B00B26A1B /* UITableView+EVAdditions.m in Sources */,
 				9C1F47F41756914B00B26A1B /* EVAnalyticsUtility.m in Sources */,
 				9C1F47F51756914B00B26A1B /* EVColor.m in Sources */,
+				9C504472177122850090D865 /* JSBackspaceReportingTextField.m in Sources */,
 				9C1F47F61756914B00B26A1B /* EVFont.m in Sources */,
 				9C1F47F71756914B00B26A1B /* EVImageUtility.m in Sources */,
 				9C1F47F81756914B00B26A1B /* EVKeyboardTracker.m in Sources */,
@@ -2064,6 +2111,7 @@
 				9C0EC76A175D80BB003B93E2 /* EVSettingsViewController.m in Sources */,
 				9CCA900A175E6C90003462DC /* UIViewController+EVAdditions.m in Sources */,
 				9CCA900D175E82D7003462DC /* EVCIA.m in Sources */,
+				9C504473177122850090D865 /* JSTokenButton.m in Sources */,
 				9CCA9013175EA8E9003462DC /* EVMainMenuViewController.m in Sources */,
 				9CCA9014175EA8E9003462DC /* EVWalletViewController.m in Sources */,
 				9CCA9017175EA8FC003462DC /* EVSidePanelViewController.m in Sources */,
