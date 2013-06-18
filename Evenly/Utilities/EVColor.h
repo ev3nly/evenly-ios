@@ -35,4 +35,8 @@
 + (UIColor *)placeholderColor;
 + (UIColor *)inputTextColor;
 
+#pragma mark - Request Switch
+
++ (UIColor *)highlightedTextColor;
+
 @end

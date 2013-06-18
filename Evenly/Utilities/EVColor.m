@@ -76,5 +76,9 @@
     return EV_RGB_COLOR(0x99, 0x96, 0x94);    
 }
 
+#pragma mark - Request Switch
 
++ (UIColor *)highlightedTextColor {
+    return EV_RGB_COLOR(0.4, 0.4, 0.4);
+}
 @end
