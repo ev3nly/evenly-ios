@@ -10,6 +10,7 @@
 #import "EVRequestFormView.h"
 #import "EVGroupRequestFormView.h"
 #import "EVNavigationBarButton.h"
+#import "EVPageControl.h"
 #import "EVCharge.h"
 
 @interface EVRequestViewController ()
@@ -21,9 +22,13 @@
 
 @property (nonatomic, strong) EVNavigationBarButton *skipButton;
 
+@property (nonatomic, strong) EVPageControl *pageControl;
+@property (nonatomic) CGRect titleLabelFrame;
+
 - (void)loadRequestSwitch;
 - (void)loadGroupFormView;
 - (void)loadSkipButton;
+- (void)loadPageControl;
 
 @end
 
@@ -45,6 +50,7 @@
     [self loadSkipButton];
     [self loadRequestSwitch];
     [self loadGroupFormView];
+    [self loadPageControl];
 }
 
 - (NSString *)completeExchangeButtonText {
@@ -111,6 +117,17 @@
     }];    
 }
 
+- (void)loadPageControl {
+    self.pageControl = [[EVPageControl alloc] init];
+    self.pageControl.numberOfPages = 3;
+    self.pageControl.currentPage = 0;
+    [self.pageControl sizeToFit];
+    [self.pageControl setCenter:CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0, self.titleLabel.frame.size.height + 5.0)];
+    [self.navigationController.navigationBar addSubview:self.pageControl];
+    self.pageControl.alpha = 0.0f;
+    self.titleLabelFrame = self.titleLabel.frame;
+}
+
 #pragma mark - Button Actions
 
 - (void)skipButtonPress:(id)sender {
@@ -129,6 +146,17 @@
             self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:(onOff ? self.skipButton : self.completeExchangeButton)];
             
             DLog(@"Title label frame: %@", NSStringFromCGRect(self.titleLabel.frame));
+            if (onOff) {
+                [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:-5.0 forBarMetrics:UIBarMetricsDefault];
+                CGRect rect = self.titleLabelFrame;
+                rect.origin.y -= 5.0;
+                [self.navigationItem.titleView setFrame:rect];
+                [self.pageControl setAlpha:1.0];
+            } else {
+                [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:0.0 forBarMetrics:UIBarMetricsDefault];
+                [self.titleLabel setFrame:self.titleLabelFrame];
+                [self.pageControl setAlpha:0.0];
+            }
         }];
     }
 }
