@@ -279,6 +279,8 @@
 		D08F619A176BE9F900F05A34 /* EVUserAutocompletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D08F6199176BE9F900F05A34 /* EVUserAutocompletionCell.m */; };
 		D0A77EED1768243D0091AF09 /* EVRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEC1768243D0091AF09 /* EVRequestViewController.m */; };
 		D0A77EF0176824830091AF09 /* EVRequestFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEF176824830091AF09 /* EVRequestFormView.m */; };
+		D0C48EA3176FB2EB00F60193 /* EVHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */; };
+		D0C48EA6176FBB7000F60193 /* EVHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C48EA5176FBB7000F60193 /* EVHistoryCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -689,6 +691,10 @@
 		D0A77EEC1768243D0091AF09 /* EVRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestViewController.m; sourceTree = "<group>"; };
 		D0A77EEE176824830091AF09 /* EVRequestFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestFormView.h; sourceTree = "<group>"; };
 		D0A77EEF176824830091AF09 /* EVRequestFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestFormView.m; sourceTree = "<group>"; };
+		D0C48EA1176FB2EB00F60193 /* EVHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHistoryViewController.h; sourceTree = "<group>"; };
+		D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHistoryViewController.m; sourceTree = "<group>"; };
+		D0C48EA4176FBB7000F60193 /* EVHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHistoryCell.h; sourceTree = "<group>"; };
+		D0C48EA5176FBB7000F60193 /* EVHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHistoryCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -757,6 +763,7 @@
 				9C900D111767E83700E2F4C4 /* Deposit */,
 				9C542853176F76EA0028F141 /* FundingSources */,
 				9CE76DBA17679BCC005953C8 /* Exchange */,
+				D0C48EA0176FB2C800F60193 /* History */,
 				9C0EC752175D7CFC003B93E2 /* Home */,
 				9C0EC755175D7CFC003B93E2 /* Invite */,
 				9C0EC756175D7CFC003B93E2 /* Prophile */,
@@ -1019,6 +1026,8 @@
 				9C2E4FA3176E6E7E00ACE30E /* EVFundingSourceCell.m */,
 				9C542868176F8F530028F141 /* EVTitleTextFieldCell.h */,
 				9C542869176F8F530028F141 /* EVTitleTextFieldCell.m */,
+				D0C48EA4176FBB7000F60193 /* EVHistoryCell.h */,
+				D0C48EA5176FBB7000F60193 /* EVHistoryCell.m */,
 			);
 			path = Group;
 			sourceTree = "<group>";
@@ -1588,6 +1597,15 @@
 			path = Exchanges;
 			sourceTree = "<group>";
 		};
+		D0C48EA0176FB2C800F60193 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				D0C48EA1176FB2EB00F60193 /* EVHistoryViewController.h */,
+				D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2043,6 +2061,8 @@
 				9C2E4FA1176E6E7000ACE30E /* EVGroupTableViewCell.m in Sources */,
 				9C54289F176FD6650028F141 /* EVPageControl.m in Sources */,
 				9C2E4FA4176E6E7E00ACE30E /* EVFundingSourceCell.m in Sources */,
+				D0C48EA3176FB2EB00F60193 /* EVHistoryViewController.m in Sources */,
+				D0C48EA6176FBB7000F60193 /* EVHistoryCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
