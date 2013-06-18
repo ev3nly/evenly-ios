@@ -199,6 +199,8 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
                 [self.internalCache setObject:[result objectForKey:key] forKey:key];
             }
         }
+        if (completion)
+            completion();
         if (updated)
             [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
                                                                 object:self

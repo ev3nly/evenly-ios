@@ -52,15 +52,14 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    self.exchanges = [[EVCIA sharedInstance] history];
     if (!self.exchanges)
         self.tableView.isLoading = YES;
-    [EVActivity allWithSuccess:^(id result) {
+
+    [[EVCIA sharedInstance] reloadHistoryWithCompletion:^(NSArray *history) {
         self.tableView.isLoading = NO;
-        self.exchanges = [result valueForKey:@"recent"];        
+        self.exchanges = history;
         [self.tableView reloadData];
-    } failure:^(NSError *error) {
-        self.tableView.isLoading = NO;
-        DLog(@"Error?!  %@", error);
     }];
 }
 
