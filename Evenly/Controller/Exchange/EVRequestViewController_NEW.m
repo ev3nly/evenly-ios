@@ -18,6 +18,8 @@
 
 #import "ABContactsHelper.h"
 
+#import "EVCharge.h"
+
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
 @interface EVRequestViewController_NEW ()
@@ -67,7 +69,6 @@
     [super viewDidLoad];
     [self loadNavigationButtons];
     [self loadPageControl];
-//    [self setUpNavBar];
 
     [self loadPrivacySelector];
     [self loadContentViews];
@@ -155,9 +156,9 @@
     self.singleAmountView = [[EVRequestSingleAmountView alloc] initWithFrame:[self contentViewFrame]];
     self.singleAmountView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.detailsView = [[EVRequestDetailsView alloc] initWithFrame:[self.view bounds]];
-    self.detailsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;    
-    [self.detailsView addSubview:self.privacySelector];
+    self.singleDetailsView = [[EVRequestDetailsView alloc] initWithFrame:[self.view bounds]];
+    self.singleDetailsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;    
+    [self.singleDetailsView addSubview:self.privacySelector];
     
     [self.view addSubview:self.initialView];
     [self.viewStack addObject:self.initialView];
@@ -191,6 +192,7 @@
 
 - (void)setUpReactions {
 
+    // Handle the first screen: if it's a group request, and if not, if it has at least one recipient.
     RAC(self.isGroupRequest) = RACAble(self.initialView.requestSwitch.on);
     
     [RACAble(self.isGroupRequest) subscribeNext:^(NSNumber *isGroupRequest) {
@@ -207,6 +209,23 @@
         } else {
             [[self rightButtonForPhase:EVRequestPhaseWho] setEnabled:[hasRecipients boolValue]];
         }
+    }];
+    
+    // SECOND SCREEN:
+    // Single:
+    [self.singleAmountView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
+        self.exchange.amount = [NSDecimalNumber decimalNumberWithString:[amountString stringByReplacingOccurrencesOfString:@"$"
+                                                                                                                withString:@""]];
+        [[self rightButtonForPhase:EVRequestPhaseHowMuch] setEnabled:([self.exchange.amount floatValue] >= EV_MINIMUM_EXCHANGE_AMOUNT)];
+    }];
+    
+    // Multiple:
+    
+    // THIRD SCREEN:
+    // Single
+    [self.singleDetailsView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
+        self.exchange.memo = descriptionString;
+        [[self rightButtonForPhase:EVRequestPhaseWhatFor] setEnabled:!EV_IS_EMPTY_STRING(self.exchange.memo)];
     }];
 }
 
@@ -227,7 +246,9 @@
     {
         if (!self.isGroupRequest)
         {
+            self.exchange = [[EVCharge alloc] init];
             EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
+            self.exchange.to = recipient;
             [self.singleAmountView.titleLabel setText:[NSString stringWithFormat:@"%@ owes me", [recipient name]]];
             [self pushView:self.singleAmountView animated:YES];
         }
@@ -239,17 +260,44 @@
     }
     else if (self.phase == EVRequestPhaseHowMuch)
     {
-        NSString *title = [NSString stringWithFormat:@"Zach Abrams owes me %@", self.singleAmountView.amountField.text];
-        [self.detailsView.titleLabel setText:title];
-        [self pushView:self.detailsView animated:YES];
+        if (!self.isGroupRequest)
+        {
+            NSString *title = [NSString stringWithFormat:@"%@ owes me %@", self.exchange.to.name, [EVStringUtility amountStringForAmount:self.exchange.amount]];
+            [self.singleDetailsView.titleLabel setText:title];
+            [self pushView:self.singleDetailsView animated:YES];
+        }
+        else
+        {
+            
+        }
         self.phase = EVRequestPhaseWhatFor;
     }
     [self setUpNavBar];
 }
 
+- (void)requestButtonPress:(id)sender {
+    // TODO: Verify this works for group charge as well.
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.exchange saveWithSuccess:^{
+        hud.mode = MBProgressHUDModeText;
+        hud.labelText = @"Success!";
+        
+        EV_DISPATCH_AFTER(1.0, ^(void) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            }];
+        });
+    } failure:^(NSError *error) {
+        DLog(@"failed to create %@", NSStringFromClass([self.exchange class]));
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
+}
+
 - (void)setUpNavBar {
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self leftButtonForPhase:self.phase]] animated:YES];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self rightButtonForPhase:self.phase]] animated:YES];
+    [self.navigationItem.rightBarButtonItem setEnabled:NO];
     [self.pageControl setCurrentPage:self.phase];
 }
 

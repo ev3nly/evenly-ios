@@ -14,8 +14,11 @@
 #import "EVFloatingPaymentButton.h"
 #import "EVPaymentViewController.h"
 #import "EVRequestViewController.h"
+<<<<<<< HEAD
 #import "EVRequestViewController_NEW.h"
+=======
 #import "EVTransactionDetailViewController.h"
+>>>>>>> dev
 
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
@@ -132,6 +135,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+
     [self reloadNewsFeed];
 }
 

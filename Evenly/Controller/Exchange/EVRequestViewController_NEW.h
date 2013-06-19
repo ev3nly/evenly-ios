@@ -14,6 +14,7 @@
 #import "EVRequestSingleAmountView.h"
 #import "EVRequestMultipleAmountsView.h"
 #import "EVRequestDetailsView.h"
+#import "EVRequestMultipleDetailsView.h"
 
 typedef enum {
     EVRequestPhaseWho = 0,
@@ -33,6 +34,7 @@ typedef enum {
 @property (nonatomic, strong) EVRequestSingleAmountView *singleAmountView;
 @property (nonatomic, strong) EVRequestMultipleAmountsView *multipleAmountsView;
 
-@property (nonatomic, strong) EVRequestDetailsView *detailsView;
+@property (nonatomic, strong) EVRequestDetailsView *singleDetailsView;
+@property (nonatomic, strong) EVRequestMultipleDetailsView *multipleDetailsView;
 
 @end
