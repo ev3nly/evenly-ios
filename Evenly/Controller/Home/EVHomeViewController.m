@@ -15,6 +15,7 @@
 #import "EVPaymentViewController.h"
 #import "EVRequestViewController.h"
 #import "EVRequestViewController_NEW.h"
+#import "EVTransactionDetailViewController.h"
 
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
@@ -145,29 +146,6 @@
 }
 
 - (void)reloadNewsFeed {
-    
-//    NSMutableArray *array = [NSMutableArray array];
-//    for (int i=0; i < 10; i++) {
-//        EVStory *story = [[EVStory alloc] initWithDictionary:@{
-//                          @"verb" : @"paid",
-//                          @"private" : @(NO),
-//                          @"description" : @"beer and weed",
-//                          @"amount" : [NSDecimalNumber numberWithFloat:20.0f],
-//                          @"subject_type" : @"User",
-//                          @"subject_name" : @"Sean Yu",
-//                          @"subject_id" : @(9),
-//                          @"target_type" : @"User",
-//                          @"target_name" : @"Zach Abrams",
-//                          @"target_id" : @(10),
-//                          @"owner_type" : @"User",
-//                          @"owner_id" : @(14) }];
-//        [array addObject:story];
-//    }
-//    self.newsfeed = array;
-//    [self.tableView reloadData];
-    
-                          
-    
     [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
         self.newsfeed = newsfeed;
         [self.tableView reloadData];
@@ -200,7 +178,6 @@
     return [EVStoryCell cellHeight];
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVStoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storyCell" forIndexPath:indexPath];
     EVStory *story = [self.newsfeed objectAtIndex:indexPath.row];
@@ -211,7 +188,15 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    EVStory *story = [self.newsfeed objectAtIndex:indexPath.row];
+    [self.navigationController pushViewController:[[EVTransactionDetailViewController alloc] initWithStory:story] animated:YES];
 }
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
 @end

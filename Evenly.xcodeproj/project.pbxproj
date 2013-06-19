@@ -296,6 +296,8 @@
 		D08F619A176BE9F900F05A34 /* EVUserAutocompletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D08F6199176BE9F900F05A34 /* EVUserAutocompletionCell.m */; };
 		D0A77EED1768243D0091AF09 /* EVRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEC1768243D0091AF09 /* EVRequestViewController.m */; };
 		D0A77EF0176824830091AF09 /* EVRequestFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEF176824830091AF09 /* EVRequestFormView.m */; };
+		D0C30AF71770F480005606E8 /* EVTransactionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF61770F480005606E8 /* EVTransactionDetailViewController.m */; };
+		D0C30AFA1770F63A005606E8 /* EVTransactionDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF91770F63A005606E8 /* EVTransactionDetailCell.m */; };
 		D0C48EA3176FB2EB00F60193 /* EVHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */; };
 		D0C48EA6176FBB7000F60193 /* EVHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C48EA5176FBB7000F60193 /* EVHistoryCell.m */; };
 /* End PBXBuildFile section */
@@ -738,6 +740,10 @@
 		D0A77EEC1768243D0091AF09 /* EVRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestViewController.m; sourceTree = "<group>"; };
 		D0A77EEE176824830091AF09 /* EVRequestFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestFormView.h; sourceTree = "<group>"; };
 		D0A77EEF176824830091AF09 /* EVRequestFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestFormView.m; sourceTree = "<group>"; };
+		D0C30AF51770F480005606E8 /* EVTransactionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTransactionDetailViewController.h; sourceTree = "<group>"; };
+		D0C30AF61770F480005606E8 /* EVTransactionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTransactionDetailViewController.m; sourceTree = "<group>"; };
+		D0C30AF81770F63A005606E8 /* EVTransactionDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTransactionDetailCell.h; sourceTree = "<group>"; };
+		D0C30AF91770F63A005606E8 /* EVTransactionDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTransactionDetailCell.m; sourceTree = "<group>"; };
 		D0C48EA1176FB2EB00F60193 /* EVHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHistoryViewController.h; sourceTree = "<group>"; };
 		D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHistoryViewController.m; sourceTree = "<group>"; };
 		D0C48EA4176FBB7000F60193 /* EVHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHistoryCell.h; sourceTree = "<group>"; };
@@ -818,6 +824,7 @@
 				9C0EC756175D7CFC003B93E2 /* Prophile */,
 				9C0EC758175D7CFC003B93E2 /* Settings */,
 				9C2DD0A0176A3CE400EAA3D1 /* SignIn */,
+				D0C30AF41770F46C005606E8 /* TransactionDetail */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1498,6 +1505,8 @@
 				9C900D1D1767F08D00E2F4C4 /* EVDepositCell.m */,
 				D08F6198176BE9F900F05A34 /* EVUserAutocompletionCell.h */,
 				D08F6199176BE9F900F05A34 /* EVUserAutocompletionCell.m */,
+				D0C30AF81770F63A005606E8 /* EVTransactionDetailCell.h */,
+				D0C30AF91770F63A005606E8 /* EVTransactionDetailCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -1688,6 +1697,15 @@
 				D07A3907176A7B4B00EABEB7 /* EVPrivacySelectorOption.m */,
 			);
 			path = Exchanges;
+			sourceTree = "<group>";
+		};
+		D0C30AF41770F46C005606E8 /* TransactionDetail */ = {
+			isa = PBXGroup;
+			children = (
+				D0C30AF51770F480005606E8 /* EVTransactionDetailViewController.h */,
+				D0C30AF61770F480005606E8 /* EVTransactionDetailViewController.m */,
+			);
+			path = TransactionDetail;
 			sourceTree = "<group>";
 		};
 		D0C48EA0176FB2C800F60193 /* History */ = {
@@ -2173,6 +2191,8 @@
 				9C2E4FA4176E6E7E00ACE30E /* EVFundingSourceCell.m in Sources */,
 				D0C48EA3176FB2EB00F60193 /* EVHistoryViewController.m in Sources */,
 				D0C48EA6176FBB7000F60193 /* EVHistoryCell.m in Sources */,
+				D0C30AF71770F480005606E8 /* EVTransactionDetailViewController.m in Sources */,
+				D0C30AFA1770F63A005606E8 /* EVTransactionDetailCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
