@@ -52,4 +52,26 @@
     return [UIImage imageNamed:@"Privacy-Check"];
 }
 
+#pragma mark - Income Icons
+
++ (UIImage *)incomeIcon {
+    return [UIImage imageNamed:@"Income"];
+}
+
++ (UIImage *)pendingIncomeIcon {
+    return [UIImage imageNamed:@"PendingIncome"];
+}
+
++ (UIImage *)paymentIcon {
+    return [UIImage imageNamed:@"Payment"];
+}
+
++ (UIImage *)pendingPaymentIcon {
+    return [UIImage imageNamed:@"PendingPayment"];
+}
+
++ (UIImage *)transferIcon {
+    return [UIImage imageNamed:@"Transfer"];
+}
+
 @end

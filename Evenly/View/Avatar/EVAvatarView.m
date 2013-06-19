@@ -26,10 +26,10 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
         self.autoresizesSubviews = YES;
+        self.cornerRadius = 4.0;
         
-        self.overlay = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"AvatarContainer"]];
+        self.overlay = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"AvatarContainer"] resizableImageWithCapInsets:UIEdgeInsetsMake(4, 4, 4, 4)]];
         [self.overlay setFrame:self.bounds];
         self.overlay.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         [self addSubview:self.overlay];
@@ -39,14 +39,7 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:self.imageView];
         
-        CGSize avatarSize = [[self class] avatarSize];
-        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-        shapeLayer.path = [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, avatarSize.width, avatarSize.height) cornerRadius:4.0] CGPath];
-        [shapeLayer setFillColor:[[UIColor blackColor] CGColor]];
-        self.imageView.layer.mask = shapeLayer;
-        
-
-        
+        self.size = [[self class] avatarSize];
     }
     return self;
 }
@@ -55,6 +48,19 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
     [_avatarOwner removeObserver:self
                       forKeyPath:@"avatar"
                          context:&EVAvatarViewContext];
+}
+
+- (void)configureMasks {
+    CGSize avatarSize = self.size;
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    shapeLayer.path = [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, avatarSize.width, avatarSize.height) cornerRadius:self.cornerRadius] CGPath];
+    [shapeLayer setFillColor:[[UIColor blackColor] CGColor]];
+    self.imageView.layer.mask = shapeLayer;
+    
+    CAShapeLayer *overlayLayer = [CAShapeLayer layer];
+    overlayLayer.path = [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, avatarSize.width, avatarSize.height) cornerRadius:self.cornerRadius] CGPath];
+    [overlayLayer setFillColor:[[UIColor blackColor] CGColor]];
+    self.overlay.layer.mask = overlayLayer;
 }
 
 - (void)setAvatarOwner:(id<EVAvatarOwning>)avatarOwner {
@@ -85,13 +91,9 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
     return self.imageView.image;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (void)setSize:(CGSize)size {
+    _size = size;
+    [self configureMasks];
 }
-*/
 
 @end

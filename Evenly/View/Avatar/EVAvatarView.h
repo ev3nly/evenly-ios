@@ -15,5 +15,7 @@
 
 @property (nonatomic, weak) NSObject<EVAvatarOwning> *avatarOwner;
 @property (nonatomic, strong) UIImage *image;
+@property (nonatomic, assign) CGSize size;
+@property (nonatomic, assign) float cornerRadius;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "EVStoryCell.h"
-#import "EVStory.h"
 
 #import <FormatterKit/TTTTimeIntervalFormatter.h>
 
@@ -16,9 +15,9 @@
 #define EV_STORY_CELL_LABEL_WIDTH 200.0
 #define EV_STORY_CELL_LABEL_HEIGHT 44.0
 
-#define EV_STORY_CELL_HORIZONTAL_RULE_Y 64.0
-#define EV_STORY_CELL_VERTICAL_RULE_X 148.0
-
+#define EV_STORY_CELL_HORIZONTAL_RULE_Y (self.tombstoneBackground.frame.size.height - EV_STORY_CELL_VERTICAL_RULE_HEIGHT)
+#define EV_STORY_CELL_VERTICAL_RULE_X (self.tombstoneBackground.image.size.width/2)
+#define EV_STORY_CELL_VERTICAL_RULE_HEIGHT 36.0
 
 static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
@@ -42,6 +41,8 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     return 112.0;
 }
 
+#pragma mark - Lifecycle
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -63,33 +64,39 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
         [self loadLikeButton];
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
     }
     return self;
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    self.tombstoneBackground.frame = [self tombstoneBackgroundFrame];
+    self.avatarView.frame = [self avatarViewFrame];
+    self.storyLabel.frame = [self storyLabelFrame];
+    self.horizontalRule.frame = [self horizontalRuleFrame];
+    self.verticalRule.frame = [self verticalRuleFrame];
+    self.dateLabel.frame = [self dateLabelFrame];
+    self.likeButton.frame = [self likeButtonFrame];
+}
+
+#pragma mark - Loading
+
 - (void)loadBackground {
-    UIImage *image = [UIImage imageNamed:@"FeedContainer"];
+    UIImage *image = [EVImages resizableTombstoneBackground];
     self.tombstoneBackground = [[UIImageView alloc] initWithImage:image];
-    self.tombstoneBackground.frame = CGRectMake(EV_STORY_CELL_BACKGROUND_MARGIN,
-                                                EV_STORY_CELL_BACKGROUND_MARGIN,
-                                                image.size.width,
-                                                image.size.height);
     self.tombstoneBackground.userInteractionEnabled = YES;
     [self.contentView addSubview:self.tombstoneBackground];
 }
 
 - (void)loadAvatarView {
-    self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(EV_STORY_CELL_INTERIOR_MARGIN,
-                                                                     EV_STORY_CELL_INTERIOR_MARGIN, [EVAvatarView avatarSize].width, [EVAvatarView avatarSize].height)];
+    self.avatarView = [[EVAvatarView alloc] initWithFrame:self.bounds];
     [self.tombstoneBackground addSubview:self.avatarView];
 }
 
 - (void)loadStoryLabel {
-    self.storyLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.avatarView.frame) + EV_STORY_CELL_INTERIOR_MARGIN,
-                                                                EV_STORY_CELL_INTERIOR_MARGIN,
-                                                                EV_STORY_CELL_LABEL_WIDTH,
-                                                                EV_STORY_CELL_LABEL_HEIGHT)];
+    self.storyLabel = [UILabel new];
     self.storyLabel.backgroundColor = [UIColor clearColor];
     self.storyLabel.numberOfLines = 3;
     self.storyLabel.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -98,26 +105,17 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 }
 
 - (void)loadRules {
-    self.horizontalRule = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                                   EV_STORY_CELL_HORIZONTAL_RULE_Y,
-                                                                   self.tombstoneBackground.frame.size.width,
-                                                                   1)];
+    self.horizontalRule = [UIView new];
     self.horizontalRule.backgroundColor = [EVColor newsfeedStripeColor];
     [self.tombstoneBackground addSubview:self.horizontalRule];
     
-    self.verticalRule = [[UIView alloc] initWithFrame:CGRectMake(EV_STORY_CELL_VERTICAL_RULE_X,
-                                                                 EV_STORY_CELL_HORIZONTAL_RULE_Y,
-                                                                 1,
-                                                                 self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y)];
+    self.verticalRule = [UIView new];
     self.verticalRule.backgroundColor = [EVColor newsfeedStripeColor];
     [self.tombstoneBackground addSubview:self.verticalRule];
 }
 
 - (void)loadDateLabel {
-    self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,
-                                                               EV_STORY_CELL_HORIZONTAL_RULE_Y,
-                                                               EV_STORY_CELL_VERTICAL_RULE_X,
-                                                               self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y)];
+    self.dateLabel = [UILabel new];
     self.dateLabel.textAlignment = NSTextAlignmentCenter;
     self.dateLabel.font = [EVFont boldFontOfSize:14];
     self.dateLabel.textColor = [EVColor newsfeedButtonLabelColor];
@@ -126,12 +124,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 }
 
 - (void)loadLikeButton {
-    CGRect rect = CGRectMake(EV_STORY_CELL_VERTICAL_RULE_X,
-                             EV_STORY_CELL_HORIZONTAL_RULE_Y,
-                             EV_STORY_CELL_VERTICAL_RULE_X,
-                             self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
-    rect = CGRectInset(rect, 1, 1);
-    self.likeButton = [[EVLikeButton alloc] initWithFrame:rect];
+    self.likeButton = [[EVLikeButton alloc] initWithFrame:CGRectZero];
     [self.likeButton setTitle:@"Like"];
     [self.likeButton addTarget:self action:@selector(likeButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [self.tombstoneBackground addSubview:self.likeButton];
@@ -142,6 +135,8 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     [self.story setLiked:!self.story.liked];
     [self.likeButton setTitle:[self.story likeButtonString]];
 }
+
+#pragma mark - Setters
 
 - (void)setStory:(EVStory *)story {
     _story = story;
@@ -154,11 +149,57 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     [self.likeButton setTitle:[story likeButtonString]];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
+#pragma mark - Frames
 
-    // Configure the view for the selected state
+- (CGRect)tombstoneBackgroundFrame {
+    return CGRectMake(EV_STORY_CELL_BACKGROUND_MARGIN,
+                      EV_STORY_CELL_BACKGROUND_MARGIN,
+                      self.tombstoneBackground.image.size.width,
+                      self.bounds.size.height - EV_STORY_CELL_BACKGROUND_MARGIN);
+}
+
+- (CGRect)avatarViewFrame {
+    return CGRectMake(EV_STORY_CELL_INTERIOR_MARGIN,
+                      EV_STORY_CELL_INTERIOR_MARGIN,
+                      self.avatarView.size.width,
+                      self.avatarView.size.height);
+}
+
+- (CGRect)storyLabelFrame {
+    return CGRectMake(CGRectGetMaxX(self.avatarView.frame) + EV_STORY_CELL_INTERIOR_MARGIN,
+                      EV_STORY_CELL_INTERIOR_MARGIN,
+                      EV_STORY_CELL_LABEL_WIDTH,
+                      EV_STORY_CELL_LABEL_HEIGHT);
+}
+
+- (CGRect)horizontalRuleFrame {
+    return CGRectMake(0,
+                      EV_STORY_CELL_HORIZONTAL_RULE_Y,
+                      self.tombstoneBackground.frame.size.width,
+                      1);
+}
+
+- (CGRect)verticalRuleFrame {
+    return CGRectMake(EV_STORY_CELL_VERTICAL_RULE_X,
+                      EV_STORY_CELL_HORIZONTAL_RULE_Y,
+                      1,
+                      EV_STORY_CELL_VERTICAL_RULE_HEIGHT);
+}
+
+- (CGRect)dateLabelFrame {
+    return CGRectMake(0,
+                      EV_STORY_CELL_HORIZONTAL_RULE_Y,
+                      EV_STORY_CELL_VERTICAL_RULE_X,
+                      self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
+}
+
+- (CGRect)likeButtonFrame {
+    CGRect rect = CGRectMake(EV_STORY_CELL_VERTICAL_RULE_X,
+                             EV_STORY_CELL_HORIZONTAL_RULE_Y,
+                             EV_STORY_CELL_VERTICAL_RULE_X,
+                             self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
+    rect = CGRectInset(rect, 1, 1);
+    return rect;
 }
 
 @end

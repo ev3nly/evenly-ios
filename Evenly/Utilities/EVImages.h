@@ -19,12 +19,20 @@
 + (UIImage *)grayButtonBackground;
 + (UIImage *)grayButtonBackgroundPress;
 
-#pragma mark - Icons
+#pragma mark - Privacy
 
 + (UIImage *)friendsIcon;
 + (UIImage *)globeIcon;
 + (UIImage *)lockIcon;
 + (UIImage *)dropdownArrow;
 + (UIImage *)checkIcon;
+
+#pragma mark - Income Icons
+
++ (UIImage *)incomeIcon;
++ (UIImage *)pendingIncomeIcon;
++ (UIImage *)paymentIcon;
++ (UIImage *)pendingPaymentIcon;
++ (UIImage *)transferIcon;
 
 @end
