@@ -8,6 +8,7 @@
 
 #import "EVViewController.h"
 #import "EVNavigationManager.h"
+#import "EVBackButton.h"
 
 @interface EVViewController ()
 
@@ -65,11 +66,7 @@
 }
 
 - (void)loadBackButton {
-    UIImage *image = [UIImage imageNamed:@"Back"];
-    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + edgeInsets.left + edgeInsets.right, image.size.height)];
-    [button setImage:image forState:UIControlStateNormal];
-    [button setImageEdgeInsets:edgeInsets];
+    UIButton *button = [EVBackButton button];
     [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }

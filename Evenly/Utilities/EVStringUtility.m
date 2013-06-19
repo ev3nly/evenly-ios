@@ -202,11 +202,6 @@ static NSDateFormatter *_shortDateFormatter;
     return attrString;
 }
 
-+ (NSString *)amountStringForAmount:(NSDecimalNumber *)amount {
-    return [NSNumberFormatter localizedStringFromNumber:amount
-                                            numberStyle:NSNumberFormatterCurrencyStyle];
-}
-
 + (NSString *)userNameForObject:(EVObject<EVExchangeable> *)object {
     if (EV_IS_EMPTY_STRING(object.name)) {
         return @"You";
@@ -253,6 +248,10 @@ static NSDateFormatter *_detailDateFormatter;
     return [[self detailDateFormatter] stringFromDate:date];
 }
 
++ (NSString *)requestDescriptionPlaceholder {
+    return @"Lunch, dinner, taxi, or anything else";
+}
+
 #pragma mark - Marketing Materials
 
 + (NSString *)appName {
@@ -293,6 +292,19 @@ static NSDateFormatter *_detailDateFormatter;
     NSString *hashedURL = EV_STRING_FROM_INT([url hash]);
     NSString *cachePath = EV_CACHE_PATH(hashedURL);
     return cachePath;
+}
+
+#pragma mark - Amounts
+
+
++ (NSString *)amountStringForAmount:(NSDecimalNumber *)amount {
+    return [NSNumberFormatter localizedStringFromNumber:amount
+                                            numberStyle:NSNumberFormatterCurrencyStyle];
+}
+
++ (NSDecimalNumber *)amountFromAmountString:(NSString *)amountString {
+    return [NSDecimalNumber decimalNumberWithString:[amountString stringByReplacingOccurrencesOfString:@"$"
+                                                                                            withString:@""]];
 }
 
 #pragma mark - General
