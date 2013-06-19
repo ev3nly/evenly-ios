@@ -162,7 +162,7 @@
     {
         int oldCount = [[change objectForKey:NSKeyValueChangeOldKey] intValue];
         int newCount = [[change objectForKey:NSKeyValueChangeNewKey] intValue];
-        if (oldCount == 1 && newCount == 2)
+        if (oldCount == 1 && newCount == 2 && ![self.requestSwitch isOn])
         {
             [self.requestSwitch setOn:YES animated:YES];
             self.didForceSwitchToGroup = YES;
