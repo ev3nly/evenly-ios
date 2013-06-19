@@ -8,13 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "EVRequestView.h"
-#import "EVTextField.h"
+#import "JSTokenField.h"
 #import "EVRequestSwitch.h"
 
-@interface EVRequestInitialView : EVRequestView<EVSwitchDelegate>
+#import "EVUser.h"
+
+@interface EVRequestInitialView : EVRequestView <EVSwitchDelegate, JSTokenFieldDelegate>
 
 @property (nonatomic, strong) EVRequestSwitch *requestSwitch;
-@property (nonatomic, strong) EVTextField *toField;
+@property (nonatomic, strong) JSTokenField *toField;
 @property (nonatomic, strong) UILabel *instructionLabel;
+
+@property (nonatomic, strong) NSMutableArray *recipients;
+
+- (void)addContact:(EVObject<EVExchangeable> *)contact;
 
 @end

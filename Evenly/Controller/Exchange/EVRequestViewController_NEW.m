@@ -16,6 +16,8 @@
 #import "EVUserAutocompletionCell.h"
 #import "EVKeyboardTracker.h"
 
+#import "ABContactsHelper.h"
+
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
 @interface EVRequestViewController_NEW ()
@@ -120,7 +122,8 @@
 }
 
 - (void)loadContentViews {
-    self.initialView = [[EVRequestInitialView alloc] initWithFrame:[self contentViewFrame]];
+    self.initialView = [[EVRequestInitialView alloc] initWithFrame:[self.view bounds]];
+    self.initialView.backgroundColor = [UIColor clearColor];
     self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     self.singleAmountView = [[EVRequestSingleAmountView alloc] initWithFrame:[self contentViewFrame]];
@@ -142,8 +145,7 @@
 - (void)loadAutocomplete {
     self.autocompleteDataSource = [[EVAutocompleteTableViewDataSource alloc] init];
     
-    CGRect keyboardFrame = [[EVKeyboardTracker sharedTracker] keyboardFrame];
-    float tableHeight = self.initialView.frame.size.height - CGRectGetMaxY(self.initialView.toField.frame);
+    float tableHeight = self.initialView.frame.size.height - CGRectGetMaxY(self.initialView.toField.frame) - self.navigationController.navigationBar.bounds.size.height;
     CGRect tableFrame =  CGRectMake(0,
                       CGRectGetMaxY(self.initialView.toField.frame),
                       self.initialView.frame.size.width,
@@ -160,7 +162,7 @@
     self.autocompleteTableView.separatorColor = [UIColor colorWithWhite:0.8 alpha:1.0];
     
     self.autocompleteDataSource.tableView = self.autocompleteTableView;
-    self.autocompleteDataSource.textField = self.initialView.toField;
+    self.autocompleteDataSource.textField = self.initialView.toField.textField;
     [self.autocompleteDataSource setUpReactions];
     
     [self.initialView addSubview:self.autocompleteTableView];
@@ -216,5 +218,33 @@
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:rightView] animated:YES];
     [self.pageControl setCurrentPage:self.phase];
 }
+
+#pragma mark - UITableViewDelegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (scrollView == self.autocompleteTableView) {
+        [self.initialView.toField.textField resignFirstResponder]; // just resign here -- don't exit, so the table doesn't go away.
+    }
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    id contact = [self.autocompleteDataSource.suggestions objectAtIndex:indexPath.row];
+    if ([contact isKindOfClass:[EVUser class]]) {
+//		self.exchange.to = contact;
+    }
+    else if ([contact isKindOfClass:[ABContact class]]) {
+        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
+		EVContact *toContact = [[EVContact alloc] init];
+		toContact.email = emailAddress;
+        toContact.name = [contact contactName];
+//		self.exchange.to = toContact;
+        contact = toContact;
+    }
+    [self.initialView addContact:contact];
+    [self.autocompleteTableView setHidden:YES];
+}
+
+
 
 @end
