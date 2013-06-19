@@ -20,7 +20,7 @@
 @property (nonatomic, strong) UIView *requestSwitchBackground;
 @property (nonatomic, strong) UIView *upperStripe;
 @property (nonatomic, strong) UIView *lowerStripe;
-
+@property (nonatomic) NSInteger recipientCount;
 @end
 
 @implementation EVRequestInitialView
@@ -178,6 +178,7 @@
 {
 	NSDictionary *recipient = [NSDictionary dictionaryWithObject:obj forKey:title];
 	[self.recipients addObject:recipient];
+    self.recipientCount = [self.recipients count];
 	DLog(@"Added token for < %@ : %@ >\n%@", title, obj, self.recipients);
 }
 
@@ -188,6 +189,7 @@
             break;
     }
     [self.recipients removeObject:dictionary];
+    self.recipientCount = [self.recipients count];
     DLog(@"Deleted token < %@ : %@ >\n%@", title, obj, self.recipients);
 }
 

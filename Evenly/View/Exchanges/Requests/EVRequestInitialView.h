@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UILabel *instructionLabel;
 
 @property (nonatomic, strong) NSMutableArray *recipients;
+@property (nonatomic, readonly) NSInteger recipientCount;
 @property (nonatomic, weak) UITableView *autocompleteTableView;
 
 - (void)addContact:(EVObject<EVExchangeable> *)contact;

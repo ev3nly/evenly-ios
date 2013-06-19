@@ -32,6 +32,8 @@
 @property (nonatomic, strong) UITableView *autocompleteTableView;
 @property (nonatomic, strong) EVAutocompleteTableViewDataSource *autocompleteDataSource;
 
+@property (nonatomic) BOOL hasRecipients;
+
 - (void)loadCancelButton;
 - (void)loadBackButton;
 - (void)loadNextButton;
@@ -165,6 +167,20 @@
 
 - (void)setUpReactions {
 
+    RAC(self.hasRecipients) = [RACSignal combineLatest:@[RACAble(self.initialView.recipientCount)] reduce:^(NSNumber *countNumber) {
+        NSInteger count = [countNumber integerValue];
+        return @((BOOL)count);
+    }];
+
+    // TODO: WTF, man?
+    
+//    RAC(self.navigationItem.rightBarButtonItem.enabled) = [RACSignal combineLatest:@[ RACAble(self.phase), RACAble(self.hasRecipients) ] reduce:^(NSNumber *phaseNumber, NSNumber *hasRecipientsNumber) {
+//        EVRequestPhase phase = (EVRequestPhase)[phaseNumber intValue];
+//        BOOL hasRecipients = [hasRecipientsNumber boolValue];
+//        if (phase == EVRequestPhaseWho)
+//            return @(hasRecipients);
+//        return @(NO);
+//    }];
 }
 
 #pragma mark - Button Actions
