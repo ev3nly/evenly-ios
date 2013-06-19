@@ -13,8 +13,6 @@
 #define LINE_HEIGHT 40
 #define MAX_AMOUNT_WIDTH 60
 
-#define DESCRIPTION_PLACEHOLDER_TEXT @"Lunch, dinner, taxi, or anything else"
-
 @interface EVExchangeFormView ()
 
 - (void)loadPayLabel;
@@ -96,7 +94,7 @@
 - (void)loadDescriptionField
 {
     self.descriptionField = [[UITextView alloc] initWithFrame:[self descriptionFieldFrame]];
-    self.descriptionField.text = DESCRIPTION_PLACEHOLDER_TEXT;
+    self.descriptionField.text = [EVStringUtility requestDescriptionPlaceholder];
     self.descriptionField.textColor = self.toField.textColor;
     self.descriptionField.font = self.toField.font;
     self.descriptionField.delegate = self;
@@ -137,7 +135,7 @@
 }
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
-    if ([textView.text isEqualToString:DESCRIPTION_PLACEHOLDER_TEXT])
+    if ([textView.text isEqualToString:[EVStringUtility requestDescriptionPlaceholder]])
         textView.text = @"";
     return YES;
 }
@@ -211,7 +209,7 @@
 }
 
 - (NSString *)descriptionPlaceholderText {
-    return DESCRIPTION_PLACEHOLDER_TEXT;
+    return [EVStringUtility requestDescriptionPlaceholder];
 }
 
 @end

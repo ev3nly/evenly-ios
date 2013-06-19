@@ -17,7 +17,7 @@
     EVRequestSwitchOption *option = [[self alloc] initWithFrame:CGRectMake(REQUEST_SWITCH_WELL_INSET, REQUEST_SWITCH_WELL_INSET, 149, 31)];
     option.iconView.image = [UIImage imageNamed:@"Request-Single-Light"];
     option.iconView.highlightedImage = [UIImage imageNamed:@"Request-Single-Dark"];
-    option.label.text = @"From a Friend";
+    option.label.text = @"A Friend";
     [option setNeedsLayout];
     return option;
 }
@@ -26,7 +26,7 @@
     EVRequestSwitchOption *option = [[self alloc] initWithFrame:CGRectMake(149 + REQUEST_SWITCH_WELL_INSET, REQUEST_SWITCH_WELL_INSET, 149, 31)];
     option.iconView.image = [UIImage imageNamed:@"Request-Group-Light"];
     option.iconView.highlightedImage = [UIImage imageNamed:@"Request-Group-Dark"];
-    option.label.text = @"From a Group";
+    option.label.text = @"A Group";
     [option setNeedsLayout];
     return option;
 }

@@ -14,6 +14,7 @@
 #import "EVFloatingPaymentButton.h"
 #import "EVPaymentViewController.h"
 #import "EVRequestViewController.h"
+#import "EVRequestViewController_NEW.h"
 #import "EVTransactionDetailViewController.h"
 
 #import "UIScrollView+SVPullToRefresh.h"
@@ -131,7 +132,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
     [self reloadNewsFeed];
 }
 
@@ -149,16 +149,15 @@
         self.newsfeed = newsfeed;
         [self.tableView reloadData];
         [self.tableView.pullToRefreshView stopAnimating];
-        DLog(@"Newsfeed: %@", newsfeed);
     } failure:^(NSError *error) {
-        DLog(@"Error: %@", error);
+
     }];
 }
 
 #pragma mark - Button Actions
 
 - (void)requestButtonPress:(id)sender {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController_NEW alloc] init]];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
