@@ -26,7 +26,6 @@ typedef enum {
 
 @property (nonatomic) EVRequestPhase phase;
 
-@property (nonatomic, strong) EVRequestSwitch *requestSwitch;
 @property (nonatomic, strong) EVExchange *exchange;
 
 @property (nonatomic, strong) EVRequestInitialView *initialView;

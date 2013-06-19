@@ -176,19 +176,13 @@
 
 - (void)tokenField:(JSTokenField *)tokenField didAddToken:(NSString *)title representedObject:(id)obj
 {
-	NSDictionary *recipient = [NSDictionary dictionaryWithObject:obj forKey:title];
-	[self.recipients addObject:recipient];
+	[self.recipients addObject:obj];
     self.recipientCount = [self.recipients count];
 	DLog(@"Added token for < %@ : %@ >\n%@", title, obj, self.recipients);
 }
 
 - (void)tokenField:(JSTokenField *)tokenField didRemoveToken:(NSString *)title representedObject:(id)obj {
-    NSDictionary *dictionary = nil;
-    for (dictionary in self.recipients) {
-        if ([[dictionary objectForKey:title] isEqual:obj])
-            break;
-    }
-    [self.recipients removeObject:dictionary];
+    [self.recipients removeObject:obj];
     self.recipientCount = [self.recipients count];
     DLog(@"Deleted token < %@ : %@ >\n%@", title, obj, self.recipients);
 }

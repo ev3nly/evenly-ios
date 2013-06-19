@@ -32,16 +32,21 @@
 @property (nonatomic, strong) UITableView *autocompleteTableView;
 @property (nonatomic, strong) EVAutocompleteTableViewDataSource *autocompleteDataSource;
 
-@property (nonatomic) BOOL hasRecipients;
+@property (nonatomic, strong) NSArray *leftButtons;
+@property (nonatomic, strong) NSArray *rightButtons;
 
-- (void)loadCancelButton;
-- (void)loadBackButton;
-- (void)loadNextButton;
-- (void)loadRequestButton;
+@property (nonatomic) BOOL isGroupRequest;
+@property (nonatomic) BOOL hasRecipients;
+@property (nonatomic) BOOL canGoToHowMuchPhase;
+
+- (void)loadNavigationButtons;
 - (void)loadPageControl;
 - (void)loadPrivacySelector;
 - (void)loadContentViews;
 - (void)loadAutocomplete;
+
+- (UIButton *)leftButtonForPhase:(EVRequestPhase)phase;
+- (UIButton *)rightButtonForPhase:(EVRequestPhase)phase;
 
 @end
 
@@ -60,11 +65,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self loadCancelButton];
-    [self loadBackButton];
-    [self loadNextButton];
-    [self loadRequestButton];
+    [self loadNavigationButtons];
     [self loadPageControl];
+//    [self setUpNavBar];
+
     [self loadPrivacySelector];
     [self loadContentViews];
     [self loadAutocomplete];
@@ -72,26 +76,46 @@
     [self setUpReactions];
 }
 
-- (void)loadCancelButton {
-    self.cancelButton = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
-    [self.cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.cancelButton];
-}
+- (void)loadNavigationButtons {
+    
+    NSMutableArray *left = [NSMutableArray array];
+    NSMutableArray *right = [NSMutableArray array];
+    UIButton *button;
+    
+    // Left buttons    
+    button = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
+    [button addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [left addObject:button];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
 
-- (void)loadBackButton {
-    self.backButton = [EVBackButton button];
-    [self.backButton addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-}
+    button = [EVBackButton button];
+    [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [left addObject:button];
 
-- (void)loadNextButton {
-    self.nextButton = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
-    [self.nextButton addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.nextButton];
-}
+    button = [EVBackButton button];
+    [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [left addObject:button];
 
-- (void)loadRequestButton {
-    self.requestButton = [[EVNavigationBarButton alloc] initWithTitle:@"Request"];
-    [self.requestButton addTarget:self action:@selector(requestButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    // Right buttons
+    button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
+    [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [button setEnabled:NO];
+    [right addObject:button];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+
+    button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
+    [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [button setEnabled:NO];
+    [right addObject:button];
+    
+    button = [[EVNavigationBarButton alloc] initWithTitle:@"Request"];
+    [button addTarget:self action:@selector(requestButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [button setEnabled:NO];
+    [right addObject:button];
+    
+    self.leftButtons = [NSArray arrayWithArray:left];
+    self.rightButtons = [NSArray arrayWithArray:right];
 }
 
 - (void)loadPageControl {
@@ -167,20 +191,23 @@
 
 - (void)setUpReactions {
 
-    RAC(self.hasRecipients) = [RACSignal combineLatest:@[RACAble(self.initialView.recipientCount)] reduce:^(NSNumber *countNumber) {
-        NSInteger count = [countNumber integerValue];
-        return @((BOOL)count);
-    }];
-
-    // TODO: WTF, man?
+    RAC(self.isGroupRequest) = RACAble(self.initialView.requestSwitch.on);
     
-//    RAC(self.navigationItem.rightBarButtonItem.enabled) = [RACSignal combineLatest:@[ RACAble(self.phase), RACAble(self.hasRecipients) ] reduce:^(NSNumber *phaseNumber, NSNumber *hasRecipientsNumber) {
-//        EVRequestPhase phase = (EVRequestPhase)[phaseNumber intValue];
-//        BOOL hasRecipients = [hasRecipientsNumber boolValue];
-//        if (phase == EVRequestPhaseWho)
-//            return @(hasRecipients);
-//        return @(NO);
-//    }];
+    [RACAble(self.isGroupRequest) subscribeNext:^(NSNumber *isGroupRequest) {
+        if ([isGroupRequest boolValue]) {
+            [[self rightButtonForPhase:EVRequestPhaseWho] setEnabled:YES];
+        } else {
+            [[self rightButtonForPhase:EVRequestPhaseWho] setEnabled:(BOOL)self.initialView.recipientCount];
+        }
+    }];
+    
+    [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
+        if (self.isGroupRequest) {
+            [[self rightButtonForPhase:EVRequestPhaseWho] setEnabled:YES];
+        } else {
+            [[self rightButtonForPhase:EVRequestPhaseWho] setEnabled:[hasRecipients boolValue]];
+        }
+    }];
 }
 
 #pragma mark - Button Actions
@@ -198,8 +225,16 @@
 - (void)nextButtonPress:(id)sender {
     if (self.phase == EVRequestPhaseWho)
     {
-        [self.singleAmountView.titleLabel setText:@"Zach Abrams owes me"];
-        [self pushView:self.singleAmountView animated:YES];
+        if (!self.isGroupRequest)
+        {
+            EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
+            [self.singleAmountView.titleLabel setText:[NSString stringWithFormat:@"%@ owes me", [recipient name]]];
+            [self pushView:self.singleAmountView animated:YES];
+        }
+        else
+        {
+            
+        }
         self.phase = EVRequestPhaseHowMuch;
     }
     else if (self.phase == EVRequestPhaseHowMuch)
@@ -213,20 +248,17 @@
 }
 
 - (void)setUpNavBar {
-    UIView *leftView, *rightView;
-    leftView = self.backButton;
-    rightView = self.nextButton;
-    if (self.phase == EVRequestPhaseWho)
-    {
-        leftView = self.cancelButton;
-    }
-    else if (self.phase == EVRequestPhaseWhatFor)
-    {
-        rightView = self.requestButton;
-    }
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:leftView] animated:YES];
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:rightView] animated:YES];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self leftButtonForPhase:self.phase]] animated:YES];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self rightButtonForPhase:self.phase]] animated:YES];
     [self.pageControl setCurrentPage:self.phase];
+}
+
+- (UIButton *)leftButtonForPhase:(EVRequestPhase)phase {
+    return [self.leftButtons objectAtIndex:phase];
+}
+
+- (UIButton *)rightButtonForPhase:(EVRequestPhase)phase {
+    return [self.rightButtons objectAtIndex:phase];
 }
 
 #pragma mark - UITableViewDelegate
