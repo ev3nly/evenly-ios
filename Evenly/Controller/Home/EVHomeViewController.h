@@ -10,7 +10,7 @@
 
 @class EVFloatingButton;
 
-@interface EVHomeViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
+@interface EVHomeViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UIView *floatingView;
 @property (nonatomic, strong) EVFloatingButton *requestButton;
