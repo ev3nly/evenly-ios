@@ -150,7 +150,6 @@
 
 - (void)loadContentViews {
     self.initialView = [[EVRequestInitialView alloc] initWithFrame:[self.view bounds]];
-    self.initialView.backgroundColor = [UIColor clearColor];
     self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     self.singleAmountView = [[EVRequestSingleAmountView alloc] initWithFrame:[self contentViewFrame]];
@@ -196,27 +195,17 @@
     RAC(self.isGroupRequest) = RACAble(self.initialView.requestSwitch.on);
     
     [RACAble(self.isGroupRequest) subscribeNext:^(NSNumber *isGroupRequest) {
-        if ([isGroupRequest boolValue]) {
-            [[self rightButtonForPhase:EVRequestPhaseWho] setEnabled:YES];
-        } else {
-            [[self rightButtonForPhase:EVRequestPhaseWho] setEnabled:(BOOL)self.initialView.recipientCount];
-        }
+        [self validateForPhase:EVRequestPhaseWho];
     }];
     
     [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
-        if (self.isGroupRequest) {
-            [[self rightButtonForPhase:EVRequestPhaseWho] setEnabled:YES];
-        } else {
-            [[self rightButtonForPhase:EVRequestPhaseWho] setEnabled:[hasRecipients boolValue]];
-        }
+        [self validateForPhase:EVRequestPhaseWho];
     }];
     
     // SECOND SCREEN:
     // Single:
     [self.singleAmountView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
-        self.exchange.amount = [NSDecimalNumber decimalNumberWithString:[amountString stringByReplacingOccurrencesOfString:@"$"
-                                                                                                                withString:@""]];
-        [[self rightButtonForPhase:EVRequestPhaseHowMuch] setEnabled:([self.exchange.amount floatValue] >= EV_MINIMUM_EXCHANGE_AMOUNT)];
+        [self validateForPhase:EVRequestPhaseHowMuch];
     }];
     
     // Multiple:
@@ -224,9 +213,33 @@
     // THIRD SCREEN:
     // Single
     [self.singleDetailsView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
-        self.exchange.memo = descriptionString;
-        [[self rightButtonForPhase:EVRequestPhaseWhatFor] setEnabled:!EV_IS_EMPTY_STRING(self.exchange.memo)];
+        [self validateForPhase:EVRequestPhaseWhatFor];
     }];
+}
+
+- (void)validateForPhase:(EVRequestPhase)phase {
+    UIButton *button = [self rightButtonForPhase:phase];
+    if (phase == EVRequestPhaseWho)
+    {
+        if (self.isGroupRequest) {
+            [button setEnabled:YES];
+        } else {
+            [button setEnabled:(BOOL)self.initialView.recipientCount];
+        }
+    }
+    else if (phase == EVRequestPhaseHowMuch)
+    {
+        if (!self.isGroupRequest)
+        {
+            float amount = [[EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text] floatValue];
+            [button setEnabled:(amount >= EV_MINIMUM_EXCHANGE_AMOUNT)];
+        }
+    }
+    else if (phase == EVRequestPhaseWhatFor)
+    {
+        if (!self.isGroupRequest)
+            [button setEnabled:!EV_IS_EMPTY_STRING(self.singleDetailsView.descriptionField.text)];
+    }
 }
 
 #pragma mark - Button Actions
@@ -239,11 +252,14 @@
     [self popViewAnimated:YES];
     self.phase--;
     [self setUpNavBar];
+    [self validateForPhase:self.phase];
 }
 
 - (void)nextButtonPress:(id)sender {
     if (self.phase == EVRequestPhaseWho)
     {
+        self.autocompleteDataSource.suggestions = [NSArray array];
+        self.autocompleteTableView.hidden = YES;
         if (!self.isGroupRequest)
         {
             self.exchange = [[EVCharge alloc] init];
@@ -262,6 +278,7 @@
     {
         if (!self.isGroupRequest)
         {
+            self.exchange.amount = [EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text];
             NSString *title = [NSString stringWithFormat:@"%@ owes me %@", self.exchange.to.name, [EVStringUtility amountStringForAmount:self.exchange.amount]];
             [self.singleDetailsView.titleLabel setText:title];
             [self pushView:self.singleDetailsView animated:YES];
@@ -273,25 +290,30 @@
         self.phase = EVRequestPhaseWhatFor;
     }
     [self setUpNavBar];
+    [self validateForPhase:self.phase];
 }
 
 - (void)requestButtonPress:(id)sender {
     // TODO: Verify this works for group charge as well.
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    [self.exchange saveWithSuccess:^{
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"Success!";
-        
-        EV_DISPATCH_AFTER(1.0, ^(void) {
+    if (!self.isGroupRequest)
+    {
+        self.exchange.memo = self.singleDetailsView.descriptionField.text;
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self.exchange saveWithSuccess:^{
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"Success!";
+            
+            EV_DISPATCH_AFTER(1.0, ^(void) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                }];
+            });
+        } failure:^(NSError *error) {
+            DLog(@"failed to create %@", NSStringFromClass([self.exchange class]));
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-            }];
-        });
-    } failure:^(NSError *error) {
-        DLog(@"failed to create %@", NSStringFromClass([self.exchange class]));
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-    }];
+        }];
+    }
 }
 
 - (void)setUpNavBar {
@@ -330,5 +352,7 @@
     [self.initialView addContact:contact];
     [self.autocompleteTableView setHidden:YES];
 }
+
+
 
 @end

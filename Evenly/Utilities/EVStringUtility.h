@@ -26,7 +26,6 @@
 + (NSArray *)attributedStringsForExchange:(EVExchange *)exchange;
 + (NSArray *)attributedStringsForGroupCharge:(EVGroupCharge *)groupCharge;
 + (NSArray *)attributedStringsForWithdrawal:(EVWithdrawal *)withdrawal;
-+ (NSString *)amountStringForAmount:(NSDecimalNumber *)amount;
 + (NSString *)userNameForObject:(EVObject<EVExchangeable> *)object;
 
 + (NSDateFormatter *)detailDateFormatter;
@@ -55,7 +54,11 @@
 
 + (NSString *)cachePathFromURL:(NSURL *)url;
 
-#pragma mark - General 
+#pragma mark - Amounts
++ (NSString *)amountStringForAmount:(NSDecimalNumber *)amount;
++ (NSDecimalNumber *)amountFromAmountString:(NSString *)amountString;
+
+#pragma mark - General
 
 + (NSString *)onString;
 + (NSString *)offString;
