@@ -33,12 +33,17 @@
 - (void)handleFieldInput:(NSString *)text {
     if ([self.textField isFirstResponder]) {
         self.suggestions = [ABContactsHelper contactsWithEmailMatchingName:text];
+        DLog(@"SUGGESTIONS ARE FROM ADDRESS BOOK: %@", self.suggestions);
         [self reloadTableView];
         
         if (!EV_IS_EMPTY_STRING(text)) {
             [EVUser allWithParams:@{ @"query" : text } success:^(id result) {
-                self.suggestions = [self.suggestions arrayByAddingObjectsFromArray:(NSArray *)result];
-                [self reloadTableView];
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    self.suggestions = [self.suggestions arrayByAddingObjectsFromArray:(NSArray *)result];
+                    DLog(@"=========>SUGGESTIONS INCLUDE SERVER: %@", self.suggestions);
+
+                    [self reloadTableView];
+                });
             } failure:^(NSError *error) {
                 DLog(@"error: %@", error);
             }];
@@ -47,6 +52,8 @@
     else {
         [self.tableView setHidden:YES];
         self.suggestions = [NSArray array];
+        DLog(@"0000000000  SUGGESTIONS are empty: %@", self.suggestions);
+
     }
 //    if (!self.exchange.to)
 //        self.exchange.to = [EVUser new];

@@ -145,14 +145,8 @@
 - (void)loadAutocomplete {
     self.autocompleteDataSource = [[EVAutocompleteTableViewDataSource alloc] init];
     
-    float tableHeight = self.initialView.frame.size.height - CGRectGetMaxY(self.initialView.toField.frame) - self.navigationController.navigationBar.bounds.size.height;
-    CGRect tableFrame =  CGRectMake(0,
-                      CGRectGetMaxY(self.initialView.toField.frame),
-                      self.initialView.frame.size.width,
-                      tableHeight);
-    DLog(@"Table frame: %@", NSStringFromCGRect(tableFrame));
-    self.autocompleteTableView = [[UITableView alloc] initWithFrame:tableFrame style:UITableViewStylePlain];
-    
+
+    self.autocompleteTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.autocompleteTableView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
     self.autocompleteTableView.delegate = self;
     self.autocompleteTableView.dataSource = self.autocompleteDataSource;
@@ -165,7 +159,7 @@
     self.autocompleteDataSource.textField = self.initialView.toField.textField;
     [self.autocompleteDataSource setUpReactions];
     
-    [self.initialView addSubview:self.autocompleteTableView];
+    [self.initialView setAutocompleteTableView:self.autocompleteTableView];
     [self.autocompleteTableView setHidden:YES];
 }
 
@@ -223,28 +217,22 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if (scrollView == self.autocompleteTableView) {
-        [self.initialView.toField.textField resignFirstResponder]; // just resign here -- don't exit, so the table doesn't go away.
+        [self.initialView.toField.textField resignFirstResponder];
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     id contact = [self.autocompleteDataSource.suggestions objectAtIndex:indexPath.row];
-    if ([contact isKindOfClass:[EVUser class]]) {
-//		self.exchange.to = contact;
-    }
-    else if ([contact isKindOfClass:[ABContact class]]) {
+    if ([contact isKindOfClass:[ABContact class]]) {
         NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
 		EVContact *toContact = [[EVContact alloc] init];
 		toContact.email = emailAddress;
         toContact.name = [contact contactName];
-//		self.exchange.to = toContact;
         contact = toContact;
     }
     [self.initialView addContact:contact];
     [self.autocompleteTableView setHidden:YES];
 }
-
-
 
 @end

@@ -36,6 +36,11 @@
         [self loadRequestSwitch];
         [self loadToField];
         [self loadInstructionLabel];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleTokenFieldFrameDidChange:)
+                                                     name:JSTokenFieldFrameDidChangeNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -43,6 +48,16 @@
 - (void)addContact:(EVObject<EVExchangeable> *)contact {
     [self.toField addTokenWithTitle:contact.name representedObject:contact];
     self.toField.textField.text = nil;
+}
+
+- (void)setAutocompleteTableView:(UITableView *)autocompleteTableView {
+    if (_autocompleteTableView) {
+        [_autocompleteTableView removeFromSuperview];
+        _autocompleteTableView = nil;
+    }
+    _autocompleteTableView = autocompleteTableView;
+    [self addSubview:_autocompleteTableView];
+    [self positionTableView];    
 }
 
 #pragma mark - View Loading
@@ -107,7 +122,7 @@
     self.instructionLabel = [[UILabel alloc] initWithFrame:CGRectMake(INSTRUCTION_LABEL_BUFFER,
                                                                       CGRectGetMaxY(self.lowerStripe.frame),
                                                                       self.frame.size.width - 2*INSTRUCTION_LABEL_BUFFER,
-                                                                      self.frame.size.height - CGRectGetMaxY(self.toField.frame))];
+                                                                      self.frame.size.height - CGRectGetMaxY(self.toField.frame) - EV_DEFAULT_KEYBOARD_HEIGHT)];
     self.instructionLabel.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     self.instructionLabel.textAlignment = NSTextAlignmentCenter;
     self.instructionLabel.textColor = [EVColor lightLabelColor];
@@ -118,6 +133,16 @@
     self.instructionLabel.text = @"Add friends now or invite them later on.";
     self.instructionLabel.alpha = 0.0;
     [self addSubview:self.instructionLabel];
+}
+
+- (void)positionTableView {
+    float tableHeight = self.frame.size.height - CGRectGetMaxY(self.toField.frame);
+    CGRect tableFrame =  CGRectMake(0,
+                                    CGRectGetMaxY(self.toField.frame),
+                                    self.frame.size.width,
+                                    tableHeight);
+    DLog(@"Table frame: %@", NSStringFromCGRect(tableFrame));
+    [self.autocompleteTableView setFrame:tableFrame];
 }
 
 #pragma mark - First Responder
@@ -198,11 +223,8 @@
 {
 	if ([[note object] isEqual:self.toField])
 	{
-		[UIView animateWithDuration:0.0
-						 animations:^{
-
-						 }
-						 completion:nil];
+        [self.lowerStripe setFrame:CGRectMake(0, CGRectGetMaxY(self.toField.frame) + 2.0, self.frame.size.width, 1)];
+        [self positionTableView];
 	}
 }
 

@@ -172,9 +172,8 @@
         self.newsfeed = newsfeed;
         [self.tableView reloadData];
         [self.tableView.pullToRefreshView stopAnimating];
-        DLog(@"Newsfeed: %@", newsfeed);
     } failure:^(NSError *error) {
-        DLog(@"Error: %@", error);
+
     }];
 }
 
