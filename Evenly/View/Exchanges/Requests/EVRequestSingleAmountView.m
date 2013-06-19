@@ -11,6 +11,7 @@
 
 #define BIG_AMOUNT_CONTAINER_MARGIN 10
 #define BIG_AMOUNT_CONTAINER_HEIGHT 90
+#define INFO_LABEL_HEIGHT 40
 
 @interface EVRequestSingleAmountView ()
 
@@ -28,6 +29,7 @@
     if (self) {
         self.currencyFormatter = [[EVCurrencyTextFieldFormatter alloc] init];
         [self loadBigAmountField];
+        [self loadMinimumAmountLabel];
     }
     return self;
 }
@@ -54,6 +56,19 @@
     self.amountField.keyboardType = UIKeyboardTypeNumberPad;
     self.amountField.delegate = self;
     [self.bigAmountContainer addSubview:self.amountField];
+}
+
+- (void)loadMinimumAmountLabel {
+    self.minimumAmountLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.bigAmountContainer.frame),
+                                                                        CGRectGetMaxY(self.bigAmountContainer.frame) + BIG_AMOUNT_CONTAINER_MARGIN,
+                                                                        self.bigAmountContainer.frame.size.width,
+                                                                        INFO_LABEL_HEIGHT)];
+    self.minimumAmountLabel.font = [EVFont blackFontOfSize:16];
+    self.minimumAmountLabel.backgroundColor = [UIColor clearColor];
+    self.minimumAmountLabel.textColor = [EVColor lightLabelColor];
+    self.minimumAmountLabel.text = @"$0.50 minimum";
+    self.minimumAmountLabel.textAlignment = NSTextAlignmentCenter;
+    [self addSubview:self.minimumAmountLabel];
 }
 
 - (BOOL)isFirstResponder {

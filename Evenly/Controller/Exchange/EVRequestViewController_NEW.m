@@ -232,7 +232,9 @@
         if (!self.isGroupRequest)
         {
             float amount = [[EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text] floatValue];
-            [button setEnabled:(amount >= EV_MINIMUM_EXCHANGE_AMOUNT)];
+            BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
+            [button setEnabled:okay];
+            [self.singleAmountView.minimumAmountLabel setHidden:okay];
         }
     }
     else if (phase == EVRequestPhaseWhatFor)
@@ -346,7 +348,7 @@
         NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
 		EVContact *toContact = [[EVContact alloc] init];
 		toContact.email = emailAddress;
-        toContact.name = [contact contactName];
+        toContact.name = [contact compositeName];
         contact = toContact;
     }
     [self.initialView addContact:contact];

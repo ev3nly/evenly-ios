@@ -162,16 +162,8 @@
 #pragma mark - JSTokenFieldDelegate
 
 - (void)tokenFieldDidEndEditing:(JSTokenField *)tokenField {
-    NSString *text = tokenField.textField.text;
-    if ([text isEmail]) {
-        EVContact *contact = [EVContact new];
-        [contact setEmail:text];
-        [contact setName:text];
-        [self addContact:contact];
-        tokenField.textField.text = nil;
-    }
+    [self addTokenFromField:tokenField];
     
-    // TODO: Support if text is phone number.
 }
 
 - (void)tokenField:(JSTokenField *)tokenField didAddToken:(NSString *)title representedObject:(id)obj
@@ -192,26 +184,7 @@
 }
 
 - (BOOL)tokenFieldShouldReturn:(JSTokenField *)tokenField {
-    NSMutableString *recipient = [NSMutableString string];
-	
-	NSMutableCharacterSet *charSet = [[NSCharacterSet whitespaceCharacterSet] mutableCopy];
-	[charSet formUnionWithCharacterSet:[NSCharacterSet punctuationCharacterSet]];
-	
-    NSString *rawStr = [[tokenField textField] text];
-	for (int i = 0; i < [rawStr length]; i++)
-	{
-		if (![charSet characterIsMember:[rawStr characterAtIndex:i]])
-		{
-			[recipient appendFormat:@"%@",[NSString stringWithFormat:@"%c", [rawStr characterAtIndex:i]]];
-		}
-	}
-    
-    if ([rawStr length])
-	{
-		[tokenField addTokenWithTitle:rawStr representedObject:recipient];
-        [tokenField.textField setText:nil];
-	}
-    
+    [self addTokenFromField:tokenField];
     return NO;
 }
 
@@ -222,6 +195,19 @@
         [self.lowerStripe setFrame:CGRectMake(0, CGRectGetMaxY(self.toField.frame) + 2.0, self.frame.size.width, 1)];
         [self positionTableView];
 	}
+}
+
+- (void)addTokenFromField:(JSTokenField *)tokenField {
+    NSString *text = tokenField.textField.text;
+    if ([text isEmail]) {
+        EVContact *contact = [EVContact new];
+        [contact setEmail:text];
+        [contact setName:text];
+        [self addContact:contact];
+        tokenField.textField.text = nil;
+    }
+    
+    // TODO: Support if text is phone number.
 }
 
 @end

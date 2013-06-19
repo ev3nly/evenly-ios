@@ -13,5 +13,6 @@
 @interface EVRequestSingleAmountView : EVRequestView<UITextFieldDelegate>
 
 @property (nonatomic, strong) EVTextField *amountField;
+@property (nonatomic, strong) UILabel *minimumAmountLabel;
 
 @end
