@@ -37,6 +37,8 @@
         [self loadToField];
         [self loadInstructionLabel];
         
+        [self setUpReactions];
+        
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(handleTokenFieldFrameDidChange:)
                                                      name:JSTokenFieldFrameDidChangeNotification
@@ -73,10 +75,7 @@
     self.requestSwitch = [[EVRequestSwitch alloc] initWithFrame:[self requestSwitchFrame]];
     self.requestSwitch.delegate = self;
     [self.requestSwitchBackground addSubview:self.requestSwitch];
-    
-    [RACAble(self.requestSwitch.xPercentage) subscribeNext:^(NSNumber *percentage) {
-        self.instructionLabel.alpha = [percentage floatValue];
-    }];
+
 }
 
 - (void)switchControl:(EVSwitch *)switchControl willChangeStateTo:(BOOL)onOff animationDuration:(NSTimeInterval)duration {
@@ -144,6 +143,39 @@
     DLog(@"Table frame: %@", NSStringFromCGRect(tableFrame));
     [self.autocompleteTableView setFrame:tableFrame];
 }
+
+- (void)setUpReactions {
+    [RACAble(self.requestSwitch.xPercentage) subscribeNext:^(NSNumber *percentage) {
+        self.instructionLabel.alpha = [percentage floatValue];
+    }];
+    
+    // JH: I couldn't figure out a way to do this using ReactiveCocoa, so I just went back
+    // to the old-fashioned KVO.  If anybody wants to get modern with this, please feel free.
+    [self addObserver:self
+           forKeyPath:@"recipientCount"
+              options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
+              context:NULL];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (object == self && [keyPath isEqualToString:@"recipientCount"])
+    {
+        int oldCount = [[change objectForKey:NSKeyValueChangeOldKey] intValue];
+        int newCount = [[change objectForKey:NSKeyValueChangeNewKey] intValue];
+        if (oldCount == 1 && newCount == 2)
+        {
+            [self.requestSwitch setOn:YES animated:YES];
+            self.didForceSwitchToGroup = YES;
+        }
+        else if (oldCount == 2 && newCount == 1 && self.didForceSwitchToGroup)
+        {
+            [self.requestSwitch setOn:NO animated:YES];
+            self.didForceSwitchToGroup = NO;
+        }
+    }
+}
+
+
 
 #pragma mark - First Responder
 
