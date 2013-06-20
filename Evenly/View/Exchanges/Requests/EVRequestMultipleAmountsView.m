@@ -147,7 +147,7 @@
         NSMutableArray *tmpTiers = [[NSMutableArray alloc] initWithCapacity:[self.optionCells count]];
         for (EVGroupRequestAmountCell *cell in self.optionCells) {
             EVGroupChargeTier *tier = [[EVGroupChargeTier alloc] init];
-            tier.price = [EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text];
+            tier.price = [EVStringUtility amountFromAmountString:cell.optionAmountField.text];
             tier.name = cell.optionNameField.text;
             [tmpTiers addObject:tier];
         }
