@@ -8,6 +8,8 @@
 
 #import "EVObject.h"
 
+@class EVExchange;
+
 typedef enum {
     EVStoryTypeNotInvolved,
     EVStoryTypePendingIncoming,
@@ -34,5 +36,7 @@ typedef enum {
 @property (nonatomic, readonly) NSAttributedString *attributedString;
 @property (nonatomic, readonly) EVStoryType storyType;
 @property (nonatomic, readonly) NSString *likeButtonString;
+
++ (EVStory *)storyFromPendingExchange:(EVExchange *)exchange;
 
 @end
