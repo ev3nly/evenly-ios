@@ -68,7 +68,10 @@
                                                                      CGRectGetMaxY(self.segmentedControl.frame),
                                                                      self.frame.size.width,
                                                                      EV_DEFAULT_KEYBOARD_HEIGHT - CGRectGetMaxY(self.segmentedControl.frame))];
-    [self addSubview:self.singleAmountView];    
+    [self addSubview:self.singleAmountView];
+    [self.singleAmountView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
+        [self validate];
+    }];
 }
 
 - (void)loadMultipleAmountsView {
@@ -112,18 +115,37 @@
 }
 
 - (void)validate {
+    if (self.segmentedControl.selectedSegmentIndex == EVRequestAmountsSingle)
+    {
+        float amount = [[EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text] floatValue];
+        self.isValid = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
+    }
+    else
+    {
+        BOOL isAllGood = YES;
+        for (EVGroupRequestAmountCell *cell in self.optionCells) {
+            float amount = [[EVStringUtility amountFromAmountString:cell.optionAmountField.text] floatValue];
+            if (amount < EV_MINIMUM_EXCHANGE_AMOUNT)
+            {
+                isAllGood = NO;
+                break;
+            }
+        }
+        self.isValid = isAllGood;
+    }
 }
 
 #pragma mark - Controls
 
 - (void)segmentedControlChanged:(EVSegmentedControl *)sender {
-    if (sender.selectedSegmentIndex == 0) {
+    if (sender.selectedSegmentIndex == EVRequestAmountsSingle) {
         [self addSubview:self.singleAmountView];
         [self.multipleAmountsView removeFromSuperview];
     } else {
         [self addSubview:self.multipleAmountsView];
         [self.singleAmountView removeFromSuperview];
     }
+    [self validate];
 }
 
 - (void)deleteButtonPress:(UIButton *)sender {

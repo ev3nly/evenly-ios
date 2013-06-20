@@ -211,8 +211,10 @@
     [self.singleAmountView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
         [self validateForPhase:EVRequestPhaseHowMuch];
     }];
-    
     // Multiple:
+    [RACAble(self.multipleAmountsView.isValid) subscribeNext:^(NSNumber *isValid) {
+        [self validateForPhase:EVRequestPhaseHowMuch];
+    }];
     
     // THIRD SCREEN:
     // Single
@@ -239,6 +241,10 @@
             BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
             [button setEnabled:okay];
             [self.singleAmountView.minimumAmountLabel setHidden:okay];
+        }
+        else
+        {
+            [button setEnabled:self.multipleAmountsView.isValid];
         }
     }
     else if (phase == EVRequestPhaseWhatFor)

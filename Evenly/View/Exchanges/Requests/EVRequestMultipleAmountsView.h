@@ -12,6 +12,11 @@
 #import "EVSegmentedControl.h"
 #import "EVTextField.h"
 
+typedef enum {
+    EVRequestAmountsSingle = 0,
+    EVRequestAmountsMultiple
+} EVRequestAmounts;
+
 @interface EVRequestMultipleAmountsView : EVRequestView <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UILabel *headerLabel;

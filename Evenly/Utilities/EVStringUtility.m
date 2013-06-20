@@ -303,6 +303,8 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSDecimalNumber *)amountFromAmountString:(NSString *)amountString {
+    if (EV_IS_EMPTY_STRING(amountString))
+        return [NSDecimalNumber zero];
     return [NSDecimalNumber decimalNumberWithString:[amountString stringByReplacingOccurrencesOfString:@"$"
                                                                                             withString:@""]];
 }
