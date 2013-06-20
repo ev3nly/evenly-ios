@@ -90,6 +90,15 @@
     return NO;
 }
 
+- (UIImage *)avatar {
+    if (self.to) {
+        return self.to.avatar;
+    } else if (self.from) {
+        return self.from.avatar;
+    }
+    return nil;
+}
+
 #pragma mark - Overrides
 
 - (void)validate {
