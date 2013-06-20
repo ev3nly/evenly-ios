@@ -26,8 +26,8 @@
     [properties setObject:exchange.memo forKey:@"description"];
     [properties setObject:exchange.createdAt forKey:@"published_at"];
     [properties setObject:exchange.amount forKey:@"amount"];
-    [properties setObject:exchange.from forKey:@"subject"];
-    [properties setObject:[EVCIA me] forKey:@"target"];
+    [properties setObject:(exchange.from ?: [EVCIA me]) forKey:@"subject"];
+    [properties setObject:(exchange.to ?: [EVCIA me]) forKey:@"target"];
     [properties setObject:@"User" forKey:@"owner_type"];
     [properties setObject:[EVCIA me].dbid forKey:@"owner_id"];
     
@@ -67,7 +67,7 @@
     // Target
     if (properties[@"target"] != [NSNull null])
     {
-        if ([properties[@"target"] isKindOfClass:[EVUser class]])
+        if ([properties[@"target"] conformsToProtocol:@protocol(EVExchangeable)])
             self.target = properties[@"target"];
         else {
             NSDictionary *target = properties[@"target"];

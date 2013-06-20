@@ -16,5 +16,6 @@
 @property (nonatomic, strong) EVObject<EVExchangeable> *to;
 @property (nonatomic, strong) EVObject<EVExchangeable> *from;
 @property (nonatomic, readonly) BOOL isIncoming;
+@property (nonatomic, readonly) UIImage *avatar;
 
 @end

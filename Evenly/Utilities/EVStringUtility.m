@@ -40,10 +40,19 @@ static NSDateFormatter *_shortDateFormatter;
     return _shortDateFormatter;
 }
 
+#pragma mark - Interaction Strings
+
++ (NSString *)stringForInteraction:(EVObject *)interaction {
+    if ([interaction isKindOfClass:[EVExchange class]])
+        return [self stringForExchange:(EVExchange *)interaction];
+    else if ([interaction isKindOfClass:[EVGroupCharge class]])
+        return [self stringForGroupCharge:(EVGroupCharge *)interaction];
+    return nil;
+}
+
+#pragma mark - Exchanges
 
 + (NSString *)stringForExchange:(EVExchange *)exchange {
-//    if ([exchange isKindOfClass:[EVGroupCharge class]])
-//        return [self stringForGroupCharge:(EVGroupCharge *)exchange];
     
     NSDictionary *components = [self subjectVerbAndObjectForExchange:exchange];
     NSString *string = [NSString stringWithFormat:@"%@ %@ %@ %@ for %@\u00A0\u00A0\u00A0•\u00A0\u00A0\u00A0%@",
@@ -56,14 +65,11 @@ static NSDateFormatter *_shortDateFormatter;
     return string;
 }
 
-//+ (NSString *)stringForGroupCharge:(EVGroupCharge *)groupCharge {
-//    
-//}
-
 + (NSDictionary *)subjectVerbAndObjectForExchange:(EVExchange *)exchange {
     NSString *subject;
     NSString *object;
     NSString *verb;
+    
     if ([exchange isKindOfClass:[EVPayment class]]) {
         verb = @"paid";
         if (exchange.from == nil) {
@@ -87,7 +93,41 @@ static NSDateFormatter *_shortDateFormatter;
     return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
 }
 
+#pragma mark - Group Charges
 
++ (NSString *)stringForGroupCharge:(EVGroupCharge *)groupCharge {
+    NSDictionary *components = [self subjectVerbAndObjectForGroupCharge:groupCharge];
+    NSString *string = [NSString stringWithFormat:@"%@ %@ %@ for %@\u00A0\u00A0\u00A0•\u00A0\u00A0\u00A0%@",
+                        components[@"subject"],
+                        components[@"verb"],
+                        components[@"object"],
+                        groupCharge.title,
+                        [[self shortDateFormatter] stringFromDate:groupCharge.createdAt]];
+    return string;
+}
+
++ (NSDictionary *)subjectVerbAndObjectForGroupCharge:(EVGroupCharge *)groupCharge {
+    NSString *subject;
+    NSString *object;
+    NSString *verb;
+    if (groupCharge.from == nil) {
+        subject = [self stringForNumberOfPeople:[groupCharge.records count]];
+        object = @"You";
+        verb = ([groupCharge.records count] == 1 ? @"owes" : @"owe");
+    } else {
+        subject = @"You";
+        object = groupCharge.from.name;
+        verb = @"owe";
+    }
+    return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
+}
+
++ (NSString *)stringForNumberOfPeople:(NSInteger)numberOfPeople {
+    if (numberOfPeople == 1) {
+        return @"1 person";
+    }
+    return [NSString stringWithFormat:@"%d people", numberOfPeople];
+}
 
 + (NSArray *)attributedStringsForObject:(EVObject *)object {
 	if ([object isKindOfClass:[EVExchange class]])

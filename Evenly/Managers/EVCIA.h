@@ -43,6 +43,7 @@ extern NSString *const EVCIAUpdatedExchangesNotification;
 
 - (void)reloadAllExchangesWithCompletion:(void (^)(void))completion;
 
+- (NSArray *)pendingExchanges;
 - (NSArray *)pendingReceivedExchanges;
 - (NSArray *)pendingSentExchanges;
 - (NSArray *)history;
