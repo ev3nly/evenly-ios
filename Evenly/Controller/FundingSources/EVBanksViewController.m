@@ -50,7 +50,7 @@
     return [[EVCIA sharedInstance] loadingBankAccounts];
 }
 
-- (void)configureAddNewCell:(EVGroupTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+- (void)configureAddNewCell:(EVGroupedTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     cell.textLabel.text = @"Add Bank Account";
 }
 

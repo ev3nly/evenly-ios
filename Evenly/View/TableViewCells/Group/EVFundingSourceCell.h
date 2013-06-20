@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVGroupTableViewCell.h"
+#import "EVGroupedTableViewCell.h"
 
 @class EVFundingSource;
 
-@interface EVFundingSourceCell : EVGroupTableViewCell
+@interface EVFundingSourceCell : EVGroupedTableViewCell
 
 - (void)setUpWithFundingSource:(EVFundingSource *)fundingSource;
 

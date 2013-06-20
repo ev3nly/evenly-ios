@@ -1,24 +1,24 @@
 //
-//  EVGroupTableViewCell.m
+//  EVGroupedTableViewCell.m
 //  Evenly
 //
 //  Created by Joseph Hankin on 6/14/13.
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVGroupTableViewCell.h"
+#import "EVGroupedTableViewCell.h"
 
-@implementation EVGroupTableViewCell
+@implementation EVGroupedTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        EVGroupTableViewCellBackground *background = [[EVGroupTableViewCellBackground alloc] initWithFrame:self.bounds];
+        EVGroupedTableViewCellBackground *background = [[EVGroupedTableViewCellBackground alloc] initWithFrame:self.bounds];
         background.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         self.backgroundView = background;
         
-        EVGroupTableViewCellBackground *selectedBackground = [[EVGroupTableViewCellBackground alloc] initWithFrame:self.bounds];
+        EVGroupedTableViewCellBackground *selectedBackground = [[EVGroupedTableViewCellBackground alloc] initWithFrame:self.bounds];
         selectedBackground.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         selectedBackground.fillColor = [EVColor newsfeedButtonHighlightColor];
         self.selectedBackgroundView = selectedBackground;
@@ -26,10 +26,10 @@
     return self;
 }
 
-- (void)setPosition:(EVGroupTableViewCellPosition)position {
+- (void)setPosition:(EVGroupedTableViewCellPosition)position {
     _position = position;
-    [(EVGroupTableViewCellBackground *)self.backgroundView setPosition:_position];
-    [(EVGroupTableViewCellBackground *)self.selectedBackgroundView setPosition:_position];
+    [(EVGroupedTableViewCellBackground *)self.backgroundView setPosition:_position];
+    [(EVGroupedTableViewCellBackground *)self.selectedBackgroundView setPosition:_position];
     [self.backgroundView setNeedsDisplay];
 }
 
@@ -44,7 +44,7 @@
 
 #define CORNER_RADIUS 2.0
 
-@implementation EVGroupTableViewCellBackground
+@implementation EVGroupedTableViewCellBackground
 
 - (id)initWithFrame:(CGRect)frame {
     self =[super initWithFrame:frame];
@@ -59,7 +59,7 @@
 - (void)drawRect:(CGRect)rect {
     UIBezierPath *path = [UIBezierPath bezierPath];
 
-    if (self.position == EVGroupTableViewCellPositionTop)
+    if (self.position == EVGroupedTableViewCellPositionTop)
     {
         
         /*
@@ -88,7 +88,7 @@
         [path addLineToPoint:CGPointMake(rect.origin.x, CGRectGetMaxY(rect))];
 
     }
-    else if (self.position == EVGroupTableViewCellPositionCenter) 
+    else if (self.position == EVGroupedTableViewCellPositionCenter) 
     {
         /*
          
@@ -105,7 +105,7 @@
         [path addLineToPoint:CGPointMake(CGRectGetMaxX(rect), CGRectGetMaxY(rect))];
         [path addLineToPoint:CGPointMake(CGRectGetMaxX(rect), rect.origin.y)];
     }
-    else if (self.position == EVGroupTableViewCellPositionBottom)
+    else if (self.position == EVGroupedTableViewCellPositionBottom)
     {
         
         /*
@@ -132,7 +132,7 @@
         [path addLineToPoint:CGPointMake(CGRectGetMaxX(rect), rect.origin.y)];
 
     }
-    else if (self.position == EVGroupTableViewCellPositionSingle)
+    else if (self.position == EVGroupedTableViewCellPositionSingle)
     {
         /*
          If there's only one cell, just do a simple rounded rect.

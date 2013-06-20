@@ -59,7 +59,7 @@
     return [[EVCIA sharedInstance] loadingCreditCards];
 }
 
-- (void)configureAddNewCell:(EVGroupTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+- (void)configureAddNewCell:(EVGroupedTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == EVCardsAddNewRowCredit)
         cell.textLabel.text = @"Add Credit Card";
     else

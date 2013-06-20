@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVGroupTableViewCell.h"
+#import "EVGroupedTableViewCell.h"
 
-@interface EVHistoryCell : EVGroupTableViewCell
+@interface EVHistoryCell : EVGroupedTableViewCell
 
 + (float)heightGivenSubtitle:(NSString *)subtitle;
 - (void)setTitle:(NSString *)title subtitle:(NSString *)subtitle amount:(NSDecimalNumber *)amount;
