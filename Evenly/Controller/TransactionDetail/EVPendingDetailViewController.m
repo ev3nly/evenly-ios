@@ -8,6 +8,9 @@
 
 #import "EVPendingDetailViewController.h"
 #import "EVPendingDetailCell.h"
+#import "EVStory.h"
+#import "EVCharge.h"
+#import "EVPayment.h"
 
 @interface EVPendingDetailViewController ()
 
@@ -17,9 +20,9 @@
 
 #pragma mark - Lifecycle
 
-- (id)initWithStory:(EVStory *)story {
+- (id)initWithExchange:(EVExchange *)exchange {
     if (self = [super initWithNibName:nil bundle:nil]) {
-        self.story = story;
+        self.exchange = exchange;
         self.title = @"Transaction";
     }
     return self;
@@ -44,6 +47,54 @@
     [self.view addSubview:self.tableView];
 }
 
+#pragma mark - Take Action
+
+- (void)confirmCharge {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    if ([self.exchange isKindOfClass:[EVCharge class]]) {
+        EVCharge *charge = (EVCharge *)self.exchange;
+        [charge completeWithSuccess:^{
+            
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"Success!";
+            
+            EV_DISPATCH_AFTER(1.0, ^(void){
+                [hud hide:YES];
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                    
+                }];
+            });
+        } failure:^(NSError *error) {
+            [hud hide:YES];
+            DLog(@"failed to complete charge");
+        }];
+    }
+}
+
+- (void)denyCharge {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+    if ([self.exchange isKindOfClass:[EVCharge class]]) {
+        EVCharge *charge = (EVCharge *)self.exchange;
+        [charge denyWithSuccess:^{
+            
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"Success!";
+            
+            EV_DISPATCH_AFTER(1.0, ^(void){
+                [hud hide:YES];
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                    
+                }];
+            });
+        } failure:^(NSError *error) {
+            [hud hide:YES];
+            DLog(@"failed to complete charge");
+        }];
+    }
+}
+
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -51,12 +102,12 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [EVPendingDetailCell cellHeightForStory:self.story];
+    return [EVPendingDetailCell cellHeightForStory:[EVStory storyFromPendingExchange:self.exchange]];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVPendingDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"pendingDetailCell" forIndexPath:indexPath];
-    cell.story = self.story;
+    cell.story = [EVStory storyFromPendingExchange:self.exchange];
     return cell;
 }
 

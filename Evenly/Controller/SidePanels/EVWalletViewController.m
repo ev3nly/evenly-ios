@@ -314,8 +314,7 @@
 
     if (tableView == self.pendingTableView) {
         EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
-        EVStory *story = [EVStory storyFromPendingExchange:exchange];
-        EVPendingDetailViewController *pendingController = [[EVPendingDetailViewController alloc] initWithStory:story];
+        EVPendingDetailViewController *pendingController = [[EVPendingDetailViewController alloc] initWithExchange:exchange];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pendingController];
         [self presentViewController:navController animated:YES completion:nil];
     }

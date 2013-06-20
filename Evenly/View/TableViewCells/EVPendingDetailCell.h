@@ -8,6 +8,10 @@
 
 #import "EVTransactionDetailCell.h"
 
+@class EVPendingDetailViewController;
+
 @interface EVPendingDetailCell : EVTransactionDetailCell
+
+@property (nonatomic, weak) EVPendingDetailViewController *parent;
 
 @end

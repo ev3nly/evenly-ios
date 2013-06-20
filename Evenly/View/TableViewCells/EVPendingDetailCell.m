@@ -7,6 +7,7 @@
 //
 
 #import "EVPendingDetailCell.h"
+#import "EVPendingDetailViewController.h"
 
 #define PENDING_BUTTON_BUFFER 10
 #define PENDING_BOTTOM_SECTION_HEIGHT ([EVImages grayButtonBackground].size.height + PENDING_BUTTON_BUFFER*2)
@@ -57,7 +58,7 @@
     self.rejectButton = [UIButton new];
     [self.rejectButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
     [self.rejectButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
-    [self.rejectButton addTarget:self action:@selector(rejectButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.rejectButton addTarget:self.parent action:@selector(denyCharge) forControlEvents:UIControlEventTouchUpInside];
     [self.rejectButton setTitle:@"REJECT" forState:UIControlStateNormal];
     [self.rejectButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
     self.rejectButton.titleLabel.font = PENDING_BUTTON_FONT;
@@ -68,7 +69,7 @@
     self.confirmButton = [UIButton new];
     [self.confirmButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
     [self.confirmButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
-    [self.confirmButton addTarget:self action:@selector(confirmButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.confirmButton addTarget:self.parent action:@selector(confirmCharge) forControlEvents:UIControlEventTouchUpInside];
     [self.confirmButton setTitle:@"PAY" forState:UIControlStateNormal];
     [self.confirmButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
     self.confirmButton.titleLabel.textColor = [EVColor darkLabelColor];
@@ -86,16 +87,6 @@
     id rightAvatar = self.rightAvatarView.avatarOwner;
     self.avatarView.avatarOwner = rightAvatar;
     self.rightAvatarView.avatarOwner = leftAvatar;
-}
-
-#pragma mark - Button Handling
-
-- (void)rejectButtonTapped {
-    NSLog(@"reject");
-}
-
-- (void)confirmButtonTapped {
-    NSLog(@"confirm");
 }
 
 #pragma mark - Frames
