@@ -39,12 +39,6 @@ static EVUser *_me;
 @synthesize avatar;
 @synthesize avatarURL;
 
-- (id)initWithDictionary:(NSDictionary *)dictionary {
-    if ([[EVUtilities dbidFromDictionary:dictionary] isEqualToString:_me.dbid])
-        return _me;
-    return [super initWithDictionary:dictionary];
-}
-
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     
@@ -105,11 +99,20 @@ static EVUser *_me;
     if (reload || _me == nil) {
         [EVMe allWithSuccess:^(id result){
             
+            
             //setting properties on existing me because ReactiveCocoa depends on this.
             //this might not be the right call, in the long term.
-            [_me setProperties:[result originalDictionary]];
+            if (_me) {
+                [_me setProperties:[result originalDictionary]];
+            } else {
+                _me = [[EVMe alloc] initWithDictionary:[result originalDictionary]];
+            }
             
-            [[EVCIA sharedInstance] setMe:_me];
+            if ([[EVCIA sharedInstance] me]) {
+                [[[EVCIA sharedInstance] me] setProperties:[result originalDictionary]];
+                [[EVCIA sharedInstance] cacheMe];
+            } else
+                [[EVCIA sharedInstance] setMe:_me];
             
             if (success)
                 success();
