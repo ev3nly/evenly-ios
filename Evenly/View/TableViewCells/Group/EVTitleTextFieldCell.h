@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVGroupTableViewCell.h"
+#import "EVGroupedTableViewCell.h"
 #import "EVTextField.h"
 
-@interface EVTitleTextFieldCell : EVGroupTableViewCell
+@interface EVTitleTextFieldCell : EVGroupedTableViewCell
 
 @property (nonatomic, strong) EVTextField *textField;
 

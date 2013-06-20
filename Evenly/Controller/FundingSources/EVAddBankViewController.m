@@ -92,7 +92,7 @@
     cell.textField.tag = index++;
     cell.textField.delegate = self;
     self.ownerNameCell = cell;
-    self.ownerNameCell.position = EVGroupTableViewCellPositionTop;
+    self.ownerNameCell.position = EVGroupedTableViewCellPositionTop;
     
     cell = [[EVTitleTextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -102,7 +102,7 @@
     cell.textField.tag = index++;
     cell.textField.delegate = self;
     self.routingNumberCell = cell;
-    self.routingNumberCell.position = EVGroupTableViewCellPositionCenter;
+    self.routingNumberCell.position = EVGroupedTableViewCellPositionCenter;
     self.ownerNameCell.textField.next = self.routingNumberCell.textField;
     
     cell = [[EVTitleTextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
@@ -113,7 +113,7 @@
     cell.textField.tag = index++;
     cell.textField.delegate = self;
     self.accountNumberCell = cell;
-    self.accountNumberCell.position = EVGroupTableViewCellPositionCenter;
+    self.accountNumberCell.position = EVGroupedTableViewCellPositionCenter;
     self.routingNumberCell.textField.next = self.accountNumberCell.textField;
 
     cell = [[EVTitleTextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
@@ -124,7 +124,7 @@
     cell.textField.tag = index++;
     cell.textField.delegate = self;
     self.accountTypeCell = cell;
-    self.accountTypeCell.position = EVGroupTableViewCellPositionBottom;
+    self.accountTypeCell.position = EVGroupedTableViewCellPositionBottom;
     self.accountNumberCell.textField.next = self.accountTypeCell.textField;
 }
 
