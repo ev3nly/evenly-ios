@@ -42,6 +42,7 @@
 #pragma mark - Animation
 
 #define EV_DEFAULT_ANIMATION_DURATION 0.25f
+#define EV_DEFAULT_KEYBOARD_HEIGHT 216
 
 #pragma mark - Exchange Fields
 
@@ -71,3 +72,4 @@ typedef enum {
 } EVPrivacySetting;
 
 #define EV_MINIMUM_DEPOSIT_AMOUNT 0.50
+#define EV_MINIMUM_EXCHANGE_AMOUNT 0.50

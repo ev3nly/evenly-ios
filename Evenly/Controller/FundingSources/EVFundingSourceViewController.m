@@ -72,17 +72,17 @@
     return 1;
 }
 
-- (EVGroupTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {
+- (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {
     NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:indexPath.section];
     if (rowCount <= 1)
-        return EVGroupTableViewCellPositionSingle;
+        return EVGroupedTableViewCellPositionSingle;
     else {
         if (indexPath.row == 0)
-            return EVGroupTableViewCellPositionTop;
+            return EVGroupedTableViewCellPositionTop;
         else if (indexPath.row == rowCount - 1)
-            return EVGroupTableViewCellPositionBottom;
+            return EVGroupedTableViewCellPositionBottom;
         else
-            return EVGroupTableViewCellPositionCenter;
+            return EVGroupedTableViewCellPositionCenter;
     }
 }
 
@@ -95,11 +95,11 @@
         if ([self isLoading])
         {
             cell.textLabel.text = @"loading...";
-            cell.position = EVGroupTableViewCellPositionSingle;
+            cell.position = EVGroupedTableViewCellPositionSingle;
         }
         else if ([self.fundingSources count] == 0) {
             cell.textLabel.text = [self noFundingSourcesAddedString];
-            cell.position = EVGroupTableViewCellPositionSingle;
+            cell.position = EVGroupedTableViewCellPositionSingle;
         }
         else
         {
@@ -216,7 +216,7 @@
     // abstract
 }
 
-- (void)configureAddNewCell:(EVGroupTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+- (void)configureAddNewCell:(EVGroupedTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     // abstract
 }
 

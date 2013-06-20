@@ -83,17 +83,17 @@ static NSDateFormatter *_dateFormatter = nil;
     return [self.exchanges count];
 }
 
-- (EVGroupTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {
+- (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {
     NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:indexPath.section];
     if (rowCount <= 1)
-        return EVGroupTableViewCellPositionSingle;
+        return EVGroupedTableViewCellPositionSingle;
     else {
         if (indexPath.row == 0)
-            return EVGroupTableViewCellPositionTop;
+            return EVGroupedTableViewCellPositionTop;
         else if (indexPath.row == rowCount - 1)
-            return EVGroupTableViewCellPositionBottom;
+            return EVGroupedTableViewCellPositionBottom;
         else
-            return EVGroupTableViewCellPositionCenter;
+            return EVGroupedTableViewCellPositionCenter;
     }
 }
 
