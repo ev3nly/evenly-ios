@@ -3,34 +3,34 @@
 <plist version="1.0">
 <dict>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>C09E1D7D-1EF8-4B9F-B061-AFEC68765052</string>
+	<string>CCC69CF2-5FA2-447E-8F45-A88FF76DE6D8</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Evenly</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>62DDE4C6-1B02-4F44-9BFA-A13EFF391E87</key>
-		<string>ssh://github.com/ev3nly/evenly-ios.git</string>
+		<key>891D584C-F028-4F2C-A014-697E159E9738</key>
+		<string>https://github.com/ev3nly/evenly-ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Evenly.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>62DDE4C6-1B02-4F44-9BFA-A13EFF391E87</key>
+		<key>891D584C-F028-4F2C-A014-697E159E9738</key>
 		<string>..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/ev3nly/evenly-ios.git</string>
+	<string>https://github.com/ev3nly/evenly-ios.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>62DDE4C6-1B02-4F44-9BFA-A13EFF391E87</string>
+	<string>891D584C-F028-4F2C-A014-697E159E9738</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>62DDE4C6-1B02-4F44-9BFA-A13EFF391E87</string>
+			<string>891D584C-F028-4F2C-A014-697E159E9738</string>
 			<key>IDESourceControlWCCName</key>
 			<string>evenly-ios</string>
 		</dict>

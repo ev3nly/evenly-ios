@@ -8,18 +8,14 @@
 
 #import "EVStoryCell.h"
 
-#import <FormatterKit/TTTTimeIntervalFormatter.h>
-
 #define EV_STORY_CELL_BACKGROUND_MARGIN 12.0
-#define EV_STORY_CELL_INTERIOR_MARGIN 10.0
 #define EV_STORY_CELL_LABEL_WIDTH 200.0
 #define EV_STORY_CELL_LABEL_HEIGHT 44.0
 
-#define EV_STORY_CELL_HORIZONTAL_RULE_Y (self.tombstoneBackground.frame.size.height - EV_STORY_CELL_VERTICAL_RULE_HEIGHT)
+#define EV_STORY_CELL_HORIZONTAL_RULE_Y (self.tombstoneBackground.frame.size.height - [self bottomSectionHeight])
 #define EV_STORY_CELL_VERTICAL_RULE_X (self.tombstoneBackground.image.size.width/2)
-#define EV_STORY_CELL_VERTICAL_RULE_HEIGHT 36.0
 
-static TTTTimeIntervalFormatter *_timeIntervalFormatter;
+#define EV_STORY_CELL_INCOME_ICON_BUFFER 8
 
 @interface EVStoryCell ()
 
@@ -41,18 +37,21 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     return 112.0;
 }
 
+static TTTTimeIntervalFormatter *_timeIntervalFormatter;
+
++ (TTTTimeIntervalFormatter *)timeIntervalFormatter {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
+    });
+    return _timeIntervalFormatter;
+}
+
 #pragma mark - Lifecycle
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            _timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
-        });
-        
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor clearColor];
         
@@ -62,7 +61,8 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
         [self loadRules];
         [self loadDateLabel];
         [self loadLikeButton];
-        
+        [self loadIncomeIcon];
+
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
@@ -79,6 +79,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     self.verticalRule.frame = [self verticalRuleFrame];
     self.dateLabel.frame = [self dateLabelFrame];
     self.likeButton.frame = [self likeButtonFrame];
+    self.incomeIcon.frame = [self incomeIconFrame];
 }
 
 #pragma mark - Loading
@@ -117,7 +118,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 - (void)loadDateLabel {
     self.dateLabel = [UILabel new];
     self.dateLabel.textAlignment = NSTextAlignmentCenter;
-    self.dateLabel.font = [EVFont boldFontOfSize:14];
+    self.dateLabel.font = EV_STORY_CELL_DATE_LABEL_FONT;
     self.dateLabel.textColor = [EVColor newsfeedButtonLabelColor];
     self.dateLabel.backgroundColor = [UIColor clearColor];
     [self.tombstoneBackground addSubview:self.dateLabel];
@@ -130,6 +131,13 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     [self.tombstoneBackground addSubview:self.likeButton];
 }
 
+- (void)loadIncomeIcon {
+    self.incomeIcon = [[UIImageView alloc] initWithImage:[EVImages incomeIcon]];
+    [self.tombstoneBackground addSubview:self.incomeIcon];
+}
+
+#pragma mark - Button Handling
+
 - (void)likeButtonPress:(id)sender {
     self.likeButton.selected = !self.likeButton.selected;
     [self.story setLiked:!self.story.liked];
@@ -140,13 +148,39 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 - (void)setStory:(EVStory *)story {
     _story = story;
-    [self.avatarView setAvatarOwner:[story subject]];
+    
+    if ([[story.subject dbid] isEqualToString:[EVCIA me].dbid] && story.target)
+        self.avatarView.avatarOwner = story.target;
+    else
+        self.avatarView.avatarOwner = story.subject;
     
     self.storyLabel.attributedText = [story attributedString];
-    self.dateLabel.text = [_timeIntervalFormatter stringForTimeIntervalFromDate:[NSDate date]
+    self.dateLabel.text = [[[self class] timeIntervalFormatter] stringForTimeIntervalFromDate:[NSDate date]
                                                                          toDate:[story publishedAt]];
+    self.incomeIcon.image = [self iconForStoryType:story.storyType];
     [self.likeButton setSelected:story.liked];
     [self.likeButton setTitle:[story likeButtonString]];
+}
+
+#pragma mark - Utility
+
+- (UIImage *)iconForStoryType:(EVStoryType)type {
+    switch (type) {
+        case EVStoryTypeNotInvolved:
+            return [EVImages transferIcon];
+        case EVStoryTypeIncoming:
+            return [EVImages incomeIcon];
+        case EVStoryTypeOutgoing:
+            return [EVImages paymentIcon];
+        case EVStoryTypePendingIncoming:
+            return [EVImages pendingIncomeIcon];
+        case EVStoryTypePendingOutgoing:
+            return [EVImages pendingPaymentIcon];
+        case EVStoryTypeWithdrawal:
+            return [EVImages transferIcon];
+        default:
+            return nil;
+    }
 }
 
 #pragma mark - Frames
@@ -200,6 +234,18 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
                              self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
     rect = CGRectInset(rect, 1, 1);
     return rect;
+}
+
+- (CGRect)incomeIconFrame {
+    CGSize iconSize = self.incomeIcon.image.size;
+    return CGRectMake(self.tombstoneBackground.bounds.size.width - iconSize.width - EV_STORY_CELL_INCOME_ICON_BUFFER,
+                      EV_STORY_CELL_INCOME_ICON_BUFFER,
+                      iconSize.width,
+                      iconSize.height);
+}
+
+- (float)bottomSectionHeight {
+    return EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
 }
 
 @end
