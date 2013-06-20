@@ -19,6 +19,7 @@
 #import "ABContactsHelper.h"
 
 #import "EVCharge.h"
+#import "EVGroupCharge.h"
 
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
@@ -155,6 +156,9 @@
     self.singleAmountView = [[EVRequestSingleAmountView alloc] initWithFrame:[self contentViewFrame]];
     self.singleAmountView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
+    self.multipleAmountsView = [[EVRequestMultipleAmountsView alloc] initWithFrame:[self.view bounds]];
+    self.multipleAmountsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    
     self.singleDetailsView = [[EVRequestDetailsView alloc] initWithFrame:[self.view bounds]];
     self.singleDetailsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;    
     [self.singleDetailsView addSubview:self.privacySelector];
@@ -272,7 +276,8 @@
         }
         else
         {
-            
+            self.exchange = [[EVGroupCharge alloc] init];
+            [self pushView:self.multipleAmountsView animated:YES];
         }
         self.phase = EVRequestPhaseHowMuch;
     }
