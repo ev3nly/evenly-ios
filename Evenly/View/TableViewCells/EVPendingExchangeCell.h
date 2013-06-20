@@ -15,7 +15,7 @@
 @property (nonatomic, strong) EVAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *label;
 
-+ (CGSize)sizeForExchange:(EVExchange *)exchange;
++ (CGSize)sizeForInteraction:(EVObject *)object;
 
 @end
 

@@ -199,7 +199,7 @@
         if ([self hasPendingExchanges])
         {
             EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
-            return [EVPendingExchangeCell sizeForExchange:exchange].height;
+            return [EVPendingExchangeCell sizeForInteraction:exchange].height;
         }
     }
     return 44.0;
@@ -225,10 +225,9 @@
                                                                                                            forIndexPath:indexPath];
         EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
         [cell.avatarView setImage:[[exchange from] avatar]];
-        NSString *text = [EVStringUtility stringForExchange:exchange];
+        NSString *text = [EVStringUtility stringForInteraction:exchange];
         cell.label.text = text;
-        [cell.label sizeToFit];
-        
+//        [cell.label sizeToFit];        
     }
     else
     {
@@ -313,10 +312,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if (tableView == self.pendingTableView) {
-        EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
-        EVPendingDetailViewController *pendingController = [[EVPendingDetailViewController alloc] initWithExchange:exchange];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pendingController];
-        [self presentViewController:navController animated:YES completion:nil];
+        EVObject *interaction = (EVObject *)[[self pendingExchanges] objectAtIndex:indexPath.row];
+        if ([interaction isKindOfClass:[EVExchange class]])
+        {
+            EVPendingDetailViewController *pendingController = [[EVPendingDetailViewController alloc] initWithExchange:(EVExchange *)interaction];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pendingController];
+            [self presentViewController:navController animated:YES completion:nil];
+        }
     }
     else if (tableView == self.walletTableView) {
         if (indexPath.row == EVWalletRowCash)
