@@ -55,7 +55,7 @@
 
 - (void)loadSaveButton {
     self.saveButton = [[EVNavigationBarButton alloc] initWithTitle:@"Save"];
-    [self.saveButton addTarget:self action:@selector(saveBankAccount) forControlEvents:UIControlEventTouchUpInside];
+    [self.saveButton addTarget:self action:@selector(saveCreditCard) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.saveButton];
     self.navigationItem.rightBarButtonItem.enabled = NO;
 }

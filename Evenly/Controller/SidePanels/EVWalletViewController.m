@@ -19,6 +19,7 @@
 #import "EVCardsViewController.h"
 #import "EVBanksViewController.h"
 #import "EVHistoryViewController.h"
+#import "EVPendingDetailViewController.h"
 
 #define EV_WALLET_ROW_HEIGHT 44.0
 
@@ -312,7 +313,10 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if (tableView == self.pendingTableView) {
-        return;
+        EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
+        EVPendingDetailViewController *pendingController = [[EVPendingDetailViewController alloc] initWithExchange:exchange];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pendingController];
+        [self presentViewController:navController animated:YES completion:nil];
     }
     else if (tableView == self.walletTableView) {
         if (indexPath.row == EVWalletRowCash)

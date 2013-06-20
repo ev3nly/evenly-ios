@@ -27,7 +27,6 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self loadRightAvatarView];
-        [self loadIncomeIcon];
         self.avatarView.cornerRadius = 8.0;
     }
     return self;
@@ -38,7 +37,6 @@
     [super layoutSubviews];
     
     self.rightAvatarView.frame = [self rightAvatarViewFrame];
-    self.incomeIcon.frame = [self incomeIconFrame];
 }
 
 #pragma mark - Loading
@@ -56,43 +54,13 @@
     [self.tombstoneBackground addSubview:self.rightAvatarView];
 }
 
-- (void)loadIncomeIcon {
-    self.incomeIcon = [[UIImageView alloc] initWithImage:[EVImages incomeIcon]];
-    [self.tombstoneBackground addSubview:self.incomeIcon];
-}
-
 #pragma mark - Setters
 
 - (void)setStory:(EVStory *)story {
     [super setStory:story];
-    
+
+    self.avatarView.avatarOwner = story.subject;
     self.rightAvatarView.avatarOwner = story.target;
-    self.incomeIcon.image = [self iconForStoryType:story.storyType];
-    if (story.storyType == EVStoryTypeIncoming || story.storyType == EVStoryTypePendingIncoming)
-        self.incomeIcon.transform = CGAffineTransformMakeRotation(-M_PI);
-    else
-        self.incomeIcon.transform = CGAffineTransformIdentity;
-}
-
-#pragma mark - Utility
-
-- (UIImage *)iconForStoryType:(EVStoryType)type {
-    switch (type) {
-        case EVStoryTypeNotInvolved:
-            return [EVImages transferIcon];
-        case EVStoryTypeIncoming:
-            return [EVImages incomeIcon];
-        case EVStoryTypeOutgoing:
-            return [EVImages paymentIcon];
-        case EVStoryTypePendingIncoming:
-            return [EVImages pendingIncomeIcon];
-        case EVStoryTypePendingOutgoing:
-            return [EVImages pendingPaymentIcon];
-        case EVStoryTypeWithdrawal:
-            return [EVImages transferIcon];
-        default:
-            return nil;
-    }
 }
 
 #pragma mark - Frames
