@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSMutableArray *optionCells;
 @property (nonatomic, strong) EVGroupRequestAddOptionCell *addOptionCell;
 @property (nonatomic, strong) NSArray *tiers;
+@property (nonatomic) BOOL isValid;
 
 - (void)loadHeaderLabel;
 - (void)loadSegmentedControl;
@@ -103,7 +104,14 @@
     {
         lastCell.optionAmountField.next = cell.optionNameField;
     }
+    
+    [cell.optionAmountField.rac_textSignal subscribeNext:^(NSString *x) {
+        [self validate];
+    }];
     return cell;
+}
+
+- (void)validate {
 }
 
 #pragma mark - Controls

@@ -20,5 +20,6 @@
 @property (nonatomic, strong) UITableView *multipleAmountsView;
 
 @property (nonatomic, readonly) NSArray *tiers;
+@property (nonatomic, readonly) BOOL isValid;
 
 @end
