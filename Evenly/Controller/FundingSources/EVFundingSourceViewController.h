@@ -8,7 +8,7 @@
 
 #import "EVModalViewController.h"
 #import "EVFundingSource.h"
-#import "EVGroupTableViewCell.h"
+#import "EVGroupedTableViewCell.h"
 
 typedef enum {
     EVFundingSourceSectionSources,
@@ -30,7 +30,7 @@ typedef enum {
 @property (nonatomic, readonly) EVFundingSource *activeFundingSource;
 @property (nonatomic, readonly) NSArray *fundingSources;
 - (BOOL)isLoading;
-- (void)configureAddNewCell:(EVGroupTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)configureAddNewCell:(EVGroupedTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (void)goToAddNewScreenFromSelectedIndexPath:(NSIndexPath *)indexPath;
 - (NSString *)noFundingSourcesAddedString;
 - (NSString *)changingActiveString;
