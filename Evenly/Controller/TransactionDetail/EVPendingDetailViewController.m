@@ -11,6 +11,8 @@
 #import "EVStory.h"
 #import "EVCharge.h"
 #import "EVPayment.h"
+#import "EVWalletViewController.h"
+#import "EVNavigationManager.h"
 
 @interface EVPendingDetailViewController ()
 
@@ -62,7 +64,9 @@
             EV_DISPATCH_AFTER(1.0, ^(void){
                 [hud hide:YES];
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    
+                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                        
+                    }];
                 }];
             });
         } failure:^(NSError *error) {
@@ -85,7 +89,9 @@
             EV_DISPATCH_AFTER(1.0, ^(void){
                 [hud hide:YES];
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    
+                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                        
+                    }];
                 }];
             });
         } failure:^(NSError *error) {
