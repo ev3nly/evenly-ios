@@ -8,6 +8,12 @@
 
 #import "EVCharge.h"
 
-@interface EVGroupCharge : EVCharge
+@interface EVGroupCharge : EVObject
+
+@property (nonatomic, strong) EVObject<EVExchangeable> *from;
+@property (nonatomic, strong) NSArray *tiers;
+@property (nonatomic, strong) NSArray *members;
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *memo;
 
 @end

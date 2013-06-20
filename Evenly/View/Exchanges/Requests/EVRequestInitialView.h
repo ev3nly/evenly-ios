@@ -23,6 +23,8 @@
 @property (nonatomic, readonly) NSInteger recipientCount;
 @property (nonatomic, weak) UITableView *autocompleteTableView;
 
+@property (nonatomic) BOOL didForceSwitchToGroup;
+
 - (void)addContact:(EVObject<EVExchangeable> *)contact;
 
 @end

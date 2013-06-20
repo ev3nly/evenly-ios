@@ -42,6 +42,9 @@ static NSDateFormatter *_shortDateFormatter;
 
 
 + (NSString *)stringForExchange:(EVExchange *)exchange {
+//    if ([exchange isKindOfClass:[EVGroupCharge class]])
+//        return [self stringForGroupCharge:(EVGroupCharge *)exchange];
+    
     NSDictionary *components = [self subjectVerbAndObjectForExchange:exchange];
     NSString *string = [NSString stringWithFormat:@"%@ %@ %@ %@ for %@\u00A0\u00A0\u00A0•\u00A0\u00A0\u00A0%@",
                         components[@"subject"],
@@ -52,6 +55,10 @@ static NSDateFormatter *_shortDateFormatter;
                         [[self shortDateFormatter] stringFromDate:exchange.createdAt]];
     return string;
 }
+
+//+ (NSString *)stringForGroupCharge:(EVGroupCharge *)groupCharge {
+//    
+//}
 
 + (NSDictionary *)subjectVerbAndObjectForExchange:(EVExchange *)exchange {
     NSString *subject;
@@ -144,24 +151,24 @@ static NSDateFormatter *_shortDateFormatter;
     return array;
 }
 
-+ (NSArray *)attributedStringsForGroupCharge:(EVGroupCharge *)groupCharge {
-    if (groupCharge.from != nil)
-        return [self attributedStringsForExchange:groupCharge];
-    
-    NSMutableArray *array = [NSMutableArray array];
-    [array addObject:[[NSAttributedString alloc] initWithString:groupCharge.memo]];
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"Group charge to "
-                                                                       attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12] }]];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[groupCharge originalDictionary][@"to"] 
-                                                                       attributes:@{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12] }]];
-    [array addObject:attrString];
-    NSString *amount = [NSString stringWithFormat:@"%@/pp", [self amountStringForAmount:groupCharge.amount]];
-    NSString *date = [[self shortDateFormatter] stringFromDate:groupCharge.createdAt];
-    [array addObject:[self attributedStringForDateString:date amountString:amount amountColor:[UIColor blackColor] /* [EVColor incomingColor] */]];
-    return array;
-}
+//+ (NSArray *)attributedStringsForGroupCharge:(EVGroupCharge *)groupCharge {
+//    if (groupCharge.from != nil)
+//        return [self attributedStringsForExchange:groupCharge];
+//    
+//    NSMutableArray *array = [NSMutableArray array];
+//    [array addObject:[[NSAttributedString alloc] initWithString:groupCharge.memo]];
+//    
+//    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
+//    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"Group charge to "
+//                                                                       attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12] }]];
+//    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[groupCharge originalDictionary][@"to"] 
+//                                                                       attributes:@{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12] }]];
+//    [array addObject:attrString];
+//    NSString *amount = [NSString stringWithFormat:@"%@/pp", [self amountStringForAmount:groupCharge.amount]];
+//    NSString *date = [[self shortDateFormatter] stringFromDate:groupCharge.createdAt];
+//    [array addObject:[self attributedStringForDateString:date amountString:amount amountColor:[UIColor blackColor] /* [EVColor incomingColor] */]];
+//    return array;
+//}
 
 + (NSMutableAttributedString *)attributedStringForSubject:(NSString *)subject
                                                      verb:(NSString *)verb
@@ -252,6 +259,10 @@ static NSDateFormatter *_detailDateFormatter;
     return @"Lunch, dinner, taxi, or anything else";
 }
 
++ (NSString *)groupRequestDescriptionPlaceholder {
+   return @"Optional details go here";
+}
+
 #pragma mark - Marketing Materials
 
 + (NSString *)appName {
@@ -303,6 +314,8 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSDecimalNumber *)amountFromAmountString:(NSString *)amountString {
+    if (EV_IS_EMPTY_STRING(amountString))
+        return [NSDecimalNumber zero];
     return [NSDecimalNumber decimalNumberWithString:[amountString stringByReplacingOccurrencesOfString:@"$"
                                                                                             withString:@""]];
 }

@@ -18,9 +18,8 @@
 @interface EVStringUtility : NSObject
 
 + (NSString *)stringForExchange:(EVExchange *)exchange;
++ (NSString *)stringForGroupCharge:(EVGroupCharge *)groupCharge;
 + (NSDictionary *)subjectVerbAndObjectForExchange:(EVExchange *)exchange;
-
-
 
 + (NSArray *)attributedStringsForObject:(EVObject *)object;
 + (NSArray *)attributedStringsForExchange:(EVExchange *)exchange;
@@ -33,6 +32,7 @@
 + (NSString *)detailStringFromDate:(NSDate *)date;
 
 + (NSString *)requestDescriptionPlaceholder;
++ (NSString *)groupRequestDescriptionPlaceholder;
 
 #pragma mark - Marketing Materials
 
