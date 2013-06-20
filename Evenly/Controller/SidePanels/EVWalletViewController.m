@@ -151,7 +151,7 @@
 }
 
 - (NSArray *)pendingExchanges {
-    return [[EVCIA sharedInstance] pendingReceivedExchanges];
+    return [[EVCIA sharedInstance] pendingExchanges];
 }
 
 - (BOOL)hasPendingExchanges {

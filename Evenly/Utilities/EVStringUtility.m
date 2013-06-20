@@ -64,6 +64,8 @@ static NSDateFormatter *_shortDateFormatter;
     NSString *subject;
     NSString *object;
     NSString *verb;
+    
+    
     if ([exchange isKindOfClass:[EVPayment class]]) {
         verb = @"paid";
         if (exchange.from == nil) {

@@ -14,6 +14,8 @@
 #import "EVUser.h"
 #import "EVCharge.h"
 #import "EVGroupCharge.h"
+#import "EVGroupChargeTier.h"
+#import "EVGroupChargeRecord.h"
 #import "EVPayment.h"
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
@@ -40,6 +42,8 @@ static NSDictionary *_classMapping = nil;
           @"Charge":                [EVCharge class],
           @"SignUpCharge":          [EVCharge class],
           @"GroupCharge":           [EVGroupCharge class],
+          @"GroupChargeTier":       [EVGroupChargeTier class],
+          @"GroupChargeRecord":     [EVGroupChargeRecord class],
           @"Payment":               [EVPayment class],
           @"SignUpPayment":         [EVPayment class],
           @"Withdrawal":            [EVWithdrawal class],

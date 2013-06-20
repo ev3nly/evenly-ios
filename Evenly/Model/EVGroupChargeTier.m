@@ -35,4 +35,8 @@
     return mutableDictionary;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"Group Charge Tier <0x%x>: %@ - %@", (int)self, self.name, self.price];
+}
+
 @end
