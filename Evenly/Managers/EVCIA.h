@@ -31,6 +31,9 @@
 @property (nonatomic, strong) EVSession *session;
 
 + (EVUser *)me;
++ (void)reloadMe;
+- (void)cacheMe;
+
 - (EVObject *)cachedObjectWithClassName:(NSString *)className dbid:(NSString *)dbid;
 - (void)cacheObject:(EVObject *)object;
 

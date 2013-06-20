@@ -85,6 +85,8 @@
     [EVUser setMe:[[EVCIA sharedInstance] me]];
     [EVSession setSharedSession:[[EVCIA sharedInstance] session]];
     
+    [EVCIA reloadMe];
+    
     [[EVKeyboardTracker sharedTracker] registerForNotifications];
     
     // Load user's settings from server.
@@ -110,6 +112,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [EVCIA reloadMe];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
