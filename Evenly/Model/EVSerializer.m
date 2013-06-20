@@ -45,9 +45,7 @@ static NSDictionary *_classMapping = nil;
           @"Withdrawal":            [EVWithdrawal class],
           @"Balanced::Card":        [EVCreditCard class],
           @"Balanced::BankAccount": [EVBankAccount class],
-          @"NotificationSetting":   [EVNotificationSetting class],
-          @"SignUpUser":            [EVUser class]
-          
+          @"NotificationSetting":   [EVNotificationSetting class]          
         };
     }
     return _classMapping;
