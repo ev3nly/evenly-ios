@@ -78,6 +78,10 @@
     return tier;
 }
 
+- (UIImage *)avatar {
+    return self.from.avatar;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<0x%x> Group Charge %@\n--------------\nTitle: %@\nDescription: %@\nTiers: %@\nRecords: %@\n",
             (int)self, self.dbid, self.title, self.memo, self.tiers, self.records];

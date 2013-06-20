@@ -20,6 +20,8 @@
 @property (nonatomic, strong) NSString *memo;
 @property (nonatomic) BOOL completed;
 
+@property (nonatomic, readonly) UIImage *avatar;
+
 - (EVGroupChargeTier *)tierWithID:(NSString *)tierID;
 
 @end
