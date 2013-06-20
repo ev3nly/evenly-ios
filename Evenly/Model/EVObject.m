@@ -37,6 +37,7 @@
     NSMutableURLRequest *urlRequest = [httpClient requestWithMethod:method
                                                                path:reformedPath
                                                          parameters:parameters];
+    [urlRequest setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     return urlRequest;
 }
 
@@ -55,6 +56,7 @@
                                                                             path:reformedPath
                                                                       parameters:parameters
                                                        constructingBodyWithBlock:block];
+    [urlRequest setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     return urlRequest;
 }
 
@@ -75,6 +77,9 @@
                                                                                                       success:modifiedSuccess
                                                                                                       failure:modifiedFailure
                                                                                                 hijackFailure:YES];
+    [operation setCacheResponseBlock:^NSCachedURLResponse *(NSURLConnection *connection, NSCachedURLResponse *cachedResponse) {
+        return nil;
+    }];
     return operation;
 }
 

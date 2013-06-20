@@ -108,6 +108,15 @@ static EVCIA *_sharedInstance;
     return ((EVCIA *)[self sharedInstance]).me;
 }
 
++ (void)reloadMe {
+    [EVUser meWithSuccess:^{
+        DLog(@"Got me: %@", [[self sharedInstance] me]);
+    } failure:^(NSError *error) {
+        DLog(@"ERROR?! %@", error);
+    } reload:YES];
+}
+
+
 - (void)cacheNewSession {
     //retrieve user from session call, cache user
     EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
@@ -132,10 +141,15 @@ static EVCIA *_sharedInstance;
 
 - (void)setMe:(EVUser *)user {
     self.cachedUser = user;
-    if (user == nil) {
+    [self cacheMe];
+}
+
+- (void)cacheMe {
+    if (self.cachedUser == nil) {
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:EVCachedUserKey];
     } else {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:user] forKey:EVCachedUserKey];
+        [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:self.cachedUser]
+                                                  forKey:EVCachedUserKey];
     }
     
     [[NSUserDefaults standardUserDefaults] synchronize];
