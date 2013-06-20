@@ -8,7 +8,8 @@
 
 #import "EVPushPopViewController.h"
 #import "EVRequestSwitch.h"
-#import "EVExchange.h"
+#import "EVCharge.h"
+#import "EVGroupCharge.h"
 
 #import "EVRequestInitialView.h"
 #import "EVRequestSingleAmountView.h"
@@ -27,7 +28,8 @@ typedef enum {
 
 @property (nonatomic) EVRequestPhase phase;
 
-@property (nonatomic, strong) EVExchange *exchange;
+@property (nonatomic, strong) EVCharge *request;
+@property (nonatomic, strong) EVGroupCharge *groupRequest;
 
 @property (nonatomic, strong) EVRequestInitialView *initialView;
 

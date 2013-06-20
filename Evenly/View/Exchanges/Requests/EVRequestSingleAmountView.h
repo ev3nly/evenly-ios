@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "EVRequestView.h"
 #import "EVTextField.h"
+#import "EVRequestBigAmountView.h"
 
-@interface EVRequestSingleAmountView : EVRequestView<UITextFieldDelegate>
+@interface EVRequestSingleAmountView : EVRequestView
 
-@property (nonatomic, strong) EVTextField *amountField;
-@property (nonatomic, strong) UILabel *minimumAmountLabel;
+@property (nonatomic, strong) EVRequestBigAmountView *bigAmountView;
+@property (nonatomic, readonly) EVTextField *amountField;
+@property (nonatomic, readonly) UILabel *minimumAmountLabel;
 
 @end
