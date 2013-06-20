@@ -7,12 +7,18 @@
 //
 
 #import "EVRequestMultipleAmountsView.h"
+#import "EVGroupRequestAmountCell.h"
 
 #define HEADER_LABEL_HEIGHT 48.0
+#define NAVIGATION_BAR_OFFSET 44.0
+
+#define INITIAL_NUMBER_OF_OPTIONS 2
 
 @interface EVRequestMultipleAmountsView ()
 
-
+@property (nonatomic, strong) NSMutableArray *optionCells;
+@property (nonatomic, strong) EVGroupRequestAddOptionCell *addOptionCell;
+@property (nonatomic, strong) NSArray *tiers;
 
 - (void)loadHeaderLabel;
 - (void)loadSegmentedControl;
@@ -31,7 +37,10 @@
         [self loadHeaderLabel];
         [self loadSegmentedControl];
         [self loadSingleAmountView];
+        [self loadCells];
+
         [self loadMultipleAmountsView];
+        self.tiers = [NSArray array];
     }
     return self;
 }
@@ -48,7 +57,7 @@
 
 - (void)loadSegmentedControl {
     self.segmentedControl = [[EVSegmentedControl alloc] initWithItems:@[@"The Same Amount", @"Different Amounts"]];
-    [self.segmentedControl setFrame:CGRectMake(0, CGRectGetMaxY(self.headerLabel.frame), self.frame.size.width, 45)];
+    [self.segmentedControl setFrame:CGRectMake(0, CGRectGetMaxY(self.headerLabel.frame), self.frame.size.width, 44)];
     [self.segmentedControl addTarget:self action:@selector(segmentedControlChanged:) forControlEvents:UIControlEventValueChanged];
     [self addSubview:self.segmentedControl];
 }
@@ -62,7 +71,28 @@
 }
 
 - (void)loadMultipleAmountsView {
+    DLog(@"Self.frame: %@", NSStringFromCGRect(self.frame));
+    self.multipleAmountsView = [[UITableView alloc] initWithFrame:CGRectMake(0,
+                                                                             CGRectGetMaxY(self.segmentedControl.frame),
+                                                                             self.frame.size.width,
+                                                                             self.frame.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - NAVIGATION_BAR_OFFSET - CGRectGetMaxY(self.segmentedControl.frame))];
+    self.multipleAmountsView.delegate = self;
+    self.multipleAmountsView.dataSource = self;
+    self.multipleAmountsView.editing = YES;
+    self.multipleAmountsView.allowsSelectionDuringEditing = YES;
+    self.multipleAmountsView.separatorColor = [UIColor clearColor];
+    self.multipleAmountsView.separatorStyle = UITableViewCellSeparatorStyleNone;
+}
+
+- (void)loadCells {
+    self.optionCells = [NSMutableArray array];
     
+    for (int i=0; i<INITIAL_NUMBER_OF_OPTIONS; i++) {
+        EVGroupRequestAmountCell *cell = [[EVGroupRequestAmountCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                         reuseIdentifier:@"optionCell"];
+        [self.optionCells addObject:cell];
+    }
+    self.addOptionCell = [[EVGroupRequestAddOptionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addOptionCell"];
 }
 
 #pragma mark - Controls
@@ -76,6 +106,67 @@
         [self.singleAmountView removeFromSuperview];
     }
 }
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.optionCells count] + 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 35.0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == [self.optionCells count])
+    {
+        return self.addOptionCell;
+    }
+    
+    return [self.optionCells objectAtIndex:indexPath.row];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == [self.optionCells count])
+        return NO;
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+    [self.optionCells moveObjectFromIndex:fromIndexPath.row toIndex:toIndexPath.row];
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+    
+    // Don't allow user to move a cell to the "Add Option" row
+    if (proposedDestinationIndexPath.row == ([self.optionCells count]))
+        return [NSIndexPath indexPathForRow:proposedDestinationIndexPath.row - 1 inSection:proposedDestinationIndexPath.section];
+    
+    return proposedDestinationIndexPath;
+}
+
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleNone;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"HERE");
+    return indexPath;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == [self.optionCells count]) {
+        [self.optionCells addObject:[[EVGroupRequestAmountCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                    reuseIdentifier:@"optionCell"]];
+        [tableView beginUpdates];
+        [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.optionCells count]-1 inSection:0]]
+                         withRowAnimation:UITableViewRowAnimationAutomatic];
+        [tableView endUpdates];
+    }
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

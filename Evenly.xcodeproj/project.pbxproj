@@ -156,6 +156,11 @@
 		9C778DE817679ADA0053F9D6 /* Btn_Header_Normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C778DE417679ADA0053F9D6 /* Btn_Header_Normal@2x.png */; };
 		9C863C7417727D86003ADB49 /* EVSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C7317727D86003ADB49 /* EVSegmentedControl.m */; };
 		9C863C7717728193003ADB49 /* EVRequestBigAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C761772818D003ADB49 /* EVRequestBigAmountView.m */; };
+		9C863C94177297A0003ADB49 /* EVGroupRequestAmountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C9317729797003ADB49 /* EVGroupRequestAmountCell.m */; };
+		9C863C97177298FC003ADB49 /* Request-Multi-Remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C863C95177298FC003ADB49 /* Request-Multi-Remove.png */; };
+		9C863C98177298FC003ADB49 /* Request-Multi-Remove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C863C96177298FC003ADB49 /* Request-Multi-Remove@2x.png */; };
+		9C863C9C17729E7D003ADB49 /* Invite.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C863C9A17729E7D003ADB49 /* Invite.png */; };
+		9C863C9D17729E7D003ADB49 /* Invite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C863C9B17729E7D003ADB49 /* Invite@2x.png */; };
 		9C900D141767E84400E2F4C4 /* EVDepositViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D131767E84400E2F4C4 /* EVDepositViewController.m */; };
 		9C900D1B1767EB8600E2F4C4 /* EVImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D1A1767EB8600E2F4C4 /* EVImages.m */; };
 		9C900D1E1767F08D00E2F4C4 /* EVDepositCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D1D1767F08D00E2F4C4 /* EVDepositCell.m */; };
@@ -547,6 +552,12 @@
 		9C863C7317727D86003ADB49 /* EVSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSegmentedControl.m; sourceTree = "<group>"; };
 		9C863C751772818D003ADB49 /* EVRequestBigAmountView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVRequestBigAmountView.h; sourceTree = "<group>"; };
 		9C863C761772818D003ADB49 /* EVRequestBigAmountView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVRequestBigAmountView.m; sourceTree = "<group>"; };
+		9C863C9217729797003ADB49 /* EVGroupRequestAmountCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestAmountCell.h; sourceTree = "<group>"; };
+		9C863C9317729797003ADB49 /* EVGroupRequestAmountCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestAmountCell.m; sourceTree = "<group>"; };
+		9C863C95177298FC003ADB49 /* Request-Multi-Remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Multi-Remove.png"; sourceTree = "<group>"; };
+		9C863C96177298FC003ADB49 /* Request-Multi-Remove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Multi-Remove@2x.png"; sourceTree = "<group>"; };
+		9C863C9A17729E7D003ADB49 /* Invite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Invite.png; sourceTree = "<group>"; };
+		9C863C9B17729E7D003ADB49 /* Invite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Invite@2x.png"; sourceTree = "<group>"; };
 		9C900D121767E84400E2F4C4 /* EVDepositViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVDepositViewController.h; sourceTree = "<group>"; };
 		9C900D131767E84400E2F4C4 /* EVDepositViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVDepositViewController.m; sourceTree = "<group>"; };
 		9C900D191767EB8600E2F4C4 /* EVImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVImages.h; sourceTree = "<group>"; };
@@ -1242,6 +1253,15 @@
 			path = SegmentedControls;
 			sourceTree = "<group>";
 		};
+		9C863C9917729E7D003ADB49 /* Invite */ = {
+			isa = PBXGroup;
+			children = (
+				9C863C9A17729E7D003ADB49 /* Invite.png */,
+				9C863C9B17729E7D003ADB49 /* Invite@2x.png */,
+			);
+			path = Invite;
+			sourceTree = "<group>";
+		};
 		9C900D111767E83700E2F4C4 /* Deposit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1263,6 +1283,8 @@
 				9C900D251767FA5200E2F4C4 /* btn_gray-active@2x.png */,
 				9C900D261767FA5200E2F4C4 /* btn_gray.png */,
 				9C900D271767FA5200E2F4C4 /* btn_gray@2x.png */,
+				9C863C95177298FC003ADB49 /* Request-Multi-Remove.png */,
+				9C863C96177298FC003ADB49 /* Request-Multi-Remove@2x.png */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -1387,6 +1409,7 @@
 			isa = PBXGroup;
 			children = (
 				9C900D1F1767FA3E00E2F4C4 /* Buttons */,
+				9C863C9917729E7D003ADB49 /* Invite */,
 				9CB285701761521E009B26BB /* MainMenu */,
 				9CB2857A1761521E009B26BB /* NavBar */,
 				9C54288F176FD6470028F141 /* PageControl */,
@@ -1530,6 +1553,8 @@
 				D08F6199176BE9F900F05A34 /* EVUserAutocompletionCell.m */,
 				D0C30AF81770F63A005606E8 /* EVTransactionDetailCell.h */,
 				D0C30AF91770F63A005606E8 /* EVTransactionDetailCell.m */,
+				9C863C9217729797003ADB49 /* EVGroupRequestAmountCell.h */,
+				9C863C9317729797003ADB49 /* EVGroupRequestAmountCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -1861,6 +1886,7 @@
 				9CB285A01761521E009B26BB /* Home.png in Resources */,
 				9CB285A11761521E009B26BB /* Home@2x.png in Resources */,
 				9CB285A21761521E009B26BB /* Invite.png in Resources */,
+				9C863C97177298FC003ADB49 /* Request-Multi-Remove.png in Resources */,
 				9CB285A31761521E009B26BB /* Invite@2x.png in Resources */,
 				9C542877176F9DB60028F141 /* Request-Single-Dark@2x.png in Resources */,
 				9CB285A41761521E009B26BB /* Settings.png in Resources */,
@@ -1889,6 +1915,7 @@
 				9CB285B61761521E009B26BB /* HeartRed@2x.png in Resources */,
 				9CB285B71761521E009B26BB /* Income.png in Resources */,
 				9CB285B81761521E009B26BB /* Income@2x.png in Resources */,
+				9C863C98177298FC003ADB49 /* Request-Multi-Remove@2x.png in Resources */,
 				9CB285B91761521E009B26BB /* Payment.png in Resources */,
 				9CB285BA1761521E009B26BB /* Payment@2x.png in Resources */,
 				9CB285BB1761521E009B26BB /* PendingIncome.png in Resources */,
@@ -1923,6 +1950,7 @@
 				9C900D2B1767FA5200E2F4C4 /* btn_blue@2x.png in Resources */,
 				9C900D2C1767FA5200E2F4C4 /* btn_gray-active.png in Resources */,
 				9C900D2D1767FA5200E2F4C4 /* btn_gray-active@2x.png in Resources */,
+				9C863C9D17729E7D003ADB49 /* Invite@2x.png in Resources */,
 				9C900D2E1767FA5200E2F4C4 /* btn_gray.png in Resources */,
 				9C900D2F1767FA5200E2F4C4 /* btn_gray@2x.png in Resources */,
 				9C2DD0781769050700EAA3D1 /* Privacy-Dropdown.png in Resources */,
@@ -1933,6 +1961,7 @@
 				9C2DD07C1769050700EAA3D1 /* Privacy-Globe.png in Resources */,
 				9C2DD07D1769050700EAA3D1 /* Privacy-Globe@2x.png in Resources */,
 				9C2DD07E1769050700EAA3D1 /* Privacy-Lock.png in Resources */,
+				9C863C9C17729E7D003ADB49 /* Invite.png in Resources */,
 				9C2DD07F1769050700EAA3D1 /* Privacy-Lock@2x.png in Resources */,
 				9C2DD08F176928A500EAA3D1 /* Settings_logout_arrow.png in Resources */,
 				9C2DD090176928A500EAA3D1 /* Settings_logout_arrow@2x.png in Resources */,
@@ -2194,6 +2223,7 @@
 				9C2DD0A3176A3CF000EAA3D1 /* EVSignInViewController.m in Sources */,
 				9C2DD0A6176A4B2C00EAA3D1 /* EVFormRow.m in Sources */,
 				9C50442A1770F8780090D865 /* EVRequestView.m in Sources */,
+				9C863C94177297A0003ADB49 /* EVGroupRequestAmountCell.m in Sources */,
 				9C5044221770E8CE0090D865 /* EVRequestSingleAmountView.m in Sources */,
 				9C2DD0AA176A4DD600EAA3D1 /* EVTextField.m in Sources */,
 				9C2DD0871769278E00EAA3D1 /* EVSettingsRow.m in Sources */,

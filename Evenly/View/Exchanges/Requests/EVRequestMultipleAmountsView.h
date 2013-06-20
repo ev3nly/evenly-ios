@@ -12,7 +12,6 @@
 #import "EVSegmentedControl.h"
 #import "EVTextField.h"
 
-
 @interface EVRequestMultipleAmountsView : EVRequestView <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UILabel *headerLabel;
