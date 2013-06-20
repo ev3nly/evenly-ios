@@ -88,11 +88,22 @@
     self.optionCells = [NSMutableArray array];
     
     for (int i=0; i<INITIAL_NUMBER_OF_OPTIONS; i++) {
-        EVGroupRequestAmountCell *cell = [[EVGroupRequestAmountCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                                         reuseIdentifier:@"optionCell"];
-        [self.optionCells addObject:cell];
+        [self.optionCells addObject:[self configuredCell]];
     }
     self.addOptionCell = [[EVGroupRequestAddOptionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addOptionCell"];
+}
+
+- (EVGroupRequestAmountCell *)configuredCell {
+    EVGroupRequestAmountCell *cell = [[EVGroupRequestAmountCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                     reuseIdentifier:@"optionCell"];
+    [cell.deleteButton addTarget:self action:@selector(deleteButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    EVGroupRequestAmountCell *lastCell = [self.optionCells lastObject];
+    if (lastCell)
+    {
+        lastCell.optionAmountField.next = cell.optionNameField;
+    }
+    return cell;
 }
 
 #pragma mark - Controls
@@ -105,6 +116,34 @@
         [self addSubview:self.multipleAmountsView];
         [self.singleAmountView removeFromSuperview];
     }
+}
+
+- (void)deleteButtonPress:(UIButton *)sender {
+    EVGroupRequestAmountCell *cell = (EVGroupRequestAmountCell *)[sender superview];
+    NSInteger index = [self.optionCells indexOfObject:cell];
+    [self removeCellAtIndex:index];
+    [self.multipleAmountsView beginUpdates];
+    [self.multipleAmountsView deleteRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:index inSection:0]]
+                                    withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.multipleAmountsView endUpdates];
+}
+
+- (void)removeCellAtIndex:(NSInteger)index {
+    EVGroupRequestAmountCell *previous, *goner, *next = nil;
+    if (index > 0)
+        previous = [self.optionCells objectAtIndex:index-1];
+    goner = [self.optionCells objectAtIndex:index];
+    if ([self.optionCells count] > index+1)
+        next = [self.optionCells objectAtIndex:index+1];
+    
+    if (previous)
+    {
+        if (next)
+            previous.optionAmountField.next = next.optionNameField;
+        else
+            previous.optionAmountField.next = nil;
+    }
+    [self.optionCells removeObjectAtIndex:index];
 }
 
 #pragma mark - UITableViewDataSource
@@ -158,8 +197,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == [self.optionCells count]) {
-        [self.optionCells addObject:[[EVGroupRequestAmountCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                                    reuseIdentifier:@"optionCell"]];
+        [self.optionCells addObject:[self configuredCell]];
         [tableView beginUpdates];
         [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.optionCells count]-1 inSection:0]]
                          withRowAnimation:UITableViewRowAnimationAutomatic];

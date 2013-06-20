@@ -24,7 +24,7 @@
     if (self) {
         
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+        self.currencyFormatter = [[EVCurrencyTextFieldFormatter alloc] init];
         [self loadDeleteButton];
         [self loadOptionNameField];
         [self loadOptionAmountField];
@@ -59,6 +59,7 @@
     self.optionNameField.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     self.optionNameField.font = [EVFont defaultFontOfSize:16];
     self.optionNameField.placeholder = @"Option";
+    self.optionNameField.delegate = self;
     [self addSubview:self.optionNameField];
 }
 
@@ -70,7 +71,10 @@
     self.optionAmountField.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin;
     self.optionAmountField.textAlignment = NSTextAlignmentRight;
     self.optionAmountField.placeholder = @"$0.00";
+    self.optionAmountField.delegate = self;
+    self.optionAmountField.keyboardType = UIKeyboardTypeNumberPad;
     self.optionAmountField.font = [EVFont defaultFontOfSize:16];
+    self.optionNameField.next = self.optionAmountField;
     [self.contentView addSubview:self.optionAmountField];
 }
 
@@ -79,6 +83,24 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    if (textField == self.optionAmountField) {
+        [self.currencyFormatter textField:textField shouldChangeCharactersInRange:range replacementString:string];
+        [self.optionAmountField setText:self.currencyFormatter.formattedString];
+        [self.optionAmountField sendActionsForControlEvents:UIControlEventEditingChanged]; // for rac_textSignal
+        return NO;
+    }
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([(EVTextField *)textField next]) {
+        [[(EVTextField *)textField next] becomeFirstResponder];
+        return NO;
+    }
+    return YES;
 }
 
 @end
@@ -105,6 +127,5 @@
     }
     return self;
 }
-
 
 @end

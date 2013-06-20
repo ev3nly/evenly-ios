@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "EVTextField.h"
+#import "EVCurrencyTextFieldFormatter.h"
 
-@interface EVGroupRequestAmountCell : UITableViewCell
+@interface EVGroupRequestAmountCell : UITableViewCell <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, strong) EVTextField *optionNameField;
 @property (nonatomic, strong) EVTextField *optionAmountField;
+@property (nonatomic, strong) EVCurrencyTextFieldFormatter *currencyFormatter;
 
 @end
 
