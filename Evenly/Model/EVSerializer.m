@@ -35,6 +35,7 @@ static NSDictionary *_classMapping = nil;
         _classMapping = @{
                           
           @"User":                  [EVUser class],
+          @"SignUpUser":            [EVUser class],
           @"SignUpContact":         [EVContact class],
           @"Charge":                [EVCharge class],
           @"SignUpCharge":          [EVCharge class],

@@ -161,6 +161,7 @@
 		9C863C98177298FC003ADB49 /* Request-Multi-Remove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C863C96177298FC003ADB49 /* Request-Multi-Remove@2x.png */; };
 		9C863C9C17729E7D003ADB49 /* Invite.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C863C9A17729E7D003ADB49 /* Invite.png */; };
 		9C863C9D17729E7D003ADB49 /* Invite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C863C9B17729E7D003ADB49 /* Invite@2x.png */; };
+		9C863CA01772AEBC003ADB49 /* EVGroupChargeTier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C9F1772AEAB003ADB49 /* EVGroupChargeTier.m */; };
 		9C900D141767E84400E2F4C4 /* EVDepositViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D131767E84400E2F4C4 /* EVDepositViewController.m */; };
 		9C900D1B1767EB8600E2F4C4 /* EVImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D1A1767EB8600E2F4C4 /* EVImages.m */; };
 		9C900D1E1767F08D00E2F4C4 /* EVDepositCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D1D1767F08D00E2F4C4 /* EVDepositCell.m */; };
@@ -558,6 +559,8 @@
 		9C863C96177298FC003ADB49 /* Request-Multi-Remove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Multi-Remove@2x.png"; sourceTree = "<group>"; };
 		9C863C9A17729E7D003ADB49 /* Invite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Invite.png; sourceTree = "<group>"; };
 		9C863C9B17729E7D003ADB49 /* Invite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Invite@2x.png"; sourceTree = "<group>"; };
+		9C863C9E1772AEAB003ADB49 /* EVGroupChargeTier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupChargeTier.h; sourceTree = "<group>"; };
+		9C863C9F1772AEAB003ADB49 /* EVGroupChargeTier.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupChargeTier.m; sourceTree = "<group>"; };
 		9C900D121767E84400E2F4C4 /* EVDepositViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVDepositViewController.h; sourceTree = "<group>"; };
 		9C900D131767E84400E2F4C4 /* EVDepositViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVDepositViewController.m; sourceTree = "<group>"; };
 		9C900D191767EB8600E2F4C4 /* EVImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVImages.h; sourceTree = "<group>"; };
@@ -976,6 +979,8 @@
 				9C1F480C175691B600B26A1B /* EVFundingSource.m */,
 				9C1F480D175691B600B26A1B /* EVGroupCharge.h */,
 				9C1F480E175691B600B26A1B /* EVGroupCharge.m */,
+				9C863C9E1772AEAB003ADB49 /* EVGroupChargeTier.h */,
+				9C863C9F1772AEAB003ADB49 /* EVGroupChargeTier.m */,
 				9C1F480F175691B600B26A1B /* EVInvite.h */,
 				9C1F4810175691B600B26A1B /* EVInvite.m */,
 				9C1F4811175691B600B26A1B /* EVNotificationSetting.h */,
@@ -2135,6 +2140,7 @@
 				9C1F47F11756914B00B26A1B /* NSTimer+Blocks.m in Sources */,
 				9C1F47F21756914B00B26A1B /* UIView+EVAdditions.m in Sources */,
 				9C1F47F31756914B00B26A1B /* UITableView+EVAdditions.m in Sources */,
+				9C863CA01772AEBC003ADB49 /* EVGroupChargeTier.m in Sources */,
 				9C1F47F41756914B00B26A1B /* EVAnalyticsUtility.m in Sources */,
 				9C1F47F51756914B00B26A1B /* EVColor.m in Sources */,
 				9C504472177122850090D865 /* JSBackspaceReportingTextField.m in Sources */,

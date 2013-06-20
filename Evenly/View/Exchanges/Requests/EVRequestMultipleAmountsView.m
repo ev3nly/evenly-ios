@@ -8,6 +8,7 @@
 
 #import "EVRequestMultipleAmountsView.h"
 #import "EVGroupRequestAmountCell.h"
+#import "EVGroupChargeTier.h"
 
 #define HEADER_LABEL_HEIGHT 48.0
 #define NAVIGATION_BAR_OFFSET 44.0
@@ -18,7 +19,6 @@
 
 @property (nonatomic, strong) NSMutableArray *optionCells;
 @property (nonatomic, strong) EVGroupRequestAddOptionCell *addOptionCell;
-@property (nonatomic, strong) NSArray *tiers;
 @property (nonatomic) BOOL isValid;
 
 - (void)loadHeaderLabel;
@@ -41,7 +41,6 @@
         [self loadCells];
 
         [self loadMultipleAmountsView];
-        self.tiers = [NSArray array];
     }
     return self;
 }
@@ -135,6 +134,28 @@
     }
 }
 
+- (NSArray *)tiers {
+    NSArray *tiers = nil;
+    if (self.segmentedControl.selectedSegmentIndex == EVRequestAmountsSingle)
+    {
+        EVGroupChargeTier *tier = [[EVGroupChargeTier alloc] init];
+        tier.price = [EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text];
+        tiers = @[ tier ];
+    }
+    else
+    {
+        NSMutableArray *tmpTiers = [[NSMutableArray alloc] initWithCapacity:[self.optionCells count]];
+        for (EVGroupRequestAmountCell *cell in self.optionCells) {
+            EVGroupChargeTier *tier = [[EVGroupChargeTier alloc] init];
+            tier.price = [EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text];
+            tier.name = cell.optionNameField.text;
+            [tmpTiers addObject:tier];
+        }
+        tiers = [NSArray arrayWithArray:tmpTiers];
+    }
+    return tiers;    
+}
+
 #pragma mark - Controls
 
 - (void)segmentedControlChanged:(EVSegmentedControl *)sender {
@@ -191,7 +212,6 @@
     {
         return self.addOptionCell;
     }
-    
     return [self.optionCells objectAtIndex:indexPath.row];
 }
 
@@ -217,11 +237,6 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleNone;
-}
-
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"HERE");
-    return indexPath;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

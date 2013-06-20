@@ -7,7 +7,12 @@
 //
 
 #import "EVRequestDetailsView.h"
+#import "EVTextField.h"
+#import "EVPlaceholderTextView.h"
 
-@interface EVRequestMultipleDetailsView : EVRequestDetailsView
+@interface EVRequestMultipleDetailsView : UIView
+
+@property (nonatomic, strong) EVTextField *nameField;
+@property (nonatomic, strong) EVPlaceholderTextView *descriptionField;
 
 @end
