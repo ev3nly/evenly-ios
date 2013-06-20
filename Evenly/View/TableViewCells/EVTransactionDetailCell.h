@@ -11,7 +11,6 @@
 @interface EVTransactionDetailCell : EVStoryCell
 
 @property (nonatomic, strong) EVAvatarView *rightAvatarView;
-@property (nonatomic, strong) UIImageView *incomeIcon;
 
 + (CGFloat)cellHeightForStory:(EVStory *)story;
 

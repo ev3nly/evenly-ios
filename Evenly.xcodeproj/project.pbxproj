@@ -281,6 +281,8 @@
 		D0A77EF0176824830091AF09 /* EVRequestFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEF176824830091AF09 /* EVRequestFormView.m */; };
 		D0C30AF71770F480005606E8 /* EVTransactionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF61770F480005606E8 /* EVTransactionDetailViewController.m */; };
 		D0C30AFA1770F63A005606E8 /* EVTransactionDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF91770F63A005606E8 /* EVTransactionDetailCell.m */; };
+		D0C30AFE177217A3005606E8 /* EVPendingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AFD177217A3005606E8 /* EVPendingDetailViewController.m */; };
+		D0C30B0117721927005606E8 /* EVPendingDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30B0017721927005606E8 /* EVPendingDetailCell.m */; };
 		D0C48EA3176FB2EB00F60193 /* EVHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */; };
 		D0C48EA6176FBB7000F60193 /* EVHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C48EA5176FBB7000F60193 /* EVHistoryCell.m */; };
 /* End PBXBuildFile section */
@@ -697,6 +699,10 @@
 		D0C30AF61770F480005606E8 /* EVTransactionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTransactionDetailViewController.m; sourceTree = "<group>"; };
 		D0C30AF81770F63A005606E8 /* EVTransactionDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTransactionDetailCell.h; sourceTree = "<group>"; };
 		D0C30AF91770F63A005606E8 /* EVTransactionDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTransactionDetailCell.m; sourceTree = "<group>"; };
+		D0C30AFC177217A3005606E8 /* EVPendingDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPendingDetailViewController.h; sourceTree = "<group>"; };
+		D0C30AFD177217A3005606E8 /* EVPendingDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPendingDetailViewController.m; sourceTree = "<group>"; };
+		D0C30AFF17721927005606E8 /* EVPendingDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPendingDetailCell.h; sourceTree = "<group>"; };
+		D0C30B0017721927005606E8 /* EVPendingDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPendingDetailCell.m; sourceTree = "<group>"; };
 		D0C48EA1176FB2EB00F60193 /* EVHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHistoryViewController.h; sourceTree = "<group>"; };
 		D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHistoryViewController.m; sourceTree = "<group>"; };
 		D0C48EA4176FBB7000F60193 /* EVHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHistoryCell.h; sourceTree = "<group>"; };
@@ -1420,6 +1426,8 @@
 				D08F6199176BE9F900F05A34 /* EVUserAutocompletionCell.m */,
 				D0C30AF81770F63A005606E8 /* EVTransactionDetailCell.h */,
 				D0C30AF91770F63A005606E8 /* EVTransactionDetailCell.m */,
+				D0C30AFF17721927005606E8 /* EVPendingDetailCell.h */,
+				D0C30B0017721927005606E8 /* EVPendingDetailCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -1611,6 +1619,8 @@
 			children = (
 				D0C30AF51770F480005606E8 /* EVTransactionDetailViewController.h */,
 				D0C30AF61770F480005606E8 /* EVTransactionDetailViewController.m */,
+				D0C30AFC177217A3005606E8 /* EVPendingDetailViewController.h */,
+				D0C30AFD177217A3005606E8 /* EVPendingDetailViewController.m */,
 			);
 			path = TransactionDetail;
 			sourceTree = "<group>";
@@ -2083,6 +2093,8 @@
 				D0C48EA6176FBB7000F60193 /* EVHistoryCell.m in Sources */,
 				D0C30AF71770F480005606E8 /* EVTransactionDetailViewController.m in Sources */,
 				D0C30AFA1770F63A005606E8 /* EVTransactionDetailCell.m in Sources */,
+				D0C30AFE177217A3005606E8 /* EVPendingDetailViewController.m in Sources */,
+				D0C30B0117721927005606E8 /* EVPendingDetailCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
