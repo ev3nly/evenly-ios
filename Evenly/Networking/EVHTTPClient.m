@@ -46,6 +46,11 @@
 #endif
     #else
 //        [self setDefaultSSLPinningMode:AFSSLPinningModeNone];
+        
+        NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0
+                                                                diskCapacity:0
+                                                                    diskPath:nil];
+        [NSURLCache setSharedURLCache:sharedCache];
     #endif
     }
     return self;
@@ -66,7 +71,6 @@ static Class _errorHandlerClass = nil;
                                                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                                                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
                                               hijackFailure:(BOOL)override {
-    
     AFHTTPRequestOperation *operation = nil;
 
     if (!override)
