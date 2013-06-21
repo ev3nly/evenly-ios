@@ -93,6 +93,12 @@
 		9C35B6F717618A4400084FA7 /* WalletArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F517618A4400084FA7 /* WalletArrow.png */; };
 		9C35B6F817618A4400084FA7 /* WalletArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F617618A4400084FA7 /* WalletArrow@2x.png */; };
 		9C39172A1773A35F002949C3 /* EVGroupChargeRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3917291773A2D6002949C3 /* EVGroupChargeRecord.m */; };
+		9C39172E1773C70C002949C3 /* EVGroupRequestDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C39172D1773C4D2002949C3 /* EVGroupRequestDashboardViewController.m */; };
+		9C3917321773C9CB002949C3 /* EVDashboardTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3917311773C9BF002949C3 /* EVDashboardTitleCell.m */; };
+		9C3917351773CEBB002949C3 /* EVGroupRequestDashboardTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3917341773CE81002949C3 /* EVGroupRequestDashboardTableViewDataSource.m */; };
+		9C3917381773D6D6002949C3 /* EVDashboardUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3917371773D69A002949C3 /* EVDashboardUserCell.m */; };
+		9C39173C1773DEAE002949C3 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C39173A1773DEAE002949C3 /* Arrow.png */; };
+		9C39173D1773DEAE002949C3 /* Arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C39173B1773DEAE002949C3 /* Arrow@2x.png */; };
 		9C5044171770E5B10090D865 /* EVRequestViewController_NEW.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5044161770E5880090D865 /* EVRequestViewController_NEW.m */; };
 		9C5044211770E8CE0090D865 /* EVRequestInitialView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50441A1770E8910090D865 /* EVRequestInitialView.m */; };
 		9C5044221770E8CE0090D865 /* EVRequestSingleAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50441C1770E89E0090D865 /* EVRequestSingleAmountView.m */; };
@@ -465,6 +471,16 @@
 		9C35B6F617618A4400084FA7 /* WalletArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WalletArrow@2x.png"; sourceTree = "<group>"; };
 		9C3917281773A2D6002949C3 /* EVGroupChargeRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupChargeRecord.h; sourceTree = "<group>"; };
 		9C3917291773A2D6002949C3 /* EVGroupChargeRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupChargeRecord.m; sourceTree = "<group>"; };
+		9C39172C1773C4D2002949C3 /* EVGroupRequestDashboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestDashboardViewController.h; sourceTree = "<group>"; };
+		9C39172D1773C4D2002949C3 /* EVGroupRequestDashboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestDashboardViewController.m; sourceTree = "<group>"; };
+		9C3917301773C9BF002949C3 /* EVDashboardTitleCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVDashboardTitleCell.h; sourceTree = "<group>"; };
+		9C3917311773C9BF002949C3 /* EVDashboardTitleCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVDashboardTitleCell.m; sourceTree = "<group>"; };
+		9C3917331773CE81002949C3 /* EVGroupRequestDashboardTableViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestDashboardTableViewDataSource.h; sourceTree = "<group>"; };
+		9C3917341773CE81002949C3 /* EVGroupRequestDashboardTableViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestDashboardTableViewDataSource.m; sourceTree = "<group>"; };
+		9C3917361773D69A002949C3 /* EVDashboardUserCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVDashboardUserCell.h; sourceTree = "<group>"; };
+		9C3917371773D69A002949C3 /* EVDashboardUserCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVDashboardUserCell.m; sourceTree = "<group>"; };
+		9C39173A1773DEAE002949C3 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
+		9C39173B1773DEAE002949C3 /* Arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arrow@2x.png"; sourceTree = "<group>"; };
 		9C5044151770E5880090D865 /* EVRequestViewController_NEW.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVRequestViewController_NEW.h; sourceTree = "<group>"; };
 		9C5044161770E5880090D865 /* EVRequestViewController_NEW.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVRequestViewController_NEW.m; sourceTree = "<group>"; };
 		9C5044191770E8910090D865 /* EVRequestInitialView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVRequestInitialView.h; sourceTree = "<group>"; };
@@ -850,6 +866,7 @@
 				9C900D111767E83700E2F4C4 /* Deposit */,
 				9C542853176F76EA0028F141 /* FundingSources */,
 				9CE76DBA17679BCC005953C8 /* Exchange */,
+				9C39172B1773C4B0002949C3 /* GroupRequest */,
 				D0C48EA0176FB2C800F60193 /* History */,
 				9C0EC752175D7CFC003B93E2 /* Home */,
 				9C0EC755175D7CFC003B93E2 /* Invite */,
@@ -1122,6 +1139,37 @@
 			path = Wallet;
 			sourceTree = "<group>";
 		};
+		9C39172B1773C4B0002949C3 /* GroupRequest */ = {
+			isa = PBXGroup;
+			children = (
+				9C39172C1773C4D2002949C3 /* EVGroupRequestDashboardViewController.h */,
+				9C39172D1773C4D2002949C3 /* EVGroupRequestDashboardViewController.m */,
+				9C3917331773CE81002949C3 /* EVGroupRequestDashboardTableViewDataSource.h */,
+				9C3917341773CE81002949C3 /* EVGroupRequestDashboardTableViewDataSource.m */,
+			);
+			path = GroupRequest;
+			sourceTree = "<group>";
+		};
+		9C39172F1773C9AE002949C3 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				9C3917301773C9BF002949C3 /* EVDashboardTitleCell.h */,
+				9C3917311773C9BF002949C3 /* EVDashboardTitleCell.m */,
+				9C3917361773D69A002949C3 /* EVDashboardUserCell.h */,
+				9C3917371773D69A002949C3 /* EVDashboardUserCell.m */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		9C3917391773DEAE002949C3 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9C39173A1773DEAE002949C3 /* Arrow.png */,
+				9C39173B1773DEAE002949C3 /* Arrow@2x.png */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		9C5044181770E8840090D865 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1257,6 +1305,7 @@
 		9C863C8517729702003ADB49 /* Grouped */ = {
 			isa = PBXGroup;
 			children = (
+				9C39172F1773C9AE002949C3 /* Dashboard */,
 				9C863C8617729702003ADB49 /* EVFundingSourceCell.h */,
 				9C863C8717729702003ADB49 /* EVFundingSourceCell.m */,
 				9C863C8817729702003ADB49 /* EVGroupedTableViewCell.h */,
@@ -1425,6 +1474,7 @@
 			isa = PBXGroup;
 			children = (
 				9C900D1F1767FA3E00E2F4C4 /* Buttons */,
+				9C3917391773DEAE002949C3 /* Cells */,
 				9C863C9917729E7D003ADB49 /* Invite */,
 				9CB285701761521E009B26BB /* MainMenu */,
 				9CB2857A1761521E009B26BB /* NavBar */,
@@ -1971,6 +2021,7 @@
 				9C900D2C1767FA5200E2F4C4 /* btn_gray-active.png in Resources */,
 				9C900D2D1767FA5200E2F4C4 /* btn_gray-active@2x.png in Resources */,
 				9C863C9D17729E7D003ADB49 /* Invite@2x.png in Resources */,
+				9C39173D1773DEAE002949C3 /* Arrow@2x.png in Resources */,
 				9C900D2E1767FA5200E2F4C4 /* btn_gray.png in Resources */,
 				9C900D2F1767FA5200E2F4C4 /* btn_gray@2x.png in Resources */,
 				9C2DD0781769050700EAA3D1 /* Privacy-Dropdown.png in Resources */,
@@ -1979,6 +2030,7 @@
 				9C54287A176F9DB60028F141 /* Request-Slider-Well.png in Resources */,
 				9C2DD07B1769050700EAA3D1 /* Privacy-Friends@2x.png in Resources */,
 				9C2DD07C1769050700EAA3D1 /* Privacy-Globe.png in Resources */,
+				9C39173C1773DEAE002949C3 /* Arrow.png in Resources */,
 				9C2DD07D1769050700EAA3D1 /* Privacy-Globe@2x.png in Resources */,
 				9C2DD07E1769050700EAA3D1 /* Privacy-Lock.png in Resources */,
 				9C863C9C17729E7D003ADB49 /* Invite.png in Resources */,
@@ -2141,6 +2193,7 @@
 				9CEEB7F31755261500C24C2A /* EVNetworkManager.m in Sources */,
 				9CEEB846175526EC00C24C2A /* ABContact.m in Sources */,
 				9CEEB847175526EC00C24C2A /* ABContactsHelper.m in Sources */,
+				9C3917351773CEBB002949C3 /* EVGroupRequestDashboardTableViewDataSource.m in Sources */,
 				9CEEB848175526EC00C24C2A /* ABGroup.m in Sources */,
 				9CEEB84A175526EC00C24C2A /* AESCrypt.m in Sources */,
 				9CEEB84C175526EC00C24C2A /* NSData+Base64.m in Sources */,
@@ -2150,6 +2203,7 @@
 				9C504475177122850090D865 /* JSTokenField.m in Sources */,
 				9C863C9117729702003ADB49 /* EVTitleTextFieldCell.m in Sources */,
 				9C1F47EE1756914B00B26A1B /* NSArray+EVAdditions.m in Sources */,
+				9C3917381773D6D6002949C3 /* EVDashboardUserCell.m in Sources */,
 				9C1F47EF1756914B00B26A1B /* NSDictionary+EVAdditions.m in Sources */,
 				9C1F47F01756914B00B26A1B /* NSString+EVAdditions.m in Sources */,
 				9C1F47F11756914B00B26A1B /* NSTimer+Blocks.m in Sources */,
@@ -2261,6 +2315,8 @@
 				D07A3908176A7B4B00EABEB7 /* EVPrivacySelectorOption.m in Sources */,
 				9C54285C176F77320028F141 /* EVFundingSourceViewController.m in Sources */,
 				D07A390B176A7D1F00EABEB7 /* EVPrivacySelectorLine.m in Sources */,
+				9C3917321773C9CB002949C3 /* EVDashboardTitleCell.m in Sources */,
+				9C39172E1773C70C002949C3 /* EVGroupRequestDashboardViewController.m in Sources */,
 				9C863C7417727D86003ADB49 /* EVSegmentedControl.m in Sources */,
 				D07A3910176AA2AA00EABEB7 /* UIColor+EVAdditions.m in Sources */,
 				D08F619A176BE9F900F05A34 /* EVUserAutocompletionCell.m in Sources */,
