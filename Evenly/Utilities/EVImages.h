@@ -43,4 +43,8 @@
 + (UIImage *)supportIcon;
 + (UIImage *)inviteIcon;
 
+#pragma mark - Request
+
++ (UIImage *)inviteFriendsBanner;
+
 @end

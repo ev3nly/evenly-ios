@@ -38,5 +38,6 @@ typedef enum {
 @property (nonatomic, readonly) NSString *likeButtonString;
 
 + (EVStory *)storyFromPendingExchange:(EVExchange *)exchange;
++ (EVStory *)storyFromCompletedExchange:(EVExchange *)exchange;
 
 @end

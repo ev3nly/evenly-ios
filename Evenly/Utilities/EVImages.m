@@ -96,4 +96,10 @@
     return [UIImage imageNamed:@"Invite"];
 }
 
+#pragma mark - Request
+
++ (UIImage *)inviteFriendsBanner {
+    return [UIImage imageNamed:@"Request-Invite-Friends-Banner"];
+}
+
 @end

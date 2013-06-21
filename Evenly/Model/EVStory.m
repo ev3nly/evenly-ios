@@ -36,6 +36,25 @@
     return story;
 }
 
++ (EVStory *)storyFromCompletedExchange:(EVExchange *)exchange {
+    NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:0];
+    EVObject *toUser = exchange.to ? exchange.to : [EVCIA me];
+    EVObject *fromUser = exchange.from ? exchange.from : [EVCIA me];
+    
+    [properties setObject:@"requested" forKey:@"verb"];
+    [properties setObject:exchange.memo forKey:@"description"];
+    [properties setObject:exchange.createdAt forKey:@"published_at"];
+    [properties setObject:exchange.amount forKey:@"amount"];
+    [properties setObject:fromUser forKey:@"subject"];
+    [properties setObject:toUser forKey:@"target"];
+    [properties setObject:@"User" forKey:@"owner_type"];
+    [properties setObject:[EVCIA me].dbid forKey:@"owner_id"];
+    
+    EVStory *story = [EVStory new];
+    [story setProperties:properties];
+    return story;
+}
+
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     

@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) EVUser *user;
+@property (nonatomic, strong) NSArray *exchanges;
 
 - (id)initWithUser:(EVUser *)user;
 - (void)profileButtonTapped:(id)sender;
