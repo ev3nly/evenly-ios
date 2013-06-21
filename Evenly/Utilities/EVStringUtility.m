@@ -40,8 +40,20 @@ static NSDateFormatter *_shortDateFormatter;
     return _shortDateFormatter;
 }
 
+#pragma mark - Interaction Strings
+
++ (NSString *)stringForInteraction:(EVObject *)interaction {
+    if ([interaction isKindOfClass:[EVExchange class]])
+        return [self stringForExchange:(EVExchange *)interaction];
+    else if ([interaction isKindOfClass:[EVGroupCharge class]])
+        return [self stringForGroupCharge:(EVGroupCharge *)interaction];
+    return nil;
+}
+
+#pragma mark - Exchanges
 
 + (NSString *)stringForExchange:(EVExchange *)exchange {
+    
     NSDictionary *components = [self subjectVerbAndObjectForExchange:exchange];
     NSString *string = [NSString stringWithFormat:@"%@ %@ %@ %@ for %@\u00A0\u00A0\u00A0•\u00A0\u00A0\u00A0%@",
                         components[@"subject"],
@@ -57,6 +69,7 @@ static NSDateFormatter *_shortDateFormatter;
     NSString *subject;
     NSString *object;
     NSString *verb;
+    
     if ([exchange isKindOfClass:[EVPayment class]]) {
         verb = @"paid";
         if (exchange.from == nil) {
@@ -80,7 +93,41 @@ static NSDateFormatter *_shortDateFormatter;
     return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
 }
 
+#pragma mark - Group Charges
 
++ (NSString *)stringForGroupCharge:(EVGroupCharge *)groupCharge {
+    NSDictionary *components = [self subjectVerbAndObjectForGroupCharge:groupCharge];
+    NSString *string = [NSString stringWithFormat:@"%@ %@ %@ for %@\u00A0\u00A0\u00A0•\u00A0\u00A0\u00A0%@",
+                        components[@"subject"],
+                        components[@"verb"],
+                        components[@"object"],
+                        groupCharge.title,
+                        [[self shortDateFormatter] stringFromDate:groupCharge.createdAt]];
+    return string;
+}
+
++ (NSDictionary *)subjectVerbAndObjectForGroupCharge:(EVGroupCharge *)groupCharge {
+    NSString *subject;
+    NSString *object;
+    NSString *verb;
+    if (groupCharge.from == nil) {
+        subject = [self stringForNumberOfPeople:[groupCharge.records count]];
+        object = @"You";
+        verb = ([groupCharge.records count] == 1 ? @"owes" : @"owe");
+    } else {
+        subject = @"You";
+        object = groupCharge.from.name;
+        verb = @"owe";
+    }
+    return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
+}
+
++ (NSString *)stringForNumberOfPeople:(NSInteger)numberOfPeople {
+    if (numberOfPeople == 1) {
+        return @"1 person";
+    }
+    return [NSString stringWithFormat:@"%d people", numberOfPeople];
+}
 
 + (NSArray *)attributedStringsForObject:(EVObject *)object {
 	if ([object isKindOfClass:[EVExchange class]])
@@ -144,24 +191,24 @@ static NSDateFormatter *_shortDateFormatter;
     return array;
 }
 
-+ (NSArray *)attributedStringsForGroupCharge:(EVGroupCharge *)groupCharge {
-    if (groupCharge.from != nil)
-        return [self attributedStringsForExchange:groupCharge];
-    
-    NSMutableArray *array = [NSMutableArray array];
-    [array addObject:[[NSAttributedString alloc] initWithString:groupCharge.memo]];
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"Group charge to "
-                                                                       attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12] }]];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[groupCharge originalDictionary][@"to"] 
-                                                                       attributes:@{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12] }]];
-    [array addObject:attrString];
-    NSString *amount = [NSString stringWithFormat:@"%@/pp", [self amountStringForAmount:groupCharge.amount]];
-    NSString *date = [[self shortDateFormatter] stringFromDate:groupCharge.createdAt];
-    [array addObject:[self attributedStringForDateString:date amountString:amount amountColor:[UIColor blackColor] /* [EVColor incomingColor] */]];
-    return array;
-}
+//+ (NSArray *)attributedStringsForGroupCharge:(EVGroupCharge *)groupCharge {
+//    if (groupCharge.from != nil)
+//        return [self attributedStringsForExchange:groupCharge];
+//    
+//    NSMutableArray *array = [NSMutableArray array];
+//    [array addObject:[[NSAttributedString alloc] initWithString:groupCharge.memo]];
+//    
+//    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
+//    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"Group charge to "
+//                                                                       attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12] }]];
+//    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[groupCharge originalDictionary][@"to"] 
+//                                                                       attributes:@{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12] }]];
+//    [array addObject:attrString];
+//    NSString *amount = [NSString stringWithFormat:@"%@/pp", [self amountStringForAmount:groupCharge.amount]];
+//    NSString *date = [[self shortDateFormatter] stringFromDate:groupCharge.createdAt];
+//    [array addObject:[self attributedStringForDateString:date amountString:amount amountColor:[UIColor blackColor] /* [EVColor incomingColor] */]];
+//    return array;
+//}
 
 + (NSMutableAttributedString *)attributedStringForSubject:(NSString *)subject
                                                      verb:(NSString *)verb
@@ -252,6 +299,10 @@ static NSDateFormatter *_detailDateFormatter;
     return @"Lunch, dinner, taxi, or anything else";
 }
 
++ (NSString *)groupRequestDescriptionPlaceholder {
+   return @"Optional details go here";
+}
+
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber {
     if (phoneNumber.length == 11)
         phoneNumber = [phoneNumber substringFromIndex:1];
@@ -315,6 +366,8 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSDecimalNumber *)amountFromAmountString:(NSString *)amountString {
+    if (EV_IS_EMPTY_STRING(amountString))
+        return [NSDecimalNumber zero];
     return [NSDecimalNumber decimalNumberWithString:[amountString stringByReplacingOccurrencesOfString:@"$"
                                                                                             withString:@""]];
 }

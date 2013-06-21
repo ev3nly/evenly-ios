@@ -14,12 +14,14 @@
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
 #import "EVExchange.h"
+#import "EVGroupCharge.h"
 
 #import "EVDepositViewController.h"
 #import "EVCardsViewController.h"
 #import "EVBanksViewController.h"
 #import "EVHistoryViewController.h"
 #import "EVPendingDetailViewController.h"
+#import "EVGroupRequestDashboardViewController.h"
 
 #define EV_WALLET_ROW_HEIGHT 44.0
 
@@ -151,7 +153,7 @@
 }
 
 - (NSArray *)pendingExchanges {
-    return [[EVCIA sharedInstance] pendingReceivedExchanges];
+    return [[EVCIA sharedInstance] pendingExchanges];
 }
 
 - (BOOL)hasPendingExchanges {
@@ -199,7 +201,7 @@
         if ([self hasPendingExchanges])
         {
             EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
-            return [EVPendingExchangeCell sizeForExchange:exchange].height;
+            return [EVPendingExchangeCell sizeForInteraction:exchange].height;
         }
     }
     return 44.0;
@@ -222,13 +224,11 @@
     if ([self hasPendingExchanges])
     {
         cell = (EVPendingExchangeCell *)[self.pendingTableView dequeueReusableCellWithIdentifier:@"pendingCell"
-                                                                                                           forIndexPath:indexPath];
+                                                                                    forIndexPath:indexPath];
         EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
-        [cell.avatarView setImage:[[exchange from] avatar]];
-        NSString *text = [EVStringUtility stringForExchange:exchange];
+        [cell.avatarView setImage:[exchange avatar]];
+        NSString *text = [EVStringUtility stringForInteraction:exchange];
         cell.label.text = text;
-        [cell.label sizeToFit];
-        
     }
     else
     {
@@ -313,9 +313,18 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if (tableView == self.pendingTableView) {
-        EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
-        EVPendingDetailViewController *pendingController = [[EVPendingDetailViewController alloc] initWithExchange:exchange];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pendingController];
+        EVObject *interaction = (EVObject *)[[self pendingExchanges] objectAtIndex:indexPath.row];
+        UIViewController *controller = nil;
+        if ([interaction isKindOfClass:[EVExchange class]])
+        {
+            controller = [[EVPendingDetailViewController alloc] initWithExchange:(EVExchange *)interaction];
+
+        }
+        else if ([interaction isKindOfClass:[EVGroupCharge class]])
+        {
+            controller = [[EVGroupRequestDashboardViewController alloc] initWithGroupCharge:(EVGroupCharge *)interaction];
+        }
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:navController animated:YES completion:nil];
     }
     else if (tableView == self.walletTableView) {

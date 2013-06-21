@@ -19,6 +19,7 @@
 #import "ABContactsHelper.h"
 
 #import "EVCharge.h"
+#import "EVGroupCharge.h"
 
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
@@ -137,7 +138,7 @@
 
 - (void)loadPrivacySelector {
     _privacySelector = [[EVPrivacySelectorView alloc] initWithFrame:[self privacySelectorFrame]];
-    [self.view addSubview:_privacySelector];
+//    [self.view addSubview:_privacySelector];
 }
 
 - (CGRect)privacySelectorFrame {
@@ -155,9 +156,14 @@
     self.singleAmountView = [[EVRequestSingleAmountView alloc] initWithFrame:[self contentViewFrame]];
     self.singleAmountView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
+    self.multipleAmountsView = [[EVRequestMultipleAmountsView alloc] initWithFrame:[self.view bounds]];
+    self.multipleAmountsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    
     self.singleDetailsView = [[EVRequestDetailsView alloc] initWithFrame:[self.view bounds]];
     self.singleDetailsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;    
-    [self.singleDetailsView addSubview:self.privacySelector];
+    
+    self.multipleDetailsView = [[EVRequestMultipleDetailsView alloc] initWithFrame:[self.view bounds]];
+    self.multipleDetailsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     [self.view addSubview:self.initialView];
     [self.viewStack addObject:self.initialView];
@@ -207,12 +213,18 @@
     [self.singleAmountView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
         [self validateForPhase:EVRequestPhaseHowMuch];
     }];
-    
     // Multiple:
+    [RACAble(self.multipleAmountsView.isValid) subscribeNext:^(NSNumber *isValid) {
+        [self validateForPhase:EVRequestPhaseHowMuch];
+    }];
     
     // THIRD SCREEN:
     // Single
     [self.singleDetailsView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
+        [self validateForPhase:EVRequestPhaseWhatFor];
+    }];
+    // Multiple
+    [self.multipleDetailsView.nameField.rac_textSignal subscribeNext:^(NSString *nameString) {
         [self validateForPhase:EVRequestPhaseWhatFor];
     }];
 }
@@ -236,11 +248,17 @@
             [button setEnabled:okay];
             [self.singleAmountView.minimumAmountLabel setHidden:okay];
         }
+        else
+        {
+            [button setEnabled:self.multipleAmountsView.isValid];
+        }
     }
     else if (phase == EVRequestPhaseWhatFor)
     {
         if (!self.isGroupRequest)
             [button setEnabled:!EV_IS_EMPTY_STRING(self.singleDetailsView.descriptionField.text)];
+        else
+            [button setEnabled:!EV_IS_EMPTY_STRING(self.multipleDetailsView.nameField.text)];
     }
 }
 
@@ -264,15 +282,21 @@
         self.autocompleteTableView.hidden = YES;
         if (!self.isGroupRequest)
         {
-            self.exchange = [[EVCharge alloc] init];
+            self.request = [[EVCharge alloc] init];
             EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
-            self.exchange.to = recipient;
+            self.request.to = recipient;
             [self.singleAmountView.titleLabel setText:[NSString stringWithFormat:@"%@ owes me", [recipient name]]];
             [self pushView:self.singleAmountView animated:YES];
+            // Give the privacy selector to the single details view.
+            [self.singleDetailsView addSubview:self.privacySelector];
         }
         else
         {
-            
+            self.groupRequest = [[EVGroupCharge alloc] init];
+            self.groupRequest.members = [self.initialView recipients];
+            [self pushView:self.multipleAmountsView animated:YES];
+            // Give the privacy selector to the multiple details view.
+            [self.multipleDetailsView addSubview:self.privacySelector];
         }
         self.phase = EVRequestPhaseHowMuch;
     }
@@ -280,14 +304,15 @@
     {
         if (!self.isGroupRequest)
         {
-            self.exchange.amount = [EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text];
-            NSString *title = [NSString stringWithFormat:@"%@ owes me %@", self.exchange.to.name, [EVStringUtility amountStringForAmount:self.exchange.amount]];
+            self.request.amount = [EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text];
+            NSString *title = [NSString stringWithFormat:@"%@ owes me %@", self.request.to.name, [EVStringUtility amountStringForAmount:self.request.amount]];
             [self.singleDetailsView.titleLabel setText:title];
             [self pushView:self.singleDetailsView animated:YES];
         }
         else
         {
-            
+            self.groupRequest.tiers = self.multipleAmountsView.tiers;
+            [self pushView:self.multipleDetailsView animated:YES];
         }
         self.phase = EVRequestPhaseWhatFor;
     }
@@ -300,9 +325,9 @@
     
     if (!self.isGroupRequest)
     {
-        self.exchange.memo = self.singleDetailsView.descriptionField.text;
+        self.request.memo = self.singleDetailsView.descriptionField.text;
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        [self.exchange saveWithSuccess:^{
+        [self.request saveWithSuccess:^{
             hud.mode = MBProgressHUDModeText;
             hud.labelText = @"Success!";
             
@@ -312,7 +337,27 @@
                 }];
             });
         } failure:^(NSError *error) {
-            DLog(@"failed to create %@", NSStringFromClass([self.exchange class]));
+            DLog(@"failed to create %@", NSStringFromClass([self.request class]));
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
+        }];
+    }
+    else
+    {
+        self.groupRequest.title = self.multipleDetailsView.nameField.text;
+        self.groupRequest.memo = self.multipleDetailsView.descriptionField.text;
+        DLog(@"Group request dictionary representation: %@", [self.groupRequest dictionaryRepresentation]);
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [self.groupRequest saveWithSuccess:^{
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"Success!";
+            EV_DISPATCH_AFTER(1.0, ^(void) {
+                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                    
+                }];
+            });
+        } failure:^(NSError *error) {
+            DLog(@"failed to create %@", NSStringFromClass([self.request class]));
             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
     }

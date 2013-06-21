@@ -44,6 +44,7 @@ extern NSString *const EVCIAUpdatedExchangesNotification;
 - (void)reloadAllExchangesWithCompletion:(void (^)(void))completion;
 - (void)reloadAllExchangesWithCompletion:(void (^)(void))completion actOnCache:(BOOL)actOnCache;
 
+- (NSArray *)pendingExchanges;
 - (NSArray *)pendingReceivedExchanges;
 - (NSArray *)pendingSentExchanges;
 - (NSArray *)history;

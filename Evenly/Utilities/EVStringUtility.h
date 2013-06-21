@@ -17,10 +17,13 @@
 
 @interface EVStringUtility : NSObject
 
++ (NSString *)stringForInteraction:(EVObject *)interaction;
 + (NSString *)stringForExchange:(EVExchange *)exchange;
++ (NSString *)stringForGroupCharge:(EVGroupCharge *)groupCharge;
+
++ (NSString *)stringForNumberOfPeople:(NSInteger)numberOfPeople;
+
 + (NSDictionary *)subjectVerbAndObjectForExchange:(EVExchange *)exchange;
-
-
 
 + (NSArray *)attributedStringsForObject:(EVObject *)object;
 + (NSArray *)attributedStringsForExchange:(EVExchange *)exchange;
@@ -33,6 +36,7 @@
 + (NSString *)detailStringFromDate:(NSDate *)date;
 
 + (NSString *)requestDescriptionPlaceholder;
++ (NSString *)groupRequestDescriptionPlaceholder;
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber;
 

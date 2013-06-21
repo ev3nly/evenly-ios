@@ -230,6 +230,15 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
         completion();
 }
 
+- (NSArray *)pendingExchanges {
+    NSArray *received = [self pendingReceivedExchanges];
+    NSArray *sent = [received arrayByAddingObjectsFromArray:[self pendingSentExchanges]];
+    NSArray *sorted = [sent sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [[obj1 createdAt] compare:[obj2 createdAt]];
+    }];
+    return sorted;
+}
+
 - (NSArray *)pendingReceivedExchanges {
     return [self.internalCache objectForKey:@"pending_received"];
 }

@@ -9,18 +9,22 @@
 #import "EVPendingExchangeCell.h"
 
 #define EV_PENDING_EXCHANGE_CELL_MARGIN 10.0
+#define EV_PENDING_EXCHANGE_CELL_Y_MARGIN 5.0
+#define EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH 190.0
 
 #define EV_PENDING_EXCHANGE_CELL_FONT [EVFont defaultFontOfSize:14]
 @implementation EVPendingExchangeCell
 
-+ (CGSize)sizeForExchange:(EVExchange *)exchange {
-    NSString *string = [EVStringUtility stringForExchange:exchange];
-    CGFloat margination = EV_RIGHT_OVERHANG_MARGIN + 3*EV_PENDING_EXCHANGE_CELL_MARGIN + [EVAvatarView avatarSize].width;
-    CGFloat maxWidth = [UIScreen mainScreen].applicationFrame.size.width - margination;
++ (CGSize)sizeForInteraction:(EVObject *)object {
+    NSString *string = [EVStringUtility stringForInteraction:object];
+//    CGFloat margination = EV_RIGHT_OVERHANG_MARGIN + 4*EV_PENDING_EXCHANGE_CELL_MARGIN + [EVAvatarView avatarSize].width;
+    CGFloat maxWidth = EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH;
     CGSize size = [string sizeWithFont:EV_PENDING_EXCHANGE_CELL_FONT
                      constrainedToSize:CGSizeMake(maxWidth, 3*EV_PENDING_EXCHANGE_CELL_FONT.lineHeight)
                          lineBreakMode:NSLineBreakByTruncatingMiddle];
-    return CGSizeMake(maxWidth, size.height + 2*EV_PENDING_EXCHANGE_CELL_MARGIN);
+    
+    CGFloat height = MAX(size.height + 2*EV_PENDING_EXCHANGE_CELL_Y_MARGIN, [EVAvatarView avatarSize].height + 2*EV_PENDING_EXCHANGE_CELL_MARGIN);
+    return CGSizeMake(EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH, height);
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -38,14 +42,15 @@
         [self.containerView addSubview:self.avatarView];
         
         self.label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.avatarView.frame) + margin,
-                                                               margin,
-                                                               (self.containerView.frame.size.width - CGRectGetMaxX(self.avatarView.frame) - margin), self.containerView.frame.size.height - margin)];
+                                                               EV_PENDING_EXCHANGE_CELL_Y_MARGIN,
+                                                               EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH,
+                                                               self.containerView.frame.size.height - 2*EV_PENDING_EXCHANGE_CELL_Y_MARGIN)];
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = [UIColor whiteColor];
         self.label.numberOfLines = 3;
         self.label.lineBreakMode = NSLineBreakByTruncatingMiddle;
         self.label.font = EV_PENDING_EXCHANGE_CELL_FONT;
-        self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.label.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
         [self.containerView addSubview:self.label];
         
     }
