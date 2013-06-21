@@ -13,6 +13,7 @@
 #import "EVPayment.h"
 #import "EVWalletViewController.h"
 #import "EVNavigationManager.h"
+#import "MBProgressHUD.h"
 
 @interface EVPendingDetailViewController ()
 
@@ -97,6 +98,56 @@
         } failure:^(NSError *error) {
             [hud hide:YES];
             DLog(@"failed to complete charge");
+        }];
+    }
+}
+
+- (void)remindCharge {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    if ([self.exchange isKindOfClass:[EVCharge class]]) {
+        EVCharge *charge = (EVCharge *)self.exchange;
+        [charge remindWithSuccess:^{
+            
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"Success!";
+            
+            EV_DISPATCH_AFTER(1.0, ^(void){
+                [hud hide:YES];
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                        
+                    }];
+                }];
+            });
+        } failure:^(NSError *error) {
+            [hud hide:YES];
+            DLog(@"failed to remind charge");
+        }];
+    }
+}
+
+- (void)cancelCharge {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    if ([self.exchange isKindOfClass:[EVCharge class]]) {
+        EVCharge *charge = (EVCharge *)self.exchange;
+        [charge cancelWithSuccess:^{
+            
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"Success!";
+            
+            EV_DISPATCH_AFTER(1.0, ^(void){
+                [hud hide:YES];
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                        
+                    }];
+                }];
+            });
+        } failure:^(NSError *error) {
+            [hud hide:YES];
+            DLog(@"failed to cancel charge");
         }];
     }
 }

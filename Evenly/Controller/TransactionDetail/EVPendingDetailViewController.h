@@ -17,5 +17,7 @@
 - (id)initWithExchange:(EVExchange *)exchange;
 - (void)confirmCharge;
 - (void)denyCharge;
+- (void)remindCharge;
+- (void)cancelCharge;
 
 @end
