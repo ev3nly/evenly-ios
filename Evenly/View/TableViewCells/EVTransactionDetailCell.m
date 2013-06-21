@@ -28,6 +28,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self loadRightAvatarView];
         self.avatarView.cornerRadius = 8.0;
+        [self.avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(leftAvatarTapped)]];
     }
     return self;
 }
@@ -52,6 +53,17 @@
     self.rightAvatarView = [[EVAvatarView alloc] initWithFrame:self.bounds];
     self.rightAvatarView.cornerRadius = 8.0;
     [self.tombstoneBackground addSubview:self.rightAvatarView];
+    [self.rightAvatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rightAvatarTapped)]];
+}
+
+#pragma mark - Gesture Handling
+
+- (void)leftAvatarTapped {
+    [self.delegate avatarTappedForUser:self.story.subject];
+}
+
+- (void)rightAvatarTapped {
+    [self.delegate avatarTappedForUser:self.story.target];
 }
 
 #pragma mark - Setters

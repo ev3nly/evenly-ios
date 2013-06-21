@@ -66,7 +66,7 @@
     [self setTitle:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
     
     // RACAble prefers to operate on properties of self, so we can make the CIA a property of self
-    // for a little syntactic sugar.
+    // for a little syntactic sugar.  Sugar... mhmmmmm
     self.cia = [EVCIA sharedInstance];
     [RACAble(self.cia.me.balance) subscribeNext:^(NSDecimalNumber *balance) {
         [self setTitle:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
@@ -181,7 +181,7 @@
     EVStoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storyCell" forIndexPath:indexPath];
     EVStory *story = [self.newsfeed objectAtIndex:indexPath.row];
     [story setLikeCount:indexPath.row];
-    [cell setStory:story];
+    cell.story = story;
     return cell;
 }
 

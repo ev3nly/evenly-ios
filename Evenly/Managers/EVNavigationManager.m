@@ -61,7 +61,7 @@ static EVNavigationManager *_sharedManager;
 
 - (UINavigationController *)profileViewController {
     if (!_profileViewController)
-        _profileViewController = [[UINavigationController alloc] initWithRootViewController:[[EVProfileViewController alloc] init]];
+        _profileViewController = [[UINavigationController alloc] initWithRootViewController:[[EVProfileViewController alloc] initWithUser:[EVCIA me]]];
     return _profileViewController;
 }
 

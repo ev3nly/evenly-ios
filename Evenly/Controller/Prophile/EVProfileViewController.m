@@ -7,6 +7,8 @@
 //
 
 #import "EVProfileViewController.h"
+#import "EVProfileCell.h"
+#import "ReactiveCocoa.h"
 
 @interface EVProfileViewController ()
 
@@ -14,12 +16,13 @@
 
 @implementation EVProfileViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+#pragma mark - Lifecycle
+
+- (id)initWithUser:(EVUser *)user
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self = [super initWithNibName:nil bundle:nil]) {
         self.title = @"Profile";
-        // Custom initialization
+        self.user = user;
     }
     return self;
 }
@@ -27,13 +30,60 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
+    
+    [self loadTableView];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)viewDidAppear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [super viewDidAppear:animated];
+    
+    self.view.backgroundColor = [EVColor creamColor];
+    [EVCIA reloadMe];
+    [[EVCIA me] loadAvatar];
+}
+
+#pragma mark - View Loading
+
+- (void)loadTableView {
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    self.tableView.separatorColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundView = nil;
+    [self.tableView registerClass:[EVProfileCell class] forCellReuseIdentifier:@"profileCell"];
+    [self.view addSubview:self.tableView];
+}
+
+#pragma mark - Gesture Handling
+
+- (void)profileButtonTapped:(id)sender {
+    NSLog(@"prof tap");
+}
+
+#pragma mark - TableView DataSource/Delegate
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [EVProfileCell cellHeightForUser:self.user];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    EVProfileCell *cell = [tableView dequeueReusableCellWithIdentifier:@"profileCell" forIndexPath:indexPath];
+    cell.user = self.user;
+    cell.position = EVGroupedTableViewCellPositionSingle;
+    cell.parent = self;
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 @end

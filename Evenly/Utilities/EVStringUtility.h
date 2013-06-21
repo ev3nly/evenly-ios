@@ -34,6 +34,8 @@
 
 + (NSString *)requestDescriptionPlaceholder;
 
++ (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber;
+
 #pragma mark - Marketing Materials
 
 + (NSString *)appName;

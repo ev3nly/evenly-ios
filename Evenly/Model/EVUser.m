@@ -118,8 +118,8 @@ static EVUser *_me;
                 success();
             
         } failure:^(NSError *error){
-           if (failure)
-               failure(error);
+            if (failure)
+                failure(error);
             
         }];
     } else {
@@ -157,6 +157,18 @@ static EVUser *_me;
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
++ (void)loadUser:(EVUser *)user withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    [EVUser allWithSuccess:^(id result) {
+        if (user)
+            [user setProperties:[result originalDictionary]];
+        if (success)
+            success();
+    } failure:^(NSError *error){
+        if (failure)
+            failure(error);
+    }];
+}
+
 - (void)saveWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     [super saveWithSuccess:^{
         
@@ -190,7 +202,7 @@ static EVUser *_me;
     NSString *method = @"PUT";
     NSString *path = self.dbid;
     NSDictionary *parameters = [NSDictionary dictionaryWithObject:[self dictionaryRepresentation] forKey:@"question"];
-
+    
     formBlock = ^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:UIImageJPEGRepresentation(newAvatar, 0.9)
                                     name:@"avatar"

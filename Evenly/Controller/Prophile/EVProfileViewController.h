@@ -7,7 +7,14 @@
 //
 
 #import "EVViewController.h"
+#import "EVUser.h"
 
-@interface EVProfileViewController : EVViewController
+@interface EVProfileViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) EVUser *user;
+
+- (id)initWithUser:(EVUser *)user;
+- (void)profileButtonTapped:(id)sender;
 
 @end
