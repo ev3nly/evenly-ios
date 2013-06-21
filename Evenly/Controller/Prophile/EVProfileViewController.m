@@ -7,11 +7,16 @@
 //
 
 #import "EVProfileViewController.h"
+#import "EVTransactionDetailViewController.h"
 #import "EVProfileCell.h"
 #import "EVNoActivityCell.h"
 #import "EVProfileHistoryCell.h"
 #import "EVWithdrawal.h"
+#import "EVExchange.h"
+
 #import "ReactiveCocoa.h"
+#import "UIScrollView+SVPullToRefresh.h"
+#import "UIScrollView+SVInfiniteScrolling.h"
 
 @interface EVProfileViewController ()
 
@@ -54,7 +59,7 @@
 #pragma mark - View Loading
 
 - (void)loadTableView {
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc] initWithFrame:[self tableViewFrame] style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
@@ -66,6 +71,16 @@
     [self.tableView registerClass:[EVNoActivityCell class] forCellReuseIdentifier:@"noActivityCell"];
     [self.tableView registerClass:[EVProfileHistoryCell class] forCellReuseIdentifier:@"profileHistoryCell"];
     [self.view addSubview:self.tableView];
+    
+    __block EVProfileViewController *profileController = self;
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [[EVCIA sharedInstance] refreshHistoryWithCompletion:^(NSArray *history) {
+            profileController.tableView.isLoading = NO;
+            profileController.exchanges = history;
+            [profileController.tableView reloadData];
+            [profileController.tableView.pullToRefreshView stopAnimating];
+        }];
+    }];
 }
 
 #pragma mark - Gesture Handling
@@ -105,16 +120,21 @@
     } else {
         EVProfileHistoryCell *historyCell = [tableView dequeueReusableCellWithIdentifier:@"profileHistoryCell"];
         historyCell.position = [self cellPositionForIndexPath:indexPath];
-        EVExchange *exchange = [self.exchanges objectAtIndex:indexPath.row-1];
-        if (![[self.exchanges objectAtIndex:indexPath.row-1] isKindOfClass:[EVWithdrawal class]])
-              historyCell.story = [EVStory storyFromCompletedExchange:exchange];
+        EVObject *object = [self.exchanges objectAtIndex:indexPath.row-1];
+        historyCell.story = [self storyForObject:object];
         cell = historyCell;
     }
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.row == 0 || ![self hasExchanges])
+        return;
+    EVObject *object = [self.exchanges objectAtIndex:indexPath.row-1];
+    EVTransactionDetailViewController *detailController = [[EVTransactionDetailViewController alloc] initWithStory:[self storyForObject:object]];
+    [self.navigationController pushViewController:detailController animated:YES];
 }
 
 #pragma mark - Utility
@@ -133,8 +153,25 @@
     }
 }
 
+- (EVStory *)storyForObject:(EVObject *)object {
+    EVStory *story;
+    if ([object isKindOfClass:[EVExchange class]])
+        story = [EVStory storyFromCompletedExchange:(EVExchange *)object];
+    else if ([object isKindOfClass:[EVWithdrawal class]])
+        story = [EVStory storyFromWithdrawal:(EVWithdrawal *)object];
+    return story;
+}
+
 - (BOOL)hasExchanges {
     return (self.exchanges && [self.exchanges count] != 0);
+}
+
+#pragma mark - Frames
+
+- (CGRect)tableViewFrame {
+    CGRect tableFrame = self.view.bounds;
+    tableFrame.size.height += [UIApplication sharedApplication].statusBarFrame.size.height;
+    return tableFrame;
 }
 
 @end

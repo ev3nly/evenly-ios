@@ -149,9 +149,9 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 - (void)setStory:(EVStory *)story {
     _story = story;
     
-    if ([[story.subject dbid] isEqualToString:[EVCIA me].dbid] && story.target)
-        self.avatarView.avatarOwner = story.target;
-    else
+//    if ([[story.subject dbid] isEqualToString:[EVCIA me].dbid] && story.target)
+//        self.avatarView.avatarOwner = story.target;
+//    else
         self.avatarView.avatarOwner = story.subject;
     
     self.storyLabel.attributedText = [story attributedString];

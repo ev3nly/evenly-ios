@@ -42,6 +42,7 @@
 extern NSString *const EVCIAUpdatedExchangesNotification;
 
 - (void)reloadAllExchangesWithCompletion:(void (^)(void))completion;
+- (void)reloadAllExchangesWithCompletion:(void (^)(void))completion actOnCache:(BOOL)actOnCache;
 
 - (NSArray *)pendingReceivedExchanges;
 - (NSArray *)pendingSentExchanges;
@@ -50,6 +51,7 @@ extern NSString *const EVCIAUpdatedExchangesNotification;
 - (void)reloadPendingReceivedExchangesWithCompletion:(void (^)(NSArray *exchanges))completion;
 - (void)reloadPendingSentExchangesWithCompletion:(void (^)(NSArray *exchanges))completion;
 - (void)reloadHistoryWithCompletion:(void (^)(NSArray *history))completion;
+- (void)refreshHistoryWithCompletion:(void (^)(NSArray *history))completion;
 
 #pragma mark - Credit Cards
 
