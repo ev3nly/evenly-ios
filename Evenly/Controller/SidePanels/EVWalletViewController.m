@@ -14,12 +14,14 @@
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
 #import "EVExchange.h"
+#import "EVGroupCharge.h"
 
 #import "EVDepositViewController.h"
 #import "EVCardsViewController.h"
 #import "EVBanksViewController.h"
 #import "EVHistoryViewController.h"
 #import "EVPendingDetailViewController.h"
+#import "EVGroupRequestDashboardViewController.h"
 
 #define EV_WALLET_ROW_HEIGHT 44.0
 
@@ -312,12 +314,18 @@
 
     if (tableView == self.pendingTableView) {
         EVObject *interaction = (EVObject *)[[self pendingExchanges] objectAtIndex:indexPath.row];
+        UIViewController *controller = nil;
         if ([interaction isKindOfClass:[EVExchange class]])
         {
-            EVPendingDetailViewController *pendingController = [[EVPendingDetailViewController alloc] initWithExchange:(EVExchange *)interaction];
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pendingController];
-            [self presentViewController:navController animated:YES completion:nil];
+            controller = [[EVPendingDetailViewController alloc] initWithExchange:(EVExchange *)interaction];
+
         }
+        else if ([interaction isKindOfClass:[EVGroupCharge class]])
+        {
+            controller = [[EVGroupRequestDashboardViewController alloc] initWithGroupCharge:(EVGroupCharge *)interaction];
+        }
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+        [self presentViewController:navController animated:YES completion:nil];
     }
     else if (tableView == self.walletTableView) {
         if (indexPath.row == EVWalletRowCash)
