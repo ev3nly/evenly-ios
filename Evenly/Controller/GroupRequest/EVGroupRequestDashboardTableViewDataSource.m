@@ -8,7 +8,11 @@
 
 #import "EVGroupRequestDashboardTableViewDataSource.h"
 #import "EVGroupCharge.h"
+#import "EVGroupChargeTier.h"
+#import "EVGroupChargeRecord.h"
+#import "EVSegmentedControl.h"
 #import "EVDashboardTitleCell.h"
+#import "EVDashboardUserCell.h"
 
 @implementation EVGroupRequestDashboardTableViewDataSource
 
@@ -16,6 +20,7 @@
     self = [super init];
     if (self) {
         self.groupCharge = groupCharge;
+        self.segmentedControl = [[EVSegmentedControl alloc] initWithItems:@[ @"All", @"Paying", @"Paid" ]];
     }
     return self;
 }
@@ -28,23 +33,47 @@
     return EVDashboardPermanentRowCOUNT + [self.groupCharge.records count];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == EVDashboardPermanentRowTitle)
-    {
-        return [EVDashboardTitleCell heightWithTitle:self.groupCharge.title memo:self.groupCharge.memo];
-    }
-    return 44.0;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    EVGroupedTableViewCell *cell;
     if (indexPath.row == EVDashboardPermanentRowTitle)
     {
         EVDashboardTitleCell *titleCell = [tableView dequeueReusableCellWithIdentifier:@"titleCell" forIndexPath:indexPath];
         [titleCell.titleLabel setText:self.groupCharge.title];
         [titleCell.memoLabel setText:self.groupCharge.memo];
-        return titleCell;
+        cell = titleCell;
     }
-    return [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    else if (indexPath.row == EVDashboardPermanentRowProgress)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+        [cell setPosition:EVGroupedTableViewCellPositionCenter];
+    }
+    else if (indexPath.row == EVDashboardPermanentRowSegmentedControl)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+        [cell setPosition:EVGroupedTableViewCellPositionCenter];
+        [self.segmentedControl setFrame:CGRectMake(0, 0, cell.frame.size.width, 44.0)];
+        [cell addSubview:self.segmentedControl];
+    }
+    else
+    {
+        if ([self.groupCharge.records count] > 0)
+        {
+            EVDashboardUserCell *userCell = [tableView dequeueReusableCellWithIdentifier:@"userCell" forIndexPath:indexPath];
+            EVGroupChargeRecord *record = [self.groupCharge.records objectAtIndex:(indexPath.row - EVDashboardPermanentRowCOUNT)];
+            [userCell.nameLabel setText:record.user.name];
+            [userCell.avatarView setAvatarOwner:record.user];
+            [userCell.tierLabel setText:record.tier.name];
+            
+            if (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section])
+                userCell.position = EVGroupedTableViewCellPositionBottom;
+            else
+                userCell.position = EVGroupedTableViewCellPositionCenter;
+            cell = userCell;
+        }
+        else
+            cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    }
+    return cell;
 }
 
 

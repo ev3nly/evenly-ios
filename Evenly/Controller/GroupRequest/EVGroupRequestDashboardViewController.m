@@ -9,6 +9,7 @@
 #import "EVGroupRequestDashboardViewController.h"
 #import "EVGroupRequestDashboardTableViewDataSource.h"
 #import "EVDashboardTitleCell.h"
+#import "EVDashboardUserCell.h"
 
 @interface EVGroupRequestDashboardViewController ()
 
@@ -52,8 +53,22 @@
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVDashboardTitleCell class] forCellReuseIdentifier:@"titleCell"];
+    [self.tableView registerClass:[EVDashboardUserCell class] forCellReuseIdentifier:@"userCell"];
     [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == EVDashboardPermanentRowTitle)
+    {
+        CGFloat height = [EVDashboardTitleCell heightWithTitle:self.groupCharge.title memo:self.groupCharge.memo];
+        return height;
+    }
+    else if (indexPath.row >= EVDashboardPermanentRowCOUNT)
+    {
+        return 64.0;
+    }
+    return 44.0;
 }
 
 - (void)didReceiveMemoryWarning

@@ -16,10 +16,13 @@ typedef enum {
 } EVDashboardPermanentRow;
 
 @class EVGroupCharge;
+@class EVSegmentedControl;
 
 @interface EVGroupRequestDashboardTableViewDataSource : NSObject <UITableViewDataSource>
 
 @property (nonatomic, strong) EVGroupCharge *groupCharge;
+
+@property (nonatomic, strong) EVSegmentedControl *segmentedControl;
 
 - (id)initWithGroupCharge:(EVGroupCharge *)groupCharge;
 
