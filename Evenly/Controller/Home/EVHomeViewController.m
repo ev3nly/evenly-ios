@@ -14,7 +14,6 @@
 #import "EVFloatingPaymentButton.h"
 #import "EVPaymentViewController.h"
 #import "EVRequestViewController.h"
-#import "EVRequestViewController_NEW.h"
 #import "EVTransactionDetailViewController.h"
 
 #import "UIScrollView+SVPullToRefresh.h"
@@ -157,7 +156,7 @@
 #pragma mark - Button Actions
 
 - (void)requestButtonPress:(id)sender {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController_NEW alloc] init]];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
