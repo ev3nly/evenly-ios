@@ -51,23 +51,23 @@
     switch (indexPath.row) {
         case EVMainMenuOptionHome:
             title = @"Home";
-            icon = [UIImage imageNamed:@"Home"];
+            icon = [EVImages homeIcon];;
             break;
         case EVMainMenuOptionProfile:
             title = [[[EVCIA sharedInstance] me] name] ?: @"Profile";
-            icon = [UIImage imageNamed:@"User"];
+            icon = [EVImages profileIcon];
             break;
         case EVMainMenuOptionSettings:
             title = @"Settings";
-            icon = [UIImage imageNamed:@"Settings"];
+            icon = [EVImages settingsIcon];
             break;
         case EVMainMenuOptionSupport:
             title = @"Support";
-            icon = [UIImage imageNamed:@"Support"];
+            icon = [EVImages supportIcon];
             break;
         case EVMainMenuOptionInvite:
             title = @"Invite";
-            icon = [UIImage imageNamed:@"Invite"];
+            icon = [EVImages inviteIcon];
             break;
             
         default:

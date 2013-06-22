@@ -19,6 +19,12 @@ typedef enum {
     EVStoryTypeWithdrawal
 } EVStoryType;
 
+typedef enum {
+    EVStoryDisplayTypeMainFeed,
+    EVStoryDisplayTypeCompletedTransactionDetail,
+    EVStoryDisplayTypePendingTransactionDetail
+} EVStoryDisplayType;
+
 @interface EVStory : EVObject
 
 @property (nonatomic, strong) id subject;
@@ -35,8 +41,11 @@ typedef enum {
 
 @property (nonatomic, readonly) NSAttributedString *attributedString;
 @property (nonatomic, readonly) EVStoryType storyType;
+@property (nonatomic, assign) EVStoryDisplayType displayType;
 @property (nonatomic, readonly) NSString *likeButtonString;
 
 + (EVStory *)storyFromPendingExchange:(EVExchange *)exchange;
++ (EVStory *)storyFromCompletedExchange:(EVExchange *)exchange;
++ (EVStory *)storyFromWithdrawal:(EVWithdrawal *)withdrawal;
 
 @end

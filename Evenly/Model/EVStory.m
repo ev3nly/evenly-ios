@@ -10,7 +10,7 @@
 #import "EVUser.h"
 #import "EVPayment.h"
 #import "EVCharge.h"
-#import "EVExchange.h"
+#import "EVWithdrawal.h"
 
 @interface EVStory ()
 
@@ -33,7 +33,52 @@
     
     EVStory *story = [EVStory new];
     [story setProperties:properties];
+    story.displayType = EVStoryDisplayTypePendingTransactionDetail;
     return story;
+}
+
++ (EVStory *)storyFromCompletedExchange:(EVExchange *)exchange {
+    NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:0];
+    EVObject *fromUser = exchange.from ? exchange.from : [EVCIA me];
+    EVObject *toUser = exchange.to ? exchange.to : [EVCIA me];
+    NSString *verb = [exchange isKindOfClass:[EVPayment class]] ? @"paid" : @"charged";
+    
+    [properties setObject:verb forKey:@"verb"];
+    [properties setObject:exchange.memo forKey:@"description"];
+    [properties setObject:exchange.createdAt forKey:@"published_at"];
+    [properties setObject:exchange.amount forKey:@"amount"];
+    [properties setObject:fromUser forKey:@"subject"];
+    [properties setObject:toUser forKey:@"target"];
+    [properties setObject:@"User" forKey:@"owner_type"];
+    [properties setObject:fromUser.dbid forKey:@"owner_id"];
+    
+    EVStory *story = [EVStory new];
+    [story setProperties:properties];
+    story.displayType = EVStoryDisplayTypeCompletedTransactionDetail;
+    return story;
+}
+
++ (EVStory *)storyFromWithdrawal:(EVWithdrawal *)withdrawal {
+    NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:0];
+    EVObject *fromUser = [EVCIA me];
+    NSString *verb = @"withdrew";
+    
+    [properties setObject:verb forKey:@"verb"];
+    [properties setObject:withdrawal.bankName forKey:@"description"];
+    [properties setObject:withdrawal.createdAt forKey:@"published_at"];
+    [properties setObject:withdrawal.amount forKey:@"amount"];
+    [properties setObject:fromUser forKey:@"subject"];
+    [properties setObject:@"User" forKey:@"owner_type"];
+    [properties setObject:fromUser.dbid forKey:@"owner_id"];
+    
+    EVStory *story = [EVStory new];
+    [story setProperties:properties];
+    story.displayType = EVStoryDisplayTypeCompletedTransactionDetail;
+    return story;
+}
+
++ (NSString *)verbFromExchange:(EVExchange *)exchange isPending:(BOOL)isPending {
+    return nil;
 }
 
 - (void)setProperties:(NSDictionary *)properties {
@@ -132,7 +177,7 @@
                                               attributes:nounAttributes];
     verb = [[NSAttributedString alloc] initWithString:self.verb
                                            attributes:copyAttributes];
-    if (self.target && self.storyType != EVStoryTypePendingOutgoing) {
+    if (self.target && self.displayType != EVStoryDisplayTypePendingTransactionDetail) {
         NSString *targetName = [[self.target dbid] isEqualToString:[EVCIA me].dbid] ? @"You" : [self.target name];
         target = [[NSAttributedString alloc] initWithString:targetName
                                                  attributes:nounAttributes];
@@ -147,9 +192,11 @@
     else
         amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
                                                  attributes:positiveAttributes];
-    if (!EV_IS_EMPTY_STRING(self.storyDescription))
-        description = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"for %@", self.storyDescription]
+    if (!EV_IS_EMPTY_STRING(self.storyDescription)) {
+        NSString *preposition = (self.storyType == EVStoryTypeWithdrawal) ? @"into" : @"for";
+        description = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", preposition, self.storyDescription]
                                                       attributes:copyAttributes];
+    }
     NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" " attributes:copyAttributes];
     
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:subject];

@@ -303,6 +303,11 @@
 		D03F1E1C1767BB070067A428 /* EVExchangeFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */; };
 		D06DFAF61769473A00A06564 /* Privacy-Check.png in Resources */ = {isa = PBXBuildFile; fileRef = D06DFAF41769473A00A06564 /* Privacy-Check.png */; };
 		D06DFAF71769473A00A06564 /* Privacy-Check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D06DFAF51769473A00A06564 /* Privacy-Check@2x.png */; };
+		D077A8C0177391B4001BAAAD /* EVProfileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D077A8BF177391B4001BAAAD /* EVProfileCell.m */; };
+		D077A8C4177419EA001BAAAD /* Request-Invite-Friends-Banner.png in Resources */ = {isa = PBXBuildFile; fileRef = D077A8C2177419EA001BAAAD /* Request-Invite-Friends-Banner.png */; };
+		D077A8C5177419EA001BAAAD /* Request-Invite-Friends-Banner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D077A8C3177419EA001BAAAD /* Request-Invite-Friends-Banner@2x.png */; };
+		D077A8C817741B3E001BAAAD /* EVNoActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D077A8C717741B3E001BAAAD /* EVNoActivityCell.m */; };
+		D077A8CB17743324001BAAAD /* EVProfileHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D077A8CA17743324001BAAAD /* EVProfileHistoryCell.m */; };
 		D07A3902176A661D00EABEB7 /* EVTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A3901176A661D00EABEB7 /* EVTapGestureRecognizer.m */; };
 		D07A3908176A7B4B00EABEB7 /* EVPrivacySelectorOption.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A3907176A7B4B00EABEB7 /* EVPrivacySelectorOption.m */; };
 		D07A390B176A7D1F00EABEB7 /* EVPrivacySelectorLine.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A390A176A7D1F00EABEB7 /* EVPrivacySelectorLine.m */; };
@@ -765,6 +770,14 @@
 		D03F1E1B1767BB070067A428 /* EVExchangeFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeFormView.m; sourceTree = "<group>"; };
 		D06DFAF41769473A00A06564 /* Privacy-Check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Privacy-Check.png"; sourceTree = "<group>"; };
 		D06DFAF51769473A00A06564 /* Privacy-Check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Privacy-Check@2x.png"; sourceTree = "<group>"; };
+		D077A8BE177391B4001BAAAD /* EVProfileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVProfileCell.h; sourceTree = "<group>"; };
+		D077A8BF177391B4001BAAAD /* EVProfileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVProfileCell.m; sourceTree = "<group>"; };
+		D077A8C2177419EA001BAAAD /* Request-Invite-Friends-Banner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Invite-Friends-Banner.png"; sourceTree = "<group>"; };
+		D077A8C3177419EA001BAAAD /* Request-Invite-Friends-Banner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Invite-Friends-Banner@2x.png"; sourceTree = "<group>"; };
+		D077A8C617741B3E001BAAAD /* EVNoActivityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNoActivityCell.h; sourceTree = "<group>"; };
+		D077A8C717741B3E001BAAAD /* EVNoActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNoActivityCell.m; sourceTree = "<group>"; };
+		D077A8C917743324001BAAAD /* EVProfileHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVProfileHistoryCell.h; sourceTree = "<group>"; };
+		D077A8CA17743324001BAAAD /* EVProfileHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVProfileHistoryCell.m; sourceTree = "<group>"; };
 		D07A3900176A661D00EABEB7 /* EVTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTapGestureRecognizer.h; sourceTree = "<group>"; };
 		D07A3901176A661D00EABEB7 /* EVTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTapGestureRecognizer.m; sourceTree = "<group>"; };
 		D07A3906176A7B4B00EABEB7 /* EVPrivacySelectorOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPrivacySelectorOption.h; sourceTree = "<group>"; };
@@ -1311,6 +1324,12 @@
 				9C863C8B17729702003ADB49 /* EVHistoryCell.m */,
 				9C863C8C17729702003ADB49 /* EVTitleTextFieldCell.h */,
 				9C863C8D17729702003ADB49 /* EVTitleTextFieldCell.m */,
+				D077A8BE177391B4001BAAAD /* EVProfileCell.h */,
+				D077A8BF177391B4001BAAAD /* EVProfileCell.m */,
+				D077A8C617741B3E001BAAAD /* EVNoActivityCell.h */,
+				D077A8C717741B3E001BAAAD /* EVNoActivityCell.m */,
+				D077A8C917743324001BAAAD /* EVProfileHistoryCell.h */,
+				D077A8CA17743324001BAAAD /* EVProfileHistoryCell.m */,
 			);
 			path = Grouped;
 			sourceTree = "<group>";
@@ -1477,6 +1496,7 @@
 				9CB2857A1761521E009B26BB /* NavBar */,
 				9C54288F176FD6470028F141 /* PageControl */,
 				9C2DD06F1769050700EAA3D1 /* Privacy */,
+				D077A8C1177419CD001BAAAD /* Request */,
 				9C2DD088176928A500EAA3D1 /* Settings */,
 				9C58DC4B176BAFE80057C019 /* Switches */,
 				9CB285811761521E009B26BB /* Tombstone */,
@@ -1810,6 +1830,15 @@
 			path = Exchanges;
 			sourceTree = "<group>";
 		};
+		D077A8C1177419CD001BAAAD /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				D077A8C2177419EA001BAAAD /* Request-Invite-Friends-Banner.png */,
+				D077A8C3177419EA001BAAAD /* Request-Invite-Friends-Banner@2x.png */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
 		D0C30AF41770F46C005606E8 /* TransactionDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -2056,6 +2085,8 @@
 				9C58DC56176BAFE80057C019 /* toggle_on_bg.png in Resources */,
 				9C58DC57176BAFE80057C019 /* toggle_on_bg@2x.png in Resources */,
 				9C2E4FA6176E7A3A00ACE30E /* www.paywithivy.com.cer in Resources */,
+				D077A8C4177419EA001BAAAD /* Request-Invite-Friends-Banner.png in Resources */,
+				D077A8C5177419EA001BAAAD /* Request-Invite-Friends-Banner@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2323,6 +2354,9 @@
 				D0C30AFA1770F63A005606E8 /* EVTransactionDetailCell.m in Sources */,
 				D0C30AFE177217A3005606E8 /* EVPendingDetailViewController.m in Sources */,
 				D0C30B0117721927005606E8 /* EVPendingDetailCell.m in Sources */,
+				D077A8C0177391B4001BAAAD /* EVProfileCell.m in Sources */,
+				D077A8C817741B3E001BAAAD /* EVNoActivityCell.m in Sources */,
+				D077A8CB17743324001BAAAD /* EVProfileHistoryCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -202,6 +202,10 @@ static EVCIA *_sharedInstance;
 NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotification";
 
 - (void)reloadAllExchangesWithCompletion:(void (^)(void))completion {
+    [self reloadAllExchangesWithCompletion:completion actOnCache:YES];
+}
+
+- (void)reloadAllExchangesWithCompletion:(void (^)(void))completion actOnCache:(BOOL)actOnCache {
     [EVActivity allWithSuccess:^(id result) {
         
         BOOL updated = NO;
@@ -222,7 +226,7 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
     } failure:^(NSError *error) {
         DLog(@"Failed to reload: %@", error);
     }];
-    if (completion)
+    if (actOnCache && completion)
         completion();
 }
 
@@ -266,6 +270,13 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
         if (completion)
             completion([self.internalCache objectForKey:@"recent"]);
     }];
+}
+
+- (void)refreshHistoryWithCompletion:(void (^)(NSArray *history))completion {
+    [self reloadAllExchangesWithCompletion:^{
+        if (completion)
+            completion([self.internalCache objectForKey:@"recent"]);
+    } actOnCache:NO];
 }
 
 #pragma mark - Credit Cards

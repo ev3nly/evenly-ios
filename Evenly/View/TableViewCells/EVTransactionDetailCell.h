@@ -8,9 +8,16 @@
 
 #import "EVStoryCell.h"
 
+@protocol EVTransactionDetailCellDelegate <NSObject>
+
+- (void)avatarTappedForUser:(EVUser *)user;
+
+@end
+
 @interface EVTransactionDetailCell : EVStoryCell
 
 @property (nonatomic, strong) EVAvatarView *rightAvatarView;
+@property (nonatomic, weak) NSObject<EVTransactionDetailCellDelegate> *delegate;
 
 + (CGFloat)cellHeightForStory:(EVStory *)story;
 

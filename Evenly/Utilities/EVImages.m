@@ -74,4 +74,32 @@
     return [UIImage imageNamed:@"Transfer"];
 }
 
+#pragma mark - Menu Icons
+
++ (UIImage *)homeIcon {
+    return [UIImage imageNamed:@"Home"];
+}
+
++ (UIImage *)profileIcon {
+    return [UIImage imageNamed:@"User"];
+}
+
++ (UIImage *)settingsIcon {
+    return [UIImage imageNamed:@"Settings"];
+}
+
++ (UIImage *)supportIcon {
+    return [UIImage imageNamed:@"Support"];
+}
+
++ (UIImage *)inviteIcon {
+    return [UIImage imageNamed:@"Invite"];
+}
+
+#pragma mark - Request
+
++ (UIImage *)inviteFriendsBanner {
+    return [UIImage imageNamed:@"Request-Invite-Friends-Banner"];
+}
+
 @end
