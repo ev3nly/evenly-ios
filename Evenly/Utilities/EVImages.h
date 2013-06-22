@@ -13,14 +13,12 @@
 + (UIImage *)resizableTombstoneBackground;
 
 #pragma mark - Button Backgrounds
-
 + (UIImage *)blueButtonBackground;
 + (UIImage *)blueButtonBackgroundPress;
 + (UIImage *)grayButtonBackground;
 + (UIImage *)grayButtonBackgroundPress;
 
 #pragma mark - Privacy
-
 + (UIImage *)friendsIcon;
 + (UIImage *)globeIcon;
 + (UIImage *)lockIcon;
@@ -28,7 +26,6 @@
 + (UIImage *)checkIcon;
 
 #pragma mark - Income Icons
-
 + (UIImage *)incomeIcon;
 + (UIImage *)pendingIncomeIcon;
 + (UIImage *)paymentIcon;
@@ -36,7 +33,6 @@
 + (UIImage *)transferIcon;
 
 #pragma mark - Menu Icons
-
 + (UIImage *)homeIcon;
 + (UIImage *)profileIcon;
 + (UIImage *)settingsIcon;
@@ -44,7 +40,10 @@
 + (UIImage *)inviteIcon;
 
 #pragma mark - Request
-
 + (UIImage *)inviteFriendsBanner;
+
+#pragma mark - SignUp
++ (UIImage *)addPhotoIcon;
++ (UIImage *)defaultAvatar;
 
 @end

@@ -102,4 +102,13 @@
     return [UIImage imageNamed:@"Request-Invite-Friends-Banner"];
 }
 
+#pragma mark - SignUp
++ (UIImage *)addPhotoIcon {
+    return [UIImage imageNamed:@"add-photo"];
+}
+
++ (UIImage *)defaultAvatar {
+    return [UIImage imageNamed:@"DefaultAvatar"];
+}
+
 @end
