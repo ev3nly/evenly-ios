@@ -35,4 +35,16 @@
 + (UIImage *)pendingPaymentIcon;
 + (UIImage *)transferIcon;
 
+#pragma mark - Menu Icons
+
++ (UIImage *)homeIcon;
++ (UIImage *)profileIcon;
++ (UIImage *)settingsIcon;
++ (UIImage *)supportIcon;
++ (UIImage *)inviteIcon;
+
+#pragma mark - Request
+
++ (UIImage *)inviteFriendsBanner;
+
 @end

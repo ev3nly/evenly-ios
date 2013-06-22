@@ -7,14 +7,16 @@
 //
 
 #import "EVViewController.h"
+#import "EVTransactionDetailCell.h"
 
 @class EVStory;
 
-@interface EVTransactionDetailViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
+@interface EVTransactionDetailViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, EVTransactionDetailCellDelegate>
 
 @property (nonatomic, strong) EVStory *story;
 @property (nonatomic, strong) UITableView *tableView;
 
 - (id)initWithStory:(EVStory *)story;
+- (void)avatarTappedForUser:(EVUser *)user;
 
 @end

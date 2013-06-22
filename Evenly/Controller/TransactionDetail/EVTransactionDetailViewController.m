@@ -7,7 +7,7 @@
 //
 
 #import "EVTransactionDetailViewController.h"
-#import "EVTransactionDetailCell.h"
+#import "EVProfileViewController.h"
 #import "EVStory.h"
 
 @interface EVTransactionDetailViewController ()
@@ -45,6 +45,22 @@
     [self.view addSubview:self.tableView];
 }
 
+#pragma mark - Button Handling
+
+- (void)avatarTappedForUser:(EVUser *)user {
+
+    EVProfileViewController *profileController = [[EVProfileViewController alloc] initWithUser:user];
+    [self.navigationController pushViewController:profileController animated:YES];
+    return;
+    [EVUser loadUser:user withSuccess:^{
+        EVProfileViewController *profileController = [[EVProfileViewController alloc] initWithUser:user];
+        [self.navigationController pushViewController:profileController animated:YES];
+
+    } failure:^(NSError *error) {
+        NSLog(@"failed arg");
+    }];
+}
+
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -58,6 +74,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVTransactionDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"detailCell" forIndexPath:indexPath];
     cell.story = self.story;
+    cell.delegate = self;
     return cell;
 }
 

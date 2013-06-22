@@ -303,6 +303,18 @@ static NSDateFormatter *_detailDateFormatter;
    return @"Optional details go here";
 }
 
++ (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber {
+    if (phoneNumber.length == 11)
+        phoneNumber = [phoneNumber substringFromIndex:1];
+    if (phoneNumber.length == 10) {
+        NSString *areaCode = [phoneNumber substringWithRange:NSMakeRange(0, 3)];
+        NSString *firstThree = [phoneNumber substringWithRange:NSMakeRange(3, 3)];
+        NSString *lastFour = [phoneNumber substringWithRange:NSMakeRange(6, 4)];
+        return [NSString stringWithFormat:@"(%@) %@-%@", areaCode, firstThree, lastFour];
+    }
+    return phoneNumber;
+}
+
 #pragma mark - Marketing Materials
 
 + (NSString *)appName {

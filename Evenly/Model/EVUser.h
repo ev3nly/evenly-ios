@@ -57,6 +57,7 @@
 + (void)meWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure reload:(BOOL)reload;
 + (void)saveMeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 + (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure;
++ (void)loadUser:(EVUser *)user withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 
 - (void)loadAvatar;
 - (void)evictAvatarFromCache;
