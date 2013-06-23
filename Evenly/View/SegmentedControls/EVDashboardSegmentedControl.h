@@ -10,4 +10,6 @@
 
 @interface EVDashboardSegmentedControl : EVSegmentedControl
 
+@property (nonatomic, strong) UIImageView *backgroundView;
+
 @end

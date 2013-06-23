@@ -96,6 +96,10 @@
 		9C3242221777A8A2004A358F /* tab-inactive-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C3242201777A8A2004A358F /* tab-inactive-background.png */; };
 		9C3242231777A8A2004A358F /* tab-inactive-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C3242211777A8A2004A358F /* tab-inactive-background@2x.png */; };
 		9C3242261777A929004A358F /* EVMultipleAmountsSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3242251777A922004A358F /* EVMultipleAmountsSegmentedControl.m */; };
+		9C32422C1777AD3F004A358F /* Progress-Active.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C3242281777AD3F004A358F /* Progress-Active.png */; };
+		9C32422D1777AD3F004A358F /* Progress-Active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C3242291777AD3F004A358F /* Progress-Active@2x.png */; };
+		9C32422E1777AD3F004A358F /* Progress-Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C32422A1777AD3F004A358F /* Progress-Inactive.png */; };
+		9C32422F1777AD3F004A358F /* Progress-Inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C32422B1777AD3F004A358F /* Progress-Inactive@2x.png */; };
 		9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6EF176186A500084FA7 /* EVWalletCell.m */; };
 		9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6F21761871000084FA7 /* EVSidePanelCell.m */; };
 		9C35B6F717618A4400084FA7 /* WalletArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F517618A4400084FA7 /* WalletArrow.png */; };
@@ -508,6 +512,10 @@
 		9C3242211777A8A2004A358F /* tab-inactive-background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-inactive-background@2x.png"; sourceTree = "<group>"; };
 		9C3242241777A922004A358F /* EVMultipleAmountsSegmentedControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVMultipleAmountsSegmentedControl.h; sourceTree = "<group>"; };
 		9C3242251777A922004A358F /* EVMultipleAmountsSegmentedControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVMultipleAmountsSegmentedControl.m; sourceTree = "<group>"; };
+		9C3242281777AD3F004A358F /* Progress-Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Progress-Active.png"; sourceTree = "<group>"; };
+		9C3242291777AD3F004A358F /* Progress-Active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Progress-Active@2x.png"; sourceTree = "<group>"; };
+		9C32422A1777AD3F004A358F /* Progress-Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Progress-Inactive.png"; sourceTree = "<group>"; };
+		9C32422B1777AD3F004A358F /* Progress-Inactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Progress-Inactive@2x.png"; sourceTree = "<group>"; };
 		9C35B6EE176186A500084FA7 /* EVWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletCell.h; sourceTree = "<group>"; };
 		9C35B6EF176186A500084FA7 /* EVWalletCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletCell.m; sourceTree = "<group>"; };
 		9C35B6F11761871000084FA7 /* EVSidePanelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSidePanelCell.h; sourceTree = "<group>"; };
@@ -1233,6 +1241,17 @@
 			path = SegmentedControl;
 			sourceTree = "<group>";
 		};
+		9C3242271777AD3F004A358F /* ProgressBar */ = {
+			isa = PBXGroup;
+			children = (
+				9C3242281777AD3F004A358F /* Progress-Active.png */,
+				9C3242291777AD3F004A358F /* Progress-Active@2x.png */,
+				9C32422A1777AD3F004A358F /* Progress-Inactive.png */,
+				9C32422B1777AD3F004A358F /* Progress-Inactive@2x.png */,
+			);
+			path = ProgressBar;
+			sourceTree = "<group>";
+		};
 		9C35B6F417618A4400084FA7 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
@@ -1599,6 +1618,7 @@
 				9CB2857A1761521E009B26BB /* NavBar */,
 				9C54288F176FD6470028F141 /* PageControl */,
 				9C2DD06F1769050700EAA3D1 /* Privacy */,
+				9C3242271777AD3F004A358F /* ProgressBar */,
 				D077A8C1177419CD001BAAAD /* Request */,
 				9C32421F1777A8A2004A358F /* SegmentedControl */,
 				9C2DD088176928A500EAA3D1 /* Settings */,
@@ -2140,11 +2160,13 @@
 				9CB285AB1761521E009B26BB /* Header.png in Resources */,
 				9CB285AC1761521E009B26BB /* Header@2x.png in Resources */,
 				9CB285AD1761521E009B26BB /* Wallet.png in Resources */,
+				9C32422F1777AD3F004A358F /* Progress-Inactive@2x.png in Resources */,
 				9CB285AE1761521E009B26BB /* Wallet@2x.png in Resources */,
 				9CB285AF1761521E009B26BB /* AvatarContainer.png in Resources */,
 				9CB285B01761521E009B26BB /* AvatarContainer@2x.png in Resources */,
 				9CB285B11761521E009B26BB /* FeedContainer.png in Resources */,
 				9CB285B21761521E009B26BB /* FeedContainer@2x.png in Resources */,
+				9C32422C1777AD3F004A358F /* Progress-Active.png in Resources */,
 				9C54289B176FD6470028F141 /* Request-header-hole@2x.png in Resources */,
 				9CB285B31761521E009B26BB /* Heart.png in Resources */,
 				9CB285B41761521E009B26BB /* Heart@2x.png in Resources */,
@@ -2167,6 +2189,7 @@
 				9C35B6F717618A4400084FA7 /* WalletArrow.png in Resources */,
 				9C35B6F817618A4400084FA7 /* WalletArrow@2x.png in Resources */,
 				9C2684C81766851700AEA624 /* Action_Payment.png in Resources */,
+				9C32422E1777AD3F004A358F /* Progress-Inactive.png in Resources */,
 				9C2684C91766851700AEA624 /* Action_Payment@2x.png in Resources */,
 				9C2684CA1766851700AEA624 /* Action_PaymentActive.png in Resources */,
 				9C2684CB1766851700AEA624 /* Action_PaymentActive@2x.png in Resources */,
@@ -2176,6 +2199,7 @@
 				9C542896176FD6470028F141 /* Request-header-dot-hole.png in Resources */,
 				9C2684CE1766851700AEA624 /* Action_RequestActive.png in Resources */,
 				9C2684CF1766851700AEA624 /* Action_RequestActive@2x.png in Resources */,
+				9C32422D1777AD3F004A358F /* Progress-Active@2x.png in Resources */,
 				9C778DE517679ADA0053F9D6 /* Btn_Header_Active.png in Resources */,
 				9C542879176F9DB60028F141 /* Request-Single-Light@2x.png in Resources */,
 				9C778DE617679ADA0053F9D6 /* Btn_Header_Active@2x.png in Resources */,

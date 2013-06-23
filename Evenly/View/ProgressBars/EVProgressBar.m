@@ -25,7 +25,7 @@
         self.background = [[EVProgressBarBackground alloc] initWithFrame:self.bounds];
         [self addSubview:self.background];
         
-        self.foreground = [[EVProgressBarForeground alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        self.foreground = [[EVProgressBarForeground alloc] initWithFrame:CGRectMake(0, 0, 0, self.frame.size.height)];
         [self addSubview:self.foreground];
         
         self.enabled = NO;

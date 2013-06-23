@@ -10,7 +10,7 @@
 
 #define LABEL_X_MARGIN 5.0
 #define LABEL_HEIGHT 20.0
-#define PROGRESS_BAR_HEIGHT 22.0
+#define PROGRESS_BAR_HEIGHT 19.0
 
 @implementation EVGroupRequestProgressView
 

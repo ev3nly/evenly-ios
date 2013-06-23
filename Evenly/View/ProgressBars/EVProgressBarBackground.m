@@ -25,11 +25,10 @@
 - (void)drawRect:(CGRect)rect
 {
     UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:(rect.size.height / 2)];
+    [[EVColor newsfeedStripeColor] setStroke];
     if (self.enabled) {
-        [[UIColor whiteColor] setStroke];
         [[EVColor newsfeedStripeColor] setFill];
     } else {
-        [[EVColor newsfeedStripeColor] setStroke];
         [[EVColor progressBarDisabledColor] setFill];
     }
     path.lineWidth = 2.0;
