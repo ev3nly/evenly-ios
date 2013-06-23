@@ -1,14 +1,14 @@
 //
-//  EVGroupChargeTier.m
+//  EVGroupRequestTier.m
 //  Evenly
 //
 //  Created by Joseph Hankin on 6/19/13.
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVGroupChargeTier.h"
+#import "EVGroupRequestTier.h"
 
-@implementation EVGroupChargeTier
+@implementation EVGroupRequestTier
 
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
@@ -36,7 +36,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"Group Charge Tier <0x%x>: %@ - %@", (int)self, self.name, self.price];
+    return [NSString stringWithFormat:@"Group Request Tier <0x%x>: %@ - %@", (int)self, self.name, self.price];
 }
 
 @end

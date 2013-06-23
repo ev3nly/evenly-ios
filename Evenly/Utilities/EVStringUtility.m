@@ -10,8 +10,8 @@
 #import "EVExchange.h"
 #import "EVWithdrawal.h"
 #import "EVPayment.h"
-#import "EVCharge.h"
-#import "EVGroupCharge.h"
+#import "EVRequest.h"
+#import "EVGroupRequest.h"
 
 @interface EVStringUtility (private)
 
@@ -45,8 +45,8 @@ static NSDateFormatter *_shortDateFormatter;
 + (NSString *)stringForInteraction:(EVObject *)interaction {
     if ([interaction isKindOfClass:[EVExchange class]])
         return [self stringForExchange:(EVExchange *)interaction];
-    else if ([interaction isKindOfClass:[EVGroupCharge class]])
-        return [self stringForGroupCharge:(EVGroupCharge *)interaction];
+    else if ([interaction isKindOfClass:[EVGroupRequest class]])
+        return [self stringForGroupRequest:(EVGroupRequest *)interaction];
     return nil;
 }
 
@@ -93,30 +93,30 @@ static NSDateFormatter *_shortDateFormatter;
     return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
 }
 
-#pragma mark - Group Charges
+#pragma mark - Group Requests
 
-+ (NSString *)stringForGroupCharge:(EVGroupCharge *)groupCharge {
-    NSDictionary *components = [self subjectVerbAndObjectForGroupCharge:groupCharge];
++ (NSString *)stringForGroupRequest:(EVGroupRequest *)groupRequest {
+    NSDictionary *components = [self subjectVerbAndObjectForGroupRequest:groupRequest];
     NSString *string = [NSString stringWithFormat:@"%@ %@ %@ for %@\u00A0\u00A0\u00A0•\u00A0\u00A0\u00A0%@",
                         components[@"subject"],
                         components[@"verb"],
                         components[@"object"],
-                        groupCharge.title,
-                        [[self shortDateFormatter] stringFromDate:groupCharge.createdAt]];
+                        groupRequest.title,
+                        [[self shortDateFormatter] stringFromDate:groupRequest.createdAt]];
     return string;
 }
 
-+ (NSDictionary *)subjectVerbAndObjectForGroupCharge:(EVGroupCharge *)groupCharge {
++ (NSDictionary *)subjectVerbAndObjectForGroupRequest:(EVGroupRequest *)groupRequest {
     NSString *subject;
     NSString *object;
     NSString *verb;
-    if (groupCharge.from == nil) {
-        subject = [self stringForNumberOfPeople:[groupCharge.records count]];
+    if (groupRequest.from == nil) {
+        subject = [self stringForNumberOfPeople:[groupRequest.records count]];
         object = @"You";
-        verb = ([groupCharge.records count] == 1 ? @"owes" : @"owe");
+        verb = ([groupRequest.records count] == 1 ? @"owes" : @"owe");
     } else {
         subject = @"You";
-        object = groupCharge.from.name;
+        object = groupRequest.from.name;
         verb = @"owe";
     }
     return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
@@ -190,25 +190,6 @@ static NSDateFormatter *_shortDateFormatter;
     
     return array;
 }
-
-//+ (NSArray *)attributedStringsForGroupCharge:(EVGroupCharge *)groupCharge {
-//    if (groupCharge.from != nil)
-//        return [self attributedStringsForExchange:groupCharge];
-//    
-//    NSMutableArray *array = [NSMutableArray array];
-//    [array addObject:[[NSAttributedString alloc] initWithString:groupCharge.memo]];
-//    
-//    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
-//    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"Group charge to "
-//                                                                       attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12] }]];
-//    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[groupCharge originalDictionary][@"to"] 
-//                                                                       attributes:@{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12] }]];
-//    [array addObject:attrString];
-//    NSString *amount = [NSString stringWithFormat:@"%@/pp", [self amountStringForAmount:groupCharge.amount]];
-//    NSString *date = [[self shortDateFormatter] stringFromDate:groupCharge.createdAt];
-//    [array addObject:[self attributedStringForDateString:date amountString:amount amountColor:[UIColor blackColor] /* [EVColor incomingColor] */]];
-//    return array;
-//}
 
 + (NSMutableAttributedString *)attributedStringForSubject:(NSString *)subject
                                                      verb:(NSString *)verb

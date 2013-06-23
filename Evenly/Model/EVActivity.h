@@ -7,7 +7,7 @@
 //
 
 #import "EVPayment.h"
-#import "EVCharge.h"
+#import "EVRequest.h"
 #import "EVWithdrawal.h"
 
 @interface EVActivity : EVObject

@@ -11,15 +11,15 @@
 
 @class  EVExchange,
         EVPayment,
-        EVCharge,
-        EVGroupCharge,
+        EVRequest,
+        EVGroupRequest,
         EVWithdrawal;
 
 @interface EVStringUtility : NSObject
 
 + (NSString *)stringForInteraction:(EVObject *)interaction;
 + (NSString *)stringForExchange:(EVExchange *)exchange;
-+ (NSString *)stringForGroupCharge:(EVGroupCharge *)groupCharge;
++ (NSString *)stringForGroupRequest:(EVGroupRequest *)groupRequest;
 
 + (NSString *)stringForNumberOfPeople:(NSInteger)numberOfPeople;
 
@@ -27,7 +27,6 @@
 
 + (NSArray *)attributedStringsForObject:(EVObject *)object;
 + (NSArray *)attributedStringsForExchange:(EVExchange *)exchange;
-+ (NSArray *)attributedStringsForGroupCharge:(EVGroupCharge *)groupCharge;
 + (NSArray *)attributedStringsForWithdrawal:(EVWithdrawal *)withdrawal;
 + (NSString *)userNameForObject:(EVObject<EVExchangeable> *)object;
 

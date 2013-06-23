@@ -1,5 +1,5 @@
 //
-//  EVGroupChargeTier.h
+//  EVGroupRequestTier.h
 //  Evenly
 //
 //  Created by Joseph Hankin on 6/19/13.
@@ -8,7 +8,7 @@
 
 #import "EVObject.h"
 
-@interface EVGroupChargeTier : EVObject
+@interface EVGroupRequestTier : EVObject
 
 @property (nonatomic, strong) NSDecimalNumber *price;
 @property (nonatomic, strong) NSString *name;
