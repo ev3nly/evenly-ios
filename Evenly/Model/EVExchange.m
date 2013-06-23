@@ -8,7 +8,7 @@
 
 #import "EVExchange.h"
 #import "EVSerializer.h"
-#import "EVCharge.h"
+#import "EVRequest.h"
 #import "EVPayment.h"
 
 /* 
@@ -81,12 +81,12 @@
 
 
 - (BOOL)isIncoming {
-    if ([self isKindOfClass:[EVCharge class]])
+    if ([self isKindOfClass:[EVRequest class]])
         return (self.from == nil);
     else if ([self isKindOfClass:[EVPayment class]])
         return (self.to == nil);
     else
-        [NSException raise:@"EVInvalidExchangeClassException" format:@"Exchange is neither a charge nor a payment but rather a %@", [self class]];
+        [NSException raise:@"EVInvalidExchangeClassException" format:@"Exchange is neither a request nor a payment but rather a %@", [self class]];
     return NO;
 }
 

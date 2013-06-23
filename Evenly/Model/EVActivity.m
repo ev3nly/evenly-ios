@@ -22,11 +22,11 @@
         NSMutableArray *pending_sent = [NSMutableArray array];
         NSMutableArray *recent = [NSMutableArray array];
         
-        for (NSDictionary *chargeDictionary in [result objectForKey:@"pending_received"])
-            [pending_received addObject:[EVSerializer serializeDictionary:chargeDictionary]];
+        for (NSDictionary *requestDictionary in [result objectForKey:@"pending_received"])
+            [pending_received addObject:[EVSerializer serializeDictionary:requestDictionary]];
         
-        for (NSDictionary *chargeDictionary in [result objectForKey:@"pending_sent"])
-            [pending_sent addObject:[EVSerializer serializeDictionary:chargeDictionary]];
+        for (NSDictionary *requestDictionary in [result objectForKey:@"pending_sent"])
+            [pending_sent addObject:[EVSerializer serializeDictionary:requestDictionary]];
         
         for (NSDictionary *itemDictionary in [result objectForKey:@"recent"])
             [recent addObject:[EVSerializer serializeDictionary:itemDictionary]];

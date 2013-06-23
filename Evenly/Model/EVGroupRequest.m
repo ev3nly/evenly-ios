@@ -1,16 +1,16 @@
 //
-//  EVGroupCharge.m
+//  EVGroupRequest.m
 //  Evenly
 //
 //  Created by Joseph Hankin on 4/19/13.
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVGroupCharge.h"
+#import "EVGroupRequest.h"
 #import "EVSerializer.h"
-#import "EVGroupChargeTier.h"
+#import "EVGroupRequestTier.h"
 
-@implementation EVGroupCharge
+@implementation EVGroupRequest
 
 + (NSString *)controllerName {
     return @"group-charges";
@@ -50,7 +50,7 @@
     setValueForKeyIfNonNil(self.memo, @"description");
     
     NSMutableArray *array = [NSMutableArray array];
-    for (EVGroupChargeTier *tier in self.tiers) {
+    for (EVGroupRequestTier *tier in self.tiers) {
         [array addObject:[tier dictionaryRepresentation]];
     }
     [mutableDictionary setObject:array forKey:@"tiers"];
@@ -68,8 +68,8 @@
     return mutableDictionary;
 }
 
-- (EVGroupChargeTier *)tierWithID:(NSString *)tierID {
-    EVGroupChargeTier *tier = nil;
+- (EVGroupRequestTier *)tierWithID:(NSString *)tierID {
+    EVGroupRequestTier *tier = nil;
     for (tier in self.tiers) {
         if ([tier.dbid isEqualToString:tierID]) {
             break;
@@ -83,7 +83,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<0x%x> Group Charge %@\n--------------\nTitle: %@\nDescription: %@\nTiers: %@\nRecords: %@\n",
+    return [NSString stringWithFormat:@"<0x%x> Group Request %@\n--------------\nTitle: %@\nDescription: %@\nTiers: %@\nRecords: %@\n",
             (int)self, self.dbid, self.title, self.memo, self.tiers, self.records];
 }
 

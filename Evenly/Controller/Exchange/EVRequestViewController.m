@@ -18,8 +18,8 @@
 
 #import "ABContactsHelper.h"
 
-#import "EVCharge.h"
-#import "EVGroupCharge.h"
+#import "EVRequest.h"
+#import "EVGroupRequest.h"
 
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
@@ -282,7 +282,7 @@
         self.autocompleteTableView.hidden = YES;
         if (!self.isGroupRequest)
         {
-            self.request = [[EVCharge alloc] init];
+            self.request = [[EVRequest alloc] init];
             EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
             self.request.to = recipient;
             [self.singleAmountView.titleLabel setText:[NSString stringWithFormat:@"%@ owes me", [recipient name]]];
@@ -292,7 +292,7 @@
         }
         else
         {
-            self.groupRequest = [[EVGroupCharge alloc] init];
+            self.groupRequest = [[EVGroupRequest alloc] init];
             self.groupRequest.members = [self.initialView recipients];
             [self pushView:self.multipleAmountsView animated:YES];
             // Give the privacy selector to the multiple details view.
@@ -320,9 +320,7 @@
     [self validateForPhase:self.phase];
 }
 
-- (void)requestButtonPress:(id)sender {
-    // TODO: Verify this works for group charge as well.
-    
+- (void)requestButtonPress:(id)sender {    
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REQUEST..."];
     
     if (!self.isGroupRequest)

@@ -15,9 +15,9 @@
 @property (nonatomic, strong) EVExchange *exchange;
 
 - (id)initWithExchange:(EVExchange *)exchange;
-- (void)confirmCharge;
-- (void)denyCharge;
-- (void)remindCharge;
-- (void)cancelCharge;
+- (void)confirmRequest;
+- (void)denyRequest;
+- (void)remindRequest;
+- (void)cancelRequest;
 
 @end

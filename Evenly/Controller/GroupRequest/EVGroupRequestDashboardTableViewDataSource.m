@@ -7,19 +7,19 @@
 //
 
 #import "EVGroupRequestDashboardTableViewDataSource.h"
-#import "EVGroupCharge.h"
-#import "EVGroupChargeTier.h"
-#import "EVGroupChargeRecord.h"
+#import "EVGroupRequest.h"
+#import "EVGroupRequestTier.h"
+#import "EVGroupRequestRecord.h"
 #import "EVSegmentedControl.h"
 #import "EVDashboardTitleCell.h"
 #import "EVDashboardUserCell.h"
 
 @implementation EVGroupRequestDashboardTableViewDataSource
 
-- (id)initWithGroupCharge:(EVGroupCharge *)groupCharge {
+- (id)initWithGroupRequest:(EVGroupRequest *)groupRequest {
     self = [super init];
     if (self) {
-        self.groupCharge = groupCharge;
+        self.groupRequest = groupRequest;
         self.segmentedControl = [[EVSegmentedControl alloc] initWithItems:@[ @"All", @"Paying", @"Paid" ]];
     }
     return self;
@@ -27,10 +27,10 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if ([self.groupCharge.records count] == 0) {
+    if ([self.groupRequest.records count] == 0) {
         return EVDashboardPermanentRowCOUNT + 1;
     }
-    return EVDashboardPermanentRowCOUNT + [self.groupCharge.records count];
+    return EVDashboardPermanentRowCOUNT + [self.groupRequest.records count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -38,8 +38,8 @@
     if (indexPath.row == EVDashboardPermanentRowTitle)
     {
         EVDashboardTitleCell *titleCell = [tableView dequeueReusableCellWithIdentifier:@"titleCell" forIndexPath:indexPath];
-        [titleCell.titleLabel setText:self.groupCharge.title];
-        [titleCell.memoLabel setText:self.groupCharge.memo];
+        [titleCell.titleLabel setText:self.groupRequest.title];
+        [titleCell.memoLabel setText:self.groupRequest.memo];
         cell = titleCell;
     }
     else if (indexPath.row == EVDashboardPermanentRowProgress)
@@ -56,10 +56,10 @@
     }
     else
     {
-        if ([self.groupCharge.records count] > 0)
+        if ([self.groupRequest.records count] > 0)
         {
             EVDashboardUserCell *userCell = [tableView dequeueReusableCellWithIdentifier:@"userCell" forIndexPath:indexPath];
-            EVGroupChargeRecord *record = [self.groupCharge.records objectAtIndex:(indexPath.row - EVDashboardPermanentRowCOUNT)];
+            EVGroupRequestRecord *record = [self.groupRequest.records objectAtIndex:(indexPath.row - EVDashboardPermanentRowCOUNT)];
             [userCell.nameLabel setText:record.user.name];
             [userCell.avatarView setAvatarOwner:record.user];
             [userCell.tierLabel setText:record.tier.name];

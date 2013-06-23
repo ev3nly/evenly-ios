@@ -34,11 +34,11 @@
 		9C1F47FD1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47ED1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m */; };
 		9C1F481F175691B600B26A1B /* EVActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4800175691B600B26A1B /* EVActivity.m */; };
 		9C1F4820175691B600B26A1B /* EVBankAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4802175691B600B26A1B /* EVBankAccount.m */; };
-		9C1F4822175691B600B26A1B /* EVCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4806175691B600B26A1B /* EVCharge.m */; };
+		9C1F4822175691B600B26A1B /* EVRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4806175691B600B26A1B /* EVRequest.m */; };
 		9C1F4823175691B600B26A1B /* EVCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4808175691B600B26A1B /* EVCreditCard.m */; };
 		9C1F4824175691B600B26A1B /* EVExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F480A175691B600B26A1B /* EVExchange.m */; };
 		9C1F4825175691B600B26A1B /* EVFundingSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F480C175691B600B26A1B /* EVFundingSource.m */; };
-		9C1F4826175691B600B26A1B /* EVGroupCharge.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F480E175691B600B26A1B /* EVGroupCharge.m */; };
+		9C1F4826175691B600B26A1B /* EVGroupRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F480E175691B600B26A1B /* EVGroupRequest.m */; };
 		9C1F4827175691B600B26A1B /* EVInvite.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4810175691B600B26A1B /* EVInvite.m */; };
 		9C1F4828175691B600B26A1B /* EVNotificationSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4812175691B600B26A1B /* EVNotificationSetting.m */; };
 		9C1F4829175691B600B26A1B /* EVObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4814175691B600B26A1B /* EVObject.m */; };
@@ -92,7 +92,7 @@
 		9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6F21761871000084FA7 /* EVSidePanelCell.m */; };
 		9C35B6F717618A4400084FA7 /* WalletArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F517618A4400084FA7 /* WalletArrow.png */; };
 		9C35B6F817618A4400084FA7 /* WalletArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F617618A4400084FA7 /* WalletArrow@2x.png */; };
-		9C39172A1773A35F002949C3 /* EVGroupChargeRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3917291773A2D6002949C3 /* EVGroupChargeRecord.m */; };
+		9C39172A1773A35F002949C3 /* EVGroupRequestRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3917291773A2D6002949C3 /* EVGroupRequestRecord.m */; };
 		9C39172E1773C70C002949C3 /* EVGroupRequestDashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C39172D1773C4D2002949C3 /* EVGroupRequestDashboardViewController.m */; };
 		9C3917321773C9CB002949C3 /* EVDashboardTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3917311773C9BF002949C3 /* EVDashboardTitleCell.m */; };
 		9C3917351773CEBB002949C3 /* EVGroupRequestDashboardTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3917341773CE81002949C3 /* EVGroupRequestDashboardTableViewDataSource.m */; };
@@ -169,7 +169,7 @@
 		9C863C98177298FC003ADB49 /* Request-Multi-Remove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C863C96177298FC003ADB49 /* Request-Multi-Remove@2x.png */; };
 		9C863C9C17729E7D003ADB49 /* Invite.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C863C9A17729E7D003ADB49 /* Invite.png */; };
 		9C863C9D17729E7D003ADB49 /* Invite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C863C9B17729E7D003ADB49 /* Invite@2x.png */; };
-		9C863CA01772AEBC003ADB49 /* EVGroupChargeTier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C9F1772AEAB003ADB49 /* EVGroupChargeTier.m */; };
+		9C863CA01772AEBC003ADB49 /* EVGroupRequestTier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C9F1772AEAB003ADB49 /* EVGroupRequestTier.m */; };
 		9C900D141767E84400E2F4C4 /* EVDepositViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D131767E84400E2F4C4 /* EVDepositViewController.m */; };
 		9C900D1B1767EB8600E2F4C4 /* EVImages.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D1A1767EB8600E2F4C4 /* EVImages.m */; };
 		9C900D1E1767F08D00E2F4C4 /* EVDepositCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D1D1767F08D00E2F4C4 /* EVDepositCell.m */; };
@@ -408,16 +408,16 @@
 		9C1F4800175691B600B26A1B /* EVActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVActivity.m; sourceTree = "<group>"; };
 		9C1F4801175691B600B26A1B /* EVBankAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVBankAccount.h; sourceTree = "<group>"; };
 		9C1F4802175691B600B26A1B /* EVBankAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVBankAccount.m; sourceTree = "<group>"; };
-		9C1F4805175691B600B26A1B /* EVCharge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCharge.h; sourceTree = "<group>"; };
-		9C1F4806175691B600B26A1B /* EVCharge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCharge.m; sourceTree = "<group>"; };
+		9C1F4805175691B600B26A1B /* EVRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequest.h; sourceTree = "<group>"; };
+		9C1F4806175691B600B26A1B /* EVRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequest.m; sourceTree = "<group>"; };
 		9C1F4807175691B600B26A1B /* EVCreditCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCreditCard.h; sourceTree = "<group>"; };
 		9C1F4808175691B600B26A1B /* EVCreditCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCreditCard.m; sourceTree = "<group>"; };
 		9C1F4809175691B600B26A1B /* EVExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchange.h; sourceTree = "<group>"; };
 		9C1F480A175691B600B26A1B /* EVExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchange.m; sourceTree = "<group>"; };
 		9C1F480B175691B600B26A1B /* EVFundingSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFundingSource.h; sourceTree = "<group>"; };
 		9C1F480C175691B600B26A1B /* EVFundingSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFundingSource.m; sourceTree = "<group>"; };
-		9C1F480D175691B600B26A1B /* EVGroupCharge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupCharge.h; sourceTree = "<group>"; };
-		9C1F480E175691B600B26A1B /* EVGroupCharge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupCharge.m; sourceTree = "<group>"; };
+		9C1F480D175691B600B26A1B /* EVGroupRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequest.h; sourceTree = "<group>"; };
+		9C1F480E175691B600B26A1B /* EVGroupRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequest.m; sourceTree = "<group>"; };
 		9C1F480F175691B600B26A1B /* EVInvite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInvite.h; sourceTree = "<group>"; };
 		9C1F4810175691B600B26A1B /* EVInvite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInvite.m; sourceTree = "<group>"; };
 		9C1F4811175691B600B26A1B /* EVNotificationSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNotificationSetting.h; sourceTree = "<group>"; };
@@ -492,8 +492,8 @@
 		9C35B6F21761871000084FA7 /* EVSidePanelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSidePanelCell.m; sourceTree = "<group>"; };
 		9C35B6F517618A4400084FA7 /* WalletArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = WalletArrow.png; sourceTree = "<group>"; };
 		9C35B6F617618A4400084FA7 /* WalletArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WalletArrow@2x.png"; sourceTree = "<group>"; };
-		9C3917281773A2D6002949C3 /* EVGroupChargeRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupChargeRecord.h; sourceTree = "<group>"; };
-		9C3917291773A2D6002949C3 /* EVGroupChargeRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupChargeRecord.m; sourceTree = "<group>"; };
+		9C3917281773A2D6002949C3 /* EVGroupRequestRecord.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestRecord.h; sourceTree = "<group>"; };
+		9C3917291773A2D6002949C3 /* EVGroupRequestRecord.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestRecord.m; sourceTree = "<group>"; };
 		9C39172C1773C4D2002949C3 /* EVGroupRequestDashboardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestDashboardViewController.h; sourceTree = "<group>"; };
 		9C39172D1773C4D2002949C3 /* EVGroupRequestDashboardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestDashboardViewController.m; sourceTree = "<group>"; };
 		9C3917301773C9BF002949C3 /* EVDashboardTitleCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVDashboardTitleCell.h; sourceTree = "<group>"; };
@@ -605,8 +605,8 @@
 		9C863C96177298FC003ADB49 /* Request-Multi-Remove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Multi-Remove@2x.png"; sourceTree = "<group>"; };
 		9C863C9A17729E7D003ADB49 /* Invite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Invite.png; sourceTree = "<group>"; };
 		9C863C9B17729E7D003ADB49 /* Invite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Invite@2x.png"; sourceTree = "<group>"; };
-		9C863C9E1772AEAB003ADB49 /* EVGroupChargeTier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupChargeTier.h; sourceTree = "<group>"; };
-		9C863C9F1772AEAB003ADB49 /* EVGroupChargeTier.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupChargeTier.m; sourceTree = "<group>"; };
+		9C863C9E1772AEAB003ADB49 /* EVGroupRequestTier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestTier.h; sourceTree = "<group>"; };
+		9C863C9F1772AEAB003ADB49 /* EVGroupRequestTier.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestTier.m; sourceTree = "<group>"; };
 		9C900D121767E84400E2F4C4 /* EVDepositViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVDepositViewController.h; sourceTree = "<group>"; };
 		9C900D131767E84400E2F4C4 /* EVDepositViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVDepositViewController.m; sourceTree = "<group>"; };
 		9C900D191767EB8600E2F4C4 /* EVImages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVImages.h; sourceTree = "<group>"; };
@@ -1052,20 +1052,20 @@
 				9C1F4800175691B600B26A1B /* EVActivity.m */,
 				9C1F4801175691B600B26A1B /* EVBankAccount.h */,
 				9C1F4802175691B600B26A1B /* EVBankAccount.m */,
-				9C1F4805175691B600B26A1B /* EVCharge.h */,
-				9C1F4806175691B600B26A1B /* EVCharge.m */,
+				9C1F4805175691B600B26A1B /* EVRequest.h */,
+				9C1F4806175691B600B26A1B /* EVRequest.m */,
 				9C1F4807175691B600B26A1B /* EVCreditCard.h */,
 				9C1F4808175691B600B26A1B /* EVCreditCard.m */,
 				9C1F4809175691B600B26A1B /* EVExchange.h */,
 				9C1F480A175691B600B26A1B /* EVExchange.m */,
 				9C1F480B175691B600B26A1B /* EVFundingSource.h */,
 				9C1F480C175691B600B26A1B /* EVFundingSource.m */,
-				9C1F480D175691B600B26A1B /* EVGroupCharge.h */,
-				9C1F480E175691B600B26A1B /* EVGroupCharge.m */,
-				9C863C9E1772AEAB003ADB49 /* EVGroupChargeTier.h */,
-				9C863C9F1772AEAB003ADB49 /* EVGroupChargeTier.m */,
-				9C3917281773A2D6002949C3 /* EVGroupChargeRecord.h */,
-				9C3917291773A2D6002949C3 /* EVGroupChargeRecord.m */,
+				9C1F480D175691B600B26A1B /* EVGroupRequest.h */,
+				9C1F480E175691B600B26A1B /* EVGroupRequest.m */,
+				9C863C9E1772AEAB003ADB49 /* EVGroupRequestTier.h */,
+				9C863C9F1772AEAB003ADB49 /* EVGroupRequestTier.m */,
+				9C3917281773A2D6002949C3 /* EVGroupRequestRecord.h */,
+				9C3917291773A2D6002949C3 /* EVGroupRequestRecord.m */,
 				9C1F480F175691B600B26A1B /* EVInvite.h */,
 				9C1F4810175691B600B26A1B /* EVInvite.m */,
 				9C1F4811175691B600B26A1B /* EVNotificationSetting.h */,
@@ -2340,7 +2340,7 @@
 				9C1F47F11756914B00B26A1B /* NSTimer+Blocks.m in Sources */,
 				9C1F47F21756914B00B26A1B /* UIView+EVAdditions.m in Sources */,
 				9C1F47F31756914B00B26A1B /* UITableView+EVAdditions.m in Sources */,
-				9C863CA01772AEBC003ADB49 /* EVGroupChargeTier.m in Sources */,
+				9C863CA01772AEBC003ADB49 /* EVGroupRequestTier.m in Sources */,
 				9C1F47F41756914B00B26A1B /* EVAnalyticsUtility.m in Sources */,
 				9C1F47F51756914B00B26A1B /* EVColor.m in Sources */,
 				9C504472177122850090D865 /* JSBackspaceReportingTextField.m in Sources */,
@@ -2354,12 +2354,12 @@
 				9C5044211770E8CE0090D865 /* EVRequestInitialView.m in Sources */,
 				9C1F481F175691B600B26A1B /* EVActivity.m in Sources */,
 				9C1F4820175691B600B26A1B /* EVBankAccount.m in Sources */,
-				9C1F4822175691B600B26A1B /* EVCharge.m in Sources */,
+				9C1F4822175691B600B26A1B /* EVRequest.m in Sources */,
 				9C54286D176F9D9B0028F141 /* EVRequestSwitch.m in Sources */,
 				9C1F4823175691B600B26A1B /* EVCreditCard.m in Sources */,
 				9C1F4824175691B600B26A1B /* EVExchange.m in Sources */,
 				9C1F4825175691B600B26A1B /* EVFundingSource.m in Sources */,
-				9C1F4826175691B600B26A1B /* EVGroupCharge.m in Sources */,
+				9C1F4826175691B600B26A1B /* EVGroupRequest.m in Sources */,
 				9C1F4827175691B600B26A1B /* EVInvite.m in Sources */,
 				9C542867176F8EDE0028F141 /* EVAddBankViewController.m in Sources */,
 				9C1F4828175691B600B26A1B /* EVNotificationSetting.m in Sources */,
@@ -2411,7 +2411,7 @@
 				D021152F176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */,
 				9C778DE017679AA70053F9D6 /* EVNavigationBarButton.m in Sources */,
-				9C39172A1773A35F002949C3 /* EVGroupChargeRecord.m in Sources */,
+				9C39172A1773A35F002949C3 /* EVGroupRequestRecord.m in Sources */,
 				9CE76DBD17679BDC005953C8 /* EVExchangeViewController.m in Sources */,
 				9CE76DC01767A92F005953C8 /* EVLikeButton.m in Sources */,
 				9CD17D16177245160022AE84 /* EVRequestMultipleDetailsView.m in Sources */,

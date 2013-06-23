@@ -10,7 +10,7 @@
 #import "EVUserAutocompletionCell.h"
 #import "EVKeyboardTracker.h"
 #import "EVPayment.h"
-#import "EVCharge.h"
+#import "EVRequest.h"
 
 #import "ABContactsHelper.h"
 
