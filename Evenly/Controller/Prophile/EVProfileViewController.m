@@ -8,6 +8,7 @@
 
 #import "EVProfileViewController.h"
 #import "EVTransactionDetailViewController.h"
+#import "EVEditProfileViewController.h"
 #import "EVProfileCell.h"
 #import "EVNoActivityCell.h"
 #import "EVProfileHistoryCell.h"
@@ -85,8 +86,13 @@
 
 #pragma mark - Gesture Handling
 
-- (void)profileButtonTapped:(id)sender {
-    NSLog(@"prof tap");
+- (void)editProfileButtonTapped {
+    EVEditProfileViewController *editController = [[EVEditProfileViewController alloc] initWithUser:self.user];
+    [self.navigationController pushViewController:editController animated:YES];
+}
+
+- (void)addFriendButtonTapped {
+    NSLog(@"add friend or whatever");
 }
 
 #pragma mark - TableView DataSource/Delegate
@@ -112,6 +118,7 @@
         profileCell.user = self.user;
         profileCell.position = [self cellPositionForIndexPath:indexPath];
         profileCell.parent = self;
+        profileCell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell = profileCell;
     } else if (![self hasExchanges]) {
         EVNoActivityCell *noActivityCell = [tableView dequeueReusableCellWithIdentifier:@"noActivityCell"];

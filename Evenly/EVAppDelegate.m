@@ -61,6 +61,8 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedInNotification object:nil];
     }
     
+    self.masterViewController.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    
     return YES;
 }
 

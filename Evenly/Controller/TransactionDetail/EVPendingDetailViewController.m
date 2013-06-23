@@ -13,6 +13,7 @@
 #import "EVPayment.h"
 #import "EVWalletViewController.h"
 #import "EVNavigationManager.h"
+#import "MBProgressHUD.h"
 
 @interface EVPendingDetailViewController ()
 
@@ -52,51 +53,87 @@
 #pragma mark - Take Action
 
 - (void)confirmCharge {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
     
     if ([self.exchange isKindOfClass:[EVCharge class]]) {
         EVCharge *charge = (EVCharge *)self.exchange;
         [charge completeWithSuccess:^{
             
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"Success!";
-            
-            EV_DISPATCH_AFTER(1.0, ^(void){
-                [hud hide:YES];
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+            [EVStatusBarManager sharedManager].completion = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                     [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
-                        
                     }];
                 }];
-            });
+            };
         } failure:^(NSError *error) {
-            [hud hide:YES];
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
             DLog(@"failed to complete charge");
         }];
     }
 }
 
 - (void)denyCharge {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"DENYING PAYMENT..."];
 
     if ([self.exchange isKindOfClass:[EVCharge class]]) {
         EVCharge *charge = (EVCharge *)self.exchange;
         [charge denyWithSuccess:^{
             
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"Success!";
-            
-            EV_DISPATCH_AFTER(1.0, ^(void){
-                [hud hide:YES];
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+            [EVStatusBarManager sharedManager].completion = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                     [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
-                        
                     }];
                 }];
-            });
+            };
         } failure:^(NSError *error) {
-            [hud hide:YES];
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
             DLog(@"failed to complete charge");
+        }];
+    }
+}
+
+- (void)remindCharge {
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"REMINDING..."];
+    
+    if ([self.exchange isKindOfClass:[EVCharge class]]) {
+        EVCharge *charge = (EVCharge *)self.exchange;
+        [charge remindWithSuccess:^{
+            
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+            [EVStatusBarManager sharedManager].completion = ^(void) {
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                    }];
+                }];
+            };
+        } failure:^(NSError *error) {
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+            DLog(@"failed to remind charge");
+        }];
+    }
+}
+
+- (void)cancelCharge {
+    [self denyCharge];
+    return;
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CANCELING PAYMENT..."];
+    
+    if ([self.exchange isKindOfClass:[EVCharge class]]) {
+        EVCharge *charge = (EVCharge *)self.exchange;
+        [charge cancelWithSuccess:^{
+            
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+            [EVStatusBarManager sharedManager].completion = ^(void) {
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                    }];
+                }];
+            };
+        } failure:^(NSError *error) {
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+            DLog(@"failed to cancel charge");
         }];
     }
 }

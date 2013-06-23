@@ -177,10 +177,12 @@
                                               attributes:nounAttributes];
     verb = [[NSAttributedString alloc] initWithString:self.verb
                                            attributes:copyAttributes];
-    if (self.target && self.displayType != EVStoryDisplayTypePendingTransactionDetail) {
+    if (self.target) {
+        if (self.displayType != EVStoryDisplayTypePendingTransactionDetail || self.storyType == EVStoryTypePendingIncoming) {
         NSString *targetName = [[self.target dbid] isEqualToString:[EVCIA me].dbid] ? @"You" : [self.target name];
         target = [[NSAttributedString alloc] initWithString:targetName
                                                  attributes:nounAttributes];
+        }
     }
     
     if (self.storyType == EVStoryTypeOutgoing || self.storyType == EVStoryTypePendingOutgoing)
@@ -202,12 +204,26 @@
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:subject];
     [attrString appendAttributedString:space];
     [attrString appendAttributedString:verb];
-    if (target) {
+    
+    if (self.displayType == EVStoryDisplayTypePendingTransactionDetail && self.storyType == EVStoryTypePendingIncoming) {
+        NSAttributedString *from = [[NSAttributedString alloc] initWithString:@"from" attributes:copyAttributes];
         [attrString appendAttributedString:space];
-        [attrString appendAttributedString:target];
+        [attrString appendAttributedString:amount];
+        if (target) {
+            [attrString appendAttributedString:space];
+            [attrString appendAttributedString:from];
+            [attrString appendAttributedString:space];
+            [attrString appendAttributedString:target];
+        }
+
+    } else {
+        if (target) {
+            [attrString appendAttributedString:space];
+            [attrString appendAttributedString:target];
+        }
+        [attrString appendAttributedString:space];
+        [attrString appendAttributedString:amount];
     }
-    [attrString appendAttributedString:space];
-    [attrString appendAttributedString:amount];
     if (description) {
         [attrString appendAttributedString:space];
         [attrString appendAttributedString:description];

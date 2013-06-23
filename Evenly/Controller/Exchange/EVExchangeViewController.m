@@ -222,23 +222,17 @@
 }
 
 - (void)completeExchangePress:(id)sender {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
     
     [self.exchange saveWithSuccess:^{
-        hud.mode = MBProgressHUDModeText;
-        hud.labelText = @"Success!";
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+        [EVStatusBarManager sharedManager].completion = ^(void) { [self.presentingViewController dismissViewControllerAnimated:YES completion:nil]; };
         
         if ([self.exchange isKindOfClass:[EVPayment class]])
             [EVCIA me].balance = [[EVCIA me].balance decimalNumberBySubtracting:self.exchange.amount];
-        
-        EV_DISPATCH_AFTER(1.0, ^(void) {
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-            }];
-        });
     } failure:^(NSError *error) {
         DLog(@"failed to create %@", NSStringFromClass([self.exchange class]));
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
     }];
 }
 
