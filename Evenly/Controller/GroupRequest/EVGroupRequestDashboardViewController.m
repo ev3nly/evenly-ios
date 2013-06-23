@@ -10,6 +10,7 @@
 #import "EVGroupRequestDashboardTableViewDataSource.h"
 #import "EVDashboardTitleCell.h"
 #import "EVDashboardUserCell.h"
+#import "EVGroupRequestProgressView.h"
 
 @interface EVGroupRequestDashboardViewController ()
 
@@ -58,11 +59,20 @@
     [self.view addSubview:self.tableView];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.dataSource.progressView.progressBar setProgress:0.5 animated:YES];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == EVDashboardPermanentRowTitle)
     {
         CGFloat height = [EVDashboardTitleCell heightWithTitle:self.groupRequest.title memo:self.groupRequest.memo];
         return height;
+    }
+    else if (indexPath.row == EVDashboardPermanentRowProgress)
+    {
+        return [EVGroupRequestProgressView height] + 20.0;
     }
     else if (indexPath.row >= EVDashboardPermanentRowCOUNT)
     {
