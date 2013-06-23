@@ -102,4 +102,31 @@
     return [UIImage imageNamed:@"Request-Invite-Friends-Banner"];
 }
 
+#pragma mark - SignUp
++ (UIImage *)addPhotoIcon {
+    return [UIImage imageNamed:@"add-photo"];
+}
+
++ (UIImage *)defaultAvatar {
+    return [UIImage imageNamed:@"DefaultAvatar"];
+}
+
+#pragma mark - Status Bar
+
++ (UIImage *)statusErrorBackground {
+    return [UIImage imageNamed:@"status-error"];
+}
+
++ (UIImage *)statusSuccessBackground {
+    return [[UIImage imageNamed:@"status-success"] resizableImageWithCapInsets:UIEdgeInsetsMake(4, 0, 0, 4)];
+}
+
++ (UIImage *)statusProgressBackground {
+    return [UIImage imageNamed:@"status-progress"];
+}
+
++ (UIImage *)statusProgressSpinner {
+    return [UIImage imageNamed:@"status-progress-spinner"];
+}
+
 @end

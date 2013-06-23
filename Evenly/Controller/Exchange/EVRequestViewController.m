@@ -323,22 +323,19 @@
 - (void)requestButtonPress:(id)sender {
     // TODO: Verify this works for group charge as well.
     
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REQUEST..."];
+    
     if (!self.isGroupRequest)
     {
         self.request.memo = self.singleDetailsView.descriptionField.text;
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self.request saveWithSuccess:^{
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"Success!";
-            
-            EV_DISPATCH_AFTER(1.0, ^(void) {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                }];
-            });
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+            [EVStatusBarManager sharedManager].completion = ^(void) {
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+            };
         } failure:^(NSError *error) {
             DLog(@"failed to create %@", NSStringFromClass([self.request class]));
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
         }];
     }
     else
@@ -346,19 +343,21 @@
         self.groupRequest.title = self.multipleDetailsView.nameField.text;
         self.groupRequest.memo = self.multipleDetailsView.descriptionField.text;
         DLog(@"Group request dictionary representation: %@", [self.groupRequest dictionaryRepresentation]);
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
         [self.groupRequest saveWithSuccess:^{
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = @"Success!";
-            EV_DISPATCH_AFTER(1.0, ^(void) {
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    
-                }];
-            });
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+            [EVStatusBarManager sharedManager].completion = ^(void) {
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+            };
+            
+//            EV_DISPATCH_AFTER(1.0, ^(void) {
+//                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+//                    
+//                }];
+//            });
         } failure:^(NSError *error) {
             DLog(@"failed to create %@", NSStringFromClass([self.request class]));
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
         }];
     }
 }

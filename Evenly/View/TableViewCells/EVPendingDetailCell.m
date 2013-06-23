@@ -13,12 +13,13 @@
 #define PENDING_BOTTOM_SECTION_HEIGHT ([EVImages grayButtonBackground].size.height + PENDING_BUTTON_BUFFER*2)
 #define PENDING_DATE_BOTTOM_SECTION_BUFFER 12
 #define PENDING_STORY_DATE_BUFFER 6
-#define PENDING_BUTTON_FONT [EVFont blackFontOfSize:14]
 
 @interface EVPendingDetailCell ()
 
 @property (nonatomic, strong) UIButton *rejectButton;
 @property (nonatomic, strong) UIButton *confirmButton;
+@property (nonatomic, strong) UIButton *cancelButton;
+@property (nonatomic, strong) UIButton *remindButton;
 
 @end
 
@@ -40,18 +41,9 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
     {
         [self.likeButton removeFromSuperview];
-        [self loadRejectButton];
-        [self loadConfirmButton];
         [self switchAvatars];
     }
     return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
-    self.rejectButton.frame = [self rejectButtonFrame];
-    self.confirmButton.frame = [self confirmButtonFrame];
 }
 
 - (void)loadRejectButton {
@@ -61,25 +53,66 @@
     [self.rejectButton addTarget:self.parent action:@selector(denyCharge) forControlEvents:UIControlEventTouchUpInside];
     [self.rejectButton setTitle:@"REJECT" forState:UIControlStateNormal];
     [self.rejectButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
-    self.rejectButton.titleLabel.font = PENDING_BUTTON_FONT;
+    self.rejectButton.titleLabel.font = [EVFont defaultButtonFont];
     [self.tombstoneBackground addSubview:self.rejectButton];
+    self.rejectButton.frame = [self rejectButtonFrame];
 }
 
 - (void)loadConfirmButton {
     self.confirmButton = [UIButton new];
-    [self.confirmButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
-    [self.confirmButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
+    [self.confirmButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
+    [self.confirmButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
     [self.confirmButton addTarget:self.parent action:@selector(confirmCharge) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.confirmButton setTitle:@"PAY" forState:UIControlStateNormal];
-    [self.confirmButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
-    self.confirmButton.titleLabel.textColor = [EVColor darkLabelColor];
-    self.confirmButton.titleLabel.font = PENDING_BUTTON_FONT;
+    [self.confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.confirmButton.titleLabel.font = [EVFont defaultButtonFont];
     [self.tombstoneBackground addSubview:self.confirmButton];
+    self.confirmButton.frame = [self confirmButtonFrame];
 }
+
+- (void)loadCancelButton {
+    self.cancelButton = [UIButton new];
+    [self.cancelButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
+    [self.cancelButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
+    [self.cancelButton addTarget:self.parent action:@selector(cancelCharge) forControlEvents:UIControlEventTouchUpInside];
+    [self.cancelButton setTitle:@"CANCEL" forState:UIControlStateNormal];
+    [self.cancelButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
+    self.cancelButton.titleLabel.font = [EVFont defaultButtonFont];
+    [self.tombstoneBackground addSubview:self.cancelButton];
+    self.cancelButton.frame = [self rejectButtonFrame];
+}
+
+- (void)loadRemindButton {
+    self.remindButton = [UIButton new];
+    [self.remindButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
+    [self.remindButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
+    [self.remindButton addTarget:self.parent action:@selector(remindCharge) forControlEvents:UIControlEventTouchUpInside];
+    [self.remindButton setTitle:@"REMIND" forState:UIControlStateNormal];
+    [self.remindButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.remindButton.titleLabel.font = [EVFont defaultButtonFont];
+    [self.tombstoneBackground addSubview:self.remindButton];
+    self.remindButton.frame = [self confirmButtonFrame];
+}
+
+#pragma mark - Setters
 
 - (void)setStory:(EVStory *)story {
     [super setStory:story];
-    [self switchAvatars];
+//    [self switchAvatars];
+    [self configureButtonsForStoryType:story.storyType];
+}
+
+#pragma mark - Utility
+
+- (void)configureButtonsForStoryType:(EVStoryType)storyType {
+    if (storyType == EVStoryTypePendingIncoming) {
+        [self loadCancelButton];
+        [self loadRemindButton];
+    } else {
+        [self loadRejectButton];
+        [self loadConfirmButton];
+    }
 }
 
 - (void)switchAvatars {
@@ -117,10 +150,11 @@
 }
 
 - (CGRect)confirmButtonFrame {
-    return CGRectMake(CGRectGetMaxX(self.rejectButton.frame) + PENDING_BUTTON_BUFFER,
-                      self.rejectButton.frame.origin.y,
-                      self.rejectButton.frame.size.width,
-                      self.rejectButton.frame.size.height);
+    CGRect leftButtonFrame = self.rejectButton ? self.rejectButton.frame : self.cancelButton.frame;
+    return CGRectMake(CGRectGetMaxX(leftButtonFrame) + PENDING_BUTTON_BUFFER,
+                      leftButtonFrame.origin.y,
+                      leftButtonFrame.size.width,
+                      leftButtonFrame.size.height);
 }
 
 - (float)bottomSectionHeight {

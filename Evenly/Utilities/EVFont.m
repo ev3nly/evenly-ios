@@ -38,4 +38,8 @@
     return [self defaultFontOfSize:14];
 }
 
++ (UIFont *)defaultButtonFont {
+    return [self blackFontOfSize:14];
+}
+
 @end

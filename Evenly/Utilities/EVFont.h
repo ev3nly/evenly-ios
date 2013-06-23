@@ -21,4 +21,6 @@
 + (UIFont *)darkExchangeFormFont;
 + (UIFont *)lightExchangeFormFont;
 
++ (UIFont *)defaultButtonFont;
+
 @end

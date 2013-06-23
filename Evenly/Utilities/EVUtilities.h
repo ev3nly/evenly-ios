@@ -14,6 +14,7 @@
 #import "EVImageUtility.h"
 #import "EVAnalyticsUtility.h"
 #import "EVAppDelegate.h"
+#import "EVStatusBarManager.h"
 
 #import "EVCIA.h"
 

@@ -89,11 +89,13 @@
     [self addSubview:self.phoneNumberLabel];
 }
 
+#define SETTINGS_GEAR_TAG 3028
+
 - (void)loadProfileButton {
     self.profileButton = [UIButton new];
     [self.profileButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
     [self.profileButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
-//    [self.profileButton addTarget:self.parent action:@selector(profileButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.profileButton addTarget:self.parent action:@selector(editProfileButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.profileButton setTitle:@"EDIT PROFILE" forState:UIControlStateNormal];
     [self.profileButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
     self.profileButton.titleLabel.font = [EVFont blackFontOfSize:14];
@@ -107,6 +109,7 @@
                                     midPoint - [EVImages settingsIcon].size.height/2,
                                     [EVImages settingsIcon].size.width,
                                     [EVImages settingsIcon].size.height);
+    settingsIcon.tag = SETTINGS_GEAR_TAG;
     [self.profileButton addSubview:settingsIcon];
 }
 
@@ -128,6 +131,15 @@
     self.networkLabel.text = @"Network?";
     self.emailLabel.text = user.email;
     self.phoneNumberLabel.text = [EVStringUtility displayStringForPhoneNumber:user.phoneNumber];
+    
+    if (![user.dbid isEqualToString:[EVCIA me].dbid]) {
+        if ([self.profileButton viewWithTag:SETTINGS_GEAR_TAG])
+            [[self.profileButton viewWithTag:SETTINGS_GEAR_TAG] removeFromSuperview];
+        [self.profileButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
+        [self.profileButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
+        [self.profileButton setTitle:@"ADD FRIEND" forState:UIControlStateNormal];
+        [self.profileButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - Frames
