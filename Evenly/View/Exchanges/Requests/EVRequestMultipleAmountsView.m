@@ -56,7 +56,7 @@
 }
 
 - (void)loadSegmentedControl {
-    self.segmentedControl = [[EVSegmentedControl alloc] initWithItems:@[@"The Same Amount", @"Different Amounts"]];
+    self.segmentedControl = [[EVMultipleAmountsSegmentedControl alloc] initWithItems:@[@"The Same Amount", @"Different Amounts"]];
     [self.segmentedControl setFrame:CGRectMake(0, CGRectGetMaxY(self.headerLabel.frame), self.frame.size.width, 44)];
     [self.segmentedControl addTarget:self action:@selector(segmentedControlChanged:) forControlEvents:UIControlEventValueChanged];
     [self addSubview:self.segmentedControl];

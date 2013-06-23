@@ -12,7 +12,11 @@
 
 @property(nonatomic,readonly) NSUInteger numberOfSegments;
 @property(nonatomic) NSInteger selectedSegmentIndex;
+@property (nonatomic, strong) NSMutableArray *items;
+@property (nonatomic, strong) NSMutableArray *buttons;
 
 - (id)initWithItems:(NSArray *)items;
+- (void)buttonPress:(UIButton *)button;
+- (void)reloadSubviews;
 
 @end
