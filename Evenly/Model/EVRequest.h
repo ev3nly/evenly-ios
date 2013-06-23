@@ -1,5 +1,5 @@
 //
-//  EVCharge.h
+//  EVRequest.h
 //  Evenly
 //
 //  Created by Sean Yu on 4/1/13.
@@ -8,7 +8,7 @@
 
 #import "EVExchange.h"
 
-@interface EVCharge : EVExchange
+@interface EVRequest : EVExchange
 
 - (void)completeWithSuccess:(void (^)(void))success
                     failure:(void (^)(NSError *error))failure;

@@ -1,23 +1,23 @@
 //
-//  EVGroupChargeRecord.m
+//  EVGroupRequestRecord.m
 //  Evenly
 //
 //  Created by Joseph Hankin on 6/20/13.
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVGroupChargeRecord.h"
-#import "EVGroupCharge.h"
-#import "EVGroupChargeTier.h"
+#import "EVGroupRequestRecord.h"
+#import "EVGroupRequest.h"
+#import "EVGroupRequestTier.h"
 #import "EVUser.h"
 #import "EVSerializer.h"
 
-@implementation EVGroupChargeRecord
+@implementation EVGroupRequestRecord
 
-- (id)initWithGroupCharge:(EVGroupCharge *)groupCharge {
+- (id)initWithGroupRequest:(EVGroupRequest *)groupRequest {
     self = [super init];
     if (self) {
-        self.groupCharge = groupCharge;
+        self.groupRequest = groupRequest;
     }
     return self;
 }
@@ -27,10 +27,10 @@
     
     self.completed = [properties[@"completed"] boolValue];
     self.numberOfPayments = [properties[@"number_of_payments"] intValue];
-    self.user = (EVUser *)[EVSerializer serializeDictionary:properties[@"user"]];
+    self.user = (EVObject<EVExchangeable> *)[EVSerializer serializeDictionary:properties[@"user"]];
     
     if (properties[@"tier_id"] != [NSNull null]) {
-        self.tier = [self.groupCharge tierWithID:properties[@"tier_id"]];
+        self.tier = [self.groupRequest tierWithID:properties[@"tier_id"]];
     }
 }
 

@@ -13,7 +13,7 @@
 
 @interface EVGroupRequestDashboardViewController ()
 
-@property (nonatomic, strong) EVGroupCharge *groupCharge;
+@property (nonatomic, strong) EVGroupRequest *groupRequest;
 @property (nonatomic, strong) EVGroupRequestDashboardTableViewDataSource *dataSource;
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -31,12 +31,12 @@
     return self;
 }
 
-- (id)initWithGroupCharge:(EVGroupCharge *)groupCharge {
+- (id)initWithGroupRequest:(EVGroupRequest *)groupRequest {
     self = [self initWithNibName:nil bundle:nil];
     if (self) {
-        self.groupCharge = groupCharge;
-        self.dataSource = [[EVGroupRequestDashboardTableViewDataSource alloc] initWithGroupCharge:self.groupCharge];
-        self.title = self.groupCharge.title;
+        self.groupRequest = groupRequest;
+        self.dataSource = [[EVGroupRequestDashboardTableViewDataSource alloc] initWithGroupRequest:self.groupRequest];
+        self.title = self.groupRequest.title;
     }
     return self;
 }
@@ -61,7 +61,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == EVDashboardPermanentRowTitle)
     {
-        CGFloat height = [EVDashboardTitleCell heightWithTitle:self.groupCharge.title memo:self.groupCharge.memo];
+        CGFloat height = [EVDashboardTitleCell heightWithTitle:self.groupRequest.title memo:self.groupRequest.memo];
         return height;
     }
     else if (indexPath.row >= EVDashboardPermanentRowCOUNT)

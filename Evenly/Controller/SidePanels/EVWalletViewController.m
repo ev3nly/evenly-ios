@@ -14,7 +14,7 @@
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
 #import "EVExchange.h"
-#import "EVGroupCharge.h"
+#import "EVGroupRequest.h"
 
 #import "EVDepositViewController.h"
 #import "EVCardsViewController.h"
@@ -320,9 +320,9 @@
             controller = [[EVPendingDetailViewController alloc] initWithExchange:(EVExchange *)interaction];
 
         }
-        else if ([interaction isKindOfClass:[EVGroupCharge class]])
+        else if ([interaction isKindOfClass:[EVGroupRequest class]])
         {
-            controller = [[EVGroupRequestDashboardViewController alloc] initWithGroupCharge:(EVGroupCharge *)interaction];
+            controller = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:(EVGroupRequest *)interaction];
         }
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:navController animated:YES completion:nil];

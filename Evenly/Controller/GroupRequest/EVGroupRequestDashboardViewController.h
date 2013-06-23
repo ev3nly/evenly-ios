@@ -7,10 +7,10 @@
 //
 
 #import "EVModalViewController.h"
-#import "EVGroupCharge.h"
+#import "EVGroupRequest.h"
 
 @interface EVGroupRequestDashboardViewController : EVModalViewController <UITableViewDelegate>
 
-- (id)initWithGroupCharge:(EVGroupCharge *)groupCharge;
+- (id)initWithGroupRequest:(EVGroupRequest *)groupRequest;
 
 @end

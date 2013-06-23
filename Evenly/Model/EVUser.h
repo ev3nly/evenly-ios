@@ -23,7 +23,7 @@
 
 /* 
  
- EVExchangeable - protocol that defines needed properties for Payment and Charge
+ EVExchangeable - protocol that defines needed properties for Payment and Request
 
  */
 
