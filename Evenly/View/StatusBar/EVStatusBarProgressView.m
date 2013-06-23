@@ -17,6 +17,7 @@
 @interface EVStatusBarProgressView ()
 
 @property (nonatomic, strong) UIView *backgroundView;
+@property (nonatomic, strong) UIImageView *coloredBackgroundImageView;
 @property (nonatomic, strong) UIImageView *spinnerView;
 @property (nonatomic, strong) UILabel *progressLabel;
 @property (nonatomic, strong) UILabel *conclusionLabel;
@@ -34,6 +35,7 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self loadBackgroundView];
+        [self loadColoredBackgroundImageView];
         [self loadInProgressViews];
         [self loadSpinnerView];
         [self loadProgressLabel];
@@ -46,6 +48,7 @@
     [super layoutSubviews];
     
     self.backgroundView.frame = [self backgroundViewFrame];
+    self.coloredBackgroundImageView.frame = [self backgroundViewFrame];
     self.spinnerView.frame = [self spinnerViewFrame];
     self.progressLabel.frame = [self progressLabelFrame];
     self.conclusionLabel.frame = [self conclusionLabelFrame];
@@ -56,6 +59,13 @@
 - (void)loadBackgroundView {
     self.backgroundView = [UIView new];
     self.backgroundView.backgroundColor = [UIColor blackColor];
+}
+
+- (void)loadColoredBackgroundImageView {
+    UIImage *backgroundImage = [EVImages statusSuccessBackground];
+    self.coloredBackgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
+    self.coloredBackgroundImageView.alpha = 0.85;
+    [self.backgroundView addSubview:self.coloredBackgroundImageView];
 }
 
 - (void)loadInProgressViews {
@@ -87,6 +97,8 @@
 
 #pragma mark - Setters and Getters
 
+#define CONCLUSION_BG_TAG 3902
+
 - (void)setStatus:(EVStatusBarStatus)status text:(NSString *)text {
     _status = status;
     
@@ -96,17 +108,13 @@
     } else {
         self.conclusionLabel.text = text;
         UIImage *backgroundImage = (status == EVStatusBarStatusSuccess) ? [EVImages statusSuccessBackground] : [EVImages statusErrorBackground];
-        UIImageView *background = [[UIImageView alloc] initWithImage:backgroundImage];
-        background.frame = [self backgroundViewFrame];
-        background.alpha = 0.85;
-        [self.backgroundView addSubview:background];
+        self.coloredBackgroundImageView.image = backgroundImage;
         [self setViewsForConclusion];
     }
 }
 
 - (void)setViewsForInProgress {
-    for (UIView *subview in self.subviews)
-        [subview removeFromSuperview];
+    [self removeAllSubviews];
     [self addSubview:[self.inProgressViews objectAtIndex:0]];
     [self addSubview:[self.inProgressViews objectAtIndex:1]];
     [self cycleInProgressViews];
