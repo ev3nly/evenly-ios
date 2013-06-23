@@ -8,7 +8,7 @@
 
 #import "EVRequestMultipleAmountsView.h"
 #import "EVGroupRequestAmountCell.h"
-#import "EVGroupChargeTier.h"
+#import "EVGroupRequestTier.h"
 
 #define HEADER_LABEL_HEIGHT 48.0
 #define NAVIGATION_BAR_OFFSET 44.0
@@ -138,7 +138,7 @@
     NSArray *tiers = nil;
     if (self.segmentedControl.selectedSegmentIndex == EVRequestAmountsSingle)
     {
-        EVGroupChargeTier *tier = [[EVGroupChargeTier alloc] init];
+        EVGroupRequestTier *tier = [[EVGroupRequestTier alloc] init];
         tier.price = [EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text];
         tiers = @[ tier ];
     }
@@ -146,7 +146,7 @@
     {
         NSMutableArray *tmpTiers = [[NSMutableArray alloc] initWithCapacity:[self.optionCells count]];
         for (EVGroupRequestAmountCell *cell in self.optionCells) {
-            EVGroupChargeTier *tier = [[EVGroupChargeTier alloc] init];
+            EVGroupRequestTier *tier = [[EVGroupRequestTier alloc] init];
             tier.price = [EVStringUtility amountFromAmountString:cell.optionAmountField.text];
             tier.name = cell.optionNameField.text;
             [tmpTiers addObject:tier];

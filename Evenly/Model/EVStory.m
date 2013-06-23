@@ -9,7 +9,7 @@
 #import "EVStory.h"
 #import "EVUser.h"
 #import "EVPayment.h"
-#import "EVCharge.h"
+#import "EVRequest.h"
 #import "EVWithdrawal.h"
 
 @interface EVStory ()

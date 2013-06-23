@@ -1,14 +1,15 @@
+
 //
-//  EVCharge.m
+//  EVRequest.m
 //  Evenly
 //
 //  Created by Sean Yu on 4/1/13.
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVCharge.h"
+#import "EVRequest.h"
 
-@implementation EVCharge
+@implementation EVRequest
 
 + (NSString *)controllerName {
     return @"charges";

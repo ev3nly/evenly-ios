@@ -1,5 +1,5 @@
 //
-//  EVGroupCharge.h
+//  EVGroupRequest.h
 //  Evenly
 //
 //  Created by Joseph Hankin on 4/19/13.
@@ -8,9 +8,9 @@
 
 #import "EVObject.h"
 
-@class EVGroupChargeTier;
+@class EVGroupRequestTier;
 
-@interface EVGroupCharge : EVObject
+@interface EVGroupRequest : EVObject
 
 @property (nonatomic, strong) EVObject<EVExchangeable> *from;
 @property (nonatomic, strong) NSArray *tiers;
@@ -22,6 +22,6 @@
 
 @property (nonatomic, readonly) UIImage *avatar;
 
-- (EVGroupChargeTier *)tierWithID:(NSString *)tierID;
+- (EVGroupRequestTier *)tierWithID:(NSString *)tierID;
 
 @end

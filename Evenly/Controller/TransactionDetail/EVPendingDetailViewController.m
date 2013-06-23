@@ -9,7 +9,7 @@
 #import "EVPendingDetailViewController.h"
 #import "EVPendingDetailCell.h"
 #import "EVStory.h"
-#import "EVCharge.h"
+#import "EVRequest.h"
 #import "EVPayment.h"
 #import "EVWalletViewController.h"
 #import "EVNavigationManager.h"
@@ -52,12 +52,12 @@
 
 #pragma mark - Take Action
 
-- (void)confirmCharge {
+- (void)confirmRequest {
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
     
-    if ([self.exchange isKindOfClass:[EVCharge class]]) {
-        EVCharge *charge = (EVCharge *)self.exchange;
-        [charge completeWithSuccess:^{
+    if ([self.exchange isKindOfClass:[EVRequest class]]) {
+        EVRequest *request = (EVRequest *)self.exchange;
+        [request completeWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].completion = ^(void) {
@@ -68,17 +68,17 @@
             };
         } failure:^(NSError *error) {
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-            DLog(@"failed to complete charge");
+            DLog(@"failed to complete request");
         }];
     }
 }
 
-- (void)denyCharge {
+- (void)denyRequest {
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"DENYING PAYMENT..."];
 
-    if ([self.exchange isKindOfClass:[EVCharge class]]) {
-        EVCharge *charge = (EVCharge *)self.exchange;
-        [charge denyWithSuccess:^{
+    if ([self.exchange isKindOfClass:[EVRequest class]]) {
+        EVRequest *request = (EVRequest *)self.exchange;
+        [request denyWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].completion = ^(void) {
@@ -89,17 +89,17 @@
             };
         } failure:^(NSError *error) {
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-            DLog(@"failed to complete charge");
+            DLog(@"failed to complete request");
         }];
     }
 }
 
-- (void)remindCharge {
+- (void)remindRequest {
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"REMINDING..."];
     
-    if ([self.exchange isKindOfClass:[EVCharge class]]) {
-        EVCharge *charge = (EVCharge *)self.exchange;
-        [charge remindWithSuccess:^{
+    if ([self.exchange isKindOfClass:[EVRequest class]]) {
+        EVRequest *request = (EVRequest *)self.exchange;
+        [request remindWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].completion = ^(void) {
@@ -110,19 +110,19 @@
             };
         } failure:^(NSError *error) {
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-            DLog(@"failed to remind charge");
+            DLog(@"failed to remind request");
         }];
     }
 }
 
-- (void)cancelCharge {
-    [self denyCharge];
+- (void)cancelRequest {
+    [self denyRequest];
     return;
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CANCELING PAYMENT..."];
     
-    if ([self.exchange isKindOfClass:[EVCharge class]]) {
-        EVCharge *charge = (EVCharge *)self.exchange;
-        [charge cancelWithSuccess:^{
+    if ([self.exchange isKindOfClass:[EVRequest class]]) {
+        EVRequest *request = (EVRequest *)self.exchange;
+        [request cancelWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].completion = ^(void) {
@@ -133,7 +133,7 @@
             };
         } failure:^(NSError *error) {
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-            DLog(@"failed to cancel charge");
+            DLog(@"failed to cancel request");
         }];
     }
 }
