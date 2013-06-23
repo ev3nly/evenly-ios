@@ -118,6 +118,7 @@
         profileCell.user = self.user;
         profileCell.position = [self cellPositionForIndexPath:indexPath];
         profileCell.parent = self;
+        profileCell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell = profileCell;
     } else if (![self hasExchanges]) {
         EVNoActivityCell *noActivityCell = [tableView dequeueReusableCellWithIdentifier:@"noActivityCell"];

@@ -46,4 +46,10 @@
 + (UIImage *)addPhotoIcon;
 + (UIImage *)defaultAvatar;
 
+#pragma mark - Status Bar
++ (UIImage *)statusErrorBackground;
++ (UIImage *)statusSuccessBackground;
++ (UIImage *)statusProgressBackground;
++ (UIImage *)statusProgressSpinner;
+
 @end

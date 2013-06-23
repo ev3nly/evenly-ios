@@ -13,7 +13,6 @@
 #define PENDING_BOTTOM_SECTION_HEIGHT ([EVImages grayButtonBackground].size.height + PENDING_BUTTON_BUFFER*2)
 #define PENDING_DATE_BOTTOM_SECTION_BUFFER 12
 #define PENDING_STORY_DATE_BUFFER 6
-#define PENDING_BUTTON_FONT [EVFont blackFontOfSize:14]
 
 @interface EVPendingDetailCell ()
 
@@ -54,21 +53,20 @@
     [self.rejectButton addTarget:self.parent action:@selector(denyCharge) forControlEvents:UIControlEventTouchUpInside];
     [self.rejectButton setTitle:@"REJECT" forState:UIControlStateNormal];
     [self.rejectButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
-    self.rejectButton.titleLabel.font = PENDING_BUTTON_FONT;
+    self.rejectButton.titleLabel.font = [EVFont defaultButtonFont];
     [self.tombstoneBackground addSubview:self.rejectButton];
     self.rejectButton.frame = [self rejectButtonFrame];
 }
 
 - (void)loadConfirmButton {
     self.confirmButton = [UIButton new];
-    [self.confirmButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
-    [self.confirmButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
+    [self.confirmButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
+    [self.confirmButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
     [self.confirmButton addTarget:self.parent action:@selector(confirmCharge) forControlEvents:UIControlEventTouchUpInside];
     
     [self.confirmButton setTitle:@"PAY" forState:UIControlStateNormal];
-    [self.confirmButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
-    self.confirmButton.titleLabel.textColor = [EVColor darkLabelColor];
-    self.confirmButton.titleLabel.font = PENDING_BUTTON_FONT;
+    [self.confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.confirmButton.titleLabel.font = [EVFont defaultButtonFont];
     [self.tombstoneBackground addSubview:self.confirmButton];
     self.confirmButton.frame = [self confirmButtonFrame];
 }
@@ -80,7 +78,7 @@
     [self.cancelButton addTarget:self.parent action:@selector(cancelCharge) forControlEvents:UIControlEventTouchUpInside];
     [self.cancelButton setTitle:@"CANCEL" forState:UIControlStateNormal];
     [self.cancelButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
-    self.cancelButton.titleLabel.font = PENDING_BUTTON_FONT;
+    self.cancelButton.titleLabel.font = [EVFont defaultButtonFont];
     [self.tombstoneBackground addSubview:self.cancelButton];
     self.cancelButton.frame = [self rejectButtonFrame];
 }
@@ -92,8 +90,7 @@
     [self.remindButton addTarget:self.parent action:@selector(remindCharge) forControlEvents:UIControlEventTouchUpInside];
     [self.remindButton setTitle:@"REMIND" forState:UIControlStateNormal];
     [self.remindButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.remindButton.titleLabel.textColor = [EVColor darkLabelColor];
-    self.remindButton.titleLabel.font = PENDING_BUTTON_FONT;
+    self.remindButton.titleLabel.font = [EVFont defaultButtonFont];
     [self.tombstoneBackground addSubview:self.remindButton];
     self.remindButton.frame = [self confirmButtonFrame];
 }

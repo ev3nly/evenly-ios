@@ -9,22 +9,37 @@
 #import "EVEditProfileViewController.h"
 #import "EVEditPhotoCell.h"
 #import "EVEditLabelCell.h"
+#import "EVKeyboardTracker.h"
+#import "EVStatusBarManager.h"
+
+#define BUTTON_BUFFER 10
 
 @interface EVEditProfileViewController ()
 
 @property (nonatomic, strong) UIImage *updatedImage;
+@property (nonatomic, strong) UIView *footerView;
+@property (nonatomic, strong) UIButton *saveButton;
+
+@property (nonatomic, assign) BOOL keyboardIsHiding;
 
 @end
 
 @implementation EVEditProfileViewController
+
+#pragma mark - Lifecycle
 
 - (id)initWithUser:(EVUser *)user
 {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.title = @"Edit Profile";
         self.user = user;
+        [self notificationRegistration];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad
@@ -32,6 +47,14 @@
     [super viewDidLoad];
     
     [self loadTableView];
+    [self loadFooterView];
+    [self loadPinButton];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    self.tableView.frame = [self tableViewFrame];
 }
 
 #pragma mark - View Loading
@@ -47,6 +70,40 @@
     [self.tableView registerClass:[EVEditPhotoCell class] forCellReuseIdentifier:@"editPhotoCell"];
     [self.tableView registerClass:[EVEditLabelCell class] forCellReuseIdentifier:@"editLabelCell"];
     [self.view addSubview:self.tableView];
+}
+
+- (void)loadFooterView {
+    self.footerView = [UIView new];
+    self.footerView.backgroundColor = [UIColor clearColor];
+    self.footerView.frame = [self footerViewFrame];
+    self.tableView.tableFooterView = self.footerView;
+}
+
+- (void)loadPinButton {
+    self.saveButton = [UIButton new];
+    [self.saveButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
+    [self.saveButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
+    [self.saveButton addTarget:self action:@selector(saveButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.saveButton setTitle:@"SAVE" forState:UIControlStateNormal];
+    [self.saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.saveButton.titleLabel.font = [EVFont defaultButtonFont];
+    self.saveButton.frame = [self pinButtonFrame];
+    [self.footerView addSubview:self.saveButton];
+}
+
+- (void)notificationRegistration {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
 }
 
 #pragma mark - TableView DataSource/Delegate
@@ -70,12 +127,25 @@
         EVEditLabelCell *editLabelCell = [self editLabelCellForIndexPath:indexPath];
         if (indexPath.row == EVEditProfileCellRowName) {
             [editLabelCell setTitle:@"Name" placeholder:self.user.name];
+            editLabelCell.handleTextChange = ^(NSString *text) {
+                if (!EV_IS_EMPTY_STRING(text))
+                    [EVCIA me].name = text;
+            };
         } else if (indexPath.row == EVEditProfileCellRowEmail) {
             [editLabelCell setTitle:@"Email" placeholder:self.user.email];
+            editLabelCell.handleTextChange = ^(NSString *text) {
+                if (!EV_IS_EMPTY_STRING(text))
+                    [EVCIA me].email = text;
+            };
         } else if (indexPath.row == EVEditProfileCellRowPhoneNumber) {
             [editLabelCell setTitle:@"Phone Number" placeholder:self.user.phoneNumber];
+            editLabelCell.handleTextChange = ^(NSString *text) {
+                if (!EV_IS_EMPTY_STRING(text))
+                    [EVCIA me].phoneNumber = text;
+            };
         } else if (indexPath.row == EVEditProfileCellRowPassword) {
             [editLabelCell setTitle:@"Password" placeholder:self.user.password];
+            //meh?
         }
         cell = editLabelCell;
     }
@@ -104,6 +174,18 @@
     [actionSheet showInView:self.view];
 }
 
+- (void)saveButtonTapped {
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress];
+
+    [[EVCIA me] updateWithSuccess:^{
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+        [EVStatusBarManager sharedManager].completion = ^(void){ [self.navigationController popViewControllerAnimated:YES]; };
+    } failure:^(NSError *error) {
+        DLog(@"failed to save user: %@", error);
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+    }];
+}
+
 #pragma mark - Image Picker
 
 - (void)displayImagePickerWithSourceType:(UIImagePickerControllerSourceType)sourceType {
@@ -123,6 +205,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {    
     UIImage *pickedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     self.updatedImage = pickedImage;
+    [EVCIA me].updatedAvatar = pickedImage;
     [self.tableView reloadData];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
@@ -141,6 +224,32 @@
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
         viewController.view.backgroundColor = [UIColor blackColor];
     }
+}
+
+#pragma mark - Keyboard Display
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+    self.keyboardIsHiding = NO;
+    [self.view setNeedsLayout];
+}
+
+- (void)keyboardDidShow:(NSNotification *)notification {
+    UIView *firstResponder = [self.view currentFirstResponder];
+    UIView *cell = firstResponder.superview;
+    if (!cell || ![cell isKindOfClass:[UITableViewCell class]])
+        return;
+    NSIndexPath *path = [self.tableView indexPathForCell:(UITableViewCell *)cell];
+    self.tableView.frame = [self tableViewFrame];
+    [self.tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.tableView.frame = [self tableViewFrame];
+                     }];
+    self.keyboardIsHiding = YES;
+    [self.view setNeedsLayout];
 }
 
 #pragma mark - Utility
@@ -176,9 +285,26 @@
 #pragma mark - Frames
 
 - (CGRect)tableViewFrame {
+    CGRect keyboardFrame = [EVKeyboardTracker sharedTracker].keyboardFrame;
     CGRect tableFrame = self.view.bounds;
     tableFrame.size.height += [UIApplication sharedApplication].statusBarFrame.size.height;
+    if (!self.keyboardIsHiding)
+        tableFrame.size.height -= keyboardFrame.size.height;
     return tableFrame;
+}
+
+- (CGRect)footerViewFrame {
+    return CGRectMake(0,
+                      0,
+                      self.view.bounds.size.width,
+                      BUTTON_BUFFER + [EVImages blueButtonBackground].size.height + BUTTON_BUFFER);
+}
+
+- (CGRect)pinButtonFrame {
+    return CGRectMake(BUTTON_BUFFER,
+                      0,
+                      self.view.bounds.size.width - BUTTON_BUFFER*2,
+                      [EVImages blueButtonBackground].size.height);
 }
 
 @end

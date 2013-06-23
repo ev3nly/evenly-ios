@@ -52,6 +52,7 @@
 
 - (void)loadAvatarView {
     self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectZero];
+    self.avatarView.cornerRadius = 8.0;
     self.avatarView.size = CGSizeMake(AVATAR_LENGTH, AVATAR_LENGTH);
     [self addSubview:self.avatarView];
 }

@@ -69,6 +69,12 @@
     return YES;
 }
 
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    if (self.handleTextChange)
+        self.handleTextChange(textField.text);
+    return YES;
+}
+
 #pragma mark - Frames
 
 - (CGRect)textLabelFrame {
