@@ -16,12 +16,13 @@ typedef enum {
 } EVDashboardPermanentRow;
 
 @class EVGroupRequest;
+@class EVGroupRequestProgressView;
 @class EVSegmentedControl;
 
 @interface EVGroupRequestDashboardTableViewDataSource : NSObject <UITableViewDataSource>
 
 @property (nonatomic, strong) EVGroupRequest *groupRequest;
-
+@property (nonatomic, strong) EVGroupRequestProgressView *progressView;
 @property (nonatomic, strong) EVSegmentedControl *segmentedControl;
 
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest;

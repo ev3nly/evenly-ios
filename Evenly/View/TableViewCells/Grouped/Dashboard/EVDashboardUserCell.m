@@ -127,7 +127,7 @@
     [self.owesLabel setOrigin:CGPointMake(xOrigin, yOrigin)];
     [self.paidLabel setOrigin:CGPointMake(xOrigin, CGRectGetMaxY(self.owesLabel.frame))];
     
-    CGFloat maxX = xOrigin;
+    CGFloat maxX = xOrigin - SMALL_GAP;
     
     if (!EV_IS_EMPTY_STRING(self.tierLabel.text))
     {

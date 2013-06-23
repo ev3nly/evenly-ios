@@ -39,4 +39,8 @@
 
 + (UIColor *)highlightedTextColor;
 
+#pragma mark - Progress Bar
+
++ (UIColor *)progressBarDisabledColor;
+
 @end

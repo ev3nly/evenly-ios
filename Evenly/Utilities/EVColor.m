@@ -81,4 +81,11 @@
 + (UIColor *)highlightedTextColor {
     return EV_RGB_COLOR(0.4, 0.4, 0.4);
 }
+
+#pragma mark - Progress Bar
+
++ (UIColor *)progressBarDisabledColor {
+    return EV_RGB_COLOR(0.9843, 0.9765, 0.9804);
+}
+
 @end
