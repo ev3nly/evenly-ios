@@ -19,7 +19,8 @@
 @property (nonatomic, strong) NSDecimalNumber *amountPaid;
 @property (nonatomic) NSInteger numberOfPayments;
 @property (nonatomic) BOOL completed;
-@property (nonatomic, strong) EVUser *user;
+@property (nonatomic, strong) EVObject<EVExchangeable> *user;
+@property (nonatomic, strong) NSArray *payments;
 
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest;
 

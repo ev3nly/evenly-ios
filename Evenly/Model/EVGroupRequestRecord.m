@@ -27,7 +27,7 @@
     
     self.completed = [properties[@"completed"] boolValue];
     self.numberOfPayments = [properties[@"number_of_payments"] intValue];
-    self.user = (EVUser *)[EVSerializer serializeDictionary:properties[@"user"]];
+    self.user = (EVObject<EVExchangeable> *)[EVSerializer serializeDictionary:properties[@"user"]];
     
     if (properties[@"tier_id"] != [NSNull null]) {
         self.tier = [self.groupRequest tierWithID:properties[@"tier_id"]];
