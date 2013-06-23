@@ -92,6 +92,10 @@
 		9C32421517779809004A358F /* EVGroupRequestProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C32421417779809004A358F /* EVGroupRequestProgressView.m */; };
 		9C32421817779B18004A358F /* EVProgressBarBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C32421717779B18004A358F /* EVProgressBarBackground.m */; };
 		9C32421B1777A31B004A358F /* EVProgressBarForeground.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C32421A1777A2FE004A358F /* EVProgressBarForeground.m */; };
+		9C32421E1777A864004A358F /* EVDashboardSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C32421D1777A860004A358F /* EVDashboardSegmentedControl.m */; };
+		9C3242221777A8A2004A358F /* tab-inactive-background.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C3242201777A8A2004A358F /* tab-inactive-background.png */; };
+		9C3242231777A8A2004A358F /* tab-inactive-background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C3242211777A8A2004A358F /* tab-inactive-background@2x.png */; };
+		9C3242261777A929004A358F /* EVMultipleAmountsSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3242251777A922004A358F /* EVMultipleAmountsSegmentedControl.m */; };
 		9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6EF176186A500084FA7 /* EVWalletCell.m */; };
 		9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6F21761871000084FA7 /* EVSidePanelCell.m */; };
 		9C35B6F717618A4400084FA7 /* WalletArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F517618A4400084FA7 /* WalletArrow.png */; };
@@ -498,6 +502,12 @@
 		9C32421717779B18004A358F /* EVProgressBarBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVProgressBarBackground.m; sourceTree = "<group>"; };
 		9C3242191777A2FE004A358F /* EVProgressBarForeground.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVProgressBarForeground.h; sourceTree = "<group>"; };
 		9C32421A1777A2FE004A358F /* EVProgressBarForeground.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVProgressBarForeground.m; sourceTree = "<group>"; };
+		9C32421C1777A860004A358F /* EVDashboardSegmentedControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVDashboardSegmentedControl.h; sourceTree = "<group>"; };
+		9C32421D1777A860004A358F /* EVDashboardSegmentedControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVDashboardSegmentedControl.m; sourceTree = "<group>"; };
+		9C3242201777A8A2004A358F /* tab-inactive-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-inactive-background.png"; sourceTree = "<group>"; };
+		9C3242211777A8A2004A358F /* tab-inactive-background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tab-inactive-background@2x.png"; sourceTree = "<group>"; };
+		9C3242241777A922004A358F /* EVMultipleAmountsSegmentedControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVMultipleAmountsSegmentedControl.h; sourceTree = "<group>"; };
+		9C3242251777A922004A358F /* EVMultipleAmountsSegmentedControl.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVMultipleAmountsSegmentedControl.m; sourceTree = "<group>"; };
 		9C35B6EE176186A500084FA7 /* EVWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletCell.h; sourceTree = "<group>"; };
 		9C35B6EF176186A500084FA7 /* EVWalletCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletCell.m; sourceTree = "<group>"; };
 		9C35B6F11761871000084FA7 /* EVSidePanelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSidePanelCell.h; sourceTree = "<group>"; };
@@ -1214,6 +1224,15 @@
 			path = ProgressBars;
 			sourceTree = "<group>";
 		};
+		9C32421F1777A8A2004A358F /* SegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				9C3242201777A8A2004A358F /* tab-inactive-background.png */,
+				9C3242211777A8A2004A358F /* tab-inactive-background@2x.png */,
+			);
+			path = SegmentedControl;
+			sourceTree = "<group>";
+		};
 		9C35B6F417618A4400084FA7 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
@@ -1382,6 +1401,10 @@
 			children = (
 				9C863C7217727D86003ADB49 /* EVSegmentedControl.h */,
 				9C863C7317727D86003ADB49 /* EVSegmentedControl.m */,
+				9C3242241777A922004A358F /* EVMultipleAmountsSegmentedControl.h */,
+				9C3242251777A922004A358F /* EVMultipleAmountsSegmentedControl.m */,
+				9C32421C1777A860004A358F /* EVDashboardSegmentedControl.h */,
+				9C32421D1777A860004A358F /* EVDashboardSegmentedControl.m */,
 			);
 			path = SegmentedControls;
 			sourceTree = "<group>";
@@ -1577,6 +1600,7 @@
 				9C54288F176FD6470028F141 /* PageControl */,
 				9C2DD06F1769050700EAA3D1 /* Privacy */,
 				D077A8C1177419CD001BAAAD /* Request */,
+				9C32421F1777A8A2004A358F /* SegmentedControl */,
 				9C2DD088176928A500EAA3D1 /* Settings */,
 				D0770B38177519A40002B572 /* SignUp */,
 				D093B99F17757AE70036BDBD /* StatusBar */,
@@ -2161,6 +2185,7 @@
 				9C900D291767FA5200E2F4C4 /* btn_blue-active@2x.png in Resources */,
 				9C900D2A1767FA5200E2F4C4 /* btn_blue.png in Resources */,
 				9C900D2B1767FA5200E2F4C4 /* btn_blue@2x.png in Resources */,
+				9C3242221777A8A2004A358F /* tab-inactive-background.png in Resources */,
 				9C900D2C1767FA5200E2F4C4 /* btn_gray-active.png in Resources */,
 				9C900D2D1767FA5200E2F4C4 /* btn_gray-active@2x.png in Resources */,
 				9C863C9D17729E7D003ADB49 /* Invite@2x.png in Resources */,
@@ -2180,6 +2205,7 @@
 				9C2DD07F1769050700EAA3D1 /* Privacy-Lock@2x.png in Resources */,
 				9C2DD08F176928A500EAA3D1 /* Settings_logout_arrow.png in Resources */,
 				9C2DD090176928A500EAA3D1 /* Settings_logout_arrow@2x.png in Resources */,
+				9C3242231777A8A2004A358F /* tab-inactive-background@2x.png in Resources */,
 				9C542887176FA0F60028F141 /* Request-Group-Light.png in Resources */,
 				9C542885176FA0F60028F141 /* Request-Group-Dark.png in Resources */,
 				9C2DD091176928A500EAA3D1 /* Settings_notification_globe.png in Resources */,
@@ -2358,6 +2384,7 @@
 				9CEEB84A175526EC00C24C2A /* AESCrypt.m in Sources */,
 				9CEEB84C175526EC00C24C2A /* NSData+Base64.m in Sources */,
 				9CEEB84D175526EC00C24C2A /* NSData+CommonCrypto.m in Sources */,
+				9C3242261777A929004A358F /* EVMultipleAmountsSegmentedControl.m in Sources */,
 				9CEEB84E175526EC00C24C2A /* NSString+Base64.m in Sources */,
 				9CEEB850175526EC00C24C2A /* KeychainItemWrapper.m in Sources */,
 				9C504475177122850090D865 /* JSTokenField.m in Sources */,
@@ -2422,6 +2449,7 @@
 				9CCA901D175EBD47003462DC /* EVMasterViewController.m in Sources */,
 				D02CAB0F1761483500323025 /* EVValidator.m in Sources */,
 				9CB285C8176164EC009B26BB /* EVMainMenuCell.m in Sources */,
+				9C32421E1777A864004A358F /* EVDashboardSegmentedControl.m in Sources */,
 				9C50442D1770FC250090D865 /* EVBackButton.m in Sources */,
 				9CB285C3176157ED009B26BB /* EVStory.m in Sources */,
 				9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */,
