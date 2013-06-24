@@ -19,6 +19,8 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 
+- (void)loadRightBarButton;
+
 @end
 
 @implementation EVGroupRequestDashboardViewController
@@ -27,7 +29,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
 }
@@ -46,6 +48,8 @@
 {
     [super viewDidLoad];
     
+    [self loadRightBarButton];
+    
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self.dataSource;
@@ -60,10 +64,29 @@
     [self.view addSubview:self.tableView];
 }
 
+- (void)loadRightBarButton {
+    UIImage *image = [UIImage imageNamed:@"More"];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + 20.0, image.size.height)];
+    [button setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    [button setImage:image forState:UIControlStateNormal];
+    [button setShowsTouchWhenHighlighted:YES];
+    [button setAdjustsImageWhenHighlighted:NO];
+    [button addTarget:self action:@selector(moreButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.dataSource.progressView.progressBar setProgress:0.5 animated:YES];
 }
+
+#pragma mark - Button Actions
+
+- (void)moreButtonPress:(id)sender {
+    
+}
+
+#pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == EVDashboardPermanentRowTitle)

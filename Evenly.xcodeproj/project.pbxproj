@@ -253,6 +253,8 @@
 		9CB285C3176157ED009B26BB /* EVStory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB285C2176157ED009B26BB /* EVStory.m */; };
 		9CB285C8176164EC009B26BB /* EVMainMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB285C7176164EC009B26BB /* EVMainMenuCell.m */; };
 		9CB285CC17616AA2009B26BB /* Support.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB285CB17616AA2009B26BB /* Support.png */; };
+		9CBCAE211778C0150039AB39 /* More.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CBCAE1F1778C0150039AB39 /* More.png */; };
+		9CBCAE221778C0150039AB39 /* More@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CBCAE201778C0150039AB39 /* More@2x.png */; };
 		9CCA900A175E6C90003462DC /* UIViewController+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */; };
 		9CCA900D175E82D7003462DC /* EVCIA.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA900C175E82D7003462DC /* EVCIA.m */; };
 		9CCA9013175EA8E9003462DC /* EVMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9010175EA8E9003462DC /* EVMainMenuViewController.m */; };
@@ -720,6 +722,8 @@
 		9CB285C6176164EC009B26BB /* EVMainMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMainMenuCell.h; sourceTree = "<group>"; };
 		9CB285C7176164EC009B26BB /* EVMainMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMainMenuCell.m; sourceTree = "<group>"; };
 		9CB285CB17616AA2009B26BB /* Support.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Support.png; sourceTree = "<group>"; };
+		9CBCAE1F1778C0150039AB39 /* More.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = More.png; sourceTree = "<group>"; };
+		9CBCAE201778C0150039AB39 /* More@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "More@2x.png"; sourceTree = "<group>"; };
 		9CCA9008175E6C90003462DC /* UIViewController+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+EVAdditions.h"; sourceTree = "<group>"; };
 		9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+EVAdditions.m"; sourceTree = "<group>"; };
 		9CCA900B175E82D7003462DC /* EVCIA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EVCIA.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1689,6 +1693,8 @@
 				9CB2857C1761521E009B26BB /* Hamburger@2x.png */,
 				9CB2857D1761521E009B26BB /* Header.png */,
 				9CB2857E1761521E009B26BB /* Header@2x.png */,
+				9CBCAE1F1778C0150039AB39 /* More.png */,
+				9CBCAE201778C0150039AB39 /* More@2x.png */,
 				9CB2857F1761521E009B26BB /* Wallet.png */,
 				9CB285801761521E009B26BB /* Wallet@2x.png */,
 			);
@@ -2235,6 +2241,7 @@
 				9C2DD091176928A500EAA3D1 /* Settings_notification_globe.png in Resources */,
 				9C2DD092176928A500EAA3D1 /* Settings_notification_globe@2x.png in Resources */,
 				9C2DD093176928A500EAA3D1 /* Settings_passcode_key.png in Resources */,
+				9CBCAE211778C0150039AB39 /* More.png in Resources */,
 				9C2DD094176928A500EAA3D1 /* Settings_passcode_key@2x.png in Resources */,
 				9C2DD097176928B200EAA3D1 /* Arrow.png in Resources */,
 				9C2DD098176928B200EAA3D1 /* Arrow@2x.png in Resources */,
@@ -2246,6 +2253,7 @@
 				9C54289A176FD6470028F141 /* Request-header-hole.png in Resources */,
 				D06DFAF71769473A00A06564 /* Privacy-Check@2x.png in Resources */,
 				9C542886176FA0F60028F141 /* Request-Group-Dark@2x.png in Resources */,
+				9CBCAE221778C0150039AB39 /* More@2x.png in Resources */,
 				9C58DC52176BAFE80057C019 /* toggle_handle.png in Resources */,
 				9C58DC53176BAFE80057C019 /* toggle_handle@2x.png in Resources */,
 				9C58DC54176BAFE80057C019 /* toggle_off_bg.png in Resources */,
