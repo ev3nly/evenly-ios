@@ -102,13 +102,37 @@
     return [UIImage imageNamed:@"Request-Invite-Friends-Banner"];
 }
 
-#pragma mark - SignUp
++ (UIImage *)filledDot {
+    return [UIImage imageNamed:@"Request-header-dot"];
+}
+
++ (UIImage *)emptyDot {
+    return [UIImage imageNamed:@"Request-header-hole"];
+}
+
+#pragma mark - Onboarding
 + (UIImage *)addPhotoIcon {
     return [UIImage imageNamed:@"add-photo"];
 }
 
 + (UIImage *)defaultAvatar {
     return [UIImage imageNamed:@"DefaultAvatar"];
+}
+
++ (UIImage *)onboardCard1 {
+    return [UIImage imageNamed:@"onboard-card1"];
+}
+
++ (UIImage *)onboardCard2 {
+    return [UIImage imageNamed:@"onboard-card2"];
+}
+
++ (UIImage *)onboardCard3 {
+    return [UIImage imageNamed:@"onboard-card3"];
+}
+
++ (UIImage *)iTunesArtwork {
+    return [UIImage imageNamed:@"iTunesArtwork"];
 }
 
 #pragma mark - Status Bar

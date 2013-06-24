@@ -41,11 +41,11 @@
 }
 
 - (UIImage *)dotImage {
-    return [UIImage imageNamed:@"Request-header-dot"];
+    return [EVImages filledDot];
 }
 
 - (UIImage *)holeImage {
-    return [UIImage imageNamed:@"Request-header-hole"];
+    return [EVImages emptyDot];
 }
 
 - (void)reloadSubviews {

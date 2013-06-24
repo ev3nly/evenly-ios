@@ -41,10 +41,16 @@
 
 #pragma mark - Request
 + (UIImage *)inviteFriendsBanner;
++ (UIImage *)filledDot;
++ (UIImage *)emptyDot;
 
-#pragma mark - SignUp
+#pragma mark - Onboarding
 + (UIImage *)addPhotoIcon;
 + (UIImage *)defaultAvatar;
++ (UIImage *)onboardCard1;
++ (UIImage *)onboardCard2;
++ (UIImage *)onboardCard3;
++ (UIImage *)iTunesArtwork;
 
 #pragma mark - Status Bar
 + (UIImage *)statusErrorBackground;
