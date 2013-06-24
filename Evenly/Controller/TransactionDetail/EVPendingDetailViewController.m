@@ -116,8 +116,6 @@
 }
 
 - (void)cancelRequest {
-    [self denyRequest];
-    return;
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CANCELING PAYMENT..."];
     
     if ([self.exchange isKindOfClass:[EVRequest class]]) {
