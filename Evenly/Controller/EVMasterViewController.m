@@ -31,7 +31,6 @@
 
 - (void)showOnboardingController {
     EVOnboardingViewController *controller = [[EVOnboardingViewController alloc] initWithNibName:nil bundle:nil];
-    controller.parent = self;
     [self presentViewController:controller animated:NO completion:nil];
 }
 

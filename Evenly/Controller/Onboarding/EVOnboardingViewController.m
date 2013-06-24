@@ -322,7 +322,7 @@
 
 - (void)signInLabelTapped {
     EVSignInViewController *signInViewController = [[EVSignInViewController alloc] initWithAuthenticationSuccess:^{
-        [self.parent dismissViewControllerAnimated:YES completion:nil];
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
     signInViewController.canDismissManually = YES;

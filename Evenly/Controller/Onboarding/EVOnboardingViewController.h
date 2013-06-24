@@ -7,10 +7,7 @@
 //
 
 #import "EVModalViewController.h"
-#import "EVMasterViewController.h"
 
 @interface EVOnboardingViewController : UIViewController <UIScrollViewDelegate>
-
-@property (nonatomic, weak) EVMasterViewController *parent;
 
 @end
