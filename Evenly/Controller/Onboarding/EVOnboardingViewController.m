@@ -27,7 +27,8 @@
 #define TITLE_SUBTITLE_BUFFER 4
 #define MAX_TEXT_WIDTH 272
 
-#define PICTURE_SCALE ((self.view.bounds.size.height-140)/(548.0-140))
+#define PICTURE_SCALE_CONSTANT 140.0
+#define PICTURE_SCALE ((self.view.bounds.size.height-PICTURE_SCALE_CONSTANT)/(548.0-PICTURE_SCALE_CONSTANT))
 
 #define SIGNUP_LABEL_Y_ORIGIN 200
 #define BUTTON_LEFT_MARGIN 30
