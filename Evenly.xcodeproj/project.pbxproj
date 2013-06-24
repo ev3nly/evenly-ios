@@ -327,10 +327,19 @@
 		D077A8C5177419EA001BAAAD /* Request-Invite-Friends-Banner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D077A8C3177419EA001BAAAD /* Request-Invite-Friends-Banner@2x.png */; };
 		D077A8C817741B3E001BAAAD /* EVNoActivityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D077A8C717741B3E001BAAAD /* EVNoActivityCell.m */; };
 		D077A8CB17743324001BAAAD /* EVProfileHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D077A8CA17743324001BAAAD /* EVProfileHistoryCell.m */; };
+		D078F0161777D21B00499EB8 /* EVOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D078F0151777D21B00499EB8 /* EVOnboardingViewController.m */; };
+		D078F0191778121100499EB8 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = D078F0171778121100499EB8 /* iTunesArtwork.png */; };
+		D078F01A1778121100499EB8 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D078F0181778121100499EB8 /* iTunesArtwork@2x.png */; };
 		D07A3902176A661D00EABEB7 /* EVTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A3901176A661D00EABEB7 /* EVTapGestureRecognizer.m */; };
 		D07A3908176A7B4B00EABEB7 /* EVPrivacySelectorOption.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A3907176A7B4B00EABEB7 /* EVPrivacySelectorOption.m */; };
 		D07A390B176A7D1F00EABEB7 /* EVPrivacySelectorLine.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A390A176A7D1F00EABEB7 /* EVPrivacySelectorLine.m */; };
 		D07A3910176AA2AA00EABEB7 /* UIColor+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A390F176AA2AA00EABEB7 /* UIColor+EVAdditions.m */; };
+		D07FBB3F1777C59F009D8AF3 /* onboard-card1.png in Resources */ = {isa = PBXBuildFile; fileRef = D07FBB391777C59F009D8AF3 /* onboard-card1.png */; };
+		D07FBB401777C59F009D8AF3 /* onboard-card1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D07FBB3A1777C59F009D8AF3 /* onboard-card1@2x.png */; };
+		D07FBB411777C59F009D8AF3 /* onboard-card2.png in Resources */ = {isa = PBXBuildFile; fileRef = D07FBB3B1777C59F009D8AF3 /* onboard-card2.png */; };
+		D07FBB421777C59F009D8AF3 /* onboard-card2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D07FBB3C1777C59F009D8AF3 /* onboard-card2@2x.png */; };
+		D07FBB431777C59F009D8AF3 /* onboard-card3.png in Resources */ = {isa = PBXBuildFile; fileRef = D07FBB3D1777C59F009D8AF3 /* onboard-card3.png */; };
+		D07FBB441777C59F009D8AF3 /* onboard-card3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D07FBB3E1777C59F009D8AF3 /* onboard-card3@2x.png */; };
 		D0828FB11768E6B10032D62E /* EVPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB01768E6B10032D62E /* EVPaymentViewController.m */; };
 		D0828FB41768E7D60032D62E /* EVPrivacySelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB31768E7D60032D62E /* EVPrivacySelectorView.m */; };
 		D0828FB717690EE20032D62E /* EVPrivacySelectorHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB617690EE20032D62E /* EVPrivacySelectorHeader.m */; };
@@ -837,6 +846,10 @@
 		D077A8C717741B3E001BAAAD /* EVNoActivityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNoActivityCell.m; sourceTree = "<group>"; };
 		D077A8C917743324001BAAAD /* EVProfileHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVProfileHistoryCell.h; sourceTree = "<group>"; };
 		D077A8CA17743324001BAAAD /* EVProfileHistoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVProfileHistoryCell.m; sourceTree = "<group>"; };
+		D078F0141777D21B00499EB8 /* EVOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVOnboardingViewController.h; sourceTree = "<group>"; };
+		D078F0151777D21B00499EB8 /* EVOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVOnboardingViewController.m; sourceTree = "<group>"; };
+		D078F0171778121100499EB8 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
+		D078F0181778121100499EB8 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		D07A3900176A661D00EABEB7 /* EVTapGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTapGestureRecognizer.h; sourceTree = "<group>"; };
 		D07A3901176A661D00EABEB7 /* EVTapGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTapGestureRecognizer.m; sourceTree = "<group>"; };
 		D07A3906176A7B4B00EABEB7 /* EVPrivacySelectorOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPrivacySelectorOption.h; sourceTree = "<group>"; };
@@ -845,6 +858,12 @@
 		D07A390A176A7D1F00EABEB7 /* EVPrivacySelectorLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacySelectorLine.m; sourceTree = "<group>"; };
 		D07A390E176AA2AA00EABEB7 /* UIColor+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+EVAdditions.h"; sourceTree = "<group>"; };
 		D07A390F176AA2AA00EABEB7 /* UIColor+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+EVAdditions.m"; sourceTree = "<group>"; };
+		D07FBB391777C59F009D8AF3 /* onboard-card1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-card1.png"; sourceTree = "<group>"; };
+		D07FBB3A1777C59F009D8AF3 /* onboard-card1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-card1@2x.png"; sourceTree = "<group>"; };
+		D07FBB3B1777C59F009D8AF3 /* onboard-card2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-card2.png"; sourceTree = "<group>"; };
+		D07FBB3C1777C59F009D8AF3 /* onboard-card2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-card2@2x.png"; sourceTree = "<group>"; };
+		D07FBB3D1777C59F009D8AF3 /* onboard-card3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-card3.png"; sourceTree = "<group>"; };
+		D07FBB3E1777C59F009D8AF3 /* onboard-card3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-card3@2x.png"; sourceTree = "<group>"; };
 		D0828FAF1768E6B10032D62E /* EVPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPaymentViewController.h; sourceTree = "<group>"; };
 		D0828FB01768E6B10032D62E /* EVPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPaymentViewController.m; sourceTree = "<group>"; };
 		D0828FB21768E7D60032D62E /* EVPrivacySelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPrivacySelectorView.h; sourceTree = "<group>"; };
@@ -953,6 +972,7 @@
 				D0C48EA0176FB2C800F60193 /* History */,
 				9C0EC752175D7CFC003B93E2 /* Home */,
 				9C0EC755175D7CFC003B93E2 /* Invite */,
+				D078F0131777D07600499EB8 /* Onboarding */,
 				9C0EC756175D7CFC003B93E2 /* Prophile */,
 				9C0EC758175D7CFC003B93E2 /* Settings */,
 				9C2DD0A0176A3CE400EAA3D1 /* SignIn */,
@@ -1616,6 +1636,7 @@
 				9C863C9917729E7D003ADB49 /* Invite */,
 				9CB285701761521E009B26BB /* MainMenu */,
 				9CB2857A1761521E009B26BB /* NavBar */,
+				D07FBB381777C592009D8AF3 /* Onboarding */,
 				9C54288F176FD6470028F141 /* PageControl */,
 				9C2DD06F1769050700EAA3D1 /* Privacy */,
 				9C3242271777AD3F004A358F /* ProgressBar */,
@@ -1978,6 +1999,30 @@
 			path = Request;
 			sourceTree = "<group>";
 		};
+		D078F0131777D07600499EB8 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				D078F0141777D21B00499EB8 /* EVOnboardingViewController.h */,
+				D078F0151777D21B00499EB8 /* EVOnboardingViewController.m */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		D07FBB381777C592009D8AF3 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				D07FBB391777C59F009D8AF3 /* onboard-card1.png */,
+				D07FBB3A1777C59F009D8AF3 /* onboard-card1@2x.png */,
+				D07FBB3B1777C59F009D8AF3 /* onboard-card2.png */,
+				D07FBB3C1777C59F009D8AF3 /* onboard-card2@2x.png */,
+				D07FBB3D1777C59F009D8AF3 /* onboard-card3.png */,
+				D07FBB3E1777C59F009D8AF3 /* onboard-card3@2x.png */,
+				D078F0171778121100499EB8 /* iTunesArtwork.png */,
+				D078F0181778121100499EB8 /* iTunesArtwork@2x.png */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		D093B99F17757AE70036BDBD /* StatusBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -2270,6 +2315,14 @@
 				D093B9AD17757AEF0036BDBD /* status-progress@2x.png in Resources */,
 				D093B9AE17757AEF0036BDBD /* status-success.png in Resources */,
 				D093B9AF17757AEF0036BDBD /* status-success@2x.png in Resources */,
+				D07FBB3F1777C59F009D8AF3 /* onboard-card1.png in Resources */,
+				D07FBB401777C59F009D8AF3 /* onboard-card1@2x.png in Resources */,
+				D07FBB411777C59F009D8AF3 /* onboard-card2.png in Resources */,
+				D07FBB421777C59F009D8AF3 /* onboard-card2@2x.png in Resources */,
+				D07FBB431777C59F009D8AF3 /* onboard-card3.png in Resources */,
+				D07FBB441777C59F009D8AF3 /* onboard-card3@2x.png in Resources */,
+				D078F0191778121100499EB8 /* iTunesArtwork.png in Resources */,
+				D078F01A1778121100499EB8 /* iTunesArtwork@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2551,6 +2604,7 @@
 				D0770B37177514730002B572 /* EVEditPhotoCell.m in Sources */,
 				D093B9B217757C0E0036BDBD /* EVStatusBarManager.m in Sources */,
 				D093B9BA17757EA90036BDBD /* EVStatusBarProgressView.m in Sources */,
+				D078F0161777D21B00499EB8 /* EVOnboardingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

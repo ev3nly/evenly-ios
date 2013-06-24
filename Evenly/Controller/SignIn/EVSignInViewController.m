@@ -35,6 +35,7 @@
     if (self) {
         self.title = @"Sign In";
         self.authenticationSuccess = success;
+        self.canDismissManually = NO;
     }
     return self;
 }
@@ -53,6 +54,11 @@
     self.doneButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
     [self.doneButton addTarget:self action:@selector(doneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];
+}
+
+- (void)loadCancelButton {
+    if (self.canDismissManually)
+        [super loadCancelButton];
 }
 
 - (void)loadForm {
@@ -132,6 +138,15 @@
 - (void)doneButtonPress:(id)sender {
     [self.view findAndResignFirstResponder];
     [self signIn];
+}
+
+- (void)setCanDismissManually:(BOOL)canDismissManually {
+    _canDismissManually = canDismissManually;
+    
+    if (canDismissManually)
+        [self loadCancelButton];
+    else
+        [self.navigationItem setLeftBarButtonItem:nil];
 }
 
 @end

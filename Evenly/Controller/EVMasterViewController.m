@@ -8,6 +8,7 @@
 
 #import "EVMasterViewController.h"
 #import "EVSignInViewController.h"
+#import "EVOnboardingViewController.h"
 
 @interface EVMasterViewController ()
 
@@ -26,6 +27,12 @@
     button.showsTouchWhenHighlighted = YES;
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     return barButtonItem;
+}
+
+- (void)showOnboardingController {
+    EVOnboardingViewController *controller = [[EVOnboardingViewController alloc] initWithNibName:nil bundle:nil];
+    controller.parent = self;
+    [self presentViewController:controller animated:NO completion:nil];
 }
 
 #pragma mark - Login Controller
