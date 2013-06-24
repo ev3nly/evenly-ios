@@ -11,7 +11,7 @@
 #import "EVGroupRequestTier.h"
 #import "EVGroupRequestRecord.h"
 #import "EVGroupRequestProgressView.h"
-#import "EVSegmentedControl.h"
+#import "EVDashboardSegmentedControl.h"
 #import "EVDashboardTitleCell.h"
 #import "EVDashboardUserCell.h"
 
@@ -21,7 +21,7 @@
     self = [super init];
     if (self) {
         self.groupRequest = groupRequest;
-        self.segmentedControl = [[EVSegmentedControl alloc] initWithItems:@[ @"All", @"Paying", @"Paid" ]];
+        self.segmentedControl = [[EVDashboardSegmentedControl alloc] initWithItems:@[ @"All", @"Paying", @"Paid" ]];
         self.progressView = [[EVGroupRequestProgressView alloc] initWithFrame:CGRectMake(0, 0, 275, [EVGroupRequestProgressView height])];
     }
     return self;
@@ -55,8 +55,8 @@
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         [cell setPosition:EVGroupedTableViewCellPositionCenter];
-        [self.segmentedControl setFrame:CGRectMake(0, 0, cell.frame.size.width, 44.0)];
-        [cell addSubview:self.segmentedControl];
+        [self.segmentedControl setFrame:CGRectMake(0, 0, cell.contentView.frame.size.width-1, 40.0)];
+        [cell.contentView addSubview:self.segmentedControl];
     }
     else
     {

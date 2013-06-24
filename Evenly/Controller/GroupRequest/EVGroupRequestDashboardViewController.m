@@ -49,6 +49,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self.dataSource;
+    self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundView = nil;
     self.tableView.separatorColor = [UIColor clearColor];
@@ -69,6 +70,10 @@
     {
         CGFloat height = [EVDashboardTitleCell heightWithTitle:self.groupRequest.title memo:self.groupRequest.memo];
         return height;
+    }
+    else if (indexPath.row == EVDashboardPermanentRowSegmentedControl)
+    {
+        return 40.0;
     }
     else if (indexPath.row == EVDashboardPermanentRowProgress)
     {
