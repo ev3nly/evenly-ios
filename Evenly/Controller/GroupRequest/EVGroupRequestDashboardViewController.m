@@ -10,6 +10,7 @@
 #import "EVGroupRequestDashboardTableViewDataSource.h"
 #import "EVDashboardTitleCell.h"
 #import "EVDashboardUserCell.h"
+#import "EVDashboardNoOneJoinedCell.h"
 #import "EVGroupRequestProgressView.h"
 
 @interface EVGroupRequestDashboardViewController ()
@@ -39,6 +40,7 @@
     if (self) {
         self.groupRequest = groupRequest;
         self.dataSource = [[EVGroupRequestDashboardTableViewDataSource alloc] initWithGroupRequest:self.groupRequest];
+        [self.dataSource.inviteButton addTarget:self action:@selector(inviteButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         self.title = self.groupRequest.title;
     }
     return self;
@@ -53,6 +55,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self.dataSource;
+    self.dataSource.tableView = self.tableView;
     self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundView = nil;
@@ -60,6 +63,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVDashboardTitleCell class] forCellReuseIdentifier:@"titleCell"];
     [self.tableView registerClass:[EVDashboardUserCell class] forCellReuseIdentifier:@"userCell"];
+    [self.tableView registerClass:[EVDashboardNoOneJoinedCell class] forCellReuseIdentifier:@"noOneJoinedCell"];
     [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
 }
@@ -83,36 +87,26 @@
 #pragma mark - Button Actions
 
 - (void)moreButtonPress:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                             delegate:self
+                                                    cancelButtonTitle:@"Cancel"
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:@"Edit", @"Invite", @"Close Request", nil];
+    [actionSheet showInView:self.view];
+}
+
+- (void)inviteButtonPress:(id)sender {
     
 }
 
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == EVDashboardPermanentRowTitle)
-    {
-        CGFloat height = [EVDashboardTitleCell heightWithTitle:self.groupRequest.title memo:self.groupRequest.memo];
-        return height;
-    }
-    else if (indexPath.row == EVDashboardPermanentRowSegmentedControl)
-    {
-        return 40.0;
-    }
-    else if (indexPath.row == EVDashboardPermanentRowProgress)
-    {
-        return [EVGroupRequestProgressView height] + 20.0;
-    }
-    else if (indexPath.row >= EVDashboardPermanentRowCOUNT)
-    {
-        return 64.0;
-    }
-    return 44.0;
+    return [self.dataSource heightForRowAtIndexPath:indexPath];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+        // TODO:
 }
 
 @end

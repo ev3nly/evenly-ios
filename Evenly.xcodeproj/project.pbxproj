@@ -255,6 +255,7 @@
 		9CB285CC17616AA2009B26BB /* Support.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB285CB17616AA2009B26BB /* Support.png */; };
 		9CBCAE211778C0150039AB39 /* More.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CBCAE1F1778C0150039AB39 /* More.png */; };
 		9CBCAE221778C0150039AB39 /* More@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CBCAE201778C0150039AB39 /* More@2x.png */; };
+		9CBCAE25177904C50039AB39 /* EVDashboardNoOneJoinedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CBCAE24177904BA0039AB39 /* EVDashboardNoOneJoinedCell.m */; };
 		9CCA900A175E6C90003462DC /* UIViewController+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */; };
 		9CCA900D175E82D7003462DC /* EVCIA.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA900C175E82D7003462DC /* EVCIA.m */; };
 		9CCA9013175EA8E9003462DC /* EVMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9010175EA8E9003462DC /* EVMainMenuViewController.m */; };
@@ -724,6 +725,8 @@
 		9CB285CB17616AA2009B26BB /* Support.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Support.png; sourceTree = "<group>"; };
 		9CBCAE1F1778C0150039AB39 /* More.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = More.png; sourceTree = "<group>"; };
 		9CBCAE201778C0150039AB39 /* More@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "More@2x.png"; sourceTree = "<group>"; };
+		9CBCAE23177904BA0039AB39 /* EVDashboardNoOneJoinedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVDashboardNoOneJoinedCell.h; sourceTree = "<group>"; };
+		9CBCAE24177904BA0039AB39 /* EVDashboardNoOneJoinedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVDashboardNoOneJoinedCell.m; sourceTree = "<group>"; };
 		9CCA9008175E6C90003462DC /* UIViewController+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+EVAdditions.h"; sourceTree = "<group>"; };
 		9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+EVAdditions.m"; sourceTree = "<group>"; };
 		9CCA900B175E82D7003462DC /* EVCIA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EVCIA.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1283,6 +1286,8 @@
 				9C3917311773C9BF002949C3 /* EVDashboardTitleCell.m */,
 				9C3917361773D69A002949C3 /* EVDashboardUserCell.h */,
 				9C3917371773D69A002949C3 /* EVDashboardUserCell.m */,
+				9CBCAE23177904BA0039AB39 /* EVDashboardNoOneJoinedCell.h */,
+				9CBCAE24177904BA0039AB39 /* EVDashboardNoOneJoinedCell.m */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -2522,6 +2527,7 @@
 				9C542880176F9EE50028F141 /* EVRequestSwitchOption.m in Sources */,
 				9C2DD0A3176A3CF000EAA3D1 /* EVSignInViewController.m in Sources */,
 				9C2DD0A6176A4B2C00EAA3D1 /* EVFormRow.m in Sources */,
+				9CBCAE25177904C50039AB39 /* EVDashboardNoOneJoinedCell.m in Sources */,
 				9C50442A1770F8780090D865 /* EVRequestView.m in Sources */,
 				9C863C94177297A0003ADB49 /* EVGroupRequestAmountCell.m in Sources */,
 				9C5044221770E8CE0090D865 /* EVRequestSingleAmountView.m in Sources */,
