@@ -10,6 +10,10 @@
 
 @interface EVMasterViewController : JASidePanelController
 
+#pragma mark - Onboarding
+
+- (void)showOnboardingController;
+
 #pragma mark - Login
 - (void)showLoginViewControllerWithCompletion:(void (^)(void))completion
 									 animated:(BOOL)animated
