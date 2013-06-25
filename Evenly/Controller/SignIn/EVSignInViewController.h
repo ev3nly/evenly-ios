@@ -6,15 +6,16 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVViewController.h"
+#import "EVModalViewController.h"
 
 @class EVTextField;
 
-@interface EVSignInViewController : EVViewController <UITextFieldDelegate>
+@interface EVSignInViewController : EVModalViewController <UITextFieldDelegate>
 
 @property (nonatomic, strong) EVTextField *emailField;
 @property (nonatomic, strong) EVTextField *passwordField;
 @property (nonatomic, strong) void (^authenticationSuccess)(void);
+@property (nonatomic, assign) BOOL canDismissManually;
 
 - (id)initWithAuthenticationSuccess:(void (^)(void))success;
 
