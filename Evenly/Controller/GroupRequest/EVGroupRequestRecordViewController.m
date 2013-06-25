@@ -10,6 +10,8 @@
 #import "EVGroupRequestUserCell.h"
 #import "EVGroupRequestPaymentOptionCell.h"
 
+#import "EVGroupRequest.h"
+
 @interface EVGroupRequestRecordViewController ()
 
 @end
@@ -20,6 +22,7 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.record = record;
+        self.title = self.record.groupRequest.title;
         self.dataSource = [[EVGroupRequestRecordTableViewDataSource alloc] initWithRecord:self.record];
     }
     return self;

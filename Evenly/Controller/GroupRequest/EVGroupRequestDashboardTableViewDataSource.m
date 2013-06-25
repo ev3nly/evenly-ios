@@ -103,6 +103,7 @@
         EVDashboardTitleCell *titleCell = [tableView dequeueReusableCellWithIdentifier:@"titleCell" forIndexPath:indexPath];
         [titleCell.titleLabel setText:self.groupRequest.title];
         [titleCell.memoLabel setText:self.groupRequest.memo];
+        titleCell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell = titleCell;
     }
     else if (indexPath.row == EVDashboardPermanentRowProgress)
@@ -114,6 +115,7 @@
                                                cell.contentView.frame.size.width - 2*GENERAL_X_MARGIN,
                                                self.progressView.frame.size.height)];
         [cell.contentView addSubview:self.progressView];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         if (![self noOneHasJoined])
         {
@@ -130,6 +132,7 @@
         [cell setPosition:EVGroupedTableViewCellPositionCenter];
         [self.segmentedControl setFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, SEGMENTED_CONTROL_HEIGHT)];
         [cell.contentView addSubview:self.segmentedControl];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else
     {
@@ -138,6 +141,7 @@
             EVDashboardNoOneJoinedCell *noOneJoinedCell = [tableView dequeueReusableCellWithIdentifier:@"noOneJoinedCell" forIndexPath:indexPath];
             noOneJoinedCell.inviteButton = self.inviteButton;
             cell = noOneJoinedCell;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         else if ([self.displayedRecords count] > 0)
         {
@@ -154,6 +158,7 @@
             else
                 userCell.position = EVGroupedTableViewCellPositionCenter;
             cell = userCell;
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
         }
         else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
