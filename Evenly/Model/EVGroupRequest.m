@@ -49,10 +49,11 @@
     
     NSMutableArray *records = [NSMutableArray array];
     for (NSDictionary *dictionary in properties[@"records"]) {
-        [records addObject:[EVSerializer serializeDictionary:dictionary]];
+        EVGroupRequestRecord *record = (EVGroupRequestRecord *)[EVSerializer serializeDictionary:dictionary];
+        record.groupRequest = self;
+        [records addObject:record];
     }
     self.records = records;
-    
     self.completed = [properties[@"completed"] boolValue];
 }
 

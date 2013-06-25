@@ -22,6 +22,7 @@ typedef enum {
 } EVDashboardSegment;
 
 @class EVGroupRequest;
+@class EVGroupRequestRecord;
 @class EVGroupRequestProgressView;
 @class EVSegmentedControl;
 @class EVBlueButton;
@@ -41,6 +42,8 @@ typedef enum {
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest;
 
 - (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+
+- (EVGroupRequestRecord *)recordAtIndexPath:(NSIndexPath *)indexPath;
 
 - (void)animate;
 

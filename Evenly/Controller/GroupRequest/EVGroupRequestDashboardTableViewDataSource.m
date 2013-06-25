@@ -103,6 +103,7 @@
         EVDashboardTitleCell *titleCell = [tableView dequeueReusableCellWithIdentifier:@"titleCell" forIndexPath:indexPath];
         [titleCell.titleLabel setText:self.groupRequest.title];
         [titleCell.memoLabel setText:self.groupRequest.memo];
+        titleCell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell = titleCell;
     }
     else if (indexPath.row == EVDashboardPermanentRowProgress)
@@ -114,6 +115,7 @@
                                                cell.contentView.frame.size.width - 2*GENERAL_X_MARGIN,
                                                self.progressView.frame.size.height)];
         [cell.contentView addSubview:self.progressView];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         if (![self noOneHasJoined])
         {
@@ -130,6 +132,7 @@
         [cell setPosition:EVGroupedTableViewCellPositionCenter];
         [self.segmentedControl setFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, SEGMENTED_CONTROL_HEIGHT)];
         [cell.contentView addSubview:self.segmentedControl];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else
     {
@@ -138,6 +141,7 @@
             EVDashboardNoOneJoinedCell *noOneJoinedCell = [tableView dequeueReusableCellWithIdentifier:@"noOneJoinedCell" forIndexPath:indexPath];
             noOneJoinedCell.inviteButton = self.inviteButton;
             cell = noOneJoinedCell;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         else if ([self.displayedRecords count] > 0)
         {
@@ -146,12 +150,15 @@
             [userCell.nameLabel setText:record.user.name];
             [userCell.avatarView setAvatarOwner:record.user];
             [userCell.tierLabel setText:record.tier.name];
+            [userCell.owesAmountLabel setText:(record.tier ? [EVStringUtility amountStringForAmount:record.tier.price] : @"--")];
+            [userCell.paidAmountLabel setText:[EVStringUtility amountStringForAmount:record.amountPaid]];
             
             if (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section])
                 userCell.position = EVGroupedTableViewCellPositionBottom;
             else
                 userCell.position = EVGroupedTableViewCellPositionCenter;
             cell = userCell;
+            cell.selectionStyle = UITableViewCellSelectionStyleGray;
         }
         else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
@@ -186,6 +193,16 @@
             break;
     }
     return height;
+}
+
+- (EVGroupRequestRecord *)recordAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self noOneHasJoined])
+        return nil;
+    if (indexPath.row < EVDashboardPermanentRowCOUNT)
+        return nil;
+    if ([self.displayedRecords count] == 0)
+        return nil;
+    return ([self.displayedRecords objectAtIndex:(indexPath.row - EVDashboardPermanentRowCOUNT)]);
 }
 
 - (void)animate {
