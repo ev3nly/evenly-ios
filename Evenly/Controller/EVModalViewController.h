@@ -10,6 +10,8 @@
 
 @interface EVModalViewController : EVViewController
 
+@property (nonatomic, assign) BOOL canDismissManually;
+
 - (void)loadCancelButton;
 - (void)cancelButtonPress:(id)sender;
 

@@ -7,18 +7,12 @@
 //
 
 #import "EVEditProfileViewController.h"
-#import "EVEditPhotoCell.h"
-#import "EVEditLabelCell.h"
 #import "EVKeyboardTracker.h"
 #import "EVStatusBarManager.h"
 
 #define BUTTON_BUFFER 10
 
 @interface EVEditProfileViewController ()
-
-@property (nonatomic, strong) UIImage *updatedImage;
-@property (nonatomic, strong) UIView *footerView;
-@property (nonatomic, strong) UIButton *saveButton;
 
 @property (nonatomic, assign) BOOL keyboardIsHiding;
 
@@ -34,6 +28,7 @@
         self.title = @"Edit Profile";
         self.user = user;
         [self notificationRegistration];
+        self.canDismissManually = NO;
     }
     return self;
 }
@@ -123,32 +118,9 @@
     
     if (indexPath.row == EVEditProfileCellRowPhoto)
         cell = [self editPhotoCell];
-    else {
-        EVEditLabelCell *editLabelCell = [self editLabelCellForIndexPath:indexPath];
-        if (indexPath.row == EVEditProfileCellRowName) {
-            [editLabelCell setTitle:@"Name" placeholder:self.user.name];
-            editLabelCell.handleTextChange = ^(NSString *text) {
-                if (!EV_IS_EMPTY_STRING(text))
-                    [EVCIA me].name = text;
-            };
-        } else if (indexPath.row == EVEditProfileCellRowEmail) {
-            [editLabelCell setTitle:@"Email" placeholder:self.user.email];
-            editLabelCell.handleTextChange = ^(NSString *text) {
-                if (!EV_IS_EMPTY_STRING(text))
-                    [EVCIA me].email = text;
-            };
-        } else if (indexPath.row == EVEditProfileCellRowPhoneNumber) {
-            [editLabelCell setTitle:@"Phone Number" placeholder:self.user.phoneNumber];
-            editLabelCell.handleTextChange = ^(NSString *text) {
-                if (!EV_IS_EMPTY_STRING(text))
-                    [EVCIA me].phoneNumber = text;
-            };
-        } else if (indexPath.row == EVEditProfileCellRowPassword) {
-            [editLabelCell setTitle:@"Password" placeholder:self.user.password];
-            //meh?
-        }
-        cell = editLabelCell;
-    }
+    else
+        cell = [self editLabelCellForIndexPath:indexPath];
+
     cell.position = [self cellPositionForIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
@@ -156,6 +128,57 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - TableView Utility
+
+- (EVGroupedTableViewCell *)editPhotoCell {
+    EVEditPhotoCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"editPhotoCell"];
+    cell.avatarView.avatarOwner = self.user;
+    if (self.updatedImage)
+        cell.avatarView.image = self.updatedImage;
+    if ([cell.gestureRecognizers count] == 0)
+        [cell.avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoTapped)]];
+    return cell;
+}
+
+- (EVEditLabelCell *)editLabelCellForIndexPath:(NSIndexPath *)indexPath {
+    EVEditLabelCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"editLabelCell" forIndexPath:indexPath];
+    
+    if (indexPath.row == EVEditProfileCellRowName) {
+        [cell setTitle:@"Name" placeholder:self.user.name];
+        cell.handleTextChange = ^(NSString *text) {
+            if (!EV_IS_EMPTY_STRING(text))
+                [EVCIA me].name = text;
+        };
+    } else if (indexPath.row == EVEditProfileCellRowEmail) {
+        [cell setTitle:@"Email" placeholder:self.user.email];
+        cell.handleTextChange = ^(NSString *text) {
+            if (!EV_IS_EMPTY_STRING(text))
+                [EVCIA me].email = text;
+        };
+    } else if (indexPath.row == EVEditProfileCellRowPhoneNumber) {
+        [cell setTitle:@"Phone Number" placeholder:self.user.phoneNumber];
+        cell.handleTextChange = ^(NSString *text) {
+            if (!EV_IS_EMPTY_STRING(text))
+                [EVCIA me].phoneNumber = text;
+        };
+    }
+    return cell;
+}
+
+- (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {
+    NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:indexPath.section];
+    if (rowCount <= 1)
+        return EVGroupedTableViewCellPositionSingle;
+    else {
+        if (indexPath.row == 0)
+            return EVGroupedTableViewCellPositionTop;
+        else if (indexPath.row == rowCount - 1)
+            return EVGroupedTableViewCellPositionBottom;
+        else
+            return EVGroupedTableViewCellPositionCenter;
+    }
 }
 
 #pragma mark - Gesture Handling
@@ -226,6 +249,16 @@
     }
 }
 
+#pragma mark - ActionSheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+        [self displayImagePickerWithSourceType:UIImagePickerControllerSourceTypeCamera];
+    else if (buttonIndex == 1)
+        [self displayImagePickerWithSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+}
+
 #pragma mark - Keyboard Display
 
 - (void)keyboardWillShow:(NSNotification *)notification {
@@ -250,36 +283,6 @@
                      }];
     self.keyboardIsHiding = YES;
     [self.view setNeedsLayout];
-}
-
-#pragma mark - Utility
-
-- (EVGroupedTableViewCell *)editPhotoCell {
-    EVEditPhotoCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"editPhotoCell"];
-    cell.avatarView.avatarOwner = self.user;
-    if (self.updatedImage)
-        cell.avatarView.image = self.updatedImage;
-    if ([cell.gestureRecognizers count] == 0)
-        [cell.avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoTapped)]];
-    return cell;
-}
-
-- (EVEditLabelCell *)editLabelCellForIndexPath:(NSIndexPath *)indexPath {
-    return [self.tableView dequeueReusableCellWithIdentifier:@"editLabelCell" forIndexPath:indexPath];
-}
-
-- (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {
-    NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:indexPath.section];
-    if (rowCount <= 1)
-        return EVGroupedTableViewCellPositionSingle;
-    else {
-        if (indexPath.row == 0)
-            return EVGroupedTableViewCellPositionTop;
-        else if (indexPath.row == rowCount - 1)
-            return EVGroupedTableViewCellPositionBottom;
-        else
-            return EVGroupedTableViewCellPositionCenter;
-    }
 }
 
 #pragma mark - Frames

@@ -56,11 +56,6 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];
 }
 
-- (void)loadCancelButton {
-    if (self.canDismissManually)
-        [super loadCancelButton];
-}
-
 - (void)loadForm {
     EVFormRow *emailRow = [[EVFormRow alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
     [emailRow.fieldLabel setText:@"Email"];
@@ -138,15 +133,6 @@
 - (void)doneButtonPress:(id)sender {
     [self.view findAndResignFirstResponder];
     [self signIn];
-}
-
-- (void)setCanDismissManually:(BOOL)canDismissManually {
-    _canDismissManually = canDismissManually;
-    
-    if (canDismissManually)
-        [self loadCancelButton];
-    else
-        [self.navigationItem setLeftBarButtonItem:nil];
 }
 
 @end
