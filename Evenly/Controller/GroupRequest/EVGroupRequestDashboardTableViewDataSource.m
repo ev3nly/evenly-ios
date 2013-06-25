@@ -146,6 +146,8 @@
             [userCell.nameLabel setText:record.user.name];
             [userCell.avatarView setAvatarOwner:record.user];
             [userCell.tierLabel setText:record.tier.name];
+            [userCell.owesAmountLabel setText:(record.tier ? [EVStringUtility amountStringForAmount:record.tier.price] : @"--")];
+            [userCell.paidAmountLabel setText:[EVStringUtility amountStringForAmount:record.amountPaid]];
             
             if (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section])
                 userCell.position = EVGroupedTableViewCellPositionBottom;

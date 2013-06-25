@@ -164,6 +164,9 @@
 		9C58DC57176BAFE80057C019 /* toggle_on_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C58DC51176BAFE80057C019 /* toggle_on_bg@2x.png */; };
 		9C659BD7177A11820028072A /* Request-Reminder-Bell.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C659BD5177A11820028072A /* Request-Reminder-Bell.png */; };
 		9C659BD8177A11820028072A /* Request-Reminder-Bell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C659BD6177A11820028072A /* Request-Reminder-Bell@2x.png */; };
+		9C659BDB177A1B980028072A /* EVGroupRequestRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BDA177A1B810028072A /* EVGroupRequestRecordViewController.m */; };
+		9C659BDE177A1C660028072A /* EVGropuRequestRecordTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BDD177A1C5D0028072A /* EVGropuRequestRecordTableViewDataSource.m */; };
+		9C659BE1177A1FF60028072A /* EVGroupRequestUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BE0177A1FF60028072A /* EVGroupRequestUserCell.m */; };
 		9C6F1B951761054100974850 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B941761054100974850 /* Default.png */; };
 		9C6F1B971761054400974850 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B961761054400974850 /* Default@2x.png */; };
 		9C6F1B991761054700974850 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B981761054700974850 /* Default-568h@2x.png */; };
@@ -624,6 +627,12 @@
 		9C58DC51176BAFE80057C019 /* toggle_on_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toggle_on_bg@2x.png"; sourceTree = "<group>"; };
 		9C659BD5177A11820028072A /* Request-Reminder-Bell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Reminder-Bell.png"; sourceTree = "<group>"; };
 		9C659BD6177A11820028072A /* Request-Reminder-Bell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Reminder-Bell@2x.png"; sourceTree = "<group>"; };
+		9C659BD9177A1B810028072A /* EVGroupRequestRecordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestRecordViewController.h; sourceTree = "<group>"; };
+		9C659BDA177A1B810028072A /* EVGroupRequestRecordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestRecordViewController.m; sourceTree = "<group>"; };
+		9C659BDC177A1C5D0028072A /* EVGropuRequestRecordTableViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGropuRequestRecordTableViewDataSource.h; sourceTree = "<group>"; };
+		9C659BDD177A1C5D0028072A /* EVGropuRequestRecordTableViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGropuRequestRecordTableViewDataSource.m; sourceTree = "<group>"; };
+		9C659BDF177A1FF60028072A /* EVGroupRequestUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestUserCell.h; sourceTree = "<group>"; };
+		9C659BE0177A1FF60028072A /* EVGroupRequestUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestUserCell.m; sourceTree = "<group>"; };
 		9C6F1B941761054100974850 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9C6F1B961761054400974850 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9C6F1B981761054700974850 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -1299,6 +1308,10 @@
 				9C39172D1773C4D2002949C3 /* EVGroupRequestDashboardViewController.m */,
 				9C3917331773CE81002949C3 /* EVGroupRequestDashboardTableViewDataSource.h */,
 				9C3917341773CE81002949C3 /* EVGroupRequestDashboardTableViewDataSource.m */,
+				9C659BD9177A1B810028072A /* EVGroupRequestRecordViewController.h */,
+				9C659BDA177A1B810028072A /* EVGroupRequestRecordViewController.m */,
+				9C659BDC177A1C5D0028072A /* EVGropuRequestRecordTableViewDataSource.h */,
+				9C659BDD177A1C5D0028072A /* EVGropuRequestRecordTableViewDataSource.m */,
 			);
 			path = GroupRequest;
 			sourceTree = "<group>";
@@ -1469,6 +1482,8 @@
 				9C863C8717729702003ADB49 /* EVFundingSourceCell.m */,
 				9C863C8817729702003ADB49 /* EVGroupedTableViewCell.h */,
 				9C863C8917729702003ADB49 /* EVGroupedTableViewCell.m */,
+				9C659BDF177A1FF60028072A /* EVGroupRequestUserCell.h */,
+				9C659BE0177A1FF60028072A /* EVGroupRequestUserCell.m */,
 				9C863C8A17729702003ADB49 /* EVHistoryCell.h */,
 				9C863C8B17729702003ADB49 /* EVHistoryCell.m */,
 				9C863C8C17729702003ADB49 /* EVTitleTextFieldCell.h */,
@@ -2484,6 +2499,7 @@
 				9CEEB84D175526EC00C24C2A /* NSData+CommonCrypto.m in Sources */,
 				9C3242261777A929004A358F /* EVMultipleAmountsSegmentedControl.m in Sources */,
 				9CEEB84E175526EC00C24C2A /* NSString+Base64.m in Sources */,
+				9C659BDE177A1C660028072A /* EVGropuRequestRecordTableViewDataSource.m in Sources */,
 				9CEEB850175526EC00C24C2A /* KeychainItemWrapper.m in Sources */,
 				9C504475177122850090D865 /* JSTokenField.m in Sources */,
 				9C863C9117729702003ADB49 /* EVTitleTextFieldCell.m in Sources */,
@@ -2492,6 +2508,7 @@
 				9C1F47EF1756914B00B26A1B /* NSDictionary+EVAdditions.m in Sources */,
 				9C1F47F01756914B00B26A1B /* NSString+EVAdditions.m in Sources */,
 				9C1F47F11756914B00B26A1B /* NSTimer+Blocks.m in Sources */,
+				9C659BE1177A1FF60028072A /* EVGroupRequestUserCell.m in Sources */,
 				9C1F47F21756914B00B26A1B /* UIView+EVAdditions.m in Sources */,
 				9C1F47F31756914B00B26A1B /* UITableView+EVAdditions.m in Sources */,
 				9C863CA01772AEBC003ADB49 /* EVGroupRequestTier.m in Sources */,
@@ -2578,6 +2595,7 @@
 				9C900D141767E84400E2F4C4 /* EVDepositViewController.m in Sources */,
 				9C5044171770E5B10090D865 /* EVRequestViewController.m in Sources */,
 				9C900D1B1767EB8600E2F4C4 /* EVImages.m in Sources */,
+				9C659BDB177A1B980028072A /* EVGroupRequestRecordViewController.m in Sources */,
 				9C900D1E1767F08D00E2F4C4 /* EVDepositCell.m in Sources */,
 				9C5044271770EC990090D865 /* EVPushPopViewController.m in Sources */,
 				9C900D321767FAA600E2F4C4 /* EVBlueButton.m in Sources */,
