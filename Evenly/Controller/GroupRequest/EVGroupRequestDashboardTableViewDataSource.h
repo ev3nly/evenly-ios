@@ -34,11 +34,16 @@ typedef enum {
 @property (nonatomic, strong) EVSegmentedControl *segmentedControl;
 
 @property (nonatomic, strong) EVBlueButton *inviteButton;
+@property (nonatomic, strong) EVBlueButton *remindAllButton;
 
 @property (nonatomic, strong) NSArray *displayedRecords;
 
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest;
 
 - (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+
+- (void)animate;
+
+- (BOOL)noOneHasJoined;
 
 @end

@@ -17,6 +17,17 @@
 #import "EVDashboardNoOneJoinedCell.h"
 #import "EVBlueButton.h"
 
+#define GENERAL_Y_PADDING 10.0
+
+@interface EVGroupRequestDashboardTableViewDataSource ()
+
+- (void)loadSegmentedControl;
+- (void)loadProgressView;
+- (void)loadInviteButton;
+- (void)loadRemindAllButton;
+
+@end
+
 @implementation EVGroupRequestDashboardTableViewDataSource
 
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest {
@@ -25,16 +36,45 @@
         self.groupRequest = groupRequest;
         self.displayedRecords = self.groupRequest.records;
         
-        self.segmentedControl = [[EVDashboardSegmentedControl alloc] initWithItems:@[ @"All", @"Paying", @"Paid" ]];
-        [self.segmentedControl addTarget:self action:@selector(segmentedControlChanged:) forControlEvents:UIControlEventValueChanged];
-        self.progressView = [[EVGroupRequestProgressView alloc] initWithFrame:CGRectMake(0, 0, 275, [EVGroupRequestProgressView height])];
-        
-        self.inviteButton = [[EVBlueButton alloc] initWithFrame:CGRectZero];
-        [self.inviteButton setTitle:@"INVITE FRIENDS" forState:UIControlStateNormal];
+        [self loadSegmentedControl];
+        [self loadProgressView];
+        [self loadInviteButton];
+        [self loadRemindAllButton];
     }
     return self;
 }
 
+- (void)loadSegmentedControl {
+    self.segmentedControl = [[EVDashboardSegmentedControl alloc] initWithItems:@[ @"All", @"Paying", @"Paid" ]];
+    [self.segmentedControl addTarget:self action:@selector(segmentedControlChanged:) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)loadProgressView {
+    self.progressView = [[EVGroupRequestProgressView alloc] initWithFrame:CGRectMake(0, 0, 275, [EVGroupRequestProgressView height])];
+    [self.progressView setEnabled:![self noOneHasJoined]];
+}
+
+- (void)loadInviteButton {
+    self.inviteButton = [[EVBlueButton alloc] initWithFrame:CGRectZero];
+    [self.inviteButton setTitle:@"INVITE FRIENDS" forState:UIControlStateNormal];
+}
+
+- (void)loadRemindAllButton {
+    self.remindAllButton = [[EVBlueButton alloc] initWithFrame:CGRectMake(10.0, CGRectGetMaxY(self.progressView.frame) + GENERAL_Y_PADDING, 275, 44.0)];
+    [self.remindAllButton setTitle:@"REMIND ALL" forState:UIControlStateNormal];
+    
+    UIImage *bellImage = [UIImage imageNamed:@"Request-Reminder-Bell"];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:bellImage];
+    imageView.center = CGPointMake(2.0 * bellImage.size.width, self.remindAllButton.frame.size.height / 2.0);
+    [self.remindAllButton addSubview:imageView];
+}
+
+
+- (BOOL)noOneHasJoined {
+    return ([self.groupRequest.records count] == 0);
+}
+
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ([self.displayedRecords count] == 0) {
@@ -58,6 +98,15 @@
         [cell setPosition:EVGroupedTableViewCellPositionCenter];
         [self.progressView setFrame:CGRectMake(10, 10, cell.contentView.frame.size.width - 20.0, self.progressView.frame.size.height)];
         [cell.contentView addSubview:self.progressView];
+        
+        if (![self noOneHasJoined])
+        {
+            [self.remindAllButton setFrame:CGRectMake(self.remindAllButton.frame.origin.x,
+                                                      CGRectGetMaxY(self.progressView.frame) + GENERAL_Y_PADDING,
+                                                      self.remindAllButton.frame.size.width,
+                                                      self.remindAllButton.frame.size.height)];
+            [cell.contentView addSubview:self.remindAllButton];
+        }
     }
     else if (indexPath.row == EVDashboardPermanentRowSegmentedControl)
     {
@@ -68,7 +117,7 @@
     }
     else
     {
-        if ([self.groupRequest.records count] == 0)
+        if ([self noOneHasJoined])
         {
             EVDashboardNoOneJoinedCell *noOneJoinedCell = [tableView dequeueReusableCellWithIdentifier:@"noOneJoinedCell" forIndexPath:indexPath];
             noOneJoinedCell.inviteButton = self.inviteButton;
@@ -108,15 +157,25 @@
     }
     else if (indexPath.row == EVDashboardPermanentRowProgress)
     {
-        return [EVGroupRequestProgressView height] + 20.0;
+        CGFloat height = [EVGroupRequestProgressView height] + 20.0;
+        if (![self noOneHasJoined])
+            height += self.remindAllButton.frame.size.height + GENERAL_Y_PADDING;
+        return height;
     }
     else if (indexPath.row >= EVDashboardPermanentRowCOUNT)
     {
-        if ([self.groupRequest.records count] == 0)
+        if ([self noOneHasJoined])
             return 190.0;
         return 64.0;
     }
     return 44.0;
+}
+
+- (void)animate {
+    if (![self noOneHasJoined]) {
+        [self.progressView.progressBar setProgress:0.5 animated:YES];
+    }
+
 }
 
 - (void)segmentedControlChanged:(EVSegmentedControl *)segmentedControl {

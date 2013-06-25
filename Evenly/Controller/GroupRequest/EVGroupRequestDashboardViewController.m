@@ -41,6 +41,7 @@
         self.groupRequest = groupRequest;
         self.dataSource = [[EVGroupRequestDashboardTableViewDataSource alloc] initWithGroupRequest:self.groupRequest];
         [self.dataSource.inviteButton addTarget:self action:@selector(inviteButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+        [self.dataSource.remindAllButton addTarget:self action:@selector(remindAllButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         self.title = self.groupRequest.title;
     }
     return self;
@@ -81,7 +82,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self.dataSource.progressView.progressBar setProgress:0.5 animated:YES];
+    [self.dataSource animate];
 }
 
 #pragma mark - Button Actions
@@ -96,6 +97,10 @@
 }
 
 - (void)inviteButtonPress:(id)sender {
+    
+}
+
+- (void)remindAllButtonPress:(id)sender {
     
 }
 
