@@ -51,15 +51,8 @@
     int i = 0;
     for (NSString *string in self.items) {
         UIButton *button = [[UIButton alloc] initWithFrame:(CGRect){origin, buttonSize}];
-        [button.titleLabel setFont:[self font]];
-        [button setTitleColor:[EVColor lightLabelColor] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted | UIControlStateSelected];
-        
-        
+        [self configureButton:button];        
         [button setTitle:string forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchUpInside];
         origin.x += buttonSize.width;
         [button setSelected:(i == self.selectedSegmentIndex)];
         i++;
