@@ -8,6 +8,8 @@
 
 #import "EVGroupRequestRecordViewController.h"
 #import "EVGroupRequestUserCell.h"
+#import "EVGroupRequestPaymentOptionCell.h"
+
 @interface EVGroupRequestRecordViewController ()
 
 @end
@@ -37,6 +39,7 @@
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVGroupRequestUserCell class] forCellReuseIdentifier:@"userCell"];
+    [self.tableView registerClass:[EVGroupRequestPaymentOptionCell class] forCellReuseIdentifier:@"paymentOptionCell"];
     [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
 }

@@ -10,10 +10,14 @@
 
 #import "EVGroupRequestRecord.h"
 
+@class EVGroupRequestPaymentOptionCell;
+
 @interface EVGroupRequestRecordTableViewDataSource : NSObject <UITableViewDataSource>
 
 @property (nonatomic, strong) EVGroupRequestRecord *record;
 @property (nonatomic, weak) UITableView *tableView;
+
+@property (nonatomic, strong) EVGroupRequestPaymentOptionCell *paymentOptionCell;
 
 - (id)initWithRecord:(EVGroupRequestRecord *)record;
 - (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath;
