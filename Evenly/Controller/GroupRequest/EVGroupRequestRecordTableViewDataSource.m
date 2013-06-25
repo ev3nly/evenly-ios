@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVGropuRequestRecordTableViewDataSource.h"
+#import "EVGroupRequestRecordTableViewDataSource.h"
 
-@implementation EVGropuRequestRecordTableViewDataSource
+@implementation EVGroupRequestRecordTableViewDataSource
 
 - (id)initWithGroupRequestRecord:(EVGroupRequestRecord *)record {
     self = [super init];

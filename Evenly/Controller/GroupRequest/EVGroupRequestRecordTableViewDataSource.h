@@ -10,7 +10,7 @@
 
 #import "EVGroupRequestRecord.h"
 
-@interface EVGropuRequestRecordTableViewDataSource : NSObject <UITableViewDataSource>
+@interface EVGroupRequestRecordTableViewDataSource : NSObject <UITableViewDataSource>
 
 @property (nonatomic, strong) EVGroupRequestRecord *record;
 

@@ -165,7 +165,7 @@
 		9C659BD7177A11820028072A /* Request-Reminder-Bell.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C659BD5177A11820028072A /* Request-Reminder-Bell.png */; };
 		9C659BD8177A11820028072A /* Request-Reminder-Bell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C659BD6177A11820028072A /* Request-Reminder-Bell@2x.png */; };
 		9C659BDB177A1B980028072A /* EVGroupRequestRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BDA177A1B810028072A /* EVGroupRequestRecordViewController.m */; };
-		9C659BDE177A1C660028072A /* EVGropuRequestRecordTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BDD177A1C5D0028072A /* EVGropuRequestRecordTableViewDataSource.m */; };
+		9C659BDE177A1C660028072A /* EVGroupRequestRecordTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BDD177A1C5D0028072A /* EVGroupRequestRecordTableViewDataSource.m */; };
 		9C659BE1177A1FF60028072A /* EVGroupRequestUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BE0177A1FF60028072A /* EVGroupRequestUserCell.m */; };
 		9C6F1B951761054100974850 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B941761054100974850 /* Default.png */; };
 		9C6F1B971761054400974850 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B961761054400974850 /* Default@2x.png */; };
@@ -629,8 +629,8 @@
 		9C659BD6177A11820028072A /* Request-Reminder-Bell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Request-Reminder-Bell@2x.png"; sourceTree = "<group>"; };
 		9C659BD9177A1B810028072A /* EVGroupRequestRecordViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestRecordViewController.h; sourceTree = "<group>"; };
 		9C659BDA177A1B810028072A /* EVGroupRequestRecordViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestRecordViewController.m; sourceTree = "<group>"; };
-		9C659BDC177A1C5D0028072A /* EVGropuRequestRecordTableViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGropuRequestRecordTableViewDataSource.h; sourceTree = "<group>"; };
-		9C659BDD177A1C5D0028072A /* EVGropuRequestRecordTableViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGropuRequestRecordTableViewDataSource.m; sourceTree = "<group>"; };
+		9C659BDC177A1C5D0028072A /* EVGroupRequestRecordTableViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestRecordTableViewDataSource.h; sourceTree = "<group>"; };
+		9C659BDD177A1C5D0028072A /* EVGroupRequestRecordTableViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestRecordTableViewDataSource.m; sourceTree = "<group>"; };
 		9C659BDF177A1FF60028072A /* EVGroupRequestUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestUserCell.h; sourceTree = "<group>"; };
 		9C659BE0177A1FF60028072A /* EVGroupRequestUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestUserCell.m; sourceTree = "<group>"; };
 		9C6F1B941761054100974850 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -1310,8 +1310,8 @@
 				9C3917341773CE81002949C3 /* EVGroupRequestDashboardTableViewDataSource.m */,
 				9C659BD9177A1B810028072A /* EVGroupRequestRecordViewController.h */,
 				9C659BDA177A1B810028072A /* EVGroupRequestRecordViewController.m */,
-				9C659BDC177A1C5D0028072A /* EVGropuRequestRecordTableViewDataSource.h */,
-				9C659BDD177A1C5D0028072A /* EVGropuRequestRecordTableViewDataSource.m */,
+				9C659BDC177A1C5D0028072A /* EVGroupRequestRecordTableViewDataSource.h */,
+				9C659BDD177A1C5D0028072A /* EVGroupRequestRecordTableViewDataSource.m */,
 			);
 			path = GroupRequest;
 			sourceTree = "<group>";
@@ -2499,7 +2499,7 @@
 				9CEEB84D175526EC00C24C2A /* NSData+CommonCrypto.m in Sources */,
 				9C3242261777A929004A358F /* EVMultipleAmountsSegmentedControl.m in Sources */,
 				9CEEB84E175526EC00C24C2A /* NSString+Base64.m in Sources */,
-				9C659BDE177A1C660028072A /* EVGropuRequestRecordTableViewDataSource.m in Sources */,
+				9C659BDE177A1C660028072A /* EVGroupRequestRecordTableViewDataSource.m in Sources */,
 				9CEEB850175526EC00C24C2A /* KeychainItemWrapper.m in Sources */,
 				9C504475177122850090D865 /* JSTokenField.m in Sources */,
 				9C863C9117729702003ADB49 /* EVTitleTextFieldCell.m in Sources */,
