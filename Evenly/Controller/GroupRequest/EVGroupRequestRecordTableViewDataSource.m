@@ -7,10 +7,13 @@
 //
 
 #import "EVGroupRequestRecordTableViewDataSource.h"
+#import "EVGroupRequestUserCell.h"
+
+#define USER_ROW_HEIGHT 64.0
 
 @implementation EVGroupRequestRecordTableViewDataSource
 
-- (id)initWithGroupRequestRecord:(EVGroupRequestRecord *)record {
+- (id)initWithRecord:(EVGroupRequestRecord *)record {
     self = [super init];
     if (self) {
         self.record = record;
@@ -32,7 +35,22 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    EVGroupedTableViewCell *cell;
+    if (indexPath.row == 0) {
+        EVGroupRequestUserCell *userCell = [tableView dequeueReusableCellWithIdentifier:@"userCell" forIndexPath:indexPath];
+        userCell.nameLabel.text = self.record.user.name;
+        userCell.avatarView.avatarOwner = self.record.user;
+        cell = userCell;
+    }
+    else
+        cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    return cell;
+}
+
+- (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0)
+        return USER_ROW_HEIGHT;
+    return 44.0;
 }
 
 @end

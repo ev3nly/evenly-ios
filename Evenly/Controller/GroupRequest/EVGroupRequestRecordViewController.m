@@ -7,7 +7,7 @@
 //
 
 #import "EVGroupRequestRecordViewController.h"
-
+#import "EVGroupRequestUserCell.h"
 @interface EVGroupRequestRecordViewController ()
 
 @end
@@ -18,6 +18,7 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.record = record;
+        self.dataSource = [[EVGroupRequestRecordTableViewDataSource alloc] initWithRecord:self.record];
     }
     return self;
 }
@@ -26,6 +27,22 @@
 {
     [super viewDidLoad];
     
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self.dataSource;
+    self.dataSource.tableView = self.tableView;
+    self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundView = nil;
+    self.tableView.separatorColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView registerClass:[EVGroupRequestUserCell class] forCellReuseIdentifier:@"userCell"];
+    [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"cell"];
+    [self.view addSubview:self.tableView];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [self.dataSource heightForRowAtIndexPath:indexPath];
 }
 
 - (void)didReceiveMemoryWarning

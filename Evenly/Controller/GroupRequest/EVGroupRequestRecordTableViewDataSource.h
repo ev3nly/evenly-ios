@@ -13,7 +13,9 @@
 @interface EVGroupRequestRecordTableViewDataSource : NSObject <UITableViewDataSource>
 
 @property (nonatomic, strong) EVGroupRequestRecord *record;
+@property (nonatomic, weak) UITableView *tableView;
 
-- (id)initWithGroupRequestRecord:(EVGroupRequestRecord *)record;
+- (id)initWithRecord:(EVGroupRequestRecord *)record;
+- (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

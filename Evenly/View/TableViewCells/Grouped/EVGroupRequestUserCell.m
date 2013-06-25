@@ -62,6 +62,7 @@
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
     if (!EV_IS_EMPTY_STRING(self.tierLabel.text))
     {
         

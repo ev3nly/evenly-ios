@@ -190,6 +190,16 @@
     return height;
 }
 
+- (EVGroupRequestRecord *)recordAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self noOneHasJoined])
+        return nil;
+    if (indexPath.row < EVDashboardPermanentRowCOUNT)
+        return nil;
+    if ([self.displayedRecords count] == 0)
+        return nil;
+    return ([self.displayedRecords objectAtIndex:(indexPath.row - EVDashboardPermanentRowCOUNT)]);
+}
+
 - (void)animate {
     if (![self noOneHasJoined]) {
         [self.progressView.progressBar setProgress:0.5 animated:YES];
