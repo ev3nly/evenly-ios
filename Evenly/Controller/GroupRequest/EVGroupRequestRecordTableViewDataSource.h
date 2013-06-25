@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 #import "EVGroupRequestRecord.h"
+#import "EVBlueButton.h"
+#import "EVGrayButton.h"
 
 @class EVGroupRequestPaymentOptionCell;
 
@@ -18,6 +20,9 @@
 @property (nonatomic, weak) UITableView *tableView;
 
 @property (nonatomic, strong) EVGroupRequestPaymentOptionCell *paymentOptionCell;
+@property (nonatomic, strong) EVBlueButton *remindButton;
+@property (nonatomic, strong) EVGrayButton *markAsCompletedButton;
+@property (nonatomic, strong) EVGrayButton *cancelButton;
 
 - (id)initWithRecord:(EVGroupRequestRecord *)record;
 - (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath;

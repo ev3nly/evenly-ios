@@ -17,10 +17,8 @@
         [self setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
         [self setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
         
-        [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [self setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
         [self.titleLabel setFont:[EVFont blackFontOfSize:15]];
-        [self.titleLabel setShadowOffset:CGSizeMake(0, 1)];
     }
     return self;
 }
