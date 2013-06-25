@@ -18,6 +18,13 @@
 #import "EVBlueButton.h"
 
 #define GENERAL_Y_PADDING 10.0
+#define GENERAL_X_MARGIN 10.0
+#define GENERAL_CONTENT_WIDTH 275.0
+#define REMIND_ALL_BUTTON_HEIGHT 44.0
+#define SEGMENTED_CONTROL_HEIGHT 40.0
+#define NO_ONE_JOINED_ROW_HEIGHT 190.0
+#define USER_ROW_HEIGHT 64.0
+
 
 @interface EVGroupRequestDashboardTableViewDataSource ()
 
@@ -50,7 +57,10 @@
 }
 
 - (void)loadProgressView {
-    self.progressView = [[EVGroupRequestProgressView alloc] initWithFrame:CGRectMake(0, 0, 275, [EVGroupRequestProgressView height])];
+    self.progressView = [[EVGroupRequestProgressView alloc] initWithFrame:CGRectMake(0,
+                                                                                     0,
+                                                                                     GENERAL_CONTENT_WIDTH,
+                                                                                     [EVGroupRequestProgressView height])];
     [self.progressView setEnabled:![self noOneHasJoined]];
 }
 
@@ -60,7 +70,10 @@
 }
 
 - (void)loadRemindAllButton {
-    self.remindAllButton = [[EVBlueButton alloc] initWithFrame:CGRectMake(10.0, CGRectGetMaxY(self.progressView.frame) + GENERAL_Y_PADDING, 275, 44.0)];
+    self.remindAllButton = [[EVBlueButton alloc] initWithFrame:CGRectMake(GENERAL_X_MARGIN,
+                                                                          CGRectGetMaxY(self.progressView.frame) + GENERAL_Y_PADDING,
+                                                                          GENERAL_CONTENT_WIDTH,
+                                                                          REMIND_ALL_BUTTON_HEIGHT)];
     [self.remindAllButton setTitle:@"REMIND ALL" forState:UIControlStateNormal];
     
     UIImage *bellImage = [UIImage imageNamed:@"Request-Reminder-Bell"];
@@ -96,7 +109,10 @@
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         [cell setPosition:EVGroupedTableViewCellPositionCenter];
-        [self.progressView setFrame:CGRectMake(10, 10, cell.contentView.frame.size.width - 20.0, self.progressView.frame.size.height)];
+        [self.progressView setFrame:CGRectMake(GENERAL_X_MARGIN,
+                                               GENERAL_Y_PADDING,
+                                               cell.contentView.frame.size.width - 2*GENERAL_X_MARGIN,
+                                               self.progressView.frame.size.height)];
         [cell.contentView addSubview:self.progressView];
         
         if (![self noOneHasJoined])
@@ -112,7 +128,7 @@
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
         [cell setPosition:EVGroupedTableViewCellPositionCenter];
-        [self.segmentedControl setFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, 40.0)];
+        [self.segmentedControl setFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, SEGMENTED_CONTROL_HEIGHT)];
         [cell.contentView addSubview:self.segmentedControl];
     }
     else
@@ -146,29 +162,30 @@
 }
 
 - (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == EVDashboardPermanentRowTitle)
-    {
-        CGFloat height = [EVDashboardTitleCell heightWithTitle:self.groupRequest.title memo:self.groupRequest.memo];
-        return height;
+    CGFloat height = 0.0f;
+    switch (indexPath.row) {
+        case EVDashboardPermanentRowTitle:
+            height = [EVDashboardTitleCell heightWithTitle:self.groupRequest.title memo:self.groupRequest.memo];
+            break;
+        case EVDashboardPermanentRowProgress:
+            height = [EVGroupRequestProgressView height] + 2*GENERAL_Y_PADDING;
+            if (![self noOneHasJoined])
+                height += self.remindAllButton.frame.size.height + GENERAL_Y_PADDING;
+            break;
+        case EVDashboardPermanentRowSegmentedControl:
+            height = SEGMENTED_CONTROL_HEIGHT;
+            break;
+        case EVDashboardPermanentRowCOUNT:
+            if ([self noOneHasJoined])
+                height = NO_ONE_JOINED_ROW_HEIGHT;
+            else
+                height = USER_ROW_HEIGHT;
+            break;
+        default:
+            height = USER_ROW_HEIGHT;
+            break;
     }
-    else if (indexPath.row == EVDashboardPermanentRowSegmentedControl)
-    {
-        return 40.0;
-    }
-    else if (indexPath.row == EVDashboardPermanentRowProgress)
-    {
-        CGFloat height = [EVGroupRequestProgressView height] + 20.0;
-        if (![self noOneHasJoined])
-            height += self.remindAllButton.frame.size.height + GENERAL_Y_PADDING;
-        return height;
-    }
-    else if (indexPath.row >= EVDashboardPermanentRowCOUNT)
-    {
-        if ([self noOneHasJoined])
-            return 190.0;
-        return 64.0;
-    }
-    return 44.0;
+    return height;
 }
 
 - (void)animate {
