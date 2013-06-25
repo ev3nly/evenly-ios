@@ -14,6 +14,10 @@
 
 @implementation EVSegmentedControl
 
+- (UIFont *)font {
+    return [EVFont blackFontOfSize:15];
+}
+
 - (id)initWithItems:(NSArray *)items {
     self = [self initWithFrame:CGRectZero];
     if (self) {
@@ -34,6 +38,15 @@
 
 - (NSUInteger)numberOfSegments {
     return self.items.count;
+}
+
+- (void)configureButton:(UIButton *)button {
+    [button.titleLabel setFont:[self font]];
+    [button setTitleColor:[EVColor lightLabelColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateHighlighted | UIControlStateSelected];
+    [button addTarget:self action:@selector(buttonPress:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)buttonPress:(UIButton *)button {
