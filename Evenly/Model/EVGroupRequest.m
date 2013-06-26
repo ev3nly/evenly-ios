@@ -62,6 +62,8 @@
     setValueForKeyIfNonNil(self.title, @"title");
     setValueForKeyIfNonNil(self.memo, @"description");
     
+    [mutableDictionary setObject:[NSNumber numberWithBool:self.completed] forKey:@"completed"];
+    
     NSMutableArray *array = [NSMutableArray array];
     for (EVGroupRequestTier *tier in self.tiers) {
         [array addObject:[tier dictionaryRepresentation]];

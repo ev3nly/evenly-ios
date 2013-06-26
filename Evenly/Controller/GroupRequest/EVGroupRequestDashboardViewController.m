@@ -15,6 +15,12 @@
 
 #import "EVGroupRequestRecordViewController.h"
 
+typedef enum {
+    EVGroupRequestActionEdit,
+    EVGroupRequestActionInvite,
+    EVGroupRequestActionCloseRequest
+} EVGroupRequestAction;
+
 @interface EVGroupRequestDashboardViewController ()
 
 @property (nonatomic, strong) EVGroupRequest *groupRequest;
@@ -133,7 +139,25 @@
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-        // TODO:
+    if (buttonIndex == EVGroupRequestActionCloseRequest)
+    {
+        [self closeRequest];
+    }
+}
+
+- (void)closeRequest {
+    self.groupRequest.completed = YES;
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CLOSING REQUEST..."];
+    [self.groupRequest updateWithSuccess:^{
+        [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+        [EVStatusBarManager sharedManager].completion = ^(void) {
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            }];
+        };
+    } failure:^(NSError *error) {
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+    }];
 }
 
 @end

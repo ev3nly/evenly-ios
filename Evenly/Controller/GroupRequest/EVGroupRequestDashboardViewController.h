@@ -13,4 +13,6 @@
 
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest;
 
+- (void)closeRequest;
+
 @end
