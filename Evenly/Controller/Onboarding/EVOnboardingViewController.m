@@ -8,6 +8,7 @@
 
 #import "EVOnboardingViewController.h"
 #import "EVSignInViewController.h"
+#import "EVSignUpViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define NUMBER_OF_SLIDES 5
@@ -34,6 +35,9 @@
 #define BUTTON_LEFT_MARGIN 30
 #define SIGNUP_LABEL_BUTTON_BUFFER 20
 #define OR_LABEL_BUTTON_BUFFER 10
+
+#define FACEBOOK_F_TITLE_BUFFER 20
+#define F_ICON_TAG 4402
 
 @interface EVOnboardingViewController ()
 
@@ -106,16 +110,6 @@
 }
 
 - (void)loadSignInLabel {
-//    self.signInLabel = [UILabel new];
-//    self.signInLabel.backgroundColor = [UIColor clearColor];
-//    self.signInLabel.text = @"Already have an account? Sign in.";
-//    self.signInLabel.textAlignment = NSTextAlignmentCenter;
-//    self.signInLabel.textColor = [UIColor whiteColor];
-//    self.signInLabel.font = [EVFont blackFontOfSize:SIGN_IN_LABEL_FONT_SIZE];
-//    self.signInLabel.userInteractionEnabled = YES;
-//    [self.signInLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(signInLabelTapped)]];
-//    [self.view addSubview:self.signInLabel];
-    
     self.signInLabel = [UIButton new];
     [self.signInLabel addTarget:self action:@selector(signInLabelTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.signInLabel setTitle:@"Already have an account? Sign in." forState:UIControlStateNormal];
@@ -202,15 +196,23 @@
     facebookButton.frame = CGRectMake(BUTTON_LEFT_MARGIN,
                                       CGRectGetMaxY(signUpLabel.frame) + SIGNUP_LABEL_BUTTON_BUFFER,
                                       self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
-                                      [EVImages blueButtonBackground].size.height);
+                                      [EVImages facebookButton].size.height);
     orLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:orLabel].width/2,
                                CGRectGetMaxY(facebookButton.frame) + OR_LABEL_BUTTON_BUFFER,
                                [self sizeForLabel:orLabel].width,
-                               [self sizeForLabel:orLabel].height);
+                               [EVImages facebookButton].size.height);
     emailButton.frame = CGRectMake(BUTTON_LEFT_MARGIN,
                                    CGRectGetMaxY(orLabel.frame) + OR_LABEL_BUTTON_BUFFER,
                                    self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
                                    [EVImages grayButtonBackground].size.height);
+    
+    if ([facebookButton viewWithTag:F_ICON_TAG]) {
+        float totalWidth = [EVImages facebookButton].size.width + FACEBOOK_F_TITLE_BUFFER + facebookButton.titleLabel.bounds.size.width;
+        [facebookButton viewWithTag:F_ICON_TAG].frame = CGRectMake(CGRectGetMidX(facebookButton.bounds) - totalWidth/2,
+                                                                   CGRectGetMidY(facebookButton.bounds) - [EVImages facebookFIcon].size.height/2,
+                                                                   [EVImages facebookFIcon].size.width,
+                                                                   [EVImages facebookFIcon].size.height);
+    }
     
     return view;
 }
@@ -285,12 +287,20 @@
 
 - (UIButton *)facebookButton {
     UIButton *button = [UIButton new];
-    [button setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
-    [button setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
+    [button setBackgroundImage:[EVImages facebookButton] forState:UIControlStateNormal];
+    [button setBackgroundImage:[EVImages facebookButtonPress] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(facebookButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"Sign up with Facebook" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     button.titleLabel.font = [EVFont blackFontOfSize:16];
+    
+    float totalWidth = [EVImages facebookButton].size.width + FACEBOOK_F_TITLE_BUFFER + button.titleLabel.bounds.size.width;
+    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, (totalWidth - button.titleLabel.bounds.size.width), 0, 0)];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[EVImages facebookFIcon]];
+    imageView.tag = F_ICON_TAG;
+    [button addSubview:imageView];
+    
     return button;
 }
 
@@ -318,7 +328,12 @@
 }
 
 - (void)emailButtonTapped {
-    
+    EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];        
+    }];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 - (void)signInLabelTapped {

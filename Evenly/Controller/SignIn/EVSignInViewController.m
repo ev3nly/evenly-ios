@@ -14,9 +14,14 @@
 
 #import "EVSession.h"
 
+#define LOGO_BUFFER (([UIApplication sharedApplication].keyWindow.bounds.size.height > 480) ? 30 : 14)
+#define FORM_VIEW_TAG 9372
+
 @interface EVSignInViewController ()
 
 @property (nonatomic, strong) EVNavigationBarButton *doneButton;
+@property (nonatomic, strong) UIImageView *logo;
+@property (nonatomic, strong) UIButton *labelButton;
 
 - (void)loadDoneButton;
 - (void)loadForm;
@@ -41,13 +46,23 @@
 }
 
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     [self loadDoneButton];
+    [self loadLogo];
     [self loadForm];
+    [self loadLabelButton];
     [self setUpReactions];
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    [[self.view viewWithTag:FORM_VIEW_TAG] setNeedsLayout];
+    [[self.view viewWithTag:FORM_VIEW_TAG] layoutIfNeeded];
+    self.labelButton.frame = [self labelButtonFrame];
 }
 
 - (void)loadDoneButton {
@@ -56,9 +71,13 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];
 }
 
-- (void)loadCancelButton {
-    if (self.canDismissManually)
-        [super loadCancelButton];
+- (void)loadLogo {
+    self.logo = [[UIImageView alloc] initWithImage:[EVImages grayLogo]];
+    self.logo.frame = CGRectMake(CGRectGetMidX(self.view.bounds) - [EVImages grayLogo].size.width/2,
+                                 LOGO_BUFFER,
+                                 [EVImages grayLogo].size.width,
+                                 [EVImages grayLogo].size.height);
+    [self.view addSubview:self.logo];
 }
 
 - (void)loadForm {
@@ -91,9 +110,20 @@
     
     [passwordRow setContentView:self.passwordField];
     
-    EVFormView *formView = [[EVFormView alloc] initWithFrame:CGRectMake(10, 10, 300, 50)];
+    EVFormView *formView = [[EVFormView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.logo.frame) + LOGO_BUFFER, 300, 50)];
+    formView.tag = FORM_VIEW_TAG;
     [self.view addSubview:formView];
     [formView setFormRows:@[ emailRow, passwordRow ]];
+}
+
+- (void)loadLabelButton {
+    self.labelButton = [UIButton new];
+    [self.labelButton addTarget:self action:@selector(forgotPasswordButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    [self.labelButton setTitle:@"Forgot your password?" forState:UIControlStateNormal];
+    [self.labelButton setTitleColor:[EVColor lightLabelColor] forState:UIControlStateNormal];
+    [self.labelButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateHighlighted];
+    self.labelButton.titleLabel.font = [EVFont blackFontOfSize:15];
+    [self.view addSubview:self.labelButton];
 }
 
 - (void)setUpReactions {
@@ -119,18 +149,20 @@
 }
 
 - (void)signIn {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SIGNING IN..."];
+    
     [EVSession createWithEmail:self.emailField.text password:self.passwordField.text success:^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+        [EVStatusBarManager sharedManager].completion = ^(void) {
+            if (self.authenticationSuccess)
+                self.authenticationSuccess();
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+        };
         DLog(@"Logged in.");
         [[EVCIA sharedInstance] cacheNewSession];
 
-        if (self.authenticationSuccess)
-            self.authenticationSuccess();
-        
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
     } failure:^(NSError *error) {
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
         DLog(@"Failure?! %@", error);
     }];
 }
@@ -140,13 +172,16 @@
     [self signIn];
 }
 
-- (void)setCanDismissManually:(BOOL)canDismissManually {
-    _canDismissManually = canDismissManually;
-    
-    if (canDismissManually)
-        [self loadCancelButton];
-    else
-        [self.navigationItem setLeftBarButtonItem:nil];
+- (void)forgotPasswordButtonPressed {
+    [[[UIAlertView alloc] initWithTitle:@"Oh no!" message:@"Sorry about that.  Think harder" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    NSLog(@"PASSWORD YAH KNO?!");
+}
+
+- (CGRect)labelButtonFrame {
+    return CGRectMake(0,
+                      CGRectGetMaxY([self.view viewWithTag:FORM_VIEW_TAG].frame) + LOGO_BUFFER,
+                      self.view.bounds.size.width,
+                      LOGO_BUFFER);
 }
 
 @end

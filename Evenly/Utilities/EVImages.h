@@ -51,6 +51,12 @@
 + (UIImage *)onboardCard2;
 + (UIImage *)onboardCard3;
 + (UIImage *)iTunesArtwork;
++ (UIImage *)facebookButton;
++ (UIImage *)facebookButtonPress;
++ (UIImage *)facebookFIcon;
++ (UIImage *)checkHoleEmpty;
++ (UIImage *)checkHoleChecked;
++ (UIImage *)grayLogo;
 
 #pragma mark - Status Bar
 + (UIImage *)statusErrorBackground;

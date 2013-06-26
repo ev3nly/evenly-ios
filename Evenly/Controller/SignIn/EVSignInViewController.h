@@ -15,7 +15,6 @@
 @property (nonatomic, strong) EVTextField *emailField;
 @property (nonatomic, strong) EVTextField *passwordField;
 @property (nonatomic, strong) void (^authenticationSuccess)(void);
-@property (nonatomic, assign) BOOL canDismissManually;
 
 - (id)initWithAuthenticationSuccess:(void (^)(void))success;
 
