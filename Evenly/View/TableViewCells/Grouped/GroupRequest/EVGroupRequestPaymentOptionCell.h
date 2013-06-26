@@ -15,8 +15,6 @@
 @property (nonatomic, strong) UILabel *headerLabel;
 @property (nonatomic, strong) NSMutableArray *optionButtons;
 
-+ (CGFloat)heightForRecord:(EVGroupRequestRecord *)record;
-
 - (void)setRecord:(EVGroupRequestRecord *)record;
 - (CGFloat)heightForRecord:(EVGroupRequestRecord *)record;
 

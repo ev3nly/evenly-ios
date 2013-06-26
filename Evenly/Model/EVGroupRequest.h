@@ -24,6 +24,9 @@
 @property (nonatomic, readonly) UIImage *avatar;
 
 - (EVGroupRequestTier *)tierWithID:(NSString *)tierID;
+- (NSDecimalNumber *)totalOwed;
+- (NSDecimalNumber *)totalPaid;
+- (float)progress;
 
 #pragma mark - API Interactions
 #pragma mark Tiers
