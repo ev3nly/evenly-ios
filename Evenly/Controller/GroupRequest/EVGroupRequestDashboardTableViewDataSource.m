@@ -47,6 +47,9 @@
         [self loadProgressView];
         [self loadInviteButton];
         [self loadRemindAllButton];
+        
+        [self setUpReactions];
+        
     }
     return self;
 }
@@ -82,6 +85,11 @@
     [self.remindAllButton addSubview:imageView];
 }
 
+- (void)setUpReactions {
+    [RACAble(self.groupRequest.records) subscribeNext:^(NSArray *records) {
+        [self.tableView reloadData];
+    }];
+}
 
 - (BOOL)noOneHasJoined {
     return ([self.groupRequest.records count] == 0);
@@ -157,6 +165,7 @@
                 userCell.position = EVGroupedTableViewCellPositionBottom;
             else
                 userCell.position = EVGroupedTableViewCellPositionCenter;
+            [userCell setNeedsLayout];
             cell = userCell;
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
         }

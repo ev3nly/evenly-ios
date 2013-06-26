@@ -93,6 +93,15 @@
     
     if (!EV_IS_EMPTY_STRING(self.tierLabel.text))
     {
+        CGFloat height = self.nameLabel.font.lineHeight;
+        [self.nameLabel setFrame:CGRectMake(GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+                                            0.5 *self.contentView.frame.size.height - height,
+                                            maxX - GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+                                            height)];
+        [self.tierLabel setFrame:CGRectMake(GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+                                            0.5 *self.contentView.frame.size.height,
+                                            maxX - GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+                                            height)];
         
     }
     else

@@ -30,7 +30,7 @@
     self.user = (EVObject<EVExchangeable> *)[EVSerializer serializeDictionary:properties[@"user"]];
     
     if (properties[@"tier_id"] != [NSNull null]) {
-        self.tier = [self.groupRequest tierWithID:properties[@"tier_id"]];
+        self.tier = [self.groupRequest tierWithID:[properties[@"tier_id"] stringValue]];
     }
 }
 
