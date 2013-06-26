@@ -56,6 +56,7 @@
 + (UIImage *)facebookFIcon;
 + (UIImage *)checkHoleEmpty;
 + (UIImage *)checkHoleChecked;
++ (UIImage *)grayLogo;
 
 #pragma mark - Status Bar
 + (UIImage *)statusErrorBackground;

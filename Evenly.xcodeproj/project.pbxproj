@@ -366,6 +366,8 @@
 		D095EEE61778F1A80016F434 /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEE21778F1A80016F434 /* checked@2x.png */; };
 		D095EEE91778F1B80016F434 /* facebook-f@.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEE71778F1B80016F434 /* facebook-f@.png */; };
 		D095EEEA1778F1B80016F434 /* facebook-f@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEE81778F1B80016F434 /* facebook-f@2x.png */; };
+		D095EEED177979F00016F434 /* logo-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEEB177979F00016F434 /* logo-gray.png */; };
+		D095EEEE177979F00016F434 /* logo-gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEEC177979F00016F434 /* logo-gray@2x.png */; };
 		D0A77EF0176824830091AF09 /* EVRequestFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A77EEF176824830091AF09 /* EVRequestFormView.m */; };
 		D0C30AF71770F480005606E8 /* EVTransactionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF61770F480005606E8 /* EVTransactionDetailViewController.m */; };
 		D0C30AFA1770F63A005606E8 /* EVTransactionDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF91770F63A005606E8 /* EVTransactionDetailCell.m */; };
@@ -908,6 +910,8 @@
 		D095EEE21778F1A80016F434 /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
 		D095EEE71778F1B80016F434 /* facebook-f@.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook-f@.png"; sourceTree = "<group>"; };
 		D095EEE81778F1B80016F434 /* facebook-f@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook-f@2x.png"; sourceTree = "<group>"; };
+		D095EEEB177979F00016F434 /* logo-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-gray.png"; sourceTree = "<group>"; };
+		D095EEEC177979F00016F434 /* logo-gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-gray@2x.png"; sourceTree = "<group>"; };
 		D0A77EEE176824830091AF09 /* EVRequestFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestFormView.h; sourceTree = "<group>"; };
 		D0A77EEF176824830091AF09 /* EVRequestFormView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestFormView.m; sourceTree = "<group>"; };
 		D0C30AF51770F480005606E8 /* EVTransactionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTransactionDetailViewController.h; sourceTree = "<group>"; };
@@ -2012,6 +2016,8 @@
 			children = (
 				D0770B3D177519BF0002B572 /* add-photo.png */,
 				D0770B3E177519BF0002B572 /* add-photo@2x.png */,
+				D095EEEB177979F00016F434 /* logo-gray.png */,
+				D095EEEC177979F00016F434 /* logo-gray@2x.png */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -2365,6 +2371,8 @@
 				D095EEE61778F1A80016F434 /* checked@2x.png in Resources */,
 				D095EEE91778F1B80016F434 /* facebook-f@.png in Resources */,
 				D095EEEA1778F1B80016F434 /* facebook-f@2x.png in Resources */,
+				D095EEED177979F00016F434 /* logo-gray.png in Resources */,
+				D095EEEE177979F00016F434 /* logo-gray@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

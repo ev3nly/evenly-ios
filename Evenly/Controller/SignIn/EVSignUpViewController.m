@@ -34,11 +34,12 @@
 
 #pragma mark - Lifecycle
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithSignUpSuccess:(void (^)(void))success
 {
     if (self = [super initWithUser:[EVUser new]]) {
         self.canDismissManually = YES;
         self.title = @"Sign Up";
+        self.authenticationSuccess = success;
     }
     return self;
 }
@@ -48,8 +49,7 @@
     
     [self loadLabelCells];
     [self configureReactions];
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
-    [self.view addGestureRecognizer:tapRecognizer];
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
 }
 
 #pragma mark - Setup
@@ -94,6 +94,24 @@
 }
 
 - (void)configureReactions {
+    
+    [self.phoneNumberCell.textField.rac_textSignal subscribeNext:^(NSString *text) {
+        text = [text stringByReplacingOccurrencesOfString:@"-" withString:@""];
+        if (text.length > 10)
+            text = [text substringToIndex:10];
+        if (text.length > 6) {
+            NSString *firstThree = [text substringWithRange:NSMakeRange(0, 3)];
+            NSString *nextThree = [text substringWithRange:NSMakeRange(3, 3)];
+            NSString *rest = [text substringFromIndex:6];
+            text = [NSString stringWithFormat:@"%@-%@-%@", firstThree, nextThree, rest];
+        } else if (text.length > 3) {
+            NSString *firstThree = [text substringWithRange:NSMakeRange(0, 3)];
+            NSString *rest = [text substringFromIndex:3];
+            text = [NSString stringWithFormat:@"%@-%@", firstThree, rest];
+        }
+        self.phoneNumberCell.textField.text = text;
+    }];
+    
     NSArray *textFieldArray = @[self.nameCell.textField.rac_textSignal,
                                 self.emailCell.textField.rac_textSignal,
                                 self.phoneNumberCell.textField.rac_textSignal,
@@ -123,17 +141,16 @@
 
 #pragma mark - Gesture Handling
 
-- (void)tapRecognized:(UITapGestureRecognizer *)tapRecognizer {
-    [self.view findAndResignFirstResponder];
-}
-
 - (void)saveButtonTapped {
-    NSDictionary *params = @{ @"name" : self.nameCell.textField.text,
-                              @"email" : self.emailCell.textField.text,
-                              @"phone_number" : self.phoneNumberCell.textField.text,
-                              @"password" : self.passwordCell.textField.text,
-                              @"password_confirmation" : self.passwordConfirmationCell.textField.text };
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{ @"name" : self.nameCell.textField.text,
+                                   @"email" : self.emailCell.textField.text,
+                                   @"phone_number" : self.phoneNumberCell.textField.text,
+                                   @"password" : self.passwordCell.textField.text,
+                                   @"password_confirmation" : self.passwordConfirmationCell.textField.text }];
+    if (self.photo)
+        [params setObject:self.photo forKey:@"avatar"];
     
+    //DO SOMETHING WITH THE PHOTO AHHHH
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CREATING ACCOUNT..."];
     
     [EVUser createWithParams:params success:^(EVObject *object) {
@@ -141,12 +158,17 @@
             
             EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
             me.password = params[@"password"];
-//            me
+//            me.updatedAvatar = self.photo;
             [EVUser setMe:me];
             
             [EVUtilities registerForPushNotifications];
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+            [EVStatusBarManager sharedManager].completion = ^(void) {
+                if (self.authenticationSuccess)
+                    self.authenticationSuccess();
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+            };
         } failure:^(NSError *error) {
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
             DLog(@"Error logging in: %@", error);
@@ -157,6 +179,15 @@
     }];
 }
 
+#pragma mark - Image Picker
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *pickedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    self.photo = pickedImage;
+    [self.tableView reloadData];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - TableView Methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -165,8 +196,7 @@
 
 - (EVGroupedTableViewCell *)editPhotoCell {
     EVEditPhotoCell *cell = (EVEditPhotoCell *)[super editPhotoCell];
-    if (!self.updatedImage)
-        cell.avatarView.image = [EVImages addPhotoIcon];
+    cell.avatarView.image = self.photo ? self.photo : [EVImages addPhotoIcon];
     return cell;
 }
 

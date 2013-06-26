@@ -156,6 +156,10 @@
     return [UIImage imageNamed:@"checked"];
 }
 
++ (UIImage *)grayLogo {
+    return [UIImage imageNamed:@"logo-gray"];
+}
+
 #pragma mark - Status Bar
 
 + (UIImage *)statusErrorBackground {

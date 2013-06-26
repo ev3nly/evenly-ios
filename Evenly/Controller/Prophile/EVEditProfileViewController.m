@@ -222,7 +222,7 @@
             imagePicker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
     }
     
-    [self.navigationController presentViewController:imagePicker animated:YES completion:nil];
+    [self presentViewController:imagePicker animated:YES completion:nil];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {    
@@ -243,7 +243,21 @@
     
     if ([navigationController isKindOfClass:[UIImagePickerController class]] &&
         ((UIImagePickerController *)navigationController).sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO];
+
+        UIView *blackBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 320, 20)];
+        blackBackground.backgroundColor = [UIColor blackColor];
+        [viewController.view addSubview:blackBackground];
+        UIImageView *navBar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Header"]];
+        navBar.frame = CGRectMake(0, 20, navBar.image.size.width, navBar.image.size.height);
+        [viewController.view addSubview:navBar];
+//        for (UIView *subview in viewController.view.subviews) {
+//            if ([subview isKindOfClass:[UITableView class]]) {
+//                UITableView *tableView = (UITableView *)subview;
+//                tableView.contentOffset = CGPointZero;
+//                tableView.frame = CGRectMake(0, 64, 320, 568 - 64);
+//            }
+//        }
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
         viewController.view.backgroundColor = [UIColor blackColor];
     }

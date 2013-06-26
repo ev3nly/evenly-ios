@@ -328,7 +328,10 @@
 }
 
 - (void)emailButtonTapped {
-    EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] init];
+    EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];        
+    }];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
     [self presentViewController:navController animated:YES completion:nil];
 }

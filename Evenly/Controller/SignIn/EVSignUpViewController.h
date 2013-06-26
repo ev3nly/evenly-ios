@@ -20,4 +20,8 @@ typedef enum {
 
 @interface EVSignUpViewController : EVEditProfileViewController <UITextFieldDelegate>
 
+@property (nonatomic, strong) void (^authenticationSuccess)(void);
+
+- (id)initWithSignUpSuccess:(void (^)(void))success;
+
 @end
