@@ -38,12 +38,22 @@
     [self.optionButtons makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.optionButtons removeAllObjects];
     
-    for (EVGroupRequestTier *tier in record.groupRequest.tiers) {
-        EVGroupRequestPaymentOptionButton *button = [EVGroupRequestPaymentOptionButton buttonForTier:tier];
+    if (record.numberOfPayments > 0)
+    {
+        EVGroupRequestPaymentOptionButton *button = [EVGroupRequestPaymentOptionButton buttonForTier:record.tier];
+        [button setEnabled:NO];
+        [button setSelected:YES];
         [self.contentView addSubview:button];
         [self.optionButtons addObject:button];
-        [button setSelected:(record.tier == tier)];
+    } else {
+        for (EVGroupRequestTier *tier in record.groupRequest.tiers) {
+            EVGroupRequestPaymentOptionButton *button = [EVGroupRequestPaymentOptionButton buttonForTier:tier];
+            [self.contentView addSubview:button];
+            [self.optionButtons addObject:button];
+            [button setSelected:(record.tier == tier)];
+        }
     }
+    
     [self setNeedsLayout];
 }
 
@@ -69,7 +79,7 @@
 - (CGFloat)heightForRecord:(EVGroupRequestRecord *)record {
     [self layoutSubviews];
     CGFloat height = 0.0;
-    height += 2*TOP_MARGIN;
+    height += (record.numberOfPayments > 0 ? TOP_MARGIN : 2*TOP_MARGIN);
     for (EVGroupRequestPaymentOptionButton *button in self.optionButtons) {
         height += button.frame.size.height + TOP_MARGIN;
     }

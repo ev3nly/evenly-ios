@@ -16,6 +16,7 @@
 #import "EVDashboardUserCell.h"
 #import "EVDashboardNoOneJoinedCell.h"
 #import "EVBlueButton.h"
+#import "EVWalletStamp.h"
 
 #define GENERAL_Y_PADDING 10.0
 #define GENERAL_X_MARGIN 10.0
@@ -160,8 +161,18 @@
             [userCell.nameLabel setText:record.user.name];
             [userCell.avatarView setAvatarOwner:record.user];
             [userCell.tierLabel setText:record.tier.name];
-            [userCell.owesAmountLabel setText:(record.tier ? [EVStringUtility amountStringForAmount:record.tier.price] : @"--")];
-            [userCell.paidAmountLabel setText:[EVStringUtility amountStringForAmount:record.amountPaid]];
+            if (record.completed) {
+                EVWalletStamp *walletStamp = [[EVWalletStamp alloc] initWithText:@"PAID" maxWidth:50.0];
+                walletStamp.fillColor = [UIColor whiteColor];
+                walletStamp.strokeColor = [EVColor lightLabelColor];
+                walletStamp.textColor = [EVColor lightLabelColor];
+                [userCell setPaidStamp:walletStamp];
+            }
+            else {
+                userCell.paidStamp = nil;
+                [userCell.owesAmountLabel setText:(record.tier ? [EVStringUtility amountStringForAmount:record.tier.price] : @"--")];
+                [userCell.paidAmountLabel setText:[EVStringUtility amountStringForAmount:record.amountPaid]];
+            }
             
             if (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section])
                 userCell.position = EVGroupedTableViewCellPositionBottom;

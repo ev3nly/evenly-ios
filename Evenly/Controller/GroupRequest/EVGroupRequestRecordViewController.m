@@ -10,6 +10,8 @@
 #import "EVGroupRequestUserCell.h"
 #import "EVGroupRequestPaymentOptionCell.h"
 #import "EVGroupRequestStatementCell.h"
+#import "EVGroupRequestCompletedCell.h"
+
 #import "EVGroupRequest.h"
 
 @interface EVGroupRequestRecordViewController ()
@@ -51,6 +53,7 @@
     [self.tableView registerClass:[EVGroupRequestUserCell class] forCellReuseIdentifier:@"userCell"];
     [self.tableView registerClass:[EVGroupRequestPaymentOptionCell class] forCellReuseIdentifier:@"paymentOptionCell"];
     [self.tableView registerClass:[EVGroupRequestStatementCell class] forCellReuseIdentifier:@"statementCell"];
+    [self.tableView registerClass:[EVGroupRequestCompletedCell class] forCellReuseIdentifier:@"completedCell"];
     [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
 }
@@ -58,7 +61,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if (self.record.tier && !self.record.completed)
+    if (self.record.tier)
     {
         [self.record.groupRequest allPaymentsForRecord:self.record
                                            withSuccess:^(NSArray *payments) {
@@ -105,8 +108,19 @@
     
 }
 
-- (void)markAsCompleteButtonPress:(id)sender {
-    
+- (void)markAsCompletedButtonPress:(id)sender {
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"MARKING COMPLETE..."];
+    [self.record.groupRequest markRecordCompleted:self.record
+                                      withSuccess:^(EVGroupRequestRecord *record) {
+                                          [EVStatusBarManager sharedManager].completion = ^{
+                                              self.record = record;
+                                              [self.dataSource setRecord:self.record];
+                                              [self.tableView reloadData];
+                                          };
+                                          [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+                                      } failure:^(NSError *error) {
+                                          [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                                      }];
 }
 
 - (void)cancelButtonPress:(id)sender {
