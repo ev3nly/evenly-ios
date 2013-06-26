@@ -14,11 +14,19 @@
 
 @implementation EVModalViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        _canDismissManually = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    [self loadCancelButton];
+    if (self.canDismissManually)
+        [self loadCancelButton];
 }
 
 - (void)loadCancelButton {
@@ -34,6 +42,15 @@
 
 - (void)cancelButtonPress:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)setCanDismissManually:(BOOL)canDismissManually {
+    _canDismissManually = canDismissManually;
+    
+    if (canDismissManually)
+        [self loadCancelButton];
+    else
+        [self.navigationItem setLeftBarButtonItem:nil];
 }
 
 @end

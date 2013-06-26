@@ -111,6 +111,7 @@
 }
 
 #pragma mark - Onboarding
+
 + (UIImage *)addPhotoIcon {
     return [UIImage imageNamed:@"add-photo"];
 }
@@ -133,6 +134,30 @@
 
 + (UIImage *)iTunesArtwork {
     return [UIImage imageNamed:@"iTunesArtwork"];
+}
+
++ (UIImage *)facebookButton {
+    return [[UIImage imageNamed:@"btn-facebook"] resizableImageWithCapInsets:UIEdgeInsetsMake(21, 3, 21, 3)];
+}
+
++ (UIImage *)facebookButtonPress {
+    return [[UIImage imageNamed:@"btn-facebook"] resizableImageWithCapInsets:UIEdgeInsetsMake(21, 3, 21, 3)];
+}
+
++ (UIImage *)facebookFIcon {
+    return [UIImage imageNamed:@"facebook-f"];
+}
+
++ (UIImage *)checkHoleEmpty {
+    return [UIImage imageNamed:@"check-hole"];
+}
+
++ (UIImage *)checkHoleChecked {
+    return [UIImage imageNamed:@"checked"];
+}
+
++ (UIImage *)grayLogo {
+    return [UIImage imageNamed:@"logo-gray"];
 }
 
 #pragma mark - Status Bar
