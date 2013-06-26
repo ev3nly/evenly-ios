@@ -169,6 +169,41 @@ static EVUser *_me;
     }];
 }
 
++ (void)createWithParams:(NSDictionary *)params
+                 success:(void (^)(EVObject *))success
+                 failure:(void (^)(NSError *error))failure
+{
+    if (![params objectForKey:@"avatar"]) {
+        [super createWithParams:params success:success failure:failure];
+        return;
+    }
+    
+    NSMutableURLRequest *request = nil;
+    void (^formBlock)(id<AFMultipartFormData> formData) = NULL;
+    NSString *method = @"POST";
+    NSString *path = nil;
+    
+    formBlock = ^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:UIImageJPEGRepresentation([params objectForKey:@"avatar"], 0.9)
+                                    name:@"avatar"
+                                fileName:@"avatar.jpg"
+                                mimeType:@"image/jpeg"];
+    };
+    
+    request = [[self class] multipartFormRequestWithMethod:method path:path parameters:params constructingBodyWithBlock:formBlock];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        success(responseObject);
+    };
+    
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                              success:successBlock
+                                                                              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                  if (failure)
+                                                                                      failure(error);
+                                                                              }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
 - (void)saveWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     [super saveWithSuccess:^{
         
