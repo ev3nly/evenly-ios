@@ -175,6 +175,7 @@
 		9C659BFC177A3F690028072A /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C659BF8177A3F690028072A /* checked.png */; };
 		9C659BFD177A3F690028072A /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C659BF9177A3F690028072A /* checked@2x.png */; };
 		9C659C00177A52F10028072A /* EVGrayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BFF177A52E10028072A /* EVGrayButton.m */; };
+		9C659C03177A8A050028072A /* EVGroupRequestStatementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */; };
 		9C6F1B951761054100974850 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B941761054100974850 /* Default.png */; };
 		9C6F1B971761054400974850 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B961761054400974850 /* Default@2x.png */; };
 		9C6F1B991761054700974850 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B981761054700974850 /* Default-568h@2x.png */; };
@@ -652,6 +653,8 @@
 		9C659BF9177A3F690028072A /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
 		9C659BFE177A52E10028072A /* EVGrayButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGrayButton.h; sourceTree = "<group>"; };
 		9C659BFF177A52E10028072A /* EVGrayButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGrayButton.m; sourceTree = "<group>"; };
+		9C659C01177A88E50028072A /* EVGroupRequestStatementCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestStatementCell.h; sourceTree = "<group>"; };
+		9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestStatementCell.m; sourceTree = "<group>"; };
 		9C6F1B941761054100974850 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9C6F1B961761054400974850 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9C6F1B981761054700974850 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -1469,6 +1472,8 @@
 				9C659BEB177A28CF0028072A /* EVGroupRequestUserCell.m */,
 				9C659BF0177A29940028072A /* EVGroupRequestPaymentOptionCell.h */,
 				9C659BF1177A29940028072A /* EVGroupRequestPaymentOptionCell.m */,
+				9C659C01177A88E50028072A /* EVGroupRequestStatementCell.h */,
+				9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */,
 			);
 			path = GroupRequest;
 			sourceTree = "<group>";
@@ -2616,6 +2621,7 @@
 				9CD306AB1762970300D23852 /* EVStoryCell.m in Sources */,
 				9CD306A5176287E400D23852 /* EVWalletStamp.m in Sources */,
 				9CD306A817628E7E00D23852 /* EVWalletItemCell.m in Sources */,
+				9C659C03177A8A050028072A /* EVGroupRequestStatementCell.m in Sources */,
 				9C2684B9176683BB00AEA624 /* EVFloatingButton.m in Sources */,
 				9C863C8E17729702003ADB49 /* EVFundingSourceCell.m in Sources */,
 				9C863C8F17729702003ADB49 /* EVGroupedTableViewCell.m in Sources */,

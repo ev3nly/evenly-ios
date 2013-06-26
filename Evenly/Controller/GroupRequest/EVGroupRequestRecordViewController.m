@@ -54,6 +54,21 @@
     [self.view addSubview:self.tableView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if (self.record.tier && !self.record.completed)
+    {
+        [self.record.groupRequest allPaymentsForRecord:self.record
+                                           withSuccess:^(NSArray *payments) {
+                                               [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:1 inSection:0] ]
+                                                                     withRowAnimation:UITableViewRowAnimationAutomatic];
+                                           } failure:^(NSError *error) {
+                                               DLog(@"Failed to get payments: %@", error);
+                                           }];
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [self.dataSource heightForRowAtIndexPath:indexPath];
 }

@@ -41,6 +41,14 @@
     if (properties[@"tier_id"] != [NSNull null]) {
         self.tier = [self.groupRequest tierWithID:[properties[@"tier_id"] stringValue]];
     }
+    
+    if (properties[@"payments"]) {
+        NSMutableArray *tmpPayments = [NSMutableArray array];
+        for (NSDictionary *dictionary in properties[@"payments"]) {
+            [tmpPayments addObject:(EVPayment *)[EVSerializer serializeDictionary:dictionary]];
+        }
+        self.payments = [NSArray arrayWithArray:tmpPayments];
+    }
 }
 
 - (NSString *)description {

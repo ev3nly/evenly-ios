@@ -154,14 +154,17 @@
             }
             else
             {
-                if (indexPath.row == 1) {
+                if (indexPath.row == 1)
+                {
                     
                 }
-                else if (indexPath.row == 2) {
+                else if (indexPath.row == 2)
+                {
                     self.paymentOptionCell.headerLabel.text = @"Change Payment Option";
                     cell = self.paymentOptionCell;
                 }
-                else if (indexPath.row == 3) {
+                else if (indexPath.row == 3)
+                {
                     cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
                     [self configureCellForButtons:cell];
                 }
