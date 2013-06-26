@@ -17,10 +17,6 @@
 
 @implementation EVGroupRequestPaymentOptionCell
 
-+ (CGFloat)heightForRecord:(EVGroupRequestRecord *)record {
-    
-}
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -46,6 +42,7 @@
         EVGroupRequestPaymentOptionButton *button = [EVGroupRequestPaymentOptionButton buttonForTier:tier];
         [self.contentView addSubview:button];
         [self.optionButtons addObject:button];
+        [button setSelected:(record.tier == tier)];
     }
     [self setNeedsLayout];
 }

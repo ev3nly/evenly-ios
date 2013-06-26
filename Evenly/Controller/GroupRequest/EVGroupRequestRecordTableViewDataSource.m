@@ -35,16 +35,20 @@
 - (id)initWithRecord:(EVGroupRequestRecord *)record {
     self = [super init];
     if (self) {
-        self.record = record;
         self.paymentOptionCell = [[EVGroupRequestPaymentOptionCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                                         reuseIdentifier:@"paymentOptionCell"];
-        [self.paymentOptionCell setRecord:record];
-        
+        self.record = record;
+
         [self loadRemindButton];
         [self loadMarkAsCompletedButton];
         [self loadCancelButton];        
     }
     return self;
+}
+
+- (void)setRecord:(EVGroupRequestRecord *)record {
+    _record = record;
+    [self.paymentOptionCell setRecord:record];
 }
 
 - (void)loadRemindButton {
@@ -166,6 +170,7 @@
     }
     if (!cell)
         cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 

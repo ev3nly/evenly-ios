@@ -47,6 +47,9 @@
         [self loadProgressView];
         [self loadInviteButton];
         [self loadRemindAllButton];
+        
+        [self setUpReactions];
+        
     }
     return self;
 }
@@ -82,6 +85,11 @@
     [self.remindAllButton addSubview:imageView];
 }
 
+- (void)setUpReactions {
+    [RACAble(self.groupRequest.records) subscribeNext:^(NSArray *records) {
+        [self.tableView reloadData];
+    }];
+}
 
 - (BOOL)noOneHasJoined {
     return ([self.groupRequest.records count] == 0);
@@ -114,6 +122,8 @@
                                                GENERAL_Y_PADDING,
                                                cell.contentView.frame.size.width - 2*GENERAL_X_MARGIN,
                                                self.progressView.frame.size.height)];
+        self.progressView.centerLabel.text = [EVStringUtility amountStringForAmount:[self.groupRequest totalPaid]];
+        self.progressView.rightLabel.text = [EVStringUtility amountStringForAmount:[self.groupRequest totalOwed]];
         [cell.contentView addSubview:self.progressView];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
@@ -157,6 +167,7 @@
                 userCell.position = EVGroupedTableViewCellPositionBottom;
             else
                 userCell.position = EVGroupedTableViewCellPositionCenter;
+            [userCell setNeedsLayout];
             cell = userCell;
             cell.selectionStyle = UITableViewCellSelectionStyleGray;
         }
@@ -207,7 +218,7 @@
 
 - (void)animate {
     if (![self noOneHasJoined]) {
-        [self.progressView.progressBar setProgress:0.5 animated:YES];
+        [self.progressView.progressBar setProgress:[self.groupRequest progress] animated:YES];
     }
 
 }

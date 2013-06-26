@@ -8,11 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "EVGroupRequestPaymentOptionCell.h"
 #import "EVGroupRequestRecord.h"
 #import "EVBlueButton.h"
 #import "EVGrayButton.h"
-
-@class EVGroupRequestPaymentOptionCell;
 
 @interface EVGroupRequestRecordTableViewDataSource : NSObject <UITableViewDataSource>
 

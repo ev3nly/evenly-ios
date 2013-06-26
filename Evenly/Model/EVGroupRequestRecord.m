@@ -22,15 +22,24 @@
     return self;
 }
 
+- (id)initWithGroupRequest:(EVGroupRequest *)groupRequest properties:(NSDictionary *)properties {
+    self = [self initWithGroupRequest:groupRequest];
+    if (self) {
+        [self setProperties:properties];
+    }
+    return self;
+}
+
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     
     self.completed = [properties[@"completed"] boolValue];
     self.numberOfPayments = [properties[@"number_of_payments"] intValue];
     self.user = (EVObject<EVExchangeable> *)[EVSerializer serializeDictionary:properties[@"user"]];
-    
+    self.amountPaid = [NSDecimalNumber decimalNumberWithString:properties[@"amount_paid"]];
+
     if (properties[@"tier_id"] != [NSNull null]) {
-        self.tier = [self.groupRequest tierWithID:properties[@"tier_id"]];
+        self.tier = [self.groupRequest tierWithID:[properties[@"tier_id"] stringValue]];
     }
 }
 
