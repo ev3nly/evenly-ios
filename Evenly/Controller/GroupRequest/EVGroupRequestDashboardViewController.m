@@ -13,6 +13,8 @@
 #import "EVDashboardNoOneJoinedCell.h"
 #import "EVGroupRequestProgressView.h"
 
+#import "EVGroupRequestRecordViewController.h"
+
 @interface EVGroupRequestDashboardViewController ()
 
 @property (nonatomic, strong) EVGroupRequest *groupRequest;
@@ -108,6 +110,26 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [self.dataSource heightForRowAtIndexPath:indexPath];
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row < EVDashboardPermanentRowCOUNT)
+        return nil;
+    if ([self.dataSource.displayedRecords count] == 0)
+        return nil;
+    return indexPath;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    EVGroupRequestRecord *record = [self.dataSource recordAtIndexPath:indexPath];
+    if (record) {
+        EVGroupRequestRecordViewController *viewController = [[EVGroupRequestRecordViewController alloc] initWithRecord:record];
+        [self.navigationController pushViewController:viewController animated:YES];
+    }
+    
+    
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
