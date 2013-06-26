@@ -12,6 +12,7 @@
 
 @interface EVGroupRequestStatementCell : EVGroupedTableViewCell
 
++ (CGFloat)heightForRecord:(EVGroupRequestRecord *)record;
 - (void)configureForRecord:(EVGroupRequestRecord *)record;
 
 @end

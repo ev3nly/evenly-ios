@@ -17,6 +17,7 @@
 @property (nonatomic, weak) EVGroupRequest *groupRequest;
 @property (nonatomic, weak) EVGroupRequestTier *tier;
 @property (nonatomic, strong) NSDecimalNumber *amountPaid;
+@property (nonatomic, readonly) NSDecimalNumber *amountOwed;
 @property (nonatomic) NSInteger numberOfPayments;
 @property (nonatomic) BOOL completed;
 @property (nonatomic, strong) EVObject<EVExchangeable> *user;

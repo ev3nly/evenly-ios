@@ -51,6 +51,12 @@
     }
 }
 
+- (NSDecimalNumber *)amountOwed {
+    if (!self.tier)
+        return [NSDecimalNumber zero];
+    return [self.tier.price decimalNumberBySubtracting:self.amountPaid];
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"GCR <0x%x>: %@    - Completed? %@", (int)self, self.user, (self.completed ? @"YES" : @"NO")];
 }

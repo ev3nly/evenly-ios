@@ -9,8 +9,6 @@
 #import "EVGroupRequestRecordTableViewDataSource.h"
 #import "EVGroupRequestUserCell.h"
 
-#import "EVGroupRequestPaymentOptionCell.h"
-
 #define USER_ROW_HEIGHT 64.0
 
 #define BUTTON_X_MARGIN 12.0
@@ -36,7 +34,7 @@
     self = [super init];
     if (self) {
         self.paymentOptionCell = [[EVGroupRequestPaymentOptionCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                                        reuseIdentifier:@"paymentOptionCell"];
+                                                                        reuseIdentifier:@"paymentOptionCell"];        
         self.record = record;
 
         [self loadRemindButton];
@@ -99,7 +97,7 @@
     
     if (self.record.completed) {
         if (indexPath.row == 1) // payment history
-            return 44.0;
+            return [EVGroupRequestStatementCell heightForRecord:self.record];
         if (indexPath.row == 2) // "completed" indicator
             return 44.0;
     } else {
@@ -113,7 +111,7 @@
         else // assigned
         {
             if (indexPath.row == 1) // payment history
-                return 44.0;
+                return [EVGroupRequestStatementCell heightForRecord:self.record];
             if (indexPath.row == 2)
                 return [self.paymentOptionCell heightForRecord:self.record];
             else
@@ -135,7 +133,10 @@
     {
         if (self.record.completed)
         {
-            
+            if (indexPath.row == 1)
+            {
+                cell = [self statementCellForIndexPath:indexPath];
+            }
         }
         else
         {
@@ -156,7 +157,7 @@
             {
                 if (indexPath.row == 1)
                 {
-                    
+                    cell = [self statementCellForIndexPath:indexPath];
                 }
                 else if (indexPath.row == 2)
                 {
@@ -175,6 +176,12 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (EVGroupRequestStatementCell *)statementCellForIndexPath:(NSIndexPath *)indexPath {
+    EVGroupRequestStatementCell *statementCell = [self.tableView dequeueReusableCellWithIdentifier:@"statementCell" forIndexPath:indexPath];
+    [statementCell configureForRecord:self.record];
+    return statementCell;
 }
 
 - (void)configureCellForButtons:(EVGroupedTableViewCell *)cell {

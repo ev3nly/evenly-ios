@@ -9,7 +9,7 @@
 #import "EVGroupRequestRecordViewController.h"
 #import "EVGroupRequestUserCell.h"
 #import "EVGroupRequestPaymentOptionCell.h"
-
+#import "EVGroupRequestStatementCell.h"
 #import "EVGroupRequest.h"
 
 @interface EVGroupRequestRecordViewController ()
@@ -50,6 +50,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVGroupRequestUserCell class] forCellReuseIdentifier:@"userCell"];
     [self.tableView registerClass:[EVGroupRequestPaymentOptionCell class] forCellReuseIdentifier:@"paymentOptionCell"];
+    [self.tableView registerClass:[EVGroupRequestStatementCell class] forCellReuseIdentifier:@"statementCell"];
     [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
 }
