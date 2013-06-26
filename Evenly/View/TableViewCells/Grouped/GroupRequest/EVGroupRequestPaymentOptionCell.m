@@ -79,7 +79,7 @@
 - (CGFloat)heightForRecord:(EVGroupRequestRecord *)record {
     [self layoutSubviews];
     CGFloat height = 0.0;
-    height += (EV_IS_EMPTY_STRING(self.headerLabel.text) ? TOP_MARGIN : 2*TOP_MARGIN);
+    height += (record.numberOfPayments > 0 ? TOP_MARGIN : 2*TOP_MARGIN);
     for (EVGroupRequestPaymentOptionButton *button in self.optionButtons) {
         height += button.frame.size.height + TOP_MARGIN;
     }
