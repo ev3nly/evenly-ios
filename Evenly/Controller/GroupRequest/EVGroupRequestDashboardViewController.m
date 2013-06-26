@@ -141,6 +141,18 @@ typedef enum {
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == EVGroupRequestActionCloseRequest)
     {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Close Request"
+                                                        message:@"Are you sure you want to close this request?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"No"
+                                              otherButtonTitles:@"Yes", nil];
+        [alert show];
+        
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != [alertView cancelButtonIndex]) {
         [self closeRequest];
     }
 }
