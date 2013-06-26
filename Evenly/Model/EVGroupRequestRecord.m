@@ -22,6 +22,14 @@
     return self;
 }
 
+- (id)initWithGroupRequest:(EVGroupRequest *)groupRequest properties:(NSDictionary *)properties {
+    self = [self initWithGroupRequest:groupRequest];
+    if (self) {
+        [self setProperties:properties];
+    }
+    return self;
+}
+
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     

@@ -122,6 +122,8 @@
                                                GENERAL_Y_PADDING,
                                                cell.contentView.frame.size.width - 2*GENERAL_X_MARGIN,
                                                self.progressView.frame.size.height)];
+        self.progressView.centerLabel.text = [EVStringUtility amountStringForAmount:[self.groupRequest totalPaid]];
+        self.progressView.rightLabel.text = [EVStringUtility amountStringForAmount:[self.groupRequest totalOwed]];
         [cell.contentView addSubview:self.progressView];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
@@ -216,7 +218,7 @@
 
 - (void)animate {
     if (![self noOneHasJoined]) {
-        [self.progressView.progressBar setProgress:0.5 animated:YES];
+        [self.progressView.progressBar setProgress:[self.groupRequest progress] animated:YES];
     }
 
 }
