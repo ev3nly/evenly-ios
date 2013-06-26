@@ -9,7 +9,7 @@
 #import "EVGroupRequestRecordViewController.h"
 #import "EVGroupRequestUserCell.h"
 #import "EVGroupRequestPaymentOptionCell.h"
-
+#import "EVGroupRequestStatementCell.h"
 #import "EVGroupRequest.h"
 
 @interface EVGroupRequestRecordViewController ()
@@ -50,8 +50,24 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVGroupRequestUserCell class] forCellReuseIdentifier:@"userCell"];
     [self.tableView registerClass:[EVGroupRequestPaymentOptionCell class] forCellReuseIdentifier:@"paymentOptionCell"];
+    [self.tableView registerClass:[EVGroupRequestStatementCell class] forCellReuseIdentifier:@"statementCell"];
     [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    if (self.record.tier && !self.record.completed)
+    {
+        [self.record.groupRequest allPaymentsForRecord:self.record
+                                           withSuccess:^(NSArray *payments) {
+                                               [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:1 inSection:0] ]
+                                                                     withRowAnimation:UITableViewRowAnimationAutomatic];
+                                           } failure:^(NSError *error) {
+                                               DLog(@"Failed to get payments: %@", error);
+                                           }];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
