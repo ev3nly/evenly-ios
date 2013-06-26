@@ -49,10 +49,10 @@
     
     NSMutableArray *records = [NSMutableArray array];
     for (NSDictionary *dictionary in properties[@"records"]) {
-        [records addObject:[EVSerializer serializeDictionary:dictionary]];
+        EVGroupRequestRecord *record = [[EVGroupRequestRecord alloc] initWithGroupRequest:self properties:dictionary];
+        [records addObject:record];
     }
     self.records = records;
-    
     self.completed = [properties[@"completed"] boolValue];
 }
 
@@ -90,6 +90,31 @@
     }
     return tier;
 }
+
+- (NSDecimalNumber *)totalOwed {
+    NSDecimalNumber *total = [NSDecimalNumber zero];
+    for (EVGroupRequestRecord *record in self.records) {
+        if (record.tier)
+            total = [total decimalNumberByAdding:record.tier.price];
+    }
+    return total;
+}
+
+- (NSDecimalNumber *)totalPaid {
+    NSDecimalNumber *total = [NSDecimalNumber zero];
+    for (EVGroupRequestRecord *record in self.records) {
+        if (record.amountPaid)
+            total = [total decimalNumberByAdding:record.amountPaid];
+    }
+    return total;
+}
+
+- (float)progress {
+    if ([[self totalOwed] isEqualToNumber:[NSDecimalNumber zero]])
+        return 0.0f;
+    return [[[self totalPaid] decimalNumberByDividingBy:[self totalOwed]] floatValue];
+}
+
 
 #pragma mark - API Interactions
 #pragma mark Tiers
@@ -201,7 +226,7 @@
         NSMutableArray *mutableRecords = [NSMutableArray array];
         for (NSDictionary *dict in responseObject)
         {
-            EVGroupRequestRecord *record = [[EVGroupRequestRecord alloc] initWithDictionary:dict];
+            EVGroupRequestRecord *record = [[EVGroupRequestRecord alloc] initWithGroupRequest:self properties:dict];
             [mutableRecords addObject:record];
         }
         NSArray *records = [NSArray arrayWithArray:mutableRecords];
@@ -246,8 +271,10 @@
                                                         parameters:params];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        EVGroupRequestRecord *record = [[EVGroupRequestRecord alloc] initWithDictionary:responseObject];
-        self.records = [self.records arrayByAddingObject:record];
+        EVGroupRequestRecord *newRecord = [[EVGroupRequestRecord alloc] initWithGroupRequest:self properties:responseObject];
+        NSMutableArray *tmpRecords = [NSMutableArray arrayWithArray:self.records];
+        [tmpRecords replaceObjectAtIndex:[tmpRecords indexOfObject:record] withObject:newRecord];
+        self.records = (NSArray *)tmpRecords;
         success(record);
     };
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request

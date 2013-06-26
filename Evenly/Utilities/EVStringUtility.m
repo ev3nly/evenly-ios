@@ -342,6 +342,8 @@ static NSDateFormatter *_detailDateFormatter;
 
 
 + (NSString *)amountStringForAmount:(NSDecimalNumber *)amount {
+    if (!amount || [amount isEqualToNumber:[NSDecimalNumber zero]])
+        return @"$0.00";
     return [NSNumberFormatter localizedStringFromNumber:amount
                                             numberStyle:NSNumberFormatterCurrencyStyle];
 }

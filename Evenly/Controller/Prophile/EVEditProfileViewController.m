@@ -198,6 +198,7 @@
 }
 
 - (void)saveButtonTapped {
+    [self.view findAndResignFirstResponder];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress];
 
     [[EVCIA me] updateWithSuccess:^{

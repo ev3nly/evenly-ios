@@ -6,15 +6,9 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVGroupedTableViewCell.h"
-#import "EVAvatarView.h"
+#import "EVGroupRequestUserCell.h"
 
-@interface EVDashboardUserCell : EVGroupedTableViewCell
-
-@property (nonatomic, strong) EVAvatarView *avatarView;
-
-@property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UILabel *tierLabel;
+@interface EVDashboardUserCell : EVGroupRequestUserCell
 
 @property (nonatomic, strong) UILabel *owesLabel;
 @property (nonatomic, strong) UILabel *owesAmountLabel;

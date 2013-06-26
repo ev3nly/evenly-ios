@@ -13,4 +13,6 @@
 @property (nonatomic, strong) NSDecimalNumber *price;
 @property (nonatomic, strong) NSString *name;
 
+@property (nonatomic, readonly) NSString *optionString;
+
 @end

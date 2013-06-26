@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSMutableArray *buttons;
 
 - (id)initWithItems:(NSArray *)items;
+- (void)configureButton:(UIButton *)button;
 - (void)buttonPress:(UIButton *)button;
 - (void)reloadSubviews;
 
