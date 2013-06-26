@@ -19,6 +19,7 @@
 		9C0EC76A175D80BB003B93E2 /* EVSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC769175D80BB003B93E2 /* EVSettingsViewController.m */; };
 		9C1DEC32177B6A2A0057526D /* EVGroupRequestStatementLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1DEC31177B6A230057526D /* EVGroupRequestStatementLabel.m */; };
 		9C1DEC35177B86E90057526D /* EVGroupRequestCompletedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1DEC34177B86E20057526D /* EVGroupRequestCompletedCell.m */; };
+		9C1DEC4C177BAF9A0057526D /* EVGroupRequestEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1DEC4B177BAF9A0057526D /* EVGroupRequestEditViewController.m */; };
 		9C1F47EE1756914B00B26A1B /* NSArray+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47CE1756914B00B26A1B /* NSArray+EVAdditions.m */; };
 		9C1F47EF1756914B00B26A1B /* NSDictionary+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47D01756914B00B26A1B /* NSDictionary+EVAdditions.m */; };
 		9C1F47F01756914B00B26A1B /* NSString+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47D21756914B00B26A1B /* NSString+EVAdditions.m */; };
@@ -429,6 +430,8 @@
 		9C1DEC31177B6A230057526D /* EVGroupRequestStatementLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestStatementLabel.m; sourceTree = "<group>"; };
 		9C1DEC33177B86E20057526D /* EVGroupRequestCompletedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestCompletedCell.h; sourceTree = "<group>"; };
 		9C1DEC34177B86E20057526D /* EVGroupRequestCompletedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestCompletedCell.m; sourceTree = "<group>"; };
+		9C1DEC4A177BAF9A0057526D /* EVGroupRequestEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestEditViewController.h; sourceTree = "<group>"; };
+		9C1DEC4B177BAF9A0057526D /* EVGroupRequestEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestEditViewController.m; sourceTree = "<group>"; };
 		9C1F47CD1756914B00B26A1B /* NSArray+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+EVAdditions.h"; sourceTree = "<group>"; };
 		9C1F47CE1756914B00B26A1B /* NSArray+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+EVAdditions.m"; sourceTree = "<group>"; };
 		9C1F47CF1756914B00B26A1B /* NSDictionary+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+EVAdditions.h"; sourceTree = "<group>"; };
@@ -1372,6 +1375,8 @@
 				9C659BDA177A1B810028072A /* EVGroupRequestRecordViewController.m */,
 				9C659BDC177A1C5D0028072A /* EVGroupRequestRecordTableViewDataSource.h */,
 				9C659BDD177A1C5D0028072A /* EVGroupRequestRecordTableViewDataSource.m */,
+				9C1DEC4A177BAF9A0057526D /* EVGroupRequestEditViewController.h */,
+				9C1DEC4B177BAF9A0057526D /* EVGroupRequestEditViewController.m */,
 			);
 			path = GroupRequest;
 			sourceTree = "<group>";
@@ -2689,6 +2694,7 @@
 				9C2684BC176683CB00AEA624 /* EVFloatingRequestButton.m in Sources */,
 				9C2684BF176683D600AEA624 /* EVFloatingPaymentButton.m in Sources */,
 				9C5044241770E8CE0090D865 /* EVRequestDetailsView.m in Sources */,
+				9C1DEC4C177BAF9A0057526D /* EVGroupRequestEditViewController.m in Sources */,
 				D021152F176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m in Sources */,
 				D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */,
 				9C778DE017679AA70053F9D6 /* EVNavigationBarButton.m in Sources */,
