@@ -150,7 +150,6 @@
     if (self.photo)
         [params setObject:self.photo forKey:@"avatar"];
     
-    //DO SOMETHING WITH THE PHOTO AHHHH
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CREATING ACCOUNT..."];
     
     [EVUser createWithParams:params success:^(EVObject *object) {
@@ -158,7 +157,7 @@
             
             EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
             me.password = params[@"password"];
-//            me.updatedAvatar = self.photo;
+            me.updatedAvatar = self.photo;
             [EVUser setMe:me];
             
             [EVUtilities registerForPushNotifications];

@@ -200,7 +200,7 @@
     orLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:orLabel].width/2,
                                CGRectGetMaxY(facebookButton.frame) + OR_LABEL_BUTTON_BUFFER,
                                [self sizeForLabel:orLabel].width,
-                               [self sizeForLabel:orLabel].height);
+                               [EVImages facebookButton].size.height);
     emailButton.frame = CGRectMake(BUTTON_LEFT_MARGIN,
                                    CGRectGetMaxY(orLabel.frame) + OR_LABEL_BUTTON_BUFFER,
                                    self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
@@ -337,8 +337,6 @@
 }
 
 - (void)signInLabelTapped {
-//    [self emailButtonTapped];
-//    return;
     EVSignInViewController *signInViewController = [[EVSignInViewController alloc] initWithAuthenticationSuccess:^{
         [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         [self dismissViewControllerAnimated:YES completion:nil];
