@@ -170,7 +170,11 @@
                 }
                 else if (indexPath.row == 2)
                 {
-                    self.paymentOptionCell.headerLabel.text = @"Change Payment Option";
+                    if (self.record.numberOfPayments == 0)
+                        self.paymentOptionCell.headerLabel.text = @"Change Payment Option";
+                    else
+                        self.paymentOptionCell.headerLabel.text = nil;
+                    
                     cell = self.paymentOptionCell;
                 }
                 else if (indexPath.row == 3)
