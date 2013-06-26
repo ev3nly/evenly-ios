@@ -8,6 +8,7 @@
 
 #import "EVGroupRequestRecordTableViewDataSource.h"
 #import "EVGroupRequestUserCell.h"
+#import "EVGroupRequestCompletedCell.h"
 
 #define USER_ROW_HEIGHT 64.0
 
@@ -133,9 +134,17 @@
     {
         if (self.record.completed)
         {
+            [self.remindButton removeFromSuperview];
+            [self.markAsCompletedButton removeFromSuperview];
+            [self.cancelButton removeFromSuperview];
+            
             if (indexPath.row == 1)
             {
                 cell = [self statementCellForIndexPath:indexPath];
+            }
+            else
+            {
+                cell = [tableView dequeueReusableCellWithIdentifier:@"completedCell" forIndexPath:indexPath];
             }
         }
         else

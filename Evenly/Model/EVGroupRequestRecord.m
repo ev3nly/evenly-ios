@@ -51,6 +51,19 @@
     }
 }
 
+- (NSDictionary *)dictionaryRepresentation {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (self.tier)
+        [params setObject:self.tier.dbid forKey:@"tier_id"];
+    if (self.user.dbid)
+        [params setObject:self.user.dbid forKey:@"user_id"];
+    else
+        [params setObject:self.user.email forKey:@"user_id"];
+    
+    [params setObject:[NSNumber numberWithBool:self.completed] forKey:@"completed"];
+    return params;    
+}
+
 - (NSDecimalNumber *)amountOwed {
     if (!self.tier)
         return [NSDecimalNumber zero];

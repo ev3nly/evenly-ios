@@ -13,6 +13,10 @@
 @property (nonatomic, strong) NSString *text;
 @property (nonatomic, assign) CGFloat maxWidth;
 
+@property (nonatomic, strong) UIColor *strokeColor;
+@property (nonatomic, strong) UIColor *fillColor;
+@property (nonatomic, strong) UIColor *textColor;
+
 - (id)initWithText:(NSString *)text maxWidth:(CGFloat)maxWidth;
 
 @end

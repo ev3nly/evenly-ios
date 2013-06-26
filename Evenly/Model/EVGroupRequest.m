@@ -244,6 +244,14 @@
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
+- (EVGroupRequestRecord *)replaceRecord:(EVGroupRequestRecord *)record withResponseObject:(NSDictionary *)responseObject {
+    EVGroupRequestRecord *newRecord = [[EVGroupRequestRecord alloc] initWithGroupRequest:self properties:responseObject];
+    NSMutableArray *tmpRecords = [NSMutableArray arrayWithArray:self.records];
+    [tmpRecords replaceObjectAtIndex:[tmpRecords indexOfObject:record] withObject:newRecord];
+    self.records = (NSArray *)tmpRecords;
+    return newRecord;
+}
+
 - (void)saveRecord:(EVGroupRequestRecord *)record
        withSuccess:(void (^)(EVGroupRequestRecord *record))success
            failure:(void (^)(NSError *error))failure {
@@ -260,24 +268,13 @@
         path = [NSString stringWithFormat:@"%@/records", self.dbid];
     }
     
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (record.tier)
-        [params setObject:record.tier.dbid forKey:@"tier_id"];
-    if (record.user.dbid)
-        [params setObject:record.user.dbid forKey:@"user_id"];
-    else
-        [params setObject:record.user.email forKey:@"user_id"];
-    
+    NSDictionary *params = [record dictionaryRepresentation];    
     NSMutableURLRequest *request = [[self class] requestWithMethod:method
                                                               path:path
                                                         parameters:params];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        EVGroupRequestRecord *newRecord = [[EVGroupRequestRecord alloc] initWithGroupRequest:self properties:responseObject];
-        NSMutableArray *tmpRecords = [NSMutableArray arrayWithArray:self.records];
-        [tmpRecords replaceObjectAtIndex:[tmpRecords indexOfObject:record] withObject:newRecord];
-        self.records = (NSArray *)tmpRecords;
-        success(record);
+        EVGroupRequestRecord *newRecord = [self replaceRecord:record withResponseObject:responseObject];
+        success(newRecord);
     };
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
                                                                               success:successBlock
@@ -298,6 +295,28 @@
          withSuccess:(void (^)(EVGroupRequestRecord *record))success
              failure:(void (^)(NSError *error))failure {
     [self saveRecord:record withSuccess:success failure:failure];    
+}
+
+- (void)markRecordCompleted:(EVGroupRequestRecord *)record
+                withSuccess:(void (^)(EVGroupRequestRecord *record))success
+                    failure:(void (^)(NSError *error))failure {
+    NSString *method = @"PUT";
+    NSString *path = [NSString stringWithFormat:@"%@/records/%@", self.dbid, record.dbid];
+    NSDictionary *params = @{ @"completed" : @(YES) };
+    NSMutableURLRequest *request = [[self class] requestWithMethod:method
+                                                              path:path
+                                                        parameters:params];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        record.completed = YES;
+        success(record);
+    };
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                              success:successBlock
+                                                                              failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                                  if (failure)
+                                                                                      failure(error);
+                                                                              }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
 - (void)deleteRecord:(EVGroupRequestRecord *)record

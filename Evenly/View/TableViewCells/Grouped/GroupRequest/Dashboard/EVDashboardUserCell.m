@@ -7,9 +7,11 @@
 //
 
 #import "EVDashboardUserCell.h"
+#import "EVWalletStamp.h"
 
 #define AMOUNT_LABELS_MAX_X 275.0
 #define SMALL_GAP 3.0
+#define STAMP_RIGHT_MARGIN 15.0
 
 @interface EVDashboardUserCell ()
 
@@ -67,8 +69,43 @@
     [self.contentView addSubview:self.paidAmountLabel];
 }
 
+- (void)setPaidStamp:(EVWalletStamp *)paidStamp {
+    if (_paidStamp) {
+        [_paidStamp removeFromSuperview];
+    }
+    _paidStamp = paidStamp;
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
+    if (self.paidStamp)
+    {
+        [self layoutStamp];
+    }
+    else
+    {
+        [self layoutLabels];
+    }
+}
+
+- (void)layoutStamp {
+    self.owesLabel.hidden = YES;
+    self.paidLabel.hidden = YES;
+    self.owesAmountLabel.hidden = YES;
+    self.paidAmountLabel.hidden = YES;
+
+    CGRect paidStampFrame = self.paidStamp.frame;
+    paidStampFrame.origin.x = self.contentView.frame.size.width - paidStampFrame.size.width - STAMP_RIGHT_MARGIN;
+    paidStampFrame.origin.y = (int)((self.contentView.frame.size.height - paidStampFrame.size.height) / 2.0);
+    self.paidStamp.frame = paidStampFrame;
+    [self.contentView addSubview:self.paidStamp];
+}
+
+- (void)layoutLabels {
+    self.owesLabel.hidden = NO;
+    self.paidLabel.hidden = NO;
+    self.owesAmountLabel.hidden = NO;
+    self.paidAmountLabel.hidden = NO;
     
     [self.owesAmountLabel sizeToFit];
     [self.paidAmountLabel sizeToFit];
