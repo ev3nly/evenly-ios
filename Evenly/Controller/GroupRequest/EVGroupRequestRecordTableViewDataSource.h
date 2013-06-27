@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "EVGroupRequestPaymentOptionCell.h"
+#import "EVGroupRequestStatementCell.h"
 #import "EVGroupRequestRecord.h"
 #import "EVBlueButton.h"
 #import "EVGrayButton.h"
@@ -19,6 +20,7 @@
 @property (nonatomic, weak) UITableView *tableView;
 
 @property (nonatomic, strong) EVGroupRequestPaymentOptionCell *paymentOptionCell;
+
 @property (nonatomic, strong) EVBlueButton *remindButton;
 @property (nonatomic, strong) EVGrayButton *markAsCompletedButton;
 @property (nonatomic, strong) EVGrayButton *cancelButton;

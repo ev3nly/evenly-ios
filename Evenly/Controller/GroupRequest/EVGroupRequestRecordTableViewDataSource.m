@@ -8,8 +8,7 @@
 
 #import "EVGroupRequestRecordTableViewDataSource.h"
 #import "EVGroupRequestUserCell.h"
-
-#import "EVGroupRequestPaymentOptionCell.h"
+#import "EVGroupRequestCompletedCell.h"
 
 #define USER_ROW_HEIGHT 64.0
 
@@ -36,7 +35,7 @@
     self = [super init];
     if (self) {
         self.paymentOptionCell = [[EVGroupRequestPaymentOptionCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                                        reuseIdentifier:@"paymentOptionCell"];
+                                                                        reuseIdentifier:@"paymentOptionCell"];        
         self.record = record;
 
         [self loadRemindButton];
@@ -99,7 +98,7 @@
     
     if (self.record.completed) {
         if (indexPath.row == 1) // payment history
-            return 44.0;
+            return [EVGroupRequestStatementCell heightForRecord:self.record];
         if (indexPath.row == 2) // "completed" indicator
             return 44.0;
     } else {
@@ -113,7 +112,7 @@
         else // assigned
         {
             if (indexPath.row == 1) // payment history
-                return 44.0;
+                return [EVGroupRequestStatementCell heightForRecord:self.record];
             if (indexPath.row == 2)
                 return [self.paymentOptionCell heightForRecord:self.record];
             else
@@ -135,7 +134,18 @@
     {
         if (self.record.completed)
         {
+            [self.remindButton removeFromSuperview];
+            [self.markAsCompletedButton removeFromSuperview];
+            [self.cancelButton removeFromSuperview];
             
+            if (indexPath.row == 1)
+            {
+                cell = [self statementCellForIndexPath:indexPath];
+            }
+            else
+            {
+                cell = [tableView dequeueReusableCellWithIdentifier:@"completedCell" forIndexPath:indexPath];
+            }
         }
         else
         {
@@ -154,14 +164,21 @@
             }
             else
             {
-                if (indexPath.row == 1) {
-                    
+                if (indexPath.row == 1)
+                {
+                    cell = [self statementCellForIndexPath:indexPath];
                 }
-                else if (indexPath.row == 2) {
-                    self.paymentOptionCell.headerLabel.text = @"Change Payment Option";
+                else if (indexPath.row == 2)
+                {
+                    if (self.record.numberOfPayments == 0)
+                        self.paymentOptionCell.headerLabel.text = @"Change Payment Option";
+                    else
+                        self.paymentOptionCell.headerLabel.text = nil;
+                    
                     cell = self.paymentOptionCell;
                 }
-                else if (indexPath.row == 3) {
+                else if (indexPath.row == 3)
+                {
                     cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
                     [self configureCellForButtons:cell];
                 }
@@ -172,6 +189,12 @@
         cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (EVGroupRequestStatementCell *)statementCellForIndexPath:(NSIndexPath *)indexPath {
+    EVGroupRequestStatementCell *statementCell = [self.tableView dequeueReusableCellWithIdentifier:@"statementCell" forIndexPath:indexPath];
+    [statementCell configureForRecord:self.record];
+    return statementCell;
 }
 
 - (void)configureCellForButtons:(EVGroupedTableViewCell *)cell {

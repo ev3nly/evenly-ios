@@ -41,6 +41,33 @@
     if (properties[@"tier_id"] != [NSNull null]) {
         self.tier = [self.groupRequest tierWithID:[properties[@"tier_id"] stringValue]];
     }
+    
+    if (properties[@"payments"]) {
+        NSMutableArray *tmpPayments = [NSMutableArray array];
+        for (NSDictionary *dictionary in properties[@"payments"]) {
+            [tmpPayments addObject:(EVPayment *)[EVSerializer serializeDictionary:dictionary]];
+        }
+        self.payments = [NSArray arrayWithArray:tmpPayments];
+    }
+}
+
+- (NSDictionary *)dictionaryRepresentation {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (self.tier)
+        [params setObject:self.tier.dbid forKey:@"tier_id"];
+    if (self.user.dbid)
+        [params setObject:self.user.dbid forKey:@"user_id"];
+    else
+        [params setObject:self.user.email forKey:@"user_id"];
+    
+    [params setObject:[NSNumber numberWithBool:self.completed] forKey:@"completed"];
+    return params;    
+}
+
+- (NSDecimalNumber *)amountOwed {
+    if (!self.tier)
+        return [NSDecimalNumber zero];
+    return [self.tier.price decimalNumberBySubtracting:self.amountPaid];
 }
 
 - (NSString *)description {

@@ -71,6 +71,18 @@
     return self;
 }
 
+- (void)setStrokeColor:(UIColor *)strokeColor {
+    self.shapeLayer.strokeColor = [strokeColor CGColor];
+}
+
+- (void)setFillColor:(UIColor *)fillColor {
+    self.shapeLayer.fillColor = [fillColor CGColor];
+}
+
+- (void)setTextColor:(UIColor *)textColor {
+    self.label.textColor = textColor;
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
