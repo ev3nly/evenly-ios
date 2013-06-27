@@ -8,11 +8,14 @@
 
 #import "EVGroupRequestUserCell.h"
 
+@class EVWalletStamp;
+
 @interface EVDashboardUserCell : EVGroupRequestUserCell
 
 @property (nonatomic, strong) UILabel *owesLabel;
 @property (nonatomic, strong) UILabel *owesAmountLabel;
 @property (nonatomic, strong) UILabel *paidLabel;
 @property (nonatomic, strong) UILabel *paidAmountLabel;
+@property (nonatomic, strong) EVWalletStamp *paidStamp;
 
 @end

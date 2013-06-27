@@ -9,8 +9,10 @@
 #import "EVModalViewController.h"
 #import "EVGroupRequest.h"
 
-@interface EVGroupRequestDashboardViewController : EVModalViewController <UITableViewDelegate, UIActionSheetDelegate>
+@interface EVGroupRequestDashboardViewController : EVModalViewController <UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate>
 
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest;
+
+- (void)closeRequest;
 
 @end

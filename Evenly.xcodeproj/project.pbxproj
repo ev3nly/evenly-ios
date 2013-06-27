@@ -1522,6 +1522,8 @@
 				9C659BF1177A29940028072A /* EVGroupRequestPaymentOptionCell.m */,
 				9C659C01177A88E50028072A /* EVGroupRequestStatementCell.h */,
 				9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */,
+				9C1DEC33177B86E20057526D /* EVGroupRequestCompletedCell.h */,
+				9C1DEC34177B86E20057526D /* EVGroupRequestCompletedCell.m */,
 			);
 			path = GroupRequest;
 			sourceTree = "<group>";
@@ -2727,6 +2729,7 @@
 				9C659BDB177A1B980028072A /* EVGroupRequestRecordViewController.m in Sources */,
 				9C659BF5177A3F0F0028072A /* EVGroupRequestPaymentOptionButton.m in Sources */,
 				9C900D1E1767F08D00E2F4C4 /* EVDepositCell.m in Sources */,
+				9C1DEC35177B86E90057526D /* EVGroupRequestCompletedCell.m in Sources */,
 				9C5044271770EC990090D865 /* EVPushPopViewController.m in Sources */,
 				9C900D321767FAA600E2F4C4 /* EVBlueButton.m in Sources */,
 				9C900D38176802FF00E2F4C4 /* EVSpreadLabel.m in Sources */,
