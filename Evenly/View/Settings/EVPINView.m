@@ -120,6 +120,10 @@
     return YES;
 }
 
+- (BOOL)resignFirstResponder {
+    return [self.textField resignFirstResponder];
+}
+
 #pragma mark - Frames
 
 - (CGRect)squareFrameForIndex:(int)index {

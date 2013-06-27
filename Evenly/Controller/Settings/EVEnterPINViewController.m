@@ -7,6 +7,8 @@
 //
 
 #import "EVEnterPINViewController.h"
+#import "EVNavigationBarButton.h"
+#import "EVNavigationManager.h"
 
 #define LOGO_TOP_BUFFER 40
 #define LOGO_LABEL_BUFFER 20
@@ -15,6 +17,7 @@
 
 #define ENTER_TEXT @"Enter Your Passcode"
 #define FAILED_TEXT @"Please Try Again"
+#define ONE_MORE_TRY_TEXT @"1 Failure Till Logout"
 
 @interface EVEnterPINViewController ()
 
@@ -36,6 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self loadSignOutBarButton];
     [self loadLogo];
     [self loadInstructionsLabel];
     [self loadPINView];
@@ -51,6 +55,11 @@
 }
 
 #pragma mark - View Loading
+
+- (void)loadSignOutBarButton {
+    EVNavigationBarButton *signOutButton = [[EVNavigationBarButton alloc] initWithTitle:@"Logout"];
+    [signOutButton addTarget:self action:@selector(signOutButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:signOutButton];}
 
 - (void)loadLogo {
     self.logo = [[UIImageView alloc] initWithImage:[EVImages grayLogo]];
@@ -73,6 +82,24 @@
     [self.view addSubview:self.pinView];
 }
 
+#pragma mark - Explicit Sign Out
+
+- (void)signOutButtonTapped {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+        [EVSession signOutWithSuccess:^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionUserExplicitlySignedOutNotification object:nil];
+            [[EVNavigationManager sharedManager].masterViewController showLoginViewControllerWithCompletion:^{
+                [[EVNavigationManager sharedManager].masterViewController setCenterPanel:[[EVNavigationManager sharedManager] homeViewController]];
+            }
+                                                                    animated:YES
+                                                       authenticationSuccess:^{
+                                                       } ];
+        } failure:^(NSError *error) {
+            DLog(@"Error: %@", error);
+        }];
+    }];
+}
+
 #pragma mark - PIN Handling
 
 - (void)userEnteredPIN:(NSString *)pin {
@@ -88,7 +115,10 @@
 }
 
 - (void)handleIncorrectPin {
-    [self.instructionsLabel fadeToText:FAILED_TEXT withColor:[EVColor lightRedColor] duration:0.2];
+    NSString *failedText = FAILED_TEXT;
+    if ([[EVPINUtility sharedUtility] failedPINAttemptCount] == EV_MAX_PIN_ATTEMPTS-1)
+        failedText = ONE_MORE_TRY_TEXT;
+    [self.instructionsLabel fadeToText:failedText withColor:[EVColor lightRedColor] duration:0.2];
     
     EVPINView *newView = [EVPINView new];
     [self configureHandlerOnPinView:newView];
@@ -103,6 +133,9 @@
                          self.pinView = newView;
                          self.pinView.alpha = 1;
                      }];
+    
+    if ([[EVPINUtility sharedUtility] failedPINAttemptCount] >= EV_MAX_PIN_ATTEMPTS)
+        [self.view findAndResignFirstResponder];
 }
 
 - (void)fadeInColoredLogoAndDismiss {

@@ -31,6 +31,10 @@
     return self;
 }
 
+- (void)loadSignOutBarButton {
+    //don't even try it
+}
+
 - (void)userEnteredPIN:(NSString *)pin {
     if (!self.enteredPin) {
         self.enteredPin = pin;

@@ -16,6 +16,8 @@
 @property (nonatomic, strong) UILabel *instructionsLabel;
 @property (nonatomic, strong) EVPINView *pinView;
 
+- (void)loadSignOutBarButton;
+
 - (void)userEnteredPIN:(NSString *)pin;
 - (void)handleCorrectPin;
 - (void)handleIncorrectPin;

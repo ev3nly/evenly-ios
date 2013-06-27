@@ -71,7 +71,7 @@ static int _failedPINAttemptCount;
     else
         _failedPINAttemptCount = 0;
 
-    if (_failedPINAttemptCount == EV_MAX_PIN_ATTEMPTS) {
+    if (_failedPINAttemptCount >= EV_MAX_PIN_ATTEMPTS) {
         [self clearStoredPIN];
         [[NSNotificationCenter defaultCenter] postNotificationName:EVPINUtilityTooManyFailedAttemptsNotification object:nil];
     }
