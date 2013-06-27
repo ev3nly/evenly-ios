@@ -85,12 +85,12 @@
     [self.view addSubview:self.pinView];
 }
 
-#pragma mark - Explicit Sign Out
+#pragma mark - Sign Out
 
 - (void)signOutButtonTapped {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
         [EVSession signOutWithSuccess:^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionUserExplicitlySignedOutNotification object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedOutNotification object:nil];
             [[EVNavigationManager sharedManager].masterViewController showLoginViewControllerWithCompletion:^{
                 [[EVNavigationManager sharedManager].masterViewController setCenterPanel:[[EVNavigationManager sharedManager] homeViewController]];
             }

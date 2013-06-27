@@ -123,7 +123,7 @@
         return;
     
     [EVSession signOutWithSuccess:^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionUserExplicitlySignedOutNotification object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedOutNotification object:nil];
         [self.masterViewController showLoginViewControllerWithCompletion:^{
             [self.masterViewController setCenterPanel:[[EVNavigationManager sharedManager] homeViewController]];
         }

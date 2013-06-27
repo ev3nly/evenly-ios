@@ -75,7 +75,7 @@
 - (void)signOutDueToFailedAttempts {
     [self dismissViewControllerAnimated:YES completion:^{
         [EVSession signOutWithSuccess:^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionUserExplicitlySignedOutNotification object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedOutNotification object:nil];
             [self showLoginViewControllerWithCompletion:nil
                                                animated:YES
                                   authenticationSuccess:^{

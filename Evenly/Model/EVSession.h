@@ -9,7 +9,7 @@
 #import "EVObject.h"
 
 extern NSString *const EVSessionSignedInNotification;
-extern NSString *const EVSessionUserExplicitlySignedOutNotification;
+extern NSString *const EVSessionSignedOutNotification;
 
 @interface EVSession : EVObject
 
