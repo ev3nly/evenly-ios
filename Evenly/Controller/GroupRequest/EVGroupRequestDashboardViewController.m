@@ -14,6 +14,7 @@
 #import "EVGroupRequestProgressView.h"
 
 #import "EVGroupRequestRecordViewController.h"
+#import "EVGroupRequestEditViewController.h"
 
 typedef enum {
     EVGroupRequestActionEdit,
@@ -147,7 +148,12 @@ typedef enum {
                                               cancelButtonTitle:@"No"
                                               otherButtonTitles:@"Yes", nil];
         [alert show];
-        
+    }
+    else if (buttonIndex == EVGroupRequestActionEdit)
+    {
+        EVGroupRequestEditViewController *editViewController = [[EVGroupRequestEditViewController alloc] initWithGroupRequest:self.groupRequest];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
+        [self presentViewController:navController animated:YES completion:NULL];
     }
 }
 

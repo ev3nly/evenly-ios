@@ -117,6 +117,16 @@
     return [[[self totalPaid] decimalNumberByDividingBy:[self totalOwed]] floatValue];
 }
 
+- (BOOL)isTierEditable:(EVGroupRequestTier *)tier {
+    BOOL editable = YES;
+    for (EVGroupRequestRecord *record in self.records) {
+        if (record.tier == tier && record.numberOfPayments > 0) {
+            editable = NO;
+            break;
+        }
+    }
+    return editable;
+}
 
 #pragma mark - API Interactions
 #pragma mark Tiers

@@ -9,9 +9,10 @@
 #import "EVModalViewController.h"
 #import "EVGroupRequest.h"
 
-@interface EVGroupRequestEditViewController : EVModalViewController
+@interface EVGroupRequestEditViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) EVGroupRequest *groupRequest;
+@property (nonatomic, strong) UITableView *tableView;
 
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest;
 

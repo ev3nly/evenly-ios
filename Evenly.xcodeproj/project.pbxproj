@@ -179,6 +179,9 @@
 		9C659BFD177A3F690028072A /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C659BF9177A3F690028072A /* checked@2x.png */; };
 		9C659C00177A52F10028072A /* EVGrayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BFF177A52E10028072A /* EVGrayButton.m */; };
 		9C659C03177A8A050028072A /* EVGroupRequestStatementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */; };
+		9C6A1FE5177BCAC10006CEA2 /* EVGroupRequestTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6A1FE2177BCAA50006CEA2 /* EVGroupRequestTitleCell.m */; };
+		9C6A1FE6177BCAC10006CEA2 /* EVGroupRequestMemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6A1FE4177BCAB20006CEA2 /* EVGroupRequestMemoCell.m */; };
+		9C6A1FE9177BD48B0006CEA2 /* EVGroupRequestEditAmountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6A1FE8177BD4700006CEA2 /* EVGroupRequestEditAmountCell.m */; };
 		9C6F1B951761054100974850 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B941761054100974850 /* Default.png */; };
 		9C6F1B971761054400974850 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B961761054400974850 /* Default@2x.png */; };
 		9C6F1B991761054700974850 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B981761054700974850 /* Default-568h@2x.png */; };
@@ -676,6 +679,12 @@
 		9C659BFF177A52E10028072A /* EVGrayButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGrayButton.m; sourceTree = "<group>"; };
 		9C659C01177A88E50028072A /* EVGroupRequestStatementCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestStatementCell.h; sourceTree = "<group>"; };
 		9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestStatementCell.m; sourceTree = "<group>"; };
+		9C6A1FE1177BCAA50006CEA2 /* EVGroupRequestTitleCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestTitleCell.h; sourceTree = "<group>"; };
+		9C6A1FE2177BCAA50006CEA2 /* EVGroupRequestTitleCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestTitleCell.m; sourceTree = "<group>"; };
+		9C6A1FE3177BCAB20006CEA2 /* EVGroupRequestMemoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestMemoCell.h; sourceTree = "<group>"; };
+		9C6A1FE4177BCAB20006CEA2 /* EVGroupRequestMemoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestMemoCell.m; sourceTree = "<group>"; };
+		9C6A1FE7177BD4700006CEA2 /* EVGroupRequestEditAmountCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestEditAmountCell.h; sourceTree = "<group>"; };
+		9C6A1FE8177BD4700006CEA2 /* EVGroupRequestEditAmountCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestEditAmountCell.m; sourceTree = "<group>"; };
 		9C6F1B941761054100974850 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9C6F1B961761054400974850 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9C6F1B981761054700974850 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -1517,6 +1526,12 @@
 				9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */,
 				9C1DEC33177B86E20057526D /* EVGroupRequestCompletedCell.h */,
 				9C1DEC34177B86E20057526D /* EVGroupRequestCompletedCell.m */,
+				9C6A1FE1177BCAA50006CEA2 /* EVGroupRequestTitleCell.h */,
+				9C6A1FE2177BCAA50006CEA2 /* EVGroupRequestTitleCell.m */,
+				9C6A1FE3177BCAB20006CEA2 /* EVGroupRequestMemoCell.h */,
+				9C6A1FE4177BCAB20006CEA2 /* EVGroupRequestMemoCell.m */,
+				9C6A1FE7177BD4700006CEA2 /* EVGroupRequestEditAmountCell.h */,
+				9C6A1FE8177BD4700006CEA2 /* EVGroupRequestEditAmountCell.m */,
 			);
 			path = GroupRequest;
 			sourceTree = "<group>";
@@ -2601,6 +2616,7 @@
 				9CEEB846175526EC00C24C2A /* ABContact.m in Sources */,
 				9CEEB847175526EC00C24C2A /* ABContactsHelper.m in Sources */,
 				9C3917351773CEBB002949C3 /* EVGroupRequestDashboardTableViewDataSource.m in Sources */,
+				9C6A1FE9177BD48B0006CEA2 /* EVGroupRequestEditAmountCell.m in Sources */,
 				9CEEB848175526EC00C24C2A /* ABGroup.m in Sources */,
 				9C32421B1777A31B004A358F /* EVProgressBarForeground.m in Sources */,
 				9CEEB84A175526EC00C24C2A /* AESCrypt.m in Sources */,
@@ -2619,6 +2635,7 @@
 				9C1F47F21756914B00B26A1B /* UIView+EVAdditions.m in Sources */,
 				9C659BEF177A28CF0028072A /* EVGroupRequestUserCell.m in Sources */,
 				9C1DEC32177B6A2A0057526D /* EVGroupRequestStatementLabel.m in Sources */,
+				9C6A1FE5177BCAC10006CEA2 /* EVGroupRequestTitleCell.m in Sources */,
 				9C1F47F31756914B00B26A1B /* UITableView+EVAdditions.m in Sources */,
 				9C863CA01772AEBC003ADB49 /* EVGroupRequestTier.m in Sources */,
 				9C1F47F41756914B00B26A1B /* EVAnalyticsUtility.m in Sources */,
@@ -2702,6 +2719,7 @@
 				9CE76DBD17679BDC005953C8 /* EVExchangeViewController.m in Sources */,
 				9CE76DC01767A92F005953C8 /* EVLikeButton.m in Sources */,
 				9CD17D16177245160022AE84 /* EVRequestMultipleDetailsView.m in Sources */,
+				9C6A1FE6177BCAC10006CEA2 /* EVGroupRequestMemoCell.m in Sources */,
 				D03F1E1C1767BB070067A428 /* EVExchangeFormView.m in Sources */,
 				9C542859176F76EA0028F141 /* EVCardsViewController.m in Sources */,
 				9C542858176F76EA0028F141 /* EVAddCardViewController.m in Sources */,

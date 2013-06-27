@@ -28,6 +28,8 @@
 - (NSDecimalNumber *)totalPaid;
 - (float)progress;
 
+- (BOOL)isTierEditable:(EVGroupRequestTier *)tier;
+
 #pragma mark - API Interactions
 #pragma mark Tiers
 - (void)allTiersWithSuccess:(void (^)(NSArray *tiers))success
