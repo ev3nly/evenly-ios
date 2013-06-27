@@ -10,9 +10,12 @@
 #import "EVNavigationBarButton.h"
 #import "EVNavigationManager.h"
 
-#define LOGO_TOP_BUFFER 40
-#define LOGO_LABEL_BUFFER 20
-#define LABEL_SQUARE_BUFFER 20
+#define SCALE_CONSTANT 300
+#define BUFFER_SCALE ((self.view.bounds.size.height-SCALE_CONSTANT)/(504.0-SCALE_CONSTANT))
+
+#define LOGO_TOP_BUFFER (40.0 * BUFFER_SCALE)
+#define LOGO_LABEL_BUFFER (20 * BUFFER_SCALE)
+#define LABEL_SQUARE_BUFFER (20 * BUFFER_SCALE)
 #define SQUARE_HEIGHT 54
 
 #define ENTER_TEXT @"Enter Your Passcode"
