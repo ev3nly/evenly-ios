@@ -365,6 +365,12 @@
 		D0828FB41768E7D60032D62E /* EVPrivacySelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB31768E7D60032D62E /* EVPrivacySelectorView.m */; };
 		D0828FB717690EE20032D62E /* EVPrivacySelectorHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = D0828FB617690EE20032D62E /* EVPrivacySelectorHeader.m */; };
 		D08F619A176BE9F900F05A34 /* EVUserAutocompletionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D08F6199176BE9F900F05A34 /* EVUserAutocompletionCell.m */; };
+		D093004A177AAA8C009F1881 /* EVSetPINViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0930049177AAA8C009F1881 /* EVSetPINViewController.m */; };
+		D093004D177BBEA5009F1881 /* EVPINView.m in Sources */ = {isa = PBXBuildFile; fileRef = D093004C177BBEA5009F1881 /* EVPINView.m */; };
+		D0930050177BE362009F1881 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D093004E177BE362009F1881 /* Icon-72.png */; };
+		D0930051177BE362009F1881 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D093004F177BE362009F1881 /* Icon-72@2x.png */; };
+		D0930055177BEC61009F1881 /* UILabel+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D0930054177BEC61009F1881 /* UILabel+EVAdditions.m */; };
+		D0930058177C0519009F1881 /* EVEnterPINViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0930057177C0518009F1881 /* EVEnterPINViewController.m */; };
 		D093B99C17755E530036BDBD /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D093B99B17755E530036BDBD /* Icon@2x.png */; };
 		D093B99E17755E570036BDBD /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D093B99D17755E570036BDBD /* Icon.png */; };
 		D093B9A817757AEF0036BDBD /* status-error.png in Resources */ = {isa = PBXBuildFile; fileRef = D093B9A017757AEF0036BDBD /* status-error.png */; };
@@ -948,6 +954,16 @@
 		D0828FB617690EE20032D62E /* EVPrivacySelectorHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacySelectorHeader.m; sourceTree = "<group>"; };
 		D08F6198176BE9F900F05A34 /* EVUserAutocompletionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVUserAutocompletionCell.h; sourceTree = "<group>"; };
 		D08F6199176BE9F900F05A34 /* EVUserAutocompletionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVUserAutocompletionCell.m; sourceTree = "<group>"; };
+		D0930048177AAA8C009F1881 /* EVSetPINViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSetPINViewController.h; sourceTree = "<group>"; };
+		D0930049177AAA8C009F1881 /* EVSetPINViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSetPINViewController.m; sourceTree = "<group>"; };
+		D093004B177BBEA5009F1881 /* EVPINView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPINView.h; sourceTree = "<group>"; };
+		D093004C177BBEA5009F1881 /* EVPINView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPINView.m; sourceTree = "<group>"; };
+		D093004E177BE362009F1881 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		D093004F177BE362009F1881 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		D0930053177BEC61009F1881 /* UILabel+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+EVAdditions.h"; sourceTree = "<group>"; };
+		D0930054177BEC61009F1881 /* UILabel+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+EVAdditions.m"; sourceTree = "<group>"; };
+		D0930056177C0518009F1881 /* EVEnterPINViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVEnterPINViewController.h; sourceTree = "<group>"; };
+		D0930057177C0518009F1881 /* EVEnterPINViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVEnterPINViewController.m; sourceTree = "<group>"; };
 		D093B99B17755E530036BDBD /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		D093B99D17755E570036BDBD /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		D093B9A017757AEF0036BDBD /* status-error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "status-error.png"; sourceTree = "<group>"; };
@@ -1105,6 +1121,10 @@
 				9C0EC769175D80BB003B93E2 /* EVSettingsViewController.m */,
 				9C2DD0AB176A8FAA00EAA3D1 /* EVNotificationsViewController.h */,
 				9C2DD0AC176A8FAA00EAA3D1 /* EVNotificationsViewController.m */,
+				D0930048177AAA8C009F1881 /* EVSetPINViewController.h */,
+				D0930049177AAA8C009F1881 /* EVSetPINViewController.m */,
+				D0930056177C0518009F1881 /* EVEnterPINViewController.h */,
+				D0930057177C0518009F1881 /* EVEnterPINViewController.m */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1170,6 +1190,8 @@
 				9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */,
 				D07A390E176AA2AA00EABEB7 /* UIColor+EVAdditions.h */,
 				D07A390F176AA2AA00EABEB7 /* UIColor+EVAdditions.m */,
+				D0930053177BEC61009F1881 /* UILabel+EVAdditions.h */,
+				D0930054177BEC61009F1881 /* UILabel+EVAdditions.m */,
 			);
 			path = Additions;
 			sourceTree = "<group>";
@@ -1292,6 +1314,8 @@
 			children = (
 				9C2DD0851769278E00EAA3D1 /* EVSettingsRow.h */,
 				9C2DD0861769278E00EAA3D1 /* EVSettingsRow.m */,
+				D093004B177BBEA5009F1881 /* EVPINView.h */,
+				D093004C177BBEA5009F1881 /* EVPINView.m */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2130,6 +2154,8 @@
 				D0770B3E177519BF0002B572 /* add-photo@2x.png */,
 				D095EEEB177979F00016F434 /* logo-gray.png */,
 				D095EEEC177979F00016F434 /* logo-gray@2x.png */,
+				D093004E177BE362009F1881 /* Icon-72.png */,
+				D093004F177BE362009F1881 /* Icon-72@2x.png */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -2499,6 +2525,8 @@
 				D095EEEA1778F1B80016F434 /* facebook-f@2x.png in Resources */,
 				D095EEED177979F00016F434 /* logo-gray.png in Resources */,
 				D095EEEE177979F00016F434 /* logo-gray@2x.png in Resources */,
+				D0930050177BE362009F1881 /* Icon-72.png in Resources */,
+				D0930051177BE362009F1881 /* Icon-72@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2797,6 +2825,10 @@
 				D078F0161777D21B00499EB8 /* EVOnboardingViewController.m in Sources */,
 				D05797E91778D7E40012EB13 /* EVSignUpViewController.m in Sources */,
 				D095EEDA1778F05A0016F434 /* EVCheckmarkButton.m in Sources */,
+				D093004A177AAA8C009F1881 /* EVSetPINViewController.m in Sources */,
+				D093004D177BBEA5009F1881 /* EVPINView.m in Sources */,
+				D0930055177BEC61009F1881 /* UILabel+EVAdditions.m in Sources */,
+				D0930058177C0519009F1881 /* EVEnterPINViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

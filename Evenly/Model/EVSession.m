@@ -14,7 +14,7 @@
 #import "AESCrypt.h"
 
 NSString *const EVSessionSignedInNotification = @"EVSessionSignedInNotification";
-NSString *const EVSessionUserExplicitlySignedOutNotification = @"EVSessionUserExplicitlySignedOutNotification";
+NSString *const EVSessionSignedOutNotification = @"EVSessionSignedOutNotification";
 
 static EVSession *_sharedSession = nil;
 

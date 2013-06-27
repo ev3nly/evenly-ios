@@ -90,4 +90,39 @@
     return nil;
 }
 
+#define BOUNCE_OVERSHOOT_DISTANCE_PERCENT 0.1
+#define BOUNCE_OVERSHOOT_DURATION_PERCENT 0.3
+
+- (void)bounceAnimationToFrame:(CGRect)targetFrame duration:(float)duration completion:(void (^)(void))completion {
+    CGPoint currentOrigin = self.frame.origin;
+    float overshootXAmount = fabsf(targetFrame.origin.x - currentOrigin.x) + (fabsf(targetFrame.origin.x - currentOrigin.x)*BOUNCE_OVERSHOOT_DISTANCE_PERCENT);
+    float overshootYAmount = fabsf(targetFrame.origin.y - currentOrigin.y) + (fabsf(targetFrame.origin.y - currentOrigin.y)*BOUNCE_OVERSHOOT_DISTANCE_PERCENT);
+    
+    if (targetFrame.origin.x < currentOrigin.x)
+        overshootXAmount = -overshootXAmount;
+    if (targetFrame.origin.y < currentOrigin.y)
+        overshootYAmount = - overshootYAmount;
+    
+    CGRect overshootFrame = targetFrame;
+    overshootFrame.origin.x = currentOrigin.x + overshootXAmount;
+    overshootFrame.origin.y = currentOrigin.y + overshootYAmount;
+    
+    [UIView animateWithDuration:(duration * (1.0-BOUNCE_OVERSHOOT_DURATION_PERCENT))
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.frame = overshootFrame;
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:(duration * BOUNCE_OVERSHOOT_DURATION_PERCENT)
+                                               delay:0
+                                             options:UIViewAnimationOptionCurveEaseOut
+                                          animations:^{
+                                              self.frame = targetFrame;
+                                          } completion:^(BOOL finished) {
+                                              if (completion)
+                                                  completion();
+                                          }];
+                     }];
+}
+
 @end

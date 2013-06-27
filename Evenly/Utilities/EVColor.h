@@ -10,9 +10,14 @@
 
 @interface EVColor : NSObject
 
+#pragma mark - Default Brand Colors
+
 + (UIColor *)creamColor;
 + (UIColor *)lightGreenColor;
 + (UIColor *)lightRedColor;
++ (UIColor *)darkColor;
++ (UIColor *)lightColor;
++ (UIColor *)blueColor;
 
 #pragma mark - Side Panels
 

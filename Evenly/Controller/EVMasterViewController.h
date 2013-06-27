@@ -22,5 +22,7 @@
 - (void)showLoginViewControllerWithCompletion:(void (^)(void))completion animated:(BOOL)animated;
 - (void)showLoginViewControllerWithCompletion:(void (^)(void))completion;
 
+#pragma mark - PIN Controller
+- (void)showPINViewControllerAnimated:(BOOL)animated;
 
 @end

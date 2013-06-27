@@ -26,6 +26,7 @@
 #import "UITableView+EVAdditions.h"
 #import "UIViewController+EVAdditions.h"
 #import "UIColor+EVAdditions.h"
+#import "UILabel+EVAdditions.h"
 
 #import "MBProgressHUD.h"
 
