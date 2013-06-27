@@ -40,8 +40,8 @@ static int _failedPINAttemptCount;
     if (self) {
         self.keychainItem = [[KeychainItemWrapper alloc] initWithIdentifier:kIvyPINKeychainItemName accessGroup:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(userExplicitlySignedOut:)
-                                                     name:EVSessionUserExplicitlySignedOutNotification
+                                                 selector:@selector(userSignedOut:)
+                                                     name:EVSessionSignedOutNotification
                                                    object:nil];
     }
     return self;
@@ -51,7 +51,7 @@ static int _failedPINAttemptCount;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)userExplicitlySignedOut:(NSNotification *)notification {
+- (void)userSignedOut:(NSNotification *)notification {
     [self clearStoredPIN];
 }
 
@@ -71,7 +71,7 @@ static int _failedPINAttemptCount;
     else
         _failedPINAttemptCount = 0;
 
-    if (_failedPINAttemptCount == EV_MAX_PIN_ATTEMPTS) {
+    if (_failedPINAttemptCount >= EV_MAX_PIN_ATTEMPTS) {
         [self clearStoredPIN];
         [[NSNotificationCenter defaultCenter] postNotificationName:EVPINUtilityTooManyFailedAttemptsNotification object:nil];
     }

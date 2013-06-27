@@ -166,7 +166,7 @@
             [EVStatusBarManager sharedManager].completion = ^(void) {
                 if (self.authenticationSuccess)
                     self.authenticationSuccess();
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             };
         } failure:^(NSError *error) {
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];

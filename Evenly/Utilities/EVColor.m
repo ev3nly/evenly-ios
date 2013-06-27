@@ -10,6 +10,8 @@
 
 @implementation EVColor
 
+#pragma mark - Default Brand Colors
+
 + (UIColor *)creamColor {
     return EV_RGB_COLOR(0.9765, 0.9686, 0.9647);
 }
@@ -20,6 +22,18 @@
 
 + (UIColor *)lightRedColor {
     return EV_RGB_COLOR(0.9882, 0.4157, 0.3373);
+}
+
++ (UIColor *)darkColor {
+    return EV_RGB_COLOR(36, 45, 50);
+}
+
++ (UIColor *)lightColor {
+    return EV_RGB_COLOR(249, 247, 246);
+}
+
++ (UIColor *)blueColor {
+    return EV_RGB_COLOR(0, 115, 222);
 }
 
 #pragma mark - Side Panels
