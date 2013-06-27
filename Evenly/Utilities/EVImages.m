@@ -10,6 +10,8 @@
 
 @implementation EVImages
 
+#pragma mark - Backgrounds
+
 + (UIImage *)resizableTombstoneBackground {
     return [[UIImage imageNamed:@"FeedContainer"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
 }

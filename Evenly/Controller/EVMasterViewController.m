@@ -9,6 +9,7 @@
 #import "EVMasterViewController.h"
 #import "EVSignInViewController.h"
 #import "EVOnboardingViewController.h"
+#import "EVEnterPINViewController.h"
 
 @interface EVMasterViewController ()
 
@@ -50,6 +51,15 @@
     EVSignInViewController *signInViewController = [[EVSignInViewController alloc] initWithAuthenticationSuccess:success];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signInViewController];
     [self presentViewController:navController animated:animated completion:completion];
+}
+
+#pragma mark - PIN Controller
+
+- (void)showPINViewControllerAnimated:(BOOL)animated {
+    EVEnterPINViewController *pinViewController = [[EVEnterPINViewController alloc] init];
+    pinViewController.canDismissManually = NO;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinViewController];
+    [self presentViewController:navController animated:animated completion:nil];
 }
 
 @end

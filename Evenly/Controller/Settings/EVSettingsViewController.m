@@ -15,6 +15,7 @@
 #import "EVFormView.h"
 
 #import "EVNotificationsViewController.h"
+#import "EVSetPINViewController.h"
 
 #define EV_SETTINGS_MARGIN 10.0
 #define EV_SETTINGS_ROW_HEIGHT 50.0
@@ -103,7 +104,9 @@
 }
 
 - (void)passcodeButtonPress:(id)sender {
-    
+    EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+    [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
 - (void)logoutButtonPress:(id)sender {
