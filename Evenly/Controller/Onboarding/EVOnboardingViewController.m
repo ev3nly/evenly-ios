@@ -9,6 +9,8 @@
 #import "EVOnboardingViewController.h"
 #import "EVSignInViewController.h"
 #import "EVSignUpViewController.h"
+#import "EVSetPINViewController.h"
+#import "EVNavigationManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define NUMBER_OF_SLIDES 5
@@ -329,8 +331,11 @@
 
 - (void)emailButtonTapped {
     EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-        [self dismissViewControllerAnimated:YES completion:nil];        
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+            [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
+        }];
     }];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
     [self presentViewController:navController animated:YES completion:nil];

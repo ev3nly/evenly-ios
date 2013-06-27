@@ -9,12 +9,23 @@
 #import "EVMasterViewController.h"
 #import "EVSignInViewController.h"
 #import "EVOnboardingViewController.h"
+#import "EVEnterPINViewController.h"
 
 @interface EVMasterViewController ()
 
 @end
 
 @implementation EVMasterViewController
+
+- (id)init {
+    if (self = [super init]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(signOutDueToFailedAttempts)
+                                                     name:EVPINUtilityTooManyFailedAttemptsNotification
+                                                   object:nil];
+    }
+    return self;
+}
 
 #pragma mark - Overrides
 
@@ -50,6 +61,29 @@
     EVSignInViewController *signInViewController = [[EVSignInViewController alloc] initWithAuthenticationSuccess:success];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signInViewController];
     [self presentViewController:navController animated:animated completion:completion];
+}
+
+#pragma mark - PIN Controller
+
+- (void)showPINViewControllerAnimated:(BOOL)animated {
+    EVEnterPINViewController *pinViewController = [[EVEnterPINViewController alloc] init];
+    pinViewController.canDismissManually = NO;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinViewController];
+    [self presentViewController:navController animated:animated completion:nil];
+}
+
+- (void)signOutDueToFailedAttempts {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [EVSession signOutWithSuccess:^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedOutNotification object:nil];
+            [self showLoginViewControllerWithCompletion:nil
+                                               animated:YES
+                                  authenticationSuccess:^{
+                                  } ];
+        } failure:^(NSError *error) {
+            DLog(@"Error: %@", error);
+        }];
+    }];
 }
 
 @end
