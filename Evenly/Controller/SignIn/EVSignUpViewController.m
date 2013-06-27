@@ -163,7 +163,7 @@
             [EVUtilities registerForPushNotifications];
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].completion = ^(void) {
+            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
                 if (self.authenticationSuccess)
                     self.authenticationSuccess();
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];

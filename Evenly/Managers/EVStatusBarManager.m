@@ -121,6 +121,9 @@ static EVStatusBarManager *_sharedManager = nil;
         });
         return;
     }
+    if (self.preSuccess)
+        self.preSuccess();
+    self.preSuccess = nil;
     [self.progressView setStatus:EVStatusBarStatusSuccess text:text];
     [self hideProgressView];
     self.lastStatusChange = [NSDate date];
@@ -153,9 +156,9 @@ static EVStatusBarManager *_sharedManager = nil;
         CGRect destinationFrame = self.progressView.frame;
         destinationFrame.origin.y += destinationFrame.size.height+10;
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-        if (self.completion)
-            self.completion();
-        self.completion = nil;
+        if (self.postSuccess)
+            self.postSuccess();
+        self.postSuccess = nil;
         [UIView animateWithDuration:0.4
                          animations:^{
                              self.progressView.frame = destinationFrame;
@@ -188,6 +191,10 @@ static EVStatusBarManager *_sharedManager = nil;
 
 - (BOOL)emptyStack {
     return ([self.actionStack count] == 0);
+}
+
+- (BOOL)controllersShouldHideDropShadows {
+    return ([self currentStatus] != EVStatusBarStatusNone);
 }
 
 #pragma mark - Frames

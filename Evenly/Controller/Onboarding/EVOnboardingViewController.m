@@ -142,6 +142,8 @@
                             CGRectGetMidY(self.scrollView.bounds) - totalHeight/2,
                             LOGO_LENGTH,
                             LOGO_LENGTH);
+    logo.layer.cornerRadius = 16.0;
+    logo.layer.masksToBounds = YES;
     label.frame = CGRectMake(0,
                              CGRectGetMaxY(logo.frame) + LOGO_TEXT_BUFFER,
                              self.scrollView.bounds.size.width,
