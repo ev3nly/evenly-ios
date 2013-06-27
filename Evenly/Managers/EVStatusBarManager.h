@@ -15,9 +15,12 @@ typedef void(^EVStatusBarManagerCompletionBlock)(void);
 
 + (EVStatusBarManager *)sharedManager;
 
-@property (nonatomic, strong) EVStatusBarManagerCompletionBlock completion;
+@property (nonatomic, strong) EVStatusBarManagerCompletionBlock preSuccess;
+@property (nonatomic, strong) EVStatusBarManagerCompletionBlock postSuccess;
 
 - (void)setStatus:(EVStatusBarStatus)status; //default text
 - (void)setStatus:(EVStatusBarStatus)status text:(NSString *)text;
+
+- (BOOL)controllersShouldHideDropShadows;
 
 @end
