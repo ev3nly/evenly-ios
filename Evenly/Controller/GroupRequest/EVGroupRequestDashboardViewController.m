@@ -152,6 +152,7 @@ typedef enum {
     else if (buttonIndex == EVGroupRequestActionEdit)
     {
         EVGroupRequestEditViewController *editViewController = [[EVGroupRequestEditViewController alloc] initWithGroupRequest:self.groupRequest];
+        editViewController.delegate = self;
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
         [self presentViewController:navController animated:YES completion:NULL];
     }
@@ -176,6 +177,13 @@ typedef enum {
     } failure:^(NSError *error) {
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
     }];
+}
+
+#pragma mark - EVGroupRequestEditViewControllerDelegate
+
+- (void)editViewControllerMadeChanges:(EVGroupRequestEditViewController *)editViewController {
+    self.title = self.groupRequest.title;
+    [self.tableView reloadData];
 }
 
 @end

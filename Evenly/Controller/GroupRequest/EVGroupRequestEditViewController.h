@@ -9,8 +9,17 @@
 #import "EVViewController.h"
 #import "EVGroupRequest.h"
 
+@class EVGroupRequestEditViewController;
+
+@protocol EVGroupRequestEditViewControllerDelegate <NSObject>
+
+- (void)editViewControllerMadeChanges:(EVGroupRequestEditViewController *)editViewController;
+
+@end
+
 @interface EVGroupRequestEditViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, weak) id<EVGroupRequestEditViewControllerDelegate> delegate;
 @property (nonatomic, strong) EVGroupRequest *groupRequest;
 @property (nonatomic, strong) UITableView *tableView;
 
