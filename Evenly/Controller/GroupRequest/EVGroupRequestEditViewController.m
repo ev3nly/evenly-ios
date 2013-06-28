@@ -333,7 +333,7 @@
     [self.groupRequest saveTier:tier
                       withSuccess:^(EVGroupRequestTier *tier) {
                           [self showSuccess];
-                          [[EVStatusBarManager sharedManager] setCompletion:^{
+                          [[EVStatusBarManager sharedManager] setPostSuccess:^{
                               [cell setTier:tier];
                           }];
                       } failure:^(NSError *error) {
