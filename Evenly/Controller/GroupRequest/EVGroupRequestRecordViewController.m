@@ -113,7 +113,7 @@
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"MARKING COMPLETE..."];
     [self.record.groupRequest markRecordCompleted:self.record
                                       withSuccess:^(EVGroupRequestRecord *record) {
-                                          [EVStatusBarManager sharedManager].completion = ^{
+                                          [EVStatusBarManager sharedManager].postSuccess = ^{
                                               self.record = record;
                                               [self.dataSource setRecord:self.record];
                                               [self.tableView reloadData];

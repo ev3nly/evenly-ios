@@ -129,7 +129,6 @@
         }
                                                                 animated:YES
                                                    authenticationSuccess:^{
-//                                                       [self.masterViewController promptToSetPIN];
                                                    } ];
     } failure:^(NSError *error) {
         DLog(@"Error: %@", error);

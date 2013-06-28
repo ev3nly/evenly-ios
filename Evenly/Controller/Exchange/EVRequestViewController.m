@@ -328,7 +328,7 @@
         self.request.memo = self.singleDetailsView.descriptionField.text;
         [self.request saveWithSuccess:^{
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].completion = ^(void) {
+            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             };
         } failure:^(NSError *error) {
@@ -344,7 +344,7 @@
 
         [self.groupRequest saveWithSuccess:^{
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].completion = ^(void) {
+            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             };
             

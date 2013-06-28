@@ -15,6 +15,7 @@
 #import "EVSession.h"
 
 #define LOGO_BUFFER (([UIApplication sharedApplication].keyWindow.bounds.size.height > 480) ? 30 : 14)
+#define FORM_LABEL_BUFFER 14
 #define FORM_VIEW_TAG 9372
 
 @interface EVSignInViewController ()
@@ -150,11 +151,13 @@
 
 - (void)signIn {
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SIGNING IN..."];
+    [EVStatusBarManager sharedManager].preSuccess = ^{
+        [self fadeInColoredLogo];
+    };
     
     [EVSession createWithEmail:self.emailField.text password:self.passwordField.text success:^{
-        [self fadeInColoredLogo];
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-        [EVStatusBarManager sharedManager].completion = ^(void) {
+        [EVStatusBarManager sharedManager].postSuccess = ^(void) {
             if (self.authenticationSuccess)
                 self.authenticationSuccess();
             [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
@@ -180,7 +183,7 @@
 
 - (CGRect)labelButtonFrame {
     return CGRectMake(0,
-                      CGRectGetMaxY([self.view viewWithTag:FORM_VIEW_TAG].frame) + LOGO_BUFFER,
+                      CGRectGetMaxY([self.view viewWithTag:FORM_VIEW_TAG].frame) + FORM_LABEL_BUFFER,
                       self.view.bounds.size.width,
                       LOGO_BUFFER);
 }
