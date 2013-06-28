@@ -113,11 +113,15 @@ NSString *const EVGroupRequestEditAmountCellBeganEditing = @"EVGroupRequestEditA
     [super layoutSubviews];
     if (!self.editable) {
         [self.deleteButton removeFromSuperview];
+        self.optionNameField.textColor = [EVColor lightLabelColor];
+        self.optionAmountField.textColor = [EVColor lightLabelColor];
         self.optionNameField.frame = CGRectMake(DELETE_BUTTON_X_ORIGIN,
                                                 (self.contentView.frame.size.height - OPTION_FIELD_HEIGHT) / 2.0,
                                                 OPTION_NAME_FIELD_WIDTH,
                                                 OPTION_FIELD_HEIGHT + self.deleteButton.frame.size.width);
     } else {
+        self.optionNameField.textColor = [UIColor blackColor];
+        self.optionAmountField.textColor = [UIColor blackColor];
         [self.contentView addSubview:self.deleteButton];
         UIImage *deleteImage = [self.deleteButton imageForState:UIControlStateNormal];
         self.deleteButton.frame = CGRectMake(DELETE_BUTTON_X_ORIGIN,
@@ -138,14 +142,30 @@ NSString *const EVGroupRequestEditAmountCellBeganEditing = @"EVGroupRequestEditA
     self.optionAmountField.enabled = self.editable;
 }
 
+@end
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+@implementation EVGroupRequestEditAddOptionCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    // Drawing code
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.position = EVGroupedTableViewCellPositionBottom;
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:self.bounds];
+        label.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+        label.font = [EVFont defaultFontOfSize:FONT_SIZE];
+        label.backgroundColor = [UIColor clearColor];
+        label.textColor = [EVColor darkLabelColor];
+        label.text = @"+   Add Option";
+        label.textAlignment = NSTextAlignmentCenter;
+        label.userInteractionEnabled = YES;
+        [self addSubview:label];
+        
+    }
+    return self;
 }
-*/
 
 @end

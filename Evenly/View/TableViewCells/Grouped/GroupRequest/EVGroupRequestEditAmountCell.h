@@ -24,3 +24,7 @@ extern NSString *const EVGroupRequestEditAmountCellBeganEditing;
 @property (nonatomic) BOOL isEditing;
 
 @end
+
+@interface EVGroupRequestEditAddOptionCell : EVGroupedTableViewCell
+
+@end

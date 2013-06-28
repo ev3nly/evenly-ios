@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVModalViewController.h"
+#import "EVViewController.h"
 #import "EVGroupRequest.h"
 
-@interface EVGroupRequestEditViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate>
+@interface EVGroupRequestEditViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) EVGroupRequest *groupRequest;
 @property (nonatomic, strong) UITableView *tableView;
