@@ -25,6 +25,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "JASidePanelController.h"
+#import "EVStatusBarManager.h"
 
 static char ja_kvoContext;
 
@@ -288,7 +289,7 @@ static char ja_kvoContext;
     container.layer.shadowPath = shadowPath.CGPath;	
     container.layer.shadowColor = [UIColor blackColor].CGColor;
     container.layer.shadowRadius = 10.0f;
-    container.layer.shadowOpacity = 0.75f;
+    container.layer.shadowOpacity = ([[EVStatusBarManager sharedManager] controllersShouldHideDropShadows]) ? 0.0 : 0.75f;
     container.clipsToBounds = NO;
 }
 

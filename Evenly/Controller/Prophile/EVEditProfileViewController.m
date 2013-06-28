@@ -203,7 +203,7 @@
 
     [[EVCIA me] updateWithSuccess:^{
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-        [EVStatusBarManager sharedManager].completion = ^(void){ [self.navigationController popViewControllerAnimated:YES]; };
+        [EVStatusBarManager sharedManager].postSuccess = ^(void){ [self.navigationController popViewControllerAnimated:YES]; };
     } failure:^(NSError *error) {
         DLog(@"failed to save user: %@", error);
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];

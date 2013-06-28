@@ -226,7 +226,7 @@
     
     [self.exchange saveWithSuccess:^{
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-        [EVStatusBarManager sharedManager].completion = ^(void) { [self.presentingViewController dismissViewControllerAnimated:YES completion:nil]; };
+        [EVStatusBarManager sharedManager].postSuccess = ^(void) { [self.presentingViewController dismissViewControllerAnimated:YES completion:nil]; };
         
         if ([self.exchange isKindOfClass:[EVPayment class]])
             [EVCIA me].balance = [[EVCIA me].balance decimalNumberBySubtracting:self.exchange.amount];
