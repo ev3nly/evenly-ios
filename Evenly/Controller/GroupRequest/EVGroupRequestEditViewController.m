@@ -214,39 +214,16 @@
 
 - (void)deleteButtonPress:(UIButton *)sender {
     EVGroupRequestEditAmountCell *cell = (EVGroupRequestEditAmountCell *)[[sender superview] superview];
-    NSInteger index = [self.optionCells indexOfObject:cell];
     
     [UIActionSheet actionSheetWithTitle:@"Are you sure?"
                                 message:nil
-                 destructiveButtonTitle:@"Yes"
-                                buttons:@[ @"No" ]
+                 destructiveButtonTitle:@"Delete"
+                                buttons:nil
                              showInView:self.view
                               onDismiss:^(int buttonIndex) { [self deleteDataFromCell:cell]; }
                                onCancel:NULL];
 
-    [self.tableView beginUpdates];
-    [self removeCellAtIndex:index];
-    [self.tableView deleteRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:index inSection:1]]
-                                    withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView endUpdates];
-}
 
-- (void)removeCellAtIndex:(NSInteger)index {
-    EVGroupRequestEditAmountCell *previous, *goner, *next = nil;
-    if (index > 0)
-        previous = [self.optionCells objectAtIndex:index-1];
-    goner = [self.optionCells objectAtIndex:index];
-    if ([self.optionCells count] > index+1)
-        next = [self.optionCells objectAtIndex:index+1];
-    
-    if (previous)
-    {
-        if (next)
-            previous.optionAmountField.next = next.optionNameField;
-        else
-            previous.optionAmountField.next = nil;
-    }
-    [self.optionCells removeObjectAtIndex:index];
 }
 
 - (void)doneButtonPress:(id)sender {
@@ -261,13 +238,18 @@
 }
 
 - (void)showSuccess {
+    [[EVStatusBarManager sharedManager] setPostSuccess:^{
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
     if (self.delegate)
         [self.delegate editViewControllerMadeChanges:self];
-    self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 - (void)showFailure {
+    [[EVStatusBarManager sharedManager] setPostSuccess:^{
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+    }];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
     self.navigationItem.rightBarButtonItem.enabled = YES;
 }
@@ -334,6 +316,7 @@
                       withSuccess:^(EVGroupRequestTier *tier) {
                           [self showSuccess];
                           [[EVStatusBarManager sharedManager] setPostSuccess:^{
+                              self.navigationItem.rightBarButtonItem.enabled = YES;
                               [cell setTier:tier];
                           }];
                       } failure:^(NSError *error) {
@@ -342,8 +325,48 @@
 }
 
 - (void)deleteDataFromCell:(EVGroupRequestEditAmountCell *)cell {
+    NSInteger index = [self.optionCells indexOfObject:cell];
+    [self.tableView beginUpdates];
+    [self removeCellAtIndex:index];
+    [self.tableView deleteRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:index inSection:1]]
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
     
+    if (EV_IS_EMPTY_STRING(cell.optionAmountField.text))
+        return;
+    
+    [self showSaving];
+    [self.groupRequest deleteTier:cell.tier withSuccess:^{
+        [self showSuccess];
+    } failure:^(NSError *error) {
+        [self showFailure];
+        [self.optionCells insertObject:cell atIndex:index];
+        [self.tableView beginUpdates];
+        [self.tableView insertRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:index inSection:1] ]
+                              withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView endUpdates];
+    }];    
 }
+
+
+- (void)removeCellAtIndex:(NSInteger)index {
+    EVGroupRequestEditAmountCell *previous, *goner, *next = nil;
+    if (index > 0)
+        previous = [self.optionCells objectAtIndex:index-1];
+    goner = [self.optionCells objectAtIndex:index];
+    if ([self.optionCells count] > index+1)
+        next = [self.optionCells objectAtIndex:index+1];
+    
+    if (previous)
+    {
+        if (next)
+            previous.optionAmountField.next = next.optionNameField;
+        else
+            previous.optionAmountField.next = nil;
+    }
+    [self.optionCells removeObjectAtIndex:index];
+}
+
 
 #pragma mark - UITableViewDataSource
 

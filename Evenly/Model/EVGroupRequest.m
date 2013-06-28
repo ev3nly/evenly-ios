@@ -225,6 +225,9 @@
                                                         parameters:nil];
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
                                                                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                                  NSMutableArray *newTiers = [NSMutableArray arrayWithArray:self.tiers];
+                                                                                  [newTiers removeObject:tier];
+                                                                                  self.tiers = newTiers;
                                                                                   if (success)
                                                                                       success();
                                                                               }
