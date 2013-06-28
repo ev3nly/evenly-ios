@@ -60,10 +60,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         
-        self.doneButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
-        [self.doneButton addTarget:self action:@selector(doneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-        
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];        
     }
     return self;
 }
@@ -224,10 +220,6 @@
                                onCancel:NULL];
 
 
-}
-
-- (void)doneButtonPress:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - Managing State 
@@ -455,6 +447,7 @@
 - (void)keyboardWillShow:(NSNotification *)notification {
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, EV_DEFAULT_KEYBOARD_HEIGHT + 20, 0);
     [self.view addGestureRecognizer:self.tapGestureRecognizer];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {
@@ -467,7 +460,7 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     [self.tableView scrollToRowAtIndexPath:indexPath
                           atScrollPosition:UITableViewScrollPositionMiddle
-                                  animated:NO];
+                                  animated:YES];
 }
 
 @end
