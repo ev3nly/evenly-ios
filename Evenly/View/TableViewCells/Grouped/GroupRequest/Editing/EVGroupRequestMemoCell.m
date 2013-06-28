@@ -15,11 +15,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.fieldLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 0.0, 90.0, 44.0)];
-        self.fieldLabel.font = [EVFont blackFontOfSize:14];
-        self.fieldLabel.backgroundColor = [UIColor clearColor];
-        [self.contentView addSubview:self.fieldLabel];
-        
         CGRect textFieldRect = CGRectMake(CGRectGetMaxX(self.fieldLabel.frame) + 2.0,
                                           0.0,
                                           self.contentView.frame.size.width - CGRectGetMaxX(self.fieldLabel.frame) - 25.0,
@@ -27,12 +22,19 @@
         self.textField = [[EVPlaceholderTextView alloc] initWithFrame:textFieldRect];
         self.textField.font = [EVFont defaultFontOfSize:14];
         self.textField.backgroundColor = [UIColor clearColor];
+        self.textField.delegate = self;
         [self.contentView addSubview:self.textField];
         
         self.position = EVGroupedTableViewCellPositionBottom;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;
+}
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView {
+    if (self.handleTextChange)
+        self.handleTextChange(textView.text);
+    return YES;
 }
 
 /*

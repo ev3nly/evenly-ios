@@ -7,6 +7,7 @@
 //
 
 #import "EVGroupRequestEditAmountCell.h"
+#import "EVGroupRequestTier.h"
 
 #define DELETE_BUTTON_X_ORIGIN 10
 #define OPTION_NAME_FIELD_X_ORIGIN 35
@@ -34,6 +35,12 @@ NSString *const EVGroupRequestEditAmountCellBeganEditing = @"EVGroupRequestEditA
         self.editable = YES;
     }
     return self;
+}
+
+- (void)setTier:(EVGroupRequestTier *)tier {
+    _tier = tier;
+    self.optionNameField.text = tier.name;
+    self.optionAmountField.text = [EVStringUtility amountStringForAmount:tier.price];
 }
 
 - (void)loadDeleteButton {
@@ -87,8 +94,10 @@ NSString *const EVGroupRequestEditAmountCellBeganEditing = @"EVGroupRequestEditA
     });    
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    self.editing = NO;
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    if (self.handleTextChange)
+        self.handleTextChange((EVTextField *)textField);
+    return YES;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {

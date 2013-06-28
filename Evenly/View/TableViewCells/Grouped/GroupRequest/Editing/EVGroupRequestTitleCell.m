@@ -15,18 +15,14 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-        self.fieldLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 0.0, 90.0, 44.0)];
-        self.fieldLabel.font = [EVFont blackFontOfSize:14];
-        self.fieldLabel.backgroundColor = [UIColor clearColor];
-        [self.contentView addSubview:self.fieldLabel];
-    
+
         CGRect textFieldRect = CGRectMake(CGRectGetMaxX(self.fieldLabel.frame) + 10.0,
                                           10.0,
                                           self.contentView.frame.size.width - CGRectGetMaxX(self.fieldLabel.frame) - 20.0,
                                           24.0);
         self.textField = [[EVTextField alloc] initWithFrame:textFieldRect];
         self.textField.font = [EVFont defaultFontOfSize:14];
+        self.textField.delegate = self;
         [self.contentView addSubview:self.textField];
         
         self.position = EVGroupedTableViewCellPositionTop;
@@ -34,6 +30,13 @@
     }
     return self;
 }
+
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField {
+    if (self.handleTextChange)
+        self.handleTextChange(textField.text);
+    return YES;
+}
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

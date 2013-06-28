@@ -73,3 +73,7 @@ typedef enum {
 
 #define EV_MINIMUM_DEPOSIT_AMOUNT 0.50
 #define EV_MINIMUM_EXCHANGE_AMOUNT 0.50
+
+#pragma mark - Block Typedefs
+
+typedef void(^EVHandleTextChangeBlock)(NSString *text);

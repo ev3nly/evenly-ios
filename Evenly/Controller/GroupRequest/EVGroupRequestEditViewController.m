@@ -22,6 +22,8 @@
 #import "EVFormRow.h"
 #import "EVKeyboardTracker.h"
 
+#import "UIAlertView+MKBlockAdditions.h"
+
 #define FORM_LABEL_MARGIN 10
 #define FORM_LABEL_MAX_X 90
 
@@ -35,6 +37,9 @@
 
 @property (nonatomic, strong) NSMutableArray *optionCells;
 @property (nonatomic, strong) EVGroupRequestEditAddOptionCell *addOptionCell;
+
+@property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
+
 @property (nonatomic) BOOL isValid;
 
 @end
@@ -71,6 +76,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - View Loading
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -92,6 +99,8 @@
     
     [self loadCells];
     [self setUpReactions];
+    [self loadGestureRecognizer];
+    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -115,6 +124,10 @@
     self.titleCell.fieldLabel.text = @"Title";
     self.titleCell.textField.text = self.groupRequest.title;
     self.titleCell.textField.placeholder = @"Title";
+    __weak EVGroupRequestEditViewController *weakSelf = self;
+    self.titleCell.handleTextChange = ^(NSString *text) {
+        [weakSelf updateTitle:text];
+    };
 }
 
 - (void)loadMemoRow {
@@ -124,6 +137,10 @@
     self.memoCell.fieldLabel.text = @"Description";
     self.memoCell.textField.text = self.groupRequest.memo;
     self.memoCell.textField.placeholder = [EVStringUtility groupRequestDescriptionPlaceholder];
+    __weak EVGroupRequestEditViewController *weakSelf = self;
+    self.memoCell.handleTextChange = ^(NSString *text) {
+        [weakSelf updateMemo:text];
+    };
 }
 
 - (void)loadCells {
@@ -131,13 +148,22 @@
     
     for (EVGroupRequestTier *tier in self.groupRequest.tiers) {
         EVGroupRequestEditAmountCell *cell = [self configuredCell];
-        cell.optionNameField.text = tier.name;
-        cell.optionAmountField.text = [EVStringUtility amountStringForAmount:tier.price];
+        [cell setTier:tier];
         [cell setEditable:[self.groupRequest isTierEditable:tier]];
+        __weak EVGroupRequestEditViewController *weakSelf = self;
+        __weak EVGroupRequestEditAmountCell *weakCell = cell;
+        cell.handleTextChange = ^(EVTextField *textField) {
+            [weakSelf updateDataFromCell:weakCell textFieldThatResigned:textField];
+        };
         [self.optionCells addObject:cell];
     }
     [(EVGroupRequestEditAmountCell *)[self.optionCells objectAtIndex:0] setPosition:EVGroupedTableViewCellPositionTop];
     self.addOptionCell = [[EVGroupRequestEditAddOptionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addOptionCell"];
+}
+
+- (void)loadGestureRecognizer {
+    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureRecognized:)];
+    [self.view addGestureRecognizer:self.tapGestureRecognizer];    
 }
 
 - (void)setUpReactions {
@@ -185,20 +211,10 @@
     self.isValid = isAllGood;
 }
 
-- (void)keyboardWillShow:(NSNotification *)notification {
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, EV_DEFAULT_KEYBOARD_HEIGHT + 20, 0);
-}
+#pragma mark - Button Actions
 
-- (void)keyboardWillHide:(NSNotification *)notification {
-    self.tableView.contentInset = UIEdgeInsetsZero;
-}
-
-- (void)cellBeganEditing:(NSNotification *)notification {
-    EVGroupRequestEditAmountCell *cell = [notification object];
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    [self.tableView scrollToRowAtIndexPath:indexPath
-                          atScrollPosition:UITableViewScrollPositionMiddle
-                                  animated:NO];
+- (void)tapGestureRecognized:(UITapGestureRecognizer *)recognizer {
+    [self.view findAndResignFirstResponder];
 }
 
 - (void)deleteButtonPress:(UIButton *)sender {
@@ -235,74 +251,128 @@
 }
 
 - (void)saveButtonPress:(id)sender {
-    [self save];
+//    [self save];
 }
 
-- (void)save {
-    BOOL needsToSaveRequest = NO;
-    BOOL needsToSaveTiers = NO;
-        
-    if (![self.titleCell.textField.text isEqualToString:self.groupRequest.title] ||
-        ![self.memoCell.textField.text isEqualToString:self.groupRequest.memo])
-    {
-        needsToSaveRequest = YES;
-        self.groupRequest.title = self.titleCell.textField.text;
-        self.groupRequest.memo = self.memoCell.textField.text;
-    }
-    
-    NSMutableArray *tiersToUpdate = [NSMutableArray array];
-    NSMutableArray *tiersToAdd = [NSMutableArray array];
-    NSMutableArray *tiersToDelete = [NSMutableArray array];
-    int i = 0;
-    for ( ; i<self.optionCells.count; i++) {
-        EVGroupRequestEditAmountCell *cell = [self.optionCells objectAtIndex:i];
-        EVGroupRequestTier *tier = nil;
-        if (self.groupRequest.tiers.count > i) {
-            tier = [self.groupRequest.tiers objectAtIndex:i];
-        }
-        NSMutableDictionary *tierDictionary = [NSMutableDictionary dictionaryWithObject:[[EVStringUtility amountFromAmountString:cell.optionAmountField.text] stringValue]
-                                                                                 forKey:@"price"];
-        if (!EV_IS_EMPTY_STRING(cell.optionNameField.text)) {
-            [tierDictionary setObject:cell.optionNameField.text forKey:@"name"];
-        }
-        if (tier) {
-            [tierDictionary setObject:tier forKey:@"tier"];
-            [tiersToUpdate addObject:tierDictionary];
-        } else {
-            [tiersToAdd addObject:tierDictionary];
-        }
-    }
-    
-    for ( ; i<self.groupRequest.tiers.count; i++) {
-        EVGroupRequestTier *tier = [self.groupRequest.tiers objectAtIndex:i];
-        [tiersToDelete addObject:@{ @"tier" : tier }];
-    }
-    
-    needsToSaveTiers = ([tiersToUpdate count] > 0 || [tiersToAdd count] > 0 || [tiersToDelete count] > 0);
-    
-    __weak EVGroupRequestEditViewController *weakSelf = self;
-    
-    void (^tiersBlock)(void) = ^{
-        [weakSelf updateTiers:tiersToUpdate withCompletion:^{
-            [weakSelf addTiers:tiersToAdd withCompletion:^{
-                [weakSelf deleteTiers:tiersToDelete withCompletion:^{
-                    
-                }];
+//- (void)save {
+//    BOOL needsToSaveRequest = NO;
+//    BOOL needsToSaveTiers = NO;
+//        
+//    if (![self.titleCell.textField.text isEqualToString:self.groupRequest.title] ||
+//        ![self.memoCell.textField.text isEqualToString:self.groupRequest.memo])
+//    {
+//        needsToSaveRequest = YES;
+//        self.groupRequest.title = self.titleCell.textField.text;
+//        self.groupRequest.memo = self.memoCell.textField.text;
+//    }
+//    
+//    NSMutableArray *tiersToUpdate = [NSMutableArray array];
+//    NSMutableArray *tiersToAdd = [NSMutableArray array];
+//    NSMutableArray *tiersToDelete = [NSMutableArray array];
+//    int i = 0;
+//    for ( ; i<self.optionCells.count; i++) {
+//        EVGroupRequestEditAmountCell *cell = [self.optionCells objectAtIndex:i];
+//        EVGroupRequestTier *tier = nil;
+//        if (self.groupRequest.tiers.count > i) {
+//            tier = [self.groupRequest.tiers objectAtIndex:i];
+//        }
+//        NSMutableDictionary *tierDictionary = [NSMutableDictionary dictionaryWithObject:[[EVStringUtility amountFromAmountString:cell.optionAmountField.text] stringValue]
+//                                                                                 forKey:@"price"];
+//        if (!EV_IS_EMPTY_STRING(cell.optionNameField.text)) {
+//            [tierDictionary setObject:cell.optionNameField.text forKey:@"name"];
+//        }
+//        if (tier) {
+//            [tierDictionary setObject:tier forKey:@"tier"];
+//            [tiersToUpdate addObject:tierDictionary];
+//        } else {
+//            [tiersToAdd addObject:tierDictionary];
+//        }
+//    }
+//    
+//    for ( ; i<self.groupRequest.tiers.count; i++) {
+//        EVGroupRequestTier *tier = [self.groupRequest.tiers objectAtIndex:i];
+//        [tiersToDelete addObject:@{ @"tier" : tier }];
+//    }
+//    
+//    needsToSaveTiers = ([tiersToUpdate count] > 0 || [tiersToAdd count] > 0 || [tiersToDelete count] > 0);
+//    
+//    __weak EVGroupRequestEditViewController *weakSelf = self;
+//    
+//    void (^tiersBlock)(void) = ^{
+//        [weakSelf updateTiers:tiersToUpdate withCompletion:^{
+//            [weakSelf addTiers:tiersToAdd withCompletion:^{
+//                [weakSelf deleteTiers:tiersToDelete withCompletion:^{
+//                    
+//                }];
+//            }];
+//        }];
+//    };
+//}
+
+#pragma mark - Updating and Saving
+
+- (void)updateTitle:(NSString *)title {
+    NSString *previousTitle = self.groupRequest.title;
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SAVING..."];
+    self.groupRequest.title = title;
+    [self.groupRequest updateWithSuccess:^{
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+    } failure:^(NSError *error) {
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+        self.groupRequest.title = previousTitle;
+        self.titleCell.textField.text = previousTitle;
+    }];
+}
+
+- (void)updateMemo:(NSString *)memo {
+    NSString *previousMemo = self.groupRequest.memo;
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SAVING..."];
+    self.groupRequest.memo = memo;
+    [self.groupRequest updateWithSuccess:^{
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+    } failure:^(NSError *error) {
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+        self.groupRequest.memo = previousMemo;
+        self.titleCell.textField.text = previousMemo;
+    }];
+}
+
+- (void)updateDataFromCell:(EVGroupRequestEditAmountCell *)cell textFieldThatResigned:(EVTextField *)textField {
+    NSString *amountString = cell.optionAmountField.text;
+    NSDecimalNumber *amount = [EVStringUtility amountFromAmountString:amountString];
+    if ([amount floatValue] < EV_MINIMUM_EXCHANGE_AMOUNT) {
+        if (textField == cell.optionAmountField)
+        {
+            UIAlertView *alert = [UIAlertView alertViewWithTitle:@"Oops" message:@"Amount has to be at least fifty cents." cancelButtonTitle:@"OK" otherButtonTitles:nil onDismiss:nil onCancel:^{
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    [cell.optionAmountField becomeFirstResponder];                    
+                });
             }];
-        }];
-    };
-}
-
-- (void)updateTiers:(NSArray *)tiers withCompletion:(void (^)(void))completion {
-    
-}
-
-- (void)addTiers:(NSArray *)tiers withCompletion:(void (^)(void))completion {
-    
-}
-
-- (void)deleteTiers:(NSArray *)tiers withCompletion:(void (^)(void))completion {
-    
+            [alert show];
+        }
+        return;
+    }
+    EVGroupRequestTier *tier = nil;
+    if (cell.tier)
+    {
+        tier = cell.tier;
+    }
+    else
+    {
+        tier = [[EVGroupRequestTier alloc] init];
+    }
+    tier.name = cell.optionNameField.text;
+    tier.price = amount;
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SAVING..."];
+    [self.groupRequest saveTier:tier
+                      withSuccess:^(EVGroupRequestTier *tier) {
+                          [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+                          [[EVStatusBarManager sharedManager] setCompletion:^{
+                              [cell setTier:tier];
+                          }];
+                      } failure:^(NSError *error) {
+                          [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                      }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -358,6 +428,8 @@
     return cell;
 }
 
+#pragma mark - UITableViewDelegate
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == [self.optionCells count]) {
@@ -383,4 +455,23 @@
     [view addSubview:label];
     return view;
 }
+
+#pragma mark - Handling Keyboard
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, EV_DEFAULT_KEYBOARD_HEIGHT + 20, 0);
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+    self.tableView.contentInset = UIEdgeInsetsZero;
+}
+
+- (void)cellBeganEditing:(NSNotification *)notification {
+    EVGroupRequestEditAmountCell *cell = [notification object];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    [self.tableView scrollToRowAtIndexPath:indexPath
+                          atScrollPosition:UITableViewScrollPositionMiddle
+                                  animated:NO];
+}
+
 @end

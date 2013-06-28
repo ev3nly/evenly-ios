@@ -10,18 +10,24 @@
 #import "EVTextField.h"
 #import "EVCurrencyTextFieldFormatter.h"
 
+@class EVGroupRequestTier;
+
 extern NSString *const EVGroupRequestEditAmountCellBeganEditing;
 
+typedef void (^EVEditAmountCellHandleChangeBlock)(EVTextField *textField);
+
 @interface EVGroupRequestEditAmountCell : EVGroupedTableViewCell <UITextFieldDelegate>
+
+@property (nonatomic, weak) EVGroupRequestTier *tier;
 
 @property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, strong) EVTextField *optionNameField;
 @property (nonatomic, strong) EVTextField *optionAmountField;
 @property (nonatomic, strong) EVCurrencyTextFieldFormatter *currencyFormatter;
 
-@property (nonatomic, getter = isEditable) BOOL editable;
+@property (nonatomic, strong) EVEditAmountCellHandleChangeBlock handleTextChange;
 
-@property (nonatomic) BOOL isEditing;
+@property (nonatomic, getter = isEditable) BOOL editable;
 
 @end
 

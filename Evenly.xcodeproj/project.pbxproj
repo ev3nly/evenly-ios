@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		2D513647E3894A1A8D42D301 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CE045D00404F4EA21A23EC /* libPods.a */; };
 		4816BE3B1BA94FE69128633A /* libPods-KiwiUnitTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AECA7FADBCD48EB8F56C9B4 /* libPods-KiwiUnitTest.a */; };
+		9C038F70177E044A00CDE030 /* EVGroupRequestEditAmountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F69177E044A00CDE030 /* EVGroupRequestEditAmountCell.m */; };
+		9C038F71177E044A00CDE030 /* EVGroupRequestMemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F6B177E044A00CDE030 /* EVGroupRequestMemoCell.m */; };
+		9C038F72177E044A00CDE030 /* EVGroupRequestTextEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F6D177E044A00CDE030 /* EVGroupRequestTextEditCell.m */; };
+		9C038F73177E044A00CDE030 /* EVGroupRequestTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F6F177E044A00CDE030 /* EVGroupRequestTitleCell.m */; };
+		9C038F7C177E109A00CDE030 /* NSObject+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F77177E109A00CDE030 /* NSObject+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9C038F7D177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F79177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9C038F7E177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F7B177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9C0EC744175D1D6D003B93E2 /* KWSpec+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC732175D1C2E003B93E2 /* KWSpec+Helper.m */; };
 		9C0EC748175D479F003B93E2 /* EVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC747175D479F003B93E2 /* EVViewController.m */; };
 		9C0EC759175D7CFC003B93E2 /* EVHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC754175D7CFC003B93E2 /* EVHomeViewController.m */; };
@@ -179,9 +186,6 @@
 		9C659BFD177A3F690028072A /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C659BF9177A3F690028072A /* checked@2x.png */; };
 		9C659C00177A52F10028072A /* EVGrayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BFF177A52E10028072A /* EVGrayButton.m */; };
 		9C659C03177A8A050028072A /* EVGroupRequestStatementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */; };
-		9C6A1FE5177BCAC10006CEA2 /* EVGroupRequestTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6A1FE2177BCAA50006CEA2 /* EVGroupRequestTitleCell.m */; };
-		9C6A1FE6177BCAC10006CEA2 /* EVGroupRequestMemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6A1FE4177BCAB20006CEA2 /* EVGroupRequestMemoCell.m */; };
-		9C6A1FE9177BD48B0006CEA2 /* EVGroupRequestEditAmountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6A1FE8177BD4700006CEA2 /* EVGroupRequestEditAmountCell.m */; };
 		9C6F1B951761054100974850 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B941761054100974850 /* Default.png */; };
 		9C6F1B971761054400974850 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B961761054400974850 /* Default@2x.png */; };
 		9C6F1B991761054700974850 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B981761054700974850 /* Default-568h@2x.png */; };
@@ -417,6 +421,21 @@
 		515E5D96AE144F92BD22863B /* Pods-KiwiUnitTest.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KiwiUnitTest.xcconfig"; path = "Pods/Pods-KiwiUnitTest.xcconfig"; sourceTree = SOURCE_ROOT; };
 		58CE045D00404F4EA21A23EC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AECA7FADBCD48EB8F56C9B4 /* libPods-KiwiUnitTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KiwiUnitTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C038F68177E044A00CDE030 /* EVGroupRequestEditAmountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestEditAmountCell.h; sourceTree = "<group>"; };
+		9C038F69177E044A00CDE030 /* EVGroupRequestEditAmountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestEditAmountCell.m; sourceTree = "<group>"; };
+		9C038F6A177E044A00CDE030 /* EVGroupRequestMemoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestMemoCell.h; sourceTree = "<group>"; };
+		9C038F6B177E044A00CDE030 /* EVGroupRequestMemoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestMemoCell.m; sourceTree = "<group>"; };
+		9C038F6C177E044A00CDE030 /* EVGroupRequestTextEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestTextEditCell.h; sourceTree = "<group>"; };
+		9C038F6D177E044A00CDE030 /* EVGroupRequestTextEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestTextEditCell.m; sourceTree = "<group>"; };
+		9C038F6E177E044A00CDE030 /* EVGroupRequestTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestTitleCell.h; sourceTree = "<group>"; };
+		9C038F6F177E044A00CDE030 /* EVGroupRequestTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestTitleCell.m; sourceTree = "<group>"; };
+		9C038F75177E109A00CDE030 /* MKBlockAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKBlockAdditions.h; sourceTree = "<group>"; };
+		9C038F76177E109A00CDE030 /* NSObject+MKBlockAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MKBlockAdditions.h"; sourceTree = "<group>"; };
+		9C038F77177E109A00CDE030 /* NSObject+MKBlockAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MKBlockAdditions.m"; sourceTree = "<group>"; };
+		9C038F78177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+MKBlockAdditions.h"; sourceTree = "<group>"; };
+		9C038F79177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+MKBlockAdditions.m"; sourceTree = "<group>"; };
+		9C038F7A177E109A00CDE030 /* UIAlertView+MKBlockAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+MKBlockAdditions.h"; sourceTree = "<group>"; };
+		9C038F7B177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+MKBlockAdditions.m"; sourceTree = "<group>"; };
 		9C0EC731175D1C2E003B93E2 /* KWSpec+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KWSpec+Helper.h"; sourceTree = "<group>"; };
 		9C0EC732175D1C2E003B93E2 /* KWSpec+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KWSpec+Helper.m"; sourceTree = "<group>"; };
 		9C0EC746175D479F003B93E2 /* EVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVViewController.h; sourceTree = "<group>"; };
@@ -437,8 +456,6 @@
 		9C1DEC31177B6A230057526D /* EVGroupRequestStatementLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestStatementLabel.m; sourceTree = "<group>"; };
 		9C1DEC33177B86E20057526D /* EVGroupRequestCompletedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestCompletedCell.h; sourceTree = "<group>"; };
 		9C1DEC34177B86E20057526D /* EVGroupRequestCompletedCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestCompletedCell.m; sourceTree = "<group>"; };
-		9C1DEC4A177BAF9A0057526D /* EVGroupRequestEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestEditViewController.h; sourceTree = "<group>"; };
-		9C1DEC4B177BAF9A0057526D /* EVGroupRequestEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestEditViewController.m; sourceTree = "<group>"; };
 		9C1DEC36177B9E040057526D /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		9C1DEC37177B9E050057526D /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
 		9C1DEC38177B9E050057526D /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -447,6 +464,8 @@
 		9C1DEC3D177B9E050057526D /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		9C1DEC46177B9E170057526D /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		9C1DEC47177B9E170057526D /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		9C1DEC4A177BAF9A0057526D /* EVGroupRequestEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestEditViewController.h; sourceTree = "<group>"; };
+		9C1DEC4B177BAF9A0057526D /* EVGroupRequestEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestEditViewController.m; sourceTree = "<group>"; };
 		9C1F47CD1756914B00B26A1B /* NSArray+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+EVAdditions.h"; sourceTree = "<group>"; };
 		9C1F47CE1756914B00B26A1B /* NSArray+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+EVAdditions.m"; sourceTree = "<group>"; };
 		9C1F47CF1756914B00B26A1B /* NSDictionary+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+EVAdditions.h"; sourceTree = "<group>"; };
@@ -691,12 +710,6 @@
 		9C659BFF177A52E10028072A /* EVGrayButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGrayButton.m; sourceTree = "<group>"; };
 		9C659C01177A88E50028072A /* EVGroupRequestStatementCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestStatementCell.h; sourceTree = "<group>"; };
 		9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestStatementCell.m; sourceTree = "<group>"; };
-		9C6A1FE1177BCAA50006CEA2 /* EVGroupRequestTitleCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestTitleCell.h; sourceTree = "<group>"; };
-		9C6A1FE2177BCAA50006CEA2 /* EVGroupRequestTitleCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestTitleCell.m; sourceTree = "<group>"; };
-		9C6A1FE3177BCAB20006CEA2 /* EVGroupRequestMemoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestMemoCell.h; sourceTree = "<group>"; };
-		9C6A1FE4177BCAB20006CEA2 /* EVGroupRequestMemoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestMemoCell.m; sourceTree = "<group>"; };
-		9C6A1FE7177BD4700006CEA2 /* EVGroupRequestEditAmountCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestEditAmountCell.h; sourceTree = "<group>"; };
-		9C6A1FE8177BD4700006CEA2 /* EVGroupRequestEditAmountCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestEditAmountCell.m; sourceTree = "<group>"; };
 		9C6F1B941761054100974850 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9C6F1B961761054400974850 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9C6F1B981761054700974850 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -1057,6 +1070,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9C038F67177E044A00CDE030 /* Editing */ = {
+			isa = PBXGroup;
+			children = (
+				9C038F6C177E044A00CDE030 /* EVGroupRequestTextEditCell.h */,
+				9C038F6D177E044A00CDE030 /* EVGroupRequestTextEditCell.m */,
+				9C038F6A177E044A00CDE030 /* EVGroupRequestMemoCell.h */,
+				9C038F6B177E044A00CDE030 /* EVGroupRequestMemoCell.m */,
+				9C038F6E177E044A00CDE030 /* EVGroupRequestTitleCell.h */,
+				9C038F6F177E044A00CDE030 /* EVGroupRequestTitleCell.m */,
+				9C038F68177E044A00CDE030 /* EVGroupRequestEditAmountCell.h */,
+				9C038F69177E044A00CDE030 /* EVGroupRequestEditAmountCell.m */,
+			);
+			path = Editing;
+			sourceTree = "<group>";
+		};
+		9C038F74177E109A00CDE030 /* MKAdditions */ = {
+			isa = PBXGroup;
+			children = (
+				9C038F75177E109A00CDE030 /* MKBlockAdditions.h */,
+				9C038F76177E109A00CDE030 /* NSObject+MKBlockAdditions.h */,
+				9C038F77177E109A00CDE030 /* NSObject+MKBlockAdditions.m */,
+				9C038F78177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.h */,
+				9C038F79177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m */,
+				9C038F7A177E109A00CDE030 /* UIAlertView+MKBlockAdditions.h */,
+				9C038F7B177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m */,
+			);
+			path = MKAdditions;
+			sourceTree = "<group>";
+		};
 		9C0EC745175D478A003B93E2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -1546,6 +1588,7 @@
 			isa = PBXGroup;
 			children = (
 				9C659BE3177A28CF0028072A /* Dashboard */,
+				9C038F67177E044A00CDE030 /* Editing */,
 				9C659BEA177A28CF0028072A /* EVGroupRequestUserCell.h */,
 				9C659BEB177A28CF0028072A /* EVGroupRequestUserCell.m */,
 				9C659BF0177A29940028072A /* EVGroupRequestPaymentOptionCell.h */,
@@ -1554,12 +1597,6 @@
 				9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */,
 				9C1DEC33177B86E20057526D /* EVGroupRequestCompletedCell.h */,
 				9C1DEC34177B86E20057526D /* EVGroupRequestCompletedCell.m */,
-				9C6A1FE1177BCAA50006CEA2 /* EVGroupRequestTitleCell.h */,
-				9C6A1FE2177BCAA50006CEA2 /* EVGroupRequestTitleCell.m */,
-				9C6A1FE3177BCAB20006CEA2 /* EVGroupRequestMemoCell.h */,
-				9C6A1FE4177BCAB20006CEA2 /* EVGroupRequestMemoCell.m */,
-				9C6A1FE7177BD4700006CEA2 /* EVGroupRequestEditAmountCell.h */,
-				9C6A1FE8177BD4700006CEA2 /* EVGroupRequestEditAmountCell.m */,
 			);
 			path = GroupRequest;
 			sourceTree = "<group>";
@@ -2047,6 +2084,7 @@
 				9CEEB834175526EC00C24C2A /* AESCrypt-ObjC */,
 				9CE05EEC175942610095CCFC /* JASidePanel */,
 				9C504465177122850090D865 /* JSTokenField */,
+				9C038F74177E109A00CDE030 /* MKAdditions */,
 				9CEEB840175526EC00C24C2A /* KeychainItemWrapper */,
 				D0211529176687A50063EE03 /* SVPullToRefresh */,
 			);
@@ -2407,7 +2445,6 @@
 				9CB285BC1761521E009B26BB /* PendingIncome@2x.png in Resources */,
 				9CB285BD1761521E009B26BB /* PendingPayment.png in Resources */,
 				9CB285BE1761521E009B26BB /* PendingPayment@2x.png in Resources */,
-				9C1DEC48177B9E170057526D /* Icon-72.png in Resources */,
 				9CB285BF1761521E009B26BB /* Transfer.png in Resources */,
 				9CB285C01761521E009B26BB /* Transfer@2x.png in Resources */,
 				9C54287D176F9DB60028F141 /* Request-Slider-White@2x.png in Resources */,
@@ -2425,7 +2462,6 @@
 				9C504478177122850090D865 /* tokenNormal.png in Resources */,
 				9C542896176FD6470028F141 /* Request-header-dot-hole.png in Resources */,
 				9C2684CE1766851700AEA624 /* Action_RequestActive.png in Resources */,
-				9C1DEC41177B9E050057526D /* Icon-Small@2x.png in Resources */,
 				9C2684CF1766851700AEA624 /* Action_RequestActive@2x.png in Resources */,
 				9C32422D1777AD3F004A358F /* Progress-Active@2x.png in Resources */,
 				9C778DE517679ADA0053F9D6 /* Btn_Header_Active.png in Resources */,
@@ -2474,26 +2510,21 @@
 				9C2DD0B1176A923400EAA3D1 /* Back@2x.png in Resources */,
 				D06DFAF61769473A00A06564 /* Privacy-Check.png in Resources */,
 				9C54289A176FD6470028F141 /* Request-header-hole.png in Resources */,
-				9C1DEC44177B9E050057526D /* iTunesArtwork.png in Resources */,
 				D06DFAF71769473A00A06564 /* Privacy-Check@2x.png in Resources */,
 				9C542886176FA0F60028F141 /* Request-Group-Dark@2x.png in Resources */,
 				9CBCAE221778C0150039AB39 /* More@2x.png in Resources */,
 				9C58DC52176BAFE80057C019 /* toggle_handle.png in Resources */,
 				9C58DC53176BAFE80057C019 /* toggle_handle@2x.png in Resources */,
-				9C1DEC45177B9E050057526D /* iTunesArtwork@2x.png in Resources */,
-				9C1DEC3E177B9E050057526D /* Icon-Small-50.png in Resources */,
 				9C58DC54176BAFE80057C019 /* toggle_off_bg.png in Resources */,
 				9C542897176FD6470028F141 /* Request-header-dot-hole@2x.png in Resources */,
 				9C58DC55176BAFE80057C019 /* toggle_off_bg@2x.png in Resources */,
 				9C58DC56176BAFE80057C019 /* toggle_on_bg.png in Resources */,
 				9C58DC57176BAFE80057C019 /* toggle_on_bg@2x.png in Resources */,
-				9C1DEC40177B9E050057526D /* Icon-Small.png in Resources */,
 				9C2E4FA6176E7A3A00ACE30E /* www.paywithivy.com.cer in Resources */,
 				D077A8C4177419EA001BAAAD /* Request-Invite-Friends-Banner.png in Resources */,
 				D077A8C5177419EA001BAAAD /* Request-Invite-Friends-Banner@2x.png in Resources */,
 				D0770B3F177519BF0002B572 /* add-photo.png in Resources */,
 				D0770B40177519BF0002B572 /* add-photo@2x.png in Resources */,
-				9C1DEC49177B9E170057526D /* Icon-72@2x.png in Resources */,
 				D0770B4317751D740002B572 /* DefaultAvatar.png in Resources */,
 				D0770B4417751D740002B572 /* DefaultAvatar@2x.png in Resources */,
 				D093B99C17755E530036BDBD /* Icon@2x.png in Resources */,
@@ -2509,7 +2540,6 @@
 				D093B9AF17757AEF0036BDBD /* status-success@2x.png in Resources */,
 				D07FBB3F1777C59F009D8AF3 /* onboard-card1.png in Resources */,
 				9C659BD7177A11820028072A /* Request-Reminder-Bell.png in Resources */,
-				9C1DEC3F177B9E050057526D /* Icon-Small-50@2x.png in Resources */,
 				D07FBB401777C59F009D8AF3 /* onboard-card1@2x.png in Resources */,
 				D07FBB411777C59F009D8AF3 /* onboard-card2.png in Resources */,
 				D07FBB421777C59F009D8AF3 /* onboard-card2@2x.png in Resources */,
@@ -2660,7 +2690,6 @@
 				9CEEB846175526EC00C24C2A /* ABContact.m in Sources */,
 				9CEEB847175526EC00C24C2A /* ABContactsHelper.m in Sources */,
 				9C3917351773CEBB002949C3 /* EVGroupRequestDashboardTableViewDataSource.m in Sources */,
-				9C6A1FE9177BD48B0006CEA2 /* EVGroupRequestEditAmountCell.m in Sources */,
 				9CEEB848175526EC00C24C2A /* ABGroup.m in Sources */,
 				9C32421B1777A31B004A358F /* EVProgressBarForeground.m in Sources */,
 				9CEEB84A175526EC00C24C2A /* AESCrypt.m in Sources */,
@@ -2679,7 +2708,6 @@
 				9C1F47F21756914B00B26A1B /* UIView+EVAdditions.m in Sources */,
 				9C659BEF177A28CF0028072A /* EVGroupRequestUserCell.m in Sources */,
 				9C1DEC32177B6A2A0057526D /* EVGroupRequestStatementLabel.m in Sources */,
-				9C6A1FE5177BCAC10006CEA2 /* EVGroupRequestTitleCell.m in Sources */,
 				9C1F47F31756914B00B26A1B /* UITableView+EVAdditions.m in Sources */,
 				9C863CA01772AEBC003ADB49 /* EVGroupRequestTier.m in Sources */,
 				9C1F47F41756914B00B26A1B /* EVAnalyticsUtility.m in Sources */,
@@ -2690,6 +2718,7 @@
 				9C1F47F81756914B00B26A1B /* EVKeyboardTracker.m in Sources */,
 				9C1F47F91756914B00B26A1B /* EVPINUtility.m in Sources */,
 				9C1F47FB1756914B00B26A1B /* EVStringUtility.m in Sources */,
+				9C038F7D177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m in Sources */,
 				9C1F47FC1756914B00B26A1B /* EVUtilities.m in Sources */,
 				9C1F47FD1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m in Sources */,
 				9C5044211770E8CE0090D865 /* EVRequestInitialView.m in Sources */,
@@ -2709,6 +2738,7 @@
 				9C863C9017729702003ADB49 /* EVHistoryCell.m in Sources */,
 				9C504430177114580090D865 /* EVPlaceholderTextView.m in Sources */,
 				9C1F4829175691B600B26A1B /* EVObject.m in Sources */,
+				9C038F7E177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m in Sources */,
 				9C1F482A175691B600B26A1B /* EVPayment.m in Sources */,
 				9C1F482B175691B600B26A1B /* EVSerializer.m in Sources */,
 				9C1F482C175691B600B26A1B /* EVSession.m in Sources */,
@@ -2748,6 +2778,7 @@
 				9CD306AB1762970300D23852 /* EVStoryCell.m in Sources */,
 				9CD306A5176287E400D23852 /* EVWalletStamp.m in Sources */,
 				9CD306A817628E7E00D23852 /* EVWalletItemCell.m in Sources */,
+				9C038F71177E044A00CDE030 /* EVGroupRequestMemoCell.m in Sources */,
 				9C659C03177A8A050028072A /* EVGroupRequestStatementCell.m in Sources */,
 				9C2684B9176683BB00AEA624 /* EVFloatingButton.m in Sources */,
 				9C863C8E17729702003ADB49 /* EVFundingSourceCell.m in Sources */,
@@ -2763,7 +2794,7 @@
 				9CE76DBD17679BDC005953C8 /* EVExchangeViewController.m in Sources */,
 				9CE76DC01767A92F005953C8 /* EVLikeButton.m in Sources */,
 				9CD17D16177245160022AE84 /* EVRequestMultipleDetailsView.m in Sources */,
-				9C6A1FE6177BCAC10006CEA2 /* EVGroupRequestMemoCell.m in Sources */,
+				9C038F73177E044A00CDE030 /* EVGroupRequestTitleCell.m in Sources */,
 				D03F1E1C1767BB070067A428 /* EVExchangeFormView.m in Sources */,
 				9C542859176F76EA0028F141 /* EVCardsViewController.m in Sources */,
 				9C542858176F76EA0028F141 /* EVAddCardViewController.m in Sources */,
@@ -2814,6 +2845,8 @@
 				D0C30B0117721927005606E8 /* EVPendingDetailCell.m in Sources */,
 				9C659BED177A28CF0028072A /* EVDashboardTitleCell.m in Sources */,
 				D077A8C0177391B4001BAAAD /* EVProfileCell.m in Sources */,
+				9C038F72177E044A00CDE030 /* EVGroupRequestTextEditCell.m in Sources */,
+				9C038F7C177E109A00CDE030 /* NSObject+MKBlockAdditions.m in Sources */,
 				D077A8C817741B3E001BAAAD /* EVNoActivityCell.m in Sources */,
 				D077A8CB17743324001BAAAD /* EVProfileHistoryCell.m in Sources */,
 				9C659C00177A52F10028072A /* EVGrayButton.m in Sources */,
@@ -2826,6 +2859,7 @@
 				D05797E91778D7E40012EB13 /* EVSignUpViewController.m in Sources */,
 				D095EEDA1778F05A0016F434 /* EVCheckmarkButton.m in Sources */,
 				D093004A177AAA8C009F1881 /* EVSetPINViewController.m in Sources */,
+				9C038F70177E044A00CDE030 /* EVGroupRequestEditAmountCell.m in Sources */,
 				D093004D177BBEA5009F1881 /* EVPINView.m in Sources */,
 				D0930055177BEC61009F1881 /* UILabel+EVAdditions.m in Sources */,
 				D0930058177C0519009F1881 /* EVEnterPINViewController.m in Sources */,

@@ -6,12 +6,11 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVGroupedTableViewCell.h"
+#import "EVGroupRequestTextEditCell.h"
 #import "EVPlaceholderTextView.h"
 
-@interface EVGroupRequestMemoCell : EVGroupedTableViewCell
+@interface EVGroupRequestMemoCell : EVGroupRequestTextEditCell <UITextViewDelegate>
 
-@property (nonatomic, strong) UILabel *fieldLabel;
 @property (nonatomic, strong) EVPlaceholderTextView *textField;
 
 @end

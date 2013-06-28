@@ -155,7 +155,18 @@
                                                                               failure(error);
                                                                       }];
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
 
+- (EVGroupRequestTier *)replaceOrInsertTier:(EVGroupRequestTier *)tier withResponseObject:(NSDictionary *)responseObject {
+    EVGroupRequestTier *newTier = [[EVGroupRequestTier alloc] initWithDictionary:responseObject];
+    NSMutableArray *tmpTiers = [NSMutableArray arrayWithArray:self.tiers];
+    if ([tmpTiers indexOfObject:tier] == NSNotFound) {
+        [tmpTiers addObject:newTier];
+    } else {
+        [tmpTiers replaceObjectAtIndex:[tmpTiers indexOfObject:tier] withObject:newTier];
+    }
+    self.tiers = (NSArray *)tmpTiers;
+    return newTier;
 }
 
 - (void)saveTier:(EVGroupRequestTier *)tier
@@ -181,10 +192,8 @@
                                                               path:path
                                                         parameters:params];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        EVGroupRequestTier *tier = [[EVGroupRequestTier alloc] initWithDictionary:responseObject];
-        self.tiers = [self.tiers arrayByAddingObject:tier];
-        success(tier);
+        EVGroupRequestTier *newTier = [self replaceOrInsertTier:tier withResponseObject:responseObject];
+        success(newTier);
     };
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
                                                                               success:successBlock
@@ -254,10 +263,14 @@
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
-- (EVGroupRequestRecord *)replaceRecord:(EVGroupRequestRecord *)record withResponseObject:(NSDictionary *)responseObject {
+- (EVGroupRequestRecord *)replaceOrInsertRecord:(EVGroupRequestRecord *)record withResponseObject:(NSDictionary *)responseObject {
     EVGroupRequestRecord *newRecord = [[EVGroupRequestRecord alloc] initWithGroupRequest:self properties:responseObject];
     NSMutableArray *tmpRecords = [NSMutableArray arrayWithArray:self.records];
-    [tmpRecords replaceObjectAtIndex:[tmpRecords indexOfObject:record] withObject:newRecord];
+    if ([tmpRecords indexOfObject:record] == NSNotFound) {
+        [tmpRecords addObject:newRecord];
+    } else {
+        [tmpRecords replaceObjectAtIndex:[tmpRecords indexOfObject:record] withObject:newRecord];
+    }
     self.records = (NSArray *)tmpRecords;
     return newRecord;
 }
@@ -283,7 +296,7 @@
                                                               path:path
                                                         parameters:params];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        EVGroupRequestRecord *newRecord = [self replaceRecord:record withResponseObject:responseObject];
+        EVGroupRequestRecord *newRecord = [self replaceOrInsertRecord:record withResponseObject:responseObject];
         success(newRecord);
     };
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
