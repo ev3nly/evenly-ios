@@ -30,7 +30,3 @@ typedef void (^EVEditAmountCellHandleChangeBlock)(EVTextField *textField);
 @property (nonatomic, getter = isEditable) BOOL editable;
 
 @end
-
-@interface EVGroupRequestEditAddOptionCell : EVGroupedTableViewCell
-
-@end

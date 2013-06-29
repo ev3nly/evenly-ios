@@ -10,9 +10,6 @@
 		2D513647E3894A1A8D42D301 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58CE045D00404F4EA21A23EC /* libPods.a */; };
 		4816BE3B1BA94FE69128633A /* libPods-KiwiUnitTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AECA7FADBCD48EB8F56C9B4 /* libPods-KiwiUnitTest.a */; };
 		9C038F70177E044A00CDE030 /* EVGroupRequestEditAmountCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F69177E044A00CDE030 /* EVGroupRequestEditAmountCell.m */; };
-		9C038F71177E044A00CDE030 /* EVGroupRequestMemoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F6B177E044A00CDE030 /* EVGroupRequestMemoCell.m */; };
-		9C038F72177E044A00CDE030 /* EVGroupRequestTextEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F6D177E044A00CDE030 /* EVGroupRequestTextEditCell.m */; };
-		9C038F73177E044A00CDE030 /* EVGroupRequestTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F6F177E044A00CDE030 /* EVGroupRequestTitleCell.m */; };
 		9C038F7C177E109A00CDE030 /* NSObject+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F77177E109A00CDE030 /* NSObject+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9C038F7D177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F79177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9C038F7E177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F7B177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -423,12 +420,6 @@
 		6AECA7FADBCD48EB8F56C9B4 /* libPods-KiwiUnitTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KiwiUnitTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C038F68177E044A00CDE030 /* EVGroupRequestEditAmountCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestEditAmountCell.h; sourceTree = "<group>"; };
 		9C038F69177E044A00CDE030 /* EVGroupRequestEditAmountCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestEditAmountCell.m; sourceTree = "<group>"; };
-		9C038F6A177E044A00CDE030 /* EVGroupRequestMemoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestMemoCell.h; sourceTree = "<group>"; };
-		9C038F6B177E044A00CDE030 /* EVGroupRequestMemoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestMemoCell.m; sourceTree = "<group>"; };
-		9C038F6C177E044A00CDE030 /* EVGroupRequestTextEditCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestTextEditCell.h; sourceTree = "<group>"; };
-		9C038F6D177E044A00CDE030 /* EVGroupRequestTextEditCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestTextEditCell.m; sourceTree = "<group>"; };
-		9C038F6E177E044A00CDE030 /* EVGroupRequestTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestTitleCell.h; sourceTree = "<group>"; };
-		9C038F6F177E044A00CDE030 /* EVGroupRequestTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestTitleCell.m; sourceTree = "<group>"; };
 		9C038F75177E109A00CDE030 /* MKBlockAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKBlockAdditions.h; sourceTree = "<group>"; };
 		9C038F76177E109A00CDE030 /* NSObject+MKBlockAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+MKBlockAdditions.h"; sourceTree = "<group>"; };
 		9C038F77177E109A00CDE030 /* NSObject+MKBlockAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MKBlockAdditions.m"; sourceTree = "<group>"; };
@@ -1073,12 +1064,6 @@
 		9C038F67177E044A00CDE030 /* Editing */ = {
 			isa = PBXGroup;
 			children = (
-				9C038F6C177E044A00CDE030 /* EVGroupRequestTextEditCell.h */,
-				9C038F6D177E044A00CDE030 /* EVGroupRequestTextEditCell.m */,
-				9C038F6A177E044A00CDE030 /* EVGroupRequestMemoCell.h */,
-				9C038F6B177E044A00CDE030 /* EVGroupRequestMemoCell.m */,
-				9C038F6E177E044A00CDE030 /* EVGroupRequestTitleCell.h */,
-				9C038F6F177E044A00CDE030 /* EVGroupRequestTitleCell.m */,
 				9C038F68177E044A00CDE030 /* EVGroupRequestEditAmountCell.h */,
 				9C038F69177E044A00CDE030 /* EVGroupRequestEditAmountCell.m */,
 			);
@@ -2778,7 +2763,6 @@
 				9CD306AB1762970300D23852 /* EVStoryCell.m in Sources */,
 				9CD306A5176287E400D23852 /* EVWalletStamp.m in Sources */,
 				9CD306A817628E7E00D23852 /* EVWalletItemCell.m in Sources */,
-				9C038F71177E044A00CDE030 /* EVGroupRequestMemoCell.m in Sources */,
 				9C659C03177A8A050028072A /* EVGroupRequestStatementCell.m in Sources */,
 				9C2684B9176683BB00AEA624 /* EVFloatingButton.m in Sources */,
 				9C863C8E17729702003ADB49 /* EVFundingSourceCell.m in Sources */,
@@ -2794,7 +2778,6 @@
 				9CE76DBD17679BDC005953C8 /* EVExchangeViewController.m in Sources */,
 				9CE76DC01767A92F005953C8 /* EVLikeButton.m in Sources */,
 				9CD17D16177245160022AE84 /* EVRequestMultipleDetailsView.m in Sources */,
-				9C038F73177E044A00CDE030 /* EVGroupRequestTitleCell.m in Sources */,
 				D03F1E1C1767BB070067A428 /* EVExchangeFormView.m in Sources */,
 				9C542859176F76EA0028F141 /* EVCardsViewController.m in Sources */,
 				9C542858176F76EA0028F141 /* EVAddCardViewController.m in Sources */,
@@ -2845,7 +2828,6 @@
 				D0C30B0117721927005606E8 /* EVPendingDetailCell.m in Sources */,
 				9C659BED177A28CF0028072A /* EVDashboardTitleCell.m in Sources */,
 				D077A8C0177391B4001BAAAD /* EVProfileCell.m in Sources */,
-				9C038F72177E044A00CDE030 /* EVGroupRequestTextEditCell.m in Sources */,
 				9C038F7C177E109A00CDE030 /* NSObject+MKBlockAdditions.m in Sources */,
 				D077A8C817741B3E001BAAAD /* EVNoActivityCell.m in Sources */,
 				D077A8CB17743324001BAAAD /* EVProfileHistoryCell.m in Sources */,

@@ -12,9 +12,8 @@
 #import "EVGroupedTableViewCell.h"
 #import "EVGroupRequestTier.h"
 
-#import "EVGroupRequestTitleCell.h"
-#import "EVGroupRequestMemoCell.h"
 #import "EVNavigationBarButton.h"
+#import "EVGrayButton.h"
 
 #import "EVTextField.h"
 #import "EVPlaceholderTextView.h"
@@ -33,11 +32,8 @@
 @property (nonatomic, strong) EVNavigationBarButton *cancelButton;
 @property (nonatomic, strong) EVNavigationBarButton *saveButton;
 
-@property (nonatomic, strong) EVGroupRequestTitleCell *titleCell;
-@property (nonatomic, strong) EVGroupRequestMemoCell *memoCell;
-
 @property (nonatomic, strong) NSMutableArray *optionCells;
-@property (nonatomic, strong) EVGroupRequestEditAddOptionCell *addOptionCell;
+@property (nonatomic, strong) EVGrayButton *addOptionButton;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 
@@ -56,7 +52,7 @@
     self = [self initWithNibName:nil bundle:nil];
     if (self) {
         self.groupRequest = groupRequest;
-        self.title = @"Edit Request";
+        self.title = @"Payment Options";
     }
     return self;
 }
@@ -74,10 +70,18 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.cancelButton];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.saveButton];
         
+        self.addOptionButton = [[EVGrayButton alloc] initWithFrame:[self addOptionButtonFrame]];
+        [self.addOptionButton addTarget:self action:@selector(addOptionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+        [self.addOptionButton setTitle:@"ADD OPTION" forState:UIControlStateNormal];
+        
         self.blockQueue = [NSMutableArray array];
         self.operationQueue = [[NSOperationQueue alloc] init];
     }
     return self;
+}
+
+- (CGRect)addOptionButtonFrame {
+    return CGRectMake(10, 10, 300, 35);
 }
 
 - (void)dealloc {
@@ -134,7 +138,6 @@
         [self.optionCells addObject:cell];
     }
     [(EVGroupRequestEditAmountCell *)[self.optionCells objectAtIndex:0] setPosition:EVGroupedTableViewCellPositionTop];
-    self.addOptionCell = [[EVGroupRequestEditAddOptionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addOptionCell"];
 }
 
 - (void)addNewCell {
@@ -238,73 +241,10 @@
     [self.optionCells removeObjectAtIndex:index];
 }
 
+#pragma mark - Button Actions
 
-#pragma mark - Managing State 
-
-- (void)showSaving {
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SAVING..."];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-}
-
-- (void)showSuccess {
-    [[EVStatusBarManager sharedManager] setDuringSuccess:^{
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-    }];
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-    if (self.delegate)
-        [self.delegate editViewControllerMadeChanges:self];
-}
-
-- (void)showFailure {
-    [[EVStatusBarManager sharedManager] setDuringSuccess:^{
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-    }];
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-    self.navigationItem.rightBarButtonItem.enabled = YES;
-}
-
-#pragma mark - Updating and Saving
-
-- (void)updateDataFromCell:(EVGroupRequestEditAmountCell *)cell textFieldThatResigned:(EVTextField *)textField {
-    NSString *amountString = cell.optionAmountField.text;
-    NSDecimalNumber *amount = [EVStringUtility amountFromAmountString:amountString];
-    
-    // Early exit if invalid amount.
-    if ([amount floatValue] < EV_MINIMUM_EXCHANGE_AMOUNT) {
-        if (textField == cell.optionAmountField)
-        {
-            UIAlertView *alert = [UIAlertView alertViewWithTitle:@"Oops" message:@"Amount has to be at least fifty cents." cancelButtonTitle:@"OK" otherButtonTitles:nil onDismiss:nil onCancel:^{
-                EV_PERFORM_ON_MAIN_QUEUE(^{
-                    [cell.optionAmountField becomeFirstResponder];                    
-                });
-            }];
-            [alert show];
-        }
-        return;
-    }
-    
-    EVGroupRequestTier *tier = nil;
-    if (cell.tier)
-    {
-        tier = cell.tier;
-    }
-    else
-    {
-        tier = [[EVGroupRequestTier alloc] init];
-    }
-    tier.name = cell.optionNameField.text;
-    tier.price = amount;
-    [self showSaving];
-    [self.groupRequest saveTier:tier
-                      withSuccess:^(EVGroupRequestTier *tier) {
-                          [self showSuccess];
-                          [[EVStatusBarManager sharedManager] setDuringSuccess:^{
-                              self.navigationItem.rightBarButtonItem.enabled = YES;
-                              [cell setTier:tier];
-                          }];
-                      } failure:^(NSError *error) {
-                          [self showFailure];
-                      }];
+- (void)addOptionButtonPress:(id)sender {
+    [self addNewCell];
 }
 
 - (void)cancelButtonPress:(id)sender {
@@ -314,6 +254,8 @@
 - (void)saveButtonPress:(id)sender {
     [self save];
 }
+
+#pragma mark - Saving
 
 - (void)save {
     for (EVGroupRequestEditAmountCell *cell in self.optionCells) {
@@ -411,47 +353,28 @@
     return 1;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 30.0;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.optionCells count] + 1;
+    return [self.optionCells count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 35.0;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 44.0;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;
-    if (indexPath.row == [self.optionCells count]) {
-        cell = self.addOptionCell;
-    }
-    else {
-        cell = [self.optionCells objectAtIndex:indexPath.row];
-    }
-    return cell;
+    return [self.optionCells objectAtIndex:indexPath.row];
 }
 
 #pragma mark - UITableViewDelegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == [self.optionCells count]) {
-        [self addNewCell];
-    }
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(18, 5, self.view.frame.size.width - 36, 20)];
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = [EVColor lightLabelColor];
-    label.font = [EVFont blackFontOfSize:15];
-    label.text = @"Payment Options";
-    
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
-    [view addSubview:label];
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 55)];
+    [self.addOptionButton setFrame:[self addOptionButtonFrame]];
+    [view addSubview:self.addOptionButton];
     return view;
 }
 
