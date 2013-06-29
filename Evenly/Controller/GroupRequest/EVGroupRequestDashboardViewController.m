@@ -153,9 +153,8 @@ typedef enum {
     {
         EVGroupRequestEditViewController *editViewController = [[EVGroupRequestEditViewController alloc] initWithGroupRequest:self.groupRequest];
         editViewController.delegate = self;
-        [self.navigationController pushViewController:editViewController animated:YES];
-//        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
-//        [self presentViewController:navController animated:YES completion:NULL];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
+        [self presentViewController:navController animated:YES completion:NULL];
     }
 }
 
