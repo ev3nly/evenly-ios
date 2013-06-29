@@ -16,6 +16,7 @@ typedef void(^EVStatusBarManagerCompletionBlock)(void);
 + (EVStatusBarManager *)sharedManager;
 
 @property (nonatomic, strong) EVStatusBarManagerCompletionBlock preSuccess;
+@property (nonatomic, strong) EVStatusBarManagerCompletionBlock duringSuccess;
 @property (nonatomic, strong) EVStatusBarManagerCompletionBlock postSuccess;
 
 - (void)setStatus:(EVStatusBarStatus)status; //default text

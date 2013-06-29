@@ -43,6 +43,11 @@
 
 @property (nonatomic) BOOL needsSaving;
 
+@property (nonatomic, strong) NSMutableArray *blockQueue;
+@property (nonatomic, strong) NSOperationQueue *operationQueue;
+
+- (void)doNextBlock;
+
 @end
 
 @implementation EVGroupRequestEditViewController
@@ -68,6 +73,9 @@
         
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.cancelButton];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.saveButton];
+        
+        self.blockQueue = [NSMutableArray array];
+        self.operationQueue = [[NSOperationQueue alloc] init];
     }
     return self;
 }
@@ -122,11 +130,22 @@
     for (EVGroupRequestTier *tier in self.groupRequest.tiers) {
         EVGroupRequestEditAmountCell *cell = [self configuredCell];
         [cell setTier:tier];
-        [cell setEditable:[self.groupRequest isTierEditable:tier]];
+        [cell setEditable:NO];
         [self.optionCells addObject:cell];
     }
     [(EVGroupRequestEditAmountCell *)[self.optionCells objectAtIndex:0] setPosition:EVGroupedTableViewCellPositionTop];
     self.addOptionCell = [[EVGroupRequestEditAddOptionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addOptionCell"];
+}
+
+- (void)addNewCell {
+    EVGroupRequestEditAmountCell *cell = [self configuredCell];
+    [cell setEditable:YES];
+    [cell.optionNameField setNext:cell.optionAmountField];
+    [self.optionCells addObject:cell];
+    [self.tableView beginUpdates];
+    [self.tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.optionCells count]-1 inSection:0]]
+                     withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
 }
 
 - (void)loadGestureRecognizer {
@@ -148,7 +167,7 @@
     EVGroupRequestEditAmountCell *previousCell = [self.optionCells lastObject];
     if (previousCell)
     {
-        previousCell.optionAmountField.next = cell.optionNameField;
+        previousCell.optionNameField.next = cell.optionNameField;
     }
     
     [cell.optionNameField.rac_textSignal subscribeNext:^(id x) {
@@ -201,6 +220,25 @@
     [self checkIfNeedsSaving];
 }
 
+- (void)removeCellAtIndex:(NSInteger)index {
+    EVGroupRequestEditAmountCell *previous, *goner, *next = nil;
+    if (index > 0)
+        previous = [self.optionCells objectAtIndex:index-1];
+    goner = [self.optionCells objectAtIndex:index];
+    if ([self.optionCells count] > index+1)
+        next = [self.optionCells objectAtIndex:index+1];
+    
+    if (previous)
+    {
+        if (next)
+            previous.optionNameField.next = next.optionNameField;
+        else
+            previous.optionNameField.next = nil;
+    }
+    [self.optionCells removeObjectAtIndex:index];
+}
+
+
 #pragma mark - Managing State 
 
 - (void)showSaving {
@@ -209,7 +247,7 @@
 }
 
 - (void)showSuccess {
-    [[EVStatusBarManager sharedManager] setPostSuccess:^{
+    [[EVStatusBarManager sharedManager] setDuringSuccess:^{
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
@@ -218,7 +256,7 @@
 }
 
 - (void)showFailure {
-    [[EVStatusBarManager sharedManager] setPostSuccess:^{
+    [[EVStatusBarManager sharedManager] setDuringSuccess:^{
         self.navigationItem.rightBarButtonItem.enabled = YES;
     }];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
@@ -260,31 +298,13 @@
     [self.groupRequest saveTier:tier
                       withSuccess:^(EVGroupRequestTier *tier) {
                           [self showSuccess];
-                          [[EVStatusBarManager sharedManager] setPostSuccess:^{
+                          [[EVStatusBarManager sharedManager] setDuringSuccess:^{
                               self.navigationItem.rightBarButtonItem.enabled = YES;
                               [cell setTier:tier];
                           }];
                       } failure:^(NSError *error) {
                           [self showFailure];
                       }];
-}
-
-- (void)removeCellAtIndex:(NSInteger)index {
-    EVGroupRequestEditAmountCell *previous, *goner, *next = nil;
-    if (index > 0)
-        previous = [self.optionCells objectAtIndex:index-1];
-    goner = [self.optionCells objectAtIndex:index];
-    if ([self.optionCells count] > index+1)
-        next = [self.optionCells objectAtIndex:index+1];
-    
-    if (previous)
-    {
-        if (next)
-            previous.optionAmountField.next = next.optionNameField;
-        else
-            previous.optionAmountField.next = nil;
-    }
-    [self.optionCells removeObjectAtIndex:index];
 }
 
 - (void)cancelButtonPress:(id)sender {
@@ -296,7 +316,93 @@
 }
 
 - (void)save {
+    for (EVGroupRequestEditAmountCell *cell in self.optionCells) {
+        NSString *amountString = cell.optionAmountField.text;
+        NSDecimalNumber *amount = [EVStringUtility amountFromAmountString:amountString];
+        
+        // Early exit if invalid amount.
+        if ([amount floatValue] < EV_MINIMUM_EXCHANGE_AMOUNT) {
+            UIAlertView *alert = [UIAlertView alertViewWithTitle:@"Oops" message:@"Amount has to be at least fifty cents." cancelButtonTitle:@"OK" otherButtonTitles:nil onDismiss:nil onCancel:^{
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    [cell.optionAmountField becomeFirstResponder];
+                });
+            }];
+            [alert show];
+            
+            [self.blockQueue removeAllObjects];
+            return;
+        }
+        
+        // Skip any cells that don't need saving.
+        if (cell.tier &&
+            [cell.tier.price isEqualToNumber:amount] &&
+            [cell.tier.name isEqualToString:cell.optionNameField.text])
+        {
+            continue;
+        }
+        
+        [self.blockQueue addObject:[self blockOperationForCell:cell]];
+    }
+    
+    [self.blockQueue addObject:[self finalBlockOperation]];
 
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SAVING..."];
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [[self operationQueue] setSuspended:NO];
+    [self doNextBlock];
+}
+
+- (void)doNextBlock {
+    if (self.blockQueue.count) {
+		[self.operationQueue addOperation:[self.blockQueue objectAtIndex:0]];
+		[self.blockQueue removeObjectAtIndex:0];
+	}
+}
+
+- (void)errorOut {
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+    [[self operationQueue] setSuspended:YES];
+    [self.blockQueue removeAllObjects];
+    self.navigationItem.leftBarButtonItem.enabled = YES;
+    [self checkIfNeedsSaving];
+}
+
+- (NSBlockOperation *)blockOperationForCell:(EVGroupRequestEditAmountCell *)cell {    
+    
+    return [NSBlockOperation blockOperationWithBlock:^{
+        
+        DLog(@"Block for cell %@", cell);
+        EVGroupRequestTier *tier = nil;
+        if (!cell.tier)
+        {
+            tier = [[EVGroupRequestTier alloc] init];
+            tier.name = cell.optionNameField.text;
+            tier.price = [EVStringUtility amountFromAmountString:cell.optionAmountField.text];
+        } else {
+            tier = cell.tier;
+        }
+        [self.groupRequest saveTier:tier
+                        withSuccess:^(EVGroupRequestTier *tier) {
+                            [self doNextBlock];
+                        } failure:^(NSError *error) {
+                            [self errorOut];
+                        }];
+    }];
+}
+
+- (NSBlockOperation *)finalBlockOperation {
+    return [NSBlockOperation blockOperationWithBlock:^{
+        DLog(@"Final block");
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+        [[EVStatusBarManager sharedManager] setPostSuccess:^{
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+         }];
+        if (self.delegate) {
+            [self.delegate editViewControllerMadeChanges:self];
+        }
+
+    }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -333,12 +439,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == [self.optionCells count]) {
-        EVGroupRequestEditAmountCell *cell = [self configuredCell];
-        [self.optionCells addObject:cell];
-        [tableView beginUpdates];
-        [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.optionCells count]-1 inSection:0]]
-                         withRowAnimation:UITableViewRowAnimationAutomatic];
-        [tableView endUpdates];
+        [self addNewCell];
     }
 }
 
@@ -359,7 +460,6 @@
 - (void)keyboardWillShow:(NSNotification *)notification {
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, EV_DEFAULT_KEYBOARD_HEIGHT + 20, 0);
     [self.view addGestureRecognizer:self.tapGestureRecognizer];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification {

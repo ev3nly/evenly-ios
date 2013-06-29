@@ -157,7 +157,7 @@
     
     [EVSession createWithEmail:self.emailField.text password:self.passwordField.text success:^{
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-        [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+        [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
             if (self.authenticationSuccess)
                 self.authenticationSuccess();
             [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];

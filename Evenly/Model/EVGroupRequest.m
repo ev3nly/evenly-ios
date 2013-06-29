@@ -187,7 +187,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (!EV_IS_EMPTY_STRING(tier.name))
         [params setObject:tier.name forKey:@"name"];
-    [params setObject:[tier.price stringValue] forKey:@"price"];
+    if ([method isEqualToString:@"POST"])
+        [params setObject:[tier.price stringValue] forKey:@"price"];
     NSMutableURLRequest *request = [[self class] requestWithMethod:method
                                                               path:path
                                                         parameters:params];

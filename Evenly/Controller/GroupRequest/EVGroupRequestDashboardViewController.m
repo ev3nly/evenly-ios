@@ -170,7 +170,7 @@ typedef enum {
     [self.groupRequest updateWithSuccess:^{
         [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-        [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+        [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
             [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             }];
         };
