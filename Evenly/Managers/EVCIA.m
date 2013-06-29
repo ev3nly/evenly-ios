@@ -72,7 +72,6 @@ static EVCIA *_sharedInstance;
                                                 error:&error];
         if (data && !error)
         {
-            DLog(@"Got disk-cached data at path %@", [EVStringUtility cachePathFromURL:url]);
             image = [UIImage imageWithData:data];
             [self.imageCache setObject:image forKey:url];
         }

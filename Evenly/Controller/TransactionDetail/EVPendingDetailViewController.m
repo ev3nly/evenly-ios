@@ -60,7 +60,7 @@
         [request completeWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                     [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
                     }];
@@ -81,7 +81,7 @@
         [request denyWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                     [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
                     }];
@@ -102,7 +102,7 @@
         [request remindWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                     [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
                     }];
@@ -123,7 +123,7 @@
         [request cancelWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                     [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
                     }];

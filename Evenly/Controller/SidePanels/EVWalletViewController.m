@@ -261,7 +261,6 @@
                 EVCreditCard *activeCard = [[EVCIA sharedInstance] activeCreditCard];
                 if (activeCard) {
                     value = [activeCard lastFour];
-                    DLog(@"activeCard brand: %@", activeCard.brand);
                     EVWalletStamp *stamp = [[EVWalletStamp alloc] initWithText:activeCard.brand
                                                                       maxWidth:100];
                     cell.stamp = stamp;

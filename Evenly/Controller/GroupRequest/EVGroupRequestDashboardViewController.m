@@ -14,6 +14,7 @@
 #import "EVGroupRequestProgressView.h"
 
 #import "EVGroupRequestRecordViewController.h"
+#import "EVGroupRequestEditViewController.h"
 
 typedef enum {
     EVGroupRequestActionEdit,
@@ -100,7 +101,7 @@ typedef enum {
                                                              delegate:self
                                                     cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Edit", @"Invite", @"Close Request", nil];
+                                                    otherButtonTitles:@"Payment Options", @"Invite", @"Close Request", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -147,7 +148,13 @@ typedef enum {
                                               cancelButtonTitle:@"No"
                                               otherButtonTitles:@"Yes", nil];
         [alert show];
-        
+    }
+    else if (buttonIndex == EVGroupRequestActionEdit)
+    {
+        EVGroupRequestEditViewController *editViewController = [[EVGroupRequestEditViewController alloc] initWithGroupRequest:self.groupRequest];
+        editViewController.delegate = self;
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
+        [self presentViewController:navController animated:YES completion:NULL];
     }
 }
 
@@ -163,13 +170,20 @@ typedef enum {
     [self.groupRequest updateWithSuccess:^{
         [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-        [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+        [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
             [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             }];
         };
     } failure:^(NSError *error) {
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
     }];
+}
+
+#pragma mark - EVGroupRequestEditViewControllerDelegate
+
+- (void)editViewControllerMadeChanges:(EVGroupRequestEditViewController *)editViewController {
+    self.title = self.groupRequest.title;
+    [self.tableView reloadData];
 }
 
 @end

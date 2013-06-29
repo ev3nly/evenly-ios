@@ -28,10 +28,16 @@
 - (NSDecimalNumber *)totalPaid;
 - (float)progress;
 
+- (BOOL)isTierEditable:(EVGroupRequestTier *)tier;
+
 #pragma mark - API Interactions
 #pragma mark Tiers
 - (void)allTiersWithSuccess:(void (^)(NSArray *tiers))success
                     failure:(void (^)(NSError *error))failure;
+
+- (void)saveTier:(EVGroupRequestTier *)tier
+     withSuccess:(void (^)(EVGroupRequestTier *tier))success
+         failure:(void (^)(NSError *error))failure;
 
 - (void)addTier:(EVGroupRequestTier *)tier
     withSuccess:(void (^)(EVGroupRequestTier *tier))success
