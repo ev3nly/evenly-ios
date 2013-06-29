@@ -50,6 +50,7 @@
     self.tableView.backgroundView = nil;
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     [self.tableView registerClass:[EVGroupRequestUserCell class] forCellReuseIdentifier:@"userCell"];
     [self.tableView registerClass:[EVGroupRequestPaymentOptionCell class] forCellReuseIdentifier:@"paymentOptionCell"];
     [self.tableView registerClass:[EVGroupRequestStatementCell class] forCellReuseIdentifier:@"statementCell"];
@@ -112,7 +113,7 @@
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"MARKING COMPLETE..."];
     [self.record.groupRequest markRecordCompleted:self.record
                                       withSuccess:^(EVGroupRequestRecord *record) {
-                                          [EVStatusBarManager sharedManager].postSuccess = ^{
+                                          [EVStatusBarManager sharedManager].duringSuccess = ^{
                                               self.record = record;
                                               [self.dataSource setRecord:self.record];
                                               [self.tableView reloadData];

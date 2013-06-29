@@ -156,15 +156,18 @@ static EVStatusBarManager *_sharedManager = nil;
         CGRect destinationFrame = self.progressView.frame;
         destinationFrame.origin.y += destinationFrame.size.height+10;
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-        if (self.postSuccess)
-            self.postSuccess();
-        self.postSuccess = nil;
+        if (self.duringSuccess)
+            self.duringSuccess();
+        self.duringSuccess = nil;
         [UIView animateWithDuration:0.4
                          animations:^{
                              self.progressView.frame = destinationFrame;
                          } completion:^(BOOL finished) {
                              [self.progressView removeFromSuperview];
                              [self runStackAction];
+                             if (self.postSuccess)
+                                 self.postSuccess();
+                             self.postSuccess = nil;
                          }];
     });
 }
