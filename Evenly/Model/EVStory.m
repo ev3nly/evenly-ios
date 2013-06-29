@@ -11,6 +11,7 @@
 #import "EVPayment.h"
 #import "EVRequest.h"
 #import "EVWithdrawal.h"
+#import "EVGroupRequest.h"
 
 @interface EVStory ()
 
@@ -55,6 +56,22 @@
     EVStory *story = [EVStory new];
     [story setProperties:properties];
     story.displayType = EVStoryDisplayTypeCompletedTransactionDetail;
+    return story;
+}
+
++ (EVStory *)storyFromGroupRequest:(EVGroupRequest *)groupRequest {
+    NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:0];
+    [properties setObject:@"requested" forKey:@"verb"];
+    [properties setObject:groupRequest.memo forKey:@"description"];
+    [properties setObject:groupRequest.createdAt forKey:@"published_at"];
+//    [properties setObject:nil forKey:@"amount"];
+    [properties setObject:(groupRequest.from ?: [EVCIA me]) forKey:@"subject"];
+    [properties setObject:@"User" forKey:@"owner_type"];
+    [properties setObject:[EVCIA me].dbid forKey:@"owner_id"];
+    
+    EVStory *story = [EVStory new];
+    [story setProperties:properties];
+    story.displayType = EVStoryDisplayTypePendingTransactionDetail;
     return story;
 }
 
@@ -184,16 +201,23 @@
                                                  attributes:nounAttributes];
         }
     }
-    
-    if (self.storyType == EVStoryTypeOutgoing || self.storyType == EVStoryTypePendingOutgoing)
-        amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
-                                                 attributes:negativeAttributes];
-    else if (self.storyType == EVStoryTypeNotInvolved || self.storyType == EVStoryTypeWithdrawal)
-        amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
-                                                 attributes:nounAttributes];
+    if (self.amount == nil)
+    {
+        amount = [[NSAttributedString alloc] initWithString:@"money" attributes:nounAttributes];
+    }
     else
-        amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
-                                                 attributes:positiveAttributes];
+    {
+        if (self.storyType == EVStoryTypeOutgoing || self.storyType == EVStoryTypePendingOutgoing)
+            amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
+                                                     attributes:negativeAttributes];
+        else if (self.storyType == EVStoryTypeNotInvolved || self.storyType == EVStoryTypeWithdrawal)
+            amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
+                                                     attributes:nounAttributes];
+        else
+            amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
+                                                     attributes:positiveAttributes];
+    }
+
     if (!EV_IS_EMPTY_STRING(self.storyDescription)) {
         NSString *preposition = (self.storyType == EVStoryTypeWithdrawal) ? @"into" : @"for";
         description = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", preposition, self.storyDescription]
