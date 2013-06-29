@@ -30,7 +30,8 @@
 
 @interface EVGroupRequestEditViewController ()
 
-@property (nonatomic, strong) EVNavigationBarButton *doneButton;
+@property (nonatomic, strong) EVNavigationBarButton *cancelButton;
+@property (nonatomic, strong) EVNavigationBarButton *saveButton;
 
 @property (nonatomic, strong) EVGroupRequestTitleCell *titleCell;
 @property (nonatomic, strong) EVGroupRequestMemoCell *memoCell;
@@ -40,7 +41,7 @@
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGestureRecognizer;
 
-@property (nonatomic) BOOL isValid;
+@property (nonatomic) BOOL needsSaving;
 
 @end
 
@@ -59,7 +60,14 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        self.cancelButton = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
+        [self.cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         
+        self.saveButton = [[EVNavigationBarButton alloc] initWithTitle:@"Save"];
+        [self.saveButton addTarget:self action:@selector(saveButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+        
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.cancelButton];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.saveButton];
     }
     return self;
 }
@@ -73,9 +81,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [self loadTitleRow];
-    [self loadMemoRow];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
@@ -93,6 +98,7 @@
     [self setUpReactions];
     [self loadGestureRecognizer];
     
+    self.needsSaving = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -108,31 +114,6 @@
                                              selector:@selector(cellBeganEditing:)
                                                  name:EVGroupRequestEditAmountCellBeganEditing
                                                object:nil];
-}
-
-- (void)loadTitleRow {
-    self.titleCell = [[EVGroupRequestTitleCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                    reuseIdentifier:@"titleCell"];
-    self.titleCell.fieldLabel.text = @"Title";
-    self.titleCell.textField.text = self.groupRequest.title;
-    self.titleCell.textField.placeholder = @"Title";
-    __weak EVGroupRequestEditViewController *weakSelf = self;
-    self.titleCell.handleTextChange = ^(NSString *text) {
-        [weakSelf updateTitle:text];
-    };
-}
-
-- (void)loadMemoRow {
-    
-    self.memoCell = [[EVGroupRequestMemoCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                    reuseIdentifier:@"memoCell"];
-    self.memoCell.fieldLabel.text = @"Description";
-    self.memoCell.textField.text = self.groupRequest.memo;
-    self.memoCell.textField.placeholder = [EVStringUtility groupRequestDescriptionPlaceholder];
-    __weak EVGroupRequestEditViewController *weakSelf = self;
-    self.memoCell.handleTextChange = ^(NSString *text) {
-        [weakSelf updateMemo:text];
-    };
 }
 
 - (void)loadCells {
@@ -153,8 +134,8 @@
 }
 
 - (void)setUpReactions {
-    [RACAble(self.isValid) subscribeNext:^(NSNumber *isValidNumber) {
-        self.navigationItem.rightBarButtonItem.enabled = self.isValid;
+    [RACAble(self.needsSaving) subscribeNext:^(NSNumber *isValidNumber) {
+        self.navigationItem.rightBarButtonItem.enabled = self.needsSaving;
     }];
 }
 
@@ -170,36 +151,37 @@
         previousCell.optionAmountField.next = cell.optionNameField;
     }
     
-    [cell.optionAmountField.rac_textSignal subscribeNext:^(NSString *x) {
-        [self validate];
+    [cell.optionNameField.rac_textSignal subscribeNext:^(id x) {
+        [self checkIfNeedsSaving];
     }];
-    
-    __weak EVGroupRequestEditViewController *weakSelf = self;
-    __weak EVGroupRequestEditAmountCell *weakCell = cell;
-    cell.handleTextChange = ^(EVTextField *textField) {
-        [weakSelf updateDataFromCell:weakCell textFieldThatResigned:textField];
-    };
+    [cell.optionAmountField.rac_textSignal subscribeNext:^(NSString *x) {
+        [self checkIfNeedsSaving];
+    }];
+
     return cell;
 }
 
-- (void)validate {
-    
-    if (EV_IS_EMPTY_STRING(self.titleCell.textField.text)) {
-        self.isValid = NO;
-        return;
-    }
-    
-    BOOL isAllGood = YES;
+- (void)checkIfNeedsSaving {
+    BOOL needsSaving = NO;
     
     for (EVGroupRequestEditAmountCell *cell in self.optionCells) {
-        float amount = [[EVStringUtility amountFromAmountString:cell.optionAmountField.text] floatValue];
-        if (amount < EV_MINIMUM_EXCHANGE_AMOUNT)
+        if (!cell.tier)
         {
-            isAllGood = NO;
-            break;
+            if (!EV_IS_EMPTY_STRING(cell.optionAmountField.text)) {
+                needsSaving = YES;
+                break;
+            }
+        } 
+        else
+        {
+            NSString *newText = cell.optionNameField.text;
+            if (![newText isEqualToString:cell.tier.name]) {
+                needsSaving = YES;
+                break;
+            }
         }
     }
-    self.isValid = isAllGood;
+    self.needsSaving = needsSaving;
 }
 
 #pragma mark - Button Actions
@@ -210,16 +192,13 @@
 
 - (void)deleteButtonPress:(UIButton *)sender {
     EVGroupRequestEditAmountCell *cell = (EVGroupRequestEditAmountCell *)[[sender superview] superview];
-    
-    [UIActionSheet actionSheetWithTitle:@"Are you sure?"
-                                message:nil
-                 destructiveButtonTitle:@"Delete"
-                                buttons:nil
-                             showInView:self.view
-                              onDismiss:^(int buttonIndex) { [self deleteDataFromCell:cell]; }
-                               onCancel:NULL];
-
-
+    NSInteger index = [self.optionCells indexOfObject:cell];
+    [self.tableView beginUpdates];
+    [self removeCellAtIndex:index];
+    [self.tableView deleteRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:index inSection:0]]
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
+    [self checkIfNeedsSaving];
 }
 
 #pragma mark - Managing State 
@@ -247,32 +226,6 @@
 }
 
 #pragma mark - Updating and Saving
-
-- (void)updateTitle:(NSString *)title {
-    NSString *previousTitle = self.groupRequest.title;
-    [self showSaving];
-    self.groupRequest.title = title;
-    [self.groupRequest updateWithSuccess:^{
-        [self showSuccess];
-    } failure:^(NSError *error) {
-        [self showFailure];
-        self.groupRequest.title = previousTitle;
-        self.titleCell.textField.text = previousTitle;
-    }];
-}
-
-- (void)updateMemo:(NSString *)memo {
-    NSString *previousMemo = self.groupRequest.memo;
-    [self showSaving];
-    self.groupRequest.memo = memo;
-    [self.groupRequest updateWithSuccess:^{
-        [self showSuccess];
-    } failure:^(NSError *error) {
-        [self showFailure];
-        self.groupRequest.memo = previousMemo;
-        self.titleCell.textField.text = previousMemo;
-    }];
-}
 
 - (void)updateDataFromCell:(EVGroupRequestEditAmountCell *)cell textFieldThatResigned:(EVTextField *)textField {
     NSString *amountString = cell.optionAmountField.text;
@@ -316,31 +269,6 @@
                       }];
 }
 
-- (void)deleteDataFromCell:(EVGroupRequestEditAmountCell *)cell {
-    NSInteger index = [self.optionCells indexOfObject:cell];
-    [self.tableView beginUpdates];
-    [self removeCellAtIndex:index];
-    [self.tableView deleteRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:index inSection:1]]
-                          withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView endUpdates];
-    
-    if (EV_IS_EMPTY_STRING(cell.optionAmountField.text))
-        return;
-    
-    [self showSaving];
-    [self.groupRequest deleteTier:cell.tier withSuccess:^{
-        [self showSuccess];
-    } failure:^(NSError *error) {
-        [self showFailure];
-        [self.optionCells insertObject:cell atIndex:index];
-        [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:index inSection:1] ]
-                              withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.tableView endUpdates];
-    }];    
-}
-
-
 - (void)removeCellAtIndex:(NSInteger)index {
     EVGroupRequestEditAmountCell *previous, *goner, *next = nil;
     if (index > 0)
@@ -359,56 +287,43 @@
     [self.optionCells removeObjectAtIndex:index];
 }
 
+- (void)cancelButtonPress:(id)sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)saveButtonPress:(id)sender {
+    [self save];
+}
+
+- (void)save {
+
+}
 
 #pragma mark - UITableViewDataSource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0)
-        return 0.0;
     return 30.0;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    if (section == 0)
-        return 2;
-
     return [self.optionCells count] + 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0)
-    {
-        if (indexPath.row == 0) {
-            return 44;
-        } else if (indexPath.row == 1) {
-            return 74;
-        }
-    }
     return 35.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = nil;
-    if (indexPath.section == 0)
-    {
-        if (indexPath.row == 0) {
-            cell = self.titleCell;
-        } else if (indexPath.row == 1) {
-            cell = self.memoCell;
-        }
+    if (indexPath.row == [self.optionCells count]) {
+        cell = self.addOptionCell;
     }
     else {
-        if (indexPath.row == [self.optionCells count]) {
-            cell = self.addOptionCell;
-        }
-        else {
-            cell = [self.optionCells objectAtIndex:indexPath.row];
-        }
+        cell = [self.optionCells objectAtIndex:indexPath.row];
     }
     return cell;
 }
@@ -421,16 +336,13 @@
         EVGroupRequestEditAmountCell *cell = [self configuredCell];
         [self.optionCells addObject:cell];
         [tableView beginUpdates];
-        [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.optionCells count]-1 inSection:1]]
+        [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.optionCells count]-1 inSection:0]]
                          withRowAnimation:UITableViewRowAnimationAutomatic];
         [tableView endUpdates];
     }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (section == 0)
-        return nil;
-    
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(18, 5, self.view.frame.size.width - 36, 20)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [EVColor lightLabelColor];
