@@ -84,13 +84,14 @@
 }
 
 - (void)loadTableView {
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [EVColor creamColor];
+    self.tableView.backgroundView = nil;
     [self.tableView registerClass:[EVStoryCell class] forCellReuseIdentifier:@"storyCell"];
     [self.view addSubview:self.tableView];
 }
@@ -167,9 +168,14 @@
 
 #pragma mark - UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger count = [self.newsfeed count];
     return count;
+    
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -178,8 +184,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVStoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storyCell" forIndexPath:indexPath];
-    EVStory *story = [self.newsfeed objectAtIndex:indexPath.row];
-    [story setLikeCount:indexPath.row];
+    EVStory *story = [self.newsfeed objectAtIndex:indexPath.section];
+    [story setLikeCount:indexPath.section];
     cell.story = story;
     return cell;
 }
@@ -189,7 +195,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    EVStory *story = [self.newsfeed objectAtIndex:indexPath.row];
+    EVStory *story = [self.newsfeed objectAtIndex:indexPath.section];
     [self.navigationController pushViewController:[[EVTransactionDetailViewController alloc] initWithStory:story] animated:YES];
 }
 
