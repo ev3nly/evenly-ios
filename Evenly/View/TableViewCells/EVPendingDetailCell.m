@@ -54,7 +54,7 @@
     [self.rejectButton setTitle:@"REJECT" forState:UIControlStateNormal];
     [self.rejectButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
     self.rejectButton.titleLabel.font = [EVFont defaultButtonFont];
-    [self.tombstoneBackground addSubview:self.rejectButton];
+    [self.contentView addSubview:self.rejectButton];
     self.rejectButton.frame = [self rejectButtonFrame];
 }
 
@@ -67,7 +67,7 @@
     [self.confirmButton setTitle:@"PAY" forState:UIControlStateNormal];
     [self.confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.confirmButton.titleLabel.font = [EVFont defaultButtonFont];
-    [self.tombstoneBackground addSubview:self.confirmButton];
+    [self.contentView addSubview:self.confirmButton];
     self.confirmButton.frame = [self confirmButtonFrame];
 }
 
@@ -79,7 +79,7 @@
     [self.cancelButton setTitle:@"CANCEL" forState:UIControlStateNormal];
     [self.cancelButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
     self.cancelButton.titleLabel.font = [EVFont defaultButtonFont];
-    [self.tombstoneBackground addSubview:self.cancelButton];
+    [self.contentView addSubview:self.cancelButton];
     self.cancelButton.frame = [self rejectButtonFrame];
 }
 
@@ -91,7 +91,7 @@
     [self.remindButton setTitle:@"REMIND" forState:UIControlStateNormal];
     [self.remindButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.remindButton.titleLabel.font = [EVFont defaultButtonFont];
-    [self.tombstoneBackground addSubview:self.remindButton];
+    [self.contentView addSubview:self.remindButton];
     self.remindButton.frame = [self confirmButtonFrame];
 }
 
@@ -132,7 +132,7 @@
     CGSize labelSize = [self.dateLabel.text sizeWithFont:self.dateLabel.font
                                        constrainedToSize:CGSizeMake(self.bounds.size.width, 100000)
                                            lineBreakMode:self.dateLabel.lineBreakMode];
-    return CGRectMake(CGRectGetMidX(self.tombstoneBackground.bounds) - labelSize.width/2,
+    return CGRectMake(CGRectGetMidX(self.contentView.bounds) - labelSize.width/2,
                       CGRectGetMaxY(self.storyLabel.frame) + PENDING_STORY_DATE_BUFFER,
                       labelSize.width,
                       labelSize.height);
@@ -145,7 +145,7 @@
 - (CGRect)rejectButtonFrame {
     return CGRectMake(PENDING_BUTTON_BUFFER,
                       self.horizontalRuleFrame.origin.y + PENDING_BUTTON_BUFFER,
-                      (self.tombstoneBackground.bounds.size.width - PENDING_BUTTON_BUFFER*3)/2,
+                      (self.contentView.bounds.size.width - PENDING_BUTTON_BUFFER*3)/2,
                       [self bottomSectionHeight] - PENDING_BUTTON_BUFFER*2);
 }
 
