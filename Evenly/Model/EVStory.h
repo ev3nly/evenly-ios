@@ -9,6 +9,7 @@
 #import "EVObject.h"
 
 @class EVExchange;
+@class EVGroupRequest;
 
 typedef enum {
     EVStoryTypeNotInvolved,
@@ -46,6 +47,7 @@ typedef enum {
 
 + (EVStory *)storyFromPendingExchange:(EVExchange *)exchange;
 + (EVStory *)storyFromCompletedExchange:(EVExchange *)exchange;
++ (EVStory *)storyFromGroupRequest:(EVGroupRequest *)groupRequest;
 + (EVStory *)storyFromWithdrawal:(EVWithdrawal *)withdrawal;
 
 @end

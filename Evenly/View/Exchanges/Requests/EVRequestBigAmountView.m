@@ -67,6 +67,20 @@
     [self addSubview:self.minimumAmountLabel];
 }
 
+#pragma mark - First Responder
+
+- (BOOL)becomeFirstResponder {
+    return [self.amountField becomeFirstResponder];
+}
+
+- (BOOL)isFirstResponder {
+    return [self.amountField isFirstResponder];
+}
+
+- (BOOL)resignFirstResponder {
+    return [self.amountField resignFirstResponder];
+}
+
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -78,13 +92,5 @@
     }
     return YES;
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

@@ -19,9 +19,6 @@
 
 @interface EVStoryCell ()
 
-@property (nonatomic, strong) UIView *horizontalRule;
-@property (nonatomic, strong) UIView *verticalRule;
-
 - (void)loadAvatarView;
 - (void)loadStoryLabel;
 - (void)loadRules;

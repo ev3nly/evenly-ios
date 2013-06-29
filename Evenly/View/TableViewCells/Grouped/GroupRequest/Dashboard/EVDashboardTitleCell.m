@@ -8,11 +8,11 @@
 
 #import "EVDashboardTitleCell.h"
 
-#define DASHBOARD_TITLE_FONT [EVFont blackFontOfSize:20]
+#define DASHBOARD_TITLE_FONT [EVFont blackFontOfSize:18]
 #define DASHBOARD_MEMO_FONT [EVFont defaultFontOfSize:15]
 
 #define DASHBOARD_LABEL_MAX_WIDTH 240.0
-#define DASHBOARD_LABEL_TOP_BOTTOM_MARGIN 20.0
+#define DASHBOARD_LABEL_TOP_BOTTOM_MARGIN 10.0
 #define DASHBOARD_LABEL_SEPARATION 0.0
 
 @implementation EVDashboardTitleCell

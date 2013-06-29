@@ -21,6 +21,7 @@
 #import "EVBanksViewController.h"
 #import "EVHistoryViewController.h"
 #import "EVPendingDetailViewController.h"
+#import "EVPendingGroupViewController.h"
 #import "EVGroupRequestDashboardViewController.h"
 
 #define EV_WALLET_ROW_HEIGHT 44.0
@@ -321,7 +322,11 @@
         }
         else if ([interaction isKindOfClass:[EVGroupRequest class]])
         {
-            controller = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:(EVGroupRequest *)interaction];
+            EVGroupRequest *groupRequest = (EVGroupRequest *)interaction;
+            if (groupRequest.from == nil)
+                controller = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:groupRequest];
+            else
+                controller = [[EVPendingGroupViewController alloc] initWithGroupRequest:groupRequest];
         }
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:navController animated:YES completion:nil];
