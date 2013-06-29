@@ -46,7 +46,7 @@ static UIViewController *_presentVC;
     _dismissBlock  = [dismissed copy];
 
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title 
-                                                             delegate:[self class] 
+                                                             delegate:(id<UIActionSheetDelegate>)[self class]
                                                     cancelButtonTitle:nil
                                                destructiveButtonTitle:destructiveButtonTitle 
                                                     otherButtonTitles:nil];
@@ -91,7 +91,7 @@ static UIViewController *_presentVC;
     int cancelButtonIndex = -1;
 
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:title 
-                                                             delegate:[self class] 
+                                                             delegate:(id<UIActionSheetDelegate>)[self class]
 													cancelButtonTitle:nil
 											   destructiveButtonTitle:nil
 													otherButtonTitles:nil];
@@ -133,7 +133,7 @@ static UIViewController *_presentVC;
         editedImage = (UIImage*) [info valueForKey:UIImagePickerControllerOriginalImage];
     
     _photoPickedBlock(editedImage);
-	[picker dismissModalViewControllerAnimated:YES];	
+	[picker dismissViewControllerAnimated:YES completion:NULL];
 	[picker autorelease];
 }
 
@@ -141,7 +141,7 @@ static UIViewController *_presentVC;
 + (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     // Dismiss the image selection and close the program
-    [_presentVC dismissModalViewControllerAnimated:YES];    
+    [_presentVC dismissViewControllerAnimated:YES completion:NULL];
 	[picker autorelease];
     [_presentVC release];
     _cancelBlock();
@@ -168,7 +168,7 @@ static UIViewController *_presentVC;
             
             
             UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-            picker.delegate = [self class];
+            picker.delegate = (id<UINavigationControllerDelegate,UIImagePickerControllerDelegate>)[self class];
             picker.allowsEditing = YES;
             
             if(buttonIndex == 1) 
@@ -177,10 +177,9 @@ static UIViewController *_presentVC;
             }
             else if(buttonIndex == 2)
             {
-                picker.sourceType = UIImagePickerControllerSourceTypeCamera;;
+                picker.sourceType = UIImagePickerControllerSourceTypeCamera;
             }
-            
-            [_presentVC presentModalViewController:picker animated:YES];
+            [_presentVC presentViewController:picker animated:YES completion:NULL];
         }
         else
         {
