@@ -24,6 +24,8 @@
 @property (nonatomic, readonly) UIImage *avatar;
 
 - (EVGroupRequestTier *)tierWithID:(NSString *)tierID;
+- (EVGroupRequestRecord *)myRecord;
+
 - (NSDecimalNumber *)totalOwed;
 - (NSDecimalNumber *)totalPaid;
 - (float)progress;

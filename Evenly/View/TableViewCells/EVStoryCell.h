@@ -29,6 +29,8 @@
 @property (nonatomic, strong) EVAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *storyLabel;
 @property (nonatomic, strong) UILabel *dateLabel;
+@property (nonatomic, strong) UIView *horizontalRule;
+@property (nonatomic, strong) UIView *verticalRule;
 @property (nonatomic, strong) EVLikeButton *likeButton;
 @property (nonatomic, strong) UIImageView *incomeIcon;
 

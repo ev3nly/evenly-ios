@@ -9,14 +9,16 @@
 #import "EVModalViewController.h"
 #import "EVGroupRequest.h"
 
-@interface EVPendingGroupViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate>
+#import "EVPartialPaymentViewController.h"
+
+@interface EVPendingGroupViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, EVPartialPaymentViewControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) EVGroupRequest *groupRequest;
 
 - (id)initWithGroupRequest:(EVGroupRequest *)request;
 
-- (void)payInFull;
-- (void)payPartial;
+- (void)payInFullButtonPress:(id)sender;
+- (void)payPartialButtonPress:(id)sender;
 
 @end

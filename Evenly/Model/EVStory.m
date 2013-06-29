@@ -62,7 +62,7 @@
 + (EVStory *)storyFromGroupRequest:(EVGroupRequest *)groupRequest {
     NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:0];
     [properties setObject:@"requested" forKey:@"verb"];
-    [properties setObject:groupRequest.memo forKey:@"description"];
+    [properties setObject:groupRequest.title forKey:@"description"];
     [properties setObject:groupRequest.createdAt forKey:@"published_at"];
 //    [properties setObject:nil forKey:@"amount"];
     [properties setObject:(groupRequest.from ?: [EVCIA me]) forKey:@"subject"];
@@ -201,9 +201,9 @@
                                                  attributes:nounAttributes];
         }
     }
-    if (self.amount == nil)
+    if (self.amount == nil || [self.amount isEqualToNumber:[NSDecimalNumber notANumber]])
     {
-        amount = [[NSAttributedString alloc] initWithString:@"money" attributes:nounAttributes];
+        amount = [[NSAttributedString alloc] initWithString:@"money" attributes:copyAttributes];
     }
     else
     {

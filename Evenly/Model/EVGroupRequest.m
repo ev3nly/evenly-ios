@@ -93,6 +93,15 @@
     return tier;
 }
 
+- (EVGroupRequestRecord *)myRecord {
+    EVGroupRequestRecord *record = nil;
+    for (record in self.records) {
+        if (record.user == [EVCIA me])
+            break;
+    }
+    return record;
+}
+
 - (NSDecimalNumber *)totalOwed {
     NSDecimalNumber *total = [NSDecimalNumber zero];
     for (EVGroupRequestRecord *record in self.records) {
@@ -405,6 +414,8 @@
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         EVPayment *payment = [[EVPayment alloc] initWithDictionary:responseObject];
         [record setPayments:[record.payments arrayByAddingObject:payment]];
+        record.numberOfPayments++;
+        [record setAmountPaid:[record.amountPaid decimalNumberByAdding:payment.amount]];
         success(payment);
     };
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
