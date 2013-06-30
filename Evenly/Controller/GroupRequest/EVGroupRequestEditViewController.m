@@ -319,11 +319,11 @@
         if (!cell.tier)
         {
             tier = [[EVGroupRequestTier alloc] init];
-            tier.name = cell.optionNameField.text;
             tier.price = [EVStringUtility amountFromAmountString:cell.optionAmountField.text];
         } else {
             tier = cell.tier;
         }
+        tier.name = cell.optionNameField.text;
         [self.groupRequest saveTier:tier
                         withSuccess:^(EVGroupRequestTier *tier) {
                             [self doNextBlock];
