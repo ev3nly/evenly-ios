@@ -26,10 +26,8 @@
         self.record = record;
         self.title = self.record.groupRequest.title;
         self.dataSource = [[EVGroupRequestRecordTableViewDataSource alloc] initWithRecord:self.record];
+        [self hookUpOptionButtons];
         
-        for (UIButton *button in self.dataSource.paymentOptionCell.optionButtons) {
-            [button addTarget:self action:@selector(paymentOptionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-        }
         [self.dataSource.remindButton addTarget:self action:@selector(remindButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         [self.dataSource.markAsCompletedButton addTarget:self action:@selector(markAsCompletedButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         [self.dataSource.cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
@@ -78,6 +76,12 @@
     return [self.dataSource heightForRowAtIndexPath:indexPath];
 }
 
+- (void)hookUpOptionButtons {
+    for (UIButton *button in self.dataSource.paymentOptionCell.optionButtons) {
+        [button addTarget:self action:@selector(paymentOptionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    }
+}
+
 #pragma mark - Button Actions
 
 - (void)paymentOptionButtonPress:(UIButton *)button {
@@ -96,6 +100,7 @@
                                withSuccess:^(EVGroupRequestRecord *record) {
                                    self.record = record;
                                    [self.dataSource setRecord:self.record];
+                                   [self hookUpOptionButtons];
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
                                } failure:^(NSError *error) {
                                    DLog(@"Failed to update record: %@", error);
@@ -116,6 +121,9 @@
                                           [EVStatusBarManager sharedManager].duringSuccess = ^{
                                               self.record = record;
                                               [self.dataSource setRecord:self.record];
+                                              if (self.delegate)
+                                                  [self.delegate viewController:self updatedRecord:self.record];
+
                                               [self.tableView reloadData];
                                           };
                                           [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];

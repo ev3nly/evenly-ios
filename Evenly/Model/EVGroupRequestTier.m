@@ -7,14 +7,24 @@
 //
 
 #import "EVGroupRequestTier.h"
+#import "EVGroupRequest.h"
 
 @implementation EVGroupRequestTier
+
+- (id)initWithGroupRequest:(EVGroupRequest *)groupRequest properties:(NSDictionary *)properties {
+    self = [super init];
+    if (self) {
+        self.groupRequest = groupRequest;
+        [self setProperties:properties];
+    }
+    return self;
+}
 
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     
     self.price = [NSDecimalNumber decimalNumberWithString:properties[@"price"]];
-    self.name = properties[@"name"];
+    self.name = EV_STRING_OR_NIL(properties[@"name"]);
 }
 
 - (void)validate {

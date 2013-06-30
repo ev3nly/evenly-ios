@@ -320,13 +320,15 @@
     [self validateForPhase:self.phase];
 }
 
-- (void)requestButtonPress:(id)sender {    
+- (void)requestButtonPress:(id)sender {
+    [sender setEnabled:NO];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REQUEST..."];
     
     if (!self.isGroupRequest)
     {
         self.request.memo = self.singleDetailsView.descriptionField.text;
         [self.request saveWithSuccess:^{
+            [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
@@ -334,6 +336,7 @@
         } failure:^(NSError *error) {
             DLog(@"failed to create %@", NSStringFromClass([self.request class]));
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+            [sender setEnabled:YES];
         }];
     }
     else
@@ -343,16 +346,11 @@
         DLog(@"Group request dictionary representation: %@", [self.groupRequest dictionaryRepresentation]);
 
         [self.groupRequest saveWithSuccess:^{
+            [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             };
-            
-//            EV_DISPATCH_AFTER(1.0, ^(void) {
-//                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-//                    
-//                }];
-//            });
         } failure:^(NSError *error) {
             DLog(@"failed to create %@", NSStringFromClass([self.request class]));
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];

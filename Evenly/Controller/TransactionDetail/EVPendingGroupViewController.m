@@ -120,6 +120,7 @@
     [self.record.groupRequest updateRecord:self.record
                                withSuccess:^(EVGroupRequestRecord *record) {
                                    self.record = record;
+                                   [self.paymentOptionCell setRecord:record];
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
                                } failure:^(NSError *error) {
                                    DLog(@"Failed to update record: %@", error);

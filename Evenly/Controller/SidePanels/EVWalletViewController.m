@@ -328,6 +328,7 @@
             else
                 controller = [[EVPendingGroupViewController alloc] initWithGroupRequest:groupRequest];
         }
+        NSAssert1(controller != nil, @"Controller to be presented was nil!  The object we were making the controller for was %@", interaction);
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:navController animated:YES completion:nil];
     }
