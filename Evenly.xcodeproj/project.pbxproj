@@ -3004,7 +3004,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Joe Hankin (AGLLJ54B2E)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3015,7 +3015,7 @@
 				INFOPLIST_FILE = "Evenly/Evenly-Info.plist";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0F3CAE62-0513-4307-8298-712AEC20BD79";
+				PROVISIONING_PROFILE = "3E322D3A-C360-463F-8F6A-CDDECF12EA1F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3024,7 +3024,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Joe Hankin (AGLLJ54B2E)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ivy Payments, Inc.";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3036,7 +3036,7 @@
 				INFOPLIST_FILE = "Evenly/Evenly-Info.plist";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0F3CAE62-0513-4307-8298-712AEC20BD79";
+				PROVISIONING_PROFILE = "3E322D3A-C360-463F-8F6A-CDDECF12EA1F";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
 				WRAPPER_EXTENSION = app;
 			};

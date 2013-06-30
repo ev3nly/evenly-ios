@@ -43,7 +43,8 @@
     
     NSMutableArray *tiers = [NSMutableArray array];
     for (NSDictionary *dictionary in properties[@"tiers"]) {
-        [tiers addObject:[EVSerializer serializeDictionary:dictionary]];
+        EVGroupRequestTier *tier = [[EVGroupRequestTier alloc] initWithGroupRequest:self properties:dictionary];
+        [tiers addObject:tier];
     }
     self.tiers = [NSArray arrayWithArray:tiers];
     
