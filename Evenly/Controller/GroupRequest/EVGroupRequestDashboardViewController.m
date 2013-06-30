@@ -13,7 +13,6 @@
 #import "EVDashboardNoOneJoinedCell.h"
 #import "EVGroupRequestProgressView.h"
 
-#import "EVGroupRequestRecordViewController.h"
 #import "EVGroupRequestEditViewController.h"
 
 typedef enum {
@@ -133,6 +132,7 @@ typedef enum {
     EVGroupRequestRecord *record = [self.dataSource recordAtIndexPath:indexPath];
     if (record) {
         EVGroupRequestRecordViewController *viewController = [[EVGroupRequestRecordViewController alloc] initWithRecord:record];
+        viewController.delegate = self;
         [self.navigationController pushViewController:viewController animated:YES];
     }
     
@@ -177,6 +177,16 @@ typedef enum {
     } failure:^(NSError *error) {
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
     }];
+}
+
+#pragma mark - EVGroupRequestRecordViewControllerDelegate
+
+- (void)viewController:(EVGroupRequestRecordViewController *)viewController updatedRecord:(EVGroupRequestRecord *)record {
+    NSInteger index = [self.groupRequest.records indexOfObject:record];
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVDashboardPermanentRowCOUNT + index inSection:0] ]
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
 }
 
 #pragma mark - EVGroupRequestEditViewControllerDelegate

@@ -121,6 +121,9 @@
                                           [EVStatusBarManager sharedManager].duringSuccess = ^{
                                               self.record = record;
                                               [self.dataSource setRecord:self.record];
+                                              if (self.delegate)
+                                                  [self.delegate viewController:self updatedRecord:self.record];
+
                                               [self.tableView reloadData];
                                           };
                                           [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];

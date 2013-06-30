@@ -8,11 +8,13 @@
 
 #import "EVModalViewController.h"
 #import "EVGroupRequest.h"
+#import "EVGroupRequestRecordViewController.h"
 #import "EVGroupRequestEditViewController.h"
 
 @interface EVGroupRequestDashboardViewController : EVModalViewController <UITableViewDelegate,
                                                                           UIActionSheetDelegate,
                                                                           UIAlertViewDelegate,
+                                                                          EVGroupRequestRecordViewControllerDelegate,
                                                                           EVGroupRequestEditViewControllerDelegate>
 
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest;
