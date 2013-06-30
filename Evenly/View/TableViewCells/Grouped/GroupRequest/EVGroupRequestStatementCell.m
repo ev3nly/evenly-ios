@@ -10,6 +10,7 @@
 #import "EVGroupRequestStatementLabel.h"
 #import "EVGroupRequestRecord.h"
 #import "EVGroupRequestTier.h"
+#import "EVGroupRequest.h"
 #import "EVPayment.h"
 
 #define X_MARGIN 10.0
@@ -75,7 +76,7 @@
 - (void)loadHeaderLabelForRecord:(EVGroupRequestRecord *)record frame:(CGRect)frame {
     EVGroupRequestStatementLabel *headerLabel = [[EVGroupRequestStatementLabel alloc] initWithFrame:frame];
     [headerLabel setBold:YES];
-    [headerLabel.categoryLabel setText:[record.tier name]];
+    [headerLabel.categoryLabel setText:([record.tier name] ?: record.groupRequest.title)];
     [headerLabel.amountLabel setText:[EVStringUtility amountStringForAmount:[record.tier price]]];
     [self.contentView addSubview:headerLabel];
     [self.lines addObject:headerLabel];
