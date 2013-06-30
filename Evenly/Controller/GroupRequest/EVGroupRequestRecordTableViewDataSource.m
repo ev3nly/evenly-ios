@@ -46,8 +46,27 @@
 }
 
 - (void)setRecord:(EVGroupRequestRecord *)record {
+    
+    BOOL shouldReloadBalance = NO;
+    BOOL mustInsert = NO;
+    if (record.tier) {
+        shouldReloadBalance = YES;
+        if (!_record)
+            mustInsert = YES;
+    }
+    
     _record = record;
     [self.paymentOptionCell setRecord:record];
+    if (shouldReloadBalance) {
+        [self.tableView beginUpdates];
+        if (mustInsert)
+            [self.tableView insertRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:1 inSection:0] ]
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
+        else
+            [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:1 inSection:0] ]
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView endUpdates];
+    }
 }
 
 - (void)loadRemindButton {
