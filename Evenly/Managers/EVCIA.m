@@ -19,7 +19,7 @@ static EVCIA *_sharedInstance;
 
 @interface EVCIA ()
 
-@property (nonatomic, strong) NSCache *internalCache;
+@property (nonatomic, strong) NSMutableDictionary *internalCache;
 @property (nonatomic, strong) EVUser *cachedUser;
 @property (nonatomic, readwrite) BOOL loadingCreditCards;
 @property (nonatomic, readwrite) BOOL loadingBankAccounts;
@@ -40,11 +40,22 @@ static EVCIA *_sharedInstance;
     self = [super init];
     if (self) {
         self.imageCache = [[NSCache alloc] init];
-        self.internalCache = [[NSCache alloc] init];
+        self.internalCache = [[NSMutableDictionary alloc] init];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didSignIn:)
+                                                     name:EVSessionSignedInNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveMemoryWarning:)
+                                                     name:UIApplicationDidReceiveMemoryWarningNotification
+                                                   object:nil];
     }
     return self;
+}
+
+- (void)didReceiveMemoryWarning:(NSNotification *)notification {
+    [self.internalCache removeAllObjects];
 }
 
 - (void)dealloc {
@@ -110,6 +121,7 @@ static EVCIA *_sharedInstance;
 + (void)reloadMe {
     [EVUser meWithSuccess:^{
         DLog(@"Got me: %@", [[self sharedInstance] me]);
+        [[self sharedInstance] reloadAllExchangesWithCompletion:NULL];
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];
