@@ -35,6 +35,7 @@
         self.paymentOptionCell = [[EVGroupRequestPaymentOptionCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                                         reuseIdentifier:@"paymentOptionCell"];        
         self.record = record;
+        [self.paymentOptionCell setRecord:record];
 
         [self loadRemindButton];
         [self loadMarkAsCompletedButton];
@@ -45,14 +46,7 @@
 
 - (void)setRecord:(EVGroupRequestRecord *)record {
     
-    BOOL shouldReloadBalance = NO;
-    BOOL mustInsert = NO;
-    if (record.tier) {
-        shouldReloadBalance = YES;
-        if (!_record)
-            mustInsert = YES;
-    }
-    
+    BOOL shouldReloadBalance = !!(record.tier);
     _record = record;
     [self.paymentOptionCell setRecord:record];
     if (shouldReloadBalance) {
