@@ -25,9 +25,7 @@
 - (void)loadMarkAsCompletedButton;
 - (void)loadCancelButton;
 
-
 @end
-
 
 @implementation EVGroupRequestRecordTableViewDataSource
 
@@ -59,11 +57,7 @@
     [self.paymentOptionCell setRecord:record];
     if (shouldReloadBalance) {
         [self.tableView beginUpdates];
-        if (mustInsert)
-            [self.tableView insertRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:1 inSection:0] ]
-                                  withRowAnimation:UITableViewRowAnimationAutomatic];
-        else
-            [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:1 inSection:0] ]
+        [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:1 inSection:0] ]
                                   withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.tableView endUpdates];
     }
@@ -99,51 +93,46 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Unpaid, unassigned
-    if (self.record.tier == nil)
-        return 3;
-    
-    // Fully paid
-    if (self.record.completed)
-        return 3;
-    
-    // Unpaid, assigned / partially paid
-    return 4;
+    return EVGroupRequestRecordRowCOUNT;
 }
 
 - (CGFloat)heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0)
+    if (indexPath.row == EVGroupRequestRecordRowHeader)
         return USER_ROW_HEIGHT;
     
     if (self.record.completed) {
-        if (indexPath.row == 1) // payment history
+        if (indexPath.row == EVGroupRequestRecordRowStatement) // payment history
             return [EVGroupRequestStatementCell heightForRecord:self.record];
-        if (indexPath.row == 2) // "completed" indicator
+        if (indexPath.row == EVGroupRequestRecordRowPaymentOption) // "completed" indicator
             return 44.0;
+        // EVGroupRequestRecordRowButtons height = 0.
+
     } else {
         if (!self.record.tier) // unassigned
         {
-            if (indexPath.row == 1) // payment option cell
+            // EVGroupRequestRecordRowStatement height = 0.
+            
+            if (indexPath.row == EVGroupRequestRecordRowPaymentOption) // payment option cell
                 return [self.paymentOptionCell heightForRecord:self.record];
-            else
+            else if (indexPath.row == EVGroupRequestRecordRowButtons)
                 return BUTTON_ROW_HEIGHT;
         }
         else // assigned
         {
-            if (indexPath.row == 1) // payment history
+            if (indexPath.row == EVGroupRequestRecordRowStatement) // payment history
                 return [EVGroupRequestStatementCell heightForRecord:self.record];
-            if (indexPath.row == 2)
+            if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
                 return [self.paymentOptionCell heightForRecord:self.record];
-            else
+            else if (indexPath.row == EVGroupRequestRecordRowButtons)
                 return BUTTON_ROW_HEIGHT;
         }
     }
-    return 44.0;
+    return 0.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVGroupedTableViewCell *cell;
-    if (indexPath.row == 0) {
+    if (indexPath.row == EVGroupRequestRecordRowHeader) {
         EVGroupRequestUserCell *userCell = [tableView dequeueReusableCellWithIdentifier:@"userCell" forIndexPath:indexPath];
         userCell.nameLabel.text = self.record.user.name;
         userCell.avatarView.avatarOwner = self.record.user;
@@ -157,11 +146,11 @@
             [self.markAsCompletedButton removeFromSuperview];
             [self.cancelButton removeFromSuperview];
             
-            if (indexPath.row == 1)
+            if (indexPath.row == EVGroupRequestRecordRowStatement)
             {
                 cell = [self statementCellForIndexPath:indexPath];
             }
-            else
+            else if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
             {
                 cell = [tableView dequeueReusableCellWithIdentifier:@"completedCell" forIndexPath:indexPath];
             }
@@ -170,12 +159,12 @@
         {
             if (!self.record.tier)
             {
-                if (indexPath.row == 1)
+                if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
                 {
                     self.paymentOptionCell.headerLabel.text = @"Set a Payment Option";
                     cell = self.paymentOptionCell;
                 }
-                else if (indexPath.row == 2)
+                else if (indexPath.row == EVGroupRequestRecordRowButtons)
                 {
                     cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
                     [self configureCellForButtons:cell];
@@ -183,11 +172,11 @@
             }
             else
             {
-                if (indexPath.row == 1)
+                if (indexPath.row == EVGroupRequestRecordRowStatement)
                 {
                     cell = [self statementCellForIndexPath:indexPath];
                 }
-                else if (indexPath.row == 2)
+                else if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
                 {
                     if (self.record.numberOfPayments == 0)
                         self.paymentOptionCell.headerLabel.text = @"Change Payment Option";
@@ -196,7 +185,7 @@
                     
                     cell = self.paymentOptionCell;
                 }
-                else if (indexPath.row == 3)
+                else if (indexPath.row == EVGroupRequestRecordRowButtons)
                 {
                     cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
                     [self configureCellForButtons:cell];
