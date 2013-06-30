@@ -35,7 +35,10 @@
     
     self.completed = [properties[@"completed"] boolValue];
     self.numberOfPayments = [properties[@"number_of_payments"] intValue];
-    self.user = (EVObject<EVExchangeable> *)[EVSerializer serializeDictionary:properties[@"user"]];
+    if ([[properties[@"user"][@"id"] stringValue] isEqualToString:[EVCIA me].dbid])
+        self.user = [EVCIA me];
+    else
+        self.user = (EVObject<EVExchangeable> *)[EVSerializer serializeDictionary:properties[@"user"]];
     self.amountPaid = [NSDecimalNumber decimalNumberWithString:properties[@"amount_paid"]];
 
     if (properties[@"tier_id"] != [NSNull null]) {
@@ -60,8 +63,8 @@
     else
         [params setObject:self.user.email forKey:@"user_id"];
     
-    [params setObject:[NSNumber numberWithBool:self.completed] forKey:@"completed"];
-    return params;    
+//    [params setObject:[NSNumber numberWithBool:self.completed] forKey:@"completed"];
+    return params;
 }
 
 - (NSDecimalNumber *)amountOwed {
