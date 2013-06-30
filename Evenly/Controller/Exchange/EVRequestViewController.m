@@ -320,7 +320,8 @@
     [self validateForPhase:self.phase];
 }
 
-- (void)requestButtonPress:(id)sender {    
+- (void)requestButtonPress:(id)sender {
+    [self.navigationItem.rightBarButtonItem setEnabled:NO];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REQUEST..."];
     
     if (!self.isGroupRequest)
@@ -334,6 +335,7 @@
         } failure:^(NSError *error) {
             DLog(@"failed to create %@", NSStringFromClass([self.request class]));
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+            [self.navigationItem.rightBarButtonItem setEnabled:YES];
         }];
     }
     else
