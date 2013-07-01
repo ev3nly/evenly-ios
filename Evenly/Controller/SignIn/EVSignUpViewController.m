@@ -8,7 +8,9 @@
 
 #import "EVSignUpViewController.h"
 #import "EVCheckmarkButton.h"
+#import "EVPhotoNameNumberCell.h"
 #import "ReactiveCocoa.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define CHECK_VIEW_HEIGHT 40
 #define FOOTER_VIEW_BOTTOM_MARGIN 10
@@ -22,11 +24,12 @@
 
 @property (nonatomic, strong) UIImage *photo;
 
-@property (nonatomic, strong) EVEditLabelCell *nameCell;
+@property (nonatomic, strong) EVPhotoNameNumberCell *photoNameNumberCell;
 @property (nonatomic, strong) EVEditLabelCell *emailCell;
-@property (nonatomic, strong) EVEditLabelCell *phoneNumberCell;
 @property (nonatomic, strong) EVEditLabelCell *passwordCell;
 @property (nonatomic, strong) EVEditLabelCell *passwordConfirmationCell;
+
+@property (nonatomic, strong) EVUser *user;
 
 @end
 
@@ -44,10 +47,24 @@
     return self;
 }
 
+- (id)initWithSignUpSuccess:(void (^)(void))success user:(EVUser *)user {
+    if (self = [self initWithSignUpSuccess:success]) {
+        self.user = user;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self loadLabelCells];
+//    UIGraphicsBeginImageContextWithOptions(self.profilePictureView.bounds.size, self.profilePictureView.opaque, 0.0);
+//    [self.profilePictureView.layer renderInContext:UIGraphicsGetCurrentContext()];
+//    
+//    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+//    
+//    UIGraphicsEndImageContext();
+//    self.photo = img;
+    [self loadCells];
     [self configureReactions];
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
 }
@@ -60,6 +77,7 @@
     [self loadSyncContactsButton];
     [self loadTosAgreementButton];
     self.tableView.tableFooterView = self.footerView;
+    [self.tableView registerClass:[EVPhotoNameNumberCell class] forCellReuseIdentifier:@"photoNameNumberCell"];
 }
 
 - (void)loadPinButton {
@@ -85,36 +103,22 @@
     [self.footerView addSubview:self.tosAgreementButton];
 }
 
-- (void)loadLabelCells {
-    self.nameCell = [self createdCellForRow:EVSignUpCellRowName];
+- (void)loadCells {
+    self.photoNameNumberCell = [self photoNameNumberCell];
     self.emailCell = [self createdCellForRow:EVSignUpCellRowEmail];
-    self.phoneNumberCell = [self createdCellForRow:EVSignUpCellRowPhoneNumber];
     self.passwordCell = [self createdCellForRow:EVSignUpCellRowPassword];
     self.passwordConfirmationCell = [self createdCellForRow:EVSignUpCellRowConfirmPassword];
 }
 
 - (void)configureReactions {
     
-    [self.phoneNumberCell.textField.rac_textSignal subscribeNext:^(NSString *text) {
-        text = [text stringByReplacingOccurrencesOfString:@"-" withString:@""];
-        if (text.length > 10)
-            text = [text substringToIndex:10];
-        if (text.length > 6) {
-            NSString *firstThree = [text substringWithRange:NSMakeRange(0, 3)];
-            NSString *nextThree = [text substringWithRange:NSMakeRange(3, 3)];
-            NSString *rest = [text substringFromIndex:6];
-            text = [NSString stringWithFormat:@"%@-%@-%@", firstThree, nextThree, rest];
-        } else if (text.length > 3) {
-            NSString *firstThree = [text substringWithRange:NSMakeRange(0, 3)];
-            NSString *rest = [text substringFromIndex:3];
-            text = [NSString stringWithFormat:@"%@-%@", firstThree, rest];
-        }
-        self.phoneNumberCell.textField.text = text;
+    [RACAble(self.user.avatar) subscribeNext:^(UIImage *image) {
+        self.photo = image;
     }];
     
-    NSArray *textFieldArray = @[self.nameCell.textField.rac_textSignal,
+    NSArray *textFieldArray = @[self.photoNameNumberCell.nameField.rac_textSignal,
                                 self.emailCell.textField.rac_textSignal,
-                                self.phoneNumberCell.textField.rac_textSignal,
+                                self.photoNameNumberCell.phoneNumberField.rac_textSignal,
                                 self.passwordCell.textField.rac_textSignal,
                                 self.passwordConfirmationCell.textField.rac_textSignal,
                                 RACAble(self.tosAgreementButton.checked)];
@@ -142,9 +146,9 @@
 #pragma mark - Gesture Handling
 
 - (void)saveButtonTapped {
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{ @"name" : self.nameCell.textField.text,
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{ @"name" : self.photoNameNumberCell.nameField.text,
                                    @"email" : self.emailCell.textField.text,
-                                   @"phone_number" : self.phoneNumberCell.textField.text,
+                                   @"phone_number" : self.photoNameNumberCell.phoneNumberField.text,
                                    @"password" : self.passwordCell.textField.text,
                                    @"password_confirmation" : self.passwordConfirmationCell.textField.text }];
     if (self.photo)
@@ -193,19 +197,32 @@
     return EVSignUpCellRowCOUNT;
 }
 
-- (EVGroupedTableViewCell *)editPhotoCell {
-    EVEditPhotoCell *cell = (EVEditPhotoCell *)[super editPhotoCell];
-    cell.avatarView.image = self.photo ? self.photo : [EVImages addPhotoIcon];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    EVGroupedTableViewCell *cell;
+    
+    if (indexPath.row == EVSignUpCellRowPhotoNameNumber)
+        cell = [self photoNameNumberCell];
+    else
+        cell = [self editLabelCellForIndexPath:indexPath];
+    
+    cell.position = [self cellPositionForIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
+- (EVGroupedTableViewCell *)photoNameNumberCell {
+    EVPhotoNameNumberCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"photoNameNumberCell"];
+    cell.photo = self.photo ? self.photo : [EVImages addPhotoIcon];
+
+    if (self.user.avatar)
+        cell.photo = self.user.avatar;
+    
     return cell;
 }
 
 - (EVEditLabelCell *)editLabelCellForIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == EVSignUpCellRowName)
-        return self.nameCell;
-    else if (indexPath.row == EVSignUpCellRowEmail)
+    if (indexPath.row == EVSignUpCellRowEmail)
         return self.emailCell;
-    else if (indexPath.row == EVSignUpCellRowPhoneNumber)
-        return self.phoneNumberCell;
     else if (indexPath.row == EVSignUpCellRowPassword)
         return self.passwordCell;
     else if (indexPath.row == EVSignUpCellRowConfirmPassword)
@@ -219,15 +236,11 @@
     editLabelCell.textField.delegate = self;
     editLabelCell.tag = row;
     
-    if (row == EVSignUpCellRowName) {
-        [editLabelCell setTitle:@"Name" placeholder:@"John Smith"];
-        self.nameCell = editLabelCell;
-    } else if (row == EVSignUpCellRowEmail) {
+    if (row == EVSignUpCellRowEmail) {
         [editLabelCell setTitle:@"Email" placeholder:@"example@college.edu"];
+        if (self.user)
+            editLabelCell.textField.text = self.user.email;
         self.emailCell = editLabelCell;
-    } else if (row == EVSignUpCellRowPhoneNumber) {
-        [editLabelCell setTitle:@"Phone Number" placeholder:@"XXX-XXX-XXXX"];
-        self.phoneNumberCell = editLabelCell;
     } else if (row == EVSignUpCellRowPassword) {
         [editLabelCell setTitle:@"Password" placeholder:@"at least 8 characters"];
         editLabelCell.textField.secureTextEntry = YES;

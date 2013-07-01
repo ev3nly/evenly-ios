@@ -7,12 +7,11 @@
 //
 
 #import "EVEditProfileViewController.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 typedef enum {
-    EVSignUpCellRowPhoto,
-    EVSignUpCellRowName,
+    EVSignUpCellRowPhotoNameNumber,
     EVSignUpCellRowEmail,
-    EVSignUpCellRowPhoneNumber,
     EVSignUpCellRowPassword,
     EVSignUpCellRowConfirmPassword,
     EVSignUpCellRowCOUNT
@@ -23,5 +22,6 @@ typedef enum {
 @property (nonatomic, strong) void (^authenticationSuccess)(void);
 
 - (id)initWithSignUpSuccess:(void (^)(void))success;
+- (id)initWithSignUpSuccess:(void (^)(void))success user:(EVUser *)user;
 
 @end

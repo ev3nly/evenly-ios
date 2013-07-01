@@ -12,6 +12,7 @@
 #import "EVSetPINViewController.h"
 #import "EVNavigationManager.h"
 #import <QuartzCore/QuartzCore.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 #define NUMBER_OF_SLIDES 5
 
@@ -328,7 +329,88 @@
 #pragma mark - Button Handling
 
 - (void)facebookButtonTapped {
+    if (FBSession.activeSession.isOpen)
+        [self handleOpenedSession];
+    else
+        [self openSession];
+}
+
+- (void)handleOpenedSession {
+    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+        if (!error) {
+            NSString *avatarUrlString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?width=160&height=160", [user objectForKey:@"id"]];
+            EVUser *newUser = [EVUser new];
+            newUser.name = [user objectForKey:@"name"];
+            newUser.email = [user objectForKey:@"email"];
+            newUser.avatarURL = [NSURL URLWithString:avatarUrlString];
+            [newUser loadAvatar];
+            
+            EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                    EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
+                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+                    [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
+                }];
+            } user:newUser];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
+            [self presentViewController:navController animated:YES completion:nil];
+        }
+    }];
     
+    [[FBRequest requestForMyFriends] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+//        if (!error)
+//            NSLog(@"friends: %@", result);
+    }];
+}
+
+- (void)sessionStateChanged:(FBSession *)session
+                      state:(FBSessionState) state
+                      error:(NSError *)error
+{
+    switch (state) {
+        case FBSessionStateOpen:
+            [self handleOpenedSession];
+            break;
+        case FBSessionStateClosed:
+        case FBSessionStateClosedLoginFailed:
+            NSLog(@"closed or closed failed");
+            [FBSession.activeSession closeAndClearTokenInformation];
+            break;
+        default:
+            break;
+    }
+    
+    NSString *accessToken = [[FBSession.activeSession accessTokenData] accessToken];
+    [EVCIA sharedInstance].accessToken = accessToken;
+        
+    if (error) {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Error"
+                                  message:error.localizedDescription
+                                  delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
+- (void)openSession
+{
+    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
+                                       allowLoginUI:YES
+                                  completionHandler:
+     ^(FBSession *session,
+       FBSessionState state, NSError *error) {
+         [self sessionStateChanged:session state:state error:error];
+     }];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [FBSession.activeSession handleOpenURL:url];
 }
 
 - (void)emailButtonTapped {

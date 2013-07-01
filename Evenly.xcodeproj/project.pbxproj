@@ -359,6 +359,10 @@
 		D07A3908176A7B4B00EABEB7 /* EVPrivacySelectorOption.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A3907176A7B4B00EABEB7 /* EVPrivacySelectorOption.m */; };
 		D07A390B176A7D1F00EABEB7 /* EVPrivacySelectorLine.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A390A176A7D1F00EABEB7 /* EVPrivacySelectorLine.m */; };
 		D07A3910176AA2AA00EABEB7 /* UIColor+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = D07A390F176AA2AA00EABEB7 /* UIColor+EVAdditions.m */; };
+		D07DC175177E1A01006DAAF2 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D07DC174177E1A01006DAAF2 /* FacebookSDK.framework */; };
+		D07DC177177E1AA6006DAAF2 /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D07DC176177E1AA6006DAAF2 /* FacebookSDKResources.bundle */; };
+		D07DC179177E1AFB006DAAF2 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D07DC178177E1AFB006DAAF2 /* libsqlite3.dylib */; };
+		D07DC17C178228E1006DAAF2 /* EVPhotoNameNumberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D07DC17B178228E1006DAAF2 /* EVPhotoNameNumberCell.m */; };
 		D07FBB3F1777C59F009D8AF3 /* onboard-card1.png in Resources */ = {isa = PBXBuildFile; fileRef = D07FBB391777C59F009D8AF3 /* onboard-card1.png */; };
 		D07FBB401777C59F009D8AF3 /* onboard-card1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D07FBB3A1777C59F009D8AF3 /* onboard-card1@2x.png */; };
 		D07FBB411777C59F009D8AF3 /* onboard-card2.png in Resources */ = {isa = PBXBuildFile; fileRef = D07FBB3B1777C59F009D8AF3 /* onboard-card2.png */; };
@@ -936,6 +940,11 @@
 		D07A390A176A7D1F00EABEB7 /* EVPrivacySelectorLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacySelectorLine.m; sourceTree = "<group>"; };
 		D07A390E176AA2AA00EABEB7 /* UIColor+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+EVAdditions.h"; sourceTree = "<group>"; };
 		D07A390F176AA2AA00EABEB7 /* UIColor+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+EVAdditions.m"; sourceTree = "<group>"; };
+		D07DC174177E1A01006DAAF2 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		D07DC176177E1AA6006DAAF2 /* FacebookSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKResources.bundle; sourceTree = "<group>"; };
+		D07DC178177E1AFB006DAAF2 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		D07DC17A178228E1006DAAF2 /* EVPhotoNameNumberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPhotoNameNumberCell.h; sourceTree = "<group>"; };
+		D07DC17B178228E1006DAAF2 /* EVPhotoNameNumberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPhotoNameNumberCell.m; sourceTree = "<group>"; };
 		D07FBB391777C59F009D8AF3 /* onboard-card1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-card1.png"; sourceTree = "<group>"; };
 		D07FBB3A1777C59F009D8AF3 /* onboard-card1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-card1@2x.png"; sourceTree = "<group>"; };
 		D07FBB3B1777C59F009D8AF3 /* onboard-card2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-card2.png"; sourceTree = "<group>"; };
@@ -1005,6 +1014,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D07DC179177E1AFB006DAAF2 /* libsqlite3.dylib in Frameworks */,
 				9C900D341768028D00E2F4C4 /* CoreText.framework in Frameworks */,
 				9CEEB8621755854500C24C2A /* Accounts.framework in Frameworks */,
 				9CEEB8631755854500C24C2A /* AddressBook.framework in Frameworks */,
@@ -1026,6 +1036,7 @@
 				2D513647E3894A1A8D42D301 /* libPods.a in Frameworks */,
 				9CEEB8531755271100C24C2A /* Balanced.framework in Frameworks */,
 				9C2FCEF817592062003F13BC /* Crashlytics.framework in Frameworks */,
+				D07DC175177E1A01006DAAF2 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1548,6 +1559,8 @@
 				9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */,
 				9C1DEC33177B86E20057526D /* EVGroupRequestCompletedCell.h */,
 				9C1DEC34177B86E20057526D /* EVGroupRequestCompletedCell.m */,
+				D07DC17A178228E1006DAAF2 /* EVPhotoNameNumberCell.h */,
+				D07DC17B178228E1006DAAF2 /* EVPhotoNameNumberCell.m */,
 			);
 			path = GroupRequest;
 			sourceTree = "<group>";
@@ -1666,6 +1679,7 @@
 		9C981B16174FD95600BE9506 = {
 			isa = PBXGroup;
 			children = (
+				D07DC178177E1AFB006DAAF2 /* libsqlite3.dylib */,
 				D093B99D17755E570036BDBD /* Icon.png */,
 				D093B99B17755E530036BDBD /* Icon@2x.png */,
 				9C1DEC36177B9E040057526D /* Icon-Small-50.png */,
@@ -1725,6 +1739,8 @@
 				9CEEB8611755854500C24C2A /* SystemConfiguration.framework */,
 				9C981B22174FD95600BE9506 /* UIKit.framework */,
 				6AECA7FADBCD48EB8F56C9B4 /* libPods-KiwiUnitTest.a */,
+				D07DC174177E1A01006DAAF2 /* FacebookSDK.framework */,
+				D07DC176177E1AA6006DAAF2 /* FacebookSDKResources.bundle */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2515,6 +2531,7 @@
 				D095EEEE177979F00016F434 /* logo-gray@2x.png in Resources */,
 				D0930050177BE362009F1881 /* Icon-72.png in Resources */,
 				D0930051177BE362009F1881 /* Icon-72@2x.png in Resources */,
+				D07DC177177E1AA6006DAAF2 /* FacebookSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2813,6 +2830,7 @@
 				D093004D177BBEA5009F1881 /* EVPINView.m in Sources */,
 				D0930055177BEC61009F1881 /* UILabel+EVAdditions.m in Sources */,
 				D0930058177C0519009F1881 /* EVEnterPINViewController.m in Sources */,
+				D07DC17C178228E1006DAAF2 /* EVPhotoNameNumberCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2945,10 +2963,15 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Frameworks\"",
+					/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
 				INFOPLIST_FILE = "Evenly/Evenly-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Documents/FacebookSDK/FacebookSDK.framework/Versions/A,
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0F3CAE62-0513-4307-8298-712AEC20BD79";
@@ -2966,10 +2989,15 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/Frameworks\"",
+					/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
 				INFOPLIST_FILE = "Evenly/Evenly-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/Documents/FacebookSDK/FacebookSDK.framework/Versions/A,
+				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "0F3CAE62-0513-4307-8298-712AEC20BD79";
