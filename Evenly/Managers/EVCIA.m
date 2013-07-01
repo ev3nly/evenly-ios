@@ -115,14 +115,18 @@ static EVCIA *_sharedInstance;
 
 #pragma mark - Me
 
+NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
+
 + (EVUser *)me {
     return ((EVCIA *)[self sharedInstance]).me;
 }
 
 + (void)reloadMe {
     [EVUser meWithSuccess:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedMeNotification object:nil];
         DLog(@"Got me: %@", [[self sharedInstance] me]);
         [[self sharedInstance] reloadAllExchangesWithCompletion:NULL];
+        
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];

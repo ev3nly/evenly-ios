@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVAutocompleteCell.h"
 #import "EVAvatarView.h"
 
-@interface EVAutocompletePhotoCell : UITableViewCell
+@interface EVAutocompletePhotoCell : EVAutocompleteCell
 
 @property (nonatomic, strong) EVAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *label;
