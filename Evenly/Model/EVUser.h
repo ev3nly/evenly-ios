@@ -51,6 +51,7 @@
 @property (nonatomic, strong) UIImage *updatedAvatar;
 @property (nonatomic, getter = isConfirmed) BOOL confirmed;
 @property (nonatomic, assign) EVPrivacySetting privacySetting;
+@property (nonatomic, strong) NSArray *connections;
 
 + (EVUser *)me;
 + (void)setMe:(EVUser *)user;

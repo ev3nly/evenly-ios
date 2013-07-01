@@ -9,6 +9,8 @@
 #import "EVUser.h"
 #import "EVCIA.h"
 #import "EVStory.h"
+#import "EVConnection.h"
+#import "EVSerializer.h"
 
 /* Used to get and update User via the /me controller */
 
@@ -59,6 +61,15 @@ static EVUser *_me;
     if (properties[@"avatar_url"] && ![properties[@"avatar_url"] isKindOfClass:[NSNull class]]) {
         self.avatarURL = [NSURL URLWithString:properties[@"avatar_url"]];
         [self loadAvatar];
+    }
+    
+    if (properties[@"connections"]) {
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSDictionary *dictionary in properties[@"connections"]) {
+            EVConnection *connection = (EVConnection *)[EVSerializer serializeDictionary:dictionary];
+            [array addObject:connection];
+        }
+        self.connections = array;
     }
     
     self.confirmed = [[properties valueForKey:@"confirmed"] boolValue];

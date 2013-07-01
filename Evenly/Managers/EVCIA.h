@@ -34,6 +34,8 @@
 + (void)reloadMe;
 - (void)cacheMe;
 
++ (NSArray *)myConnections;
+
 - (EVObject *)cachedObjectWithClassName:(NSString *)className dbid:(NSString *)dbid;
 - (void)cacheObject:(EVObject *)object;
 

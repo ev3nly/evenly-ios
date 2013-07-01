@@ -11,6 +11,7 @@
 #import "EVActivity.h"
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
+#import "EVConnection.h"
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
 NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKey";
@@ -164,6 +165,14 @@ static EVCIA *_sharedInstance;
     }
     
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (NSArray *)myConnections {
+    NSMutableArray *array = [NSMutableArray array];
+    [[[self me] connections] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [array addObject:[(EVConnection *)obj user]];
+    }];
+    return array;
 }
 
 #pragma mark - Session
