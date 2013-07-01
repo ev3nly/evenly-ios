@@ -218,6 +218,9 @@
 		9C900D321767FAA600E2F4C4 /* EVBlueButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D311767FAA600E2F4C4 /* EVBlueButton.m */; };
 		9C900D341768028D00E2F4C4 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C900D331768028D00E2F4C4 /* CoreText.framework */; };
 		9C900D38176802FF00E2F4C4 /* EVSpreadLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C900D37176802FF00E2F4C4 /* EVSpreadLabel.m */; };
+		9C9017E21782144E00FCD32A /* EVAutocompleteTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9017E11782144E00FCD32A /* EVAutocompleteTableViewController.m */; };
+		9C9017E817821A6B00FCD32A /* EVAutocompletePhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9017E517821A5D00FCD32A /* EVAutocompletePhotoCell.m */; };
+		9C9017E917821A6B00FCD32A /* EVAutocompleteEmailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9017E717821A6400FCD32A /* EVAutocompleteEmailCell.m */; };
 		9C981B23174FD95600BE9506 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B22174FD95600BE9506 /* UIKit.framework */; };
 		9C981B25174FD95600BE9506 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B24174FD95600BE9506 /* Foundation.framework */; };
 		9C981B27174FD95600BE9506 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B26174FD95600BE9506 /* CoreGraphics.framework */; };
@@ -756,6 +759,12 @@
 		9C900D331768028D00E2F4C4 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		9C900D36176802FF00E2F4C4 /* EVSpreadLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSpreadLabel.h; sourceTree = "<group>"; };
 		9C900D37176802FF00E2F4C4 /* EVSpreadLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSpreadLabel.m; sourceTree = "<group>"; };
+		9C9017E01782144E00FCD32A /* EVAutocompleteTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAutocompleteTableViewController.h; sourceTree = "<group>"; };
+		9C9017E11782144E00FCD32A /* EVAutocompleteTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAutocompleteTableViewController.m; sourceTree = "<group>"; };
+		9C9017E417821A5D00FCD32A /* EVAutocompletePhotoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVAutocompletePhotoCell.h; sourceTree = "<group>"; };
+		9C9017E517821A5D00FCD32A /* EVAutocompletePhotoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVAutocompletePhotoCell.m; sourceTree = "<group>"; };
+		9C9017E617821A6400FCD32A /* EVAutocompleteEmailCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVAutocompleteEmailCell.h; sourceTree = "<group>"; };
+		9C9017E717821A6400FCD32A /* EVAutocompleteEmailCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVAutocompleteEmailCell.m; sourceTree = "<group>"; };
 		9C981B1F174FD95600BE9506 /* Evenly.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Evenly.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C981B22174FD95600BE9506 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		9C981B24174FD95600BE9506 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1715,6 +1724,17 @@
 			path = Labels;
 			sourceTree = "<group>";
 		};
+		9C9017E317821A4E00FCD32A /* Autocomplete */ = {
+			isa = PBXGroup;
+			children = (
+				9C9017E417821A5D00FCD32A /* EVAutocompletePhotoCell.h */,
+				9C9017E517821A5D00FCD32A /* EVAutocompletePhotoCell.m */,
+				9C9017E617821A6400FCD32A /* EVAutocompleteEmailCell.h */,
+				9C9017E717821A6400FCD32A /* EVAutocompleteEmailCell.m */,
+			);
+			path = Autocomplete;
+			sourceTree = "<group>";
+		};
 		9C981B16174FD95600BE9506 = {
 			isa = PBXGroup;
 			children = (
@@ -1983,6 +2003,7 @@
 		9CB285C5176164E1009B26BB /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				9C9017E317821A4E00FCD32A /* Autocomplete */,
 				9C863C8517729702003ADB49 /* Grouped */,
 				9CB285C6176164EC009B26BB /* EVMainMenuCell.h */,
 				9CB285C7176164EC009B26BB /* EVMainMenuCell.m */,
@@ -2068,6 +2089,8 @@
 				D0828FB01768E6B10032D62E /* EVPaymentViewController.m */,
 				9C5044151770E5880090D865 /* EVRequestViewController.h */,
 				9C5044161770E5880090D865 /* EVRequestViewController.m */,
+				9C9017E01782144E00FCD32A /* EVAutocompleteTableViewController.h */,
+				9C9017E11782144E00FCD32A /* EVAutocompleteTableViewController.m */,
 				9C5044311771190B0090D865 /* EVAutocompleteTableViewDataSource.h */,
 				9C5044321771190B0090D865 /* EVAutocompleteTableViewDataSource.m */,
 			);
@@ -2740,6 +2763,7 @@
 				9C1F47FC1756914B00B26A1B /* EVUtilities.m in Sources */,
 				9C1F47FD1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m in Sources */,
 				9C5044211770E8CE0090D865 /* EVRequestInitialView.m in Sources */,
+				9C9017E817821A6B00FCD32A /* EVAutocompletePhotoCell.m in Sources */,
 				9C1F481F175691B600B26A1B /* EVActivity.m in Sources */,
 				9C1F4820175691B600B26A1B /* EVBankAccount.m in Sources */,
 				9C1F4822175691B600B26A1B /* EVRequest.m in Sources */,
@@ -2786,6 +2810,7 @@
 				9CB285C8176164EC009B26BB /* EVMainMenuCell.m in Sources */,
 				9C32421E1777A864004A358F /* EVDashboardSegmentedControl.m in Sources */,
 				9C50442D1770FC250090D865 /* EVBackButton.m in Sources */,
+				9C9017E21782144E00FCD32A /* EVAutocompleteTableViewController.m in Sources */,
 				9CB285C3176157ED009B26BB /* EVStory.m in Sources */,
 				9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */,
 				9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */,
@@ -2861,6 +2886,7 @@
 				D0C30AF71770F480005606E8 /* EVTransactionDetailViewController.m in Sources */,
 				D0C30AFA1770F63A005606E8 /* EVTransactionDetailCell.m in Sources */,
 				D0C30AFE177217A3005606E8 /* EVPendingDetailViewController.m in Sources */,
+				9C9017E917821A6B00FCD32A /* EVAutocompleteEmailCell.m in Sources */,
 				D0C30B0117721927005606E8 /* EVPendingDetailCell.m in Sources */,
 				9C659BED177A28CF0028072A /* EVDashboardTitleCell.m in Sources */,
 				D077A8C0177391B4001BAAAD /* EVProfileCell.m in Sources */,

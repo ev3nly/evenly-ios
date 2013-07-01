@@ -112,7 +112,7 @@
     self.toField.delegate = self;
     [self addSubview:self.toField];
 
-    self.lowerStripe = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.toField.frame) + 2.0, self.frame.size.width, 1)];
+    self.lowerStripe = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.toField.frame) + 1, self.frame.size.width, 1)];
     self.lowerStripe.backgroundColor = [EVColor newsfeedStripeColor];
     [self addSubview:self.lowerStripe];
 }
@@ -137,7 +137,7 @@
 - (void)positionTableView {
     float tableHeight = self.frame.size.height - CGRectGetMaxY(self.toField.frame);
     CGRect tableFrame =  CGRectMake(0,
-                                    CGRectGetMaxY(self.toField.frame),
+                                    CGRectGetMaxY(self.lowerStripe.frame),
                                     self.frame.size.width,
                                     tableHeight);
     DLog(@"Table frame: %@", NSStringFromCGRect(tableFrame));

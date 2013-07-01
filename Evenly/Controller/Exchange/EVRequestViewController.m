@@ -12,7 +12,8 @@
 #import "EVPrivacySelectorView.h"
 #import "EVBackButton.h"
 
-#import "EVAutocompleteTableViewDataSource.h"
+//#import "EVAutocompleteTableViewDataSource.h"
+
 #import "EVUserAutocompletionCell.h"
 #import "EVKeyboardTracker.h"
 
@@ -32,8 +33,10 @@
 @property (nonatomic, strong) EVPageControl *pageControl;
 @property (nonatomic, strong) EVPrivacySelectorView *privacySelector;
 
-@property (nonatomic, strong) UITableView *autocompleteTableView;
-@property (nonatomic, strong) EVAutocompleteTableViewDataSource *autocompleteDataSource;
+@property (nonatomic, strong) EVAutocompleteTableViewController *autocompleteTableViewController;
+
+//@property (nonatomic, strong) UITableView *autocompleteTableView;
+//@property (nonatomic, strong) EVAutocompleteTableViewDataSource *autocompleteDataSource;
 
 @property (nonatomic, strong) NSArray *leftButtons;
 @property (nonatomic, strong) NSArray *rightButtons;
@@ -175,24 +178,29 @@
 }
 
 - (void)loadAutocomplete {
-    self.autocompleteDataSource = [[EVAutocompleteTableViewDataSource alloc] init];
+    self.autocompleteTableViewController = [[EVAutocompleteTableViewController alloc] initWithStyle:UITableViewStylePlain];
+    self.autocompleteTableViewController.delegate = self;
+    self.autocompleteTableViewController.inputField = self.initialView.toField.textField;
     
-
-    self.autocompleteTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    self.autocompleteTableView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-    self.autocompleteTableView.delegate = self;
-    self.autocompleteTableView.dataSource = self.autocompleteDataSource;
-    self.autocompleteTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.autocompleteTableView registerClass:[EVUserAutocompletionCell class]
-                      forCellReuseIdentifier:@"userAutocomplete"];
-    self.autocompleteTableView.separatorColor = [UIColor colorWithWhite:0.8 alpha:1.0];
+//    self.autocompleteDataSource = [[EVAutocompleteTableViewDataSource alloc] init];
+//    
+//
+//    self.autocompleteTableView = [[UITableView alloc] initWithFrame:self.view.bounds
+//                                                              style:UITableViewStylePlain];
+//    self.autocompleteTableView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+//    self.autocompleteTableView.delegate = self;
+//    self.autocompleteTableView.dataSource = self.autocompleteDataSource;
+//    self.autocompleteTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    [self.autocompleteTableView registerClass:[EVUserAutocompletionCell class]
+//                      forCellReuseIdentifier:@"userAutocomplete"];
+//    self.autocompleteTableView.separatorColor = [UIColor colorWithWhite:0.8 alpha:1.0];
+//    self.autocompleteTableView.hidden = NO;
+//    self.autocompleteDataSource.tableView = self.autocompleteTableView;
+//    self.autocompleteDataSource.textField = self.initialView.toField.textField;
+//    [self.autocompleteDataSource setUpReactions];
     
-    self.autocompleteDataSource.tableView = self.autocompleteTableView;
-    self.autocompleteDataSource.textField = self.initialView.toField.textField;
-    [self.autocompleteDataSource setUpReactions];
-    
-    [self.initialView setAutocompleteTableView:self.autocompleteTableView];
-    [self.autocompleteTableView setHidden:YES];
+    [self.initialView setAutocompleteTableView:self.autocompleteTableViewController.tableView];
+//    [self.autocompleteTableView setHidden:YES];
 }
 
 - (void)setUpReactions {
@@ -278,8 +286,8 @@
 - (void)nextButtonPress:(id)sender {
     if (self.phase == EVRequestPhaseWho)
     {
-        self.autocompleteDataSource.suggestions = [NSArray array];
-        self.autocompleteTableView.hidden = YES;
+//        self.autocompleteDataSource.suggestions = [NSArray array];
+//        self.autocompleteTableView.hidden = YES;
         if (!self.isGroupRequest)
         {
             self.request = [[EVRequest alloc] init];
@@ -375,15 +383,8 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (scrollView == self.autocompleteTableView) {
-        [self.initialView.toField.textField resignFirstResponder];
-    }
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    id contact = [self.autocompleteDataSource.suggestions objectAtIndex:indexPath.row];
+
+- (void)autocompleteViewController:(EVAutocompleteTableViewController *)viewController didSelectContact:(id)contact {
     if ([contact isKindOfClass:[ABContact class]]) {
         NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
 		EVContact *toContact = [[EVContact alloc] init];
@@ -392,8 +393,22 @@
         contact = toContact;
     }
     [self.initialView addContact:contact];
-    [self.autocompleteTableView setHidden:YES];
 }
+
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    
+//    id contact = [self.autocompleteDataSource.suggestions objectAtIndex:indexPath.row];
+//    if ([contact isKindOfClass:[ABContact class]]) {
+//        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
+//		EVContact *toContact = [[EVContact alloc] init];
+//		toContact.email = emailAddress;
+//        toContact.name = [contact compositeName];
+//        contact = toContact;
+//    }
+//    [self.initialView addContact:contact];
+//    [self.autocompleteTableView setHidden:YES];
+//}
 
 
 
