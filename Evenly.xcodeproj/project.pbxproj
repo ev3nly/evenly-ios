@@ -183,6 +183,7 @@
 		9C659BFD177A3F690028072A /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C659BF9177A3F690028072A /* checked@2x.png */; };
 		9C659C00177A52F10028072A /* EVGrayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BFF177A52E10028072A /* EVGrayButton.m */; };
 		9C659C03177A8A050028072A /* EVGroupRequestStatementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */; };
+		9C68F9DD17814B2300A0E1C1 /* EVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C68F9DC17814B2300A0E1C1 /* EVConnection.m */; };
 		9C6F1B951761054100974850 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B941761054100974850 /* Default.png */; };
 		9C6F1B971761054400974850 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B961761054400974850 /* Default@2x.png */; };
 		9C6F1B991761054700974850 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6F1B981761054700974850 /* Default-568h@2x.png */; };
@@ -705,6 +706,8 @@
 		9C659BFF177A52E10028072A /* EVGrayButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGrayButton.m; sourceTree = "<group>"; };
 		9C659C01177A88E50028072A /* EVGroupRequestStatementCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestStatementCell.h; sourceTree = "<group>"; };
 		9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestStatementCell.m; sourceTree = "<group>"; };
+		9C68F9DB17814B2300A0E1C1 /* EVConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConnection.h; sourceTree = "<group>"; };
+		9C68F9DC17814B2300A0E1C1 /* EVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConnection.m; sourceTree = "<group>"; };
 		9C6F1B941761054100974850 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9C6F1B961761054400974850 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9C6F1B981761054700974850 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -1253,6 +1256,8 @@
 				9C1F4802175691B600B26A1B /* EVBankAccount.m */,
 				9C1F4805175691B600B26A1B /* EVRequest.h */,
 				9C1F4806175691B600B26A1B /* EVRequest.m */,
+				9C68F9DB17814B2300A0E1C1 /* EVConnection.h */,
+				9C68F9DC17814B2300A0E1C1 /* EVConnection.m */,
 				9C1F4807175691B600B26A1B /* EVCreditCard.h */,
 				9C1F4808175691B600B26A1B /* EVCreditCard.m */,
 				9C1F4809175691B600B26A1B /* EVExchange.h */,
@@ -2877,6 +2882,7 @@
 				D093004D177BBEA5009F1881 /* EVPINView.m in Sources */,
 				D0930055177BEC61009F1881 /* UILabel+EVAdditions.m in Sources */,
 				D0930058177C0519009F1881 /* EVEnterPINViewController.m in Sources */,
+				9C68F9DD17814B2300A0E1C1 /* EVConnection.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
