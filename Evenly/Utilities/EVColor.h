@@ -42,6 +42,7 @@
 
 #pragma mark - Request Switch
 
++ (UIColor *)requestGrayBackground;
 + (UIColor *)highlightedTextColor;
 
 #pragma mark - Progress Bar

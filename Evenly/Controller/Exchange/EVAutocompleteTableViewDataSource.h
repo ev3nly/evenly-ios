@@ -12,6 +12,7 @@
 
 @property (nonatomic, weak) UITableView *tableView;
 @property (nonatomic, weak) UITextField *textField;
+@property (nonatomic, strong) NSArray *filteredConnections;
 @property (nonatomic, strong) NSArray *suggestions;
 @property (nonatomic) CGFloat cellHeight;
 

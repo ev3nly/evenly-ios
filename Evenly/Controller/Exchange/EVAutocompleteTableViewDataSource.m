@@ -9,8 +9,12 @@
 #import "EVAutocompleteTableViewDataSource.h"
 #import "EVUserAutocompletionCell.h"
 #import "ABContactsHelper.h"
+#import "EVSpreadLabel.h"
 
 @interface EVAutocompleteTableViewDataSource ()
+
+@property (nonatomic, strong) UIView *contactsHeaderView;
+@property (nonatomic, strong) EVSpreadLabel *contactsLabel;
 
 @end
 
@@ -20,6 +24,7 @@
     self = [super init];
     if (self) {
         self.cellHeight = 40;
+        self.filteredConnections = [EVCIA myConnections];
     }
     return self;
 }
@@ -32,33 +37,34 @@
 
 - (void)handleFieldInput:(NSString *)text {
     if ([self.textField isFirstResponder]) {
+        [self filterConnectionsWithText:text];
         self.suggestions = [ABContactsHelper contactsWithEmailMatchingName:text];
-        DLog(@"SUGGESTIONS ARE FROM ADDRESS BOOK: %@", self.suggestions);
-        [self reloadTableView];
-        
-        if (!EV_IS_EMPTY_STRING(text)) {
-            [EVUser allWithParams:@{ @"query" : text } success:^(id result) {
-                EV_PERFORM_ON_MAIN_QUEUE(^{
-                    self.suggestions = [self.suggestions arrayByAddingObjectsFromArray:(NSArray *)result];
-                    DLog(@"=========>SUGGESTIONS INCLUDE SERVER: %@", self.suggestions);
-
-                    [self reloadTableView];
-                });
-            } failure:^(NSError *error) {
-                DLog(@"error: %@", error);
-            }];
-        }
     }
     else {
-        [self.tableView setHidden:YES];
+        self.filteredConnections = [EVCIA myConnections];
         self.suggestions = [NSArray array];
-        DLog(@"0000000000  SUGGESTIONS are empty: %@", self.suggestions);
-
     }
-//    if (!self.exchange.to)
-//        self.exchange.to = [EVUser new];
-//    self.exchange.to.email = text;
-//    self.exchange.to.dbid = nil;
+    [self reloadTableView];
+}
+
+- (void)filterConnectionsWithText:(NSString *)text {
+    if (EV_IS_EMPTY_STRING(text))
+    {
+        self.filteredConnections = [EVCIA myConnections];
+        return;
+    }
+    
+    NSArray *contacts = [[EVCIA myConnections] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        NSString *name = [evaluatedObject name];
+        NSArray *nameWords = [name componentsSeparatedByString:@" "];
+        BOOL include = NO;
+        for (NSString *word in nameWords) {
+            BOOL hasPrefix = [word hasPrefix:text];
+            include = include || hasPrefix;
+        }
+        return include;
+    }]];
+    self.filteredConnections = contacts;
 }
 
 - (void)reloadTableView {
@@ -74,8 +80,18 @@
 
 #pragma mark - UITableViewDataSource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.suggestions.count;
+    NSInteger count = 0;
+    if (section == 0)
+        count = self.filteredConnections.count;
+    else
+        count = self.suggestions.count;
+    DLog(@"%d rows in section %d", count, section);
+    return count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -84,8 +100,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVUserAutocompletionCell *cell = (EVUserAutocompletionCell *)[tableView dequeueReusableCellWithIdentifier:@"userAutocomplete"];
-    
-    id contact = [self.suggestions objectAtIndex:indexPath.row];
+    id contact;
+    if (indexPath.section == 0)
+        contact = [self.filteredConnections objectAtIndex:indexPath.row];
+    else
+        contact = [self.suggestions objectAtIndex:indexPath.row];
     if ([contact isKindOfClass:[EVUser class]]) {
         cell.nameLabel.text = [contact name];
         cell.emailLabel.text = [contact email];
