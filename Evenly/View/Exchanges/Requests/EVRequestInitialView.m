@@ -50,7 +50,10 @@
 }
 
 - (void)addContact:(EVObject<EVExchangeable> *)contact {
-    [self.toField addTokenWithTitle:contact.name representedObject:contact];
+    if (![[self recipients] containsObject:contact])
+    {
+        [self.toField addTokenWithTitle:contact.name representedObject:contact];
+    }
     self.toField.textField.text = nil;
 }
 
@@ -202,12 +205,11 @@
 
 - (void)tokenField:(JSTokenField *)tokenField didAddToken:(NSString *)title representedObject:(id)obj
 {
-	[self.recipients addObject:obj];
+    [self.recipients addObject:obj];
     self.recipientCount = [self.recipients count];
     if (self.recipientCount > 0) {
         self.toField.textField.placeholder = nil;
     }
-	DLog(@"Added token for < %@ : %@ >\n%@", title, obj, self.recipients);
 }
 
 - (void)tokenField:(JSTokenField *)tokenField didRemoveToken:(NSString *)title representedObject:(id)obj {
