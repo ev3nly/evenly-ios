@@ -68,4 +68,8 @@
 + (NSString *)onString;
 + (NSString *)offString;
 
+#pragma mark - Instructions
+
++ (NSString *)groupRequestCreationInstructions;
+
 @end

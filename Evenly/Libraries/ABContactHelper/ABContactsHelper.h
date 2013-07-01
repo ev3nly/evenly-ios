@@ -42,6 +42,7 @@
 
 #pragma mark - Joe's Additions
 
++ (NSArray *)contactsWithEmail;
 + (NSArray *)contactsWithEmailMatchingName:(NSString *)name;
 
 @end
