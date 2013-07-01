@@ -13,14 +13,20 @@
 #import "EVPrivacySelectorView.h"
 #import "EVNavigationBarButton.h"
 
-@interface EVExchangeViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
+#import "EVAutocompleteTableViewController.h"
+
+@interface EVExchangeViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, EVAutocompleteTableViewControllerDelegate>
 
 @property (nonatomic, strong) EVNavigationBarButton *cancelButton;
 @property (nonatomic, strong) EVNavigationBarButton *completeExchangeButton;
 
 @property (nonatomic, strong) EVExchange *exchange;
 @property (nonatomic, strong) NSArray *suggestions;
+
+
 @property (nonatomic, strong) UITableView *suggestionsTableView;
+@property (nonatomic, strong) EVAutocompleteTableViewController *autocompleteTableViewController;
+
 @property (nonatomic, strong) EVExchangeFormView *formView;
 @property (nonatomic, strong) EVPrivacySelectorView *privacySelector;
 

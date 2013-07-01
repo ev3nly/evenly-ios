@@ -92,6 +92,10 @@
 
 #pragma mark - Request Switch
 
++ (UIColor *)requestGrayBackground {
+    return EV_RGB_COLOR(0.9451, 0.9451, 0.9451);
+}
+
 + (UIColor *)highlightedTextColor {
     return EV_RGB_COLOR(0.4, 0.4, 0.4);
 }

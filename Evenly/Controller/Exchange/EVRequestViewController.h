@@ -17,6 +17,9 @@
 #import "EVRequestDetailsView.h"
 #import "EVRequestMultipleDetailsView.h"
 
+#import "EVAutocompleteTableViewController.h"
+
+
 typedef enum {
     EVRequestPhaseWho = 0,
     EVRequestPhaseHowMuch,
@@ -24,7 +27,7 @@ typedef enum {
 } EVRequestPhase;
 
 
-@interface EVRequestViewController : EVPushPopViewController <UITableViewDelegate>
+@interface EVRequestViewController : EVPushPopViewController <EVAutocompleteTableViewControllerDelegate>
 
 @property (nonatomic) EVRequestPhase phase;
 
