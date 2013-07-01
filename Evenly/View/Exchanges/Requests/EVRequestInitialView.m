@@ -8,6 +8,8 @@
 
 #import "EVRequestInitialView.h"
 
+#define PLACEHOLDER @"Name, email, phone number"
+
 #define REQUEST_SWITCH_HEIGHT 45
 
 #define LEFT_RIGHT_BUFFER 10
@@ -104,7 +106,7 @@
                                    self.frame.size.width - 2*LEFT_RIGHT_BUFFER,
                                    TO_FIELD_HEIGHT);
     self.toField = [[JSTokenField alloc] initWithFrame:fieldFrame];
-    self.toField.textField.placeholder = @"Name, email, phone number";
+    self.toField.textField.placeholder = PLACEHOLDER;
     self.toField.textField.returnKeyType = UIReturnKeyNext;
     self.toField.backgroundColor = [UIColor clearColor];
     self.toField.textField.font = [EVFont lightExchangeFormFont];
@@ -202,12 +204,18 @@
 {
 	[self.recipients addObject:obj];
     self.recipientCount = [self.recipients count];
+    if (self.recipientCount > 0) {
+        self.toField.textField.placeholder = nil;
+    }
 	DLog(@"Added token for < %@ : %@ >\n%@", title, obj, self.recipients);
 }
 
 - (void)tokenField:(JSTokenField *)tokenField didRemoveToken:(NSString *)title representedObject:(id)obj {
     [self.recipients removeObject:obj];
     self.recipientCount = [self.recipients count];
+    if (self.recipientCount == 0) {
+        self.toField.textField.placeholder = PLACEHOLDER;
+    }
     DLog(@"Deleted token < %@ : %@ >\n%@", title, obj, self.recipients);
 }
 
