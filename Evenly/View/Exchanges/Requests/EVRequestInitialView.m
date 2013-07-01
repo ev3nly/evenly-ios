@@ -15,7 +15,6 @@
 #define LEFT_RIGHT_BUFFER 10
 #define TO_FIELD_HEIGHT 25
 #define LINE_HEIGHT 40
-#define INSTRUCTION_LABEL_BUFFER 30.0
 
 @interface EVRequestInitialView ()
 
@@ -37,7 +36,6 @@
 
         [self loadRequestSwitch];
         [self loadToField];
-        [self loadInstructionLabel];
         
         [self setUpReactions];
         
@@ -83,17 +81,13 @@
 
 }
 
-- (void)switchControl:(EVSwitch *)switchControl willChangeStateTo:(BOOL)onOff animationDuration:(NSTimeInterval)duration {
-    [UIView animateWithDuration:duration
-                     animations:^{
-                         self.instructionLabel.alpha = (float)onOff;
-                     }];
-}
-
 - (CGRect)requestSwitchFrame {
     return CGRectMake(10, 7, 300, 35);
 }
 
+- (void)switchControl:(EVSwitch *)switchControl willChangeStateTo:(BOOL)onOff animationDuration:(NSTimeInterval)duration {
+    // TODO: Add flash message.
+}
 
 - (void)loadToField
 {
@@ -122,23 +116,6 @@
     [self addSubview:self.lowerStripe];
 }
 
-- (void)loadInstructionLabel {
-    self.instructionLabel = [[UILabel alloc] initWithFrame:CGRectMake(INSTRUCTION_LABEL_BUFFER,
-                                                                      CGRectGetMaxY(self.lowerStripe.frame),
-                                                                      self.frame.size.width - 2*INSTRUCTION_LABEL_BUFFER,
-                                                                      self.frame.size.height - CGRectGetMaxY(self.toField.frame) - EV_DEFAULT_KEYBOARD_HEIGHT)];
-    self.instructionLabel.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-    self.instructionLabel.textAlignment = NSTextAlignmentCenter;
-    self.instructionLabel.textColor = [EVColor lightLabelColor];
-    self.instructionLabel.font = [EVFont boldFontOfSize:16];
-    self.instructionLabel.backgroundColor = [UIColor clearColor];
-    self.instructionLabel.numberOfLines = 0;
-    self.instructionLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.instructionLabel.text = @"Add friends now or invite them later on.";
-    self.instructionLabel.alpha = 0.0;
-    [self addSubview:self.instructionLabel];
-}
-
 - (void)positionTableView {
     float tableHeight = self.frame.size.height - CGRectGetMaxY(self.toField.frame);
     CGRect tableFrame =  CGRectMake(0,
@@ -151,7 +128,7 @@
 
 - (void)setUpReactions {
     [RACAble(self.requestSwitch.xPercentage) subscribeNext:^(NSNumber *percentage) {
-        self.instructionLabel.alpha = [percentage floatValue];
+        // TODO: Something with the flash message?
     }];
     
     // JH: I couldn't figure out a way to do this using ReactiveCocoa, so I just went back
