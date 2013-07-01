@@ -15,7 +15,7 @@
 
 #import "EVAutocompleteTableViewController.h"
 
-@interface EVExchangeViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, EVAutocompleteTableViewControllerDelegate>
+@interface EVExchangeViewController : EVViewController <EVAutocompleteTableViewControllerDelegate>
 
 @property (nonatomic, strong) EVNavigationBarButton *cancelButton;
 @property (nonatomic, strong) EVNavigationBarButton *completeExchangeButton;
@@ -23,8 +23,6 @@
 @property (nonatomic, strong) EVExchange *exchange;
 @property (nonatomic, strong) NSArray *suggestions;
 
-
-@property (nonatomic, strong) UITableView *suggestionsTableView;
 @property (nonatomic, strong) EVAutocompleteTableViewController *autocompleteTableViewController;
 
 @property (nonatomic, strong) EVExchangeFormView *formView;
@@ -33,6 +31,5 @@
 - (NSString *)completeExchangeButtonText;
 - (void)loadFormView;
 - (CGRect)formViewFrame;
-- (void)handleToFieldInput:(NSString *)text;
 
 @end

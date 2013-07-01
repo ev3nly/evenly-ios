@@ -17,7 +17,6 @@
 
 @property (nonatomic, strong) EVRequestSwitch *requestSwitch;
 @property (nonatomic, strong) JSTokenField *toField;
-@property (nonatomic, strong) UILabel *instructionLabel;
 
 @property (nonatomic, strong) NSMutableArray *recipients;
 @property (nonatomic, readonly) NSInteger recipientCount;

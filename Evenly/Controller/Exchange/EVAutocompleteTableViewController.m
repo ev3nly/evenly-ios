@@ -15,8 +15,13 @@
 
 @interface EVAutocompleteTableViewController ()
 
+@property (nonatomic, strong) UIView *evenlyFriendsHeaderView;
+@property (nonatomic, strong) EVSpreadLabel *evenlyFriendsHeaderLabel;
+
 @property (nonatomic, strong) UIView *contactsHeaderView;
 @property (nonatomic, strong) EVSpreadLabel *contactsLabel;
+
+- (void)loadHeaderViews;
 
 @end
 
@@ -28,8 +33,18 @@
     if (self) {
         self.cellHeight = 45.0;
         self.filteredConnections = [EVCIA myConnections];
+        self.addressBookSuggestions = [ABContactsHelper contactsWithEmail];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didUpdateMe:)
+                                                     name:EVCIAUpdatedMeNotification
+                                                   object:nil];
+        
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad
@@ -43,11 +58,40 @@
     
     self.tableView.separatorColor = [EVColor newsfeedStripeColor];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self loadHeaderViews];
+}
+
+- (void)loadHeaderViews {
+    EVSpreadLabel *spreadLabel;
+    UIView *headerView;
+    
+    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(10, 5, self.tableView.frame.size.width - 20, 15)];
+    spreadLabel.backgroundColor = [UIColor clearColor];
+    spreadLabel.textColor = [EVColor lightLabelColor];
+    spreadLabel.font = [EVFont blackFontOfSize:11];
+    spreadLabel.characterSpacing = 2.0;
+    
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
+    headerView.backgroundColor = [EVColor requestGrayBackground];
+    [headerView addSubview:spreadLabel];
+    
+    self.evenlyFriendsHeaderLabel = spreadLabel;
+    self.evenlyFriendsHeaderLabel.text = @"EVENLY FRIENDS";
+    self.evenlyFriendsHeaderView = headerView;
+    
+    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(10, 5, self.tableView.frame.size.width - 20, 15)];
+    spreadLabel.backgroundColor = [UIColor clearColor];
+    spreadLabel.textColor = [EVColor lightLabelColor];
+    spreadLabel.font = [EVFont blackFontOfSize:11];
+    spreadLabel.characterSpacing = 2.0;
+    
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
+    headerView.backgroundColor = [EVColor requestGrayBackground];
+    [headerView addSubview:spreadLabel];
+    
+    self.contactsLabel = spreadLabel;
+    self.contactsLabel.text = @"CONTACTS";
+    self.contactsHeaderView = headerView;
 }
 
 - (void)didReceiveMemoryWarning
@@ -70,7 +114,7 @@
     }
     else {
         self.filteredConnections = [EVCIA myConnections];
-        self.addressBookSuggestions = [NSArray array];
+        self.addressBookSuggestions = [ABContactsHelper contactsWithEmail];
     }
     [self.tableView reloadData];
 }
@@ -105,8 +149,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSInteger count = 0;
-    if (section == 0)
-        count = self.filteredConnections.count;
+    if (section == EVAutocompleteSectionConnections)
+        count = MIN(self.filteredConnections.count, EV_AUTOCOMPLETE_MAX_CONNECTIONS_SHOWN);
     else
         count = self.addressBookSuggestions.count;
     DLog(@"%d rows in section %d", count, section);
@@ -142,9 +186,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    EV_DISPATCH_AFTER(0.5, ^{
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    });
     id contact = nil;
-    if (indexPath.section == 0)
+    if (indexPath.section == EVAutocompleteSectionConnections)
         contact = [self.filteredConnections objectAtIndex:indexPath.row];
     else
         contact = [self.addressBookSuggestions objectAtIndex:indexPath.row];
@@ -153,34 +199,27 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    if (section == 0)
-        return 0.0;
     return 25.0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (section == 0)
-        return nil;
-    if (!self.contactsHeaderView)
-    {
-        self.contactsLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(10, 5, self.tableView.frame.size.width - 20, 15)];
-        self.contactsLabel.backgroundColor = [UIColor clearColor];
-        self.contactsLabel.textColor = [EVColor lightLabelColor];
-        self.contactsLabel.font = [EVFont blackFontOfSize:11];
-        self.contactsLabel.characterSpacing = 2.0;
-        self.contactsLabel.text = @"CONTACTS";
-        
-        self.contactsHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
-        self.contactsHeaderView.backgroundColor = [EVColor requestGrayBackground];
-        [self.contactsHeaderView addSubview:self.contactsLabel];
-    }
-    return self.contactsHeaderView;
+    if (section == EVAutocompleteSectionConnections)
+        return self.evenlyFriendsHeaderView;
+    else
+        return self.contactsHeaderView;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     if (scrollView == self.tableView) {
         [self.inputField resignFirstResponder];
     }
+}
+
+#pragma mark - Notifications
+
+- (void)didUpdateMe:(NSNotification *)notification {
+    [self filterConnectionsWithText:self.inputField.text];
+    [self.tableView reloadData];
 }
 
 @end

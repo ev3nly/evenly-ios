@@ -135,21 +135,16 @@
         if (self.suggestions.count > 0)
             [self showTableView];
         else
-            [self hideTableView];
-        
-        [self.suggestionsTableView reloadData];
+            [self hideTableView];        
     });
 }
 
 - (void)showTableView {
     self.autocompleteTableViewController.tableView.frame = [self suggestionsTableViewFrame];
-//    self.suggestionsTableView.frame = [self suggestionsTableViewFrame];
-//    [self.view addSubview:self.suggestionsTableView];
     [self.view addSubview:self.autocompleteTableViewController.tableView];
 }
 
 - (void)hideTableView {
-//    [self.suggestionsTableView removeFromSuperview];
     [self.autocompleteTableViewController.tableView removeFromSuperview];
 }
 
