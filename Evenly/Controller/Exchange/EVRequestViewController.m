@@ -75,6 +75,11 @@
     [self setUpReactions];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.initialView becomeFirstResponder];
+}
+
 - (void)loadNavigationButtons {
     
     NSMutableArray *left = [NSMutableArray array];
@@ -219,8 +224,11 @@
     {
         if (self.isGroupRequest) {
             [button setEnabled:YES];
+            NSString *title = (self.initialView.recipientCount ? @"Next" : @"Skip");
+            [button setTitle:title forState:UIControlStateNormal];
         } else {
             [button setEnabled:(BOOL)self.initialView.recipientCount];
+            [button setTitle:@"Next" forState:UIControlStateNormal];
         }
     }
     else if (phase == EVRequestPhaseHowMuch)
