@@ -92,7 +92,7 @@
     if (onOff == YES && self.recipientCount == 0) {
         EVInstructionView *instructionView = [[EVInstructionView alloc] initWithText:[EVStringUtility groupRequestCreationInstructions]];
         [instructionView setShowingLogo:YES];
-        [instructionView flashInView:self forDuration:1.5];
+        [instructionView flashInView:self forDuration:2.5];
     }    
 }
 
