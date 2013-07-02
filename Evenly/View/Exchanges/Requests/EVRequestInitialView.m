@@ -7,6 +7,7 @@
 //
 
 #import "EVRequestInitialView.h"
+#import "EVInstructionView.h"
 
 #define PLACEHOLDER @"Name, email, phone number"
 
@@ -86,7 +87,11 @@
 }
 
 - (void)switchControl:(EVSwitch *)switchControl willChangeStateTo:(BOOL)onOff animationDuration:(NSTimeInterval)duration {
-    // TODO: Add flash message.
+    if (onOff == YES && self.recipientCount == 0) {
+        EVInstructionView *instructionView = [[EVInstructionView alloc] initWithText:[EVStringUtility groupRequestCreationInstructions]];
+        [instructionView setShowingLogo:YES];
+        [instructionView flashInView:self forDuration:1.5];
+    }    
 }
 
 - (void)loadToField
