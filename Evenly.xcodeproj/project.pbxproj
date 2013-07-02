@@ -192,6 +192,11 @@
 		9C778DE717679ADA0053F9D6 /* Btn_Header_Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C778DE317679ADA0053F9D6 /* Btn_Header_Normal.png */; };
 		9C778DE817679ADA0053F9D6 /* Btn_Header_Normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C778DE417679ADA0053F9D6 /* Btn_Header_Normal@2x.png */; };
 		9C81862217823E9F00038B00 /* EVAutocompleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C81862117823E9F00038B00 /* EVAutocompleteCell.m */; };
+		9C8186291782499000038B00 /* popover_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C8186251782499000038B00 /* popover_logo.png */; };
+		9C81862A1782499000038B00 /* popover_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C8186261782499000038B00 /* popover_logo@2x.png */; };
+		9C81862B1782499000038B00 /* x_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C8186271782499000038B00 /* x_button.png */; };
+		9C81862C1782499000038B00 /* x_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C8186281782499000038B00 /* x_button@2x.png */; };
+		9C81862F178249EF00038B00 /* EVInstructionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C81862E178249EF00038B00 /* EVInstructionView.m */; };
 		9C863C7417727D86003ADB49 /* EVSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C7317727D86003ADB49 /* EVSegmentedControl.m */; };
 		9C863C7717728193003ADB49 /* EVRequestBigAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C761772818D003ADB49 /* EVRequestBigAmountView.m */; };
 		9C863C8E17729702003ADB49 /* EVFundingSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C8717729702003ADB49 /* EVFundingSourceCell.m */; };
@@ -720,6 +725,12 @@
 		9C778DE417679ADA0053F9D6 /* Btn_Header_Normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Btn_Header_Normal@2x.png"; sourceTree = "<group>"; };
 		9C81862017823E9F00038B00 /* EVAutocompleteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAutocompleteCell.h; sourceTree = "<group>"; };
 		9C81862117823E9F00038B00 /* EVAutocompleteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAutocompleteCell.m; sourceTree = "<group>"; };
+		9C8186251782499000038B00 /* popover_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popover_logo.png; sourceTree = "<group>"; };
+		9C8186261782499000038B00 /* popover_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popover_logo@2x.png"; sourceTree = "<group>"; };
+		9C8186271782499000038B00 /* x_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = x_button.png; sourceTree = "<group>"; };
+		9C8186281782499000038B00 /* x_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@2x.png"; sourceTree = "<group>"; };
+		9C81862D178249EF00038B00 /* EVInstructionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInstructionView.h; sourceTree = "<group>"; };
+		9C81862E178249EF00038B00 /* EVInstructionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInstructionView.m; sourceTree = "<group>"; };
 		9C863C7217727D86003ADB49 /* EVSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSegmentedControl.h; sourceTree = "<group>"; };
 		9C863C7317727D86003ADB49 /* EVSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSegmentedControl.m; sourceTree = "<group>"; };
 		9C863C751772818D003ADB49 /* EVRequestBigAmountView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVRequestBigAmountView.h; sourceTree = "<group>"; };
@@ -1634,6 +1645,26 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		9C8186231782490100038B00 /* InstructionView */ = {
+			isa = PBXGroup;
+			children = (
+				9C81862D178249EF00038B00 /* EVInstructionView.h */,
+				9C81862E178249EF00038B00 /* EVInstructionView.m */,
+			);
+			path = InstructionView;
+			sourceTree = "<group>";
+		};
+		9C8186241782499000038B00 /* InstructionView */ = {
+			isa = PBXGroup;
+			children = (
+				9C8186251782499000038B00 /* popover_logo.png */,
+				9C8186261782499000038B00 /* popover_logo@2x.png */,
+				9C8186271782499000038B00 /* x_button.png */,
+				9C8186281782499000038B00 /* x_button@2x.png */,
+			);
+			path = InstructionView;
+			sourceTree = "<group>";
+		};
 		9C863C7117727D86003ADB49 /* SegmentedControls */ = {
 			isa = PBXGroup;
 			children = (
@@ -1870,6 +1901,7 @@
 			children = (
 				9C900D1F1767FA3E00E2F4C4 /* Buttons */,
 				9C3917391773DEAE002949C3 /* Cells */,
+				9C8186241782499000038B00 /* InstructionView */,
 				9C863C9917729E7D003ADB49 /* Invite */,
 				9CB285701761521E009B26BB /* MainMenu */,
 				9CB2857A1761521E009B26BB /* NavBar */,
@@ -1989,6 +2021,7 @@
 				9C2684B6176683B100AEA624 /* Buttons */,
 				D03F1E191767BAEF0067A428 /* Exchanges */,
 				9C2DD080176906AE00EAA3D1 /* General */,
+				9C8186231782490100038B00 /* InstructionView */,
 				9C900D35176802F700E2F4C4 /* Labels */,
 				9C54289C176FD65D0028F141 /* PageControls */,
 				9C32420F1777977A004A358F /* ProgressBars */,
@@ -2447,6 +2480,7 @@
 				9CB285A11761521E009B26BB /* Home@2x.png in Resources */,
 				9CB285A21761521E009B26BB /* Invite.png in Resources */,
 				9C659BFD177A3F690028072A /* checked@2x.png in Resources */,
+				9C81862C1782499000038B00 /* x_button@2x.png in Resources */,
 				9C863C97177298FC003ADB49 /* Request-Multi-Remove.png in Resources */,
 				9CB285A31761521E009B26BB /* Invite@2x.png in Resources */,
 				9C542877176F9DB60028F141 /* Request-Single-Dark@2x.png in Resources */,
@@ -2500,6 +2534,7 @@
 				9C2684CB1766851700AEA624 /* Action_PaymentActive@2x.png in Resources */,
 				9C2684CC1766851700AEA624 /* Action_Request.png in Resources */,
 				9C2684CD1766851700AEA624 /* Action_Request@2x.png in Resources */,
+				9C81862B1782499000038B00 /* x_button.png in Resources */,
 				9C504478177122850090D865 /* tokenNormal.png in Resources */,
 				9C542896176FD6470028F141 /* Request-header-dot-hole.png in Resources */,
 				9C2684CE1766851700AEA624 /* Action_RequestActive.png in Resources */,
@@ -2567,6 +2602,7 @@
 				D0770B3F177519BF0002B572 /* add-photo.png in Resources */,
 				D0770B40177519BF0002B572 /* add-photo@2x.png in Resources */,
 				D0770B4317751D740002B572 /* DefaultAvatar.png in Resources */,
+				9C81862A1782499000038B00 /* popover_logo@2x.png in Resources */,
 				D0770B4417751D740002B572 /* DefaultAvatar@2x.png in Resources */,
 				D093B99C17755E530036BDBD /* Icon@2x.png in Resources */,
 				D093B99E17755E570036BDBD /* Icon.png in Resources */,
@@ -2574,6 +2610,7 @@
 				D093B9A917757AEF0036BDBD /* status-error@2x.png in Resources */,
 				D093B9AA17757AEF0036BDBD /* status-progress-spinner.png in Resources */,
 				D093B9AB17757AEF0036BDBD /* status-progress-spinner@2x.png in Resources */,
+				9C8186291782499000038B00 /* popover_logo.png in Resources */,
 				D093B9AC17757AEF0036BDBD /* status-progress.png in Resources */,
 				D093B9AD17757AEF0036BDBD /* status-progress@2x.png in Resources */,
 				D093B9AE17757AEF0036BDBD /* status-success.png in Resources */,
@@ -2728,6 +2765,7 @@
 				9CEEB7F11755261500C24C2A /* EVErrorHandler.m in Sources */,
 				9CEEB7F21755261500C24C2A /* EVHTTPClient.m in Sources */,
 				9CEEB7F31755261500C24C2A /* EVNetworkManager.m in Sources */,
+				9C81862F178249EF00038B00 /* EVInstructionView.m in Sources */,
 				9CEEB846175526EC00C24C2A /* ABContact.m in Sources */,
 				9CEEB847175526EC00C24C2A /* ABContactsHelper.m in Sources */,
 				9C3917351773CEBB002949C3 /* EVGroupRequestDashboardTableViewDataSource.m in Sources */,
