@@ -14,6 +14,14 @@
 #import "EVBlueButton.h"
 #import "EVGrayButton.h"
 
+typedef enum {
+    EVGroupRequestRecordRowHeader,
+    EVGroupRequestRecordRowStatement,
+    EVGroupRequestRecordRowPaymentOption,
+    EVGroupRequestRecordRowButtons,
+    EVGroupRequestRecordRowCOUNT
+} EVGroupRequestRecordRow;
+
 @interface EVGroupRequestRecordTableViewDataSource : NSObject <UITableViewDataSource>
 
 @property (nonatomic, strong) EVGroupRequestRecord *record;

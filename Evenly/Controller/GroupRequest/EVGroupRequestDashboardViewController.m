@@ -13,7 +13,7 @@
 #import "EVDashboardNoOneJoinedCell.h"
 #import "EVGroupRequestProgressView.h"
 
-#import "EVGroupRequestRecordViewController.h"
+#import "EVGroupRequestEditViewController.h"
 
 typedef enum {
     EVGroupRequestActionEdit,
@@ -100,7 +100,7 @@ typedef enum {
                                                              delegate:self
                                                     cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Edit", @"Invite", @"Close Request", nil];
+                                                    otherButtonTitles:@"Payment Options", @"Invite", @"Close Request", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -132,6 +132,7 @@ typedef enum {
     EVGroupRequestRecord *record = [self.dataSource recordAtIndexPath:indexPath];
     if (record) {
         EVGroupRequestRecordViewController *viewController = [[EVGroupRequestRecordViewController alloc] initWithRecord:record];
+        viewController.delegate = self;
         [self.navigationController pushViewController:viewController animated:YES];
     }
     
@@ -147,11 +148,17 @@ typedef enum {
                                               cancelButtonTitle:@"No"
                                               otherButtonTitles:@"Yes", nil];
         [alert show];
-        
+    }
+    else if (buttonIndex == EVGroupRequestActionEdit)
+    {
+        EVGroupRequestEditViewController *editViewController = [[EVGroupRequestEditViewController alloc] initWithGroupRequest:self.groupRequest];
+        editViewController.delegate = self;
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
+        [self presentViewController:navController animated:YES completion:NULL];
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex != [alertView cancelButtonIndex]) {
         [self closeRequest];
     }
@@ -163,13 +170,30 @@ typedef enum {
     [self.groupRequest updateWithSuccess:^{
         [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-        [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+        [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
             [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             }];
         };
     } failure:^(NSError *error) {
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
     }];
+}
+
+#pragma mark - EVGroupRequestRecordViewControllerDelegate
+
+- (void)viewController:(EVGroupRequestRecordViewController *)viewController updatedRecord:(EVGroupRequestRecord *)record {
+    NSInteger index = [self.groupRequest.records indexOfObject:record];
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVDashboardPermanentRowCOUNT + index inSection:0] ]
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
+}
+
+#pragma mark - EVGroupRequestEditViewControllerDelegate
+
+- (void)editViewControllerMadeChanges:(EVGroupRequestEditViewController *)editViewController {
+    self.title = self.groupRequest.title;
+    [self.tableView reloadData];
 }
 
 @end

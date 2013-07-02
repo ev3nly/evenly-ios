@@ -15,6 +15,8 @@
 + (UIFont *)boldFontOfSize:(CGFloat)fontSize;
 + (UIFont *)blackFontOfSize:(CGFloat)fontSize;
 
++ (UIFont *)romanFontOfSize:(CGFloat)fontSize;
+
 + (UIFont *)defaultFont;
 + (UIFont *)walletHeaderFont;
 

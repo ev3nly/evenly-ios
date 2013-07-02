@@ -84,14 +84,19 @@
 }
 
 - (void)loadSuggestionsTableView {
-    self.suggestionsTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    self.suggestionsTableView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-    self.suggestionsTableView.delegate = self;
-    self.suggestionsTableView.dataSource = self;
-    self.suggestionsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.suggestionsTableView registerClass:[EVUserAutocompletionCell class]
-                      forCellReuseIdentifier:@"userAutocomplete"];
-    self.suggestionsTableView.separatorColor = [UIColor colorWithWhite:0.8 alpha:1.0];
+    
+    self.autocompleteTableViewController = [[EVAutocompleteTableViewController alloc] initWithStyle:UITableViewStylePlain];
+    self.autocompleteTableViewController.delegate = self;
+    self.autocompleteTableViewController.inputField = self.formView.toField;
+    
+//    self.suggestionsTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+//    self.suggestionsTableView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+//    self.suggestionsTableView.delegate = self;
+//    self.suggestionsTableView.dataSource = self;
+//    self.suggestionsTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    [self.suggestionsTableView registerClass:[EVUserAutocompletionCell class]
+//                      forCellReuseIdentifier:@"userAutocomplete"];
+//    self.suggestionsTableView.separatorColor = [UIColor colorWithWhite:0.8 alpha:1.0];
 }
 
 - (void)configureReactions
@@ -130,19 +135,17 @@
         if (self.suggestions.count > 0)
             [self showTableView];
         else
-            [self hideTableView];
-        
-        [self.suggestionsTableView reloadData];
+            [self hideTableView];        
     });
 }
 
 - (void)showTableView {
-    self.suggestionsTableView.frame = [self suggestionsTableViewFrame];
-    [self.view addSubview:self.suggestionsTableView];
+    self.autocompleteTableViewController.tableView.frame = [self suggestionsTableViewFrame];
+    [self.view addSubview:self.autocompleteTableViewController.tableView];
 }
 
 - (void)hideTableView {
-    [self.suggestionsTableView removeFromSuperview];
+    [self.autocompleteTableViewController.tableView removeFromSuperview];
 }
 
 #pragma mark - UITableViewDataSource
@@ -175,6 +178,21 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     id contact = [self.suggestions objectAtIndex:indexPath.row];
+    if ([contact isKindOfClass:[EVUser class]]) {
+		self.exchange.to = contact;
+    }
+    else if ([contact isKindOfClass:[ABContact class]]) {
+        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
+		EVContact *toContact = [[EVContact alloc] init];
+		toContact.email = emailAddress;
+		self.exchange.to = toContact;
+    }
+    
+    [self hideTableView];
+    [self.formView.amountField becomeFirstResponder];
+}
+
+- (void)autocompleteViewController:(EVAutocompleteTableViewController *)viewController didSelectContact:(id)contact {
     if ([contact isKindOfClass:[EVUser class]]) {
 		self.exchange.to = contact;
     }
@@ -226,7 +244,7 @@
     
     [self.exchange saveWithSuccess:^{
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-        [EVStatusBarManager sharedManager].postSuccess = ^(void) { [self.presentingViewController dismissViewControllerAnimated:YES completion:nil]; };
+        [EVStatusBarManager sharedManager].duringSuccess = ^(void) { [self.presentingViewController dismissViewControllerAnimated:YES completion:nil]; };
         
         if ([self.exchange isKindOfClass:[EVPayment class]])
             [EVCIA me].balance = [[EVCIA me].balance decimalNumberBySubtracting:self.exchange.amount];

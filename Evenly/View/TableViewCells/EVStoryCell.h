@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVGroupedTableViewCell.h"
 #import "EVAvatarView.h"
 #import "EVLikeButton.h"
 #import "EVStory.h"
@@ -19,16 +20,17 @@
 #define EV_STORY_CELL_DATE_LABEL_FONT [EVFont boldFontOfSize:14]
 #define EV_STORY_CELL_VERTICAL_RULE_HEIGHT 36.0
 
-@interface EVStoryCell : UITableViewCell
+@interface EVStoryCell : EVGroupedTableViewCell
 
 + (CGFloat)cellHeight;
 + (TTTTimeIntervalFormatter *)timeIntervalFormatter;
 
 @property (nonatomic, weak) EVStory *story;
-@property (nonatomic, strong) UIImageView *tombstoneBackground;
 @property (nonatomic, strong) EVAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *storyLabel;
 @property (nonatomic, strong) UILabel *dateLabel;
+@property (nonatomic, strong) UIView *horizontalRule;
+@property (nonatomic, strong) UIView *verticalRule;
 @property (nonatomic, strong) EVLikeButton *likeButton;
 @property (nonatomic, strong) UIImageView *incomeIcon;
 

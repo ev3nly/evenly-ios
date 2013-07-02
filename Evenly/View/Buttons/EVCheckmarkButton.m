@@ -8,6 +8,7 @@
 
 #import "EVCheckmarkButton.h"
 #import "EVTapGestureRecognizer.h"
+#import "TTTAttributedLabel.h"
 
 #define SIDE_MARGIN 20
 #define CHECK_LABEL_BUFFER 10
@@ -15,7 +16,7 @@
 @interface EVCheckmarkButton ()
 
 @property (nonatomic, strong) UIImageView *check;
-@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) TTTAttributedLabel *label;
 
 - (void)loadCheckHole;
 - (void)loadLabel;
@@ -53,12 +54,12 @@
 }
 
 - (void)loadLabel {
-    self.label = [UILabel new];
+    self.label = [TTTAttributedLabel new];
     self.label.text = self.text;
     self.label.textColor = [EVColor lightLabelColor];
     self.label.font = [EVFont defaultFontOfSize:15];
     self.label.backgroundColor = [UIColor clearColor];
-    self.label.numberOfLines = 2;
+    self.label.numberOfLines = 0;
     [self addSubview:self.label];
 }
 
@@ -128,8 +129,21 @@
 - (void)setText:(NSString *)text {
     _text = text;
     
-    if (self.label)
-        self.label.text = text;
+//    if (self.label)
+//        self.label.text = text;
+    
+    [self.label setText:text afterInheritingLabelAttributesAndConfiguringWithBlock:^ NSMutableAttributedString *(NSMutableAttributedString *mutableAttributedString) {
+        return mutableAttributedString;
+    }];
+}
+
+- (void)setLinkDelegate:(id)delegate {
+    self.label.delegate = delegate;
+}
+
+- (void)linkToUrl:(NSURL *)url forText:(NSString *)text {
+    NSRange r = [self.label.text rangeOfString:text];
+    [self.label addLinkToURL:url withRange:r];
 }
 
 #pragma mark - Frames

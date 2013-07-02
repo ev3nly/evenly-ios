@@ -12,17 +12,13 @@
 #define EV_STORY_CELL_LABEL_WIDTH 200.0
 #define EV_STORY_CELL_LABEL_HEIGHT 44.0
 
-#define EV_STORY_CELL_HORIZONTAL_RULE_Y (self.tombstoneBackground.frame.size.height - [self bottomSectionHeight])
-#define EV_STORY_CELL_VERTICAL_RULE_X (self.tombstoneBackground.image.size.width/2)
+#define EV_STORY_CELL_HORIZONTAL_RULE_Y (self.contentView.frame.size.height - [self bottomSectionHeight])
+#define EV_STORY_CELL_VERTICAL_RULE_X (self.contentView.frame.size.width/2)
 
 #define EV_STORY_CELL_INCOME_ICON_BUFFER 8
 
 @interface EVStoryCell ()
 
-@property (nonatomic, strong) UIView *horizontalRule;
-@property (nonatomic, strong) UIView *verticalRule;
-
-- (void)loadBackground;
 - (void)loadAvatarView;
 - (void)loadStoryLabel;
 - (void)loadRules;
@@ -52,10 +48,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.backgroundColor = [UIColor clearColor];
-        self.contentView.backgroundColor = [UIColor clearColor];
-        
-        [self loadBackground];
+
         [self loadAvatarView];
         [self loadStoryLabel];
         [self loadRules];
@@ -64,6 +57,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
         [self loadIncomeIcon];
 
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.position = EVGroupedTableViewCellPositionSingle;
     }
     return self;
 }
@@ -72,7 +66,6 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 {
     [super layoutSubviews];
     
-    self.tombstoneBackground.frame = [self tombstoneBackgroundFrame];
     self.avatarView.frame = [self avatarViewFrame];
     self.storyLabel.frame = [self storyLabelFrame];
     self.horizontalRule.frame = [self horizontalRuleFrame];
@@ -84,16 +77,9 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 #pragma mark - Loading
 
-- (void)loadBackground {
-    UIImage *image = [EVImages resizableTombstoneBackground];
-    self.tombstoneBackground = [[UIImageView alloc] initWithImage:image];
-    self.tombstoneBackground.userInteractionEnabled = YES;
-    [self.contentView addSubview:self.tombstoneBackground];
-}
-
 - (void)loadAvatarView {
     self.avatarView = [[EVAvatarView alloc] initWithFrame:self.bounds];
-    [self.tombstoneBackground addSubview:self.avatarView];
+    [self.contentView addSubview:self.avatarView];
 }
 
 - (void)loadStoryLabel {
@@ -102,17 +88,17 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     self.storyLabel.numberOfLines = 3;
     self.storyLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     self.storyLabel.font = [EVFont defaultFontOfSize:15.0];
-    [self.tombstoneBackground addSubview:self.storyLabel];
+    [self.contentView addSubview:self.storyLabel];
 }
 
 - (void)loadRules {
     self.horizontalRule = [UIView new];
     self.horizontalRule.backgroundColor = [EVColor newsfeedStripeColor];
-    [self.tombstoneBackground addSubview:self.horizontalRule];
+    [self.contentView addSubview:self.horizontalRule];
     
     self.verticalRule = [UIView new];
     self.verticalRule.backgroundColor = [EVColor newsfeedStripeColor];
-    [self.tombstoneBackground addSubview:self.verticalRule];
+    [self.contentView addSubview:self.verticalRule];
 }
 
 - (void)loadDateLabel {
@@ -121,19 +107,19 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     self.dateLabel.font = EV_STORY_CELL_DATE_LABEL_FONT;
     self.dateLabel.textColor = [EVColor newsfeedButtonLabelColor];
     self.dateLabel.backgroundColor = [UIColor clearColor];
-    [self.tombstoneBackground addSubview:self.dateLabel];
+    [self.contentView addSubview:self.dateLabel];
 }
 
 - (void)loadLikeButton {
     self.likeButton = [[EVLikeButton alloc] initWithFrame:CGRectZero];
     [self.likeButton setTitle:@"Like"];
     [self.likeButton addTarget:self action:@selector(likeButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [self.tombstoneBackground addSubview:self.likeButton];
+    [self.contentView addSubview:self.likeButton];
 }
 
 - (void)loadIncomeIcon {
     self.incomeIcon = [[UIImageView alloc] initWithImage:[EVImages incomeIcon]];
-    [self.tombstoneBackground addSubview:self.incomeIcon];
+    [self.contentView addSubview:self.incomeIcon];
 }
 
 #pragma mark - Button Handling
@@ -185,13 +171,6 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 #pragma mark - Frames
 
-- (CGRect)tombstoneBackgroundFrame {
-    return CGRectMake(EV_STORY_CELL_BACKGROUND_MARGIN,
-                      EV_STORY_CELL_BACKGROUND_MARGIN,
-                      self.tombstoneBackground.image.size.width,
-                      self.bounds.size.height - EV_STORY_CELL_BACKGROUND_MARGIN);
-}
-
 - (CGRect)avatarViewFrame {
     return CGRectMake(EV_STORY_CELL_INTERIOR_MARGIN,
                       EV_STORY_CELL_INTERIOR_MARGIN,
@@ -209,7 +188,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 - (CGRect)horizontalRuleFrame {
     return CGRectMake(0,
                       EV_STORY_CELL_HORIZONTAL_RULE_Y,
-                      self.tombstoneBackground.frame.size.width,
+                      self.contentView.frame.size.width,
                       1);
 }
 
@@ -224,21 +203,21 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     return CGRectMake(0,
                       EV_STORY_CELL_HORIZONTAL_RULE_Y,
                       EV_STORY_CELL_VERTICAL_RULE_X,
-                      self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
+                      self.contentView.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
 }
 
 - (CGRect)likeButtonFrame {
     CGRect rect = CGRectMake(EV_STORY_CELL_VERTICAL_RULE_X,
                              EV_STORY_CELL_HORIZONTAL_RULE_Y,
                              EV_STORY_CELL_VERTICAL_RULE_X,
-                             self.tombstoneBackground.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
+                             self.contentView.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
     rect = CGRectInset(rect, 1, 1);
     return rect;
 }
 
 - (CGRect)incomeIconFrame {
     CGSize iconSize = self.incomeIcon.image.size;
-    return CGRectMake(self.tombstoneBackground.bounds.size.width - iconSize.width - EV_STORY_CELL_INCOME_ICON_BUFFER,
+    return CGRectMake(self.contentView.bounds.size.width - iconSize.width - EV_STORY_CELL_INCOME_ICON_BUFFER,
                       EV_STORY_CELL_INCOME_ICON_BUFFER,
                       iconSize.width,
                       iconSize.height);

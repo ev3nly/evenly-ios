@@ -30,9 +30,13 @@
 @property (nonatomic, strong) EVUser *me;
 @property (nonatomic, strong) EVSession *session;
 
+extern NSString *const EVCIAUpdatedMeNotification;
+
 + (EVUser *)me;
 + (void)reloadMe;
 - (void)cacheMe;
+
++ (NSArray *)myConnections;
 
 - (EVObject *)cachedObjectWithClassName:(NSString *)className dbid:(NSString *)dbid;
 - (void)cacheObject:(EVObject *)object;

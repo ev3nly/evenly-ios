@@ -21,6 +21,7 @@
 #import "EVBanksViewController.h"
 #import "EVHistoryViewController.h"
 #import "EVPendingDetailViewController.h"
+#import "EVPendingGroupViewController.h"
 #import "EVGroupRequestDashboardViewController.h"
 
 #define EV_WALLET_ROW_HEIGHT 44.0
@@ -261,7 +262,6 @@
                 EVCreditCard *activeCard = [[EVCIA sharedInstance] activeCreditCard];
                 if (activeCard) {
                     value = [activeCard lastFour];
-                    DLog(@"activeCard brand: %@", activeCard.brand);
                     EVWalletStamp *stamp = [[EVWalletStamp alloc] initWithText:activeCard.brand
                                                                       maxWidth:100];
                     cell.stamp = stamp;
@@ -322,8 +322,13 @@
         }
         else if ([interaction isKindOfClass:[EVGroupRequest class]])
         {
-            controller = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:(EVGroupRequest *)interaction];
+            EVGroupRequest *groupRequest = (EVGroupRequest *)interaction;
+            if (groupRequest.from == nil)
+                controller = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:groupRequest];
+            else
+                controller = [[EVPendingGroupViewController alloc] initWithGroupRequest:groupRequest];
         }
+        NSAssert1(controller != nil, @"Controller to be presented was nil!  The object we were making the controller for was %@", interaction);
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:navController animated:YES completion:nil];
     }

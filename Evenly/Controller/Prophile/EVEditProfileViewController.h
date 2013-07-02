@@ -32,6 +32,7 @@ typedef enum {
 - (void)loadFooterView;
 - (void)loadPinButton;
 
+- (void)photoTapped;
 - (void)saveButtonTapped;
 
 - (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath;

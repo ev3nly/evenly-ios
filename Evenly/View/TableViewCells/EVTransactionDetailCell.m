@@ -52,7 +52,7 @@
 - (void)loadRightAvatarView {
     self.rightAvatarView = [[EVAvatarView alloc] initWithFrame:self.bounds];
     self.rightAvatarView.cornerRadius = 8.0;
-    [self.tombstoneBackground addSubview:self.rightAvatarView];
+    [self.contentView addSubview:self.rightAvatarView];
     [self.rightAvatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rightAvatarTapped)]];
 }
 
@@ -79,9 +79,9 @@
 
 - (CGRect)avatarViewFrame {
     self.avatarView.size = CGSizeMake(AVATAR_LENGTH, AVATAR_LENGTH);
-    float xOrigin = CGRectGetMidX(self.tombstoneBackground.bounds) - self.avatarView.size.width - AVATAR_SIDE_BUFFER;
+    float xOrigin = CGRectGetMidX(self.contentView.bounds) - self.avatarView.size.width - AVATAR_SIDE_BUFFER;
     if (!self.story.target)
-        xOrigin = CGRectGetMidX(self.tombstoneBackground.bounds) - self.avatarView.size.width/2;
+        xOrigin = CGRectGetMidX(self.contentView.bounds) - self.avatarView.size.width/2;
     return CGRectMake(xOrigin,
                       AVATAR_TOP_BUFFER,
                       self.avatarView.size.width,
@@ -92,7 +92,7 @@
     if (!self.story.target)
         return CGRectZero;
     self.rightAvatarView.size = CGSizeMake(AVATAR_LENGTH, AVATAR_LENGTH);
-    return CGRectMake(CGRectGetMidX(self.tombstoneBackground.bounds) + AVATAR_SIDE_BUFFER,
+    return CGRectMake(CGRectGetMidX(self.contentView.bounds) + AVATAR_SIDE_BUFFER,
                       AVATAR_TOP_BUFFER,
                       self.avatarView.size.width,
                       self.avatarView.size.height);
@@ -104,7 +104,7 @@
     float labelHeight = [self.storyLabel.attributedText boundingRectWithSize:CGSizeMake(maxWidth, 100000)
                                                                      options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                                                      context:NULL].size.height;
-    float xOrigin = CGRectGetMidX(self.tombstoneBackground.bounds) - maxWidth/2;
+    float xOrigin = CGRectGetMidX(self.contentView.bounds) - maxWidth/2;
     return CGRectMake(xOrigin,
                       yOrigin,
                       maxWidth,
@@ -114,7 +114,7 @@
 - (CGRect)incomeIconFrame {
     if (!self.story.target)
         return CGRectZero;
-    return CGRectMake(CGRectGetMidX(self.tombstoneBackground.bounds) - self.incomeIcon.image.size.width/2,
+    return CGRectMake(CGRectGetMidX(self.contentView.bounds) - self.incomeIcon.image.size.width/2,
                       CGRectGetMidY(self.avatarView.frame) - self.incomeIcon.image.size.height/2,
                       self.incomeIcon.image.size.width,
                       self.incomeIcon.image.size.height);

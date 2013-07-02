@@ -34,7 +34,7 @@
 #define PICTURE_SCALE_CONSTANT 140.0
 #define PICTURE_SCALE ((self.view.bounds.size.height-PICTURE_SCALE_CONSTANT)/(548.0-PICTURE_SCALE_CONSTANT))
 
-#define SIGNUP_LABEL_Y_ORIGIN 200
+#define SIGNUP_LABEL_Y_ORIGIN 240
 #define BUTTON_LEFT_MARGIN 30
 #define SIGNUP_LABEL_BUTTON_BUFFER 20
 #define OR_LABEL_BUTTON_BUFFER 10
@@ -118,7 +118,7 @@
     [self.signInLabel setTitle:@"Already have an account? Sign in." forState:UIControlStateNormal];
     [self.signInLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.signInLabel setTitleColor:[EVColor lightLabelColor] forState:UIControlStateHighlighted];
-    self.signInLabel.titleLabel.font = [EVFont blackFontOfSize:SIGN_IN_LABEL_FONT_SIZE];
+    self.signInLabel.titleLabel.font = [EVFont romanFontOfSize:SIGN_IN_LABEL_FONT_SIZE];
     [self.view addSubview:self.signInLabel];
 }
 
@@ -129,12 +129,12 @@
     
     UILabel *label = [UILabel new];
     label.backgroundColor = [UIColor clearColor];
-    label.text = @"Don't Get Mad. Get Evenly";
+    label.text = @"Don't Get Mad.   Get Evenly";
     label.numberOfLines = 2;
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
-    label.font = [EVFont blackFontOfSize:34];
+    label.font = [EVFont romanFontOfSize:34];
     
     float totalHeight = LOGO_LENGTH + LOGO_TEXT_BUFFER + [self sizeForLabel:label].height;
     
@@ -182,17 +182,11 @@
     
     UILabel *signUpLabel = [self titleLabelWithText:@"Sign up in seconds."];
     signUpLabel.font = [EVFont blackFontOfSize:18];
-    
-    UILabel *orLabel = [self titleLabelWithText:@"or"];
-    orLabel.font = [EVFont blackFontOfSize:18];
-    
+        
     UIButton *facebookButton = [self facebookButton];
-    UIButton *emailButton = [self emailButton];
     
     [view addSubview:signUpLabel];
     [view addSubview:facebookButton];
-    [view addSubview:orLabel];
-    [view addSubview:emailButton];
     
     signUpLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:signUpLabel].width/2,
                                    SIGNUP_LABEL_Y_ORIGIN * CARD_SCALE,
@@ -202,14 +196,6 @@
                                       CGRectGetMaxY(signUpLabel.frame) + SIGNUP_LABEL_BUTTON_BUFFER,
                                       self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
                                       [EVImages facebookButton].size.height);
-    orLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:orLabel].width/2,
-                               CGRectGetMaxY(facebookButton.frame) + OR_LABEL_BUTTON_BUFFER,
-                               [self sizeForLabel:orLabel].width,
-                               [EVImages facebookButton].size.height);
-    emailButton.frame = CGRectMake(BUTTON_LEFT_MARGIN,
-                                   CGRectGetMaxY(orLabel.frame) + OR_LABEL_BUTTON_BUFFER,
-                                   self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
-                                   [EVImages grayButtonBackground].size.height);
     
     if ([facebookButton viewWithTag:F_ICON_TAG]) {
         float totalWidth = [EVImages facebookButton].size.width + FACEBOOK_F_TITLE_BUFFER + facebookButton.titleLabel.bounds.size.width;
@@ -309,17 +295,6 @@
     return button;
 }
 
-- (UIButton *)emailButton {
-    UIButton *button = [UIButton new];
-    [button setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
-    [button setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
-    [button addTarget:self action:@selector(emailButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"Sign up with email" forState:UIControlStateNormal];
-    [button setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
-    button.titleLabel.font = [EVFont blackFontOfSize:16];
-    return button;
-}
-
 - (CGSize)sizeForLabel:(UILabel *)label {
     return [label.text sizeWithFont:label.font
                   constrainedToSize:CGSizeMake(MAX_TEXT_WIDTH, 1000)
@@ -338,7 +313,7 @@
 - (void)handleOpenedSession {
     [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
         if (!error) {
-            NSString *avatarUrlString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?width=160&height=160", [user objectForKey:@"id"]];
+            NSString *avatarUrlString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?width=176&height=176", [user objectForKey:@"id"]];
             EVUser *newUser = [EVUser new];
             newUser.name = [user objectForKey:@"name"];
             newUser.email = [user objectForKey:@"email"];

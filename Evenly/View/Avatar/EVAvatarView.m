@@ -96,4 +96,9 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
     [self configureMasks];
 }
 
+- (void)setCornerRadius:(float)cornerRadius {
+    _cornerRadius = cornerRadius;
+    [self configureMasks];
+}
+
 @end

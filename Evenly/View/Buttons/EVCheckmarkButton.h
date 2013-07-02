@@ -14,5 +14,7 @@
 @property (nonatomic, strong) NSString *text;
 
 - (id)initWithText:(NSString *)text;
+- (void)setLinkDelegate:(id)delegate;
+- (void)linkToUrl:(NSURL *)url forText:(NSString *)text;
 
 @end

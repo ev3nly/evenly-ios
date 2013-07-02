@@ -11,8 +11,6 @@
 #import "EVPageControl.h"
 #import "EVPrivacySelectorView.h"
 #import "EVBackButton.h"
-
-#import "EVAutocompleteTableViewDataSource.h"
 #import "EVUserAutocompletionCell.h"
 #import "EVKeyboardTracker.h"
 
@@ -32,8 +30,7 @@
 @property (nonatomic, strong) EVPageControl *pageControl;
 @property (nonatomic, strong) EVPrivacySelectorView *privacySelector;
 
-@property (nonatomic, strong) UITableView *autocompleteTableView;
-@property (nonatomic, strong) EVAutocompleteTableViewDataSource *autocompleteDataSource;
+@property (nonatomic, strong) EVAutocompleteTableViewController *autocompleteTableViewController;
 
 @property (nonatomic, strong) NSArray *leftButtons;
 @property (nonatomic, strong) NSArray *rightButtons;
@@ -175,24 +172,11 @@
 }
 
 - (void)loadAutocomplete {
-    self.autocompleteDataSource = [[EVAutocompleteTableViewDataSource alloc] init];
+    self.autocompleteTableViewController = [[EVAutocompleteTableViewController alloc] initWithStyle:UITableViewStylePlain];
+    self.autocompleteTableViewController.delegate = self;
+    self.autocompleteTableViewController.inputField = self.initialView.toField.textField;
     
-
-    self.autocompleteTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    self.autocompleteTableView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-    self.autocompleteTableView.delegate = self;
-    self.autocompleteTableView.dataSource = self.autocompleteDataSource;
-    self.autocompleteTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.autocompleteTableView registerClass:[EVUserAutocompletionCell class]
-                      forCellReuseIdentifier:@"userAutocomplete"];
-    self.autocompleteTableView.separatorColor = [UIColor colorWithWhite:0.8 alpha:1.0];
-    
-    self.autocompleteDataSource.tableView = self.autocompleteTableView;
-    self.autocompleteDataSource.textField = self.initialView.toField.textField;
-    [self.autocompleteDataSource setUpReactions];
-    
-    [self.initialView setAutocompleteTableView:self.autocompleteTableView];
-    [self.autocompleteTableView setHidden:YES];
+    [self.initialView setAutocompleteTableView:self.autocompleteTableViewController.tableView];
 }
 
 - (void)setUpReactions {
@@ -278,8 +262,6 @@
 - (void)nextButtonPress:(id)sender {
     if (self.phase == EVRequestPhaseWho)
     {
-        self.autocompleteDataSource.suggestions = [NSArray array];
-        self.autocompleteTableView.hidden = YES;
         if (!self.isGroupRequest)
         {
             self.request = [[EVRequest alloc] init];
@@ -320,20 +302,23 @@
     [self validateForPhase:self.phase];
 }
 
-- (void)requestButtonPress:(id)sender {    
+- (void)requestButtonPress:(id)sender {
+    [sender setEnabled:NO];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REQUEST..."];
     
     if (!self.isGroupRequest)
     {
         self.request.memo = self.singleDetailsView.descriptionField.text;
         [self.request saveWithSuccess:^{
+            [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             };
         } failure:^(NSError *error) {
             DLog(@"failed to create %@", NSStringFromClass([self.request class]));
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+            [sender setEnabled:YES];
         }];
     }
     else
@@ -343,16 +328,11 @@
         DLog(@"Group request dictionary representation: %@", [self.groupRequest dictionaryRepresentation]);
 
         [self.groupRequest saveWithSuccess:^{
+            [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             };
-            
-//            EV_DISPATCH_AFTER(1.0, ^(void) {
-//                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-//                    
-//                }];
-//            });
         } failure:^(NSError *error) {
             DLog(@"failed to create %@", NSStringFromClass([self.request class]));
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
@@ -377,15 +357,8 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (scrollView == self.autocompleteTableView) {
-        [self.initialView.toField.textField resignFirstResponder];
-    }
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    id contact = [self.autocompleteDataSource.suggestions objectAtIndex:indexPath.row];
+
+- (void)autocompleteViewController:(EVAutocompleteTableViewController *)viewController didSelectContact:(id)contact {
     if ([contact isKindOfClass:[ABContact class]]) {
         NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
 		EVContact *toContact = [[EVContact alloc] init];
@@ -394,9 +367,6 @@
         contact = toContact;
     }
     [self.initialView addContact:contact];
-    [self.autocompleteTableView setHidden:YES];
 }
-
-
 
 @end

@@ -22,6 +22,10 @@
     return [UIFont fontWithName:@"Avenir-Black" size:fontSize];    
 }
 
++ (UIFont *)romanFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Avenir-Roman" size:fontSize];
+}
+
 + (UIFont *)defaultFont {
     return [UIFont fontWithName:@"Avenir" size:16.0];
 }

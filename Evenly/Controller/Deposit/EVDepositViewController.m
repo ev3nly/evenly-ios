@@ -245,7 +245,7 @@
     [self.withdrawal saveWithSuccess:^{
         
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-        [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+        [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
             self.cia.me.balance = [self.cia.me.balance decimalNumberBySubtracting:self.withdrawal.amount];
             self.validForm = NO;
             self.amountCell.textField.text = nil;

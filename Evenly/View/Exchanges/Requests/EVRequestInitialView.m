@@ -8,12 +8,13 @@
 
 #import "EVRequestInitialView.h"
 
+#define PLACEHOLDER @"Name, email, phone number"
+
 #define REQUEST_SWITCH_HEIGHT 45
 
 #define LEFT_RIGHT_BUFFER 10
 #define TO_FIELD_HEIGHT 25
 #define LINE_HEIGHT 40
-#define INSTRUCTION_LABEL_BUFFER 30.0
 
 @interface EVRequestInitialView ()
 
@@ -35,7 +36,6 @@
 
         [self loadRequestSwitch];
         [self loadToField];
-        [self loadInstructionLabel];
         
         [self setUpReactions];
         
@@ -48,7 +48,10 @@
 }
 
 - (void)addContact:(EVObject<EVExchangeable> *)contact {
-    [self.toField addTokenWithTitle:contact.name representedObject:contact];
+    if (![[self recipients] containsObject:contact])
+    {
+        [self.toField addTokenWithTitle:contact.name representedObject:contact];
+    }
     self.toField.textField.text = nil;
 }
 
@@ -78,17 +81,13 @@
 
 }
 
-- (void)switchControl:(EVSwitch *)switchControl willChangeStateTo:(BOOL)onOff animationDuration:(NSTimeInterval)duration {
-    [UIView animateWithDuration:duration
-                     animations:^{
-                         self.instructionLabel.alpha = (float)onOff;
-                     }];
-}
-
 - (CGRect)requestSwitchFrame {
     return CGRectMake(10, 7, 300, 35);
 }
 
+- (void)switchControl:(EVSwitch *)switchControl willChangeStateTo:(BOOL)onOff animationDuration:(NSTimeInterval)duration {
+    // TODO: Add flash message.
+}
 
 - (void)loadToField
 {
@@ -104,7 +103,7 @@
                                    self.frame.size.width - 2*LEFT_RIGHT_BUFFER,
                                    TO_FIELD_HEIGHT);
     self.toField = [[JSTokenField alloc] initWithFrame:fieldFrame];
-    self.toField.textField.placeholder = @"Name, email, phone number";
+    self.toField.textField.placeholder = PLACEHOLDER;
     self.toField.textField.returnKeyType = UIReturnKeyNext;
     self.toField.backgroundColor = [UIColor clearColor];
     self.toField.textField.font = [EVFont lightExchangeFormFont];
@@ -112,32 +111,15 @@
     self.toField.delegate = self;
     [self addSubview:self.toField];
 
-    self.lowerStripe = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.toField.frame) + 2.0, self.frame.size.width, 1)];
+    self.lowerStripe = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.toField.frame) + 1, self.frame.size.width, 1)];
     self.lowerStripe.backgroundColor = [EVColor newsfeedStripeColor];
     [self addSubview:self.lowerStripe];
-}
-
-- (void)loadInstructionLabel {
-    self.instructionLabel = [[UILabel alloc] initWithFrame:CGRectMake(INSTRUCTION_LABEL_BUFFER,
-                                                                      CGRectGetMaxY(self.lowerStripe.frame),
-                                                                      self.frame.size.width - 2*INSTRUCTION_LABEL_BUFFER,
-                                                                      self.frame.size.height - CGRectGetMaxY(self.toField.frame) - EV_DEFAULT_KEYBOARD_HEIGHT)];
-    self.instructionLabel.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-    self.instructionLabel.textAlignment = NSTextAlignmentCenter;
-    self.instructionLabel.textColor = [EVColor lightLabelColor];
-    self.instructionLabel.font = [EVFont boldFontOfSize:16];
-    self.instructionLabel.backgroundColor = [UIColor clearColor];
-    self.instructionLabel.numberOfLines = 0;
-    self.instructionLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.instructionLabel.text = @"Add friends now or invite them later on.";
-    self.instructionLabel.alpha = 0.0;
-    [self addSubview:self.instructionLabel];
 }
 
 - (void)positionTableView {
     float tableHeight = self.frame.size.height - CGRectGetMaxY(self.toField.frame);
     CGRect tableFrame =  CGRectMake(0,
-                                    CGRectGetMaxY(self.toField.frame),
+                                    CGRectGetMaxY(self.lowerStripe.frame),
                                     self.frame.size.width,
                                     tableHeight);
     DLog(@"Table frame: %@", NSStringFromCGRect(tableFrame));
@@ -146,7 +128,7 @@
 
 - (void)setUpReactions {
     [RACAble(self.requestSwitch.xPercentage) subscribeNext:^(NSNumber *percentage) {
-        self.instructionLabel.alpha = [percentage floatValue];
+        // TODO: Something with the flash message?
     }];
     
     // JH: I couldn't figure out a way to do this using ReactiveCocoa, so I just went back
@@ -200,14 +182,19 @@
 
 - (void)tokenField:(JSTokenField *)tokenField didAddToken:(NSString *)title representedObject:(id)obj
 {
-	[self.recipients addObject:obj];
+    [self.recipients addObject:obj];
     self.recipientCount = [self.recipients count];
-	DLog(@"Added token for < %@ : %@ >\n%@", title, obj, self.recipients);
+    if (self.recipientCount > 0) {
+        self.toField.textField.placeholder = nil;
+    }
 }
 
 - (void)tokenField:(JSTokenField *)tokenField didRemoveToken:(NSString *)title representedObject:(id)obj {
     [self.recipients removeObject:obj];
     self.recipientCount = [self.recipients count];
+    if (self.recipientCount == 0) {
+        self.toField.textField.placeholder = PLACEHOLDER;
+    }
     DLog(@"Deleted token < %@ : %@ >\n%@", title, obj, self.recipients);
 }
 

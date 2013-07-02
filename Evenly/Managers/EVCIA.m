@@ -11,6 +11,7 @@
 #import "EVActivity.h"
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
+#import "EVConnection.h"
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
 NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKey";
@@ -19,7 +20,7 @@ static EVCIA *_sharedInstance;
 
 @interface EVCIA ()
 
-@property (nonatomic, strong) NSCache *internalCache;
+@property (nonatomic, strong) NSMutableDictionary *internalCache;
 @property (nonatomic, strong) EVUser *cachedUser;
 @property (nonatomic, readwrite) BOOL loadingCreditCards;
 @property (nonatomic, readwrite) BOOL loadingBankAccounts;
@@ -40,11 +41,22 @@ static EVCIA *_sharedInstance;
     self = [super init];
     if (self) {
         self.imageCache = [[NSCache alloc] init];
-        self.internalCache = [[NSCache alloc] init];
+        self.internalCache = [[NSMutableDictionary alloc] init];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didSignIn:)
+                                                     name:EVSessionSignedInNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didReceiveMemoryWarning:)
+                                                     name:UIApplicationDidReceiveMemoryWarningNotification
+                                                   object:nil];
     }
     return self;
+}
+
+- (void)didReceiveMemoryWarning:(NSNotification *)notification {
+    [self.internalCache removeAllObjects];
 }
 
 - (void)dealloc {
@@ -72,7 +84,6 @@ static EVCIA *_sharedInstance;
                                                 error:&error];
         if (data && !error)
         {
-            DLog(@"Got disk-cached data at path %@", [EVStringUtility cachePathFromURL:url]);
             image = [UIImage imageWithData:data];
             [self.imageCache setObject:image forKey:url];
         }
@@ -104,13 +115,18 @@ static EVCIA *_sharedInstance;
 
 #pragma mark - Me
 
+NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
+
 + (EVUser *)me {
     return ((EVCIA *)[self sharedInstance]).me;
 }
 
 + (void)reloadMe {
     [EVUser meWithSuccess:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedMeNotification object:nil];
         DLog(@"Got me: %@", [[self sharedInstance] me]);
+        [[self sharedInstance] reloadAllExchangesWithCompletion:NULL];
+        
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];
@@ -153,6 +169,14 @@ static EVCIA *_sharedInstance;
     }
     
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (NSArray *)myConnections {
+    NSMutableArray *array = [NSMutableArray array];
+    [[[self me] connections] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [array addObject:[(EVConnection *)obj user]];
+    }];
+    return array;
 }
 
 #pragma mark - Session

@@ -39,13 +39,14 @@
 }
 
 - (void)loadTableView {
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [EVColor creamColor];
+    self.tableView.backgroundView = nil;
     [self.tableView registerClass:[EVPendingDetailCell class] forCellReuseIdentifier:@"pendingDetailCell"];
     [self.view addSubview:self.tableView];
 }
@@ -60,7 +61,7 @@
         [request completeWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                     [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
                     }];
@@ -81,7 +82,7 @@
         [request denyWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                     [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
                     }];
@@ -102,7 +103,7 @@
         [request remindWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                     [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
                     }];
@@ -123,7 +124,7 @@
         [request cancelWithSuccess:^{
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                     [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
                     }];
