@@ -369,7 +369,7 @@ static NSDateFormatter *_detailDateFormatter;
 #pragma mark - Instructions
 
 + (NSString *)groupRequestCreationInstructions {
-    return @"Add friends now or invite them later on.";
+    return @"You can add friends now or skip this step and do it later.";
 }
 
 
