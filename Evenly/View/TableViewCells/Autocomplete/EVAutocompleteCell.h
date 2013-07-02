@@ -10,4 +10,6 @@
 
 @interface EVAutocompleteCell : UITableViewCell
 
+@property (nonatomic, strong) UIView *bottomStripe;
+
 @end
