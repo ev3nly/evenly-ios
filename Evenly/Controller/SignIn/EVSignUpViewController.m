@@ -58,7 +58,10 @@
     
     [self loadCells];
     [self configureReactions];
-    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)];
+    tapRecognizer.delegate = self;
+    tapRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapRecognizer];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -178,6 +181,11 @@
 }
 
 #pragma mark - Gesture Handling
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    NSLog(@"gest: %@, oth: %@", gestureRecognizer, otherGestureRecognizer);
+    return YES;
+}
 
 - (void)saveButtonTapped {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{ @"name" : self.photoNameEmailCell.nameField.text,

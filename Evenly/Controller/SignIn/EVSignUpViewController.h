@@ -17,7 +17,7 @@ typedef enum {
     EVSignUpCellRowCOUNT
 } EVSignUpCellRow;
 
-@interface EVSignUpViewController : EVEditProfileViewController <UITextFieldDelegate, TTTAttributedLabelDelegate>
+@interface EVSignUpViewController : EVEditProfileViewController <UITextFieldDelegate, TTTAttributedLabelDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) void (^authenticationSuccess)(void);
 
