@@ -108,15 +108,19 @@
 }
 
 - (void)handleFieldInput:(NSString *)text {
-    if (!EV_IS_EMPTY_STRING(text)) {
-        [self filterConnectionsWithText:text];
-        self.addressBookSuggestions = [ABContactsHelper contactsWithEmailMatchingName:text];
-    }
-    else {
-        self.filteredConnections = [EVCIA myConnections];
-        self.addressBookSuggestions = [ABContactsHelper contactsWithEmail];
-    }
-    [self.tableView reloadData];
+    EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+        if (!EV_IS_EMPTY_STRING(text)) {
+            [self filterConnectionsWithText:text];
+            self.addressBookSuggestions = [ABContactsHelper contactsWithEmailMatchingName:text];
+        }
+        else {
+            self.filteredConnections = [EVCIA myConnections];
+            self.addressBookSuggestions = [ABContactsHelper contactsWithEmail];
+        }
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            [self.tableView reloadData];
+        });
+    });
 }
 
 - (void)filterConnectionsWithText:(NSString *)text {
