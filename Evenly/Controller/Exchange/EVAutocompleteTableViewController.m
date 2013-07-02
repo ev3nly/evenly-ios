@@ -200,6 +200,7 @@
         contact = [self.addressBookSuggestions objectAtIndex:indexPath.row];
     if (self.delegate)
         [self.delegate autocompleteViewController:self didSelectContact:contact];
+    [self handleFieldInput:nil];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
