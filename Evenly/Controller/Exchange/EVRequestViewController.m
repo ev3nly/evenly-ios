@@ -75,6 +75,11 @@
     [self setUpReactions];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.initialView becomeFirstResponder];
+}
+
 - (void)loadNavigationButtons {
     
     NSMutableArray *left = [NSMutableArray array];

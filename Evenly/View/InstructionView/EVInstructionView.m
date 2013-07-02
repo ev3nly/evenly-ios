@@ -7,6 +7,7 @@
 //
 
 #import "EVInstructionView.h"
+#import "EVKeyboardTracker.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define WHOLE_WIDTH 320
@@ -92,7 +93,10 @@
 
 - (void)flashInView:(UIView *)view forDuration:(NSTimeInterval)duration {
     self.flashDuration = duration;
-    self.center = CGPointMake(view.frame.size.width / 2.0, view.frame.size.height / 2.0);
+    CGRect viewFrame = view.frame;
+    if ([[EVKeyboardTracker sharedTracker] keyboardIsShowing])
+        viewFrame.size.height -= [[EVKeyboardTracker sharedTracker] keyboardFrame].size.height;
+    self.center = CGPointMake(viewFrame.size.width / 2.0, viewFrame.size.height / 2.0);
     self.alpha = 0.0f;
     [view addSubview:self];
     [self setNeedsLayout];
