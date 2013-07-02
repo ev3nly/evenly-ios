@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVAutocompleteCell.h"
 
-@interface EVAutocompleteEmailCell : UITableViewCell
+@interface EVAutocompleteEmailCell : EVAutocompleteCell
 
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *emailLabel;

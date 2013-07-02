@@ -56,7 +56,8 @@
     [self.tableView registerClass:[EVAutocompleteEmailCell class]
            forCellReuseIdentifier:@"emailCell"];
     
-    self.tableView.separatorColor = [EVColor newsfeedStripeColor];
+    self.tableView.separatorColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self loadHeaderViews];
 }
@@ -165,14 +166,22 @@
     return self.cellHeight;
 }
 
+- (id)contactAtIndexPath:(NSIndexPath *)indexPath {
+    id contact = nil;
+    if (indexPath.section == EVAutocompleteSectionConnections)
+        contact = [self.filteredConnections objectAtIndex:indexPath.row];
+    else
+        contact = [self.addressBookSuggestions objectAtIndex:indexPath.row];
+    return contact;
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell;
-    id contact;
+    id contact = [self contactAtIndexPath:indexPath];
     if (indexPath.section == EVAutocompleteSectionConnections)
     {
-        contact = [self.filteredConnections objectAtIndex:indexPath.row];
         EVAutocompletePhotoCell *photoCell = [tableView dequeueReusableCellWithIdentifier:@"photoCell" forIndexPath:indexPath];
         [photoCell.avatarView setAvatarOwner:(NSObject<EVAvatarOwning> *)contact];
         [photoCell.label setText:[contact name]];
@@ -180,7 +189,6 @@
     }
     else
     {
-        contact = [self.addressBookSuggestions objectAtIndex:indexPath.row];
         EVAutocompleteEmailCell *emailCell = [tableView dequeueReusableCellWithIdentifier:@"emailCell" forIndexPath:indexPath];
         emailCell.nameLabel.text = [contact compositeName];
         emailCell.emailLabel.text = [[contact emailArray] objectAtIndex:0];
@@ -193,17 +201,15 @@
     EV_DISPATCH_AFTER(0.5, ^{
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     });
-    id contact = nil;
-    if (indexPath.section == EVAutocompleteSectionConnections)
-        contact = [self.filteredConnections objectAtIndex:indexPath.row];
-    else
-        contact = [self.addressBookSuggestions objectAtIndex:indexPath.row];
+    id contact = [self contactAtIndexPath:indexPath];
     if (self.delegate)
         [self.delegate autocompleteViewController:self didSelectContact:contact];
     [self handleFieldInput:nil];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == EVAutocompleteSectionConnections && self.filteredConnections.count == 0)
+        return 0.0;
     return 25.0;
 }
 
