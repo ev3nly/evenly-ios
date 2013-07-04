@@ -16,18 +16,17 @@
 #define SEARCH_FIELD_HEIGHT 30
 #define SEARCH_FIELD_SIDE_BUFFER 10
 #define SEARCH_FIELD_TEXT_BUFFER 16
+#define SEARCH_BAR_HEIGHT 44
 
 @interface EVFacebookInviteViewController ()
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSArray *friends;
+@property (nonatomic, strong) NSArray *fullFriendList;
+@property (nonatomic, strong) NSArray *displayedFriendList;
 @property (nonatomic, strong) NSMutableArray *selectedFriends;
 @property (nonatomic, strong) UIBarButtonItem *rightButton;
 
 @property (nonatomic, strong) UISearchBar *searchBar;
-@property (nonatomic, strong) UIView *searchBackground;
-@property (nonatomic, strong) UIView *searchOval;
-@property (nonatomic, strong) UITextField *searchField;
 @property (nonatomic, strong) UIView *shadeView;
 
 @end
@@ -51,23 +50,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     [self loadTableView];
     [self loadRightButton];
     [self loadSearchBar];
-//    [self loadSearchBackground];
-//    [self loadSearchOval];
-//    [self loadSearchField];
     [self loadShadeView];
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    self.searchBackground.frame = [self searchBackgroundFrame];
-    self.searchBar.frame = [self searchBackgroundFrame];
-    self.searchOval.frame = [self searchOvalFrame];
-    self.searchField.frame = [self searchFieldFrame];
+    self.searchBar.frame = [self searchBarFrame];
     self.tableView.frame = [self tableViewFrame];
     self.shadeView.frame = [self shadeViewFrame];
 }
@@ -88,7 +82,7 @@
 
 - (void)loadRightButton {
     EVNavigationBarButton *button = [[EVNavigationBarButton alloc] initWithTitle:@"Invite"];
-    [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(inviteFriends) forControlEvents:UIControlEventTouchUpInside];
     [button setEnabled:NO];
     self.rightButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     [self.navigationItem setRightBarButtonItem:self.rightButton animated:YES];
@@ -97,7 +91,7 @@
 
 - (void)loadSearchBar {
     self.searchBar = [UISearchBar new];
-
+    
     UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     backgroundView.backgroundColor = EV_RGB_COLOR(0, 114, 208);
     
@@ -105,37 +99,12 @@
     [backgroundView.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-
+    
     self.searchBar.backgroundImage = backgroundImage;
-    self.searchBar.showsCancelButton = YES;
+    self.searchBar.showsCancelButton = NO;
     self.searchBar.delegate = self;
+    [self.searchBar setPositionAdjustment:UIOffsetMake(1, 1) forSearchBarIcon:UISearchBarIconSearch];
     [self.view addSubview:self.searchBar];
-}
-
-- (void)loadSearchBackground {
-    self.searchBackground = [UIView new];
-    self.searchBackground.backgroundColor = EV_RGB_COLOR(0, 114, 208);// [EVColor blueColor];
-    [self.view addSubview:self.searchBackground];
-}
-
-- (void)loadSearchOval {
-    self.searchOval = [UIView new];
-    self.searchOval.backgroundColor = [EVColor lightColor];
-    self.searchOval.layer.cornerRadius = SEARCH_FIELD_HEIGHT/2.0;
-    [self.searchBackground addSubview:self.searchOval];
-}
-
-- (void)loadSearchField {
-    self.searchField = [UITextField new];
-    self.searchField.backgroundColor = [UIColor clearColor];
-    self.searchField.text = @"";
-    self.searchField.textColor = [EVColor darkLabelColor];
-    self.searchField.font = [EVFont boldFontOfSize:15];
-    self.searchField.delegate = self;
-    self.searchField.returnKeyType = UIReturnKeyDone;
-    self.searchField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    self.searchField.placeholder = @"Search";
-    [self.searchOval addSubview:self.searchField];
 }
 
 - (void)loadShadeView {
@@ -147,7 +116,7 @@
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.friends count];
+    return [self.displayedFriendList count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -160,8 +129,8 @@
     if (!cell)
         cell = [[EVFacebookInviteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     cell.position = [self cellPositionForIndexPath:indexPath];
-
-    NSDictionary *userDict = [self.friends objectAtIndex:indexPath.row];
+    
+    NSDictionary *userDict = [self.displayedFriendList objectAtIndex:indexPath.row];
     [cell setName:[NSString stringWithFormat:@"%@ %@", userDict[@"first_name"], userDict[@"last_name"]] profileID:userDict[@"id"]];
     cell.handleSelection = ^(NSString *profileID) {
         [self.selectedFriends addObject:profileID];
@@ -192,8 +161,59 @@
 
 #pragma mark - SearchBar Delegate
 
+static NSString *previousSearch = @"";
+
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    self.searchBar.showsCancelButton = YES;
+    [self.searchBar setShowsCancelButton:YES animated:YES];
+    [self showShadeView];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if (EV_IS_EMPTY_STRING(searchText)) {
+        [self showShadeView];
+        self.displayedFriendList = self.fullFriendList;
+        return;
+    }
+    else if (self.shadeView.superview)
+        [self hideShadeView];
+    
+    NSArray *arrayToFilter = ([searchText rangeOfString:previousSearch].location != NSNotFound) ? self.displayedFriendList : self.fullFriendList;
+    self.displayedFriendList = [arrayToFilter filter:^BOOL(NSDictionary *userDict) {
+        NSString *name = userDict[@"name"];
+        return ([name.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound);
+    }];
+    
+    previousSearch = searchText;
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    [self.searchBar setShowsCancelButton:NO animated:YES];
+    [self hideShadeView];
+    previousSearch = @"";
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    self.searchBar.text = @"";
+    self.displayedFriendList = self.fullFriendList;
+    [self searchBarTextDidEndEditing:searchBar];
+    [self.view findAndResignFirstResponder];
+}
+
+- (void)showShadeView {
+    [self.view addSubview:self.shadeView];
+    [UIView animateWithDuration:0.1
+                     animations:^{
+                         self.shadeView.alpha = 0.7;
+                     }];
+}
+
+- (void)hideShadeView {
+    [UIView animateWithDuration:0.1
+                     animations:^{
+                         self.shadeView.alpha = 0;
+                     } completion:^(BOOL finished) {
+                         [self.shadeView removeFromSuperview];
+                     }];
 }
 
 #pragma mark - Facebook Stuff
@@ -214,21 +234,46 @@
                                            cancelButtonTitle:@"OK"
                                            otherButtonTitles:nil];
                  [alertView show];
+                 
+                 [self fbResync];
+                 [NSThread sleepForTimeInterval:0.5];
+             } else {
+                 if ([FBSession activeSession])
+                     [FBSession.activeSession closeAndClearTokenInformation];
+                 [self openSession];
              }
-             if ([FBSession activeSession])
-                 [FBSession.activeSession closeAndClearTokenInformation];
-             [self openSession];
          }
      }];
+}
+
+-(void)fbResync
+{
+    ACAccountStore *accountStore;
+    ACAccountType *accountTypeFB;
+    if ((accountStore = [[ACAccountStore alloc] init]) && (accountTypeFB = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook] ) ){
+        
+        NSArray *fbAccounts = [accountStore accountsWithAccountType:accountTypeFB];
+        id account;
+        if (fbAccounts && [fbAccounts count] > 0 && (account = [fbAccounts objectAtIndex:0])){
+            
+            [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewResult, NSError *error) {
+                //we don't actually need to inspect renewResult or error.
+                if (error){
+                    
+                }
+            }];
+        }
+    }
 }
 
 - (void)loadFriends {
     [[FBRequest requestForMyFriends] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if (!error) {
-            self.friends = [(NSDictionary *)result objectForKey:@"data"];
-            self.friends = [self.friends sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            NSArray *friends = [(NSDictionary *)result objectForKey:@"data"];
+            self.fullFriendList = [friends sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
                 return [obj1[@"first_name"] compare:obj2[@"first_name"]];
             }];
+            self.displayedFriendList = self.fullFriendList;
             [self.tableView reloadData];
         }
         else
@@ -236,41 +281,39 @@
     }];
 }
 
+- (void)inviteFriends {
+    
+}
+
+#pragma mark - Setters
+
+- (void)setDisplayedFriendList:(NSArray *)displayedFriendList {
+    _displayedFriendList = displayedFriendList;
+    
+    [self.tableView reloadData];
+}
+
 #pragma mark - Frames
 
 - (CGRect)tableViewFrame {
     return CGRectMake(0,
-                      CGRectGetMaxY(self.searchBackground.frame),
+                      CGRectGetMaxY(self.searchBar.frame),
                       self.view.bounds.size.width,
-                      self.view.bounds.size.height - self.searchBackground.bounds.size.height);
+                      self.view.bounds.size.height - self.searchBar.bounds.size.height);
 }
 
-- (CGRect)searchBackgroundFrame {
+- (CGRect)searchBarFrame {
     return CGRectMake(0,
                       0,
                       self.view.bounds.size.width,
-                      44);
-}
-
-- (CGRect)searchOvalFrame {
-    return CGRectMake(SEARCH_FIELD_SIDE_BUFFER,
-                      self.searchBackground.bounds.size.height/2 - SEARCH_FIELD_HEIGHT/2,
-                      self.searchBackground.bounds.size.width - SEARCH_FIELD_SIDE_BUFFER*2,
-                      SEARCH_FIELD_HEIGHT);
-}
-
-- (CGRect)searchFieldFrame {
-    return CGRectMake(SEARCH_FIELD_TEXT_BUFFER,
-                      1,
-                      self.searchOval.bounds.size.width - SEARCH_FIELD_TEXT_BUFFER*2,
-                      self.searchOval.bounds.size.height);
+                      SEARCH_BAR_HEIGHT);
 }
 
 - (CGRect)shadeViewFrame {
     return CGRectMake(0,
-                      CGRectGetMaxY(self.searchBackground.frame),
+                      CGRectGetMaxY(self.searchBar.frame),
                       self.view.bounds.size.width,
-                      self.view.bounds.size.height - CGRectGetMaxY(self.searchBackground.frame));
+                      self.view.bounds.size.height - CGRectGetMaxY(self.searchBar.frame));
 }
 
 @end

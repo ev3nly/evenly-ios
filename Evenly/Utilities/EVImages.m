@@ -16,6 +16,8 @@
     return [[UIImage imageNamed:@"FeedContainer"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
 }
 
+#pragma mark - Buttons
+
 + (UIImage *)blueButtonBackground {
     return [[UIImage imageNamed:@"btn_blue"] resizableImageWithCapInsets:UIEdgeInsetsMake(21, 3, 21, 3)];
 }
@@ -38,6 +40,14 @@
 
 + (UIImage *)inviteButtonBackgroundSelected {
     return [[UIImage imageNamed:@"btn_invited"] resizableImageWithCapInsets:UIEdgeInsetsMake(16, 3, 16, 3)];
+}
+
++ (UIImage *)barButtonItemBackground {
+    return [[UIImage imageNamed:@"Btn_Header_Normal"] stretchableImageWithLeftCapWidth:3 topCapHeight:13];
+}
+
++ (UIImage *)barButtonItemBackgroundPress {
+    return [[UIImage imageNamed:@"Btn_Header_Active"] stretchableImageWithLeftCapWidth:3 topCapHeight:13];
 }
 
 #pragma mark - Privacy

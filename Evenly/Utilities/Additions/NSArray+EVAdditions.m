@@ -14,6 +14,13 @@
     return [[self reverseObjectEnumerator] allObjects];
 }
 
+- (NSArray *)filter:(BOOL (^)(id object))block {
+    NSPredicate *filterPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        return block(evaluatedObject);
+    }];
+    return [self filteredArrayUsingPredicate:filterPredicate];
+}
+
 @end
 
 @implementation NSMutableArray (EVAdditions)
