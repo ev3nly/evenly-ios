@@ -26,7 +26,7 @@
 
 #define LOGO_LENGTH 140
 #define LOGO_TEXT_BUFFER 20
-#define PICTURE_BOTTOM_BUFFER 30
+#define PICTURE_BOTTOM_BUFFER 20
 #define TITLE_TOP_BUFFER 36
 #define TITLE_SUBTITLE_BUFFER 4
 #define MAX_TEXT_WIDTH 272
@@ -34,9 +34,9 @@
 #define PICTURE_SCALE_CONSTANT 140.0
 #define PICTURE_SCALE ((self.view.bounds.size.height-PICTURE_SCALE_CONSTANT)/(548.0-PICTURE_SCALE_CONSTANT))
 
-#define SIGNUP_LABEL_Y_ORIGIN 240
+#define SIGNUP_LABEL_Y_ORIGIN 200
 #define BUTTON_LEFT_MARGIN 30
-#define SIGNUP_LABEL_BUTTON_BUFFER 40
+#define SIGNUP_LABEL_BUTTON_BUFFER 30
 #define OR_LABEL_BUTTON_BUFFER 10
 
 #define FACEBOOK_F_TITLE_BUFFER 20
@@ -155,29 +155,29 @@
 }
 
 - (UIView *)secondOnboardView {
-    NSString *title = @"No Cash? No Problem.";
-    NSString *description = @"Add a credit or debit card to your Evenly wallet to send money to anyone, anywhere, at any time.";
+    NSString *title = @"Pay anyone, safely";
+    NSString *description = @"Cash is a pain. Add a card to your Evenly wallet and pay anyone, anywhere, anytime.";
     UIImage *image = [EVImages onboardCard1];
     return [self cardViewWithTitle:title description:description image:image];
 }
 
 - (UIView *)thirdOnboardView {
-    NSString *title = @"Collect Money Effortlessly.";
-    NSString *description = @"Stop hassling friends and groups. Quickly send a request and we'll help remind your friends until they pay you back.";
+    NSString *title = @"Collect money, effortlessly";
+    NSString *description = @"Stop hassling friends. Send a request and we'll remind your friends until they pay you back.";
     UIImage *image = [EVImages onboardCard2];
     return [self cardViewWithTitle:title description:description image:image];
 }
 
 - (UIView *)fourthOnboardView {
-    NSString *title = @"Deposit in Seconds.";
-    NSString *description = @"With one tap, deposit the cash in your Evenly wallet into any bank account.";
+    NSString *title = @"Deposit, instantly";
+    NSString *description = @"With one tap, securely deposit the cash in your Evenly wallet into any bank account.";
     UIImage *image = [EVImages onboardCard3];
     return [self cardViewWithTitle:title description:description image:image];
 }
 
 - (UIView *)fifthOnboardView {
-    NSString *title = @"Fun, Social, & Free.";
-    NSString *description = @"There are no transaction fees when using Evenly. Connect with Facebook and share the experience with your friends.";
+    NSString *title = @"Fun, Social, & Free";
+    NSString *description = @"There are no transaction fees. Connect with Facebook and share the experience with your friends.";
     UIView *view = [self cardViewWithTitle:title description:description image:nil];
     
     UILabel *signUpLabel = [self titleLabelWithText:@"Sign up in seconds."];
@@ -185,7 +185,10 @@
         
     UIButton *facebookButton = [self facebookButton];
     
+    UIImageView *peopleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"people"]];
+    
     [view addSubview:signUpLabel];
+    [view addSubview:peopleImage];
     [view addSubview:facebookButton];
     
     signUpLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:signUpLabel].width/2,
@@ -196,6 +199,10 @@
                                       CGRectGetMaxY(signUpLabel.frame) + SIGNUP_LABEL_BUTTON_BUFFER,
                                       self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
                                       [EVImages facebookButton].size.height);
+    peopleImage.frame = CGRectMake(20,
+                                   CGRectGetMaxY(facebookButton.frame) - 40,
+                                   280,
+                                   200);
     
     if ([facebookButton viewWithTag:F_ICON_TAG]) {
         float totalWidth = [EVImages facebookButton].size.width + FACEBOOK_F_TITLE_BUFFER + facebookButton.titleLabel.bounds.size.width;
@@ -246,7 +253,7 @@
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [EVColor darkLabelColor];
-    label.font = [EVFont blackFontOfSize:20];
+    label.font = [EVFont blackFontOfSize:21];
     return label;
 }
 
@@ -258,7 +265,7 @@
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [EVColor lightLabelColor];
-    label.font = [EVFont defaultFontOfSize:14];
+    label.font = [EVFont defaultFontOfSize:17];
     return label;
 }
 
@@ -270,7 +277,7 @@
     card.backgroundColor = [UIColor whiteColor];
     UIView *baigeBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, card.bounds.size.width, CARD_HEIGHT/3)];
     baigeBackground.backgroundColor = EV_RGB_COLOR(246, 245, 242);
-    [card addSubview:baigeBackground];
+//    [card addSubview:baigeBackground];
     card.layer.cornerRadius = 10.0;
     card.clipsToBounds = YES;
     return card;
@@ -331,11 +338,6 @@
             [self presentViewController:navController animated:YES completion:nil];
         }
     }];
-    
-    [[FBRequest requestForMyFriends] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-//        if (!error)
-//            NSLog(@"friends: %@", result);
-    }];
 }
 
 - (void)sessionStateChanged:(FBSession *)session
@@ -348,7 +350,6 @@
             break;
         case FBSessionStateClosed:
         case FBSessionStateClosedLoginFailed:
-            NSLog(@"closed or closed failed");
             [FBSession.activeSession closeAndClearTokenInformation];
             break;
         default:

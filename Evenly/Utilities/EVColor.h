@@ -22,8 +22,11 @@
 #pragma mark - Side Panels
 
 + (UIColor *)sidePanelBackgroundColor;
++ (UIColor *)sidePanelHeaderBackgroundColor;
 + (UIColor *)sidePanelSelectedColor;
 + (UIColor *)sidePanelStripeColor;
++ (UIColor *)sidePanelTextColor;
++ (UIColor *)sidePanelIconColor;
 
 #pragma mark - Newsfeed
 

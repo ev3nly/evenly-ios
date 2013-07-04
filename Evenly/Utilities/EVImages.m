@@ -32,6 +32,14 @@
     return [[UIImage imageNamed:@"btn_gray-active"] resizableImageWithCapInsets:UIEdgeInsetsMake(21, 3, 21, 3)];
 }
 
++ (UIImage *)inviteButtonBackground {
+    return [[UIImage imageNamed:@"btn_invite"] resizableImageWithCapInsets:UIEdgeInsetsMake(16, 3, 16, 3)];
+}
+
++ (UIImage *)inviteButtonBackgroundSelected {
+    return [[UIImage imageNamed:@"btn_invited"] resizableImageWithCapInsets:UIEdgeInsetsMake(16, 3, 16, 3)];
+}
+
 #pragma mark - Privacy
 
 + (UIImage *)friendsIcon {
@@ -118,10 +126,6 @@
     return [UIImage imageNamed:@"add-photo"];
 }
 
-+ (UIImage *)defaultAvatar {
-    return [UIImage imageNamed:@"DefaultAvatar"];
-}
-
 + (UIImage *)onboardCard1 {
     return [UIImage imageNamed:@"onboard-card1"];
 }
@@ -160,6 +164,13 @@
 
 + (UIImage *)grayLogo {
     return [UIImage imageNamed:@"logo-gray"];
+}
+
+#pragma mark - Avatars
+
++ (UIImage *)defaultAvatar {
+    int picNum = (arc4random() % 6) + 1;
+    return [UIImage imageNamed:[NSString stringWithFormat:@"evenly_profilePic%i", picNum]];
 }
 
 #pragma mark - Status Bar

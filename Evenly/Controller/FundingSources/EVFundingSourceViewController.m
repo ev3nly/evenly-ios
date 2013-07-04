@@ -94,7 +94,7 @@
     {
         if ([self isLoading])
         {
-            cell.textLabel.text = @"loading...";
+            cell.textLabel.text = @"Loading...";
             cell.position = EVGroupedTableViewCellPositionSingle;
         }
         else if ([self.fundingSources count] == 0) {

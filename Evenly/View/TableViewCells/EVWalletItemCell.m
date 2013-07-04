@@ -22,7 +22,7 @@
                                                                     self.containerView.frame.size.width / 2.0 - margin,
                                                                     self.containerView.frame.size.height)];
         self.titleLabel.backgroundColor = [UIColor clearColor];
-        self.titleLabel.textColor = [UIColor whiteColor];
+        self.titleLabel.textColor = [EVColor sidePanelTextColor];
         self.titleLabel.font = [EVFont boldFontOfSize:20.0];
         self.titleLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
         [self.containerView addSubview:self.titleLabel];
@@ -32,7 +32,7 @@
                                                                     self.containerView.frame.size.width / 2.0 - margin,
                                                                     self.containerView.frame.size.height)];
         self.valueLabel.backgroundColor = [UIColor clearColor];
-        self.valueLabel.textColor = [UIColor whiteColor];
+        self.valueLabel.textColor = [EVColor sidePanelTextColor];
         self.valueLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
         self.valueLabel.font = [EVFont defaultFontOfSize:20.0];
         self.valueLabel.textAlignment = NSTextAlignmentRight;
