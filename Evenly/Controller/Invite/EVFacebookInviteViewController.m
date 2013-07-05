@@ -159,13 +159,20 @@
     }
 }
 
+#pragma mark - ScrollView Delegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.searchBar resignFirstResponder];
+}
+
 #pragma mark - SearchBar Delegate
 
 static NSString *previousSearch = @"";
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     [self.searchBar setShowsCancelButton:YES animated:YES];
-    [self showShadeView];
+    if (EV_IS_EMPTY_STRING(searchBar.text))
+        [self showShadeView];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -282,7 +289,24 @@ static NSString *previousSearch = @"";
 }
 
 - (void)inviteFriends {
-    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
+    NSString *toString = @"";
+    for (NSString *profileID in self.selectedFriends) {
+        toString = [toString stringByAppendingString:[NSString stringWithFormat:@"%@,", profileID]];
+    }
+    [params setObject:toString forKey:@"to"];
+
+    [FBWebDialogs
+     presentRequestsDialogModallyWithSession:nil
+     message:@"Try Evenly! It's a free way to transfer money between friends!"
+     title:nil
+     parameters:params
+     handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+         if (error) {
+             // Error launching the dialog or sending the request.
+             NSLog(@"Error sending request.");
+         }
+     }];
 }
 
 #pragma mark - Setters
