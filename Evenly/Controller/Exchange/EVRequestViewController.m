@@ -9,9 +9,7 @@
 #import "EVRequestViewController.h"
 #import "EVNavigationBarButton.h"
 #import "EVBackButton.h"
-#import "EVUserAutocompletionCell.h"
 #import "EVKeyboardTracker.h"
-
 
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
@@ -19,11 +17,7 @@
 
 @interface EVRequestViewController ()
 
-
-
 @property (nonatomic) BOOL isGroupRequest;
-@property (nonatomic) BOOL hasRecipients;
-@property (nonatomic) BOOL canGoToHowMuchPhase;
 
 @end
 

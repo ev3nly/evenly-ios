@@ -12,7 +12,7 @@
 #import "EVStoryCell.h"
 #import "EVFloatingRequestButton.h"
 #import "EVFloatingPaymentButton.h"
-#import "EVPaymentViewController.h"
+#import "EVPaymentViewController_NEW.h"
 #import "EVRequestViewController.h"
 #import "EVTransactionDetailViewController.h"
 
@@ -162,7 +162,7 @@
 }
 
 - (void)payButtonPress:(id)sender {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVPaymentViewController alloc] init]];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVPaymentViewController_NEW alloc] init]];
     [self presentViewController:navController animated:YES completion:NULL];    
 }
 
