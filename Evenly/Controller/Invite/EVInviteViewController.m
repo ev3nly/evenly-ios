@@ -111,55 +111,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row == EVInviteMethodFacebook) {
-//        [self sendRequest];
         EVFacebookInviteViewController *facebookInviteController = [[EVFacebookInviteViewController alloc] initWithNibName:nil bundle:nil];
         [self.navigationController pushViewController:facebookInviteController animated:YES];
     }
-}
-
-#pragma mark - Facebook Request
-
-- (NSDictionary*)parseURLParams:(NSString *)query {
-    NSArray *pairs = [query componentsSeparatedByString:@"&"];
-    NSMutableDictionary *params = [[NSMutableDictionary alloc] init];
-    for (NSString *pair in pairs) {
-        NSArray *kv = [pair componentsSeparatedByString:@"="];
-        NSString *val =
-        [kv[1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        params[kv[0]] = val;
-    }
-    return params;
-}
-
-- (void)sendRequest {
-    // Display the requests dialog
-    [FBWebDialogs
-     presentRequestsDialogModallyWithSession:nil
-     message:@"Learn how to make your iOS apps social."
-     title:nil
-     parameters:nil
-     handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
-         if (error) {
-             // Error launching the dialog or sending the request.
-             NSLog(@"Error sending request.");
-         } else {
-             if (result == FBWebDialogResultDialogNotCompleted) {
-                 // User clicked the "x" icon
-                 NSLog(@"User canceled request.");
-             } else {
-                 // Handle the send request callback
-                 NSDictionary *urlParams = [self parseURLParams:[resultURL query]];
-                 if (![urlParams valueForKey:@"request"]) {
-                     // User clicked the Cancel button
-                     NSLog(@"User canceled request.");
-                 } else {
-                     // User clicked the Send button
-                     NSString *requestID = [urlParams valueForKey:@"request"];
-                     NSLog(@"Request ID: %@", requestID);
-                 }
-             }
-         }
-     }];
 }
 
 #pragma mark - Frames

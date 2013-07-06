@@ -93,8 +93,23 @@
 
 - (void)inviteTapped {
     self.shouldInvite = !self.shouldInvite;
+}
 
-    if (self.shouldInvite) {
+#pragma mark - Setters
+
+- (void)setName:(NSString *)name profileID:(NSString *)profileID {
+    if (![profileID isEqualToString:self.profilePicture.profileID]) {
+        [self.profilePicture removeFromSuperview];
+        [self loadProfilePicture];
+    }
+    self.nameLabel.text = name;
+    self.profilePicture.profileID = profileID;
+}
+
+- (void)setShouldInvite:(BOOL)shouldInvite {
+    _shouldInvite = shouldInvite;
+    
+    if (shouldInvite) {
         UIImage *greenCheck = [EVImageUtility overlayImage:[EVImages checkIcon] withColor:[EVColor lightGreenColor] identifier:@"checkIcon"];
         [UIView animateWithDuration:0.3 animations:^{
             [self.inviteButton setTitle:@"" forState:UIControlStateNormal];
@@ -108,17 +123,6 @@
         if (self.handleDeselection)
             self.handleDeselection(self.profilePicture.profileID);
     }
-}
-
-#pragma mark - Setters
-
-- (void)setName:(NSString *)name profileID:(NSString *)profileID {
-    if (![profileID isEqualToString:self.profilePicture.profileID]) {
-        [self.profilePicture removeFromSuperview];
-        [self loadProfilePicture];
-    }
-    self.nameLabel.text = name;
-    self.profilePicture.profileID = profileID;
 }
 
 #pragma mark - Frames

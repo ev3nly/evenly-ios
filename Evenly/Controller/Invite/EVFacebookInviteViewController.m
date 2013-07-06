@@ -141,6 +141,7 @@
         if ([self.selectedFriends count] == 0)
             self.navigationItem.rightBarButtonItem.enabled = NO;
     };
+    cell.shouldInvite = [self.selectedFriends containsObject:userDict[@"id"]];
     
     return cell;
 }
@@ -253,21 +254,15 @@ static NSString *previousSearch = @"";
      }];
 }
 
--(void)fbResync
-{
-    ACAccountStore *accountStore;
-    ACAccountType *accountTypeFB;
-    if ((accountStore = [[ACAccountStore alloc] init]) && (accountTypeFB = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook] ) ){
-        
+-(void)fbResync {
+    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+    ACAccountType *accountTypeFB = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
+    if (accountStore && accountTypeFB) {
         NSArray *fbAccounts = [accountStore accountsWithAccountType:accountTypeFB];
-        id account;
-        if (fbAccounts && [fbAccounts count] > 0 && (account = [fbAccounts objectAtIndex:0])){
-            
+        id account = [fbAccounts objectAtIndex:0];
+        if (fbAccounts && [fbAccounts count] > 0 && account){
             [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewResult, NSError *error) {
-                //we don't actually need to inspect renewResult or error.
-                if (error){
-                    
-                }
+                
             }];
         }
     }
@@ -289,6 +284,8 @@ static NSString *previousSearch = @"";
 }
 
 - (void)inviteFriends {
+    [self.searchBar resignFirstResponder];
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:0];
     NSString *toString = @"";
     for (NSString *profileID in self.selectedFriends) {
