@@ -13,13 +13,13 @@
 #import "EVPageControl.h"
 #import "EVPrivacySelectorView.h"
 
+#import "EVExchangeWhoView.h"
 
 typedef enum {
     EVExchangePhaseWho = 0,
     EVExchangePhaseHowMuch,
     EVExchangePhaseWhatFor
 } EVExchangePhase;
-
 
 @interface EVExchangeViewController_NEW : EVPushPopViewController <EVAutocompleteTableViewControllerDelegate>
 
@@ -30,6 +30,7 @@ typedef enum {
 @property (nonatomic, strong) EVPageControl *pageControl;
 
 @property (nonatomic, strong) EVAutocompleteTableViewController *autocompleteTableViewController;
+@property (nonatomic, strong) EVExchangeWhoView *initialView;
 
 @property (nonatomic, strong) EVPrivacySelectorView *privacySelector;
 
@@ -51,7 +52,6 @@ typedef enum {
 - (void)cancelButtonPress:(id)sender;
 - (void)backButtonPress:(id)sender;
 - (void)nextButtonPress:(id)sender;
-
-
+- (void)actionButtonPress:(id)sender;
 
 @end

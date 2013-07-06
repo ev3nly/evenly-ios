@@ -12,7 +12,6 @@
 #import "EVUserAutocompletionCell.h"
 #import "EVKeyboardTracker.h"
 
-#import "ABContactsHelper.h"
 
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
@@ -42,12 +41,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.initialView becomeFirstResponder];
 }
 
 - (void)loadNavigationButtons {
@@ -84,7 +77,7 @@
     [right addObject:button];
     
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Request"];
-    [button addTarget:self action:@selector(requestButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(actionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [button setEnabled:NO];
     [right addObject:button];
     
@@ -115,14 +108,6 @@
 
 - (CGRect)contentViewFrame {
     return CGRectMake(0, 0, self.view.frame.size.width, self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT);
-}
-
-- (void)loadAutocomplete {
-    self.autocompleteTableViewController = [[EVAutocompleteTableViewController alloc] initWithStyle:UITableViewStylePlain];
-    self.autocompleteTableViewController.delegate = self;
-    self.autocompleteTableViewController.inputField = self.initialView.toField.textField;
-    
-    [self.initialView setAutocompleteTableView:self.autocompleteTableViewController.tableView];
 }
 
 - (void)setUpReactions {
@@ -197,17 +182,6 @@
 
 #pragma mark - Button Actions
 
-- (void)cancelButtonPress:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-}
-
-- (void)backButtonPress:(id)sender {
-    [self popViewAnimated:YES];
-    self.phase--;
-    [self setUpNavBar];
-    [self validateForPhase:self.phase];
-}
-
 - (void)nextButtonPress:(id)sender {
     if (self.phase == EVExchangePhaseWho)
     {
@@ -251,7 +225,7 @@
     [self validateForPhase:self.phase];
 }
 
-- (void)requestButtonPress:(id)sender {
+- (void)actionButtonPress:(id)sender {
     [sender setEnabled:NO];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REQUEST..."];
     
@@ -287,20 +261,6 @@
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
         }];
     }
-}
-
-#pragma mark - UITableViewDelegate
-
-
-- (void)autocompleteViewController:(EVAutocompleteTableViewController *)viewController didSelectContact:(id)contact {
-    if ([contact isKindOfClass:[ABContact class]]) {
-        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
-		EVContact *toContact = [[EVContact alloc] init];
-		toContact.email = emailAddress;
-        toContact.name = [contact compositeName];
-        contact = toContact;
-    }
-    [self.initialView addContact:contact];
 }
 
 @end

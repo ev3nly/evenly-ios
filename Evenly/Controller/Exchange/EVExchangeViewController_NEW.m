@@ -7,6 +7,7 @@
 //
 
 #import "EVExchangeViewController_NEW.h"
+#import "ABContactsHelper.h"
 
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
@@ -38,6 +39,15 @@
     [self setUpReactions];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.initialView becomeFirstResponder];
+}
+
+- (void)loadNavigationButtons {
+    // abstract
+}
+
 - (void)loadPageControl {
     self.pageControl = [[EVPageControl alloc] init];
     self.pageControl.numberOfPages = 3;
@@ -67,6 +77,23 @@
                       [EVPrivacySelectorView lineHeight] * [EVPrivacySelectorView numberOfLines]);
 }
 
+- (void)loadContentViews {
+    // abstract
+}
+
+
+- (void)loadAutocomplete {
+    self.autocompleteTableViewController = [[EVAutocompleteTableViewController alloc] initWithStyle:UITableViewStylePlain];
+    self.autocompleteTableViewController.delegate = self;
+    self.autocompleteTableViewController.inputField = self.initialView.toField.textField;
+    
+    [self.initialView setAutocompleteTableView:self.autocompleteTableViewController.tableView];
+}
+
+- (void)setUpReactions {
+    // abstract
+}
+
 #pragma mark - Nav Bar Buttons
 
 - (void)setUpNavBar {
@@ -82,6 +109,46 @@
 
 - (UIButton *)rightButtonForPhase:(EVExchangePhase)phase {
     return [self.rightButtons objectAtIndex:phase];
+}
+
+#pragma mark - Button Actions
+
+- (void)cancelButtonPress:(id)sender {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)backButtonPress:(id)sender {
+    [self popViewAnimated:YES];
+    self.phase--;
+    [self setUpNavBar];
+    [self validateForPhase:self.phase];
+}
+
+- (void)nextButtonPress:(id)sender {
+    // abstract
+}
+
+- (void)actionButtonPress:(id)sender {
+    // abstract
+}
+
+#pragma mark - Validation 
+
+- (void)validateForPhase:(EVExchangePhase)phase {
+    // abstract
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)autocompleteViewController:(EVAutocompleteTableViewController *)viewController didSelectContact:(id)contact {
+    if ([contact isKindOfClass:[ABContact class]]) {
+        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
+		EVContact *toContact = [[EVContact alloc] init];
+		toContact.email = emailAddress;
+        toContact.name = [contact compositeName];
+        contact = toContact;
+    }
+    [self.initialView addContact:contact];
 }
 
 @end
