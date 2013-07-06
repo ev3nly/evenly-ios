@@ -6,20 +6,20 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVRequestDetailsView.h"
+#import "EVExchangeWhatForView.h"
 #import "EVPlaceholderTextView.h"
 
 #define LINE_HEIGHT 40
 #define LEFT_RIGHT_BUFFER 10
 
-@interface EVRequestDetailsView ()
+@interface EVExchangeWhatForView ()
 
 - (void)loadForLabel;
 - (void)loadDescriptionField;
 
 @end
 
-@implementation EVRequestDetailsView
+@implementation EVExchangeWhatForView
 
 - (id)initWithFrame:(CGRect)frame
 {

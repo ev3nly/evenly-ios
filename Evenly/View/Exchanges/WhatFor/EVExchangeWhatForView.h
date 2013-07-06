@@ -10,7 +10,7 @@
 #import "EVExchangeView.h"
 #import "EVTextField.h"
 
-@interface EVRequestDetailsView : EVExchangeView <UITextViewDelegate>
+@interface EVExchangeWhatForView : EVExchangeView <UITextViewDelegate>
 
 @property (nonatomic, strong) UITextView *descriptionField;
 

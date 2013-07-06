@@ -12,9 +12,9 @@
 #import "EVGroupRequest.h"
 
 #import "EVRequestWhoView.h"
-#import "EVRequestSingleAmountView.h"
+#import "EVExchangeHowMuchView.h"
 #import "EVRequestMultipleAmountsView.h"
-#import "EVRequestDetailsView.h"
+#import "EVExchangeWhatForView.h"
 #import "EVRequestMultipleDetailsView.h"
 
 
@@ -26,10 +26,10 @@
 
 @property (nonatomic, strong) EVRequestWhoView *initialView;
 
-@property (nonatomic, strong) EVRequestSingleAmountView *singleAmountView;
+@property (nonatomic, strong) EVExchangeHowMuchView *singleAmountView;
 @property (nonatomic, strong) EVRequestMultipleAmountsView *multipleAmountsView;
 
-@property (nonatomic, strong) EVRequestDetailsView *singleDetailsView;
+@property (nonatomic, strong) EVExchangeWhatForView *singleDetailsView;
 @property (nonatomic, strong) EVRequestMultipleDetailsView *multipleDetailsView;
 
 @end

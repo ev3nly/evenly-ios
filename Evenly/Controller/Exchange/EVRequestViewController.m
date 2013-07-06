@@ -96,13 +96,13 @@
     self.initialView = [[EVRequestWhoView alloc] initWithFrame:[self.view bounds]];
     self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.singleAmountView = [[EVRequestSingleAmountView alloc] initWithFrame:[self contentViewFrame]];
+    self.singleAmountView = [[EVExchangeHowMuchView alloc] initWithFrame:[self contentViewFrame]];
     self.singleAmountView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     self.multipleAmountsView = [[EVRequestMultipleAmountsView alloc] initWithFrame:[self.view bounds]];
     self.multipleAmountsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.singleDetailsView = [[EVRequestDetailsView alloc] initWithFrame:[self.view bounds]];
+    self.singleDetailsView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];
     self.singleDetailsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;    
     
     self.multipleDetailsView = [[EVRequestMultipleDetailsView alloc] initWithFrame:[self.view bounds]];

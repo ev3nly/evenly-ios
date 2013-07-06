@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVRequestDetailsView.h"
+#import "EVExchangeWhatForView.h"
 #import "EVTextField.h"
 #import "EVPlaceholderTextView.h"
 

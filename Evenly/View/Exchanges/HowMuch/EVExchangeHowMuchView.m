@@ -6,18 +6,18 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVRequestSingleAmountView.h"
+#import "EVExchangeHowMuchView.h"
 #import "EVCurrencyTextFieldFormatter.h"
 
 
-@interface EVRequestSingleAmountView ()
+@interface EVExchangeHowMuchView ()
 
 @property (nonatomic, strong) UIImageView *bigAmountContainer;
 @property (nonatomic, strong) EVCurrencyTextFieldFormatter *currencyFormatter;
 
 @end
 
-@implementation EVRequestSingleAmountView
+@implementation EVExchangeHowMuchView
 
 
 - (id)initWithFrame:(CGRect)frame

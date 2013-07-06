@@ -11,7 +11,7 @@
 #import "EVTextField.h"
 #import "EVExchangeBigAmountView.h"
 
-@interface EVRequestSingleAmountView : EVExchangeView
+@interface EVExchangeHowMuchView : EVExchangeView
 
 @property (nonatomic, strong) EVExchangeBigAmountView *bigAmountView;
 @property (nonatomic, readonly) EVTextField *amountField;

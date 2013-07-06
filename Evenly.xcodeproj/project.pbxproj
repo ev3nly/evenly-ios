@@ -33,8 +33,8 @@
 		9C1606561788D61400852684 /* EVExchangeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606551788D61400852684 /* EVExchangeView.m */; };
 		9C1606591788D6A300852684 /* EVExchangeBigAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606581788D6A300852684 /* EVExchangeBigAmountView.m */; };
 		9C1606671788D6FE00852684 /* EVRequestMultipleAmountsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16065C1788D6FE00852684 /* EVRequestMultipleAmountsView.m */; };
-		9C1606681788D6FE00852684 /* EVRequestSingleAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16065E1788D6FE00852684 /* EVRequestSingleAmountView.m */; };
-		9C1606691788D6FE00852684 /* EVRequestDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606611788D6FE00852684 /* EVRequestDetailsView.m */; };
+		9C1606681788D6FE00852684 /* EVExchangeHowMuchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16065E1788D6FE00852684 /* EVExchangeHowMuchView.m */; };
+		9C1606691788D6FE00852684 /* EVExchangeWhatForView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606611788D6FE00852684 /* EVExchangeWhatForView.m */; };
 		9C16066A1788D6FE00852684 /* EVRequestMultipleDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606631788D6FE00852684 /* EVRequestMultipleDetailsView.m */; };
 		9C16066B1788D6FE00852684 /* EVRequestWhoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606661788D6FE00852684 /* EVRequestWhoView.m */; };
 		9C16066E1788D75400852684 /* EVExchangeWhoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16066D1788D75400852684 /* EVExchangeWhoView.m */; };
@@ -483,10 +483,10 @@
 		9C1606581788D6A300852684 /* EVExchangeBigAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeBigAmountView.m; sourceTree = "<group>"; };
 		9C16065B1788D6FE00852684 /* EVRequestMultipleAmountsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestMultipleAmountsView.h; sourceTree = "<group>"; };
 		9C16065C1788D6FE00852684 /* EVRequestMultipleAmountsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestMultipleAmountsView.m; sourceTree = "<group>"; };
-		9C16065D1788D6FE00852684 /* EVRequestSingleAmountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestSingleAmountView.h; sourceTree = "<group>"; };
-		9C16065E1788D6FE00852684 /* EVRequestSingleAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestSingleAmountView.m; sourceTree = "<group>"; };
-		9C1606601788D6FE00852684 /* EVRequestDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestDetailsView.h; sourceTree = "<group>"; };
-		9C1606611788D6FE00852684 /* EVRequestDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestDetailsView.m; sourceTree = "<group>"; };
+		9C16065D1788D6FE00852684 /* EVExchangeHowMuchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeHowMuchView.h; sourceTree = "<group>"; };
+		9C16065E1788D6FE00852684 /* EVExchangeHowMuchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeHowMuchView.m; sourceTree = "<group>"; };
+		9C1606601788D6FE00852684 /* EVExchangeWhatForView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeWhatForView.h; sourceTree = "<group>"; };
+		9C1606611788D6FE00852684 /* EVExchangeWhatForView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeWhatForView.m; sourceTree = "<group>"; };
 		9C1606621788D6FE00852684 /* EVRequestMultipleDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestMultipleDetailsView.h; sourceTree = "<group>"; };
 		9C1606631788D6FE00852684 /* EVRequestMultipleDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestMultipleDetailsView.m; sourceTree = "<group>"; };
 		9C1606651788D6FE00852684 /* EVRequestWhoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestWhoView.h; sourceTree = "<group>"; };
@@ -1246,10 +1246,10 @@
 		9C16065A1788D6FE00852684 /* HowMuch */ = {
 			isa = PBXGroup;
 			children = (
+				9C16065D1788D6FE00852684 /* EVExchangeHowMuchView.h */,
+				9C16065E1788D6FE00852684 /* EVExchangeHowMuchView.m */,
 				9C16065B1788D6FE00852684 /* EVRequestMultipleAmountsView.h */,
 				9C16065C1788D6FE00852684 /* EVRequestMultipleAmountsView.m */,
-				9C16065D1788D6FE00852684 /* EVRequestSingleAmountView.h */,
-				9C16065E1788D6FE00852684 /* EVRequestSingleAmountView.m */,
 			);
 			path = HowMuch;
 			sourceTree = "<group>";
@@ -1257,8 +1257,8 @@
 		9C16065F1788D6FE00852684 /* WhatFor */ = {
 			isa = PBXGroup;
 			children = (
-				9C1606601788D6FE00852684 /* EVRequestDetailsView.h */,
-				9C1606611788D6FE00852684 /* EVRequestDetailsView.m */,
+				9C1606601788D6FE00852684 /* EVExchangeWhatForView.h */,
+				9C1606611788D6FE00852684 /* EVExchangeWhatForView.m */,
 				9C1606621788D6FE00852684 /* EVRequestMultipleDetailsView.h */,
 				9C1606631788D6FE00852684 /* EVRequestMultipleDetailsView.m */,
 			);
@@ -2992,8 +2992,8 @@
 				9C1606561788D61400852684 /* EVExchangeView.m in Sources */,
 				9C1606591788D6A300852684 /* EVExchangeBigAmountView.m in Sources */,
 				9C1606671788D6FE00852684 /* EVRequestMultipleAmountsView.m in Sources */,
-				9C1606681788D6FE00852684 /* EVRequestSingleAmountView.m in Sources */,
-				9C1606691788D6FE00852684 /* EVRequestDetailsView.m in Sources */,
+				9C1606681788D6FE00852684 /* EVExchangeHowMuchView.m in Sources */,
+				9C1606691788D6FE00852684 /* EVExchangeWhatForView.m in Sources */,
 				9C16066A1788D6FE00852684 /* EVRequestMultipleDetailsView.m in Sources */,
 				9C16066B1788D6FE00852684 /* EVRequestWhoView.m in Sources */,
 				9C16066E1788D75400852684 /* EVExchangeWhoView.m in Sources */,
