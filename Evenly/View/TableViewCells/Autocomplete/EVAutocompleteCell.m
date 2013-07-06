@@ -14,7 +14,10 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+        self.bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];
+        self.bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
+        self.bottomStripe.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+        [self addSubview:self.bottomStripe];
     }
     return self;
 }

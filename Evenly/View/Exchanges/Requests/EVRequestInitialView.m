@@ -7,13 +7,14 @@
 //
 
 #import "EVRequestInitialView.h"
+#import "EVInstructionView.h"
 
 #define PLACEHOLDER @"Name, email, phone number"
 
 #define REQUEST_SWITCH_HEIGHT 45
-
+#define TOKEN_FIELD_ADJUSTMENT 5
 #define LEFT_RIGHT_BUFFER 10
-#define TO_FIELD_HEIGHT 25
+#define TO_FIELD_HEIGHT 35
 #define LINE_HEIGHT 40
 
 @interface EVRequestInitialView ()
@@ -43,6 +44,8 @@
                                                  selector:@selector(handleTokenFieldFrameDidChange:)
                                                      name:JSTokenFieldFrameDidChangeNotification
                                                    object:nil];
+        
+        [self.toField becomeFirstResponder];
     }
     return self;
 }
@@ -86,7 +89,11 @@
 }
 
 - (void)switchControl:(EVSwitch *)switchControl willChangeStateTo:(BOOL)onOff animationDuration:(NSTimeInterval)duration {
-    // TODO: Add flash message.
+    if (onOff == YES && self.recipientCount == 0) {
+        EVInstructionView *instructionView = [[EVInstructionView alloc] initWithText:[EVStringUtility groupRequestCreationInstructions]];
+        [instructionView setShowingLogo:YES];
+        [instructionView flashInView:self forDuration:2.5];
+    }    
 }
 
 - (void)loadToField
@@ -99,7 +106,7 @@
     [self addSubview:self.upperStripe];
     
     CGRect fieldFrame = CGRectMake(LEFT_RIGHT_BUFFER,
-                                   CGRectGetMaxY(self.upperStripe.frame) + EV_REQUEST_VIEW_LABEL_FIELD_BUFFER,
+                                   CGRectGetMaxY(self.upperStripe.frame) + EV_REQUEST_VIEW_LABEL_FIELD_BUFFER - TOKEN_FIELD_ADJUSTMENT,
                                    self.frame.size.width - 2*LEFT_RIGHT_BUFFER,
                                    TO_FIELD_HEIGHT);
     self.toField = [[JSTokenField alloc] initWithFrame:fieldFrame];
@@ -162,15 +169,15 @@
 #pragma mark - First Responder
 
 - (BOOL)isFirstResponder {
-    return self.toField.isFirstResponder;
+    return self.toField.textField.isFirstResponder;
 }
 
 - (BOOL)becomeFirstResponder {
-    return [self.toField becomeFirstResponder];
+    return [self.toField.textField becomeFirstResponder];
 }
 
 - (BOOL)resignFirstResponder {
-    return [self.toField resignFirstResponder];
+    return [self.toField.textField resignFirstResponder];
 }
 
 #pragma mark - JSTokenFieldDelegate
