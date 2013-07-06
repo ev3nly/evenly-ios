@@ -6,16 +6,16 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVExchangeViewController_NEW.h"
+#import "EVExchangeViewController.h"
 #import "ABContactsHelper.h"
 
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
-@interface EVExchangeViewController_NEW ()
+@interface EVExchangeViewController ()
 
 @end
 
-@implementation EVExchangeViewController_NEW
+@implementation EVExchangeViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

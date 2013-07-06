@@ -21,7 +21,7 @@ typedef enum {
     EVExchangePhaseWhatFor
 } EVExchangePhase;
 
-@interface EVExchangeViewController_NEW : EVPushPopViewController <EVAutocompleteTableViewControllerDelegate>
+@interface EVExchangeViewController : EVPushPopViewController <EVAutocompleteTableViewControllerDelegate>
 
 @property (nonatomic) EVExchangePhase phase;
 @property (nonatomic, strong) NSArray *leftButtons;

@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVExchangeViewController_NEW.h"
+#import "EVExchangeViewController.h"
 #import "EVRequestSwitch.h"
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
@@ -19,7 +19,7 @@
 
 
 
-@interface EVRequestViewController : EVExchangeViewController_NEW 
+@interface EVRequestViewController : EVExchangeViewController 
 
 @property (nonatomic, strong) EVRequest *request;
 @property (nonatomic, strong) EVGroupRequest *groupRequest;

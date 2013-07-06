@@ -6,15 +6,15 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVPaymentViewController_NEW.h"
+#import "EVPaymentViewController.h"
 #import "EVNavigationBarButton.h"
 #import "EVBackButton.h"
 
-@interface EVPaymentViewController_NEW ()
+@interface EVPaymentViewController ()
 
 @end
 
-@implementation EVPaymentViewController_NEW
+@implementation EVPaymentViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
