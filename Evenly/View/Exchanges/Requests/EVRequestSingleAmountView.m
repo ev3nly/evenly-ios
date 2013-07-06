@@ -30,7 +30,7 @@
 }
 
 - (void)loadBigAmountField {
-    self.bigAmountView = [[EVRequestBigAmountView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.titleLabel.frame), self.frame.size.width, [EVRequestBigAmountView totalHeight])];
+    self.bigAmountView = [[EVExchangeBigAmountView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.titleLabel.frame), self.frame.size.width, [EVExchangeBigAmountView totalHeight])];
     [self addSubview:self.bigAmountView];
 }
 

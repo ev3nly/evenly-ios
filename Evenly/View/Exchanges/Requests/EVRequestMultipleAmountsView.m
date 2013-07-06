@@ -63,7 +63,7 @@
 }
 
 - (void)loadSingleAmountView {
-    self.singleAmountView = [[EVRequestBigAmountView alloc] initWithFrame:CGRectMake(0,
+    self.singleAmountView = [[EVExchangeBigAmountView alloc] initWithFrame:CGRectMake(0,
                                                                      CGRectGetMaxY(self.segmentedControl.frame),
                                                                      self.frame.size.width,
                                                                      EV_DEFAULT_KEYBOARD_HEIGHT - CGRectGetMaxY(self.segmentedControl.frame))];

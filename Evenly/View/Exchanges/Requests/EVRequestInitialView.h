@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EVRequestView.h"
+#import "EVExchangeView.h"
 #import "JSTokenField.h"
 #import "EVRequestSwitch.h"
 
 #import "EVUser.h"
 
-@interface EVRequestInitialView : EVRequestView <EVSwitchDelegate, JSTokenFieldDelegate>
+@interface EVRequestInitialView : EVExchangeView <EVSwitchDelegate, JSTokenFieldDelegate>
 
 @property (nonatomic, strong) EVRequestSwitch *requestSwitch;
 @property (nonatomic, strong) JSTokenField *toField;
