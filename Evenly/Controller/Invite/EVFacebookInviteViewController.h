@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVViewController.h"
+#import "EVInviteListViewController.h"
 
-@interface EVFacebookInviteViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface EVFacebookInviteViewController : EVInviteListViewController
 
 @end

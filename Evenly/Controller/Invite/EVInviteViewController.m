@@ -9,6 +9,7 @@
 #import "EVInviteViewController.h"
 #import "EVGroupedTableViewCell.h"
 #import "EVFacebookInviteViewController.h"
+#import "EVInviteContactsViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 #define CELL_HEIGHT 54
@@ -89,22 +90,8 @@
         [cell addSubview:self.textField];
         self.textField.frame = [self textFieldFrame];
     }
-    cell.position = [self cellPositionForIndexPath:indexPath];
+    cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     return cell;
-}
-
-- (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {
-    NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:indexPath.section];
-    if (rowCount <= 1)
-        return EVGroupedTableViewCellPositionSingle;
-    else {
-        if (indexPath.row == 0)
-            return EVGroupedTableViewCellPositionTop;
-        else if (indexPath.row == rowCount - 1)
-            return EVGroupedTableViewCellPositionBottom;
-        else
-            return EVGroupedTableViewCellPositionCenter;
-    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -113,6 +100,9 @@
     if (indexPath.row == EVInviteMethodFacebook) {
         EVFacebookInviteViewController *facebookInviteController = [[EVFacebookInviteViewController alloc] initWithNibName:nil bundle:nil];
         [self.navigationController pushViewController:facebookInviteController animated:YES];
+    } else if (indexPath.row == EVInviteMethodContacts) {
+        EVInviteContactsViewController *inviteContactsController = [[EVInviteContactsViewController alloc] initWithNibName:nil bundle:nil];
+        [self.navigationController pushViewController:inviteContactsController animated:YES];
     }
 }
 

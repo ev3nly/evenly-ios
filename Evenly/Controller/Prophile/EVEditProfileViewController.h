@@ -35,7 +35,6 @@ typedef enum {
 - (void)photoTapped;
 - (void)saveButtonTapped;
 
-- (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath;
 - (EVGroupedTableViewCell *)editPhotoCell;
 - (EVEditLabelCell *)editLabelCellForIndexPath:(NSIndexPath *)indexPath;
 

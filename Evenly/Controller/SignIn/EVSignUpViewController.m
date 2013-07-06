@@ -253,7 +253,7 @@
     else
         cell = [self editLabelCellForIndexPath:indexPath];
     
-    cell.position = [self cellPositionForIndexPath:indexPath];
+    cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

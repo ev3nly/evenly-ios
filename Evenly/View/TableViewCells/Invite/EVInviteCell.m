@@ -1,13 +1,12 @@
 //
-//  EVFacebookInviteCell.m
+//  EVInviteCell.m
 //  Evenly
 //
-//  Created by Justin Brunet on 7/2/13.
+//  Created by Justin Brunet on 7/6/13.
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVFacebookInviteCell.h"
-#import <FacebookSDK/FacebookSDK.h>
+#import "EVInviteCell.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define SIDE_MARGIN 10
@@ -15,22 +14,11 @@
 #define INVITE_BUTTON_WIDTH 70
 #define INVITE_BUTTON_HEIGHT 36
 
-@interface EVFacebookInviteCell ()
-
-@property (nonatomic, strong) FBProfilePictureView *profilePicture;
-@property (nonatomic, strong) UIImageView *defaultAvatar;
-@property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UIButton *inviteButton;
-
-@end
-
-@implementation EVFacebookInviteCell
+@implementation EVInviteCell
 
 + (float)cellHeight {
     return 56;
 }
-
-#pragma mark - Lifecycle
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -55,10 +43,8 @@
 #pragma mark - View Loading
 
 - (void)loadProfilePicture {
-    self.profilePicture = [FBProfilePictureView new];
-    self.profilePicture.pictureCropping = FBProfilePictureCroppingSquare;
+    //implement in subclass
     self.profilePicture.layer.cornerRadius = 4.0;
-    [self addSubview:self.profilePicture];
 }
 
 - (void)loadDefaultAvatar {
@@ -97,15 +83,6 @@
 
 #pragma mark - Setters
 
-- (void)setName:(NSString *)name profileID:(NSString *)profileID {
-    if (![profileID isEqualToString:self.profilePicture.profileID]) {
-        [self.profilePicture removeFromSuperview];
-        [self loadProfilePicture];
-    }
-    self.nameLabel.text = name;
-    self.profilePicture.profileID = profileID;
-}
-
 - (void)setShouldInvite:(BOOL)shouldInvite {
     _shouldInvite = shouldInvite;
     
@@ -116,12 +93,12 @@
             [self.inviteButton setImage:greenCheck forState:UIControlStateNormal];
         }];
         if (self.handleSelection)
-            self.handleSelection(self.profilePicture.profileID);
+            self.handleSelection(self.identifier);
     } else {
         [self.inviteButton setTitle:@"INVITE" forState:UIControlStateNormal];
         [self.inviteButton setImage:nil forState:UIControlStateNormal];
         if (self.handleDeselection)
-            self.handleDeselection(self.profilePicture.profileID);
+            self.handleDeselection(self.identifier);
     }
 }
 

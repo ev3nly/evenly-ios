@@ -337,8 +337,11 @@
 		D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */; };
 		D0219ADA1782B258007FA41C /* EVPhotoNameEmailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0219AD91782B258007FA41C /* EVPhotoNameEmailCell.m */; };
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
+		D031C3F11787F4F2008AC614 /* EVInviteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F01787F4F2008AC614 /* EVInviteListViewController.m */; };
+		D031C3F41787F550008AC614 /* EVInviteContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F31787F54F008AC614 /* EVInviteContactsViewController.m */; };
+		D031C3F917881079008AC614 /* EVFacebookInviteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F817881079008AC614 /* EVFacebookInviteCell.m */; };
+		D031C3FC1788108A008AC614 /* EVInviteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3FB1788108A008AC614 /* EVInviteCell.m */; };
 		D03A33731783C01A007F4B0B /* EVFacebookInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03A33721783C01A007F4B0B /* EVFacebookInviteViewController.m */; };
-		D03A33761783C187007F4B0B /* EVFacebookInviteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D03A33751783C187007F4B0B /* EVFacebookInviteCell.m */; };
 		D03A337E1783FE71007F4B0B /* evenly_profilePic1.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A33781783FE71007F4B0B /* evenly_profilePic1.png */; };
 		D03A337F1783FE71007F4B0B /* evenly_profilePic2.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A33791783FE71007F4B0B /* evenly_profilePic2.png */; };
 		D03A33801783FE71007F4B0B /* evenly_profilePic3.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A337A1783FE71007F4B0B /* evenly_profilePic3.png */; };
@@ -950,10 +953,16 @@
 		D0219AD91782B258007FA41C /* EVPhotoNameEmailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPhotoNameEmailCell.m; sourceTree = "<group>"; };
 		D02CAB0D1761483500323025 /* EVValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVValidator.h; sourceTree = "<group>"; };
 		D02CAB0E1761483500323025 /* EVValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidator.m; sourceTree = "<group>"; };
+		D031C3EF1787F4F2008AC614 /* EVInviteListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteListViewController.h; sourceTree = "<group>"; };
+		D031C3F01787F4F2008AC614 /* EVInviteListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteListViewController.m; sourceTree = "<group>"; };
+		D031C3F21787F54F008AC614 /* EVInviteContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteContactsViewController.h; sourceTree = "<group>"; };
+		D031C3F31787F54F008AC614 /* EVInviteContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteContactsViewController.m; sourceTree = "<group>"; };
+		D031C3F717881079008AC614 /* EVFacebookInviteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFacebookInviteCell.h; sourceTree = "<group>"; };
+		D031C3F817881079008AC614 /* EVFacebookInviteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFacebookInviteCell.m; sourceTree = "<group>"; };
+		D031C3FA1788108A008AC614 /* EVInviteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteCell.h; sourceTree = "<group>"; };
+		D031C3FB1788108A008AC614 /* EVInviteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteCell.m; sourceTree = "<group>"; };
 		D03A33711783C019007F4B0B /* EVFacebookInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFacebookInviteViewController.h; sourceTree = "<group>"; };
 		D03A33721783C01A007F4B0B /* EVFacebookInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFacebookInviteViewController.m; sourceTree = "<group>"; };
-		D03A33741783C186007F4B0B /* EVFacebookInviteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFacebookInviteCell.h; sourceTree = "<group>"; };
-		D03A33751783C187007F4B0B /* EVFacebookInviteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFacebookInviteCell.m; sourceTree = "<group>"; };
 		D03A33781783FE71007F4B0B /* evenly_profilePic1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_profilePic1.png; sourceTree = "<group>"; };
 		D03A33791783FE71007F4B0B /* evenly_profilePic2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_profilePic2.png; sourceTree = "<group>"; };
 		D03A337A1783FE71007F4B0B /* evenly_profilePic3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_profilePic3.png; sourceTree = "<group>"; };
@@ -1196,8 +1205,12 @@
 			children = (
 				9C0EC765175D80B1003B93E2 /* EVInviteViewController.h */,
 				9C0EC766175D80B1003B93E2 /* EVInviteViewController.m */,
+				D031C3EF1787F4F2008AC614 /* EVInviteListViewController.h */,
+				D031C3F01787F4F2008AC614 /* EVInviteListViewController.m */,
 				D03A33711783C019007F4B0B /* EVFacebookInviteViewController.h */,
 				D03A33721783C01A007F4B0B /* EVFacebookInviteViewController.m */,
+				D031C3F21787F54F008AC614 /* EVInviteContactsViewController.h */,
+				D031C3F31787F54F008AC614 /* EVInviteContactsViewController.m */,
 			);
 			path = Invite;
 			sourceTree = "<group>";
@@ -1739,8 +1752,6 @@
 				D0770B36177514730002B572 /* EVEditPhotoCell.m */,
 				D0219AD81782B257007FA41C /* EVPhotoNameEmailCell.h */,
 				D0219AD91782B258007FA41C /* EVPhotoNameEmailCell.m */,
-				D03A33741783C186007F4B0B /* EVFacebookInviteCell.h */,
-				D03A33751783C187007F4B0B /* EVFacebookInviteCell.m */,
 			);
 			path = Grouped;
 			sourceTree = "<group>";
@@ -2070,6 +2081,7 @@
 			children = (
 				9C9017E317821A4E00FCD32A /* Autocomplete */,
 				9C863C8517729702003ADB49 /* Grouped */,
+				D031C3F617881049008AC614 /* Invite */,
 				9CB285C6176164EC009B26BB /* EVMainMenuCell.h */,
 				9CB285C7176164EC009B26BB /* EVMainMenuCell.m */,
 				9C35B6EE176186A500084FA7 /* EVWalletCell.h */,
@@ -2261,6 +2273,17 @@
 				D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */,
 			);
 			path = SVPullToRefresh;
+			sourceTree = "<group>";
+		};
+		D031C3F617881049008AC614 /* Invite */ = {
+			isa = PBXGroup;
+			children = (
+				D031C3F717881079008AC614 /* EVFacebookInviteCell.h */,
+				D031C3F817881079008AC614 /* EVFacebookInviteCell.m */,
+				D031C3FA1788108A008AC614 /* EVInviteCell.h */,
+				D031C3FB1788108A008AC614 /* EVInviteCell.m */,
+			);
+			path = Invite;
 			sourceTree = "<group>";
 		};
 		D03A33771783FE63007F4B0B /* Avatars */ = {
@@ -3020,7 +3043,10 @@
 				9C68F9DD17814B2300A0E1C1 /* EVConnection.m in Sources */,
 				D0219ADA1782B258007FA41C /* EVPhotoNameEmailCell.m in Sources */,
 				D03A33731783C01A007F4B0B /* EVFacebookInviteViewController.m in Sources */,
-				D03A33761783C187007F4B0B /* EVFacebookInviteCell.m in Sources */,
+				D031C3F11787F4F2008AC614 /* EVInviteListViewController.m in Sources */,
+				D031C3F41787F550008AC614 /* EVInviteContactsViewController.m in Sources */,
+				D031C3F917881079008AC614 /* EVFacebookInviteCell.m in Sources */,
+				D031C3FC1788108A008AC614 /* EVInviteCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
