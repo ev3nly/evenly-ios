@@ -276,6 +276,10 @@ static NSDateFormatter *_detailDateFormatter;
     return [[self detailDateFormatter] stringFromDate:date];
 }
 
++ (NSString *)toFieldPlaceholder {
+    return @"Name, email, phone number";
+}
+
 + (NSString *)requestDescriptionPlaceholder {
     return @"Lunch, dinner, taxi, or anything else";
 }

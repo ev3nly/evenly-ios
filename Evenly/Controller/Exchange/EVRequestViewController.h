@@ -11,7 +11,7 @@
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
 
-#import "EVRequestInitialView.h"
+#import "EVRequestWhoView.h"
 #import "EVRequestSingleAmountView.h"
 #import "EVRequestMultipleAmountsView.h"
 #import "EVRequestDetailsView.h"
@@ -24,7 +24,7 @@
 @property (nonatomic, strong) EVRequest *request;
 @property (nonatomic, strong) EVGroupRequest *groupRequest;
 
-@property (nonatomic, strong) EVRequestInitialView *initialView;
+@property (nonatomic, strong) EVRequestWhoView *initialView;
 
 @property (nonatomic, strong) EVRequestSingleAmountView *singleAmountView;
 @property (nonatomic, strong) EVRequestMultipleAmountsView *multipleAmountsView;

@@ -93,7 +93,7 @@
 }
 
 - (void)loadContentViews {
-    self.initialView = [[EVRequestInitialView alloc] initWithFrame:[self.view bounds]];
+    self.initialView = [[EVRequestWhoView alloc] initWithFrame:[self.view bounds]];
     self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     self.singleAmountView = [[EVRequestSingleAmountView alloc] initWithFrame:[self contentViewFrame]];
