@@ -12,6 +12,7 @@
 #import "EVSetPINViewController.h"
 #import "EVNavigationManager.h"
 #import <QuartzCore/QuartzCore.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 #define NUMBER_OF_SLIDES 5
 
@@ -25,7 +26,7 @@
 
 #define LOGO_LENGTH 140
 #define LOGO_TEXT_BUFFER 20
-#define PICTURE_BOTTOM_BUFFER 30
+#define PICTURE_BOTTOM_BUFFER 20
 #define TITLE_TOP_BUFFER 36
 #define TITLE_SUBTITLE_BUFFER 4
 #define MAX_TEXT_WIDTH 272
@@ -35,7 +36,7 @@
 
 #define SIGNUP_LABEL_Y_ORIGIN 200
 #define BUTTON_LEFT_MARGIN 30
-#define SIGNUP_LABEL_BUTTON_BUFFER 20
+#define SIGNUP_LABEL_BUTTON_BUFFER 30
 #define OR_LABEL_BUTTON_BUFFER 10
 
 #define FACEBOOK_F_TITLE_BUFFER 20
@@ -117,7 +118,7 @@
     [self.signInLabel setTitle:@"Already have an account? Sign in." forState:UIControlStateNormal];
     [self.signInLabel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.signInLabel setTitleColor:[EVColor lightLabelColor] forState:UIControlStateHighlighted];
-    self.signInLabel.titleLabel.font = [EVFont blackFontOfSize:SIGN_IN_LABEL_FONT_SIZE];
+    self.signInLabel.titleLabel.font = [EVFont romanFontOfSize:SIGN_IN_LABEL_FONT_SIZE];
     [self.view addSubview:self.signInLabel];
 }
 
@@ -128,12 +129,12 @@
     
     UILabel *label = [UILabel new];
     label.backgroundColor = [UIColor clearColor];
-    label.text = @"Don't Get Mad. Get Evenly";
+    label.text = @"Don't Get Mad.   Get Evenly";
     label.numberOfLines = 2;
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
-    label.font = [EVFont blackFontOfSize:34];
+    label.font = [EVFont romanFontOfSize:34];
     
     float totalHeight = LOGO_LENGTH + LOGO_TEXT_BUFFER + [self sizeForLabel:label].height;
     
@@ -154,44 +155,41 @@
 }
 
 - (UIView *)secondOnboardView {
-    NSString *title = @"No Cash? No Problem.";
-    NSString *description = @"Add a credit or debit card to your Evenly wallet to send money to anyone, anywhere, at any time.";
+    NSString *title = @"Pay anyone, safely";
+    NSString *description = @"Cash is a pain. Add a card to your Evenly wallet and pay anyone, anywhere, anytime.";
     UIImage *image = [EVImages onboardCard1];
     return [self cardViewWithTitle:title description:description image:image];
 }
 
 - (UIView *)thirdOnboardView {
-    NSString *title = @"Collect Money Effortlessly.";
-    NSString *description = @"Stop hassling friends and groups. Quickly send a request and we'll help remind your friends until they pay you back.";
+    NSString *title = @"Collect money, effortlessly";
+    NSString *description = @"Stop hassling friends. Send a request and we'll remind your friends until they pay you back.";
     UIImage *image = [EVImages onboardCard2];
     return [self cardViewWithTitle:title description:description image:image];
 }
 
 - (UIView *)fourthOnboardView {
-    NSString *title = @"Deposit in Seconds.";
-    NSString *description = @"With one tap, deposit the cash in your Evenly wallet into any bank account.";
+    NSString *title = @"Deposit, instantly";
+    NSString *description = @"With one tap, securely deposit the cash in your Evenly wallet into any bank account.";
     UIImage *image = [EVImages onboardCard3];
     return [self cardViewWithTitle:title description:description image:image];
 }
 
 - (UIView *)fifthOnboardView {
-    NSString *title = @"Fun, Social, & Free.";
-    NSString *description = @"There are no transaction fees when using Evenly. Connect with Facebook and share the experience with your friends.";
+    NSString *title = @"Fun, Social, & Free";
+    NSString *description = @"There are no transaction fees. Connect with Facebook and share the experience with your friends.";
     UIView *view = [self cardViewWithTitle:title description:description image:nil];
     
     UILabel *signUpLabel = [self titleLabelWithText:@"Sign up in seconds."];
     signUpLabel.font = [EVFont blackFontOfSize:18];
-    
-    UILabel *orLabel = [self titleLabelWithText:@"or"];
-    orLabel.font = [EVFont blackFontOfSize:18];
-    
+        
     UIButton *facebookButton = [self facebookButton];
-    UIButton *emailButton = [self emailButton];
+    
+    UIImageView *peopleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"people"]];
     
     [view addSubview:signUpLabel];
+    [view addSubview:peopleImage];
     [view addSubview:facebookButton];
-    [view addSubview:orLabel];
-    [view addSubview:emailButton];
     
     signUpLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:signUpLabel].width/2,
                                    SIGNUP_LABEL_Y_ORIGIN * CARD_SCALE,
@@ -201,14 +199,10 @@
                                       CGRectGetMaxY(signUpLabel.frame) + SIGNUP_LABEL_BUTTON_BUFFER,
                                       self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
                                       [EVImages facebookButton].size.height);
-    orLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:orLabel].width/2,
-                               CGRectGetMaxY(facebookButton.frame) + OR_LABEL_BUTTON_BUFFER,
-                               [self sizeForLabel:orLabel].width,
-                               [EVImages facebookButton].size.height);
-    emailButton.frame = CGRectMake(BUTTON_LEFT_MARGIN,
-                                   CGRectGetMaxY(orLabel.frame) + OR_LABEL_BUTTON_BUFFER,
-                                   self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
-                                   [EVImages grayButtonBackground].size.height);
+    peopleImage.frame = CGRectMake(20,
+                                   CGRectGetMaxY(facebookButton.frame) - 40,
+                                   280,
+                                   200);
     
     if ([facebookButton viewWithTag:F_ICON_TAG]) {
         float totalWidth = [EVImages facebookButton].size.width + FACEBOOK_F_TITLE_BUFFER + facebookButton.titleLabel.bounds.size.width;
@@ -259,7 +253,7 @@
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [EVColor darkLabelColor];
-    label.font = [EVFont blackFontOfSize:20];
+    label.font = [EVFont blackFontOfSize:21];
     return label;
 }
 
@@ -271,7 +265,7 @@
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [EVColor lightLabelColor];
-    label.font = [EVFont defaultFontOfSize:14];
+    label.font = [EVFont defaultFontOfSize:17];
     return label;
 }
 
@@ -283,7 +277,7 @@
     card.backgroundColor = [UIColor whiteColor];
     UIView *baigeBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, card.bounds.size.width, CARD_HEIGHT/3)];
     baigeBackground.backgroundColor = EV_RGB_COLOR(246, 245, 242);
-    [card addSubview:baigeBackground];
+//    [card addSubview:baigeBackground];
     card.layer.cornerRadius = 10.0;
     card.clipsToBounds = YES;
     return card;
@@ -308,17 +302,6 @@
     return button;
 }
 
-- (UIButton *)emailButton {
-    UIButton *button = [UIButton new];
-    [button setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
-    [button setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
-    [button addTarget:self action:@selector(emailButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"Sign up with email" forState:UIControlStateNormal];
-    [button setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
-    button.titleLabel.font = [EVFont blackFontOfSize:16];
-    return button;
-}
-
 - (CGSize)sizeForLabel:(UILabel *)label {
     return [label.text sizeWithFont:label.font
                   constrainedToSize:CGSizeMake(MAX_TEXT_WIDTH, 1000)
@@ -328,7 +311,105 @@
 #pragma mark - Button Handling
 
 - (void)facebookButtonTapped {
+    if (FBSession.activeSession.isOpen)
+        [self handleOpenedSession];
+    else
+        [self openSession];
+}
+
+- (void)handleOpenedSession {
+    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+        if (!error) {
+            NSString *avatarUrlString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?width=176&height=176", [user objectForKey:@"id"]];
+            EVUser *newUser = [EVUser new];
+            newUser.name = [user objectForKey:@"name"];
+            newUser.email = [user objectForKey:@"email"];
+            newUser.avatarURL = [NSURL URLWithString:avatarUrlString];
+            [newUser loadAvatar];
+            
+            EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                    EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
+                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+                    [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
+                }];
+            } user:newUser];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
+            [self presentViewController:navController animated:YES completion:nil];
+        }
+    }];
+}
+
+- (void)sessionStateChanged:(FBSession *)session
+                      state:(FBSessionState) state
+                      error:(NSError *)error
+{
+    switch (state) {
+        case FBSessionStateOpen:
+            [self handleOpenedSession];
+            break;
+        case FBSessionStateClosed:
+        case FBSessionStateClosedLoginFailed:
+            [FBSession.activeSession closeAndClearTokenInformation];
+            break;
+        default:
+            break;
+    }
     
+    NSString *accessToken = [[FBSession.activeSession accessTokenData] accessToken];
+    [EVCIA sharedInstance].accessToken = accessToken;
+        
+    if (error) {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Error"
+                                  message:error.localizedDescription
+                                  delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+        
+        [self fbResync];
+        [NSThread sleepForTimeInterval:0.5];
+    }
+}
+
+- (void)openSession
+{
+    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
+                                       allowLoginUI:YES
+                                  completionHandler:
+     ^(FBSession *session,
+       FBSessionState state, NSError *error) {
+         [self sessionStateChanged:session state:state error:error];
+     }];
+}
+
+-(void)fbResync
+{
+    ACAccountStore *accountStore;
+    ACAccountType *accountTypeFB;
+    if ((accountStore = [[ACAccountStore alloc] init]) && (accountTypeFB = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook] ) ){
+        
+        NSArray *fbAccounts = [accountStore accountsWithAccountType:accountTypeFB];
+        id account;
+        if (fbAccounts && [fbAccounts count] > 0 && (account = [fbAccounts objectAtIndex:0])){
+            
+            [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewResult, NSError *error) {
+                //we don't actually need to inspect renewResult or error.
+                if (error){
+                    
+                }
+            }];
+        }
+    }
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [FBSession.activeSession handleOpenURL:url];
 }
 
 - (void)emailButtonTapped {

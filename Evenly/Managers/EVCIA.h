@@ -82,4 +82,8 @@ extern NSString *const EVCIAUpdatedBankAccountsNotification;
                 withSuccess:(void(^)(void))success
                     failure:(void(^)(NSError *))failure;
 
+#pragma mark - Facebook
+
+@property (nonatomic, strong) NSString *accessToken;
+
 @end

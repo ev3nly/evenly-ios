@@ -10,6 +10,7 @@ pod 'PaymentKit', :git => 'https://github.com/stripe/PaymentKit.git'
 pod 'SSKeychain', '~> 1.0.2'
 pod 'ReactiveCocoa', '~> 1.5.0'
 pod 'FormatterKit', '~> 1.1.2'
+pod 'TTTAttributedLabel'
 # pod 'SocketRocket', :podspec => 'SocketRocket.podspec'
 # pod 'PonyDebugger', :podspec => 'PonyDebugger.podspec'
 

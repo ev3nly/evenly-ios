@@ -27,7 +27,7 @@
                                                                self.frame.size.width - CGRectGetMaxX(self.iconView.frame),
                                                                self.frame.size.height)];
         self.label.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-        self.label.textColor = [UIColor whiteColor];
+        self.label.textColor = [EVColor sidePanelTextColor];
         self.label.backgroundColor = [UIColor clearColor];
         [self.label setFont:[EVFont boldFontOfSize:20.0]];
         [self.contentView addSubview:self.label];

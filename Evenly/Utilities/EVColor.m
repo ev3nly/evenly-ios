@@ -17,7 +17,7 @@
 }
 
 + (UIColor *)lightGreenColor {
-    return EV_RGB_COLOR(0.1294, 0.7490, 0.6784);
+    return EV_RGB_COLOR(33, 191, 173);
 }
 
 + (UIColor *)lightRedColor {
@@ -33,21 +33,36 @@
 }
 
 + (UIColor *)blueColor {
-    return EV_RGB_COLOR(0, 115, 222);
+    return EV_RGB_COLOR(21, 135, 211);
 }
 
 #pragma mark - Side Panels
 
 + (UIColor *)sidePanelBackgroundColor {
-    return EV_RGB_COLOR(0.1412, 0.1765, 0.1961);
+    return EV_RGB_COLOR(242, 242, 242);
+    return [EVColor creamColor];
+    return [UIColor whiteColor];// EV_RGB_COLOR(0.1412, 0.1765, 0.1961);
+}
+
++ (UIColor *)sidePanelHeaderBackgroundColor {
+    return EV_RGB_COLOR(222, 222, 221);
 }
 
 + (UIColor *)sidePanelSelectedColor {
-    return EV_RGB_COLOR(0.1255, 0.1569, 0.1765);
+    return EV_RGB_COLOR(230, 230, 230);
 }
 
 + (UIColor *)sidePanelStripeColor {
-    return EV_RGB_COLOR(0.1804, 0.2118, 0.2314);
+    return EV_RGB_COLOR(215, 215, 215);
+}
+
++ (UIColor *)sidePanelTextColor {
+    return EV_RGB_COLOR(75, 75, 75);
+}
+
++ (UIColor *)sidePanelIconColor {
+    return [EVColor blueColor];
+//    return EV_RGB_COLOR(<#r#>, <#g#>, <#b#>)
 }
 
 #pragma mark - Newsfeed

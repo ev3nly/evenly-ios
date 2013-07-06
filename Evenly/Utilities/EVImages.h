@@ -17,6 +17,10 @@
 + (UIImage *)blueButtonBackgroundPress;
 + (UIImage *)grayButtonBackground;
 + (UIImage *)grayButtonBackgroundPress;
++ (UIImage *)inviteButtonBackground;
++ (UIImage *)inviteButtonBackgroundSelected;
++ (UIImage *)barButtonItemBackground;
++ (UIImage *)barButtonItemBackgroundPress;
 
 #pragma mark - Privacy
 + (UIImage *)friendsIcon;

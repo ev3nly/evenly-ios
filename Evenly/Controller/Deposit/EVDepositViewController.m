@@ -142,7 +142,7 @@
     if (self.cia.activeBankAccount)
         self.bankCell.textField.text = [self.cia.activeBankAccount bankName];
     else
-        self.bankCell.textField.text = @"loading...";
+        self.bankCell.textField.text = @"Loading...";
     self.bankCell.textField.inputView = self.pickerView;
     [self.bankCell setNeedsLayout];
     [self.cellContainer addSubview:self.bankCell];
@@ -164,7 +164,7 @@
                                                                            CGRectGetMaxY(self.depositButton.frame) + EV_DEPOSIT_MARGIN,
                                                                            self.view.frame.size.width - 2*EV_DEPOSIT_MARGIN,
                                                                            EV_DEPOSIT_BUTTON_HEIGHT)];
-    self.privacyNotice.label.text = @"100% Free.  Transfers take about 1-2 days.";
+    self.privacyNotice.label.text = @"100% Free.  Transfers take 1-2 days.";
     [self.view addSubview:self.privacyNotice];
 }
 
@@ -182,7 +182,7 @@
         }
         else {
             if (self.cia.loadingBankAccounts)
-                self.bankCell.textField.text = @"loading...";
+                self.bankCell.textField.text = @"Loading...";
             else
                 self.bankCell.textField.text = @"Please add a Bank Account";
             self.bankCell.textField.enabled = NO;
@@ -292,7 +292,7 @@
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     if ([self.cia loadingBankAccounts])
-        return @"loading...";
+        return @"Loading...";
     return [[self.cia.bankAccounts objectAtIndex:row] bankName];
 }
 

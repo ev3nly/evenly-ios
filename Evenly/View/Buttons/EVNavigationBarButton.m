@@ -39,8 +39,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setBackgroundImage:[[UIImage imageNamed:@"Btn_Header_Normal"] stretchableImageWithLeftCapWidth:3 topCapHeight:13] forState:UIControlStateNormal];
-        [self setBackgroundImage:[[UIImage imageNamed:@"Btn_Header_Active"] stretchableImageWithLeftCapWidth:3 topCapHeight:13] forState:UIControlStateHighlighted];
+        [self setBackgroundImage:[EVImages barButtonItemBackground] forState:UIControlStateNormal];
+        [self setBackgroundImage:[EVImages barButtonItemBackgroundPress] forState:UIControlStateHighlighted];
         
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
