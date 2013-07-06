@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVPushPopViewController.h"
+#import "EVExchangeViewController_NEW.h"
 #import "EVRequestSwitch.h"
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
@@ -17,19 +17,9 @@
 #import "EVRequestDetailsView.h"
 #import "EVRequestMultipleDetailsView.h"
 
-#import "EVAutocompleteTableViewController.h"
 
 
-typedef enum {
-    EVRequestPhaseWho = 0,
-    EVRequestPhaseHowMuch,
-    EVRequestPhaseWhatFor
-} EVRequestPhase;
-
-
-@interface EVRequestViewController : EVPushPopViewController <EVAutocompleteTableViewControllerDelegate>
-
-@property (nonatomic) EVRequestPhase phase;
+@interface EVRequestViewController : EVExchangeViewController_NEW 
 
 @property (nonatomic, strong) EVRequest *request;
 @property (nonatomic, strong) EVGroupRequest *groupRequest;

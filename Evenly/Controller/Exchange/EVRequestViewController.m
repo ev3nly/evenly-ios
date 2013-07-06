@@ -8,8 +8,6 @@
 
 #import "EVRequestViewController.h"
 #import "EVNavigationBarButton.h"
-#import "EVPageControl.h"
-#import "EVPrivacySelectorView.h"
 #import "EVBackButton.h"
 #import "EVUserAutocompletionCell.h"
 #import "EVKeyboardTracker.h"
@@ -19,34 +17,14 @@
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
 
-#define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
 @interface EVRequestViewController ()
 
-@property (nonatomic, strong) EVNavigationBarButton *cancelButton;
-@property (nonatomic, strong) EVBackButton *backButton;
-@property (nonatomic, strong) EVNavigationBarButton *nextButton;
-@property (nonatomic, strong) EVNavigationBarButton *requestButton;
-@property (nonatomic, strong) EVPageControl *pageControl;
-@property (nonatomic, strong) EVPrivacySelectorView *privacySelector;
 
-@property (nonatomic, strong) EVAutocompleteTableViewController *autocompleteTableViewController;
-
-@property (nonatomic, strong) NSArray *leftButtons;
-@property (nonatomic, strong) NSArray *rightButtons;
 
 @property (nonatomic) BOOL isGroupRequest;
 @property (nonatomic) BOOL hasRecipients;
 @property (nonatomic) BOOL canGoToHowMuchPhase;
-
-- (void)loadNavigationButtons;
-- (void)loadPageControl;
-- (void)loadPrivacySelector;
-- (void)loadContentViews;
-- (void)loadAutocomplete;
-
-- (UIButton *)leftButtonForPhase:(EVRequestPhase)phase;
-- (UIButton *)rightButtonForPhase:(EVRequestPhase)phase;
 
 @end
 
@@ -57,7 +35,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"New Request";
-        self.phase = EVRequestPhaseWho;
     }
     return self;
 }
@@ -65,14 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self loadNavigationButtons];
-    [self loadPageControl];
 
-    [self loadPrivacySelector];
-    [self loadContentViews];
-    [self loadAutocomplete];
-    
-    [self setUpReactions];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -122,35 +92,6 @@
     self.rightButtons = [NSArray arrayWithArray:right];
 }
 
-- (void)loadPageControl {
-    self.pageControl = [[EVPageControl alloc] init];
-    self.pageControl.numberOfPages = 3;
-    self.pageControl.currentPage = 0;
-    [self.pageControl sizeToFit];
-    [self.pageControl setCenter:CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0,
-                                            self.titleLabel.frame.size.height + 5.0)];
-    [self.navigationController.navigationBar addSubview:self.pageControl];
-    CGFloat positionAdjustment = -TITLE_PAGE_CONTROL_Y_OFFSET;
-    [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:positionAdjustment
-                                                                  forBarMetrics:UIBarMetricsDefault];
-    CGRect rect = self.titleLabel.frame;
-    rect.origin.y += positionAdjustment;
-    [self.navigationItem.titleView setFrame:rect];
-}
-
-- (void)loadPrivacySelector {
-    _privacySelector = [[EVPrivacySelectorView alloc] initWithFrame:[self privacySelectorFrame]];
-//    [self.view addSubview:_privacySelector];
-}
-
-- (CGRect)privacySelectorFrame {
-    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorView lineHeight] - self.navigationController.navigationBar.bounds.size.height;
-    return CGRectMake(0,
-                      yOrigin,
-                      self.view.bounds.size.width,
-                      [EVPrivacySelectorView lineHeight] * [EVPrivacySelectorView numberOfLines]);
-}
-
 - (void)loadContentViews {
     self.initialView = [[EVRequestInitialView alloc] initWithFrame:[self.view bounds]];
     self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
@@ -190,37 +131,37 @@
     RAC(self.isGroupRequest) = RACAble(self.initialView.requestSwitch.on);
     
     [RACAble(self.isGroupRequest) subscribeNext:^(NSNumber *isGroupRequest) {
-        [self validateForPhase:EVRequestPhaseWho];
+        [self validateForPhase:EVExchangePhaseWho];
     }];
     
     [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
-        [self validateForPhase:EVRequestPhaseWho];
+        [self validateForPhase:EVExchangePhaseWho];
     }];
     
     // SECOND SCREEN:
     // Single:
     [self.singleAmountView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
-        [self validateForPhase:EVRequestPhaseHowMuch];
+        [self validateForPhase:EVExchangePhaseHowMuch];
     }];
     // Multiple:
     [RACAble(self.multipleAmountsView.isValid) subscribeNext:^(NSNumber *isValid) {
-        [self validateForPhase:EVRequestPhaseHowMuch];
+        [self validateForPhase:EVExchangePhaseHowMuch];
     }];
     
     // THIRD SCREEN:
     // Single
     [self.singleDetailsView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
-        [self validateForPhase:EVRequestPhaseWhatFor];
+        [self validateForPhase:EVExchangePhaseWhatFor];
     }];
     // Multiple
     [self.multipleDetailsView.nameField.rac_textSignal subscribeNext:^(NSString *nameString) {
-        [self validateForPhase:EVRequestPhaseWhatFor];
+        [self validateForPhase:EVExchangePhaseWhatFor];
     }];
 }
 
-- (void)validateForPhase:(EVRequestPhase)phase {
+- (void)validateForPhase:(EVExchangePhase)phase {
     UIButton *button = [self rightButtonForPhase:phase];
-    if (phase == EVRequestPhaseWho)
+    if (phase == EVExchangePhaseWho)
     {
         if (self.isGroupRequest) {
             [button setEnabled:YES];
@@ -231,7 +172,7 @@
             [button setTitle:@"Next" forState:UIControlStateNormal];
         }
     }
-    else if (phase == EVRequestPhaseHowMuch)
+    else if (phase == EVExchangePhaseHowMuch)
     {
         if (!self.isGroupRequest)
         {
@@ -245,7 +186,7 @@
             [button setEnabled:self.multipleAmountsView.isValid];
         }
     }
-    else if (phase == EVRequestPhaseWhatFor)
+    else if (phase == EVExchangePhaseWhatFor)
     {
         if (!self.isGroupRequest)
             [button setEnabled:!EV_IS_EMPTY_STRING(self.singleDetailsView.descriptionField.text)];
@@ -268,7 +209,7 @@
 }
 
 - (void)nextButtonPress:(id)sender {
-    if (self.phase == EVRequestPhaseWho)
+    if (self.phase == EVExchangePhaseWho)
     {
         if (!self.isGroupRequest)
         {
@@ -288,9 +229,9 @@
             // Give the privacy selector to the multiple details view.
             [self.multipleDetailsView addSubview:self.privacySelector];
         }
-        self.phase = EVRequestPhaseHowMuch;
+        self.phase = EVExchangePhaseHowMuch;
     }
-    else if (self.phase == EVRequestPhaseHowMuch)
+    else if (self.phase == EVExchangePhaseHowMuch)
     {
         if (!self.isGroupRequest)
         {
@@ -304,7 +245,7 @@
             self.groupRequest.tiers = self.multipleAmountsView.tiers;
             [self pushView:self.multipleDetailsView animated:YES];
         }
-        self.phase = EVRequestPhaseWhatFor;
+        self.phase = EVExchangePhaseWhatFor;
     }
     [self setUpNavBar];
     [self validateForPhase:self.phase];
@@ -346,21 +287,6 @@
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
         }];
     }
-}
-
-- (void)setUpNavBar {
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self leftButtonForPhase:self.phase]] animated:YES];
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self rightButtonForPhase:self.phase]] animated:YES];
-    [self.navigationItem.rightBarButtonItem setEnabled:NO];
-    [self.pageControl setCurrentPage:self.phase];
-}
-
-- (UIButton *)leftButtonForPhase:(EVRequestPhase)phase {
-    return [self.leftButtons objectAtIndex:phase];
-}
-
-- (UIButton *)rightButtonForPhase:(EVRequestPhase)phase {
-    return [self.rightButtons objectAtIndex:phase];
 }
 
 #pragma mark - UITableViewDelegate

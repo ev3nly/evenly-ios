@@ -1,0 +1,87 @@
+//
+//  EVExchangeViewController_NEW.m
+//  Evenly
+//
+//  Created by Joseph Hankin on 7/6/13.
+//  Copyright (c) 2013 Evenly. All rights reserved.
+//
+
+#import "EVExchangeViewController_NEW.h"
+
+#define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
+
+@interface EVExchangeViewController_NEW ()
+
+@end
+
+@implementation EVExchangeViewController_NEW
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.phase = EVExchangePhaseWho;
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self loadNavigationButtons];
+    [self loadPageControl];
+    
+    [self loadPrivacySelector];
+    [self loadContentViews];
+    [self loadAutocomplete];
+    
+    [self setUpReactions];
+}
+
+- (void)loadPageControl {
+    self.pageControl = [[EVPageControl alloc] init];
+    self.pageControl.numberOfPages = 3;
+    self.pageControl.currentPage = 0;
+    [self.pageControl sizeToFit];
+    [self.pageControl setCenter:CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0,
+                                            self.titleLabel.frame.size.height + 5.0)];
+    [self.navigationController.navigationBar addSubview:self.pageControl];
+    CGFloat positionAdjustment = -TITLE_PAGE_CONTROL_Y_OFFSET;
+    [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:positionAdjustment
+                                                                  forBarMetrics:UIBarMetricsDefault];
+    CGRect rect = self.titleLabel.frame;
+    rect.origin.y += positionAdjustment;
+    [self.navigationItem.titleView setFrame:rect];
+}
+
+
+- (void)loadPrivacySelector {
+    _privacySelector = [[EVPrivacySelectorView alloc] initWithFrame:[self privacySelectorFrame]];
+}
+
+- (CGRect)privacySelectorFrame {
+    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorView lineHeight] - self.navigationController.navigationBar.bounds.size.height;
+    return CGRectMake(0,
+                      yOrigin,
+                      self.view.bounds.size.width,
+                      [EVPrivacySelectorView lineHeight] * [EVPrivacySelectorView numberOfLines]);
+}
+
+#pragma mark - Nav Bar Buttons
+
+- (void)setUpNavBar {
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self leftButtonForPhase:self.phase]] animated:YES];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self rightButtonForPhase:self.phase]] animated:YES];
+    [self.navigationItem.rightBarButtonItem setEnabled:NO];
+    [self.pageControl setCurrentPage:self.phase];
+}
+
+- (UIButton *)leftButtonForPhase:(EVExchangePhase)phase {
+    return [self.leftButtons objectAtIndex:phase];
+}
+
+- (UIButton *)rightButtonForPhase:(EVExchangePhase)phase {
+    return [self.rightButtons objectAtIndex:phase];
+}
+
+@end
