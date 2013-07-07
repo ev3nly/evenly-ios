@@ -137,7 +137,7 @@
         self.payment = [[EVPayment alloc] init];
         EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
         self.payment.to = recipient;
-        [self.howMuchView.titleLabel setText:[NSString stringWithFormat:@"Pay %@", [recipient name]]];
+        [self.howMuchView.titleLabel setText:[NSString stringWithFormat:@"Pay %@...", [recipient name]]];
         [self pushView:self.howMuchView animated:YES];
         // Give the privacy selector to the single details view.
 

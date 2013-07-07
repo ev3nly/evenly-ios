@@ -8,7 +8,7 @@
 
 #import "EVExchangeWhoView.h"
 
-#define TOKEN_FIELD_ADJUSTMENT 5
+#define TOKEN_FIELD_ADJUSTMENT 9
 #define LEFT_RIGHT_BUFFER 10
 #define TO_FIELD_HEIGHT 35
 #define LINE_HEIGHT 40

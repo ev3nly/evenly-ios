@@ -184,7 +184,7 @@
             self.request = [[EVRequest alloc] init];
             EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
             self.request.to = recipient;
-            [self.singleAmountView.titleLabel setText:[NSString stringWithFormat:@"%@ owes me", [recipient name]]];
+            [self.singleAmountView.titleLabel setText:[NSString stringWithFormat:@"%@ owes me...", [recipient name]]];
             [self pushView:self.singleAmountView animated:YES];
             // Give the privacy selector to the single details view.
             [self.singleDetailsView addSubview:self.privacySelector];
