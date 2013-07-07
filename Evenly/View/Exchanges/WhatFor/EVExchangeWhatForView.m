@@ -14,6 +14,8 @@
 
 @interface EVExchangeWhatForView ()
 
+@property (nonatomic, strong) UILabel *forLabel;
+
 - (void)loadForLabel;
 - (void)loadDescriptionField;
 
@@ -36,6 +38,7 @@
     UILabel *forLabel = [self configuredLabel];
     forLabel.text = @"For";
     forLabel.frame = [self forLabelFrame];
+    self.forLabel = forLabel;
     [self addSubview:forLabel];
 }
 
@@ -50,38 +53,12 @@
     [self addSubview:self.descriptionField];
 }
 
-- (CGRect)forLabelFrame {
-    UILabel *label = [self configuredLabel];
-    CGSize labelSize = [@"For" sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
-    return CGRectMake(LEFT_RIGHT_BUFFER,
-                      LINE_HEIGHT + (LINE_HEIGHT/2 - labelSize.height/2),
-                      labelSize.width,
-                      labelSize.height);
-}
-
-- (CGRect)descriptionFieldFrame {
-    float xOrigin = CGRectGetMaxX([self forLabelFrame]);
-    return CGRectMake(xOrigin,
-                      LINE_HEIGHT + 2,
-                      self.bounds.size.width - LEFT_RIGHT_BUFFER - xOrigin,
-                      self.bounds.size.height - [self forLabelFrame].origin.y);
-}
-
-
 - (UILabel *)configuredLabel {
     UILabel *label = [UILabel new];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = EV_RGB_COLOR(40, 40, 40);
     label.font = [EVFont darkExchangeFormFont];
     return label;
-}
-
-- (EVTextField *)configuredTextField {
-    EVTextField *textField = [EVTextField new];
-    textField.backgroundColor = [UIColor clearColor];
-    textField.textColor = EV_RGB_COLOR(180, 180, 180);
-    textField.font = [EVFont lightExchangeFormFont];
-    return textField;
 }
 
 - (BOOL)isFirstResponder {
@@ -94,6 +71,40 @@
 
 - (BOOL)resignFirstResponder {
     return [self.descriptionField resignFirstResponder];
+}
+
+#pragma mark - Layout
+
+
+- (CGRect)forLabelFrame {
+    UILabel *label = [self configuredLabel];
+    CGSize labelSize = [@"For" sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
+    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) : LINE_HEIGHT + (LINE_HEIGHT/2 - labelSize.height/2));
+    return CGRectMake(LEFT_RIGHT_BUFFER,
+                      y,
+                      labelSize.width,
+                      labelSize.height);
+}
+
+- (CGRect)descriptionFieldFrame {
+    float xOrigin = CGRectGetMaxX([self forLabelFrame]);
+    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) : LINE_HEIGHT + 2);
+    return CGRectMake(xOrigin,
+                      y,
+                      self.bounds.size.width - LEFT_RIGHT_BUFFER - xOrigin,
+                      self.bounds.size.height - [self forLabelFrame].origin.y);
+}
+
+- (void)setWhatForHeader:(EVExchangeWhatForHeader *)whatForHeader {
+    [_whatForHeader removeFromSuperview];
+    _whatForHeader = whatForHeader;
+    [self addSubview:_whatForHeader];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.forLabel.frame = [self forLabelFrame];
+    self.descriptionField.frame = [self descriptionFieldFrame];
 }
 
 @end
