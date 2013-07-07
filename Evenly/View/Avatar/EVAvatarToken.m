@@ -13,6 +13,8 @@
 #define SPACING 6.0
 #define MAX_AVATARS 3
 
+#define EV_AVATAR_TOKEN_MAX_WIDTH 190.0
+
 @interface EVAvatarToken ()
 
 @property (nonatomic, strong) NSArray *people;
@@ -39,6 +41,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.avatarViews = [NSMutableArray array];
+        self.maxWidth = EV_AVATAR_TOKEN_MAX_WIDTH;
     }
     return self;
 }
@@ -83,9 +86,9 @@
     [self.token setOrigin:CGPointZero];
     
     
-    if (self.token.frame.size.width + SPACING + [self avatarWidth] > EV_AVATAR_TOKEN_MAX_WIDTH)
+    if (self.token.frame.size.width + SPACING + [self avatarWidth] > self.maxWidth)
     {
-        [self.token setSize:CGSizeMake(EV_AVATAR_TOKEN_MAX_WIDTH - SPACING - [self avatarWidth], self.token.frame.size.height)];
+        [self.token setSize:CGSizeMake(self.maxWidth - SPACING - [self avatarWidth], self.token.frame.size.height)];
     }
     
     CGFloat x = CGRectGetMaxX(self.token.frame) + SPACING;
@@ -93,7 +96,7 @@
         [self addSubview:avatarView];
         [avatarView setOrigin:CGPointMake(x, 0)];
         x += avatarView.frame.size.width + SPACING;
-        if (x + [self avatarWidth] > EV_AVATAR_TOKEN_MAX_WIDTH)
+        if (x + [self avatarWidth] > self.maxWidth)
             break;
     }
 }
@@ -102,9 +105,14 @@
     return self.token.frame.size.height;
 }
 
+- (void)setMaxWidth:(CGFloat)maxWidth {
+    _maxWidth = maxWidth;
+    [self setNeedsLayout];
+}
+
 - (CGFloat)totalWidth {
     CGFloat calculatedWidth = self.token.frame.size.width + MIN(self.avatarViews.count, MAX_AVATARS) * (SPACING + [self avatarWidth]);
-    return MIN(calculatedWidth, EV_AVATAR_TOKEN_MAX_WIDTH);
+    return MIN(calculatedWidth, self.maxWidth);
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {

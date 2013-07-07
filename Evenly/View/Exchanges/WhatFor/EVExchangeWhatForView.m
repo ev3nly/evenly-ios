@@ -12,6 +12,8 @@
 #define LINE_HEIGHT 40
 #define LEFT_RIGHT_BUFFER 10
 
+#define FOR_LABEL_TEXT @"for"
+
 @interface EVExchangeWhatForView ()
 
 @property (nonatomic, strong) UILabel *forLabel;
@@ -36,7 +38,7 @@
 - (void)loadForLabel
 {
     UILabel *forLabel = [self configuredLabel];
-    forLabel.text = @"For";
+    forLabel.text = FOR_LABEL_TEXT;
     forLabel.frame = [self forLabelFrame];
     self.forLabel = forLabel;
     [self addSubview:forLabel];
@@ -78,8 +80,8 @@
 
 - (CGRect)forLabelFrame {
     UILabel *label = [self configuredLabel];
-    CGSize labelSize = [@"For" sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
-    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) : LINE_HEIGHT + (LINE_HEIGHT/2 - labelSize.height/2));
+    CGSize labelSize = [FOR_LABEL_TEXT sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
+    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) + 8: LINE_HEIGHT + (LINE_HEIGHT/2 - labelSize.height/2));
     return CGRectMake(LEFT_RIGHT_BUFFER,
                       y,
                       labelSize.width,

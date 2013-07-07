@@ -105,6 +105,10 @@ typedef enum {
 }
 
 - (void)layoutSubviews {
+    
+    CGFloat tokenMaxWidth = self.frame.size.width - 2*X_MARGIN - self.verbLabel.frame.size.width - self.amountLabel.frame.size.width - 2*X_SPACING;
+    [self.avatarToken setMaxWidth:tokenMaxWidth];
+    
     CGFloat maxX = 0.0;
     if (self.type == EVExchangeWhatForTypePayment)
     {
