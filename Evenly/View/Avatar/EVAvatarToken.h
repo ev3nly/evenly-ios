@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define EV_AVATAR_TOKEN_MAX_WIDTH 220.0
+
 @interface EVAvatarToken : UIView
 
 + (id)avatarTokenForPerson:(EVObject <EVExchangeable>*)person;

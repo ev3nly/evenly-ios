@@ -70,7 +70,7 @@
 - (void)generateAvatars {
     EVAvatarView *avatarView;
     for (int i=0; i<MIN(self.people.count, MAX_AVATARS); i++) {
-        avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(0, 0, self.token.frame.size.height, self.token.frame.size.height)];
+        avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(0, 0, [self avatarWidth], self.token.frame.size.height)];
         [avatarView setAvatarOwner:[self.people objectAtIndex:i]];
         [self.avatarViews addObject:avatarView];
     }
@@ -81,16 +81,30 @@
 
     [self addSubview:self.token];
     [self.token setOrigin:CGPointZero];
+    
+    
+    if (self.token.frame.size.width + SPACING + [self avatarWidth] > EV_AVATAR_TOKEN_MAX_WIDTH)
+    {
+        [self.token setSize:CGSizeMake(EV_AVATAR_TOKEN_MAX_WIDTH - SPACING - [self avatarWidth], self.token.frame.size.height)];
+    }
+    
     CGFloat x = CGRectGetMaxX(self.token.frame) + SPACING;
     for (EVAvatarView *avatarView in self.avatarViews) {
         [self addSubview:avatarView];
         [avatarView setOrigin:CGPointMake(x, 0)];
         x += avatarView.frame.size.width + SPACING;
+        if (x + [self avatarWidth] > EV_AVATAR_TOKEN_MAX_WIDTH)
+            break;
     }
 }
 
+- (CGFloat)avatarWidth {
+    return self.token.frame.size.height;
+}
+
 - (CGFloat)totalWidth {
-    return self.token.frame.size.width + MIN(self.avatarViews.count, MAX_AVATARS) * (SPACING + self.token.frame.size.height);
+    CGFloat calculatedWidth = self.token.frame.size.width + MIN(self.avatarViews.count, MAX_AVATARS) * (SPACING + [self avatarWidth]);
+    return MIN(calculatedWidth, EV_AVATAR_TOKEN_MAX_WIDTH);
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
