@@ -35,6 +35,7 @@
 		9C16066A1788D6FE00852684 /* EVRequestMultipleDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606631788D6FE00852684 /* EVRequestMultipleDetailsView.m */; };
 		9C16066B1788D6FE00852684 /* EVRequestWhoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606661788D6FE00852684 /* EVRequestWhoView.m */; };
 		9C16066E1788D75400852684 /* EVExchangeWhoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16066D1788D75400852684 /* EVExchangeWhoView.m */; };
+		9C1606711788EE4200852684 /* EVPaymentWhoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606701788EE4200852684 /* EVPaymentWhoView.m */; };
 		9C1DEC32177B6A2A0057526D /* EVGroupRequestStatementLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1DEC31177B6A230057526D /* EVGroupRequestStatementLabel.m */; };
 		9C1DEC35177B86E90057526D /* EVGroupRequestCompletedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1DEC34177B86E20057526D /* EVGroupRequestCompletedCell.m */; };
 		9C1DEC4C177BAF9A0057526D /* EVGroupRequestEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1DEC4B177BAF9A0057526D /* EVGroupRequestEditViewController.m */; };
@@ -482,6 +483,8 @@
 		9C1606661788D6FE00852684 /* EVRequestWhoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestWhoView.m; sourceTree = "<group>"; };
 		9C16066C1788D75400852684 /* EVExchangeWhoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeWhoView.h; sourceTree = "<group>"; };
 		9C16066D1788D75400852684 /* EVExchangeWhoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeWhoView.m; sourceTree = "<group>"; };
+		9C16066F1788EE4200852684 /* EVPaymentWhoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPaymentWhoView.h; sourceTree = "<group>"; };
+		9C1606701788EE4200852684 /* EVPaymentWhoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPaymentWhoView.m; sourceTree = "<group>"; };
 		9C1DEC30177B6A230057526D /* EVGroupRequestStatementLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestStatementLabel.h; sourceTree = "<group>"; };
 		9C1DEC31177B6A230057526D /* EVGroupRequestStatementLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestStatementLabel.m; sourceTree = "<group>"; };
 		9C1DEC33177B86E20057526D /* EVGroupRequestCompletedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestCompletedCell.h; sourceTree = "<group>"; };
@@ -1244,6 +1247,8 @@
 				9C16066D1788D75400852684 /* EVExchangeWhoView.m */,
 				9C1606651788D6FE00852684 /* EVRequestWhoView.h */,
 				9C1606661788D6FE00852684 /* EVRequestWhoView.m */,
+				9C16066F1788EE4200852684 /* EVPaymentWhoView.h */,
+				9C1606701788EE4200852684 /* EVPaymentWhoView.m */,
 			);
 			path = Who;
 			sourceTree = "<group>";
@@ -2959,6 +2964,7 @@
 				9C16066A1788D6FE00852684 /* EVRequestMultipleDetailsView.m in Sources */,
 				9C16066B1788D6FE00852684 /* EVRequestWhoView.m in Sources */,
 				9C16066E1788D75400852684 /* EVExchangeWhoView.m in Sources */,
+				9C1606711788EE4200852684 /* EVPaymentWhoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

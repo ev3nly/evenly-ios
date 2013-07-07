@@ -357,4 +357,14 @@ static EVUser *_me;
     self.information = email;
 }
 
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[self class]])
+        return NO;
+    return (EV_OBJECTS_EQUAL_OR_NIL(self.name, [object name]) && EV_OBJECTS_EQUAL_OR_NIL(self.information, [object information]));
+}
+
+- (NSUInteger)hash {
+    return [self.name hash] + 7*[self.information hash];
+}
+
 @end

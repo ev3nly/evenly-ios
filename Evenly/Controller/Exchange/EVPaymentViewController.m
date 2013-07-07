@@ -75,7 +75,7 @@
 }
 
 - (void)loadContentViews {
-    self.initialView = [[EVExchangeWhoView alloc] initWithFrame:[self.view bounds]];
+    self.initialView = [[EVPaymentWhoView alloc] initWithFrame:[self.view bounds]];
     self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     self.howMuchView = [[EVExchangeHowMuchView alloc] initWithFrame:[self.view bounds]];
@@ -95,6 +95,8 @@
     // FIRST SCREEN:
     [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
         [self validateForPhase:EVExchangePhaseWho];
+        if ([hasRecipients integerValue] == 1)
+            [self nextButtonPress:nil];
     }];
     
     // SECOND SCREEN:

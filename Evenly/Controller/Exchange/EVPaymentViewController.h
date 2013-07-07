@@ -7,7 +7,7 @@
 //
 
 #import "EVExchangeViewController.h"
-#import "EVExchangeWhoView.h"
+#import "EVPaymentWhoView.h"
 #import "EVExchangeHowMuchView.h"
 #import "EVExchangeWhatForView.h"
 
