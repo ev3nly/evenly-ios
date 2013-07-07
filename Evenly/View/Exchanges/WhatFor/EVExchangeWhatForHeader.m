@@ -93,7 +93,6 @@ typedef enum {
     self.amountLabel.text = text;
     self.amountLabel.textAlignment = NSTextAlignmentRight;
     self.amountLabel.adjustsLetterSpacingToFitWidth = YES;
-    self.amountLabel.adjustsFontSizeToFitWidth = YES;
     [self.amountLabel sizeToFit];    
     [self addSubview:self.amountLabel];
 }
@@ -108,6 +107,8 @@ typedef enum {
     
     CGFloat tokenMaxWidth = self.frame.size.width - 2*X_MARGIN - self.verbLabel.frame.size.width - self.amountLabel.frame.size.width - 2*X_SPACING;
     [self.avatarToken setMaxWidth:tokenMaxWidth];
+    [self.avatarToken sizeToFit];
+    [self.avatarToken layoutSubviews];
     
     CGFloat maxX = 0.0;
     if (self.type == EVExchangeWhatForTypePayment)
