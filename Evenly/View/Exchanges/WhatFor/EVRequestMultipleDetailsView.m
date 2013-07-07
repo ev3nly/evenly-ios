@@ -11,6 +11,9 @@
 #define LEFT_RIGHT_BUFFER 10
 #define LABEL_FIELD_BUFFER 6
 #define LINE_HEIGHT 40
+#define Y_BUFFER 10
+
+#define DESCRIPTION_TEXT @"Details"
 
 @implementation EVRequestMultipleDetailsView
 
@@ -48,7 +51,7 @@
 {
     self.nameField = [self configuredTextField];
     self.nameField.placeholder = @"Rent, frat dues 2013, whatever";
-    self.nameField.frame = [self toFieldFrame];
+    self.nameField.frame = [self nameFieldFrame];
     self.nameField.returnKeyType = UIReturnKeyNext;
     [self addSubview:self.nameField];
     [self.nameField becomeFirstResponder];
@@ -57,7 +60,7 @@
 - (void)loadDescriptionLabel
 {
     UILabel *descriptionLabel = [self configuredLabel];
-    descriptionLabel.text = @"Description";
+    descriptionLabel.text = DESCRIPTION_TEXT;
     descriptionLabel.frame = [self descriptionLabelFrame];
     self.descriptionLabel = descriptionLabel;
     [self addSubview:descriptionLabel];
@@ -71,6 +74,12 @@
     self.descriptionField.textColor = [UIColor blackColor];
     self.descriptionField.font = [EVFont lightExchangeFormFont];
     [self addSubview:self.descriptionField];
+}
+
+- (void)setWhatForHeader:(EVExchangeWhatForHeader *)whatForHeader {
+    [_whatForHeader removeFromSuperview];
+    _whatForHeader = whatForHeader;
+    [self addSubview:_whatForHeader];
 }
 
 #pragma mark - Convenience Constructors
@@ -96,33 +105,27 @@
 
 - (CGRect)nameLabelFrame {
     UILabel *label = [self configuredLabel];
-    CGSize labelSize = [@"Name" sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
-    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) : LINE_HEIGHT/2 - labelSize.height/2);
+    CGSize labelSize = [@"Name" sizeWithFont:label.font
+                           constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT)
+                               lineBreakMode:label.lineBreakMode];
+    CGFloat y = (self.whatForHeader ?
+                 CGRectGetMaxY(self.whatForHeader.frame) + Y_BUFFER :
+                 LINE_HEIGHT/2 - labelSize.height/2);
     return CGRectMake(LEFT_RIGHT_BUFFER,
                       y,
                       labelSize.width,
                       labelSize.height);
 }
 
-- (CGRect)toFieldFrame {
+- (CGRect)nameFieldFrame {
     float xOrigin = CGRectGetMaxX([self nameLabelFrame]) + LABEL_FIELD_BUFFER;
-    UILabel *label = [self configuredLabel];
-    CGSize labelSize = [@"Name" sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
-    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) : LINE_HEIGHT/2 - labelSize.height/2);
-
+    CGSize labelSize = [self nameLabelFrame].size;
+    CGFloat y = (self.whatForHeader ?
+                 CGRectGetMaxY(self.whatForHeader.frame) + Y_BUFFER :
+                 LINE_HEIGHT/2 - labelSize.height/2);
     return CGRectMake(xOrigin,
                       y,
                       self.bounds.size.width - LEFT_RIGHT_BUFFER - xOrigin,
-                      labelSize.height);
-}
-
-
-- (CGRect)descriptionLabelFrame {
-    UILabel *label = [self configuredLabel];
-    CGSize labelSize = [@"Description" sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
-    return CGRectMake(LEFT_RIGHT_BUFFER,
-                      LINE_HEIGHT + (LINE_HEIGHT/2 - labelSize.height/2),
-                      labelSize.width,
                       labelSize.height);
 }
 
@@ -134,19 +137,40 @@
                       1);
 }
 
+
+- (CGRect)descriptionLabelFrame {
+    UILabel *label = [self configuredLabel];
+
+    CGSize labelSize = [DESCRIPTION_TEXT sizeWithFont:label.font
+                                    constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT)
+                                        lineBreakMode:label.lineBreakMode];
+    CGFloat y = (self.whatForHeader ?
+                 CGRectGetMaxY(self.whatForHeader.frame) + LINE_HEIGHT + Y_BUFFER :
+                 LINE_HEIGHT + (LINE_HEIGHT/2 - labelSize.height/2));
+    return CGRectMake(LEFT_RIGHT_BUFFER,
+                      y,
+                      labelSize.width,
+                      labelSize.height);
+}
+
 - (CGRect)descriptionFieldFrame {
     float xOrigin = CGRectGetMaxX([self descriptionLabelFrame]);
+    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) + LINE_HEIGHT + 2: LINE_HEIGHT + 2);
     return CGRectMake(xOrigin,
-                      LINE_HEIGHT + 2,
+                      y,
                       self.bounds.size.width - LEFT_RIGHT_BUFFER - xOrigin,
                       self.bounds.size.height - [self descriptionLabelFrame].origin.y);
 }
 
 #pragma mark - Layout
 
-//- (void)layoutSubviews {
-//    
-//}
+- (void)layoutSubviews {
+    self.nameLabel.frame = [self nameLabelFrame];
+    self.nameField.frame = [self nameFieldFrame];
+    self.divider.frame = [self dividerFrame];
+    self.descriptionLabel.frame = [self descriptionLabelFrame];
+    self.descriptionField.frame = [self descriptionFieldFrame];
+}
 
 #pragma mark - First Responder
 

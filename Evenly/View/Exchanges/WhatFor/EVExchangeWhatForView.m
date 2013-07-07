@@ -13,6 +13,7 @@
 #define LEFT_RIGHT_BUFFER 10
 
 #define FOR_LABEL_TEXT @"for"
+#define FOR_LABEL_ADJUSTMENT 8
 
 @interface EVExchangeWhatForView ()
 
@@ -81,7 +82,7 @@
 - (CGRect)forLabelFrame {
     UILabel *label = [self configuredLabel];
     CGSize labelSize = [FOR_LABEL_TEXT sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
-    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) + 8: LINE_HEIGHT + (LINE_HEIGHT/2 - labelSize.height/2));
+    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) + FOR_LABEL_ADJUSTMENT : LINE_HEIGHT + (LINE_HEIGHT/2 - labelSize.height/2));
     return CGRectMake(LEFT_RIGHT_BUFFER,
                       y,
                       labelSize.width,

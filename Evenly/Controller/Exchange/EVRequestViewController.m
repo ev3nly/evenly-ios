@@ -206,8 +206,6 @@
             self.request.amount = [EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text];
             EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader requestHeaderForPerson:self.request.to amount:self.request.amount];
             self.singleDetailsView.whatForHeader = header;
-//            NSString *title = [NSString stringWithFormat:@"%@ owes me %@", self.request.to.name, [EVStringUtility amountStringForAmount:self.request.amount]];
-//            [self.singleDetailsView.titleLabel setText:title];
             [self pushView:self.singleDetailsView animated:YES];
         }
         else
@@ -218,7 +216,7 @@
             }];
             EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader groupRequestHeaderForPeople:self.groupRequest.members
                                                                                            amounts:tierPrices];
-            self.singleDetailsView.whatForHeader = header;
+            self.multipleDetailsView.whatForHeader = header;
 
             [self pushView:self.multipleDetailsView animated:YES];
         }
