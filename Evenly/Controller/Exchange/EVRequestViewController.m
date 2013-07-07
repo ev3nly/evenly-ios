@@ -13,7 +13,7 @@
 
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
-
+#import "EVGroupRequestTier.h"
 
 @interface EVRequestViewController ()
 
@@ -204,13 +204,22 @@
         if (!self.isGroupRequest)
         {
             self.request.amount = [EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text];
-            NSString *title = [NSString stringWithFormat:@"%@ owes me %@", self.request.to.name, [EVStringUtility amountStringForAmount:self.request.amount]];
-            [self.singleDetailsView.titleLabel setText:title];
+            EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader requestHeaderForPerson:self.request.to amount:self.request.amount];
+            self.singleDetailsView.whatForHeader = header;
+//            NSString *title = [NSString stringWithFormat:@"%@ owes me %@", self.request.to.name, [EVStringUtility amountStringForAmount:self.request.amount]];
+//            [self.singleDetailsView.titleLabel setText:title];
             [self pushView:self.singleDetailsView animated:YES];
         }
         else
         {
             self.groupRequest.tiers = self.multipleAmountsView.tiers;
+            NSArray *tierPrices = [self.groupRequest.tiers map:^id(id object) {
+                return [(EVGroupRequestTier*)object price];
+            }];
+            EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader groupRequestHeaderForPeople:self.groupRequest.members
+                                                                                           amounts:tierPrices];
+            self.singleDetailsView.whatForHeader = header;
+
             [self pushView:self.multipleDetailsView animated:YES];
         }
         self.phase = EVExchangePhaseWhatFor;

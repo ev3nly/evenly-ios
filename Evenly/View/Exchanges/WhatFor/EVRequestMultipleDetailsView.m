@@ -29,16 +29,18 @@
 }
 - (void)loadNameLabel
 {
-    UILabel *payLabel = [self configuredLabel];
-    payLabel.text = @"Name";
-    payLabel.frame = [self nameLabelFrame];
-    [self addSubview:payLabel];
+    UILabel *nameLabel = [self configuredLabel];
+    nameLabel.text = @"Name";
+    nameLabel.frame = [self nameLabelFrame];
+    self.nameLabel = nameLabel;
+    [self addSubview:nameLabel];
 }
 
 - (void)loadDivider
 {
     UIView *divider = [[UIView alloc] initWithFrame:[self dividerFrame]];
     divider.backgroundColor = EV_RGB_COLOR(240, 240, 240);
+    self.divider = divider;
     [self addSubview:divider];
 }
 
@@ -48,17 +50,17 @@
     self.nameField.placeholder = @"Rent, frat dues 2013, whatever";
     self.nameField.frame = [self toFieldFrame];
     self.nameField.returnKeyType = UIReturnKeyNext;
-//    self.nameField.delegate = self;
     [self addSubview:self.nameField];
     [self.nameField becomeFirstResponder];
 }
 
 - (void)loadDescriptionLabel
 {
-    UILabel *forLabel = [self configuredLabel];
-    forLabel.text = @"Description";
-    forLabel.frame = [self descriptionLabelFrame];
-    [self addSubview:forLabel];
+    UILabel *descriptionLabel = [self configuredLabel];
+    descriptionLabel.text = @"Description";
+    descriptionLabel.frame = [self descriptionLabelFrame];
+    self.descriptionLabel = descriptionLabel;
+    [self addSubview:descriptionLabel];
 }
 
 - (void)loadDescriptionField
@@ -95,8 +97,9 @@
 - (CGRect)nameLabelFrame {
     UILabel *label = [self configuredLabel];
     CGSize labelSize = [@"Name" sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
+    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) : LINE_HEIGHT/2 - labelSize.height/2);
     return CGRectMake(LEFT_RIGHT_BUFFER,
-                      LINE_HEIGHT/2 - labelSize.height/2,
+                      y,
                       labelSize.width,
                       labelSize.height);
 }
@@ -105,8 +108,10 @@
     float xOrigin = CGRectGetMaxX([self nameLabelFrame]) + LABEL_FIELD_BUFFER;
     UILabel *label = [self configuredLabel];
     CGSize labelSize = [@"Name" sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
+    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) : LINE_HEIGHT/2 - labelSize.height/2);
+
     return CGRectMake(xOrigin,
-                      LINE_HEIGHT/2 - labelSize.height/2,
+                      y,
                       self.bounds.size.width - LEFT_RIGHT_BUFFER - xOrigin,
                       labelSize.height);
 }
@@ -122,8 +127,9 @@
 }
 
 - (CGRect)dividerFrame {
+    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) + LINE_HEIGHT : LINE_HEIGHT);
     return CGRectMake(0,
-                      LINE_HEIGHT,
+                      y,
                       self.bounds.size.width,
                       1);
 }
@@ -135,6 +141,12 @@
                       self.bounds.size.width - LEFT_RIGHT_BUFFER - xOrigin,
                       self.bounds.size.height - [self descriptionLabelFrame].origin.y);
 }
+
+#pragma mark - Layout
+
+//- (void)layoutSubviews {
+//    
+//}
 
 #pragma mark - First Responder
 

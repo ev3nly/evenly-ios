@@ -92,6 +92,8 @@ typedef enum {
     self.amountLabel.textColor = [UIColor blackColor];
     self.amountLabel.text = text;
     self.amountLabel.textAlignment = NSTextAlignmentRight;
+    self.amountLabel.adjustsLetterSpacingToFitWidth = YES;
+    self.amountLabel.adjustsFontSizeToFitWidth = YES;
     [self.amountLabel sizeToFit];    
     [self addSubview:self.amountLabel];
 }

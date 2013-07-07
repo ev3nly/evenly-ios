@@ -149,9 +149,6 @@
         self.payment.amount = [EVStringUtility amountFromAmountString:self.howMuchView.amountField.text];
         EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader paymentHeaderForPerson:self.payment.to amount:self.payment.amount];
         self.whatForView.whatForHeader = header;
-//        
-//        NSString *title = [NSString stringWithFormat:@"Pay %@ %@", self.payment.to.name, [EVStringUtility amountStringForAmount:self.payment.amount]];
-//        [self.whatForView.titleLabel setText:title];
         [self pushView:self.whatForView animated:YES];
 
         self.phase = EVExchangePhaseWhatFor;

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define EV_AVATAR_TOKEN_MAX_WIDTH 220.0
+#define EV_AVATAR_TOKEN_MAX_WIDTH 190.0
 
 @interface EVAvatarToken : UIView
 
