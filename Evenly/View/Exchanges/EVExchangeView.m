@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVRequestView.h"
+#import "EVExchangeView.h"
 
 #define TITLE_LABEL_HEIGHT 25
 
 
-@implementation EVRequestView
+@implementation EVExchangeView
 
 - (id)initWithFrame:(CGRect)frame
 {

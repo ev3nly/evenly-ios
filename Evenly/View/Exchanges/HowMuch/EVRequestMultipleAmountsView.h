@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EVRequestView.h"
-#import "EVRequestBigAmountView.h"
+#import "EVExchangeView.h"
+#import "EVExchangeBigAmountView.h"
 #import "EVMultipleAmountsSegmentedControl.h"
 #import "EVTextField.h"
 
@@ -17,11 +17,11 @@ typedef enum {
     EVRequestAmountsMultiple
 } EVRequestAmounts;
 
-@interface EVRequestMultipleAmountsView : EVRequestView <UITableViewDataSource, UITableViewDelegate>
+@interface EVRequestMultipleAmountsView : EVExchangeView <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UILabel *headerLabel;
 @property (nonatomic, strong) EVMultipleAmountsSegmentedControl *segmentedControl;
-@property (nonatomic, strong) EVRequestBigAmountView *singleAmountView;
+@property (nonatomic, strong) EVExchangeBigAmountView *singleAmountView;
 @property (nonatomic, strong) UITableView *multipleAmountsView;
 
 @property (nonatomic, readonly) NSArray *tiers;

@@ -6,40 +6,30 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVPushPopViewController.h"
+#import "EVExchangeViewController.h"
 #import "EVRequestSwitch.h"
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
 
-#import "EVRequestInitialView.h"
-#import "EVRequestSingleAmountView.h"
+#import "EVRequestWhoView.h"
+#import "EVExchangeHowMuchView.h"
 #import "EVRequestMultipleAmountsView.h"
-#import "EVRequestDetailsView.h"
+#import "EVExchangeWhatForView.h"
 #import "EVRequestMultipleDetailsView.h"
 
-#import "EVAutocompleteTableViewController.h"
 
 
-typedef enum {
-    EVRequestPhaseWho = 0,
-    EVRequestPhaseHowMuch,
-    EVRequestPhaseWhatFor
-} EVRequestPhase;
-
-
-@interface EVRequestViewController : EVPushPopViewController <EVAutocompleteTableViewControllerDelegate>
-
-@property (nonatomic) EVRequestPhase phase;
+@interface EVRequestViewController : EVExchangeViewController 
 
 @property (nonatomic, strong) EVRequest *request;
 @property (nonatomic, strong) EVGroupRequest *groupRequest;
 
-@property (nonatomic, strong) EVRequestInitialView *initialView;
+@property (nonatomic, strong) EVRequestWhoView *initialView;
 
-@property (nonatomic, strong) EVRequestSingleAmountView *singleAmountView;
+@property (nonatomic, strong) EVExchangeHowMuchView *singleAmountView;
 @property (nonatomic, strong) EVRequestMultipleAmountsView *multipleAmountsView;
 
-@property (nonatomic, strong) EVRequestDetailsView *singleDetailsView;
+@property (nonatomic, strong) EVExchangeWhatForView *singleDetailsView;
 @property (nonatomic, strong) EVRequestMultipleDetailsView *multipleDetailsView;
 
 @end

@@ -34,6 +34,7 @@
 + (NSString *)nameForDetailField:(EVExchangeDetailField)field;
 + (NSString *)detailStringFromDate:(NSDate *)date;
 
++ (NSString *)toFieldPlaceholder;
 + (NSString *)requestDescriptionPlaceholder;
 + (NSString *)groupRequestDescriptionPlaceholder;
 
