@@ -48,6 +48,12 @@
     self.requestSwitch = [[EVRequestSwitch alloc] initWithFrame:[self requestSwitchFrame]];
     self.requestSwitch.delegate = self;
     [self.requestSwitchBackground addSubview:self.requestSwitch];
+    
+    [self.upperStripe setFrame:[self upperStripeFrame]];
+    [self.toField setFrame:[self toFieldFrame]];
+    [self.lowerStripe setFrame:[self lowerStripeFrame]];
+    
+    [self.autocompleteTableView setFrame:[self tableViewFrame]];
 }
 
 - (CGRect)requestSwitchBackgroundFrame {
@@ -104,7 +110,7 @@
     [self.requestSwitchBackground setFrame:[self requestSwitchBackgroundFrame]];
     
     [self.upperStripe setFrame:[self upperStripeFrame]];
-    [self.toField setFrame:[self toFieldFrame]];
+//    [self.toField setFrame:[self toFieldFrame]];
     [self.lowerStripe setFrame:[self lowerStripeFrame]];
     
     [self.autocompleteTableView setFrame:[self tableViewFrame]];

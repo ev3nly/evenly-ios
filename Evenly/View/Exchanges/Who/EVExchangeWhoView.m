@@ -103,7 +103,7 @@
 
 - (void)layoutSubviews {
     [self.upperStripe setFrame:[self upperStripeFrame]];
-    [self.toField setFrame:[self toFieldFrame]];
+//    [self.toField setFrame:[self toFieldFrame]];
     [self.lowerStripe setFrame:[self lowerStripeFrame]];
     
     [self.autocompleteTableView setFrame:[self tableViewFrame]];
