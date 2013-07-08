@@ -73,5 +73,6 @@
 #pragma mark - Instructions
 
 + (NSString *)groupRequestCreationInstructions;
++ (NSAttributedString *)groupRequestDashboardInstructions;
 
 @end

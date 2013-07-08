@@ -14,6 +14,8 @@
 #import "EVGroupRequestProgressView.h"
 
 #import "EVGroupRequestEditViewController.h"
+#import "EVInstructionView.h"
+#import "EVSettingsManager.h"
 
 typedef enum {
     EVGroupRequestActionEdit,
@@ -91,6 +93,19 @@ typedef enum {
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.dataSource animate];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:EVHasSeenGroupRequestDashboardAlertKey] != YES)
+    {
+        [self showDashboardInstructions];
+    }
+}
+
+- (void)showDashboardInstructions {
+    EVInstructionView *instructionView = [[EVInstructionView alloc] initWithAttributedText:[EVStringUtility groupRequestDashboardInstructions]];
+    [instructionView setShowingLogo:YES];
+    [instructionView showInView:self.view];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVHasSeenGroupRequestDashboardAlertKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];    
 }
 
 #pragma mark - Button Actions

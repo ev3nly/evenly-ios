@@ -380,5 +380,24 @@ static NSDateFormatter *_detailDateFormatter;
     return @"You can add friends now or skip this step and do it later.";
 }
 
++ (NSAttributedString *)groupRequestDashboardInstructions {
+    NSDictionary *boldAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:14],
+                                      NSForegroundColorAttributeName : [UIColor whiteColor],
+                                      NSKernAttributeName : @(-0.1) };
+    NSDictionary *regularAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:14],
+                                         NSForegroundColorAttributeName : [UIColor whiteColor],
+                                         NSKernAttributeName : @(-0.1) };
+    
+    NSString *firstLine = @"Thanks for making your first group request!\n\n";
+    NSString *secondLine = @"Whenever you request money from multiple people, Evenly creates this simple dashboard.  From here, you can send invitations and reminders, track progress, and much more.\n\n";
+    NSString *thirdLine = @"Give it a spin!";
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@""];
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:firstLine attributes:boldAttributes]];
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:secondLine attributes:regularAttributes]];
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:thirdLine attributes:boldAttributes]];
+
+    return attrString;
+}
 
 @end
