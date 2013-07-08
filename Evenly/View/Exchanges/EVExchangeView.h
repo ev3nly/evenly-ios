@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define EV_REQUEST_VIEW_LABEL_FIELD_BUFFER 6
+#define EV_REQUEST_VIEW_LABEL_FIELD_BUFFER 10
 
 @interface EVExchangeView : UIView
 
