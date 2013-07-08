@@ -6,18 +6,18 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVRequestSingleAmountView.h"
+#import "EVExchangeHowMuchView.h"
 #import "EVCurrencyTextFieldFormatter.h"
 
 
-@interface EVRequestSingleAmountView ()
+@interface EVExchangeHowMuchView ()
 
 @property (nonatomic, strong) UIImageView *bigAmountContainer;
 @property (nonatomic, strong) EVCurrencyTextFieldFormatter *currencyFormatter;
 
 @end
 
-@implementation EVRequestSingleAmountView
+@implementation EVExchangeHowMuchView
 
 
 - (id)initWithFrame:(CGRect)frame
@@ -30,7 +30,7 @@
 }
 
 - (void)loadBigAmountField {
-    self.bigAmountView = [[EVRequestBigAmountView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.titleLabel.frame), self.frame.size.width, [EVRequestBigAmountView totalHeight])];
+    self.bigAmountView = [[EVExchangeBigAmountView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.titleLabel.frame), self.frame.size.width, [EVExchangeBigAmountView totalHeight])];
     [self addSubview:self.bigAmountView];
 }
 

@@ -10,8 +10,7 @@
 
 #define EV_REQUEST_VIEW_LABEL_FIELD_BUFFER 6
 
-
-@interface EVRequestView : UIView
+@interface EVExchangeView : UIView
 
 @property (nonatomic, strong) UILabel *titleLabel;
 

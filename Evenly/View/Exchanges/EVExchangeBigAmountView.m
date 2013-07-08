@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVRequestBigAmountView.h"
+#import "EVExchangeBigAmountView.h"
 
 #define BIG_AMOUNT_CONTAINER_MARGIN 10
 #define BIG_AMOUNT_CONTAINER_HEIGHT 90
 #define INFO_LABEL_HEIGHT 40
 
-@implementation EVRequestBigAmountView
+@implementation EVExchangeBigAmountView
 
 
 + (CGFloat)totalHeight {
