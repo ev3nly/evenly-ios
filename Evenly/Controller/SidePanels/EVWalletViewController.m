@@ -269,7 +269,7 @@
                     cell.stamp = stamp;
                     
                 } else {
-                    value = @"none";
+                    value = @"Add a card ➔";
                     cell.stamp = nil;
                 }
             }
@@ -291,7 +291,7 @@
                                                                       maxWidth:100];
                     cell.stamp = stamp;
                 } else {
-                    value = @"none";
+                    value = @"Add a bank ➔";
                 }
             }
             break;
