@@ -78,7 +78,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 #pragma mark - Loading
 
 - (void)loadAvatarView {
-    self.avatarView = [[EVAvatarView alloc] initWithFrame:self.bounds];
+    self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(0, 0, EV_STORY_CELL_LABEL_HEIGHT, EV_STORY_CELL_LABEL_HEIGHT)];
     [self.contentView addSubview:self.avatarView];
 }
 

@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "EVExchangeView.h"
 #import "EVTextField.h"
+#import "EVExchangeWhatForHeader.h"
 
 @interface EVExchangeWhatForView : EVExchangeView <UITextViewDelegate>
+
+@property (nonatomic, strong) EVExchangeWhatForHeader *whatForHeader;
 
 @property (nonatomic, strong) UITextView *descriptionField;
 

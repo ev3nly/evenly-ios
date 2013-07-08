@@ -11,6 +11,7 @@
 @interface NSArray (EVAdditions)
 
 - (NSArray *)reversedArray;
+- (NSArray *)map:(id (^)(id object))block;
 
 @end
 

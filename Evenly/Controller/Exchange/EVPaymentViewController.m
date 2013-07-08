@@ -9,6 +9,7 @@
 #import "EVPaymentViewController.h"
 #import "EVNavigationBarButton.h"
 #import "EVBackButton.h"
+#import "EVExchangeWhatForHeader.h"
 
 @interface EVPaymentViewController ()
 
@@ -137,7 +138,7 @@
         self.payment = [[EVPayment alloc] init];
         EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
         self.payment.to = recipient;
-        [self.howMuchView.titleLabel setText:[NSString stringWithFormat:@"Pay %@", [recipient name]]];
+        [self.howMuchView.titleLabel setText:[NSString stringWithFormat:@"Pay %@...", [recipient name]]];
         [self pushView:self.howMuchView animated:YES];
         // Give the privacy selector to the single details view.
 
@@ -146,8 +147,8 @@
     else if (self.phase == EVExchangePhaseHowMuch)
     {
         self.payment.amount = [EVStringUtility amountFromAmountString:self.howMuchView.amountField.text];
-        NSString *title = [NSString stringWithFormat:@"Pay %@ %@", self.payment.to.name, [EVStringUtility amountStringForAmount:self.payment.amount]];
-        [self.whatForView.titleLabel setText:title];
+        EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader paymentHeaderForPerson:self.payment.to amount:self.payment.amount];
+        self.whatForView.whatForHeader = header;
         [self pushView:self.whatForView animated:YES];
 
         self.phase = EVExchangePhaseWhatFor;

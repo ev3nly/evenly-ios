@@ -36,6 +36,8 @@
 		9C16066B1788D6FE00852684 /* EVRequestWhoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606661788D6FE00852684 /* EVRequestWhoView.m */; };
 		9C16066E1788D75400852684 /* EVExchangeWhoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16066D1788D75400852684 /* EVExchangeWhoView.m */; };
 		9C1606711788EE4200852684 /* EVPaymentWhoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606701788EE4200852684 /* EVPaymentWhoView.m */; };
+		9C160677178A086F00852684 /* EVExchangeWhatForHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C160676178A086F00852684 /* EVExchangeWhatForHeader.m */; };
+		9C16067A178A0C2600852684 /* EVAvatarToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C160679178A0C2600852684 /* EVAvatarToken.m */; };
 		9C1DEC32177B6A2A0057526D /* EVGroupRequestStatementLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1DEC31177B6A230057526D /* EVGroupRequestStatementLabel.m */; };
 		9C1DEC35177B86E90057526D /* EVGroupRequestCompletedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1DEC34177B86E20057526D /* EVGroupRequestCompletedCell.m */; };
 		9C1DEC4C177BAF9A0057526D /* EVGroupRequestEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1DEC4B177BAF9A0057526D /* EVGroupRequestEditViewController.m */; };
@@ -485,6 +487,10 @@
 		9C16066D1788D75400852684 /* EVExchangeWhoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeWhoView.m; sourceTree = "<group>"; };
 		9C16066F1788EE4200852684 /* EVPaymentWhoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPaymentWhoView.h; sourceTree = "<group>"; };
 		9C1606701788EE4200852684 /* EVPaymentWhoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPaymentWhoView.m; sourceTree = "<group>"; };
+		9C160675178A086F00852684 /* EVExchangeWhatForHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeWhatForHeader.h; sourceTree = "<group>"; };
+		9C160676178A086F00852684 /* EVExchangeWhatForHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeWhatForHeader.m; sourceTree = "<group>"; };
+		9C160678178A0C2600852684 /* EVAvatarToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAvatarToken.h; sourceTree = "<group>"; };
+		9C160679178A0C2600852684 /* EVAvatarToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAvatarToken.m; sourceTree = "<group>"; };
 		9C1DEC30177B6A230057526D /* EVGroupRequestStatementLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestStatementLabel.h; sourceTree = "<group>"; };
 		9C1DEC31177B6A230057526D /* EVGroupRequestStatementLabel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestStatementLabel.m; sourceTree = "<group>"; };
 		9C1DEC33177B86E20057526D /* EVGroupRequestCompletedCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestCompletedCell.h; sourceTree = "<group>"; };
@@ -1234,6 +1240,8 @@
 			children = (
 				9C1606601788D6FE00852684 /* EVExchangeWhatForView.h */,
 				9C1606611788D6FE00852684 /* EVExchangeWhatForView.m */,
+				9C160675178A086F00852684 /* EVExchangeWhatForHeader.h */,
+				9C160676178A086F00852684 /* EVExchangeWhatForHeader.m */,
 				9C1606621788D6FE00852684 /* EVRequestMultipleDetailsView.h */,
 				9C1606631788D6FE00852684 /* EVRequestMultipleDetailsView.m */,
 			);
@@ -2232,6 +2240,8 @@
 			children = (
 				9CFDBAAF17625F7200D4E36C /* EVAvatarView.h */,
 				9CFDBAB017625F7200D4E36C /* EVAvatarView.m */,
+				9C160678178A0C2600852684 /* EVAvatarToken.h */,
+				9C160679178A0C2600852684 /* EVAvatarToken.m */,
 			);
 			path = Avatar;
 			sourceTree = "<group>";
@@ -2965,6 +2975,8 @@
 				9C16066B1788D6FE00852684 /* EVRequestWhoView.m in Sources */,
 				9C16066E1788D75400852684 /* EVExchangeWhoView.m in Sources */,
 				9C1606711788EE4200852684 /* EVPaymentWhoView.m in Sources */,
+				9C160677178A086F00852684 /* EVExchangeWhatForHeader.m in Sources */,
+				9C16067A178A0C2600852684 /* EVAvatarToken.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
