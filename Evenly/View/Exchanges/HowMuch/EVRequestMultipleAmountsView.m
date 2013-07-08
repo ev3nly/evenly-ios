@@ -74,7 +74,6 @@
 }
 
 - (void)loadMultipleAmountsView {
-    DLog(@"Self.frame: %@", NSStringFromCGRect(self.frame));
     self.multipleAmountsView = [[UITableView alloc] initWithFrame:CGRectMake(0,
                                                                              CGRectGetMaxY(self.segmentedControl.frame),
                                                                              self.frame.size.width,

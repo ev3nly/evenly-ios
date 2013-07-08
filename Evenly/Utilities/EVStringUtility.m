@@ -284,8 +284,12 @@ static NSDateFormatter *_detailDateFormatter;
     return @"Lunch, dinner, taxi, or anything else";
 }
 
++ (NSString *)groupRequestTitlePlaceholder {
+    return @"BBQ, Sunday Dinner, or anything else";
+}
+
 + (NSString *)groupRequestDescriptionPlaceholder {
-   return @"Optional details go here";
+   return @"Optional.  Add any additional details.";
 }
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber {

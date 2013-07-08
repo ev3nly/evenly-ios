@@ -36,6 +36,7 @@
 
 + (NSString *)toFieldPlaceholder;
 + (NSString *)requestDescriptionPlaceholder;
++ (NSString *)groupRequestTitlePlaceholder;
 + (NSString *)groupRequestDescriptionPlaceholder;
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber;
