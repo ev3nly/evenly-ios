@@ -84,7 +84,9 @@ typedef enum {
 }
 
 - (void)generateAmountLabel {
-    NSString *text = (self.amounts.count == 1 ? [EVStringUtility amountStringForAmount:[self.amounts lastObject]] : @"multiple amounts");
+    NSString *text = (self.amounts.count == 1 ?
+                      [EVStringUtility amountStringForAmount:[self.amounts lastObject]] :
+                      [NSString stringWithFormat:@"%d amounts", self.amounts.count]);
     
     self.amountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.amountLabel.backgroundColor = [UIColor clearColor];
