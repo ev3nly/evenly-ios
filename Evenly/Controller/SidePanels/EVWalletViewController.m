@@ -242,12 +242,14 @@
 
 - (EVWalletItemCell *)walletCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVWalletItemCell *cell = (EVWalletItemCell *)[self.walletTableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    cell.isCash = NO;
     NSString *title = nil;
     NSString *value = nil;
     switch (indexPath.row) {
         case EVWalletRowCash:
             title = @"Cash";
             value = [EVStringUtility amountStringForAmount:[[[EVCIA sharedInstance] me] balance]];
+            cell.isCash = YES;
             break;
         case EVWalletRowCards:
         {
