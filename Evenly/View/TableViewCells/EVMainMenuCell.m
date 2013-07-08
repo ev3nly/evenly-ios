@@ -32,7 +32,6 @@
         [self.label setFont:[EVFont boldFontOfSize:20.0]];
         [self.contentView addSubview:self.label];
         
-        
         UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                   self.frame.size.height - 1,
                                                                   self.frame.size.width,
@@ -40,7 +39,6 @@
         stripe.backgroundColor = [EVColor sidePanelStripeColor];
         stripe.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
         [self.contentView addSubview:stripe];
-        
     }
     return self;
 }

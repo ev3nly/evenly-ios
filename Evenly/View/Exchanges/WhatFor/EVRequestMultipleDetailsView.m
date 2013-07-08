@@ -12,7 +12,9 @@
 #define LABEL_FIELD_BUFFER 6
 #define LINE_HEIGHT 40
 #define Y_BUFFER 10
+#define X_BUFFER 8
 
+#define TITLE_TEXT @"Title"
 #define DESCRIPTION_TEXT @"Details"
 
 @implementation EVRequestMultipleDetailsView
@@ -33,7 +35,7 @@
 - (void)loadNameLabel
 {
     UILabel *nameLabel = [self configuredLabel];
-    nameLabel.text = @"Name";
+    nameLabel.text = TITLE_TEXT;
     nameLabel.frame = [self nameLabelFrame];
     self.nameLabel = nameLabel;
     [self addSubview:nameLabel];
@@ -50,7 +52,7 @@
 - (void)loadNameField
 {
     self.nameField = [self configuredTextField];
-    self.nameField.placeholder = @"Rent, frat dues 2013, whatever";
+    self.nameField.placeholder = [EVStringUtility groupRequestTitlePlaceholder];
     self.nameField.frame = [self nameFieldFrame];
     self.nameField.returnKeyType = UIReturnKeyNext;
     [self addSubview:self.nameField];
@@ -73,6 +75,7 @@
     self.descriptionField = field;
     self.descriptionField.textColor = [UIColor blackColor];
     self.descriptionField.font = [EVFont lightExchangeFormFont];
+    self.descriptionField.placeholderColor = EV_RGB_COLOR(0.7725, 0.7725, 0.7725);
     [self addSubview:self.descriptionField];
 }
 
@@ -98,6 +101,7 @@
     textField.backgroundColor = [UIColor clearColor];
     textField.textColor = EV_RGB_COLOR(40, 40, 40);;
     textField.font = [EVFont lightExchangeFormFont];
+    textField.placeholderColor = EV_RGB_COLOR(0.7725, 0.7725, 0.7725);
     return textField;
 }
 
@@ -105,7 +109,7 @@
 
 - (CGRect)nameLabelFrame {
     UILabel *label = [self configuredLabel];
-    CGSize labelSize = [@"Name" sizeWithFont:label.font
+    CGSize labelSize = [TITLE_TEXT sizeWithFont:label.font
                            constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT)
                                lineBreakMode:label.lineBreakMode];
     CGFloat y = (self.whatForHeader ?
@@ -118,7 +122,7 @@
 }
 
 - (CGRect)nameFieldFrame {
-    float xOrigin = CGRectGetMaxX([self nameLabelFrame]) + LABEL_FIELD_BUFFER;
+    float xOrigin = [self fieldXOrigin] + X_BUFFER;
     CGSize labelSize = [self nameLabelFrame].size;
     CGFloat y = (self.whatForHeader ?
                  CGRectGetMaxY(self.whatForHeader.frame) + Y_BUFFER :
@@ -154,12 +158,16 @@
 }
 
 - (CGRect)descriptionFieldFrame {
-    float xOrigin = CGRectGetMaxX([self descriptionLabelFrame]);
+    float xOrigin = [self fieldXOrigin];
     CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) + LINE_HEIGHT + 2: LINE_HEIGHT + 2);
     return CGRectMake(xOrigin,
                       y,
                       self.bounds.size.width - LEFT_RIGHT_BUFFER - xOrigin,
                       self.bounds.size.height - [self descriptionLabelFrame].origin.y);
+}
+
+- (CGFloat)fieldXOrigin {
+    return MAX(CGRectGetMaxX([self nameLabelFrame]), CGRectGetMaxX([self descriptionLabelFrame])) + LABEL_FIELD_BUFFER;
 }
 
 #pragma mark - Layout
