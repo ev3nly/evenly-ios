@@ -274,6 +274,21 @@
     return string;
 }
 
+- (void)likeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [[self class] requestWithMethod:@"POST"
+                                                              path:[NSString stringWithFormat:@"%@/likes", self.dbid]
+                                                        parameters:nil];
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                                  if (success)
+                                                                                      success();
+                                                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                  if (failure)
+                                                                                      failure(error);
+                                                                              }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"<EVStory: 0x%x> %@ %@ %@ for %@", (int)self, [self.subject name], self.verb, [self.target name], self.storyDescription];
 }

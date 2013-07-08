@@ -50,4 +50,6 @@ typedef enum {
 + (EVStory *)storyFromGroupRequest:(EVGroupRequest *)groupRequest;
 + (EVStory *)storyFromWithdrawal:(EVWithdrawal *)withdrawal;
 
+- (void)likeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
+
 @end
