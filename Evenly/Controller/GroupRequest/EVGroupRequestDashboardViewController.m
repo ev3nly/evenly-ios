@@ -141,6 +141,12 @@ typedef enum {
     return indexPath;
 }
 
+- (void)gearButtonPress:(id)sender {
+    NSDictionary *userInfo = [sender userInfo];
+    NSIndexPath *indexPath = userInfo[@"indexPath"];
+    [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     

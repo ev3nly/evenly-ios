@@ -125,4 +125,18 @@
                      }];
 }
 
+static char UIViewUserInfoKey;
+
+- (void)setUserInfo:(NSDictionary *)userInfo {
+    objc_setAssociatedObject(self,
+                             &UIViewUserInfoKey,
+                             userInfo,
+                             OBJC_ASSOCIATION_RETAIN);
+}
+
+- (NSDictionary *)userInfo {
+    return objc_getAssociatedObject(self, &UIViewUserInfoKey);
+}
+
+
 @end

@@ -15,7 +15,6 @@
 
 @interface EVDashboardUserCell ()
 
-
 - (void)loadOwesLabels;
 - (void)loadPaidLabels;
 
@@ -76,11 +75,21 @@
     _paidStamp = paidStamp;
 }
 
+- (void)setNoTierButton:(UIButton *)noTierButton {
+    if (_noTierButton)
+        [_noTierButton removeFromSuperview];
+    _noTierButton = noTierButton;
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     if (self.paidStamp)
     {
         [self layoutStamp];
+    }
+    else if (self.noTierButton)
+    {
+        [self layoutNoTierButton];
     }
     else
     {
@@ -99,6 +108,19 @@
     paidStampFrame.origin.y = (int)((self.contentView.frame.size.height - paidStampFrame.size.height) / 2.0);
     self.paidStamp.frame = paidStampFrame;
     [self.contentView addSubview:self.paidStamp];
+}
+
+- (void)layoutNoTierButton {
+    self.owesLabel.hidden = YES;
+    self.paidLabel.hidden = YES;
+    self.owesAmountLabel.hidden = YES;
+    self.paidAmountLabel.hidden = YES;
+    
+    CGRect noTierFrame = self.noTierButton.frame;
+    noTierFrame.origin.x = self.contentView.frame.size.width - noTierFrame.size.width - STAMP_RIGHT_MARGIN;
+    noTierFrame.origin.y = (int)((self.contentView.frame.size.height - noTierFrame.size.height) / 2.0);
+    self.noTierButton.frame = noTierFrame;
+    [self.contentView addSubview:self.noTierButton];
 }
 
 - (void)layoutLabels {
