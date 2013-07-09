@@ -55,6 +55,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignOut:) name:EVSessionSignedOutNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(storyWasCreatedLocally:) name:EVStoryLocallyCreatedNotification object:nil];
 }
 
 - (void)dealloc {
@@ -152,6 +153,13 @@
     } failure:^(NSError *error) {
 
     }];
+}
+
+- (void)storyWasCreatedLocally:(NSNotification *)notification {
+    EVStory *story = [[notification userInfo] objectForKey:@"story"];
+    
+    self.newsfeed = [@[ story ] arrayByAddingObjectsFromArray:self.newsfeed];
+    [self.tableView reloadData];    
 }
 
 #pragma mark - Button Actions
