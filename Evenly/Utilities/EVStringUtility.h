@@ -36,6 +36,7 @@
 
 + (NSString *)toFieldPlaceholder;
 + (NSString *)requestDescriptionPlaceholder;
++ (NSString *)groupRequestTitlePlaceholder;
 + (NSString *)groupRequestDescriptionPlaceholder;
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber;
@@ -72,5 +73,6 @@
 #pragma mark - Instructions
 
 + (NSString *)groupRequestCreationInstructions;
++ (NSAttributedString *)groupRequestDashboardInstructions;
 
 @end

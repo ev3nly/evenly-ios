@@ -12,7 +12,7 @@
 
 #define WHOLE_WIDTH 320
 #define BACKGROUND_MARGIN 10
-#define INTERNAL_MARGIN 10 
+#define INTERNAL_MARGIN 8.0 
 #define CORNER_RADIUS 4.0
 
 @interface EVInstructionViewBackground : UIView
@@ -208,7 +208,8 @@
                                                                                     BACKGROUND_MARGIN));
     
     [self.label setAttributedText:self.attributedText];
-    [self.label setText:self.text];
+    if (!EV_IS_EMPTY_STRING(self.text))
+        [self.label setText:self.text];
     
     if (self.showingLogo) {
         CGRect logoFrame = self.logoView.frame;
