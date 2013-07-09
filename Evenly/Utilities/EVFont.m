@@ -22,6 +22,18 @@
     return [UIFont fontWithName:@"Avenir-Black" size:fontSize];    
 }
 
++ (UIFont *)romanFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Avenir-Roman" size:fontSize];
+}
+
++ (UIFont *)obliqueFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Avenir-Oblique" size:fontSize];
+}
+
++ (UIFont *)bookFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Avenir-Book" size:fontSize];
+}
+
 + (UIFont *)defaultFont {
     return [UIFont fontWithName:@"Avenir" size:16.0];
 }

@@ -51,4 +51,18 @@
     return NO;
 }
 
+- (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {
+    NSInteger rowCount = [self.dataSource tableView:self numberOfRowsInSection:indexPath.section];
+    if (rowCount <= 1)
+        return EVGroupedTableViewCellPositionSingle;
+    else {
+        if (indexPath.row == 0)
+            return EVGroupedTableViewCellPositionTop;
+        else if (indexPath.row == rowCount - 1)
+            return EVGroupedTableViewCellPositionBottom;
+        else
+            return EVGroupedTableViewCellPositionCenter;
+    }
+}
+
 @end

@@ -257,7 +257,7 @@
             title = @"Cards";
             if ([[EVCIA sharedInstance] loadingCreditCards])
             {
-                value = @"loading...";
+                value = @"Loading...";
             }
             else
             {
@@ -280,7 +280,7 @@
             title = @"Banks";
             if ([[EVCIA sharedInstance] loadingBankAccounts])
             {
-                value = @"loading...";
+                value = @"Loading...";
             }
             else
             {

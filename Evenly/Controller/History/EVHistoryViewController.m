@@ -83,20 +83,6 @@ static NSDateFormatter *_dateFormatter = nil;
     return [self.exchanges count];
 }
 
-- (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {
-    NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:indexPath.section];
-    if (rowCount <= 1)
-        return EVGroupedTableViewCellPositionSingle;
-    else {
-        if (indexPath.row == 0)
-            return EVGroupedTableViewCellPositionTop;
-        else if (indexPath.row == rowCount - 1)
-            return EVGroupedTableViewCellPositionBottom;
-        else
-            return EVGroupedTableViewCellPositionCenter;
-    }
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!self.exchanges)
         return 0;
@@ -138,7 +124,7 @@ static NSDateFormatter *_dateFormatter = nil;
             amount = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"-%@", [amount stringValue]]];
     }
     [cell setTitle:[self displayStringForDate:historyItem.createdAt] subtitle:subtitle amount:amount];
-    cell.position = [self cellPositionForIndexPath:indexPath];
+    cell.position = [self.tableView cellPositionForIndexPath:indexPath];
 
     return cell;
 }

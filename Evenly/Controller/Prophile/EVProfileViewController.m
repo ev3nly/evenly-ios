@@ -116,21 +116,19 @@
     if (indexPath.row == 0) {
         EVProfileCell *profileCell = [tableView dequeueReusableCellWithIdentifier:@"profileCell" forIndexPath:indexPath];
         profileCell.user = self.user;
-        profileCell.position = [self cellPositionForIndexPath:indexPath];
         profileCell.parent = self;
         profileCell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell = profileCell;
     } else if (![self hasExchanges]) {
         EVNoActivityCell *noActivityCell = [tableView dequeueReusableCellWithIdentifier:@"noActivityCell"];
-        noActivityCell.position = [self cellPositionForIndexPath:indexPath];
         cell = noActivityCell;
     } else {
         EVProfileHistoryCell *historyCell = [tableView dequeueReusableCellWithIdentifier:@"profileHistoryCell"];
-        historyCell.position = [self cellPositionForIndexPath:indexPath];
         EVObject *object = [self.exchanges objectAtIndex:indexPath.row-1];
         historyCell.story = [self storyForObject:object];
         cell = historyCell;
     }
+    cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     return cell;
 }
 
@@ -145,20 +143,6 @@
 }
 
 #pragma mark - Utility
-
-- (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {
-    NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:indexPath.section];
-    if (rowCount <= 1)
-        return EVGroupedTableViewCellPositionSingle;
-    else {
-        if (indexPath.row == 0)
-            return EVGroupedTableViewCellPositionTop;
-        else if (indexPath.row == rowCount - 1)
-            return EVGroupedTableViewCellPositionBottom;
-        else
-            return EVGroupedTableViewCellPositionCenter;
-    }
-}
 
 - (EVStory *)storyForObject:(EVObject *)object {
     EVStory *story;

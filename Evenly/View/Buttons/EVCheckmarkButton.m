@@ -8,6 +8,7 @@
 
 #import "EVCheckmarkButton.h"
 #import "EVTapGestureRecognizer.h"
+#import "TTTAttributedLabel.h"
 
 #define SIDE_MARGIN 20
 #define CHECK_LABEL_BUFFER 10
@@ -15,7 +16,8 @@
 @interface EVCheckmarkButton ()
 
 @property (nonatomic, strong) UIImageView *check;
-@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) TTTAttributedLabel *label;
+@property (nonatomic, assign) BOOL hasLinks;
 
 - (void)loadCheckHole;
 - (void)loadLabel;
@@ -28,11 +30,12 @@
 
 - (id)initWithText:(NSString *)text {
     if (self = [super initWithFrame:CGRectZero]) {
-        self.text = text;
         [self loadCheckHole];
         [self loadLabel];
+        self.text = text;
         EVTapGestureRecognizer *tapRecognizer = [[EVTapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         tapRecognizer.delegate = self;
+        tapRecognizer.cancelsTouchesInView = NO;
         [self addGestureRecognizer:tapRecognizer];
     }
     return self;
@@ -53,8 +56,7 @@
 }
 
 - (void)loadLabel {
-    self.label = [UILabel new];
-    self.label.text = self.text;
+    self.label = [TTTAttributedLabel new];
     self.label.textColor = [EVColor lightLabelColor];
     self.label.font = [EVFont defaultFontOfSize:15];
     self.label.backgroundColor = [UIColor clearColor];
@@ -64,32 +66,45 @@
 
 #pragma mark - Gesture Handling
 
+static BOOL ignoringTap = NO;
+
 - (void)handleTap:(EVTapGestureRecognizer *)tapRecognizer {
-    if (tapRecognizer.state == UIGestureRecognizerStateBegan) {
+    CGPoint location = [tapRecognizer locationInView:self];
+    if (CGRectContainsPoint(self.label.frame, location) && self.hasLinks)
+        ignoringTap = YES;
+        
+    if (tapRecognizer.state == UIGestureRecognizerStateBegan && !ignoringTap) {
         [self setHighlighted:YES];
     }
-    else if (tapRecognizer.state == UIGestureRecognizerStateChanged) {
+    else if (tapRecognizer.state == UIGestureRecognizerStateChanged && !ignoringTap) {
         [self setHighlighted:[tapRecognizer isWithinView]];
     }
     else if (tapRecognizer.state == UIGestureRecognizerStateEnded) {
+        if (ignoringTap) {
+            ignoringTap = NO;
+            return;
+        }
         [self setHighlighted:NO];
         [self fadeBetweenChecks];
     }
     else if (tapRecognizer.state == UIGestureRecognizerStateCancelled || tapRecognizer.state == UIGestureRecognizerStateFailed) {
+        if (ignoringTap) {
+            ignoringTap = NO;
+            return;
+        }
         [self setHighlighted:NO];
     }
 }
 
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
-}
-
 - (void)setHighlighted:(BOOL)highlighted {
+//    if (self.hasLinks)
+        return;
     if (highlighted) {
         self.label.textColor = [EVColor darkLabelColor];
     } else {
         self.label.textColor = [EVColor lightLabelColor];
     }
+    self.label.text = self.label.text;
 }
 
 - (void)fadeBetweenChecks {
@@ -130,6 +145,16 @@
     
     if (self.label)
         self.label.text = text;
+}
+
+- (void)setLinkDelegate:(id)delegate {
+    self.label.delegate = delegate;
+}
+
+- (void)linkToUrl:(NSURL *)url forText:(NSString *)text {
+    NSRange r = [self.label.text rangeOfString:text];
+    [self.label addLinkToURL:url withRange:r];
+    self.hasLinks = YES;
 }
 
 #pragma mark - Frames

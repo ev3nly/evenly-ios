@@ -8,6 +8,12 @@
 
 #import "EVViewController.h"
 
-@interface EVInviteViewController : EVViewController
+typedef enum {
+    EVInviteMethodFacebook,
+    EVInviteMethodContacts,
+    EVInviteMethodCOUNT
+} EVInviteMethod;
+
+@interface EVInviteViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 @end

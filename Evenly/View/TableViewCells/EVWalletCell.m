@@ -44,7 +44,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        [self setBackgroundColor:[EVColor sidePanelSelectedColor]];
+        [self setBackgroundColor:[EVColor sidePanelHeaderBackgroundColor]];
         CGFloat margin = 12.0;
         UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(EV_RIGHT_OVERHANG_MARGIN, 0, self.contentView.frame.size.width - EV_RIGHT_OVERHANG_MARGIN, self.contentView.frame.size.height)];
         containerView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
@@ -55,7 +55,7 @@
                                                                     containerView.frame.size.width / 2.0 - margin,
                                                                     containerView.frame.size.height)];
         self.label.backgroundColor = [UIColor clearColor];
-        self.label.textColor = [UIColor whiteColor];
+        self.label.textColor = [EVColor sidePanelTextColor];
         self.label.font = [EVFont walletHeaderFont];
         self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
         [(EVSpreadLabel *)self.label setCharacterSpacing:2.0];
