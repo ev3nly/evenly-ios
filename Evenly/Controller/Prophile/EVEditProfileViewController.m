@@ -121,7 +121,7 @@
     else
         cell = [self editLabelCellForIndexPath:indexPath];
 
-    cell.position = [self cellPositionForIndexPath:indexPath];
+    cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
@@ -165,20 +165,6 @@
         };
     }
     return cell;
-}
-
-- (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {
-    NSInteger rowCount = [self tableView:self.tableView numberOfRowsInSection:indexPath.section];
-    if (rowCount <= 1)
-        return EVGroupedTableViewCellPositionSingle;
-    else {
-        if (indexPath.row == 0)
-            return EVGroupedTableViewCellPositionTop;
-        else if (indexPath.row == rowCount - 1)
-            return EVGroupedTableViewCellPositionBottom;
-        else
-            return EVGroupedTableViewCellPositionCenter;
-    }
 }
 
 #pragma mark - Gesture Handling

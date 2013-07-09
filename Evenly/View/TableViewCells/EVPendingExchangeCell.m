@@ -46,7 +46,7 @@
                                                                EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH,
                                                                self.containerView.frame.size.height - 2*EV_PENDING_EXCHANGE_CELL_Y_MARGIN)];
         self.label.backgroundColor = [UIColor clearColor];
-        self.label.textColor = [UIColor whiteColor];
+        self.label.textColor = [EVColor sidePanelTextColor];
         self.label.numberOfLines = 3;
         self.label.lineBreakMode = NSLineBreakByTruncatingMiddle;
         self.label.font = EV_PENDING_EXCHANGE_CELL_FONT;

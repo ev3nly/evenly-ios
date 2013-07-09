@@ -7,21 +7,21 @@
 //
 
 #import "EVEditProfileViewController.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "TTTAttributedLabel.h"
 
 typedef enum {
-    EVSignUpCellRowPhoto,
-    EVSignUpCellRowName,
-    EVSignUpCellRowEmail,
+    EVSignUpCellRowPhotoNameEmail,
     EVSignUpCellRowPhoneNumber,
     EVSignUpCellRowPassword,
-    EVSignUpCellRowConfirmPassword,
     EVSignUpCellRowCOUNT
 } EVSignUpCellRow;
 
-@interface EVSignUpViewController : EVEditProfileViewController <UITextFieldDelegate>
+@interface EVSignUpViewController : EVEditProfileViewController <UITextFieldDelegate, TTTAttributedLabelDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) void (^authenticationSuccess)(void);
 
 - (id)initWithSignUpSuccess:(void (^)(void))success;
+- (id)initWithSignUpSuccess:(void (^)(void))success user:(EVUser *)user;
 
 @end

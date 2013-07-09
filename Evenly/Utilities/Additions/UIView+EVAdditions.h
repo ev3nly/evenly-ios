@@ -28,6 +28,8 @@
 - (BOOL)findAndResignFirstResponder;
 - (UIView *)currentFirstResponder;
 
+- (void)removeGestureRecognizers;
+
 - (void)bounceAnimationToFrame:(CGRect)frame duration:(float)duration completion:(void (^)(void))completion;
 
 @property (nonatomic, strong) NSDictionary *userInfo;

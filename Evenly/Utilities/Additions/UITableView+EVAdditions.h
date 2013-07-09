@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVGroupedTableViewCell.h"
 
 @interface UITableView (EVAdditions)
 
 @property (nonatomic, assign) BOOL isLoading;
+
+- (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath;
 
 @end

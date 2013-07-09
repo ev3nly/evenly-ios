@@ -972,6 +972,7 @@ static char ja_kvoContext;
     } else if (self.state == JASidePanelCenterVisible) {
         [self _showLeftPanel:YES bounce:NO];
     }
+    [self.view findAndResignFirstResponder];
 }
 
 - (void)toggleRightPanel:(__unused id)sender {

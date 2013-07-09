@@ -14,6 +14,11 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.textLabel.backgroundColor = [UIColor clearColor];
+        self.textLabel.textColor = [EVColor newsfeedNounColor];
+        self.textLabel.highlightedTextColor = self.textLabel.textColor;
+        self.textLabel.font = [EVFont blackFontOfSize:15];
+        
         EVGroupedTableViewCellBackground *background = [[EVGroupedTableViewCellBackground alloc] initWithFrame:self.bounds];
         background.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         self.backgroundView = background;
