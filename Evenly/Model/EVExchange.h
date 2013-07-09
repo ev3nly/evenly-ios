@@ -8,6 +8,7 @@
 
 #import "EVObject.h"
 #import "EVUser.h"
+#import "EVReward.h"
 
 @interface EVExchange : EVObject
 
@@ -17,5 +18,7 @@
 @property (nonatomic, strong) EVObject<EVExchangeable> *from;
 @property (nonatomic, readonly) BOOL isIncoming;
 @property (nonatomic, readonly) UIImage *avatar;
+
+@property (nonatomic, strong) EVReward *reward;
 
 @end
