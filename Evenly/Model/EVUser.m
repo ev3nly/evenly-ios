@@ -54,8 +54,10 @@ static EVUser *_me;
         else
             self.balance = [NSDecimalNumber decimalNumberWithString:properties[@"balance"]];
     }
-    else
-        self.balance = [NSDecimalNumber decimalNumberWithString:@"0.00"];
+    else {
+        if (!self.balance)
+            self.balance = [NSDecimalNumber decimalNumberWithString:@"0.00"];
+    }
     self.password = [properties valueForKey:@"password"];
     
     if (properties[@"avatar_url"] && ![properties[@"avatar_url"] isKindOfClass:[NSNull class]]) {

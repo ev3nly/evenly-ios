@@ -8,6 +8,8 @@
 
 #import "EVObject.h"
 
+extern NSString *const EVStoryLocallyCreatedNotification;
+
 @class EVExchange;
 @class EVGroupRequest;
 
@@ -49,5 +51,7 @@ typedef enum {
 + (EVStory *)storyFromCompletedExchange:(EVExchange *)exchange;
 + (EVStory *)storyFromGroupRequest:(EVGroupRequest *)groupRequest;
 + (EVStory *)storyFromWithdrawal:(EVWithdrawal *)withdrawal;
+
+- (void)likeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 
 @end

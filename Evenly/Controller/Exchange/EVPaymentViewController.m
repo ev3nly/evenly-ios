@@ -10,6 +10,7 @@
 #import "EVNavigationBarButton.h"
 #import "EVBackButton.h"
 #import "EVExchangeWhatForHeader.h"
+#import "EVStory.h"
 
 @interface EVPaymentViewController ()
 
@@ -140,7 +141,6 @@
         self.payment.to = recipient;
         [self.howMuchView.titleLabel setText:[NSString stringWithFormat:@"Pay %@...", [recipient name]]];
         [self pushView:self.howMuchView animated:YES];
-        // Give the privacy selector to the single details view.
 
         self.phase = EVExchangePhaseHowMuch;
     }
@@ -166,6 +166,11 @@
         [[EVCIA me] setBalance:[[[EVCIA me] balance] decimalNumberBySubtracting:self.payment.amount]];
         [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+        
+        EVStory *story = [EVStory storyFromCompletedExchange:self.payment];
+        story.publishedAt = [NSDate date];
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
+        
         [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
             [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
         };
