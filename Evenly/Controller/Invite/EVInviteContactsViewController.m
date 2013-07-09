@@ -19,12 +19,10 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        self.fullFriendList = [[ABContactsHelper contacts] sortedArrayUsingComparator:^NSComparisonResult(ABContact *obj1, ABContact *obj2) {
+        self.fullFriendList = [[ABContactsHelper contactsMinusDuplicates] sortedArrayUsingComparator:^NSComparisonResult(ABContact *obj1, ABContact *obj2) {
             return [obj1.firstname.lowercaseString compare:obj2.firstname.lowercaseString];
         }];
         self.fullFriendList = [self.fullFriendList filter:^BOOL(ABContact *contact) {
-            if ([contact.firstname isEqualToString:@"Ben"])
-                NSLog(@"ben");
             if (EV_IS_EMPTY_STRING(contact.firstname) && EV_IS_EMPTY_STRING(contact.lastname))
                 return NO;
             return ([contact.phoneArray count] > 0);

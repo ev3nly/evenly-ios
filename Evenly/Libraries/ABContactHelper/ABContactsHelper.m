@@ -53,6 +53,21 @@
 	return array;
 }
 
++ (NSArray *)contactsMinusDuplicates
+{
+    NSArray *fullContactList = [self contacts];
+    NSMutableArray *newList = [NSMutableArray arrayWithCapacity:0];
+    NSMutableSet *nameSet = [NSMutableSet setWithCapacity:0];
+    
+    for (ABContact *contact in fullContactList) {
+        NSString *fullNameString = [NSString stringWithFormat:@"%@ %@ %@", contact.firstname, contact.middlename, contact.lastname];
+        if (![nameSet containsObject:fullNameString])
+            [newList addObject:contact];
+        [nameSet addObject:fullNameString];
+    }
+    return newList;
+}
+
 + (int) contactsCount
 {
 	ABAddressBookRef addressBook = CFAutorelease(ABAddressBookCreateWithOptions(NULL, NULL));

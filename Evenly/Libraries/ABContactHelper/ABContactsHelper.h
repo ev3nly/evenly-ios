@@ -17,6 +17,7 @@
 
 // Address Book Contacts and Groups
 + (NSArray *) contacts; // people
++ (NSArray *)contactsMinusDuplicates;
 + (NSArray *) groups; // groups
 
 // Counting
