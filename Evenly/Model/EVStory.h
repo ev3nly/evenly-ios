@@ -8,6 +8,8 @@
 
 #import "EVObject.h"
 
+extern NSString *const EVStoryLocallyCreatedNotification;
+
 @class EVExchange;
 @class EVGroupRequest;
 

@@ -14,6 +14,7 @@
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
 #import "EVGroupRequestTier.h"
+#import "EVStory.h"
 
 @interface EVRequestViewController ()
 
@@ -234,6 +235,11 @@
     {
         self.request.memo = self.singleDetailsView.descriptionField.text;
         [self.request saveWithSuccess:^{
+            
+            EVStory *story = [EVStory storyFromPendingExchange:self.request];
+            story.publishedAt = [NSDate date];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
+            
             [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
@@ -254,6 +260,11 @@
         [self.groupRequest saveWithSuccess:^{
             [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+            
+            EVStory *story = [EVStory storyFromGroupRequest:self.groupRequest];
+            story.publishedAt = [NSDate date];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
+
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             };

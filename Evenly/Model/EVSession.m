@@ -10,8 +10,9 @@
 #import "EVNetworkManager.h"
 #import "EVPINUtility.h"
 #import "EVCIA.h"
-
 #import "AESCrypt.h"
+
+#import "EVSerializer.h"
 
 NSString *const EVSessionSignedInNotification = @"EVSessionSignedInNotification";
 NSString *const EVSessionSignedOutNotification = @"EVSessionSignedOutNotification";
