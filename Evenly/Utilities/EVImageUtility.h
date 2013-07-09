@@ -16,4 +16,6 @@
 #pragma mark - Image Coloring
 + (UIImage *)overlayImage:(UIImage *)image withColor:(UIColor *)overlayColor identifier:(NSString *)imageIdentifier;
 
++ (UIImage *)imageWithColor:(UIColor *)color;
+
 @end

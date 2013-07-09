@@ -11,6 +11,7 @@
 #import "EVSignUpViewController.h"
 #import "EVSetPINViewController.h"
 #import "EVNavigationManager.h"
+#import "EVFacebookManager.h"
 #import <QuartzCore/QuartzCore.h>
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -311,105 +312,24 @@
 #pragma mark - Button Handling
 
 - (void)facebookButtonTapped {
-    if (FBSession.activeSession.isOpen)
-        [self handleOpenedSession];
-    else
-        [self openSession];
-}
-
-- (void)handleOpenedSession {
-    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
-        if (!error) {
-            NSString *avatarUrlString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?width=176&height=176", [user objectForKey:@"id"]];
-            EVUser *newUser = [EVUser new];
-            newUser.name = [user objectForKey:@"name"];
-            newUser.email = [user objectForKey:@"email"];
-            newUser.avatarURL = [NSURL URLWithString:avatarUrlString];
-            [newUser loadAvatar];
-            
-            EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
-                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
-                    [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
-                }];
-            } user:newUser];
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
-            [self presentViewController:navController animated:YES completion:nil];
-        }
-    }];
-}
-
-- (void)sessionStateChanged:(FBSession *)session
-                      state:(FBSessionState) state
-                      error:(NSError *)error
-{
-    switch (state) {
-        case FBSessionStateOpen:
-            [self handleOpenedSession];
-            break;
-        case FBSessionStateClosed:
-        case FBSessionStateClosedLoginFailed:
-            [FBSession.activeSession closeAndClearTokenInformation];
-            break;
-        default:
-            break;
-    }
-    
-    NSString *accessToken = [[FBSession.activeSession accessTokenData] accessToken];
-    [EVCIA sharedInstance].accessToken = accessToken;
+    [EVFacebookManager loadMeWithCompletion:^(NSDictionary *userDict) {
+        NSString *avatarUrlString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?width=176&height=176", [userDict objectForKey:@"id"]];
+        EVUser *newUser = [EVUser new];
+        newUser.name = [userDict objectForKey:@"name"];
+        newUser.email = [userDict objectForKey:@"email"];
+        newUser.avatarURL = [NSURL URLWithString:avatarUrlString];
+        [newUser loadAvatar];
         
-    if (error) {
-        UIAlertView *alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Error"
-                                  message:error.localizedDescription
-                                  delegate:nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
-        [alertView show];
-        
-        [self fbResync];
-        [NSThread sleepForTimeInterval:0.5];
-    }
-}
-
-- (void)openSession
-{
-    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
-                                       allowLoginUI:YES
-                                  completionHandler:
-     ^(FBSession *session,
-       FBSessionState state, NSError *error) {
-         [self sessionStateChanged:session state:state error:error];
-     }];
-}
-
--(void)fbResync
-{
-    ACAccountStore *accountStore;
-    ACAccountType *accountTypeFB;
-    if ((accountStore = [[ACAccountStore alloc] init]) && (accountTypeFB = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook] ) ){
-        
-        NSArray *fbAccounts = [accountStore accountsWithAccountType:accountTypeFB];
-        id account;
-        if (fbAccounts && [fbAccounts count] > 0 && (account = [fbAccounts objectAtIndex:0])){
-            
-            [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewResult, NSError *error) {
-                //we don't actually need to inspect renewResult or error.
-                if (error){
-                    
-                }
+        EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+                [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
             }];
-        }
-    }
-}
-
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation
-{
-    return [FBSession.activeSession handleOpenURL:url];
+        } user:newUser];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
+        [self presentViewController:navController animated:YES completion:nil];
+    }];
 }
 
 - (void)emailButtonTapped {

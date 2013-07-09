@@ -10,7 +10,6 @@
 #import "EVNavigationBarButton.h"
 #import "EVGroupedTableViewCell.h"
 #import "EVInviteCell.h"
-#import <QuartzCore/QuartzCore.h>
 #import "ReactiveCocoa.h"
 
 #define SEARCH_FIELD_HEIGHT 30
@@ -82,17 +81,8 @@
 }
 
 - (void)loadSearchBar {
-    self.searchBar = [UISearchBar new];
-    
-    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
-    backgroundView.backgroundColor = EV_RGB_COLOR(0, 114, 208);
-    
-    UIGraphicsBeginImageContext(backgroundView.bounds.size);
-    [backgroundView.layer renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    self.searchBar.backgroundImage = backgroundImage;
+    self.searchBar = [UISearchBar new];    
+    self.searchBar.backgroundImage = [EVImageUtility imageWithColor:EV_RGB_COLOR(0, 114, 208)];
     self.searchBar.showsCancelButton = NO;
     self.searchBar.delegate = self;
     [self.searchBar setPositionAdjustment:UIOffsetMake(1, 1) forSearchBarIcon:UISearchBarIconSearch];

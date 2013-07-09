@@ -90,6 +90,11 @@
     return nil;
 }
 
+- (void)removeGestureRecognizers {
+    for (UIGestureRecognizer *recognizer in self.gestureRecognizers)
+        [self removeGestureRecognizer:recognizer];
+}
+
 #define BOUNCE_OVERSHOOT_DISTANCE_PERCENT 0.1
 #define BOUNCE_OVERSHOOT_DURATION_PERCENT 0.3
 

@@ -7,6 +7,7 @@
 //
 
 #import "EVImageUtility.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface EVImageUtility ()
 
@@ -96,6 +97,18 @@
         cache = [[NSCache alloc] init];
     });
     return cache;
+}
+
++ (UIImage *)imageWithColor:(UIColor *)color {
+    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+    backgroundView.backgroundColor = color;
+    
+    UIGraphicsBeginImageContext(backgroundView.bounds.size);
+    [backgroundView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return backgroundImage;
 }
 
 @end

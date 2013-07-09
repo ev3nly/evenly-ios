@@ -53,7 +53,6 @@
     [self loadTextField];
     [self loadInviteEmailButton];
     [self configureReactions];
-    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -174,9 +173,18 @@
 
 #pragma mark - TextField Delegate
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
+    return YES;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self.view findAndResignFirstResponder];
     return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    [self.view removeGestureRecognizers];
 }
 
 #pragma mark - Frames
@@ -207,9 +215,9 @@
 }
 
 - (CGRect)inviteEmailButtonFrame {
-    return CGRectMake(20,
+    return CGRectMake(self.textFieldBackground.frame.origin.x,
                       CGRectGetMaxY(self.textField.frame) + TEXT_FIELD_BUTTON_BUFFER,
-                      self.view.bounds.size.width - 20*2,
+                      self.textFieldBackground.bounds.size.width,
                       [EVImages blueButtonBackground].size.height);
 }
 

@@ -8,6 +8,7 @@
 
 #import "EVFacebookInviteViewController.h"
 #import "EVFacebookInviteCell.h"
+#import "EVFacebookManager.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface EVFacebookInviteViewController ()
@@ -20,10 +21,14 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        if (FBSession.activeSession.isOpen)
-            [self loadFriends];
-        else
-            [self openSession];
+        
+        [EVFacebookManager loadFriendsWithCompletion:^(NSArray *friends) {
+            self.fullFriendList = [friends sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                return [obj1[@"first_name"] compare:obj2[@"first_name"]];
+            }];
+            self.displayedFriendList = self.fullFriendList;
+            [self.tableView reloadData];
+        }];
     }
     return self;
 }
@@ -68,64 +73,7 @@
     }];
 }
 
-#pragma mark - Facebook Stuff
-
-- (void)openSession {
-    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info"]
-                                       allowLoginUI:YES
-                                  completionHandler:
-     ^(FBSession *session, FBSessionState state, NSError *error) {
-         if (state == FBSessionStateOpen) {
-             [self loadFriends];
-         } else {
-             if (error) {
-                 UIAlertView *alertView = [[UIAlertView alloc]
-                                           initWithTitle:@"Error"
-                                           message:error.localizedDescription
-                                           delegate:nil
-                                           cancelButtonTitle:@"OK"
-                                           otherButtonTitles:nil];
-                 [alertView show];
-                 
-                 [self fbResync];
-                 [NSThread sleepForTimeInterval:0.5];
-             } else {
-                 if ([FBSession activeSession])
-                     [FBSession.activeSession closeAndClearTokenInformation];
-                 [self openSession];
-             }
-         }
-     }];
-}
-
--(void)fbResync {
-    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
-    ACAccountType *accountTypeFB = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierFacebook];
-    if (accountStore && accountTypeFB) {
-        NSArray *fbAccounts = [accountStore accountsWithAccountType:accountTypeFB];
-        id account = [fbAccounts objectAtIndex:0];
-        if (fbAccounts && [fbAccounts count] > 0 && account){
-            [accountStore renewCredentialsForAccount:account completion:^(ACAccountCredentialRenewResult renewResult, NSError *error) {
-                
-            }];
-        }
-    }
-}
-
-- (void)loadFriends {
-    [[FBRequest requestForMyFriends] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        if (!error) {
-            NSArray *friends = [(NSDictionary *)result objectForKey:@"data"];
-            self.fullFriendList = [friends sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                return [obj1[@"first_name"] compare:obj2[@"first_name"]];
-            }];
-            self.displayedFriendList = self.fullFriendList;
-            [self.tableView reloadData];
-        }
-        else
-            NSLog(@"error: %@", error);
-    }];
-}
+#pragma mark - Facebook
 
 - (void)inviteFriends {
     [self.view findAndResignFirstResponder];
