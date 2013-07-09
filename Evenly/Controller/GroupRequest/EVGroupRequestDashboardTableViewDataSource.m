@@ -161,7 +161,21 @@
             [userCell.nameLabel setText:record.user.name];
             [userCell.avatarView setAvatarOwner:record.user];
             [userCell.tierLabel setText:record.tier.name];
-            if (record.completed) {
+            if (record.tier == nil) {
+                
+                userCell.paidStamp = nil;
+                UIImage *gear = [EVImageUtility overlayImage:[EVImages settingsIcon]
+                                                   withColor:[EVColor darkColor]
+                                                  identifier:@"darkGear"];
+                UIButton *noTierButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, gear.size.width, gear.size.height)];
+                [noTierButton setUserInteractionEnabled:NO];
+                [noTierButton setImage:gear forState:UIControlStateNormal];
+                [noTierButton setUserInfo:@{ @"indexPath" : indexPath }];
+                userCell.noTierButton = noTierButton;
+                
+            } else if (record.completed) {
+                
+                userCell.noTierButton = nil;
                 EVWalletStamp *walletStamp = [[EVWalletStamp alloc] initWithText:@"PAID" maxWidth:50.0];
                 walletStamp.fillColor = [UIColor whiteColor];
                 walletStamp.strokeColor = [EVColor lightLabelColor];
@@ -170,6 +184,7 @@
             }
             else {
                 userCell.paidStamp = nil;
+                userCell.noTierButton = nil;
                 [userCell.owesAmountLabel setText:(record.tier ? [EVStringUtility amountStringForAmount:record.tier.price] : @"--")];
                 [userCell.paidAmountLabel setText:[EVStringUtility amountStringForAmount:record.amountPaid]];
             }

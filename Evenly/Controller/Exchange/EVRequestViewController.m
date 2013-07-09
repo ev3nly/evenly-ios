@@ -10,6 +10,7 @@
 #import "EVNavigationBarButton.h"
 #import "EVBackButton.h"
 #import "EVKeyboardTracker.h"
+#import "EVGroupRequestDashboardViewController.h"
 
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
@@ -257,21 +258,30 @@
         self.groupRequest.memo = self.multipleDetailsView.descriptionField.text;
         DLog(@"Group request dictionary representation: %@", [self.groupRequest dictionaryRepresentation]);
 
-        [self.groupRequest saveWithSuccess:^{
-            [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
-            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            
-            EVStory *story = [EVStory storyFromGroupRequest:self.groupRequest];
-            story.publishedAt = [NSDate date];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
-
-            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-            };
-        } failure:^(NSError *error) {
-            DLog(@"failed to create %@", NSStringFromClass([self.request class]));
-            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-        }];
+        [EVGroupRequest createWithParams:[self.groupRequest dictionaryRepresentation]
+                                 success:^(EVObject *object) {
+                                     EVGroupRequest *createdRequest = (EVGroupRequest *)object;
+                                     
+                                     [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
+                                     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+                                     
+                                     EVStory *story = [EVStory storyFromGroupRequest:self.groupRequest];
+                                     story.publishedAt = [NSDate date];
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
+                                     
+                                     [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
+                                         __block UIViewController *presenter = self.presentingViewController;
+                                         [self.presentingViewController dismissViewControllerAnimated:YES
+                                                                                           completion:^{
+                                                                                               EVGroupRequestDashboardViewController *dashboardVC = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:createdRequest];
+                                                                                               UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardVC];
+                                                                                               [presenter presentViewController:navController animated:YES completion:NULL];
+                                                                                           }];
+                                     };
+                                 } failure:^(NSError *error) {
+                                     DLog(@"failed to create %@", NSStringFromClass([self.request class]));
+                                     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                                 }];
     }
 }
 

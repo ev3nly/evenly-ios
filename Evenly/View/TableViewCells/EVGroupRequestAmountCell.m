@@ -58,7 +58,7 @@
                                                                            OPTION_FIELD_HEIGHT)];
     self.optionNameField.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     self.optionNameField.font = [EVFont defaultFontOfSize:16];
-    self.optionNameField.placeholder = @"Option";
+    self.optionNameField.placeholder = @"Add a title...";
     self.optionNameField.delegate = self;
     [self addSubview:self.optionNameField];
 }
