@@ -13,6 +13,8 @@
 #import "EVWithdrawal.h"
 #import "EVGroupRequest.h"
 
+NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotification";
+
 @interface EVStory ()
 
 @property (nonatomic, assign) EVStoryType storyType;
@@ -22,74 +24,75 @@
 @implementation EVStory
 
 + (EVStory *)storyFromPendingExchange:(EVExchange *)exchange {
-    NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:0];
-    [properties setObject:@"requested" forKey:@"verb"];
-    [properties setObject:exchange.memo forKey:@"description"];
-    [properties setObject:exchange.createdAt forKey:@"published_at"];
-    [properties setObject:exchange.amount forKey:@"amount"];
-    [properties setObject:(exchange.from ?: [EVCIA me]) forKey:@"subject"];
-    [properties setObject:(exchange.to ?: [EVCIA me]) forKey:@"target"];
-    [properties setObject:@"User" forKey:@"owner_type"];
-    [properties setObject:[EVCIA me].dbid forKey:@"owner_id"];
+    NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
+    
+    setValueForKeyIfNonNil(@"requested", @"verb")
+    setValueForKeyIfNonNil(exchange.memo, @"description")
+    setValueForKeyIfNonNil(exchange.createdAt, @"published_at")
+    setValueForKeyIfNonNil(exchange.amount, @"amount")
+    setValueForKeyIfNonNil((exchange.from ?: [EVCIA me]), @"subject")
+    setValueForKeyIfNonNil((exchange.to ?: [EVCIA me]), @"target")
+    setValueForKeyIfNonNil(@"User", @"owner_type")
+    setValueForKeyIfNonNil([EVCIA me].dbid, @"owner_id")
     
     EVStory *story = [EVStory new];
-    [story setProperties:properties];
+    [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypePendingTransactionDetail;
     return story;
 }
 
 + (EVStory *)storyFromCompletedExchange:(EVExchange *)exchange {
-    NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:0];
+    NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
     EVObject *fromUser = exchange.from ? exchange.from : [EVCIA me];
     EVObject *toUser = exchange.to ? exchange.to : [EVCIA me];
     NSString *verb = [exchange isKindOfClass:[EVPayment class]] ? @"paid" : @"charged";
-    
-    [properties setObject:verb forKey:@"verb"];
-    [properties setObject:exchange.memo forKey:@"description"];
-    [properties setObject:exchange.createdAt forKey:@"published_at"];
-    [properties setObject:exchange.amount forKey:@"amount"];
-    [properties setObject:fromUser forKey:@"subject"];
-    [properties setObject:toUser forKey:@"target"];
-    [properties setObject:@"User" forKey:@"owner_type"];
-    [properties setObject:fromUser.dbid forKey:@"owner_id"];
+        
+    setValueForKeyIfNonNil(verb, @"verb")
+    setValueForKeyIfNonNil(exchange.memo, @"description")
+    setValueForKeyIfNonNil(exchange.createdAt, @"published_at")
+    setValueForKeyIfNonNil(exchange.amount, @"amount")
+    setValueForKeyIfNonNil(fromUser, @"subject")
+    setValueForKeyIfNonNil(toUser, @"target")
+    setValueForKeyIfNonNil(@"User", @"owner_type")
+    setValueForKeyIfNonNil(fromUser.dbid, @"owner_id")
     
     EVStory *story = [EVStory new];
-    [story setProperties:properties];
+    [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypeCompletedTransactionDetail;
     return story;
 }
 
 + (EVStory *)storyFromGroupRequest:(EVGroupRequest *)groupRequest {
-    NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:0];
-    [properties setObject:@"requested" forKey:@"verb"];
-    [properties setObject:groupRequest.title forKey:@"description"];
-    [properties setObject:groupRequest.createdAt forKey:@"published_at"];
-//    [properties setObject:nil forKey:@"amount"];
-    [properties setObject:(groupRequest.from ?: [EVCIA me]) forKey:@"subject"];
-    [properties setObject:@"User" forKey:@"owner_type"];
-    [properties setObject:[EVCIA me].dbid forKey:@"owner_id"];
+    NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
+    
+    setValueForKeyIfNonNil(@"requested", @"verb")
+    setValueForKeyIfNonNil(groupRequest.title, @"description")
+    setValueForKeyIfNonNil(groupRequest.createdAt, @"published_at")
+    setValueForKeyIfNonNil((groupRequest.from ?: [EVCIA me]), @"subject")
+    setValueForKeyIfNonNil(@"User", @"owner_type")
+    setValueForKeyIfNonNil([EVCIA me].dbid, @"owner_id")
     
     EVStory *story = [EVStory new];
-    [story setProperties:properties];
+    [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypePendingTransactionDetail;
     return story;
 }
 
 + (EVStory *)storyFromWithdrawal:(EVWithdrawal *)withdrawal {
-    NSMutableDictionary *properties = [NSMutableDictionary dictionaryWithCapacity:0];
+    NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
     EVObject *fromUser = [EVCIA me];
     NSString *verb = @"withdrew";
     
-    [properties setObject:verb forKey:@"verb"];
-    [properties setObject:withdrawal.bankName forKey:@"description"];
-    [properties setObject:withdrawal.createdAt forKey:@"published_at"];
-    [properties setObject:withdrawal.amount forKey:@"amount"];
-    [properties setObject:fromUser forKey:@"subject"];
-    [properties setObject:@"User" forKey:@"owner_type"];
-    [properties setObject:fromUser.dbid forKey:@"owner_id"];
+    setValueForKeyIfNonNil(verb, @"verb")
+    setValueForKeyIfNonNil(withdrawal.bankName, @"description")
+    setValueForKeyIfNonNil(withdrawal.createdAt, @"published_at")
+    setValueForKeyIfNonNil(withdrawal.amount, @"amount")
+    setValueForKeyIfNonNil(fromUser, @"subject")
+    setValueForKeyIfNonNil(@"User", @"owner_type")
+    setValueForKeyIfNonNil(fromUser.dbid, @"owner_id")
     
     EVStory *story = [EVStory new];
-    [story setProperties:properties];
+    [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypeCompletedTransactionDetail;
     return story;
 }
@@ -272,6 +275,21 @@
             string = EV_STRING_FROM_INT(self.likeCount);
     }
     return string;
+}
+
+- (void)likeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [[self class] requestWithMethod:@"POST"
+                                                              path:[NSString stringWithFormat:@"%@/likes", self.dbid]
+                                                        parameters:nil];
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                                  if (success)
+                                                                                      success();
+                                                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                  if (failure)
+                                                                                      failure(error);
+                                                                              }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
 - (NSString *)description {

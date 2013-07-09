@@ -10,6 +10,8 @@
 
 @class EVNotificationSetting;
 
+extern NSString *const EVHasSeenGroupRequestDashboardAlertKey;
+
 @interface EVSettingsManager : NSObject
 
 @property (nonatomic, strong) EVNotificationSetting *notificationSetting;

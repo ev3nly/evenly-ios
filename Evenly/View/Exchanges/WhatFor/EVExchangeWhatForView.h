@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "EVRequestView.h"
+#import "EVExchangeView.h"
 #import "EVTextField.h"
+#import "EVExchangeWhatForHeader.h"
 
-@interface EVRequestDetailsView : EVRequestView <UITextViewDelegate>
+@interface EVExchangeWhatForView : EVExchangeView <UITextViewDelegate>
+
+@property (nonatomic, strong) EVExchangeWhatForHeader *whatForHeader;
 
 @property (nonatomic, strong) UITextView *descriptionField;
 

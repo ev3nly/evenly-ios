@@ -9,6 +9,8 @@
 #import "EVSettingsManager.h"
 #import "EVNotificationSetting.h"
 
+NSString *const EVHasSeenGroupRequestDashboardAlertKey = @"EVHasSeenGroupRequestDashboardAlertKey";
+
 static EVSettingsManager *_sharedManager;
 
 @implementation EVSettingsManager

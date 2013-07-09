@@ -6,13 +6,21 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVRequestDetailsView.h"
+#import "EVExchangeWhatForView.h"
 #import "EVTextField.h"
 #import "EVPlaceholderTextView.h"
+#import "EVExchangeWhatForHeader.h"
 
 @interface EVRequestMultipleDetailsView : UIView
 
+@property (nonatomic, strong) EVExchangeWhatForHeader *whatForHeader;
+
+@property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) EVTextField *nameField;
+
+@property (nonatomic, strong) UIView *divider;
+
+@property (nonatomic, strong) UILabel *descriptionLabel;
 @property (nonatomic, strong) EVPlaceholderTextView *descriptionField;
 
 @end

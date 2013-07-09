@@ -14,6 +14,14 @@
     return [[self reverseObjectEnumerator] allObjects];
 }
 
+- (NSArray *)map:(id (^)(id object))block {
+    __block NSMutableArray *mappedArray = [NSMutableArray array];
+    [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [mappedArray addObject:block(obj)];
+    }];
+    return (NSArray *)mappedArray;
+}
+
 - (NSArray *)filter:(BOOL (^)(id object))block {
     NSPredicate *filterPredicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         return block(evaluatedObject);

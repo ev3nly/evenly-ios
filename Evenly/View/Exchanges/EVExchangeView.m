@@ -6,12 +6,13 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVRequestView.h"
+#import "EVExchangeView.h"
 
+#define TITLE_LABEL_X_MARGIN 10
 #define TITLE_LABEL_HEIGHT 25
+#define TITLE_LABEL_FONT [EVFont blackFontOfSize:16]
 
-
-@implementation EVRequestView
+@implementation EVExchangeView
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -24,11 +25,11 @@
 }
 
 - (void)loadTitleLabel {
-    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,
+    self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(TITLE_LABEL_X_MARGIN,
                                                                 EV_REQUEST_VIEW_LABEL_FIELD_BUFFER,
-                                                                self.frame.size.width,
+                                                                self.frame.size.width - 2*TITLE_LABEL_X_MARGIN,
                                                                 TITLE_LABEL_HEIGHT)];
-    self.titleLabel.font = [EVFont blackFontOfSize:18];
+    self.titleLabel.font = TITLE_LABEL_FONT;
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     self.titleLabel.textColor = [UIColor blackColor];
     self.titleLabel.backgroundColor = [UIColor clearColor];

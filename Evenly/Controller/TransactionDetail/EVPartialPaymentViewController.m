@@ -8,7 +8,7 @@
 
 #import "EVPartialPaymentViewController.h"
 #import "EVNavigationBarButton.h"
-#import "EVRequestBigAmountView.h"
+#import "EVExchangeBigAmountView.h"
 #import "EVGroupRequest.h"
 
 #define TOP_MARGIN 6
@@ -20,7 +20,7 @@
 @property (nonatomic, strong) UILabel *youOweLabel;
 @property (nonatomic, strong) UILabel *howMuchToPayLabel;
 @property (nonatomic, strong) EVNavigationBarButton *payButton;
-@property (nonatomic, strong) EVRequestBigAmountView *bigAmountView;
+@property (nonatomic, strong) EVExchangeBigAmountView *bigAmountView;
 
 - (void)loadYouOweLabel;
 - (void)loadHowMuchToPayLabel;
@@ -89,7 +89,7 @@
 }
 
 - (void)loadBigAmountView {
-    self.bigAmountView = [[EVRequestBigAmountView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.howMuchToPayLabel.frame), self.view.frame.size.width, [EVRequestBigAmountView totalHeight])];
+    self.bigAmountView = [[EVExchangeBigAmountView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.howMuchToPayLabel.frame), self.view.frame.size.width, [EVExchangeBigAmountView totalHeight])];
     [self.view addSubview:self.bigAmountView];
 }
 

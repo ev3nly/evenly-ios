@@ -9,16 +9,19 @@
 #import "EVRequestMultipleAmountsView.h"
 #import "EVGroupRequestAmountCell.h"
 #import "EVGroupRequestTier.h"
+#import "EVGrayButton.h"
 
 #define HEADER_LABEL_HEIGHT 48.0
 #define NAVIGATION_BAR_OFFSET 44.0
 
-#define INITIAL_NUMBER_OF_OPTIONS 2
+#define INITIAL_NUMBER_OF_OPTIONS 1
 
 @interface EVRequestMultipleAmountsView ()
 
 @property (nonatomic, strong) NSMutableArray *optionCells;
-@property (nonatomic, strong) EVGroupRequestAddOptionCell *addOptionCell;
+@property (nonatomic, strong) EVGrayButton *addOptionButton;
+@property (nonatomic, strong) UIView *tableFooterView;
+
 @property (nonatomic) BOOL isValid;
 
 - (void)loadHeaderLabel;
@@ -63,7 +66,7 @@
 }
 
 - (void)loadSingleAmountView {
-    self.singleAmountView = [[EVRequestBigAmountView alloc] initWithFrame:CGRectMake(0,
+    self.singleAmountView = [[EVExchangeBigAmountView alloc] initWithFrame:CGRectMake(0,
                                                                      CGRectGetMaxY(self.segmentedControl.frame),
                                                                      self.frame.size.width,
                                                                      EV_DEFAULT_KEYBOARD_HEIGHT - CGRectGetMaxY(self.segmentedControl.frame))];
@@ -74,7 +77,6 @@
 }
 
 - (void)loadMultipleAmountsView {
-    DLog(@"Self.frame: %@", NSStringFromCGRect(self.frame));
     self.multipleAmountsView = [[UITableView alloc] initWithFrame:CGRectMake(0,
                                                                              CGRectGetMaxY(self.segmentedControl.frame),
                                                                              self.frame.size.width,
@@ -85,6 +87,15 @@
     self.multipleAmountsView.allowsSelectionDuringEditing = YES;
     self.multipleAmountsView.separatorColor = [UIColor clearColor];
     self.multipleAmountsView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    self.addOptionButton = [[EVGrayButton alloc] initWithFrame:CGRectMake(20, 5, 280, 35)];
+    [self.addOptionButton setTitle:@"Add Option" forState:UIControlStateNormal];
+    [self.addOptionButton addTarget:self action:@selector(addOptionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 44)];
+    [self.tableFooterView addSubview:self.addOptionButton];
+    
+    self.multipleAmountsView.tableFooterView = self.tableFooterView;
 }
 
 - (void)loadCells {
@@ -93,7 +104,6 @@
     for (int i=0; i<INITIAL_NUMBER_OF_OPTIONS; i++) {
         [self.optionCells addObject:[self configuredCell]];
     }
-    self.addOptionCell = [[EVGroupRequestAddOptionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"addOptionCell"];
 }
 
 - (EVGroupRequestAmountCell *)configuredCell {
@@ -200,18 +210,14 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.optionCells count] + 1;
+    return [self.optionCells count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 35.0;
+    return 44.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == [self.optionCells count])
-    {
-        return self.addOptionCell;
-    }
     return [self.optionCells objectAtIndex:indexPath.row];
 }
 
@@ -239,24 +245,12 @@
     return UITableViewCellEditingStyleNone;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == [self.optionCells count]) {
-        [self.optionCells addObject:[self configuredCell]];
-        [tableView beginUpdates];
-        [tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.optionCells count]-1 inSection:0]]
-                         withRowAnimation:UITableViewRowAnimationAutomatic];
-        [tableView endUpdates];
-    }
+- (void)addOptionButtonPress:(id)sender {
+    [self.optionCells addObject:[self configuredCell]];
+    [self.multipleAmountsView beginUpdates];
+    [self.multipleAmountsView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.optionCells count]-1 inSection:0]]
+                     withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.multipleAmountsView endUpdates];
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

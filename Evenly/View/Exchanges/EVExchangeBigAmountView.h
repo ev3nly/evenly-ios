@@ -10,7 +10,7 @@
 #import "EVTextField.h"
 #import "EVCurrencyTextFieldFormatter.h"
 
-@interface EVRequestBigAmountView : UIView <UITextFieldDelegate>
+@interface EVExchangeBigAmountView : UIView <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIImageView *bigAmountContainer;
 @property (nonatomic, strong) EVTextField *amountField;

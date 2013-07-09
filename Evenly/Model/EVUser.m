@@ -54,8 +54,10 @@ static EVUser *_me;
         else
             self.balance = [NSDecimalNumber decimalNumberWithString:properties[@"balance"]];
     }
-    else
-        self.balance = [NSDecimalNumber decimalNumberWithString:@"0.00"];
+    else {
+        if (!self.balance)
+            self.balance = [NSDecimalNumber decimalNumberWithString:@"0.00"];
+    }
     self.password = [properties valueForKey:@"password"];
     
     if (properties[@"avatar_url"] && ![properties[@"avatar_url"] isKindOfClass:[NSNull class]]) {
@@ -355,6 +357,16 @@ static EVUser *_me;
 
 - (void)setEmail:(NSString *)email {
     self.information = email;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[self class]])
+        return NO;
+    return (EV_OBJECTS_EQUAL_OR_NIL(self.name, [object name]) && EV_OBJECTS_EQUAL_OR_NIL(self.information, [object information]));
+}
+
+- (NSUInteger)hash {
+    return [self.name hash] + 7*[self.information hash];
 }
 
 @end

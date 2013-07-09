@@ -39,7 +39,7 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:self.imageView];
         
-        self.size = [[self class] avatarSize];
+        self.size = frame.size;
     }
     return self;
 }
@@ -89,6 +89,11 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
 
 - (UIImage *)image {
     return self.imageView.image;
+}
+
+- (void)setFrame:(CGRect)frame {
+    [super setFrame:frame];
+    [self setSize:frame.size];
 }
 
 - (void)setSize:(CGSize)size {
