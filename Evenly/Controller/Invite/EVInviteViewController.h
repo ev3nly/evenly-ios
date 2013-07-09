@@ -11,7 +11,6 @@
 typedef enum {
     EVInviteMethodFacebook,
     EVInviteMethodContacts,
-    EVInviteMethodEmail,
     EVInviteMethodCOUNT
 } EVInviteMethod;
 
