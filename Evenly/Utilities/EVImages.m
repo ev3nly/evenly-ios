@@ -201,4 +201,14 @@
     return [UIImage imageNamed:@"status-progress-spinner"];
 }
 
+#pragma mark - Loading
+
++ (UIImage *)loadingLogo {
+    return [UIImage imageNamed:@"evenly_logo"];
+}
+
++ (UIImage *)loadingSpinner {
+    return [UIImage imageNamed:@"spinner"];
+}
+
 @end
