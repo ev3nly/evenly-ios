@@ -9,7 +9,6 @@
 #import "EVInviteCell.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define SIDE_MARGIN 10
 #define PICTURE_BUFER 8
 #define INVITE_BUTTON_WIDTH 70
 #define INVITE_BUTTON_HEIGHT 36
@@ -45,12 +44,13 @@
 - (void)loadProfilePicture {
     //implement in subclass
     self.profilePicture.layer.cornerRadius = 4.0;
+    self.profilePicture.clipsToBounds = YES;
 }
 
 - (void)loadDefaultAvatar {
     self.defaultAvatar = [[UIImageView alloc] initWithImage:[EVImages defaultAvatar]];
-    self.defaultAvatar.layer.cornerRadius = 4.0;
     self.defaultAvatar.frame = self.profilePicture.frame;
+    self.defaultAvatar.layer.cornerRadius = 4.0;
     self.defaultAvatar.clipsToBounds = YES;
     [self insertSubview:self.defaultAvatar belowSubview:self.profilePicture];
 }
@@ -105,7 +105,7 @@
 #pragma mark - Frames
 
 - (CGRect)profilePictureFrame {
-    return CGRectMake(SIDE_MARGIN + PICTURE_BUFER,
+    return CGRectMake(EV_INVITE_CELL_SIDE_MARGIN + PICTURE_BUFER,
                       PICTURE_BUFER,
                       self.bounds.size.height - PICTURE_BUFER*2,
                       self.bounds.size.height - PICTURE_BUFER*2);
@@ -113,14 +113,14 @@
 
 - (CGRect)nameLabelFrame {
     [self.nameLabel sizeToFit];
-    return CGRectMake(CGRectGetMaxX(self.profilePicture.frame) + SIDE_MARGIN,
+    return CGRectMake(CGRectGetMaxX(self.profilePicture.frame) + EV_INVITE_CELL_SIDE_MARGIN,
                       self.bounds.size.height/2 - self.nameLabel.bounds.size.height/2,
                       self.nameLabel.bounds.size.width,
                       self.nameLabel.bounds.size.height);
 }
 
 - (CGRect)inviteButtonFrame {
-    return CGRectMake(self.bounds.size.width - SIDE_MARGIN - SIDE_MARGIN - INVITE_BUTTON_WIDTH,
+    return CGRectMake(self.bounds.size.width - EV_INVITE_CELL_SIDE_MARGIN*2 - INVITE_BUTTON_WIDTH,
                       self.bounds.size.height/2 - INVITE_BUTTON_HEIGHT/2,
                       INVITE_BUTTON_WIDTH,
                       INVITE_BUTTON_HEIGHT);

@@ -15,4 +15,6 @@
 @property (nonatomic, strong) NSArray *displayedFriendList;
 @property (nonatomic, strong) NSMutableArray *selectedFriends;
 
+- (NSArray *)filterArray:(NSArray *)array forSearch:(NSString *)search;
+
 @end

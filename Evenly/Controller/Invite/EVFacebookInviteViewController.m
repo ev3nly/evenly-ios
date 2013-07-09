@@ -59,6 +59,15 @@
     return cell;
 }
 
+#pragma mark - Utility
+
+- (NSArray *)filterArray:(NSArray *)array forSearch:(NSString *)search {
+    return [array filter:^BOOL(NSDictionary *userDict) {
+        NSString *name = userDict[@"name"];
+        return ([name.lowercaseString rangeOfString:search.lowercaseString].location != NSNotFound);
+    }];
+}
+
 #pragma mark - Facebook Stuff
 
 - (void)openSession {

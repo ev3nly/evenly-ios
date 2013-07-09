@@ -28,6 +28,7 @@
     self.profilePicture = [FBProfilePictureView new];
     self.profilePicture.pictureCropping = FBProfilePictureCroppingSquare;
     [self addSubview:self.profilePicture];
+    [super loadProfilePicture];
 }
 
 - (void)setName:(NSString *)name profileID:(NSString *)profileID {

@@ -137,10 +137,7 @@ static NSString *previousSearch = @"";
         [self hideShadeView];
     
     NSArray *arrayToFilter = ([searchText rangeOfString:previousSearch].location != NSNotFound) ? self.displayedFriendList : self.fullFriendList;
-    self.displayedFriendList = [arrayToFilter filter:^BOOL(NSDictionary *userDict) {
-        NSString *name = userDict[@"name"];
-        return ([name.lowercaseString rangeOfString:searchText.lowercaseString].location != NSNotFound);
-    }];
+    self.displayedFriendList = [self filterArray:arrayToFilter forSearch:searchText];
     
     previousSearch = searchText;
 }
@@ -173,6 +170,18 @@ static NSString *previousSearch = @"";
                      } completion:^(BOOL finished) {
                          [self.shadeView removeFromSuperview];
                      }];
+}
+
+#pragma mark - Invite
+
+- (void)inviteFriends {
+    //implement in subclass
+}
+
+#pragma mark - Utility
+
+- (NSArray *)filterArray:(NSArray *)array forSearch:(NSString *)search {
+    return array;//implement in subclass
 }
 
 #pragma mark - Setters

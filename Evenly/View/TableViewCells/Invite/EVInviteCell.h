@@ -8,6 +8,8 @@
 
 #import "EVGroupedTableViewCell.h"
 
+#define EV_INVITE_CELL_SIDE_MARGIN 10
+
 @interface EVInviteCell : EVGroupedTableViewCell
 
 @property (nonatomic, strong) UIView *profilePicture;
@@ -16,12 +18,14 @@
 @property (nonatomic, strong) UIButton *inviteButton;
 
 @property (nonatomic, assign) BOOL shouldInvite;
-@property (nonatomic, strong) void (^handleSelection)(NSString *profileID);
-@property (nonatomic, strong) void (^handleDeselection)(NSString *profileID);
+@property (nonatomic, strong) void (^handleSelection)(id identifier);
+@property (nonatomic, strong) void (^handleDeselection)(id identifier);
 
 @property (nonatomic, strong) id identifier;
 
 + (float)cellHeight;
 - (void)loadProfilePicture;
+
+- (CGRect)nameLabelFrame;
 
 @end
