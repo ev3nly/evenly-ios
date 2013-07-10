@@ -65,7 +65,6 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedInNotification object:nil];
     }
     
-    self.masterViewController.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
     
     return YES;
 }
@@ -100,7 +99,15 @@
 }
 
 - (void)setUpAppearance {
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"Header"] forBarMetrics:UIBarMetricsDefault];
+    UIImage *image = nil;
+#if EV_MAKE_EVERYTHING_GREEN
+    image = [UIImage imageNamed:@"Green_Header"];
+#else
+    image = [UIImage imageNamed:@"Header"];
+#endif
+    [[UINavigationBar appearance] setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackground] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackgroundPress] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
 }

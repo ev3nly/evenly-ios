@@ -30,7 +30,12 @@
 #pragma mark - Overrides
 
 - (UIBarButtonItem *)leftButtonForCenterPanel {
-    UIImage *image = [UIImage imageNamed:@"Hamburger"];
+    UIImage *image = nil;
+#if EV_MAKE_EVERYTHING_GREEN
+    image = [UIImage imageNamed:@"Green_Hamburger"];
+#else 
+    image = [UIImage imageNamed:@"Hamburger"];
+#endif
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + 14, image.size.height)];
     [button setImage:image forState:UIControlStateNormal];
     [button addTarget:self action:@selector(toggleLeftPanel:) forControlEvents:UIControlEventTouchUpInside];

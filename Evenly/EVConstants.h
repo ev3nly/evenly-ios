@@ -39,6 +39,8 @@
 
 #define EV_RIGHT_OVERHANG_MARGIN 45.0
 
+#define EV_MAKE_EVERYTHING_GREEN 1
+
 #pragma mark - Animation
 
 #define EV_DEFAULT_ANIMATION_DURATION 0.25f

@@ -76,7 +76,12 @@
 }
 
 - (void)loadRightBarButtonItem {
-    UIImage *image = [UIImage imageNamed:@"Wallet"];
+    UIImage *image = nil;
+#if EV_MAKE_EVERYTHING_GREEN
+    image = [UIImage imageNamed:@"Green_Wallet"];
+#else
+    image = [UIImage imageNamed:@"Wallet"];
+#endif
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + 14, image.size.height)];
     [button setImage:image forState:UIControlStateNormal];
     [button addTarget:self.masterViewController action:@selector(toggleRightPanel:) forControlEvents:UIControlEventTouchUpInside];
