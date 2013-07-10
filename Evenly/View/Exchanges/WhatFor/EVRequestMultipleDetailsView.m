@@ -27,7 +27,6 @@
         [self loadNameLabel];
         [self loadNameField];
         [self loadDivider];
-//        [self loadDescriptionLabel];
         [self loadDescriptionField];
     }
     return self;
@@ -55,17 +54,9 @@
     self.nameField.placeholder = [EVStringUtility groupRequestTitlePlaceholder];
     self.nameField.frame = [self nameFieldFrame];
     self.nameField.returnKeyType = UIReturnKeyNext;
+    self.nameField.delegate = self;
     [self addSubview:self.nameField];
     [self.nameField becomeFirstResponder];
-}
-
-- (void)loadDescriptionLabel
-{
-    UILabel *descriptionLabel = [self configuredLabel];
-    descriptionLabel.text = DESCRIPTION_TEXT;
-    descriptionLabel.frame = [self descriptionLabelFrame];
-    self.descriptionLabel = descriptionLabel;
-    [self addSubview:descriptionLabel];
 }
 
 - (void)loadDescriptionField
@@ -77,6 +68,8 @@
     self.descriptionField.font = [EVFont lightExchangeFormFont];
     self.descriptionField.placeholderColor = EV_RGB_COLOR(0.7725, 0.7725, 0.7725);
     [self addSubview:self.descriptionField];
+    
+    self.nameField.next = self.descriptionField;
 }
 
 - (void)setWhatForHeader:(EVExchangeWhatForHeader *)whatForHeader {
@@ -141,32 +134,12 @@
                       1);
 }
 
-
-- (CGRect)descriptionLabelFrame {
-    UILabel *label = [self configuredLabel];
-
-    CGSize labelSize = [DESCRIPTION_TEXT sizeWithFont:label.font
-                                    constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT)
-                                        lineBreakMode:label.lineBreakMode];
-    CGFloat y = (self.whatForHeader ?
-                 CGRectGetMaxY(self.whatForHeader.frame) + LINE_HEIGHT + Y_BUFFER :
-                 LINE_HEIGHT + (LINE_HEIGHT/2 - labelSize.height/2));
-    return CGRectMake(LEFT_RIGHT_BUFFER,
-                      y,
-                      labelSize.width,
-                      labelSize.height);
-}
-
 - (CGRect)descriptionFieldFrame {
     CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) + LINE_HEIGHT + 2: LINE_HEIGHT + 2);
     return CGRectMake(0,
                       y,
                       self.bounds.size.width,
-                      self.bounds.size.height - [self descriptionLabelFrame].origin.y);
-}
-
-- (CGFloat)fieldXOrigin {
-    return MAX(CGRectGetMaxX([self nameLabelFrame]), CGRectGetMaxX([self descriptionLabelFrame])) + LABEL_FIELD_BUFFER;
+                      self.bounds.size.height - y);
 }
 
 #pragma mark - Layout
@@ -175,7 +148,6 @@
     self.nameLabel.frame = [self nameLabelFrame];
     self.nameField.frame = [self nameFieldFrame];
     self.divider.frame = [self dividerFrame];
-    self.descriptionLabel.frame = [self descriptionLabelFrame];
     self.descriptionField.frame = [self descriptionFieldFrame];
 }
 
@@ -195,4 +167,13 @@
     return didResign;
 }
 
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([(EVTextField *)textField next]) {
+        [[(EVTextField *)textField next] becomeFirstResponder];
+        return NO;
+    }
+    return YES;
+}
 @end
