@@ -227,6 +227,7 @@ static NSDateFormatter *_dateFormatter = nil;
         [[self class] createWithParams:[self dictionaryRepresentation] success:^(EVObject *object) {
             
             _dbid = object.dbid;
+            [self setProperties:[object originalDictionary]];
             if (success)
                 success();
             

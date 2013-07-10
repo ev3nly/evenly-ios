@@ -12,6 +12,8 @@
 #import "EVExchangeWhatForHeader.h"
 #import "EVStory.h"
 
+#import "EVRewardsGameViewController.h"
+
 @interface EVPaymentViewController ()
 
 @end
@@ -158,7 +160,8 @@
 }
 
 - (void)actionButtonPress:(id)sender {
-    [sender setEnabled:NO];
+    [super actionButtonPress:sender];
+    
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
     
     self.payment.memo = self.whatForView.descriptionField.text;
@@ -171,9 +174,22 @@
         story.publishedAt = [NSDate date];
         [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
         
-        [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-        };
+        void (^completion)(void) = NULL;
+
+        if (self.payment.reward)
+        {
+            EVRewardsGameViewController *rewardsViewController = [[EVRewardsGameViewController alloc] initWithReward:self.payment.reward];
+            [self unloadPageControlAnimated:YES];
+            completion = ^{
+                [self.navigationController pushViewController:rewardsViewController animated:YES];
+            };
+        } else {
+            completion = ^(void) {
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+            };
+        }
+        [EVStatusBarManager sharedManager].duringSuccess = completion;
+
     } failure:^(NSError *error) {
         DLog(@"failed to create %@", NSStringFromClass([self.payment class]));
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
