@@ -14,8 +14,8 @@
 #define Y_BUFFER 10
 #define X_BUFFER 8
 
-#define TITLE_TEXT @"Title"
-#define DESCRIPTION_TEXT @"Details"
+#define TITLE_TEXT @"for"
+#define DESCRIPTION_TEXT @""
 
 @implementation EVRequestMultipleDetailsView
 
@@ -27,7 +27,7 @@
         [self loadNameLabel];
         [self loadNameField];
         [self loadDivider];
-        [self loadDescriptionLabel];
+//        [self loadDescriptionLabel];
         [self loadDescriptionField];
     }
     return self;
@@ -122,7 +122,7 @@
 }
 
 - (CGRect)nameFieldFrame {
-    float xOrigin = [self fieldXOrigin] + X_BUFFER;
+    float xOrigin = CGRectGetMaxX([self nameLabelFrame]) + X_BUFFER;
     CGSize labelSize = [self nameLabelFrame].size;
     CGFloat y = (self.whatForHeader ?
                  CGRectGetMaxY(self.whatForHeader.frame) + Y_BUFFER :
@@ -158,11 +158,10 @@
 }
 
 - (CGRect)descriptionFieldFrame {
-    float xOrigin = [self fieldXOrigin];
     CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) + LINE_HEIGHT + 2: LINE_HEIGHT + 2);
-    return CGRectMake(xOrigin,
+    return CGRectMake(0,
                       y,
-                      self.bounds.size.width - LEFT_RIGHT_BUFFER - xOrigin,
+                      self.bounds.size.width,
                       self.bounds.size.height - [self descriptionLabelFrame].origin.y);
 }
 
