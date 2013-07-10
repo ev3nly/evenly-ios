@@ -9,6 +9,10 @@
 #import "EVLoadingIndicator.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define ROTATION_DURATION 0.8
+#define COLORED_LOGO_MIN_ALPHA 0.25
+#define COLORED_LOGO_MAX_ALPHA 0.75
+
 @interface EVLoadingIndicator ()
 
 @property (nonatomic, strong) UIImageView *spinnerView;
@@ -25,6 +29,7 @@
     if (self = [super initWithFrame:frame]) {
         [self loadSpinnerView];
         [self loadLogoView];
+        [self loadColoredLogoView];
     }
     return self;
 }
@@ -34,6 +39,7 @@
     
     self.spinnerView.frame = [self spinnerViewFrame];
     self.logoView.frame = [self logoViewFrame];
+    self.coloredLogoView.frame = [self logoViewFrame];
 }
 
 #pragma mark - View Loading
@@ -49,7 +55,8 @@
 }
 
 - (void)loadColoredLogoView {
-    
+    self.coloredLogoView = [[UIImageView alloc] initWithImage:[EVImages loadingLogo]];
+    [self addSubview:self.coloredLogoView];
 }
 
 #pragma mark - Spinning
@@ -64,20 +71,17 @@
 }
 
 - (void)spinSpinner {
-    [self.spinnerView rotateContinuouslyWithDuration:0.8];
+    [self.spinnerView rotateContinuouslyWithDuration:ROTATION_DURATION];
 }
 
 - (void)pulseLogo {
-    UIImageView *coloredLogo = [[UIImageView alloc] initWithImage:[EVImages loadingLogo]];
-    coloredLogo.frame = self.logoView.frame;
-    coloredLogo.alpha = 0;
-    [self addSubview:coloredLogo];
+    self.coloredLogoView.alpha = COLORED_LOGO_MIN_ALPHA;
     
-    [UIView animateWithDuration:1.0
+    [UIView animateWithDuration:ROTATION_DURATION*2
                           delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionRepeat
+                        options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse
                      animations:^{
-                         coloredLogo.alpha = 1;
+                         self.coloredLogoView.alpha = COLORED_LOGO_MAX_ALPHA;
                      } completion:^(BOOL finished) {
                          
                      }];
