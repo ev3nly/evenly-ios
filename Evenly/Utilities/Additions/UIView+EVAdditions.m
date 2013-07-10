@@ -144,6 +144,53 @@
                      }];
 }
 
+#define ZOOM_OVERSHOOT_SCALE 1.3
+#define ZOOM_SMALL_SCALE 0.2
+#define ZOOM_OVERSHOOT_DURATION_PERCENT 0.2
+
+- (void)zoomBounceWithDuration:(float)duration completion:(void (^)(void))completion {
+    self.transform = CGAffineTransformMakeScale(ZOOM_SMALL_SCALE, ZOOM_SMALL_SCALE);
+    self.alpha = 0;
+    [UIView animateWithDuration:(1.0-ZOOM_OVERSHOOT_DURATION_PERCENT)*duration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.transform = CGAffineTransformMakeScale(ZOOM_OVERSHOOT_SCALE, ZOOM_OVERSHOOT_SCALE);
+                         self.alpha = 1;
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:ZOOM_OVERSHOOT_DURATION_PERCENT*duration
+                                               delay:0
+                                             options:UIViewAnimationOptionCurveEaseOut
+                                          animations:^{
+                                              self.transform = CGAffineTransformIdentity;
+                                          } completion:^(BOOL finished) {
+                                              if (completion)
+                                                  completion();
+                                          }];
+                     }];
+}
+
+- (void)shrinkBounceWithDuration:(float)duration completion:(void (^)(void))completion {
+    self.alpha = 1;
+    [UIView animateWithDuration:ZOOM_OVERSHOOT_DURATION_PERCENT*duration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.transform = CGAffineTransformMakeScale(ZOOM_OVERSHOOT_SCALE, ZOOM_OVERSHOOT_SCALE);
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:(1.0-ZOOM_OVERSHOOT_DURATION_PERCENT)*duration
+                                               delay:0
+                                             options:UIViewAnimationOptionCurveEaseOut
+                                          animations:^{
+                                              self.transform = CGAffineTransformMakeScale(ZOOM_SMALL_SCALE, ZOOM_SMALL_SCALE);
+                                               self.alpha = 0;
+                                          } completion:^(BOOL finished) {
+                                              if (completion)
+                                                  completion();
+                                          }];
+                     }];
+}
+
 static char UIViewUserInfoKey;
 
 - (void)setUserInfo:(NSDictionary *)userInfo {

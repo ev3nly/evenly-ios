@@ -62,12 +62,15 @@
 #pragma mark - Spinning
 
 - (void)startAnimating {
+    [self zoomBounceWithDuration:0.2 completion:nil];
     [self spinSpinner];
     [self pulseLogo];
 }
 
 - (void)stopAnimating {
-    
+    [self shrinkBounceWithDuration:0.2 completion:^{
+        [self removeFromSuperview];
+    }];
 }
 
 - (void)spinSpinner {

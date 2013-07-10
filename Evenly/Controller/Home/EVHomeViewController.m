@@ -146,12 +146,13 @@
 }
 
 - (void)reloadNewsFeed {
-    self.tableView.isLoading = YES;
-    return;
+    self.tableView.loading = YES;
+//    return;
     [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
         self.newsfeed = newsfeed;
         [self.tableView reloadData];
         [self.tableView.pullToRefreshView stopAnimating];
+        self.tableView.loading = NO;
     } failure:^(NSError *error) {
 
     }];

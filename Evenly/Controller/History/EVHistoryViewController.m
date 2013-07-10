@@ -54,10 +54,10 @@ static NSDateFormatter *_dateFormatter = nil;
 {
     self.exchanges = [[EVCIA sharedInstance] history];
     if (!self.exchanges)
-        self.tableView.isLoading = YES;
+        self.tableView.loading = YES;
 
     [[EVCIA sharedInstance] reloadHistoryWithCompletion:^(NSArray *history) {
-        self.tableView.isLoading = NO;
+        self.tableView.loading = NO;
         self.exchanges = history;
         [self.tableView reloadData];
     }];

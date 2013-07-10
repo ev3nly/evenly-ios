@@ -47,11 +47,12 @@
 {
     [super viewDidAppear:animated];
     
+    self.tableView.loading = YES;
     self.view.backgroundColor = [EVColor creamColor];
     [EVCIA reloadMe];
     [[EVCIA me] loadAvatar];
     [[EVCIA sharedInstance] reloadHistoryWithCompletion:^(NSArray *history) {
-        self.tableView.isLoading = NO;
+        self.tableView.loading = NO;
         self.exchanges = history;
         [self.tableView reloadData];
     }];
@@ -76,7 +77,7 @@
     __block EVProfileViewController *profileController = self;
     [self.tableView addPullToRefreshWithActionHandler:^{
         [[EVCIA sharedInstance] refreshHistoryWithCompletion:^(NSArray *history) {
-            profileController.tableView.isLoading = NO;
+            profileController.tableView.loading = NO;
             profileController.exchanges = history;
             [profileController.tableView reloadData];
             [profileController.tableView.pullToRefreshView stopAnimating];
