@@ -111,7 +111,13 @@
 }
 
 - (void)remindButtonPress:(id)sender {
-    
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REMINDER..."];
+    [self.record.groupRequest remindRecord:self.record
+                               withSuccess:^{
+                                   [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+                               } failure:^(NSError *error) {
+                                   [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                               }];
 }
 
 - (void)markAsCompletedButtonPress:(id)sender {

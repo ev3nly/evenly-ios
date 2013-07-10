@@ -124,7 +124,12 @@ typedef enum {
 }
 
 - (void)remindAllButtonPress:(id)sender {
-    
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"REMINDING ALL..."];
+    [self.groupRequest remindAllWithSuccess:^{
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+    } failure:^(NSError *error) {
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+    }];
 }
 
 #pragma mark - UITableViewDelegate

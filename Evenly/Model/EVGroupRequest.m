@@ -139,6 +139,26 @@
 }
 
 #pragma mark - API Interactions
+
+- (void)remindAllWithSuccess:(void (^)(void))success failure:(void(^)(NSError *error))failure {
+    NSString *path = [NSString stringWithFormat:@"%@/reminders", self.dbid];
+    NSMutableURLRequest *request = [[self class] requestWithMethod:@"POST"
+                                                              path:path
+                                                        parameters:nil];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        DLog(@"Response object: %@", responseObject);
+        if (success)
+            success();
+    };
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                              success:successBlock
+                                                                              failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                                  if (failure)
+                                                                                      failure(error);
+                                                                              }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
 #pragma mark Tiers
 - (void)allTiersWithSuccess:(void (^)(NSArray *tiers))success
                     failure:(void (^)(NSError *error))failure {
@@ -156,7 +176,8 @@
         }
         NSArray *tiers = [NSArray arrayWithArray:mutableTiers];
         self.tiers = tiers;
-        success(tiers);
+        if (success)
+            success(tiers);
     };
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
                                                                       success:successBlock
@@ -204,7 +225,8 @@
                                                         parameters:params];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         EVGroupRequestTier *newTier = [self replaceOrInsertTier:tier withResponseObject:responseObject];
-        success(newTier);
+        if (success)
+            success(newTier);
     };
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
                                                                               success:successBlock
@@ -266,7 +288,8 @@
         }
         NSArray *records = [NSArray arrayWithArray:mutableRecords];
         self.records = records;
-        success(records);
+        if (success)
+            success(records);
     };
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
                                                                               success:successBlock
@@ -311,7 +334,8 @@
                                                         parameters:params];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         EVGroupRequestRecord *newRecord = [self replaceOrInsertRecord:record withResponseObject:responseObject];
-        success(newRecord);
+        if (success)
+            success(newRecord);
     };
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
                                                                               success:successBlock
@@ -345,7 +369,8 @@
                                                         parameters:params];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         record.completed = YES;
-        success(record);
+        if (success)
+            success(record);
     };
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
                                                                               success:successBlock
@@ -354,6 +379,30 @@
                                                                                       failure(error);
                                                                               }];
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
+- (void)remindRecord:(EVGroupRequestRecord *)record
+         withSuccess:(void (^)(void))success
+             failure:(void (^)(NSError *error))failure {
+    
+    NSString *method = @"POST";
+    NSString *path = [NSString stringWithFormat:@"%@/records/%@/reminders", self.dbid, record.dbid];
+    NSMutableURLRequest *request = [[self class] requestWithMethod:method
+                                                              path:path
+                                                        parameters:nil];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (success)
+            success();
+    };
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                              success:successBlock
+                                                                              failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                                  if (failure)
+                                                                                      failure(error);
+                                                                              }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+
+    
 }
 
 - (void)deleteRecord:(EVGroupRequestRecord *)record
