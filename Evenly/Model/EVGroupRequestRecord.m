@@ -45,7 +45,7 @@
         self.tier = [self.groupRequest tierWithID:[properties[@"tier_id"] stringValue]];
     }
     
-    if (properties[@"payments"]) {
+    if (properties[@"payments"] && properties[@"payments"] != [NSNull null]) {
         NSMutableArray *tmpPayments = [NSMutableArray array];
         for (NSDictionary *dictionary in properties[@"payments"]) {
             [tmpPayments addObject:(EVPayment *)[EVSerializer serializeDictionary:dictionary]];
