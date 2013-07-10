@@ -88,7 +88,7 @@
     self.walletTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.walletTableView.separatorColor = [UIColor clearColor];
     self.walletTableView.scrollEnabled = NO;
-    [self.walletTableView registerClass:[EVWalletItemCell class] forCellReuseIdentifier:@"cell"];
+    [self.walletTableView registerClass:[EVWalletItemCell class] forCellReuseIdentifier:@"walletItemCell"];
     [self.view addSubview:self.walletTableView];
 }
 
@@ -241,7 +241,7 @@
 
 
 - (EVWalletItemCell *)walletCellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVWalletItemCell *cell = (EVWalletItemCell *)[self.walletTableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    EVWalletItemCell *cell = (EVWalletItemCell *)[self.walletTableView dequeueReusableCellWithIdentifier:@"walletItemCell" forIndexPath:indexPath];
     cell.isCash = NO;
     NSString *title = nil;
     NSString *value = nil;
@@ -263,9 +263,10 @@
             {
                 EVCreditCard *activeCard = [[EVCIA sharedInstance] activeCreditCard];
                 if (activeCard) {
-                    value = [activeCard lastFour];
+                    value = [NSString stringWithFormat:@"***%@", [activeCard lastFour]];
                     EVWalletStamp *stamp = [[EVWalletStamp alloc] initWithText:activeCard.brand
-                                                                      maxWidth:100];
+                                                                      maxWidth:70];
+                    stamp.textColor = [EVColor darkColor];
                     cell.stamp = stamp;
                     
                 } else {
@@ -287,8 +288,11 @@
                 EVBankAccount *activeAccount = [[EVCIA sharedInstance] activeBankAccount];
                 if (activeAccount) {
                     value = [[activeAccount accountNumber] substringFromIndex:[activeAccount accountNumber].length - 4];
+                    value = [NSString stringWithFormat:@"***%@", value];
                     EVWalletStamp *stamp = [[EVWalletStamp alloc] initWithText:activeAccount.bankName
-                                                                      maxWidth:100];
+                                                                      maxWidth:70];
+                    stamp.textColor = [EVColor darkColor];
+
                     cell.stamp = stamp;
                 } else {
                     value = @"Add a bank ➔";
@@ -297,15 +301,17 @@
             break;
         }
         case EVWalletRowHistory:
+            cell = [[EVWalletHistoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"historyCell"];
             title = @"History";
-            value = EV_STRING_FROM_INT([[[EVCIA sharedInstance] history] count]);
             break;
         default:
             break;
     }
     cell.titleLabel.text = title;
     cell.valueLabel.text = value;
-    
+    DLog(@"Accessory view: %@", cell.accessoryView);
+//    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletArrow"]];
+//    cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
 }
 
