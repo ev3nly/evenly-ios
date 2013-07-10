@@ -16,3 +16,7 @@
 @property (nonatomic) BOOL isCash;
 
 @end
+
+@interface EVWalletHistoryCell : EVWalletItemCell
+
+@end

@@ -130,8 +130,8 @@
         self.isValid = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
     }
     else
-    {
-        BOOL isAllGood = YES;
+    {            
+        BOOL isAllGood = ([self.optionCells count] > 0);
         for (EVGroupRequestAmountCell *cell in self.optionCells) {
             float amount = [[EVStringUtility amountFromAmountString:cell.optionAmountField.text] floatValue];
             if (amount < EV_MINIMUM_EXCHANGE_AMOUNT)
@@ -205,6 +205,7 @@
             previous.optionAmountField.next = nil;
     }
     [self.optionCells removeObjectAtIndex:index];
+    [self validate];
 }
 
 #pragma mark - UITableViewDataSource
@@ -251,6 +252,28 @@
     [self.multipleAmountsView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.optionCells count]-1 inSection:0]]
                      withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.multipleAmountsView endUpdates];
+    [self validate];
+    
+    [[self.optionCells lastObject] becomeFirstResponder];
+}
+
+#pragma mark - First Responder
+
+- (BOOL)isFirstResponder {
+    BOOL isFirstResponder = [super isFirstResponder];
+    for (EVGroupRequestAmountCell *cell in self.optionCells) {
+        isFirstResponder |= [cell isFirstResponder];
+    }
+    return isFirstResponder;
+}
+
+- (BOOL)becomeFirstResponder {
+    return [[self.optionCells lastObject] becomeFirstResponder];
+}
+
+- (BOOL)resignFirstResponder {
+    [self.optionCells makeObjectsPerformSelector:@selector(resignFirstResponder)];
+    return YES;
 }
 
 @end
