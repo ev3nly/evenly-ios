@@ -139,7 +139,18 @@
 }
 
 - (void)cancelButtonPress:(id)sender {
-    
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"MARKING COMPLETE..."];
+    [self.record.groupRequest deleteRecord:self.record
+                               withSuccess:^{
+                                   [EVStatusBarManager sharedManager].duringSuccess = ^{
+                                       if (self.delegate)
+                                           [self.delegate viewController:self deletedRecord:self.record];
+                                       [self.navigationController popViewControllerAnimated:YES];
+                                   };
+                                   [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+                               } failure:^(NSError *error) {
+                                   [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                               }];
 }
 
 @end

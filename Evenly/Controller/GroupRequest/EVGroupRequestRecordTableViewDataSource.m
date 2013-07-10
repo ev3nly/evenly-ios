@@ -17,7 +17,9 @@
 #define BUTTON_SPACING 10.0
 #define BUTTON_WIDTH 276.0
 #define BUTTON_HEIGHT 44.0
+
 #define BUTTON_ROW_HEIGHT ((44.0*3) + (BUTTON_Y_MARGIN*2) + (BUTTON_SPACING*2))
+#define BUTTON_ROW_HEIGHT_WITHOUT_CANCEL ((44.0*2) + (BUTTON_Y_MARGIN*2) + (BUTTON_SPACING*1))
 
 @interface EVGroupRequestRecordTableViewDataSource ()
 
@@ -83,7 +85,7 @@
                                                                        CGRectGetMaxY(self.markAsCompletedButton.frame) + BUTTON_SPACING,
                                                                        BUTTON_WIDTH,
                                                                        BUTTON_HEIGHT)];
-    [self.cancelButton setTitle:@"CANCEL" forState:UIControlStateNormal];
+    [self.cancelButton setTitle:@"CANCEL REQUEST" forState:UIControlStateNormal];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -117,8 +119,12 @@
                 return [EVGroupRequestStatementCell heightForRecord:self.record];
             if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
                 return [self.paymentOptionCell heightForRecord:self.record];
-            else if (indexPath.row == EVGroupRequestRecordRowButtons)
-                return BUTTON_ROW_HEIGHT;
+            else if (indexPath.row == EVGroupRequestRecordRowButtons) {
+                if (self.record.numberOfPayments == 0)
+                    return BUTTON_ROW_HEIGHT;
+                else
+                    return BUTTON_ROW_HEIGHT_WITHOUT_CANCEL;
+            }
         }
     }
     return 0.0;
@@ -203,7 +209,10 @@
     cell.position = EVGroupedTableViewCellPositionBottom;
     [cell.contentView addSubview:self.remindButton];
     [cell.contentView addSubview:self.markAsCompletedButton];
-    [cell.contentView addSubview:self.cancelButton];
+    if (self.record.numberOfPayments == 0)
+        [cell.contentView addSubview:self.cancelButton];
+    else
+        [self.cancelButton removeFromSuperview];
 }
 
 @end

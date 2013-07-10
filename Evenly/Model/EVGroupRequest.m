@@ -414,7 +414,9 @@
                                                         parameters:nil];
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
                                                                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                                                                  if (success)
+                                                                                  NSMutableArray *newRecords = [NSMutableArray arrayWithArray:self.records];
+                                                                                  [newRecords removeObject:record];
+                                                                                  self.records = newRecords;                                                                                  if (success)
                                                                                       success();
                                                                               }
                                                                               failure:^(AFHTTPRequestOperation *operation, NSError *error)  {

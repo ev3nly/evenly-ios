@@ -42,7 +42,6 @@
     self = [super init];
     if (self) {
         self.groupRequest = groupRequest;
-        self.displayedRecords = self.groupRequest.records;
         
         [self loadSegmentedControl];
         [self loadProgressView];
@@ -53,6 +52,11 @@
         
     }
     return self;
+}
+
+- (void)setGroupRequest:(EVGroupRequest *)groupRequest {
+    _groupRequest = groupRequest;
+    self.displayedRecords = self.groupRequest.records;
 }
 
 - (void)loadSegmentedControl {

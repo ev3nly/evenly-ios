@@ -215,6 +215,10 @@ typedef enum {
     [self.tableView endUpdates];
 }
 
+- (void)viewController:(EVGroupRequestRecordViewController *)viewController deletedRecord:(EVGroupRequestRecord *)record {
+    [self.dataSource setGroupRequest:self.groupRequest];
+    [self.tableView reloadData];
+}
 #pragma mark - EVGroupRequestEditViewControllerDelegate
 
 - (void)editViewControllerMadeChanges:(EVGroupRequestEditViewController *)editViewController {
