@@ -146,6 +146,8 @@
 }
 
 - (void)reloadNewsFeed {
+    self.tableView.isLoading = YES;
+    return;
     [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
         self.newsfeed = newsfeed;
         [self.tableView reloadData];

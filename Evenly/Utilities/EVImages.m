@@ -207,6 +207,10 @@
     return [UIImage imageNamed:@"evenly_logo"];
 }
 
++ (UIImage *)grayLoadingLogo {
+    return [UIImage imageNamed:@"evenly_logo_gray"];
+}
+
 + (UIImage *)loadingSpinner {
     return [UIImage imageNamed:@"spinner"];
 }

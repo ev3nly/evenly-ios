@@ -8,6 +8,7 @@
 
 #import "UIView+EVAdditions.h"
 #import "NSArray+EVAdditions.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation UIView (EVAdditions)
 
@@ -95,6 +96,19 @@
         [self removeGestureRecognizer:recognizer];
 }
 
+#pragma mark - Animations
+
+- (void)rotateContinuouslyWithDuration:(float)duration {
+    CABasicAnimation *rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0];
+    rotationAnimation.duration = duration;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = HUGE_VALF;
+    rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [self.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+}
+
 #define BOUNCE_OVERSHOOT_DISTANCE_PERCENT 0.1
 #define BOUNCE_OVERSHOOT_DURATION_PERCENT 0.3
 
@@ -106,7 +120,7 @@
     if (targetFrame.origin.x < currentOrigin.x)
         overshootXAmount = -overshootXAmount;
     if (targetFrame.origin.y < currentOrigin.y)
-        overshootYAmount = - overshootYAmount;
+        overshootYAmount = -overshootYAmount;
     
     CGRect overshootFrame = targetFrame;
     overshootFrame.origin.x = currentOrigin.x + overshootXAmount;
