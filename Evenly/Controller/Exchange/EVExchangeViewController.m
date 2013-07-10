@@ -64,6 +64,17 @@
     [self.navigationItem.titleView setFrame:rect];
 }
 
+- (void)unloadPageControlAnimated:(BOOL)animated {
+    [self.pageControl removeFromSuperview];
+    self.pageControl = nil;
+    [UIView animateWithDuration:(animated ? EV_DEFAULT_ANIMATION_DURATION : 0.0) animations:^{
+        [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:0
+                                                                      forBarMetrics:UIBarMetricsDefault];
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
 
 - (void)loadPrivacySelector {
     _privacySelector = [[EVPrivacySelectorView alloc] initWithFrame:[self privacySelectorFrame]];
@@ -129,6 +140,9 @@
 }
 
 - (void)actionButtonPress:(id)sender {
+    [sender setEnabled:NO];
+    self.navigationItem.leftBarButtonItem = nil;
+
     // abstract
 }
 

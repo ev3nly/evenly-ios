@@ -35,7 +35,10 @@ typedef enum {
 @property (nonatomic, strong) EVPrivacySelectorView *privacySelector;
 
 - (void)loadNavigationButtons;
+
 - (void)loadPageControl;
+- (void)unloadPageControlAnimated:(BOOL)animated;
+
 - (void)loadPrivacySelector;
 - (CGRect)privacySelectorFrame;
 - (void)loadContentViews;
