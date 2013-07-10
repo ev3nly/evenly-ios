@@ -24,7 +24,7 @@ PODS:
   - libextobjc/EXTScope (0.2.5):
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.2.5)
-  - MBProgressHUD (0.7)
+  - MBProgressHUD (0.6)
   - Mixpanel (1.1.1)
   - NewRelicAgent (1.309.0)
   - PaymentKit (1.0.0)
@@ -63,7 +63,7 @@ SPEC CHECKSUMS:
   JRSwizzle: 6242ff38485d870fc2636899048ee1ab883ae587
   Kiwi: 56082a80f942de4d10423d8d8a599ab30cf50228
   libextobjc: 2cbc74caf8bdc74a86fdf24673f773c83424ea98
-  MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
+  MBProgressHUD: 9b55a90566fb5d07df0602f6fd9fa04510ad5d52
   Mixpanel: 388e78ffe1c4878b65a86127b5dab70be36479ad
   NewRelicAgent: 3caf67341dd34afff1a224aace0bd053c0f7fd5d
   PaymentKit: 40e5673a9a0960d7ef111d66d0604af245caf635
@@ -71,4 +71,4 @@ SPEC CHECKSUMS:
   SSKeychain: 9b4a6249ae46b6d1f39a013621bd803f3baba1e3
   TTTAttributedLabel: e504133915a9b11de63cb470ffa2790383a3eb23
 
-COCOAPODS: 0.20.2
+COCOAPODS: 0.22.1
