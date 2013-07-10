@@ -16,6 +16,8 @@
 #import "EVRequestViewController.h"
 #import "EVTransactionDetailViewController.h"
 
+#import "EVRewardsGameViewController.h"
+
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 

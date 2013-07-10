@@ -292,6 +292,17 @@
 		9CB285C3176157ED009B26BB /* EVStory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB285C2176157ED009B26BB /* EVStory.m */; };
 		9CB285C8176164EC009B26BB /* EVMainMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB285C7176164EC009B26BB /* EVMainMenuCell.m */; };
 		9CB7FB4E178CA3BD00827B5B /* EVReward.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7FB4D178CA3BD00827B5B /* EVReward.m */; };
+		9CB7FB52178CD38900827B5B /* EVRewardsGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7FB51178CD38900827B5B /* EVRewardsGameViewController.m */; };
+		9CB7FB5A178CD44200827B5B /* reward_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB7FB54178CD44200827B5B /* reward_arrow.png */; };
+		9CB7FB5B178CD44200827B5B /* reward_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB7FB55178CD44200827B5B /* reward_arrow@2x.png */; };
+		9CB7FB5C178CD44200827B5B /* big_smile.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB7FB56178CD44200827B5B /* big_smile.png */; };
+		9CB7FB5D178CD44200827B5B /* big_smile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB7FB57178CD44200827B5B /* big_smile@2x.png */; };
+		9CB7FB5E178CD44200827B5B /* small_smile.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB7FB58178CD44200827B5B /* small_smile.png */; };
+		9CB7FB5F178CD44200827B5B /* small_smile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB7FB59178CD44200827B5B /* small_smile@2x.png */; };
+		9CB7FB63178CD6FA00827B5B /* EVRewardsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7FB62178CD6FA00827B5B /* EVRewardsHeaderView.m */; };
+		9CB7FB66178CD70200827B5B /* EVRewardsFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7FB65178CD70200827B5B /* EVRewardsFooterView.m */; };
+		9CB7FB69178CE87800827B5B /* EVRewardsSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7FB68178CE87800827B5B /* EVRewardsSwitchView.m */; };
+		9CB7FB6C178CF1C600827B5B /* EVRewardsSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7FB6B178CF1C600827B5B /* EVRewardsSlider.m */; };
 		9CBCAE211778C0150039AB39 /* More.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CBCAE1F1778C0150039AB39 /* More.png */; };
 		9CBCAE221778C0150039AB39 /* More@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CBCAE201778C0150039AB39 /* More@2x.png */; };
 		9CCA900A175E6C90003462DC /* UIViewController+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */; };
@@ -892,6 +903,22 @@
 		9CB285C7176164EC009B26BB /* EVMainMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMainMenuCell.m; sourceTree = "<group>"; };
 		9CB7FB4C178CA3BD00827B5B /* EVReward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVReward.h; sourceTree = "<group>"; };
 		9CB7FB4D178CA3BD00827B5B /* EVReward.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVReward.m; sourceTree = "<group>"; };
+		9CB7FB50178CD38900827B5B /* EVRewardsGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardsGameViewController.h; sourceTree = "<group>"; };
+		9CB7FB51178CD38900827B5B /* EVRewardsGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardsGameViewController.m; sourceTree = "<group>"; };
+		9CB7FB54178CD44200827B5B /* reward_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = reward_arrow.png; sourceTree = "<group>"; };
+		9CB7FB55178CD44200827B5B /* reward_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reward_arrow@2x.png"; sourceTree = "<group>"; };
+		9CB7FB56178CD44200827B5B /* big_smile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = big_smile.png; sourceTree = "<group>"; };
+		9CB7FB57178CD44200827B5B /* big_smile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big_smile@2x.png"; sourceTree = "<group>"; };
+		9CB7FB58178CD44200827B5B /* small_smile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small_smile.png; sourceTree = "<group>"; };
+		9CB7FB59178CD44200827B5B /* small_smile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small_smile@2x.png"; sourceTree = "<group>"; };
+		9CB7FB61178CD6FA00827B5B /* EVRewardsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardsHeaderView.h; sourceTree = "<group>"; };
+		9CB7FB62178CD6FA00827B5B /* EVRewardsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardsHeaderView.m; sourceTree = "<group>"; };
+		9CB7FB64178CD70200827B5B /* EVRewardsFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardsFooterView.h; sourceTree = "<group>"; };
+		9CB7FB65178CD70200827B5B /* EVRewardsFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardsFooterView.m; sourceTree = "<group>"; };
+		9CB7FB67178CE87800827B5B /* EVRewardsSwitchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardsSwitchView.h; sourceTree = "<group>"; };
+		9CB7FB68178CE87800827B5B /* EVRewardsSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardsSwitchView.m; sourceTree = "<group>"; };
+		9CB7FB6A178CF1C600827B5B /* EVRewardsSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardsSlider.h; sourceTree = "<group>"; };
+		9CB7FB6B178CF1C600827B5B /* EVRewardsSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardsSlider.m; sourceTree = "<group>"; };
 		9CBCAE1F1778C0150039AB39 /* More.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = More.png; sourceTree = "<group>"; };
 		9CBCAE201778C0150039AB39 /* More@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "More@2x.png"; sourceTree = "<group>"; };
 		9CCA9008175E6C90003462DC /* UIViewController+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+EVAdditions.h"; sourceTree = "<group>"; };
@@ -1198,6 +1225,7 @@
 				9C2E4F9C176E6B4700ACE30E /* EVModalViewController.m */,
 				9C5044251770EC7A0090D865 /* EVPushPopViewController.h */,
 				9C5044261770EC7A0090D865 /* EVPushPopViewController.m */,
+				9CB7FB4F178CD37C00827B5B /* Rewards */,
 				9CCA900E175EA8E8003462DC /* SidePanels */,
 				9C900D111767E83700E2F4C4 /* Deposit */,
 				9C542853176F76EA0028F141 /* FundingSources */,
@@ -2031,6 +2059,7 @@
 				9C2DD06F1769050700EAA3D1 /* Privacy */,
 				9C3242271777AD3F004A358F /* ProgressBar */,
 				D077A8C1177419CD001BAAAD /* Request */,
+				9CB7FB53178CD44200827B5B /* Rewards */,
 				9C32421F1777A8A2004A358F /* SegmentedControl */,
 				9C2DD088176928A500EAA3D1 /* Settings */,
 				D0770B38177519A40002B572 /* SignUp */,
@@ -2130,6 +2159,7 @@
 				9C8186231782490100038B00 /* InstructionView */,
 				9C900D35176802F700E2F4C4 /* Labels */,
 				9C54289C176FD65D0028F141 /* PageControls */,
+				9CB7FB60178CD6C700827B5B /* Rewards */,
 				9C32420F1777977A004A358F /* ProgressBars */,
 				9C863C7117727D86003ADB49 /* SegmentedControls */,
 				9C2DD0841769278100EAA3D1 /* Settings */,
@@ -2173,6 +2203,43 @@
 				D0C30B0017721927005606E8 /* EVPendingDetailCell.m */,
 			);
 			path = TableViewCells;
+			sourceTree = "<group>";
+		};
+		9CB7FB4F178CD37C00827B5B /* Rewards */ = {
+			isa = PBXGroup;
+			children = (
+				9CB7FB50178CD38900827B5B /* EVRewardsGameViewController.h */,
+				9CB7FB51178CD38900827B5B /* EVRewardsGameViewController.m */,
+			);
+			path = Rewards;
+			sourceTree = "<group>";
+		};
+		9CB7FB53178CD44200827B5B /* Rewards */ = {
+			isa = PBXGroup;
+			children = (
+				9CB7FB54178CD44200827B5B /* reward_arrow.png */,
+				9CB7FB55178CD44200827B5B /* reward_arrow@2x.png */,
+				9CB7FB56178CD44200827B5B /* big_smile.png */,
+				9CB7FB57178CD44200827B5B /* big_smile@2x.png */,
+				9CB7FB58178CD44200827B5B /* small_smile.png */,
+				9CB7FB59178CD44200827B5B /* small_smile@2x.png */,
+			);
+			path = Rewards;
+			sourceTree = "<group>";
+		};
+		9CB7FB60178CD6C700827B5B /* Rewards */ = {
+			isa = PBXGroup;
+			children = (
+				9CB7FB61178CD6FA00827B5B /* EVRewardsHeaderView.h */,
+				9CB7FB62178CD6FA00827B5B /* EVRewardsHeaderView.m */,
+				9CB7FB67178CE87800827B5B /* EVRewardsSwitchView.h */,
+				9CB7FB68178CE87800827B5B /* EVRewardsSwitchView.m */,
+				9CB7FB6A178CF1C600827B5B /* EVRewardsSlider.h */,
+				9CB7FB6B178CF1C600827B5B /* EVRewardsSlider.m */,
+				9CB7FB64178CD70200827B5B /* EVRewardsFooterView.h */,
+				9CB7FB65178CD70200827B5B /* EVRewardsFooterView.m */,
+			);
+			path = Rewards;
 			sourceTree = "<group>";
 		};
 		9CCA900E175EA8E8003462DC /* SidePanels */ = {
@@ -2797,6 +2864,12 @@
 				9CA8170A178DE71C000F0417 /* Green_Header.png in Resources */,
 				9CA8170D178DEEDD000F0417 /* WalletArrow_blue@2x.png in Resources */,
 				9CA8170E178DEEDD000F0417 /* WalletArrow_blue.png in Resources */,
+				9CB7FB5A178CD44200827B5B /* reward_arrow.png in Resources */,
+				9CB7FB5B178CD44200827B5B /* reward_arrow@2x.png in Resources */,
+				9CB7FB5C178CD44200827B5B /* big_smile.png in Resources */,
+				9CB7FB5D178CD44200827B5B /* big_smile@2x.png in Resources */,
+				9CB7FB5E178CD44200827B5B /* small_smile.png in Resources */,
+				9CB7FB5F178CD44200827B5B /* small_smile@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3119,6 +3192,11 @@
 				D031C3FF1788D146008AC614 /* EVContactInviteCell.m in Sources */,
 				D099B397178BF2CB00C067EC /* EVFacebookManager.m in Sources */,
 				9CB7FB4E178CA3BD00827B5B /* EVReward.m in Sources */,
+				9CB7FB52178CD38900827B5B /* EVRewardsGameViewController.m in Sources */,
+				9CB7FB63178CD6FA00827B5B /* EVRewardsHeaderView.m in Sources */,
+				9CB7FB66178CD70200827B5B /* EVRewardsFooterView.m in Sources */,
+				9CB7FB69178CE87800827B5B /* EVRewardsSwitchView.m in Sources */,
+				9CB7FB6C178CF1C600827B5B /* EVRewardsSlider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
