@@ -103,7 +103,26 @@
     return YES;
 }
 
+#pragma mark - First Responder
+
+- (BOOL)isFirstResponder {
+    return (self.optionNameField.isFirstResponder || self.optionAmountField.isFirstResponder);
+}
+
+- (BOOL)becomeFirstResponder {
+    if (self.isFirstResponder)
+        return YES;
+    return [self.optionNameField becomeFirstResponder];
+}
+
+- (BOOL)resignFirstResponder {
+    BOOL didResign = [self.optionNameField resignFirstResponder];
+    didResign |= [self.optionAmountField resignFirstResponder];
+    return didResign;
+}
+
 @end
+
 
 @implementation EVGroupRequestAddOptionCell
 

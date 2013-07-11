@@ -289,7 +289,7 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSString *)groupRequestDescriptionPlaceholder {
-   return @"Optional.  Add any additional details.";
+   return @"Add any additional details.";
 }
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber {

@@ -33,6 +33,9 @@
 - (BOOL)isTierEditable:(EVGroupRequestTier *)tier;
 
 #pragma mark - API Interactions
+
+- (void)remindAllWithSuccess:(void (^)(void))success failure:(void(^)(NSError *error))failure;
+
 #pragma mark Tiers
 - (void)allTiersWithSuccess:(void (^)(NSArray *tiers))success
                     failure:(void (^)(NSError *error))failure;
@@ -68,6 +71,10 @@
 - (void)markRecordCompleted:(EVGroupRequestRecord *)record
                 withSuccess:(void (^)(EVGroupRequestRecord *record))success
                     failure:(void (^)(NSError *error))failure;
+
+- (void)remindRecord:(EVGroupRequestRecord *)record
+         withSuccess:(void (^)(void))success
+             failure:(void (^)(NSError *error))failure;
 
 - (void)deleteRecord:(EVGroupRequestRecord *)record
          withSuccess:(void (^)(void))success

@@ -63,6 +63,15 @@
         if ([fromObject conformsToProtocol:@protocol(EVExchangeable)])
             self.from = (EVObject<EVExchangeable> *)fromObject;
     }
+    
+    if (properties[@"reward"]) {
+        id reward = properties[@"reward"];
+        if (reward == [NSNull null]) {
+            self.reward = nil;
+        } else {
+            self.reward = [[EVReward alloc] initWithDictionary:properties[@"reward"]];
+        }
+    }
 }
 
 - (NSDictionary *)dictionaryRepresentation {

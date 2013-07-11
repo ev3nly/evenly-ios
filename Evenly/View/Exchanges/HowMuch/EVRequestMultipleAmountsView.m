@@ -11,6 +11,8 @@
 #import "EVGroupRequestTier.h"
 #import "EVGrayButton.h"
 
+#import "EVKeyboardTracker.h"
+
 #define HEADER_LABEL_HEIGHT 48.0
 #define NAVIGATION_BAR_OFFSET 44.0
 
@@ -44,8 +46,15 @@
         [self loadCells];
 
         [self loadMultipleAmountsView];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillDisappear:) name:UIKeyboardWillHideNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)loadHeaderLabel {
@@ -77,6 +86,14 @@
 }
 
 - (void)loadMultipleAmountsView {
+    UITableViewController *tvc = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
+    self.multipleAmountsView = tvc.tableView;
+    self.multipleAmountsView.frame = CGRectMake(0,
+                                                CGRectGetMaxY(self.segmentedControl.frame),
+                                                self.frame.size.width,
+                                                self.frame.size.height - CGRectGetMaxY(self.segmentedControl.frame));
+    self.multipleAmountsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    
     self.multipleAmountsView = [[UITableView alloc] initWithFrame:CGRectMake(0,
                                                                              CGRectGetMaxY(self.segmentedControl.frame),
                                                                              self.frame.size.width,
@@ -130,8 +147,8 @@
         self.isValid = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
     }
     else
-    {
-        BOOL isAllGood = YES;
+    {            
+        BOOL isAllGood = ([self.optionCells count] > 0);
         for (EVGroupRequestAmountCell *cell in self.optionCells) {
             float amount = [[EVStringUtility amountFromAmountString:cell.optionAmountField.text] floatValue];
             if (amount < EV_MINIMUM_EXCHANGE_AMOUNT)
@@ -173,6 +190,10 @@
         [self addSubview:self.singleAmountView];
         [self.multipleAmountsView removeFromSuperview];
     } else {
+        self.multipleAmountsView.frame = CGRectMake(0,
+                                                    CGRectGetMaxY(self.segmentedControl.frame),
+                                                    self.frame.size.width,
+                                                    self.frame.size.height - NAVIGATION_BAR_OFFSET - CGRectGetMaxY(self.segmentedControl.frame));
         [self addSubview:self.multipleAmountsView];
         [self.singleAmountView removeFromSuperview];
     }
@@ -205,6 +226,7 @@
             previous.optionAmountField.next = nil;
     }
     [self.optionCells removeObjectAtIndex:index];
+    [self validate];
 }
 
 #pragma mark - UITableViewDataSource
@@ -251,6 +273,39 @@
     [self.multipleAmountsView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.optionCells count]-1 inSection:0]]
                      withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.multipleAmountsView endUpdates];
+    [self validate];
+    
+    [[self.optionCells lastObject] becomeFirstResponder];
 }
+
+#pragma mark - First Responder
+
+- (BOOL)isFirstResponder {
+    BOOL isFirstResponder = [super isFirstResponder];
+    for (EVGroupRequestAmountCell *cell in self.optionCells) {
+        isFirstResponder |= [cell isFirstResponder];
+    }
+    return isFirstResponder;
+}
+
+- (BOOL)becomeFirstResponder {
+    return [[self.optionCells lastObject] becomeFirstResponder];
+}
+
+- (BOOL)resignFirstResponder {
+    [self.optionCells makeObjectsPerformSelector:@selector(resignFirstResponder)];
+    return YES;
+}
+
+#pragma mark - Keyboard Observation
+
+- (void)keyboardWillAppear:(NSNotification *)notification {
+    [self.multipleAmountsView setContentInset:UIEdgeInsetsMake(0, 0, EV_DEFAULT_KEYBOARD_HEIGHT, 0)];
+}
+
+- (void)keyboardWillDisappear:(NSNotification *)notification {
+    [self.multipleAmountsView setContentInset:UIEdgeInsetsZero];
+}
+
 
 @end
