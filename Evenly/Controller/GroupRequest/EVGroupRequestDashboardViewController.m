@@ -52,7 +52,7 @@ typedef enum {
         self.dataSource = [[EVGroupRequestDashboardTableViewDataSource alloc] initWithGroupRequest:self.groupRequest];
         [self.dataSource.inviteButton addTarget:self action:@selector(inviteButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         [self.dataSource.remindAllButton addTarget:self action:@selector(remindAllButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-        self.title = self.groupRequest.title;
+        self.title = @"Group Request";
     }
     return self;
 }
@@ -124,7 +124,12 @@ typedef enum {
 }
 
 - (void)remindAllButtonPress:(id)sender {
-    
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"REMINDING ALL..."];
+    [self.groupRequest remindAllWithSuccess:^{
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+    } failure:^(NSError *error) {
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+    }];
 }
 
 #pragma mark - UITableViewDelegate
@@ -210,6 +215,10 @@ typedef enum {
     [self.tableView endUpdates];
 }
 
+- (void)viewController:(EVGroupRequestRecordViewController *)viewController deletedRecord:(EVGroupRequestRecord *)record {
+    [self.dataSource setGroupRequest:self.groupRequest];
+    [self.tableView reloadData];
+}
 #pragma mark - EVGroupRequestEditViewControllerDelegate
 
 - (void)editViewControllerMadeChanges:(EVGroupRequestEditViewController *)editViewController {

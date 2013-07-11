@@ -72,7 +72,7 @@
         
         self.addOptionButton = [[EVGrayButton alloc] initWithFrame:[self addOptionButtonFrame]];
         [self.addOptionButton addTarget:self action:@selector(addOptionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-        [self.addOptionButton setTitle:@"ADD OPTION" forState:UIControlStateNormal];
+        [self.addOptionButton setTitle:@"Add Option" forState:UIControlStateNormal];
         
         self.blockQueue = [NSMutableArray array];
         self.operationQueue = [[NSOperationQueue alloc] init];
@@ -358,7 +358,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 35.0;
+    return 44.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
