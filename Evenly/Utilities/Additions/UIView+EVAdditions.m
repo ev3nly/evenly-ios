@@ -191,6 +191,17 @@
                      }];
 }
 
+- (void)pulseFromAlpha:(float)fromAlpha toAlpha:(float)toAlpha duration:(float)duration {
+    self.alpha = fromAlpha;
+    
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse
+                     animations:^{
+                         self.alpha = toAlpha;
+                     } completion:nil];
+}
+
 static char UIViewUserInfoKey;
 
 - (void)setUserInfo:(NSDictionary *)userInfo {

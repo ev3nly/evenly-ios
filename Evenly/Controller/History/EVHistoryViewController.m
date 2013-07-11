@@ -50,10 +50,12 @@ static NSDateFormatter *_dateFormatter = nil;
     [self loadTableView];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     self.exchanges = [[EVCIA sharedInstance] history];
-    if (!self.exchanges)
+    if ([self.exchanges count] == 0)
         self.tableView.loading = YES;
 
     [[EVCIA sharedInstance] reloadHistoryWithCompletion:^(NSArray *history) {

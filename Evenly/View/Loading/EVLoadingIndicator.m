@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define ROTATION_DURATION 0.8
-#define COLORED_LOGO_MIN_ALPHA 0.25
+#define COLORED_LOGO_MIN_ALPHA 0.20
 #define COLORED_LOGO_MAX_ALPHA 0.75
 
 @interface EVLoadingIndicator ()
@@ -63,31 +63,14 @@
 
 - (void)startAnimating {
     [self zoomBounceWithDuration:0.2 completion:nil];
-    [self spinSpinner];
-    [self pulseLogo];
+    [self.spinnerView rotateContinuouslyWithDuration:ROTATION_DURATION];
+    [self.coloredLogoView pulseFromAlpha:COLORED_LOGO_MIN_ALPHA toAlpha:COLORED_LOGO_MAX_ALPHA duration:ROTATION_DURATION*2];
 }
 
 - (void)stopAnimating {
     [self shrinkBounceWithDuration:0.2 completion:^{
         [self removeFromSuperview];
     }];
-}
-
-- (void)spinSpinner {
-    [self.spinnerView rotateContinuouslyWithDuration:ROTATION_DURATION];
-}
-
-- (void)pulseLogo {
-    self.coloredLogoView.alpha = COLORED_LOGO_MIN_ALPHA;
-    
-    [UIView animateWithDuration:ROTATION_DURATION*2
-                          delay:0
-                        options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse
-                     animations:^{
-                         self.coloredLogoView.alpha = COLORED_LOGO_MAX_ALPHA;
-                     } completion:^(BOOL finished) {
-                         
-                     }];
 }
 
 #pragma mark - Frames
