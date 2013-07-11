@@ -22,6 +22,8 @@
         
         [self loadForeground];
         
+        [self loadBackground];
+        
         self.swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRecognized:)];
         self.swipeRecognizer.delegate = self;
         [self.swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
@@ -33,6 +35,10 @@
         
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
         [self.foregroundView addGestureRecognizer:self.tapRecognizer];
+        
+        self.backgroundColor = [EVColor darkColor];
+        
+        self.animationEnabled = YES;
     }
     return self;
 }
@@ -68,6 +74,27 @@
     [self.foregroundView setBackgroundColor:_foregroundColor];
 }
 
+- (void)loadBackground {
+    self.backgroundView = [[EVRewardsSliderBackground alloc] initWithFrame:self.bounds];
+    self.backgroundView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    [self insertSubview:self.backgroundView belowSubview:self.foregroundView];
+    
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
+    _backgroundColor = backgroundColor;
+    [self.backgroundView setBackgroundColor:_backgroundColor];
+}
+
+- (void)setRewardAmount:(NSDecimalNumber *)rewardAmount {
+    [self setRewardAmount:rewardAmount animated:NO];
+}
+
+- (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated {
+    _rewardAmount = rewardAmount;
+    [self.backgroundView stopAnimating];
+    [self.backgroundView setRewardAmount:rewardAmount animated:animated];
+}
 #pragma mark - Animation
 
 - (CGRect)offscreenRect {
@@ -86,7 +113,9 @@
     [self.foregroundView bounceAnimationToFrame:[self offscreenRect]
                                        duration:EV_DEFAULT_ANIMATION_DURATION
                                      completion:^{
-
+                                         [self sendActionsForControlEvents:UIControlEventValueChanged];
+                                         if (self.animationEnabled)
+                                             [[self backgroundView] startAnimating];
                                      }];
 }
 

@@ -8,6 +8,8 @@
 
 #import "EVReward.h"
 
+NSString *const EVRewardRedeemedNotification = @"EVRewardRedeemedNotification";
+
 @implementation EVReward
 
 + (NSString *)controllerName {
@@ -56,7 +58,12 @@
                                                                                       failure(error);
                                                                               }];
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
-    
+}
+
+- (NSDecimalNumber *)selectedAmount {
+    if (self.selectedOptionIndex == NSNotFound)
+        return nil;
+    return [self.options objectAtIndex:self.selectedOptionIndex];
 }
 
 @end

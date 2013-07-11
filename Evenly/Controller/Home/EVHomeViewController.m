@@ -58,6 +58,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignOut:) name:EVSessionSignedOutNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(storyWasCreatedLocally:) name:EVStoryLocallyCreatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardRedeemed:) name:EVRewardRedeemedNotification object:nil];
 }
 
 - (void)dealloc {
@@ -138,6 +139,18 @@
     [self reloadNewsFeed];
 }
 
+- (void)reloadNewsFeed {
+    [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
+        self.newsfeed = newsfeed;
+        [self.tableView reloadData];
+        [self.tableView.pullToRefreshView stopAnimating];
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+#pragma mark - Notifications
+
 - (void)didSignIn:(NSNotification *)notification {
     [self reloadNewsFeed];
 }
@@ -147,16 +160,6 @@
     [self.tableView reloadData];
 }
 
-- (void)reloadNewsFeed {
-    [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
-        self.newsfeed = newsfeed;
-        [self.tableView reloadData];
-        [self.tableView.pullToRefreshView stopAnimating];
-    } failure:^(NSError *error) {
-
-    }];
-}
-
 - (void)storyWasCreatedLocally:(NSNotification *)notification {
     EVStory *story = [[notification userInfo] objectForKey:@"story"];
     
@@ -164,11 +167,20 @@
     [self.tableView reloadData];    
 }
 
+- (void)
+
 #pragma mark - Button Actions
 
 - (void)requestButtonPress:(id)sender {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
+//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
+//    [self presentViewController:navController animated:YES completion:NULL];
+    
+    EVReward *reward = [[EVReward alloc] init];
+    reward.options = @[ [NSNull null], [NSNull null], [NSNull null] ];
+    EVRewardsGameViewController *rewardsVC = [[EVRewardsGameViewController alloc] initWithReward:reward];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:rewardsVC];
     [self presentViewController:navController animated:YES completion:NULL];
+    
 }
 
 - (void)payButtonPress:(id)sender {
