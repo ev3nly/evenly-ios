@@ -56,6 +56,8 @@
 {
     [super viewDidLoad];
     
+    self.swipeGestureRecognizer.enabled = NO; // Disable back swiping.
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.cancelButton];
     self.navigationItem.hidesBackButton = YES;
     
