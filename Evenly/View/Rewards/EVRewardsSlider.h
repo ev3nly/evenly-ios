@@ -18,6 +18,8 @@
 @property (nonatomic, strong) NSArray *arrows;
 
 @property (nonatomic, strong) UIView *backgroundView;
+@property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong) NSArray *logos;
 
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;

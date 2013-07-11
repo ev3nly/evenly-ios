@@ -11,6 +11,7 @@
 #define X_MARGIN 20
 
 #define NUMBER_OF_ARROWS 3
+#define NUMBER_OF_LOGOS 6
 
 @implementation EVRewardsSlider
 
@@ -21,6 +22,8 @@
         self.autoresizesSubviews = YES;
         
         [self loadForeground];
+        
+        [self loadBackground];
         
         self.swipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRecognized:)];
         self.swipeRecognizer.delegate = self;
@@ -33,6 +36,8 @@
         
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
         [self.foregroundView addGestureRecognizer:self.tapRecognizer];
+        
+        self.backgroundColor = [EVColor darkColor];
     }
     return self;
 }
@@ -66,6 +71,20 @@
 - (void)setForegroundColor:(UIColor *)foregroundColor {
     _foregroundColor = foregroundColor;
     [self.foregroundView setBackgroundColor:_foregroundColor];
+}
+
+- (void)loadBackground {
+    self.backgroundView = [[UIView alloc] initWithFrame:self.bounds];
+    self.backgroundView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    [self insertSubview:self.backgroundView belowSubview:self.foregroundView];
+    
+    
+    
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
+    _backgroundColor = backgroundColor;
+    [self.backgroundView setBackgroundColor:_backgroundColor];
 }
 
 #pragma mark - Animation

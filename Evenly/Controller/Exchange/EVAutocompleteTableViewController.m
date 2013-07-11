@@ -65,6 +65,7 @@
 - (void)loadHeaderViews {
     EVSpreadLabel *spreadLabel;
     UIView *headerView;
+    UIView *bottomStripe;
     
     spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(10, 5, self.tableView.frame.size.width - 20, 15)];
     spreadLabel.backgroundColor = [UIColor clearColor];
@@ -75,6 +76,10 @@
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
     headerView.backgroundColor = [EVColor requestGrayBackground];
     [headerView addSubview:spreadLabel];
+    
+    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - 1, headerView.frame.size.width, 1)];
+    bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
+    [headerView addSubview:bottomStripe];
     
     self.evenlyFriendsHeaderLabel = spreadLabel;
     self.evenlyFriendsHeaderLabel.text = @"EVENLY FRIENDS";
@@ -89,6 +94,10 @@
     headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
     headerView.backgroundColor = [EVColor requestGrayBackground];
     [headerView addSubview:spreadLabel];
+    
+    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - 1, headerView.frame.size.width, 1)];
+    bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
+    [headerView addSubview:bottomStripe];
     
     self.contactsLabel = spreadLabel;
     self.contactsLabel.text = @"CONTACTS";
