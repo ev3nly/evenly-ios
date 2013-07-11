@@ -15,6 +15,7 @@
 @protocol EVGroupRequestRecordViewControllerDelegate <NSObject>
 
 - (void)viewController:(EVGroupRequestRecordViewController *)viewController updatedRecord:(EVGroupRequestRecord *)record;
+- (void)viewController:(EVGroupRequestRecordViewController *)viewController deletedRecord:(EVGroupRequestRecord *)record;
 
 @end
 
