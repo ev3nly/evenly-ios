@@ -37,7 +37,6 @@
         for (UIView *subview in self.subviews) {
             if (subview.tag == LOADING_INDICATOR_TAG) {
                 EVLoadingIndicator *indicator = (EVLoadingIndicator *)subview;
-                [indicator stopAnimating];
                 [indicator removeFromSuperview];
             }
         }
