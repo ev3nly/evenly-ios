@@ -451,6 +451,13 @@
 		D095EEE91778F1B80016F434 /* facebook-f@.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEE71778F1B80016F434 /* facebook-f@.png */; };
 		D095EEEA1778F1B80016F434 /* facebook-f@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEE81778F1B80016F434 /* facebook-f@2x.png */; };
 		D099B397178BF2CB00C067EC /* EVFacebookManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D099B396178BF2CB00C067EC /* EVFacebookManager.m */; };
+		D099B3C6178CBF7200C067EC /* EVLoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = D099B3C5178CBF7200C067EC /* EVLoadingIndicator.m */; };
+		D099B3DE178CE09700C067EC /* evenly_logo_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3D8178CE09700C067EC /* evenly_logo_gray.png */; };
+		D099B3DF178CE09700C067EC /* evenly_logo_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3D9178CE09700C067EC /* evenly_logo_gray@2x.png */; };
+		D099B3E0178CE09700C067EC /* evenly_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3DA178CE09700C067EC /* evenly_logo.png */; };
+		D099B3E1178CE09700C067EC /* evenly_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3DB178CE09700C067EC /* evenly_logo@2x.png */; };
+		D099B3E2178CE09700C067EC /* spinner.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3DC178CE09700C067EC /* spinner.png */; };
+		D099B3E3178CE09700C067EC /* spinner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3DD178CE09700C067EC /* spinner@2x.png */; };
 		D0C30AF71770F480005606E8 /* EVTransactionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF61770F480005606E8 /* EVTransactionDetailViewController.m */; };
 		D0C30AFA1770F63A005606E8 /* EVTransactionDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF91770F63A005606E8 /* EVTransactionDetailCell.m */; };
 		D0C30AFE177217A3005606E8 /* EVPendingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AFD177217A3005606E8 /* EVPendingDetailViewController.m */; };
@@ -1131,6 +1138,14 @@
 		D095EEE81778F1B80016F434 /* facebook-f@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook-f@2x.png"; sourceTree = "<group>"; };
 		D099B395178BF2CB00C067EC /* EVFacebookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFacebookManager.h; sourceTree = "<group>"; };
 		D099B396178BF2CB00C067EC /* EVFacebookManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFacebookManager.m; sourceTree = "<group>"; };
+		D099B3C4178CBF7200C067EC /* EVLoadingIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVLoadingIndicator.h; sourceTree = "<group>"; };
+		D099B3C5178CBF7200C067EC /* EVLoadingIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVLoadingIndicator.m; sourceTree = "<group>"; };
+		D099B3D8178CE09700C067EC /* evenly_logo_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_logo_gray.png; sourceTree = "<group>"; };
+		D099B3D9178CE09700C067EC /* evenly_logo_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evenly_logo_gray@2x.png"; sourceTree = "<group>"; };
+		D099B3DA178CE09700C067EC /* evenly_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_logo.png; sourceTree = "<group>"; };
+		D099B3DB178CE09700C067EC /* evenly_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evenly_logo@2x.png"; sourceTree = "<group>"; };
+		D099B3DC178CE09700C067EC /* spinner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spinner.png; sourceTree = "<group>"; };
+		D099B3DD178CE09700C067EC /* spinner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner@2x.png"; sourceTree = "<group>"; };
 		D0C30AF51770F480005606E8 /* EVTransactionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTransactionDetailViewController.h; sourceTree = "<group>"; };
 		D0C30AF61770F480005606E8 /* EVTransactionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTransactionDetailViewController.m; sourceTree = "<group>"; };
 		D0C30AF81770F63A005606E8 /* EVTransactionDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTransactionDetailCell.h; sourceTree = "<group>"; };
@@ -2072,6 +2087,7 @@
 				9C3917391773DEAE002949C3 /* Cells */,
 				9C8186241782499000038B00 /* InstructionView */,
 				9C863C9917729E7D003ADB49 /* Invite */,
+				D099B3D7178CE08D00C067EC /* Loading */,
 				9C6CE666178F399000657D58 /* Logos */,
 				D03A338F1784ACAC007F4B0B /* MainMenu */,
 				9CB2857A1761521E009B26BB /* NavBar */,
@@ -2179,6 +2195,7 @@
 				9C2DD080176906AE00EAA3D1 /* General */,
 				9C8186231782490100038B00 /* InstructionView */,
 				9C900D35176802F700E2F4C4 /* Labels */,
+				D099B3C3178CBF5B00C067EC /* Loading */,
 				9C54289C176FD65D0028F141 /* PageControls */,
 				9CB7FB60178CD6C700827B5B /* Rewards */,
 				9C32420F1777977A004A358F /* ProgressBars */,
@@ -2565,6 +2582,28 @@
 			path = StatusBar;
 			sourceTree = "<group>";
 		};
+		D099B3C3178CBF5B00C067EC /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				D099B3C4178CBF7200C067EC /* EVLoadingIndicator.h */,
+				D099B3C5178CBF7200C067EC /* EVLoadingIndicator.m */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
+		D099B3D7178CE08D00C067EC /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				D099B3D8178CE09700C067EC /* evenly_logo_gray.png */,
+				D099B3D9178CE09700C067EC /* evenly_logo_gray@2x.png */,
+				D099B3DA178CE09700C067EC /* evenly_logo.png */,
+				D099B3DB178CE09700C067EC /* evenly_logo@2x.png */,
+				D099B3DC178CE09700C067EC /* spinner.png */,
+				D099B3DD178CE09700C067EC /* spinner@2x.png */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
 		D0C30AF41770F46C005606E8 /* TransactionDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -2873,6 +2912,12 @@
 				D03A33A11784ACBA007F4B0B /* Support@2x.png in Resources */,
 				D03A33A21784ACBA007F4B0B /* User.png in Resources */,
 				D03A33A31784ACBA007F4B0B /* User@2x.png in Resources */,
+				D099B3DE178CE09700C067EC /* evenly_logo_gray.png in Resources */,
+				D099B3DF178CE09700C067EC /* evenly_logo_gray@2x.png in Resources */,
+				D099B3E0178CE09700C067EC /* evenly_logo.png in Resources */,
+				D099B3E1178CE09700C067EC /* evenly_logo@2x.png in Resources */,
+				D099B3E2178CE09700C067EC /* spinner.png in Resources */,
+				D099B3E3178CE09700C067EC /* spinner@2x.png in Resources */,
 				9CA81700178DE0E9000F0417 /* history.png in Resources */,
 				9CA81702178DE0EF000F0417 /* history@2x.png in Resources */,
 				9CA81709178DE71C000F0417 /* Green_Header@2x.png in Resources */,
@@ -3212,6 +3257,7 @@
 				D031C3FC1788108A008AC614 /* EVInviteCell.m in Sources */,
 				D031C3FF1788D146008AC614 /* EVContactInviteCell.m in Sources */,
 				D099B397178BF2CB00C067EC /* EVFacebookManager.m in Sources */,
+				D099B3C6178CBF7200C067EC /* EVLoadingIndicator.m in Sources */,
 				9CB7FB4E178CA3BD00827B5B /* EVReward.m in Sources */,
 				9CB7FB52178CD38900827B5B /* EVRewardsGameViewController.m in Sources */,
 				9CB7FB63178CD6FA00827B5B /* EVRewardsHeaderView.m in Sources */,

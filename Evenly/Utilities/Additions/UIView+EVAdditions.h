@@ -30,7 +30,12 @@
 
 - (void)removeGestureRecognizers;
 
+#pragma mark - Animations
+- (void)rotateContinuouslyWithDuration:(float)duration;
 - (void)bounceAnimationToFrame:(CGRect)frame duration:(float)duration completion:(void (^)(void))completion;
+- (void)zoomBounceWithDuration:(float)duration completion:(void (^)(void))completion;
+- (void)shrinkBounceWithDuration:(float)duration completion:(void (^)(void))completion;
+- (void)pulseFromAlpha:(float)fromAlpha toAlpha:(float)toAlpha duration:(float)duration;
 
 @property (nonatomic, strong) NSDictionary *userInfo;
 

@@ -13,6 +13,7 @@
 @interface EVViewController ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -30,6 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     self.swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureRecognized:)];
     [self.swipeGestureRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
     if (self.navigationController.viewControllers.count > 1 && self.navigationController.viewControllers.lastObject == self)
@@ -41,9 +43,6 @@
     self.view.backgroundColor = [EVColor creamColor];
     
     [self loadTitleLabel];
-    
-
-    
 }
 
 - (void)loadTitleLabel {
@@ -78,7 +77,5 @@
 - (void)backButtonPress:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
-
-
 
 @end
