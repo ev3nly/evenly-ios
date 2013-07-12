@@ -202,15 +202,8 @@
 #pragma mark - Button Actions
 
 - (void)requestButtonPress:(id)sender {
-//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
-//    [self presentViewController:navController animated:YES completion:NULL];
-    
-    EVReward *reward = [[EVReward alloc] init];
-    reward.options = @[ [NSNull null], [NSNull null], [NSNull null] ];
-    EVRewardsGameViewController *rewardsVC = [[EVRewardsGameViewController alloc] initWithReward:reward];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:rewardsVC];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
     [self presentViewController:navController animated:YES completion:NULL];
-    
 }
 
 - (void)payButtonPress:(id)sender {

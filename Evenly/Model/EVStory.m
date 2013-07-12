@@ -114,10 +114,12 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
         else
             self.publishedAt = properties[@"published_at"];
     }
-    if ([properties[@"amount"] isKindOfClass:[NSDecimalNumber class]])
-        self.amount = properties[@"amount"];
-    else
-        self.amount = [NSDecimalNumber decimalNumberWithString:properties[@"amount"]];
+    if (properties[@"amount"] != [NSNull null]) {
+        if ([properties[@"amount"] isKindOfClass:[NSDecimalNumber class]])
+            self.amount = properties[@"amount"];
+        else
+            self.amount = [NSDecimalNumber decimalNumberWithString:properties[@"amount"]];
+    }
     
 
     // Subject
