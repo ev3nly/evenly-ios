@@ -7,35 +7,36 @@
 //
 
 #import "UITableView+EVAdditions.h"
+#import "EVLoadingIndicator.h"
 
 #define LOADING_INDICATOR_TAG 2947
 
 @implementation UITableView (EVAdditions)
 
-@dynamic isLoading;
+@dynamic loading;
 
-- (void)setIsLoading:(BOOL)loading {    
+- (void)setLoading:(BOOL)loading {
     if (loading) {
         for (UIView *subview in self.subviews) {
             if (subview.tag == LOADING_INDICATOR_TAG)
                 return;
         }
         
-        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        EVLoadingIndicator *indicator = [EVLoadingIndicator new];
         indicator.tag = LOADING_INDICATOR_TAG;
+        indicator.autoresizingMask = EV_AUTORESIZE_TO_CENTER;
+        [self addSubview:indicator];
+        [indicator sizeToFit];
         indicator.frame = CGRectMake(CGRectGetMidX(self.bounds) - indicator.bounds.size.width/2,
                                      CGRectGetMidY(self.bounds) - indicator.bounds.size.height/2,
                                      indicator.bounds.size.width,
                                      indicator.bounds.size.height);
-        indicator.autoresizingMask = EV_AUTORESIZE_TO_CENTER;
-        [self addSubview:indicator];
         [indicator startAnimating];
     }
     else {
         for (UIView *subview in self.subviews) {
             if (subview.tag == LOADING_INDICATOR_TAG) {
-                UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)subview;
-                [indicator stopAnimating];
+                EVLoadingIndicator *indicator = (EVLoadingIndicator *)subview;
                 [indicator removeFromSuperview];
             }
         }

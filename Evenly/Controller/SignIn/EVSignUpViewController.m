@@ -191,7 +191,8 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{ @"name" : self.photoNameEmailCell.nameField.text,
                                    @"email" : self.phoneNumberCell.textField.text,
                                    @"phone_number" : self.photoNameEmailCell.emailField.text,
-                                   @"password" : self.passwordCell.textField.text }];
+                                   @"password" : self.passwordCell.textField.text,
+                                   @"password_confirmation" : self.passwordCell.textField.text}];
     if (self.photo)
         [params setObject:self.photo forKey:@"avatar"];
     

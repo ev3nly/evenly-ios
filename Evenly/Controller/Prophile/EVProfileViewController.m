@@ -43,15 +43,18 @@
     [self loadTableView];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
+    [super viewWillAppear:animated];
     
+    if ([self.exchanges count] == 0)
+        self.tableView.loading = YES;
+    [self.tableView reloadData];
     self.view.backgroundColor = [EVColor creamColor];
     [EVCIA reloadMe];
     [[EVCIA me] loadAvatar];
-    [[EVCIA sharedInstance] reloadHistoryWithCompletion:^(NSArray *history) {
-        self.tableView.isLoading = NO;
+    [[EVCIA sharedInstance] refreshHistoryWithCompletion:^(NSArray *history) {
+        self.tableView.loading = NO;
         self.exchanges = history;
         [self.tableView reloadData];
     }];
@@ -76,7 +79,7 @@
     __block EVProfileViewController *profileController = self;
     [self.tableView addPullToRefreshWithActionHandler:^{
         [[EVCIA sharedInstance] refreshHistoryWithCompletion:^(NSArray *history) {
-            profileController.tableView.isLoading = NO;
+            profileController.tableView.loading = NO;
             profileController.exchanges = history;
             [profileController.tableView reloadData];
             [profileController.tableView.pullToRefreshView stopAnimating];
@@ -98,7 +101,7 @@
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (![self hasExchanges])
+    if (![self hasExchanges] && !self.tableView.isLoading)
         return 2;
     return (1 + [self.exchanges count]);
 }
@@ -119,7 +122,7 @@
         profileCell.parent = self;
         profileCell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell = profileCell;
-    } else if (![self hasExchanges]) {
+    } else if (![self hasExchanges] && !self.tableView.isLoading) {
         EVNoActivityCell *noActivityCell = [tableView dequeueReusableCellWithIdentifier:@"noActivityCell"];
         cell = noActivityCell;
     } else {
