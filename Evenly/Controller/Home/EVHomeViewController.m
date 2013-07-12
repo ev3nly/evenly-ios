@@ -148,12 +148,16 @@
 }
 
 - (void)reloadNewsFeed {
+    if ([self.newsfeed count] == 0)
+        self.tableView.loading = YES;
+
     [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
         self.newsfeed = newsfeed;
         [self.tableView reloadData];
         [self.tableView.pullToRefreshView stopAnimating];
+        self.tableView.loading = NO;
     } failure:^(NSError *error) {
-
+        self.tableView.loading = NO;
     }];
 }
 
@@ -181,7 +185,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger count = [self.newsfeed count];
     return count;
-    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

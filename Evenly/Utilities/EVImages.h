@@ -68,4 +68,9 @@
 + (UIImage *)statusProgressBackground;
 + (UIImage *)statusProgressSpinner;
 
+#pragma mark - Loading
++ (UIImage *)loadingLogo;
++ (UIImage *)grayLoadingLogo;
++ (UIImage *)loadingSpinner;
+
 @end

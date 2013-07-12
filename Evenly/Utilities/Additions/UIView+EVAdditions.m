@@ -8,6 +8,7 @@
 
 #import "UIView+EVAdditions.h"
 #import "NSArray+EVAdditions.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation UIView (EVAdditions)
 
@@ -95,6 +96,19 @@
         [self removeGestureRecognizer:recognizer];
 }
 
+#pragma mark - Animations
+
+- (void)rotateContinuouslyWithDuration:(float)duration {
+    CABasicAnimation *rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0];
+    rotationAnimation.duration = duration;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = HUGE_VALF;
+    rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [self.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+}
+
 #define BOUNCE_OVERSHOOT_DISTANCE_PERCENT 0.1
 #define BOUNCE_OVERSHOOT_DURATION_PERCENT 0.3
 
@@ -106,7 +120,7 @@
     if (targetFrame.origin.x < currentOrigin.x)
         overshootXAmount = -overshootXAmount;
     if (targetFrame.origin.y < currentOrigin.y)
-        overshootYAmount = - overshootYAmount;
+        overshootYAmount = -overshootYAmount;
     
     CGRect overshootFrame = targetFrame;
     overshootFrame.origin.x = currentOrigin.x + overshootXAmount;
@@ -128,6 +142,64 @@
                                                   completion();
                                           }];
                      }];
+}
+
+#define ZOOM_OVERSHOOT_SCALE 1.3
+#define ZOOM_SMALL_SCALE 0.2
+#define ZOOM_OVERSHOOT_DURATION_PERCENT 0.2
+
+- (void)zoomBounceWithDuration:(float)duration completion:(void (^)(void))completion {
+    self.transform = CGAffineTransformMakeScale(ZOOM_SMALL_SCALE, ZOOM_SMALL_SCALE);
+    self.alpha = 0;
+    [UIView animateWithDuration:(1.0-ZOOM_OVERSHOOT_DURATION_PERCENT)*duration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.transform = CGAffineTransformMakeScale(ZOOM_OVERSHOOT_SCALE, ZOOM_OVERSHOOT_SCALE);
+                         self.alpha = 1;
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:ZOOM_OVERSHOOT_DURATION_PERCENT*duration
+                                               delay:0
+                                             options:UIViewAnimationOptionCurveEaseOut
+                                          animations:^{
+                                              self.transform = CGAffineTransformIdentity;
+                                          } completion:^(BOOL finished) {
+                                              if (completion)
+                                                  completion();
+                                          }];
+                     }];
+}
+
+- (void)shrinkBounceWithDuration:(float)duration completion:(void (^)(void))completion {
+    self.alpha = 1;
+    [UIView animateWithDuration:ZOOM_OVERSHOOT_DURATION_PERCENT*duration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         self.transform = CGAffineTransformMakeScale(ZOOM_OVERSHOOT_SCALE, ZOOM_OVERSHOOT_SCALE);
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:(1.0-ZOOM_OVERSHOOT_DURATION_PERCENT)*duration
+                                               delay:0
+                                             options:UIViewAnimationOptionCurveEaseOut
+                                          animations:^{
+                                              self.transform = CGAffineTransformMakeScale(ZOOM_SMALL_SCALE, ZOOM_SMALL_SCALE);
+                                               self.alpha = 0;
+                                          } completion:^(BOOL finished) {
+                                              if (completion)
+                                                  completion();
+                                          }];
+                     }];
+}
+
+- (void)pulseFromAlpha:(float)fromAlpha toAlpha:(float)toAlpha duration:(float)duration {
+    self.alpha = fromAlpha;
+    
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse
+                     animations:^{
+                         self.alpha = toAlpha;
+                     } completion:nil];
 }
 
 static char UIViewUserInfoKey;
