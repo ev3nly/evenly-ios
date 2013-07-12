@@ -9,6 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "EVRewardsSliderBackground.h"
 
+extern NSString *const EVRewardsSliderPanBeganNotification;
+extern NSString *const EVRewardsSliderPanEndedNotification;
+extern NSString *const EVRewardsSliderSwipeBeganNotification;
+extern NSString *const EVRewardsSliderSwipeEndedNotification;
+
 @interface EVRewardsSlider : UIControl<UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIView *foregroundView;

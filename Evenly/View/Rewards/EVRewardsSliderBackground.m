@@ -56,6 +56,7 @@
         [self.rewardAmountLabel setFrame:self.bounds];
         [self addSubview:self.rewardAmountLabel];
         [self setBackgroundColor:[UIColor whiteColor]];
+        [self.logos makeObjectsPerformSelector:@selector(removeFromSuperview)];
     } else {
         [self.rewardAmountLabel setSize:CGSizeMake(1, 1)];
         [self.rewardAmountLabel setCenter:CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0)];
@@ -64,8 +65,11 @@
                          animations:^{
                              [self setBackgroundColor:[UIColor whiteColor]];
                              [self.rewardAmountLabel setFrame:self.bounds];
+                             for (UIImageView *logo in self.logos) {
+                                 [logo setAlpha:0.0f];
+                             }
                          } completion:^(BOOL finished){
-                             
+                             [self.logos makeObjectsPerformSelector:@selector(removeFromSuperview)];
                          }];
     }
 }
@@ -84,7 +88,6 @@
 - (UIImage *)coloredLogo {
     return [UIImage imageNamed:@"small_logo"];
 }
-
 
 #pragma mark - Animation
 
@@ -107,12 +110,6 @@
         [array shuffle];
         self.indices = (NSArray *)array;
     }
-    
-//    UIImageView *imageView = [self currentImageView];
-//    if ([imageView.image isEqual:[self coloredLogo]])
-//        [imageView setImage:[self whiteLogo]];
-//    else
-//        [imageView setImage:[self coloredLogo]];
     
     [[self currentImageView] setImage:[self coloredLogo]];
     [[self previousImageView] setImage:[self whiteLogo]];
@@ -142,9 +139,6 @@
     else
         index = _currentLogoIndex+1;
     return [self.logos objectAtIndex:[[_indices objectAtIndex:index] intValue]];
-//        return [self.logos objectAtIndex:_currentLogoIndex-1];
-//    else
-//        return [self.logos objectAtIndex:_currentLogoIndex+1];    
 }
 
 - (void)adjustLogoIndex {
@@ -167,17 +161,6 @@
     self.animating = NO;
 }
 
-- (void)setAnimating:(BOOL)animating {
-    _animating = animating;
-    if (_animating) {
-        for (UIImageView *logo in self.logos) {
-            [self addSubview:logo];
-        }
-    } else {
-        [self.logos makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    }
-}
-
 #pragma mark - Layout
 
 - (void)layoutSubviews {
@@ -192,16 +175,5 @@
         i++;
     }
 }
-
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

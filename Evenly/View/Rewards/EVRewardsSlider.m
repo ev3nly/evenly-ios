@@ -12,6 +12,11 @@
 
 #define NUMBER_OF_ARROWS 3
 
+NSString *const EVRewardsSliderPanBeganNotification = @"EVRewardsSliderPanBeganNotification";
+NSString *const EVRewardsSliderPanEndedNotification = @"EVRewardsSliderPanEndedNotification";
+NSString *const EVRewardsSliderSwipeBeganNotification = @"EVRewardsSliderSwipeBeganNotification";
+NSString *const EVRewardsSliderSwipeEndedNotification = @"EVRewardsSliderSwipeEndedNotification";
+
 @implementation EVRewardsSlider
 
 - (id)initWithFrame:(CGRect)frame
@@ -19,7 +24,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.autoresizesSubviews = YES;
-        
         [self loadForeground];
         
         [self loadBackground];
@@ -39,8 +43,29 @@
         self.backgroundColor = [EVColor darkColor];
         
         self.animationEnabled = YES;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(panBegan:)
+                                                     name:EVRewardsSliderPanBeganNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(panEnded:)
+                                                     name:EVRewardsSliderPanEndedNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(swipeBegan:)
+                                                     name:EVRewardsSliderSwipeBeganNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(swipeEnded:)
+                                                     name:EVRewardsSliderSwipeEndedNotification
+                                                   object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)loadForeground {
@@ -79,6 +104,10 @@
     self.backgroundView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     [self insertSubview:self.backgroundView belowSubview:self.foregroundView];
     
+    // Hide the background view logos until we have made an appearance.
+    for (UIView *view in self.backgroundView.logos) {
+        view.hidden = YES;
+    }
 }
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
@@ -95,6 +124,7 @@
     [self.backgroundView stopAnimating];
     [self.backgroundView setRewardAmount:rewardAmount animated:animated];
 }
+
 #pragma mark - Animation
 
 - (CGRect)offscreenRect {
@@ -105,7 +135,13 @@
     self.foregroundView.frame = [self offscreenRect];
     [self.foregroundView bounceAnimationToFrame:self.bounds
                                        duration:duration
-                                     completion:completion];
+                                     completion:^{
+                                         for (UIView *view in self.backgroundView.logos) {
+                                             view.hidden = NO;
+                                         }
+                                         if (completion)
+                                             completion();
+                                     }];
 }
 
 
@@ -113,6 +149,10 @@
     [self.foregroundView bounceAnimationToFrame:[self offscreenRect]
                                        duration:EV_DEFAULT_ANIMATION_DURATION
                                      completion:^{
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardsSliderPanEndedNotification
+                                                                                             object:self];
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardsSliderSwipeEndedNotification
+                                                                                             object:self];
                                          [self sendActionsForControlEvents:UIControlEventValueChanged];
                                          if (self.animationEnabled)
                                              [[self backgroundView] startAnimating];
@@ -123,7 +163,10 @@
     [self.foregroundView bounceAnimationToFrame:self.bounds
                                        duration:EV_DEFAULT_ANIMATION_DURATION
                                      completion:^{
-
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardsSliderPanEndedNotification
+                                                                                             object:self];
+                                         [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardsSliderSwipeEndedNotification
+                                                                                             object:self];
                                      }];
 }
 
@@ -144,9 +187,14 @@
 - (void)panRecognized:(UIPanGestureRecognizer *)recognizer {
     CGPoint translation = [recognizer translationInView:self];
 
-    if (recognizer.state == UIGestureRecognizerStateChanged)
+    if (recognizer.state == UIGestureRecognizerStateBegan)
     {
-        [self.foregroundView setOrigin:CGPointMake(translation.x, 0)];
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardsSliderPanBeganNotification object:self];
+    }
+    else if (recognizer.state == UIGestureRecognizerStateChanged)
+    {
+        
+        [self.foregroundView setOrigin:CGPointMake(MIN(translation.x, 0.0), 0)];
     }
     else if (recognizer.state == UIGestureRecognizerStateEnded)
     {
@@ -159,11 +207,43 @@
 }
 
 - (void)swipeRecognized:(UISwipeGestureRecognizer *)recognizer {
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardsSliderSwipeBeganNotification object:self];
     [self animateOut];
 }
 
 - (void)tapRecognized:(UITapGestureRecognizer *)recognizer {
     [self pulse];
+}
+
+#pragma mark - Notifications
+
+- (void)panBegan:(NSNotification *)notification {
+    if ([notification object] != self) {
+        self.enabled = NO;
+    }
+}
+
+- (void)swipeBegan:(NSNotification *)notification {
+    if ([notification object] != self) {
+        self.enabled = NO;
+    }
+}
+
+- (void)panEnded:(NSNotification *)notification {
+    self.enabled = YES;
+}
+
+- (void)swipeEnded:(NSNotification *)notification {
+    self.enabled = YES;
+}
+
+#pragma mark - Overrides
+
+- (void)setEnabled:(BOOL)enabled {
+    [super setEnabled:enabled];
+    [self.swipeRecognizer setEnabled:enabled];
+    [self.panRecognizer setEnabled:enabled];
+    [self.tapRecognizer setEnabled:enabled];
 }
 
 @end

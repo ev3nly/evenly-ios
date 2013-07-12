@@ -69,6 +69,7 @@
     self.navigationItem.hidesBackButton = YES;
     
     self.view.backgroundColor = [UIColor whiteColor];
+    self.view.exclusiveTouch = YES;
     [self loadHeaderView];
     [self loadSwitchView];
     [self loadSliders];
@@ -109,6 +110,7 @@
         [slider addTarget:self action:@selector(optionSelected:) forControlEvents:UIControlEventValueChanged];
         [self.view addSubview:slider];
         [slidersArray addObject:slider];
+        slider.hidden = YES;
     }
     self.sliders = [NSArray arrayWithArray:slidersArray];
 }
@@ -125,6 +127,7 @@
     NSTimeInterval interval = 0.1;
     int i = 0;
     for (EVRewardsSlider *slider in self.sliders) {
+        slider.hidden = NO;
         EV_DISPATCH_AFTER(interval * (i++ *2), ^{
             EV_PERFORM_ON_MAIN_QUEUE(^{
                 [slider makeAnAppearanceWithDuration:EV_DEFAULT_ANIMATION_DURATION completion:^{
@@ -169,6 +172,10 @@
     
     self.chosenSlider = slider;
     
+    for (EVRewardsSlider *slider in self.sliders) {
+        slider.enabled = NO;
+    }
+    
     int index = [self.sliders indexOfObject:slider];
     self.reward.selectedOptionIndex = index;
     self.reward.willShare = self.switchView.shareSwitch.isOn;
@@ -184,7 +191,7 @@
 
 - (void)updateInterface {
     [self updateSliders];
-    
+    [self changeNavButton];    
 }
 
 - (void)updateSliders {
@@ -195,6 +202,7 @@
         amount = [self.reward.options objectAtIndex:i];
         [slider.backgroundView stopAnimating];
         slider.animationEnabled = NO;
+        slider.enabled = YES;
         [slider setRewardAmount:amount animated:(i == self.reward.selectedOptionIndex)];
     }
 }

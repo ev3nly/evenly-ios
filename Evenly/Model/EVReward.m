@@ -19,7 +19,16 @@ NSString *const EVRewardRedeemedNotification = @"EVRewardRedeemedNotification";
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     
-    self.options = properties[@"options"];
+    NSMutableArray *array = [NSMutableArray array];
+    for (id obj in properties[@"options"]) {
+        if ([obj isKindOfClass:[NSNull class]])
+            [array addObject:obj];
+        else if ([obj isKindOfClass:[NSString class]])
+            [array addObject:[NSDecimalNumber decimalNumberWithString:obj]];
+        else
+            [array addObject:[NSDecimalNumber decimalNumberWithString:[obj stringValue]]];
+    }
+    self.options = [NSArray arrayWithArray:array];
     if (properties[@"selected_option_index"] == [NSNull null]) {
         self.selectedOptionIndex = NSNotFound;
     } else {
@@ -40,7 +49,7 @@ NSString *const EVRewardRedeemedNotification = @"EVRewardRedeemedNotification";
 }
 
 - (void)redeemWithSuccess:(void (^)(EVReward *reward))success failure:(void (^)(NSError *error))failure {
-    NSMutableURLRequest *request = [[self class] requestWithMethod:@"PUT"
+    NSMutableURLRequest *request = [[self class] requestWithMethod:@"PUT" 
                                                               path:self.dbid
                                                         parameters:[self dictionaryRepresentation]];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
