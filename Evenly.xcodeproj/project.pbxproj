@@ -320,6 +320,7 @@
 		9CD306A5176287E400D23852 /* EVWalletStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306A4176287E400D23852 /* EVWalletStamp.m */; };
 		9CD306A817628E7E00D23852 /* EVWalletItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306A717628E7E00D23852 /* EVWalletItemCell.m */; };
 		9CD306AB1762970300D23852 /* EVStoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306AA1762970300D23852 /* EVStoryCell.m */; };
+		9CD473B31790992E00E60E37 /* EVRequestHowMuchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD473B21790992E00E60E37 /* EVRequestHowMuchView.m */; };
 		9CE05EF1175942610095CCFC /* JASidePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EEE175942610095CCFC /* JASidePanelController.m */; };
 		9CE05EF2175942610095CCFC /* UIViewController+JASidePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */; };
 		9CE703EA175D1A7200561ADA /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B40174FD95600BE9506 /* SenTestingKit.framework */; };
@@ -957,6 +958,8 @@
 		9CD306A717628E7E00D23852 /* EVWalletItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletItemCell.m; sourceTree = "<group>"; };
 		9CD306A91762970300D23852 /* EVStoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStoryCell.h; sourceTree = "<group>"; };
 		9CD306AA1762970300D23852 /* EVStoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStoryCell.m; sourceTree = "<group>"; };
+		9CD473B11790992E00E60E37 /* EVRequestHowMuchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestHowMuchView.h; sourceTree = "<group>"; };
+		9CD473B21790992E00E60E37 /* EVRequestHowMuchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestHowMuchView.m; sourceTree = "<group>"; };
 		9CE05EED175942610095CCFC /* JASidePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JASidePanelController.h; sourceTree = "<group>"; };
 		9CE05EEE175942610095CCFC /* JASidePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JASidePanelController.m; sourceTree = "<group>"; };
 		9CE05EEF175942610095CCFC /* UIViewController+JASidePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+JASidePanel.h"; sourceTree = "<group>"; };
@@ -1352,6 +1355,8 @@
 			children = (
 				9C16065D1788D6FE00852684 /* EVExchangeHowMuchView.h */,
 				9C16065E1788D6FE00852684 /* EVExchangeHowMuchView.m */,
+				9CD473B11790992E00E60E37 /* EVRequestHowMuchView.h */,
+				9CD473B21790992E00E60E37 /* EVRequestHowMuchView.m */,
 				9C16065B1788D6FE00852684 /* EVRequestMultipleAmountsView.h */,
 				9C16065C1788D6FE00852684 /* EVRequestMultipleAmountsView.m */,
 			);
@@ -3265,6 +3270,7 @@
 				9CB7FB69178CE87800827B5B /* EVRewardsSwitchView.m in Sources */,
 				9CB7FB6C178CF1C600827B5B /* EVRewardsSlider.m in Sources */,
 				9C8768E0178F3C72004A6387 /* EVRewardsSliderBackground.m in Sources */,
+				9CD473B31790992E00E60E37 /* EVRequestHowMuchView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
