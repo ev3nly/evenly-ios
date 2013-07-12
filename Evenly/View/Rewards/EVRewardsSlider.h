@@ -7,6 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVRewardsSliderBackground.h"
+
+extern NSString *const EVRewardsSliderPanBeganNotification;
+extern NSString *const EVRewardsSliderPanEndedNotification;
+extern NSString *const EVRewardsSliderSwipeBeganNotification;
+extern NSString *const EVRewardsSliderSwipeEndedNotification;
 
 @interface EVRewardsSlider : UIControl<UIGestureRecognizerDelegate>
 
@@ -17,7 +23,8 @@
 @property (nonatomic, strong) UIView *arrowContainer;
 @property (nonatomic, strong) NSArray *arrows;
 
-@property (nonatomic, strong) UIView *backgroundView;
+@property (nonatomic, strong) EVRewardsSliderBackground *backgroundView;
+@property (nonatomic, strong) UIColor *backgroundColor;
 
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
@@ -25,7 +32,10 @@
 
 @property (nonatomic, strong) NSDecimalNumber *rewardAmount;
 
+@property (nonatomic) BOOL animationEnabled;
+
 - (void)makeAnAppearanceWithDuration:(NSTimeInterval)duration completion:(void (^)(void))completion;
 - (void)pulse;
+- (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated;
 
 @end

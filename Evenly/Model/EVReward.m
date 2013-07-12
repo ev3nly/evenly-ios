@@ -8,6 +8,8 @@
 
 #import "EVReward.h"
 
+NSString *const EVRewardRedeemedNotification = @"EVRewardRedeemedNotification";
+
 @implementation EVReward
 
 + (NSString *)controllerName {
@@ -17,7 +19,16 @@
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     
-    self.options = properties[@"options"];
+    NSMutableArray *array = [NSMutableArray array];
+    for (id obj in properties[@"options"]) {
+        if ([obj isKindOfClass:[NSNull class]])
+            [array addObject:obj];
+        else if ([obj isKindOfClass:[NSString class]])
+            [array addObject:[NSDecimalNumber decimalNumberWithString:obj]];
+        else
+            [array addObject:[NSDecimalNumber decimalNumberWithString:[obj stringValue]]];
+    }
+    self.options = [NSArray arrayWithArray:array];
     if (properties[@"selected_option_index"] == [NSNull null]) {
         self.selectedOptionIndex = NSNotFound;
     } else {
@@ -38,7 +49,7 @@
 }
 
 - (void)redeemWithSuccess:(void (^)(EVReward *reward))success failure:(void (^)(NSError *error))failure {
-    NSMutableURLRequest *request = [[self class] requestWithMethod:@"PUT"
+    NSMutableURLRequest *request = [[self class] requestWithMethod:@"PUT" 
                                                               path:self.dbid
                                                         parameters:[self dictionaryRepresentation]];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -56,7 +67,12 @@
                                                                                       failure(error);
                                                                               }];
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
-    
+}
+
+- (NSDecimalNumber *)selectedAmount {
+    if (self.selectedOptionIndex == NSNotFound)
+        return nil;
+    return [self.options objectAtIndex:self.selectedOptionIndex];
 }
 
 @end
