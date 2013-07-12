@@ -14,6 +14,8 @@
 #import "EVRewardsSlider.h"
 #import "EVRewardsFooterView.h"
 
+#import "EVHomeViewController.h"
+
 @interface EVRewardsGameViewController ()
 
 @property (nonatomic, strong) EVReward *reward;
@@ -23,6 +25,8 @@
 @property (nonatomic, strong) EVRewardsSwitchView *switchView;
 @property (nonatomic, strong) NSArray *sliders;
 @property (nonatomic, strong) EVRewardsFooterView *footerView;
+
+@property (nonatomic, strong) EVRewardsSlider *chosenSlider;
 
 - (void)loadHeaderView;
 - (void)loadSwitchView;
@@ -48,6 +52,9 @@
         self.title = @"Evenly Rewards";
         self.cancelButton = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
         [self.cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+        
+        self.doneButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
+        [self.doneButton addTarget:self action:@selector(doneButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
@@ -56,10 +63,13 @@
 {
     [super viewDidLoad];
     
+    self.swipeGestureRecognizer.enabled = NO; // Disable back swiping.
+    
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.cancelButton];
     self.navigationItem.hidesBackButton = YES;
     
     self.view.backgroundColor = [UIColor whiteColor];
+    self.view.exclusiveTouch = YES;
     [self loadHeaderView];
     [self loadSwitchView];
     [self loadSliders];
@@ -97,8 +107,10 @@
                                                                                     height)];
         [slider setForegroundColor:[colors objectAtIndex:i]];
         [slider.label setText:[words objectAtIndex:i]];
+        [slider addTarget:self action:@selector(optionSelected:) forControlEvents:UIControlEventValueChanged];
         [self.view addSubview:slider];
         [slidersArray addObject:slider];
+        slider.hidden = YES;
     }
     self.sliders = [NSArray arrayWithArray:slidersArray];
 }
@@ -115,6 +127,7 @@
     NSTimeInterval interval = 0.1;
     int i = 0;
     for (EVRewardsSlider *slider in self.sliders) {
+        slider.hidden = NO;
         EV_DISPATCH_AFTER(interval * (i++ *2), ^{
             EV_PERFORM_ON_MAIN_QUEUE(^{
                 [slider makeAnAppearanceWithDuration:EV_DEFAULT_ANIMATION_DURATION completion:^{
@@ -137,8 +150,68 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
+- (void)doneButtonPress:(id)sender {
+    if ([self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardRedeemedNotification
+                                                            object:self
+                                                          userInfo:@{ @"reward" : self.reward,
+                                                                       @"label" : self.chosenSlider.backgroundView.rewardAmountLabel }];
+    }
+}
+
 - (void)shareSwitchChanged:(EVSwitch *)sender {
     self.reward.willShare = self.switchView.shareSwitch.isOn;
+}
+
+- (void)optionSelected:(EVRewardsSlider *)slider {
+    if (self.reward.selectedOptionIndex != NSNotFound) {
+        return;
+    }
+    
+    self.chosenSlider = slider;
+    
+    for (EVRewardsSlider *slider in self.sliders) {
+        slider.enabled = NO;
+    }
+    
+    int index = [self.sliders indexOfObject:slider];
+    self.reward.selectedOptionIndex = index;
+    self.reward.willShare = self.switchView.shareSwitch.isOn;
+    [self.reward redeemWithSuccess:^(EVReward *reward) {
+        self.reward = reward;
+        [self updateInterface];
+    } failure:^(NSError *error) {
+        DLog(@"Rewarding failed");
+    }];
+}
+
+#pragma mark - Managing Sliders
+
+- (void)updateInterface {
+    [self updateSliders];
+    [self changeNavButton];    
+}
+
+- (void)updateSliders {
+    EVRewardsSlider *slider;
+    NSDecimalNumber *amount;
+    for (int i = 0; i < self.reward.options.count; i++) {
+        slider = [self.sliders objectAtIndex:i];
+        amount = [self.reward.options objectAtIndex:i];
+        [slider.backgroundView stopAnimating];
+        slider.animationEnabled = NO;
+        slider.enabled = YES;
+        [slider setRewardAmount:amount animated:(i == self.reward.selectedOptionIndex)];
+    }
+}
+
+- (void)changeNavButton {
+    self.navigationItem.leftBarButtonItem = nil;
+    [self.cancelButton removeFromSuperview];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];
 }
 
 @end

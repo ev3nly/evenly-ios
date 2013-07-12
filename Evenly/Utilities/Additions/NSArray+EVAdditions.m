@@ -29,6 +29,34 @@
     return [self filteredArrayUsingPredicate:filterPredicate];
 }
 
+
+- (id)randomObject {
+	if ([self count] == 0)
+		return nil;
+	
+	NSUInteger i = arc4random() % [self count];
+	return [self objectAtIndex:i];
+}
+
+- (id)nextObjectAfter:(id)inObject
+{
+	if ([self count] == 0)
+		return nil;
+	
+	NSUInteger i = [self indexOfObject:inObject];
+	if (i == NSNotFound)
+		[NSException raise:@"EVNextObjectException" format:@"Tried to find next object after one that didn't exist in the array."];
+	
+	if ([self count] == 1)
+		return inObject;
+	
+	if (i == ([self count] - 1))
+		i = -1;
+	
+	return [self objectAtIndex:(i+1)];
+}
+
+
 @end
 
 @implementation NSMutableArray (EVAdditions)
@@ -53,6 +81,15 @@
         
         i++;
         j--;
+    }
+}
+
+- (void)shuffle {
+    // http://en.wikipedia.org/wiki/Knuth_shuffle
+	
+    for(NSUInteger i = [self count]; i > 1; i--) {
+        NSUInteger j = arc4random() % i;
+        [self exchangeObjectAtIndex:i-1 withObjectAtIndex:j];
     }
 }
 
