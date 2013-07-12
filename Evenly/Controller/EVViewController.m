@@ -48,8 +48,8 @@
 - (void)loadTitleLabel {
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.titleLabel.font = [EVFont blackFontOfSize:21];
-    self.titleLabel.shadowColor = [UIColor colorWithWhite:0.2 alpha:1.0];
-    self.titleLabel.shadowOffset = CGSizeMake(0, 1);
+//    self.titleLabel.shadowColor = [UIColor colorWithWhite:0.2 alpha:1.0];
+//    self.titleLabel.shadowOffset = CGSizeMake(0, 1);
     self.titleLabel.backgroundColor = [UIColor clearColor];
     self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.text = self.title;
