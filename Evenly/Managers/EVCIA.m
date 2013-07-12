@@ -303,29 +303,6 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
     } actOnCache:NO];
 }
 
-- (void)reloadHistoryForUser:(EVUser *)user withCompletion:(void (^)(NSArray *history))completion {
-    [EVActivity allWithSuccess:^(id result) {
-        
-        BOOL updated = NO;
-        for (id key in [result allKeys]) {
-            NSArray *oldResult = [self.internalCache objectForKey:key];
-            if (!oldResult || ![oldResult isEqualToArray:[result objectForKey:key]])
-            {
-                updated = YES;
-                [self.internalCache setObject:[result objectForKey:key] forKey:key];
-            }
-        }
-        if (completion)
-            completion(result);
-        if (updated)
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
-                                                                object:self
-                                                              userInfo:nil];
-    } failure:^(NSError *error) {
-        DLog(@"Failed to reload: %@", error);
-    }];
-}
-
 #pragma mark - Credit Cards
 
 NSString *const EVCIAUpdatedCreditCardsNotification = @"EVCIAUpdatedCreditCardsNotification";

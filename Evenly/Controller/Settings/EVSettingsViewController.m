@@ -85,7 +85,7 @@
     
     row = [[EVSettingsRow alloc] initWithFrame:frame];
     row.iconView.image = [UIImage imageNamed:@"Settings_passcode_key"];
-    row.label.text = @"Passcode";
+    row.label.text = @"Change Passcode";
     self.passcodeRow = row;
     yOrigin += EV_SETTINGS_ROW_HEIGHT;
     

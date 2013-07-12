@@ -19,10 +19,8 @@
 
 @interface EVInviteListViewController ()
 
-@property (nonatomic, strong) UIBarButtonItem *rightButton;
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UIView *shadeView;
-
 
 @end
 
@@ -33,7 +31,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.title = @"Find Friends";
-        self.selectedFriends = [NSMutableArray arrayWithCapacity:0];
+        self.selectedFriends = [NSArray array];
     }
     return self;
 }
@@ -75,9 +73,19 @@
     EVNavigationBarButton *button = [[EVNavigationBarButton alloc] initWithTitle:@"Invite"];
     [button addTarget:self action:@selector(inviteFriends) forControlEvents:UIControlEventTouchUpInside];
     [button setEnabled:NO];
+    
     self.rightButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     [self.navigationItem setRightBarButtonItem:self.rightButton animated:YES];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
+
+    RAC(self.navigationItem.rightBarButtonItem.enabled) = [RACSignal combineLatest:@[RACAble(self.selectedFriends)]
+                                                                            reduce:^(NSArray *array) {
+                                                                                NSString *suffix = [NSString stringWithFormat:@" (%i)", [self.selectedFriends count]];
+                                                                                NSString *buttonTitle = @"Invite";
+                                                                                if ([self.selectedFriends count] > 0)
+                                                                                    buttonTitle = [buttonTitle stringByAppendingString:suffix];
+                                                                                [button setTitle:buttonTitle forState:UIControlStateNormal];
+                                                                                return @([array count] > 0);
+                                                                            }];
 }
 
 - (void)loadSearchBar {

@@ -51,13 +51,10 @@
     NSDictionary *userDict = [self.displayedFriendList objectAtIndex:indexPath.row];
     [cell setName:[NSString stringWithFormat:@"%@ %@", userDict[@"first_name"], userDict[@"last_name"]] profileID:userDict[@"id"]];
     cell.handleSelection = ^(NSString *profileID) {
-        [self.selectedFriends addObject:profileID];
-        self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.selectedFriends = [self.selectedFriends arrayByAddingObject:profileID];
     };
     cell.handleDeselection = ^(NSString *profileID) {
-        [self.selectedFriends removeObject:profileID];
-        if ([self.selectedFriends count] == 0)
-            self.navigationItem.rightBarButtonItem.enabled = NO;
+        self.selectedFriends = [self.selectedFriends arrayByRemovingObject:profileID];
     };
     cell.shouldInvite = [self.selectedFriends containsObject:userDict[@"id"]];
     

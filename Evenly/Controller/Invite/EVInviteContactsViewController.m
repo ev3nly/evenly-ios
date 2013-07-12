@@ -55,13 +55,10 @@
     [cell setName:[self displayNameForContact:contact] profilePicture:[self imageForContact:contact]];
     cell.identifier = contact;
     cell.handleSelection = ^(ABContact *friend) {
-        [self.selectedFriends addObject:friend];
-        self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.selectedFriends = [self.selectedFriends arrayByAddingObject:friend];
     };
     cell.handleDeselection = ^(ABContact *friend) {
-        [self.selectedFriends removeObject:friend];
-        if ([self.selectedFriends count] == 0)
-            self.navigationItem.rightBarButtonItem.enabled = NO;
+        self.selectedFriends = [self.selectedFriends arrayByRemovingObject:friend];
     };
     cell.shouldInvite = [self.selectedFriends containsObject:contact];
     

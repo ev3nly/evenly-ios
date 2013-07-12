@@ -12,5 +12,6 @@
 
 + (instancetype)buttonWithTitle:(NSString *)title;
 - (id)initWithTitle:(NSString *)title;
+- (CGSize)sizeForTitle:(NSString *)title;
 
 @end

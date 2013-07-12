@@ -49,6 +49,10 @@
     return self;
 }
 
+- (CGSize)sizeForTitle:(NSString *)title {
+    
+}
+
 #pragma mark - Private Methods
 
 - (UIFont *)buttonFont {

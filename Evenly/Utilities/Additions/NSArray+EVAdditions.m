@@ -14,6 +14,12 @@
     return [[self reverseObjectEnumerator] allObjects];
 }
 
+- (NSArray *)arrayByRemovingObject:(id)object {
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self];
+    [array removeObject:object];
+    return array;
+}
+
 - (NSArray *)map:(id (^)(id object))block {
     __block NSMutableArray *mappedArray = [NSMutableArray array];
     [self enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {

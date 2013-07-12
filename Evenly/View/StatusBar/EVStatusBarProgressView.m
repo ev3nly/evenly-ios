@@ -11,7 +11,7 @@
 #define IN_PROGRESS_BACKGROUND_CYCLE_LENGTH 4.0
 #define IN_PROGRESS_SPINNER_CYCLE_LENGTH 1.0
 #define SPINNER_LABEL_BUFFER 6
-#define PROGRESS_LABEL_FONT [EVFont blackFontOfSize:10]
+#define PROGRESS_LABEL_FONT [EVFont romanFontOfSize:10]
 #define CONCLUSION_LABEL_Y_OFFSET 1
 
 @interface EVStatusBarProgressView ()
