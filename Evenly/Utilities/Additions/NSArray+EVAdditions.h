@@ -11,6 +11,7 @@
 @interface NSArray (EVAdditions)
 
 - (NSArray *)reversedArray;
+- (NSArray *)arrayByRemovingObject:(id)object;
 - (NSArray *)map:(id (^)(id object))block;
 - (NSArray *)filter:(BOOL (^)(id object))block;
 

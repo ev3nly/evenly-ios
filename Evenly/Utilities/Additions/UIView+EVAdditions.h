@@ -32,7 +32,13 @@
 
 #pragma mark - Animations
 - (void)rotateContinuouslyWithDuration:(float)duration;
-- (void)bounceAnimationToFrame:(CGRect)frame duration:(float)duration completion:(void (^)(void))completion;
+- (void)bounceAnimationToFrame:(CGRect)targetFrame duration:(float)duration completion:(void (^)(void))completion;
+- (void)bounceAnimationToFrame:(CGRect)targetFrame
+               initialDuration:(float)duration
+               durationDamping:(float)durationDamping
+               distanceDamping:(float)distanceDamping
+                    completion:(void (^)(void))completion;
+
 - (void)zoomBounceWithDuration:(float)duration completion:(void (^)(void))completion;
 - (void)shrinkBounceWithDuration:(float)duration completion:(void (^)(void))completion;
 - (void)pulseFromAlpha:(float)fromAlpha toAlpha:(float)toAlpha duration:(float)duration;

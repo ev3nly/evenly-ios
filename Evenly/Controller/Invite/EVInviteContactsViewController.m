@@ -20,7 +20,10 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.fullFriendList = [[ABContactsHelper contactsMinusDuplicates] sortedArrayUsingComparator:^NSComparisonResult(ABContact *obj1, ABContact *obj2) {
-            return [obj1.firstname.lowercaseString compare:obj2.firstname.lowercaseString];
+            NSComparisonResult result = [obj1.firstname.lowercaseString compare:obj2.firstname.lowercaseString];
+            if (result == NSOrderedSame)
+                result = [obj1.lastname.lowercaseString compare:obj2.lastname.lowercaseString];
+            return result;
         }];
         self.fullFriendList = [self.fullFriendList filter:^BOOL(ABContact *contact) {
             if (EV_IS_EMPTY_STRING(contact.firstname) && EV_IS_EMPTY_STRING(contact.lastname))
@@ -55,13 +58,10 @@
     [cell setName:[self displayNameForContact:contact] profilePicture:[self imageForContact:contact]];
     cell.identifier = contact;
     cell.handleSelection = ^(ABContact *friend) {
-        [self.selectedFriends addObject:friend];
-        self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.selectedFriends = [self.selectedFriends arrayByAddingObject:friend];
     };
     cell.handleDeselection = ^(ABContact *friend) {
-        [self.selectedFriends removeObject:friend];
-        if ([self.selectedFriends count] == 0)
-            self.navigationItem.rightBarButtonItem.enabled = NO;
+        self.selectedFriends = [self.selectedFriends arrayByRemovingObject:friend];
     };
     cell.shouldInvite = [self.selectedFriends containsObject:contact];
     

@@ -37,7 +37,8 @@
              default:
                  break;
          }
-         
+         FBAccessTokenData *data = session.accessTokenData;
+         NSLog(@"data: %@", data);
          if (error) {
              [[[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
              [self fbResync];
