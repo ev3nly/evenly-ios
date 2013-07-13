@@ -38,7 +38,7 @@
 - (void)loadHintLabel {
     self.hintLabel = [[UILabel alloc] initWithFrame:[self hintLabelFrame]];
     self.hintLabel.backgroundColor = [UIColor clearColor];
-    self.hintLabel.font = [EVFont defaultFontOfSize:12];
+    self.hintLabel.font = [EVFont defaultFontOfSize:15];
     self.hintLabel.textAlignment = NSTextAlignmentCenter;
     self.hintLabel.textColor = [EVColor lightLabelColor];
     self.hintLabel.text = @"Do your friends owe different amounts?";
@@ -47,8 +47,7 @@
 
 - (void)loadAddOptionButton {
     self.addOptionButton = [[EVGrayButton alloc] initWithFrame:[self addOptionButtonFrame]];
-    [self.addOptionButton.titleLabel setFont:[EVFont boldFontOfSize:12]];
-    [self.addOptionButton setTitle:@"ADD ANOTHER PAYMENT OPTION" forState:UIControlStateNormal];
+    [self.addOptionButton setTitle:[EVStringUtility addAdditionalOptionButtonTitle] forState:UIControlStateNormal];
     [self addSubview:self.addOptionButton];
 }
 #pragma mark - Frames
@@ -61,7 +60,7 @@
 }
 
 - (CGRect)hintLabelFrame {
-    CGFloat yOrigin = [self addOptionButtonYOrigin] - HINT_LABEL_HEIGHT;
+    CGFloat yOrigin = [self addOptionButtonYOrigin] - HINT_LABEL_HEIGHT - 2.0;
     return CGRectMake(0,
                       yOrigin,
                       self.frame.size.width,

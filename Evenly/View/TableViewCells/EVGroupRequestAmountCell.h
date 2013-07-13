@@ -14,10 +14,15 @@
 
 @interface EVGroupRequestAmountCell : UITableViewCell <UITextFieldDelegate>
 
++ (CGFloat)standardHeight;
++ (CGFloat)expandedHeight;
+
 @property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, strong) EVTextField *optionAmountField;
 @property (nonatomic, strong) EVGrayButton *friendsButton;
 @property (nonatomic, strong) EVExpansionArrowButton *arrowButton;
+
+@property (nonatomic, strong) UIView *optionNameFieldBackground;
 @property (nonatomic, strong) EVTextField *optionNameField;
 
 @property (nonatomic, strong) EVCurrencyTextFieldFormatter *currencyFormatter;

@@ -89,6 +89,7 @@
     self.singleAmountView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     self.multipleAmountsView = [[EVGroupRequestHowMuchView alloc] initWithFrame:[self.view bounds]];
+    self.multipleAmountsView.groupRequest = self.groupRequest;
     self.multipleAmountsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     self.singleDetailsView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];

@@ -13,6 +13,8 @@
 + (CGRect)frameForImage:(UIImage *)image givenBoundingFrame:(CGRect)boundingFrame;
 + (CGSize)sizeForImage:(UIImage *)image constrainedToSize:(CGSize)constraintSize;
 
++ (UIImage *)captureView:(UIView *)view;
+
 #pragma mark - Image Coloring
 + (UIImage *)overlayImage:(UIImage *)image withColor:(UIColor *)overlayColor identifier:(NSString *)imageIdentifier;
 

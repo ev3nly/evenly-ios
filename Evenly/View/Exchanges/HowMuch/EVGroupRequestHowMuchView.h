@@ -8,10 +8,13 @@
 
 #import "EVExchangeView.h"
 #import "EVGroupRequestSingleAmountView.h"
+#import "EVGroupRequest.h"
 
 #define ADD_OPTION_BUTTON_HEIGHT 35.0
 
 @interface EVGroupRequestHowMuchView : EVExchangeView <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, weak) EVGroupRequest *groupRequest;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 
@@ -20,12 +23,15 @@
 @property (nonatomic, strong) EVGroupRequestSingleAmountView *singleAmountView;
 
 @property (nonatomic, strong) UITableView *multipleAmountsView;
+@property (nonatomic, strong) UIView *footerView;
+@property (nonatomic, strong) UILabel *footerLabel;
 
 @property (nonatomic) BOOL showingMultipleOptions;
 
 @property (nonatomic, readonly) NSArray *tiers;
 @property (nonatomic, readonly) BOOL isValid;
 
-- (void)setShowingMultipleOptions:(BOOL)showing animated:(BOOL)animated;
+- (void)setShowingMultipleOptions:(BOOL)showing animated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)flashMessage:(NSString *)message withDuration:(NSTimeInterval)duration;
 
 @end

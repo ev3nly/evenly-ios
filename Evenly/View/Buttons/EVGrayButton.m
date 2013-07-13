@@ -18,10 +18,12 @@
         [self setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
         
         [self setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
+        [self setTitleColor:[EVColor lightLabelColor] forState:UIControlStateDisabled];
         [self.titleLabel setFont:[EVFont blackFontOfSize:15]];
     }
     return self;
 }
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

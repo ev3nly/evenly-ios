@@ -75,4 +75,8 @@
 + (NSString *)groupRequestCreationInstructions;
 + (NSAttributedString *)groupRequestDashboardInstructions;
 
+#pragma mark - Request
+
++ (NSString *)addAdditionalOptionButtonTitle;
+
 @end
