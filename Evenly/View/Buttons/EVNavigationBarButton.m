@@ -26,12 +26,9 @@
 
 - (id)initWithTitle:(NSString *)title
 {
-    CGSize size = [title sizeWithFont:[self buttonFont]];
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    rect = UIEdgeInsetsInsetRect(rect, [self frameEdgeInsets]);
-    rect.size.width = MAX(rect.size.width, EV_NAVIGATION_BAR_BUTTON_MINIMUM_WIDTH);
-    self = [self initWithFrame:rect];
-    [self setTitle:title forState:UIControlStateNormal];
+    if (self = [self initWithFrame:[self frameForTitle:title]]) {
+        [self setTitle:title forState:UIControlStateNormal];
+    }
     return self;
 }
 
@@ -49,8 +46,12 @@
     return self;
 }
 
-- (CGSize)sizeForTitle:(NSString *)title {
-    
+- (CGRect)frameForTitle:(NSString *)title {
+    CGSize size = [title sizeWithFont:[self buttonFont]];
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    rect = UIEdgeInsetsInsetRect(rect, [self frameEdgeInsets]);
+    rect.size.width = MAX(rect.size.width, EV_NAVIGATION_BAR_BUTTON_MINIMUM_WIDTH);
+    return rect;
 }
 
 #pragma mark - Private Methods

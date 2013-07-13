@@ -24,7 +24,10 @@
         
         [EVFacebookManager loadFriendsWithCompletion:^(NSArray *friends) {
             self.fullFriendList = [friends sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                return [obj1[@"first_name"] compare:obj2[@"first_name"]];
+                NSComparisonResult result = [obj1[@"first_name"] compare:obj2[@"first_name"]];
+                if (result == NSOrderedSame)
+                    result = [obj1[@"last_name"] compare:obj2[@"last_name"]];
+                return result;
             }];
             self.displayedFriendList = self.fullFriendList;
             [self.tableView reloadData];
