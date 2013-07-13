@@ -32,7 +32,6 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
         self.overlay = [[UIImageView alloc] initWithFrame:self.bounds];
         self.overlay.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         self.overlay.contentMode = UIViewContentModeScaleAspectFit;
-//        [self.overlay setImage:[[EVImages defaultAvatar] resizableImageWithCapInsets:UIEdgeInsetsMake(4, 4, 4, 4)]];
         [self.overlay setImage:[EVImages defaultAvatar]];
         [self addSubview:self.overlay];
         
