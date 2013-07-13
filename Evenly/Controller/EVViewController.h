@@ -14,5 +14,6 @@
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeGestureRecognizer;
 
 - (void)loadTitleLabel;
+- (void)backButtonPress:(id)sender;
 
 @end

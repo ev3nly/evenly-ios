@@ -113,7 +113,7 @@
 }
 
 - (void)handleCorrectPin {
-    [self.instructionsLabel fadeToText:@"Success!" withColor:[EVColor darkLabelColor] duration:0.2];
+    [self.instructionsLabel fadeToText:@"Success!" withColor:[EVColor darkLabelColor] duration:0.3];
     [self fadeInColoredLogoAndDismiss];
 }
 
@@ -121,7 +121,7 @@
     NSString *failedText = FAILED_TEXT;
     if ([[EVPINUtility sharedUtility] failedPINAttemptCount] == EV_MAX_PIN_ATTEMPTS-1)
         failedText = ONE_MORE_TRY_TEXT;
-    [self.instructionsLabel fadeToText:failedText withColor:[EVColor lightRedColor] duration:0.2];
+    [self.instructionsLabel fadeToText:failedText withColor:[EVColor lightRedColor] duration:0.3];
     
     EVPINView *newView = [EVPINView new];
     [self configureHandlerOnPinView:newView];

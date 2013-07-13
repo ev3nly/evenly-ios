@@ -109,13 +109,37 @@
     [self.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
 }
 
-#define BOUNCE_OVERSHOOT_DISTANCE_PERCENT 0.1
-#define BOUNCE_OVERSHOOT_DURATION_PERCENT 0.3
+#define BOUNCE_OVERSHOOT_DISTANCE_PERCENT 0.2
+#define BOUNCE_OVERSHOOT_DURATION_PERCENT 0.65
+#define BOUNCE_MINIMUM_CHANGE 10
 
 - (void)bounceAnimationToFrame:(CGRect)targetFrame duration:(float)duration completion:(void (^)(void))completion {
+    [self bounceAnimationToFrame:targetFrame
+                 initialDuration:duration
+                 durationDamping:BOUNCE_OVERSHOOT_DURATION_PERCENT
+                 distanceDamping:BOUNCE_OVERSHOOT_DISTANCE_PERCENT
+                      completion:completion];
+}
+
+- (void)bounceAnimationToFrame:(CGRect)targetFrame
+               initialDuration:(float)duration
+               durationDamping:(float)durationDamping
+               distanceDamping:(float)distanceDamping
+                    completion:(void (^)(void))completion {
     CGPoint currentOrigin = self.frame.origin;
     float overshootXAmount = fabsf(targetFrame.origin.x - currentOrigin.x) + (fabsf(targetFrame.origin.x - currentOrigin.x)*BOUNCE_OVERSHOOT_DISTANCE_PERCENT);
     float overshootYAmount = fabsf(targetFrame.origin.y - currentOrigin.y) + (fabsf(targetFrame.origin.y - currentOrigin.y)*BOUNCE_OVERSHOOT_DISTANCE_PERCENT);
+    
+    if (overshootXAmount < BOUNCE_MINIMUM_CHANGE && overshootYAmount < BOUNCE_MINIMUM_CHANGE) {
+        [UIView animateWithDuration:duration
+                         animations:^{
+                             self.frame = targetFrame;
+                         } completion:^(BOOL finished) {
+                             if (completion)
+                                 completion();
+                         }];
+        return;
+    }
     
     if (targetFrame.origin.x < currentOrigin.x)
         overshootXAmount = -overshootXAmount;
@@ -126,21 +150,18 @@
     overshootFrame.origin.x = currentOrigin.x + overshootXAmount;
     overshootFrame.origin.y = currentOrigin.y + overshootYAmount;
     
-    [UIView animateWithDuration:(duration * (1.0-BOUNCE_OVERSHOOT_DURATION_PERCENT))
+    [UIView animateWithDuration:duration
                           delay:0
-                        options:UIViewAnimationOptionCurveEaseIn
+                        options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          self.frame = overshootFrame;
                      } completion:^(BOOL finished) {
-                         [UIView animateWithDuration:(duration * BOUNCE_OVERSHOOT_DURATION_PERCENT)
-                                               delay:0
-                                             options:UIViewAnimationOptionCurveEaseOut
-                                          animations:^{
-                                              self.frame = targetFrame;
-                                          } completion:^(BOOL finished) {
-                                              if (completion)
-                                                  completion();
-                                          }];
+                         [self bounceAnimationToFrame:targetFrame
+                                             duration:(duration * BOUNCE_OVERSHOOT_DURATION_PERCENT)
+                                           completion:^{
+                                               if (completion)
+                                                   completion();
+                                           }];
                      }];
 }
 
@@ -153,14 +174,14 @@
     self.alpha = 0;
     [UIView animateWithDuration:(1.0-ZOOM_OVERSHOOT_DURATION_PERCENT)*duration
                           delay:0
-                        options:UIViewAnimationOptionCurveEaseIn
+                        options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          self.transform = CGAffineTransformMakeScale(ZOOM_OVERSHOOT_SCALE, ZOOM_OVERSHOOT_SCALE);
                          self.alpha = 1;
                      } completion:^(BOOL finished) {
                          [UIView animateWithDuration:ZOOM_OVERSHOOT_DURATION_PERCENT*duration
                                                delay:0
-                                             options:UIViewAnimationOptionCurveEaseOut
+                                             options:UIViewAnimationOptionCurveEaseInOut
                                           animations:^{
                                               self.transform = CGAffineTransformIdentity;
                                           } completion:^(BOOL finished) {
@@ -174,13 +195,13 @@
     self.alpha = 1;
     [UIView animateWithDuration:ZOOM_OVERSHOOT_DURATION_PERCENT*duration
                           delay:0
-                        options:UIViewAnimationOptionCurveEaseIn
+                        options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          self.transform = CGAffineTransformMakeScale(ZOOM_OVERSHOOT_SCALE, ZOOM_OVERSHOOT_SCALE);
                      } completion:^(BOOL finished) {
                          [UIView animateWithDuration:(1.0-ZOOM_OVERSHOOT_DURATION_PERCENT)*duration
                                                delay:0
-                                             options:UIViewAnimationOptionCurveEaseOut
+                                             options:UIViewAnimationOptionCurveEaseInOut
                                           animations:^{
                                               self.transform = CGAffineTransformMakeScale(ZOOM_SMALL_SCALE, ZOOM_SMALL_SCALE);
                                                self.alpha = 0;

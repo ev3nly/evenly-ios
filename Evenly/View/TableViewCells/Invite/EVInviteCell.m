@@ -12,11 +12,12 @@
 #define PICTURE_BUFER 8
 #define INVITE_BUTTON_WIDTH 70
 #define INVITE_BUTTON_HEIGHT 36
+#define INVITE_BUTTON_TEXT @"ADD"
 
 @implementation EVInviteCell
 
 + (float)cellHeight {
-    return 56;
+    return 54;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -68,7 +69,7 @@
     [self.inviteButton setBackgroundImage:[EVImages inviteButtonBackground] forState:UIControlStateNormal];
     [self.inviteButton setBackgroundImage:[EVImages inviteButtonBackgroundSelected] forState:UIControlStateHighlighted];
     [self.inviteButton addTarget:self action:@selector(inviteTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.inviteButton setTitle:@"INVITE" forState:UIControlStateNormal];
+    [self.inviteButton setTitle:INVITE_BUTTON_TEXT forState:UIControlStateNormal];
     [self.inviteButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
     [self.inviteButton setTitleEdgeInsets:UIEdgeInsetsMake(2, 0, 0, 0)];
     self.inviteButton.titleLabel.font = [EVFont blackFontOfSize:11];
@@ -95,7 +96,7 @@
         if (self.handleSelection)
             self.handleSelection(self.identifier);
     } else {
-        [self.inviteButton setTitle:@"INVITE" forState:UIControlStateNormal];
+        [self.inviteButton setTitle:INVITE_BUTTON_TEXT forState:UIControlStateNormal];
         [self.inviteButton setImage:nil forState:UIControlStateNormal];
         if (self.handleDeselection)
             self.handleDeselection(self.identifier);
