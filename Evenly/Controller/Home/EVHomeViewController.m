@@ -58,6 +58,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignOut:) name:EVSessionSignedOutNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(storyWasCreatedLocally:) name:EVStoryLocallyCreatedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardRedeemed:) name:EVRewardRedeemedNotification object:nil];
 }
 
 - (void)dealloc {
@@ -135,6 +136,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.tableView reloadData];
     [self reloadNewsFeed];
 }
 
@@ -165,7 +167,36 @@
     EVStory *story = [[notification userInfo] objectForKey:@"story"];
     
     self.newsfeed = [@[ story ] arrayByAddingObjectsFromArray:self.newsfeed];
-    [self.tableView reloadData];    
+}
+
+- (void)rewardRedeemed:(NSNotification *)notification {
+    EVReward *reward = [[notification userInfo] objectForKey:@"reward"];
+    UILabel *label = [[notification userInfo] objectForKey:@"label"];
+    label.adjustsFontSizeToFitWidth = YES;
+
+    UIView *slider = [[label superview] superview];
+    label.frame = slider.frame;
+    
+    
+//    CGRect newRect = [self.view convertRect:label.frame fromView:label.superview.superview];
+//    label.frame = newRect;
+    [self.view addSubview:label];
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        [UIView animateWithDuration:0.5
+                         animations:^{
+                             CGRect destinationFrame = [self.view convertRect:self.titleLabel.frame fromView:self.titleLabel.superview];
+                             [label setCenter:CGPointMake(CGRectGetMidX(destinationFrame), CGRectGetMidY(destinationFrame))];
+                         } completion:^(BOOL finished) {
+                             [label removeFromSuperview];
+                             NSDecimalNumber *myBalance = [[EVCIA me] balance];
+                             NSDecimalNumber *rewardAmount = reward.selectedAmount;
+                             NSDecimalNumber *newBalance = [myBalance decimalNumberByAdding:rewardAmount];
+                             [[[EVCIA sharedInstance] me] setBalance:newBalance];
+                             NSString *newTitle = [EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance];
+                             [self setTitle:newTitle];
+                         }];
+    }];
 }
 
 #pragma mark - Button Actions

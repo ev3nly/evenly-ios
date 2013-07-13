@@ -14,6 +14,7 @@
 @interface EVRewardsGameViewController : EVViewController
 
 @property (nonatomic, strong) EVNavigationBarButton *cancelButton;
+@property (nonatomic, strong) EVNavigationBarButton *doneButton;
 
 - (id)initWithReward:(EVReward *)reward;
 
