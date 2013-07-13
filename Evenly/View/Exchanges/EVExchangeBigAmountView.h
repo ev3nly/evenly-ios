@@ -20,4 +20,6 @@
 
 + (CGFloat)totalHeight;
 
+- (void)flashMinimumAmountLabel;
+
 @end

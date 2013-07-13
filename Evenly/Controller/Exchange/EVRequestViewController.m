@@ -88,7 +88,7 @@
     self.singleAmountView = [[EVExchangeHowMuchView alloc] initWithFrame:[self contentViewFrame]];
     self.singleAmountView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.multipleAmountsView = [[EVRequestMultipleAmountsView alloc] initWithFrame:[self.view bounds]];
+    self.multipleAmountsView = [[EVGroupRequestHowMuchView alloc] initWithFrame:[self.view bounds]];
     self.multipleAmountsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     self.singleDetailsView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];
@@ -212,10 +212,18 @@
         }
         else
         {
+            if ([self isLessThanPermittedAmount])
+            {
+                [self.multipleAmountsView.singleAmountView.bigAmountView flashMinimumAmountLabel];
+                return;
+            }
+
             self.groupRequest.tiers = self.multipleAmountsView.tiers;
             NSArray *tierPrices = [self.groupRequest.tiers map:^id(id object) {
                 return [(EVGroupRequestTier*)object price];
             }];
+            
+            
             EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader groupRequestHeaderForPeople:self.groupRequest.members
                                                                                            amounts:tierPrices];
             self.multipleDetailsView.whatForHeader = header;
@@ -226,6 +234,13 @@
     }
     [self setUpNavBar];
     [self validateForPhase:self.phase];
+}
+
+- (BOOL)isLessThanPermittedAmount {
+    NSArray *filtered = [self.multipleAmountsView.tiers filter:^BOOL(id object) {
+        return [[object price] floatValue] < EV_MINIMUM_EXCHANGE_AMOUNT;
+    }];
+    return (filtered.count > 0);
 }
 
 - (void)actionButtonPress:(id)sender {

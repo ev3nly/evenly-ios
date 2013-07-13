@@ -315,10 +315,16 @@
 		9CD306A5176287E400D23852 /* EVWalletStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306A4176287E400D23852 /* EVWalletStamp.m */; };
 		9CD306A817628E7E00D23852 /* EVWalletItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306A717628E7E00D23852 /* EVWalletItemCell.m */; };
 		9CD306AB1762970300D23852 /* EVStoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306AA1762970300D23852 /* EVStoryCell.m */; };
-		9CD473B31790992E00E60E37 /* EVRequestHowMuchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD473B21790992E00E60E37 /* EVRequestHowMuchView.m */; };
+		9CD473B31790992E00E60E37 /* EVGroupRequestHowMuchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD473B21790992E00E60E37 /* EVGroupRequestHowMuchView.m */; };
 		9CD473B51790AE2E00E60E37 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473B41790AE2E00E60E37 /* Default.png */; };
 		9CD473B71790AE3100E60E37 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473B61790AE3100E60E37 /* Default@2x.png */; };
 		9CD473B91790AE3400E60E37 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473B81790AE3400E60E37 /* Default-568h@2x.png */; };
+		9CD473CC1790C4E400E60E37 /* EVGroupRequestSingleAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD473CB1790C4E400E60E37 /* EVGroupRequestSingleAmountView.m */; };
+		9CD473CF1790CA8100E60E37 /* xbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473CD1790CA8100E60E37 /* xbutton.png */; };
+		9CD473D01790CA8100E60E37 /* xbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473CE1790CA8100E60E37 /* xbutton@2x.png */; };
+		9CD473D31790CD9F00E60E37 /* arrowbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473D11790CD9F00E60E37 /* arrowbutton.png */; };
+		9CD473D41790CD9F00E60E37 /* arrowbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473D21790CD9F00E60E37 /* arrowbutton@2x.png */; };
+		9CD473D71790CE6700E60E37 /* EVExpansionArrowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD473D61790CE6700E60E37 /* EVExpansionArrowButton.m */; };
 		9CE05EF1175942610095CCFC /* JASidePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EEE175942610095CCFC /* JASidePanelController.m */; };
 		9CE05EF2175942610095CCFC /* UIViewController+JASidePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */; };
 		9CE703EA175D1A7200561ADA /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B40174FD95600BE9506 /* SenTestingKit.framework */; };
@@ -951,11 +957,19 @@
 		9CD306A717628E7E00D23852 /* EVWalletItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletItemCell.m; sourceTree = "<group>"; };
 		9CD306A91762970300D23852 /* EVStoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStoryCell.h; sourceTree = "<group>"; };
 		9CD306AA1762970300D23852 /* EVStoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStoryCell.m; sourceTree = "<group>"; };
-		9CD473B11790992E00E60E37 /* EVRequestHowMuchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestHowMuchView.h; sourceTree = "<group>"; };
-		9CD473B21790992E00E60E37 /* EVRequestHowMuchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestHowMuchView.m; sourceTree = "<group>"; };
+		9CD473B11790992E00E60E37 /* EVGroupRequestHowMuchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestHowMuchView.h; sourceTree = "<group>"; };
+		9CD473B21790992E00E60E37 /* EVGroupRequestHowMuchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestHowMuchView.m; sourceTree = "<group>"; };
 		9CD473B41790AE2E00E60E37 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		9CD473B61790AE3100E60E37 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9CD473B81790AE3400E60E37 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		9CD473CA1790C4E400E60E37 /* EVGroupRequestSingleAmountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestSingleAmountView.h; sourceTree = "<group>"; };
+		9CD473CB1790C4E400E60E37 /* EVGroupRequestSingleAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestSingleAmountView.m; sourceTree = "<group>"; };
+		9CD473CD1790CA8100E60E37 /* xbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xbutton.png; sourceTree = "<group>"; };
+		9CD473CE1790CA8100E60E37 /* xbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xbutton@2x.png"; sourceTree = "<group>"; };
+		9CD473D11790CD9F00E60E37 /* arrowbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowbutton.png; sourceTree = "<group>"; };
+		9CD473D21790CD9F00E60E37 /* arrowbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrowbutton@2x.png"; sourceTree = "<group>"; };
+		9CD473D51790CE6700E60E37 /* EVExpansionArrowButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExpansionArrowButton.h; sourceTree = "<group>"; };
+		9CD473D61790CE6700E60E37 /* EVExpansionArrowButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExpansionArrowButton.m; sourceTree = "<group>"; };
 		9CE05EED175942610095CCFC /* JASidePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JASidePanelController.h; sourceTree = "<group>"; };
 		9CE05EEE175942610095CCFC /* JASidePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JASidePanelController.m; sourceTree = "<group>"; };
 		9CE05EEF175942610095CCFC /* UIViewController+JASidePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+JASidePanel.h"; sourceTree = "<group>"; };
@@ -1351,8 +1365,10 @@
 			children = (
 				9C16065D1788D6FE00852684 /* EVExchangeHowMuchView.h */,
 				9C16065E1788D6FE00852684 /* EVExchangeHowMuchView.m */,
-				9CD473B11790992E00E60E37 /* EVRequestHowMuchView.h */,
-				9CD473B21790992E00E60E37 /* EVRequestHowMuchView.m */,
+				9CD473B11790992E00E60E37 /* EVGroupRequestHowMuchView.h */,
+				9CD473B21790992E00E60E37 /* EVGroupRequestHowMuchView.m */,
+				9CD473CA1790C4E400E60E37 /* EVGroupRequestSingleAmountView.h */,
+				9CD473CB1790C4E400E60E37 /* EVGroupRequestSingleAmountView.m */,
 				9C16065B1788D6FE00852684 /* EVRequestMultipleAmountsView.h */,
 				9C16065C1788D6FE00852684 /* EVRequestMultipleAmountsView.m */,
 			);
@@ -1518,6 +1534,8 @@
 				9C659BF4177A3F080028072A /* EVGroupRequestPaymentOptionButton.m */,
 				D095EED81778F05A0016F434 /* EVCheckmarkButton.h */,
 				D095EED91778F05A0016F434 /* EVCheckmarkButton.m */,
+				9CD473D51790CE6700E60E37 /* EVExpansionArrowButton.h */,
+				9CD473D61790CE6700E60E37 /* EVExpansionArrowButton.m */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -2518,6 +2536,10 @@
 		D077A8C1177419CD001BAAAD /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				9CD473D11790CD9F00E60E37 /* arrowbutton.png */,
+				9CD473D21790CD9F00E60E37 /* arrowbutton@2x.png */,
+				9CD473CD1790CA8100E60E37 /* xbutton.png */,
+				9CD473CE1790CA8100E60E37 /* xbutton@2x.png */,
 				D077A8C2177419EA001BAAAD /* Request-Invite-Friends-Banner.png */,
 				D077A8C3177419EA001BAAAD /* Request-Invite-Friends-Banner@2x.png */,
 				9C659BD5177A11820028072A /* Request-Reminder-Bell.png */,
@@ -2933,6 +2955,10 @@
 				9CD473B51790AE2E00E60E37 /* Default.png in Resources */,
 				9CD473B71790AE3100E60E37 /* Default@2x.png in Resources */,
 				9CD473B91790AE3400E60E37 /* Default-568h@2x.png in Resources */,
+				9CD473CF1790CA8100E60E37 /* xbutton.png in Resources */,
+				9CD473D01790CA8100E60E37 /* xbutton@2x.png in Resources */,
+				9CD473D31790CD9F00E60E37 /* arrowbutton.png in Resources */,
+				9CD473D41790CD9F00E60E37 /* arrowbutton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3262,7 +3288,9 @@
 				9CB7FB69178CE87800827B5B /* EVRewardsSwitchView.m in Sources */,
 				9CB7FB6C178CF1C600827B5B /* EVRewardsSlider.m in Sources */,
 				9C8768E0178F3C72004A6387 /* EVRewardsSliderBackground.m in Sources */,
-				9CD473B31790992E00E60E37 /* EVRequestHowMuchView.m in Sources */,
+				9CD473B31790992E00E60E37 /* EVGroupRequestHowMuchView.m in Sources */,
+				9CD473CC1790C4E400E60E37 /* EVGroupRequestSingleAmountView.m in Sources */,
+				9CD473D71790CE6700E60E37 /* EVExpansionArrowButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
