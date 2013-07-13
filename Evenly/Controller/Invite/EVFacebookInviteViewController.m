@@ -24,7 +24,10 @@
         
         [EVFacebookManager loadFriendsWithCompletion:^(NSArray *friends) {
             self.fullFriendList = [friends sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                return [obj1[@"first_name"] compare:obj2[@"first_name"]];
+                NSComparisonResult result = [obj1[@"first_name"] compare:obj2[@"first_name"]];
+                if (result == NSOrderedSame)
+                    result = [obj1[@"last_name"] compare:obj2[@"last_name"]];
+                return result;
             }];
             self.displayedFriendList = self.fullFriendList;
             [self.tableView reloadData];
@@ -51,13 +54,10 @@
     NSDictionary *userDict = [self.displayedFriendList objectAtIndex:indexPath.row];
     [cell setName:[NSString stringWithFormat:@"%@ %@", userDict[@"first_name"], userDict[@"last_name"]] profileID:userDict[@"id"]];
     cell.handleSelection = ^(NSString *profileID) {
-        [self.selectedFriends addObject:profileID];
-        self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.selectedFriends = [self.selectedFriends arrayByAddingObject:profileID];
     };
     cell.handleDeselection = ^(NSString *profileID) {
-        [self.selectedFriends removeObject:profileID];
-        if ([self.selectedFriends count] == 0)
-            self.navigationItem.rightBarButtonItem.enabled = NO;
+        self.selectedFriends = [self.selectedFriends arrayByRemovingObject:profileID];
     };
     cell.shouldInvite = [self.selectedFriends containsObject:userDict[@"id"]];
     

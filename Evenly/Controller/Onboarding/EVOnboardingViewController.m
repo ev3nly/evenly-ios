@@ -289,7 +289,7 @@
     [button setBackgroundImage:[EVImages facebookButton] forState:UIControlStateNormal];
     [button setBackgroundImage:[EVImages facebookButtonPress] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(facebookButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"Sign up with Facebook" forState:UIControlStateNormal];
+    [button setTitle:@"Continue" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     button.titleLabel.font = [EVFont blackFontOfSize:16];
     
