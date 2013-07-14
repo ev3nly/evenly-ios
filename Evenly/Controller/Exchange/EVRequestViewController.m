@@ -196,6 +196,7 @@
         {
             self.groupRequest = [[EVGroupRequest alloc] init];
             self.groupRequest.members = [self.initialView recipients];
+            self.multipleAmountsView.groupRequest = self.groupRequest;
             [self pushView:self.multipleAmountsView animated:YES];
             // Give the privacy selector to the multiple details view.
             [self.multipleDetailsView addSubview:self.privacySelector];
