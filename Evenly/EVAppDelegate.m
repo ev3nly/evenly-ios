@@ -59,7 +59,7 @@
     // STRICTLY TEMPORARY
     if (![[EVCIA sharedInstance] session])
     {
-        [self.masterViewController showOnboardingController];
+        [self.masterViewController showOnboardingControllerWithCompletion:nil animated:NO];
 //        [self.masterViewController showLoginViewControllerWithCompletion:NULL];
     }
     else

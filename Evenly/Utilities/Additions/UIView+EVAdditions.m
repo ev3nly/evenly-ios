@@ -197,13 +197,13 @@
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         self.transform = CGAffineTransformMakeScale(ZOOM_OVERSHOOT_SCALE, ZOOM_OVERSHOOT_SCALE);
+                         self.transform = CGAffineTransformScale(self.transform, ZOOM_OVERSHOOT_SCALE, ZOOM_OVERSHOOT_SCALE);
                      } completion:^(BOOL finished) {
                          [UIView animateWithDuration:(1.0-ZOOM_OVERSHOOT_DURATION_PERCENT)*duration
                                                delay:0
                                              options:UIViewAnimationOptionCurveEaseInOut
                                           animations:^{
-                                              self.transform = CGAffineTransformMakeScale(ZOOM_SMALL_SCALE, ZOOM_SMALL_SCALE);
+                                              self.transform = CGAffineTransformScale(self.transform, ZOOM_SMALL_SCALE, ZOOM_SMALL_SCALE);
                                                self.alpha = 0;
                                           } completion:^(BOOL finished) {
                                               if (completion)

@@ -104,6 +104,8 @@
     self.emailField.returnKeyType = UIReturnKeyNext;
     self.emailField.keyboardType = UIKeyboardTypeNumberPad;
     self.emailField.placeholder = @"Email";
+    self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     [self addSubview:self.emailField];
 }
 

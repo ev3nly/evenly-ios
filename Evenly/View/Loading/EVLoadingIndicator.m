@@ -10,8 +10,9 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define ROTATION_DURATION 0.8
-#define COLORED_LOGO_MIN_ALPHA 0.20
-#define COLORED_LOGO_MAX_ALPHA 0.75
+#define PULSE_DURATION 1.0
+#define COLORED_LOGO_MIN_ALPHA 0.1
+#define COLORED_LOGO_MAX_ALPHA 0.7
 
 @interface EVLoadingIndicator ()
 
@@ -27,7 +28,6 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        [self loadSpinnerView];
         [self loadLogoView];
         [self loadColoredLogoView];
     }
@@ -37,17 +37,11 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.spinnerView.frame = [self spinnerViewFrame];
     self.logoView.frame = [self logoViewFrame];
     self.coloredLogoView.frame = [self logoViewFrame];
 }
 
 #pragma mark - View Loading
-
-- (void)loadSpinnerView {
-    self.spinnerView = [[UIImageView alloc] initWithImage:[EVImages loadingSpinner]];
-    [self addSubview:self.spinnerView];
-}
 
 - (void)loadLogoView {
     self.logoView = [[UIImageView alloc] initWithImage:[EVImages grayLoadingLogo]];
@@ -63,8 +57,7 @@
 
 - (void)startAnimating {
     [self zoomBounceWithDuration:0.2 completion:nil];
-    [self.spinnerView rotateContinuouslyWithDuration:ROTATION_DURATION];
-    [self.coloredLogoView pulseFromAlpha:COLORED_LOGO_MIN_ALPHA toAlpha:COLORED_LOGO_MAX_ALPHA duration:ROTATION_DURATION*2];
+    [self.coloredLogoView pulseFromAlpha:COLORED_LOGO_MIN_ALPHA toAlpha:COLORED_LOGO_MAX_ALPHA duration:PULSE_DURATION];
 }
 
 - (void)stopAnimating {
@@ -74,15 +67,6 @@
 }
 
 #pragma mark - Frames
-
-- (CGSize)sizeThatFits:(CGSize)size {
-    return self.spinnerView.image.size;
-}
-
-- (CGRect)spinnerViewFrame {
-    [self.spinnerView sizeToFit];
-    return self.spinnerView.bounds;
-}
 
 - (CGRect)logoViewFrame {
     [self.logoView sizeToFit];
