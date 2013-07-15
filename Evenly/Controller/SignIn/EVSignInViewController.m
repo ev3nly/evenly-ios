@@ -93,6 +93,7 @@
     self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     self.emailField.delegate = self;
     self.emailField.returnKeyType = UIReturnKeyNext;
+    self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     [emailRow setContentView:self.emailField];
     
     EVFormRow *passwordRow = [[EVFormRow alloc] initWithFrame:CGRectMake(0, 0, 300, 50)];
