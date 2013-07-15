@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVRequestMultipleDetailsView.h"
+#import "EVGroupRequestWhatForView.h"
 
 #define LEFT_RIGHT_BUFFER 10
 #define LABEL_FIELD_BUFFER 6
@@ -17,7 +17,7 @@
 #define TITLE_TEXT @"for"
 #define DESCRIPTION_TEXT @""
 
-@implementation EVRequestMultipleDetailsView
+@implementation EVGroupRequestWhatForView
 
 - (id)initWithFrame:(CGRect)frame
 {

@@ -400,4 +400,11 @@ static NSDateFormatter *_detailDateFormatter;
     return attrString;
 }
 
+
+#pragma mark - Request
+
++ (NSString *)addAdditionalOptionButtonTitle {
+    return @"ADD ANOTHER PAYMENT OPTION";
+}
+
 @end

@@ -127,8 +127,8 @@
                distanceDamping:(float)distanceDamping
                     completion:(void (^)(void))completion {
     CGPoint currentOrigin = self.frame.origin;
-    float overshootXAmount = fabsf(targetFrame.origin.x - currentOrigin.x) + (fabsf(targetFrame.origin.x - currentOrigin.x)*BOUNCE_OVERSHOOT_DISTANCE_PERCENT);
-    float overshootYAmount = fabsf(targetFrame.origin.y - currentOrigin.y) + (fabsf(targetFrame.origin.y - currentOrigin.y)*BOUNCE_OVERSHOOT_DISTANCE_PERCENT);
+    float overshootXAmount = fabsf(targetFrame.origin.x - currentOrigin.x) + (fabsf(targetFrame.origin.x - currentOrigin.x)*distanceDamping);
+    float overshootYAmount = fabsf(targetFrame.origin.y - currentOrigin.y) + (fabsf(targetFrame.origin.y - currentOrigin.y)*distanceDamping);
     
     if (overshootXAmount < BOUNCE_MINIMUM_CHANGE && overshootYAmount < BOUNCE_MINIMUM_CHANGE) {
         [UIView animateWithDuration:duration
@@ -157,7 +157,7 @@
                          self.frame = overshootFrame;
                      } completion:^(BOOL finished) {
                          [self bounceAnimationToFrame:targetFrame
-                                             duration:(duration * BOUNCE_OVERSHOOT_DURATION_PERCENT)
+                                             duration:(duration * durationDamping)
                                            completion:^{
                                                if (completion)
                                                    completion();

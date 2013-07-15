@@ -49,6 +49,18 @@
     return imageViewSize;
 }
 
++ (UIImage *)captureView:(UIView *)view {
+    
+    CALayer *layer;
+    layer = view.layer;
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, [[UIScreen mainScreen] scale]);
+    [layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *screenImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return screenImage;
+}
+
+
 #pragma mark - Image Coloring
 
 + (UIImage *)overlayImage:(UIImage *)image withColor:(UIColor *)overlayColor identifier:(NSString *)imageIdentifier
