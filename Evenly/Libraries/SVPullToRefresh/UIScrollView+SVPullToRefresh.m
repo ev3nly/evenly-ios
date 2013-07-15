@@ -15,6 +15,7 @@
 #define fequalzero(a) (fabs(a) < FLT_EPSILON)
 
 #define ARROW_IMAGE [UIImage imageNamed:@"Refresh.png"]
+#define REFRESH_VIEW_Y_OFFSET 6
 
 static CGFloat const SVPullToRefreshViewHeight = 48;
 
@@ -68,7 +69,7 @@ static char UIScrollViewPullToRefreshView;
 - (void)addPullToRefreshWithActionHandler:(void (^)(void))actionHandler {
     
     if(!self.pullToRefreshView) {
-        SVPullToRefreshView *view = [[SVPullToRefreshView alloc] initWithFrame:CGRectMake(0, -SVPullToRefreshViewHeight, self.bounds.size.width, SVPullToRefreshViewHeight)];
+        SVPullToRefreshView *view = [[SVPullToRefreshView alloc] initWithFrame:CGRectMake(0, -SVPullToRefreshViewHeight + REFRESH_VIEW_Y_OFFSET, self.bounds.size.width, SVPullToRefreshViewHeight)];
         view.pullToRefreshActionHandler = actionHandler;
         view.scrollView = self;
         [self addSubview:view];
@@ -148,9 +149,9 @@ static char UIScrollViewPullToRefreshView;
         self.state = SVPullToRefreshStateStopped;
         self.showsDateLabel = NO;
         
-        self.titles = [NSMutableArray arrayWithObjects:NSLocalizedString(@"PULL TO REFRESH",),
-                                                       NSLocalizedString(@"RELEASE TO REFRESH",),
-                                                       NSLocalizedString(@"LOADING...",),
+        self.titles = [NSMutableArray arrayWithObjects:NSLocalizedString(@"",),
+                                                       NSLocalizedString(@"",),
+                                                       NSLocalizedString(@"",),
                                                        nil];
         
         self.subtitles = [NSMutableArray arrayWithObjects:@"", @"", @"", @"", nil];
@@ -195,9 +196,11 @@ static char UIScrollViewPullToRefreshView;
     subtitleFrame.origin.y = self.bounds.size.height-32;
     self.subtitleLabel.frame = subtitleFrame;
     
-    CGRect arrowFrame = self.arrow.frame;
-    arrowFrame.origin.x = arrowXOrigin;// titleFrame.origin.x - arrowFrame.size.width - 12;
-    self.arrow.frame = arrowFrame;
+//    CGRect arrowFrame = self.arrow.frame;
+//    arrowFrame.origin.x = arrowXOrigin;// titleFrame.origin.x - arrowFrame.size.width - 12;
+//    self.arrow.frame = arrowFrame;
+    
+    self.arrow.center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
 
     self.activityIndicatorView.center = self.arrow.center;
     
@@ -228,9 +231,9 @@ static char UIScrollViewPullToRefreshView;
         
         switch (self.state) {
             case SVPullToRefreshStateStopped:
-                self.arrow.alpha = 1;
-                [self.activityIndicatorView stopAnimating];
-                [self rotateArrow:0 hide:NO];
+//                self.arrow.alpha = 1;
+//                [self.activityIndicatorView stopAnimating];
+//                [self rotateArrow:0 hide:NO];
                 break;
                 
             case SVPullToRefreshStateTriggered:
@@ -238,10 +241,39 @@ static char UIScrollViewPullToRefreshView;
                 break;
                 
             case SVPullToRefreshStateLoading:
+                if (self.activityIndicatorView.hidden)
+                    [self.activityIndicatorView zoomBounceWithDuration:0.2 completion:nil];
                 [self.activityIndicatorView startAnimating];
-                [self rotateArrow:0 hide:YES];
                 break;
         }
+    }
+}
+
+#define GRAY_LOGO_TAG 8823
+
+- (void)addGrayLogo {
+    UIImageView *logo = [[UIImageView alloc] initWithImage:[EVImages grayLoadingLogo]];
+    logo.center = self.arrow.center;
+    logo.tag = GRAY_LOGO_TAG;
+    [self addSubview:logo];
+    [logo zoomBounceWithDuration:0.2 completion:nil];
+}
+
+- (void)removeGrayLogo {
+    if ([self viewWithTag:GRAY_LOGO_TAG])
+        [[self viewWithTag:GRAY_LOGO_TAG] removeFromSuperview];
+}
+
+- (void)hideArrow {
+    
+    if (self.arrow.layer.opacity == 1) {
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.arrow.transform = CGAffineTransformScale(self.arrow.transform, 0.2, 0.2);
+                             self.arrow.layer.opacity = 0;
+                         } completion:^(BOOL finished) {
+                             self.arrow.transform = CGAffineTransformIdentity;
+                         }];
     }
 }
 
@@ -290,10 +322,10 @@ static char UIScrollViewPullToRefreshView;
         else if(contentOffset.y >= scrollOffsetThreshold && self.state != SVPullToRefreshStateStopped)
             self.state = SVPullToRefreshStateStopped;
     } else {
-        CGFloat offset = MAX(self.scrollView.contentOffset.y * -1, 0.0f);
-        offset = MIN(offset, self.originalTopInset + self.bounds.size.height);
-        UIEdgeInsets contentInset = self.scrollView.contentInset;
-        self.scrollView.contentInset = UIEdgeInsetsMake(offset, contentInset.left, contentInset.bottom, contentInset.right);
+//        CGFloat offset = MAX(self.scrollView.contentOffset.y * -1, 0.0f);
+//        offset = MIN(offset, self.originalTopInset + self.bounds.size.height);
+//        UIEdgeInsets contentInset = self.scrollView.contentInset;
+//        self.scrollView.contentInset = UIEdgeInsetsMake(offset, contentInset.left, contentInset.bottom, contentInset.right);
     }
 }
 
@@ -323,7 +355,7 @@ static char UIScrollViewPullToRefreshView;
 - (UILabel *)titleLabel {
     if(!_titleLabel) {
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 210, 20)];
-        _titleLabel.text = NSLocalizedString(@"PULL TO REFRESH",);
+        _titleLabel.text = NSLocalizedString(@"",);
         _titleLabel.font = [EVFont boldFontOfSize:12];
         _titleLabel.backgroundColor = [UIColor clearColor];
         _titleLabel.textColor = textColor;
@@ -454,8 +486,8 @@ static char UIScrollViewPullToRefreshView;
 - (void)stopAnimating {
     self.state = SVPullToRefreshStateStopped;
     
-    if(!self.wasTriggeredByUser && self.scrollView.contentOffset.y < -self.originalTopInset)
-        [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x, -self.originalTopInset) animated:YES];
+//    if(!self.wasTriggeredByUser && self.scrollView.contentOffset.y < -self.originalTopInset)
+//        [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x, -self.originalTopInset) animated:YES];
 }
 
 - (void)setState:(SVPullToRefreshState)newState {
@@ -470,7 +502,33 @@ static char UIScrollViewPullToRefreshView;
     
     switch (newState) {
         case SVPullToRefreshStateStopped:
-            [self resetScrollViewContentInset];
+            
+            if (previousState == SVPullToRefreshStateLoading) {
+                
+                [self addGrayLogo];
+                [UIView animateWithDuration:0.2
+                                 animations:^{
+                                     self.activityIndicatorView.alpha = 0;
+                                 } completion:^(BOOL finished) {
+                                     [self.activityIndicatorView stopAnimating];
+                                     self.activityIndicatorView.alpha = 1;
+                                 }];
+                EV_DISPATCH_AFTER(0.5, ^{
+                    [self resetScrollViewContentInset];
+                    EV_DISPATCH_AFTER(0.3, ^{
+                        [self removeGrayLogo];
+                        self.arrow.alpha = 1;
+                        self.arrow.transform = CGAffineTransformIdentity;
+                    });
+                });
+            } else {
+                [UIView animateWithDuration:0.2
+                                 animations:^{
+                                     self.arrow.alpha = 1;
+                                     self.arrow.transform = CGAffineTransformIdentity;
+                                 }];
+            }
+//            [self resetScrollViewContentInset];
             break;
             
         case SVPullToRefreshStateTriggered:
@@ -478,6 +536,7 @@ static char UIScrollViewPullToRefreshView;
             
         case SVPullToRefreshStateLoading:
             [self setScrollViewContentInsetForLoading];
+            [self hideArrow];
             
             if(previousState == SVPullToRefreshStateTriggered && pullToRefreshActionHandler)
                 pullToRefreshActionHandler();

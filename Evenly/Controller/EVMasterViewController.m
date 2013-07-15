@@ -40,9 +40,9 @@
     return barButtonItem;
 }
 
-- (void)showOnboardingController {
+- (void)showOnboardingControllerWithCompletion:(void (^)(void))completion animated:(BOOL)animated {
     EVOnboardingViewController *controller = [[EVOnboardingViewController alloc] initWithNibName:nil bundle:nil];
-    [self presentViewController:controller animated:NO completion:nil];
+    [self presentViewController:controller animated:animated completion:completion];
 }
 
 #pragma mark - Login Controller

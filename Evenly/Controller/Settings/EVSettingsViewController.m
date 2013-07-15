@@ -124,12 +124,9 @@
     
     [EVSession signOutWithSuccess:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedOutNotification object:nil];
-        [self.masterViewController showLoginViewControllerWithCompletion:^{
+        [self.masterViewController showOnboardingControllerWithCompletion:^{
             [self.masterViewController setCenterPanel:[[EVNavigationManager sharedManager] homeViewController]];
-        }
-                                                                animated:YES
-                                                   authenticationSuccess:^{
-                                                   } ];
+        } animated:YES];
     } failure:^(NSError *error) {
         DLog(@"Error: %@", error);
     }];

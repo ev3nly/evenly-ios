@@ -12,7 +12,7 @@
 
 #pragma mark - Onboarding
 
-- (void)showOnboardingController;
+- (void)showOnboardingControllerWithCompletion:(void (^)(void))completion animated:(BOOL)animated;
 
 #pragma mark - Login
 - (void)showLoginViewControllerWithCompletion:(void (^)(void))completion
