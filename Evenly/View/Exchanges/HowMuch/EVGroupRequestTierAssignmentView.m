@@ -46,13 +46,37 @@
     EVGroupRequestTierAssignmentViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"avatarCell"
                                                                                            forIndexPath:indexPath];
     [cell setContact:modelObject];
+    [self setUpSelectionIndicatorOnCell:cell forModelObject:modelObject];
+    
     return cell;
+}
+
+- (void)setUpSelectionIndicatorOnCell:(EVGroupRequestTierAssignmentViewCell *)cell forModelObject:(EVObject<EVExchangeable> *)modelObject {
+    UIImage *image = nil;
+    NSInteger ourIndex = [self.dataSource tierIndexForTierAssignmentView:self];
+    NSArray *tierMemberships = [self.dataSource assignmentsForTierAssignmentView:self];
+    NSInteger i = 0;
+    for (NSArray *memberships in tierMemberships) {
+        if ([memberships containsObject:modelObject]) {
+            if (i == ourIndex) {
+                image = [UIImage imageNamed:@"green_check"];
+            } else {
+                image = [UIImage imageNamed:@"user_selected"];
+            }
+            break;
+        }
+        i++;
+    }
+    cell.selectionIndicator.image = image;
 }
 
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [self.delegate tierAssignmentView:self didSelectMemberAtIndex:indexPath.item];
+    EVGroupRequestTierAssignmentViewCell *cell = (EVGroupRequestTierAssignmentViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    EVObject<EVExchangeable> *modelObject = [[self.dataSource fullMembershipForTierAssignmentView:self] objectAtIndex:indexPath.item];
+    [self setUpSelectionIndicatorOnCell:cell forModelObject:modelObject];
 }
 
 

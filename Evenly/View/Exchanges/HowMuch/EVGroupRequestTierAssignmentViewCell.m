@@ -33,7 +33,7 @@
     self.captionLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [self.contentView addSubview:self.captionLabel];
     
-    self.selectionIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    self.selectionIndicator = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
     [self.contentView addSubview:self.selectionIndicator];
     
 }

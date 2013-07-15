@@ -321,6 +321,7 @@
 }
 
 - (void)showTierAssignmentView {
+    [self.tierAssignmentView reloadData];
     [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION
                           delay:0
                         options:UIViewAnimationOptionCurveEaseInOut
