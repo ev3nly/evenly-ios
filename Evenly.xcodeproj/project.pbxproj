@@ -29,7 +29,6 @@
 		9C1606461788D5AE00852684 /* EVPrivacySelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606421788D5AE00852684 /* EVPrivacySelectorView.m */; };
 		9C1606561788D61400852684 /* EVExchangeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606551788D61400852684 /* EVExchangeView.m */; };
 		9C1606591788D6A300852684 /* EVExchangeBigAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606581788D6A300852684 /* EVExchangeBigAmountView.m */; };
-		9C1606671788D6FE00852684 /* EVRequestMultipleAmountsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16065C1788D6FE00852684 /* EVRequestMultipleAmountsView.m */; };
 		9C1606681788D6FE00852684 /* EVExchangeHowMuchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16065E1788D6FE00852684 /* EVExchangeHowMuchView.m */; };
 		9C1606691788D6FE00852684 /* EVExchangeWhatForView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606611788D6FE00852684 /* EVExchangeWhatForView.m */; };
 		9C16066A1788D6FE00852684 /* EVGroupRequestWhatForView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606631788D6FE00852684 /* EVGroupRequestWhatForView.m */; };
@@ -98,8 +97,6 @@
 		9C2DD092176928A500EAA3D1 /* Settings_notification_globe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD08C176928A500EAA3D1 /* Settings_notification_globe@2x.png */; };
 		9C2DD093176928A500EAA3D1 /* Settings_passcode_key.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD08D176928A500EAA3D1 /* Settings_passcode_key.png */; };
 		9C2DD094176928A500EAA3D1 /* Settings_passcode_key@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD08E176928A500EAA3D1 /* Settings_passcode_key@2x.png */; };
-		9C2DD097176928B200EAA3D1 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD095176928B200EAA3D1 /* Arrow.png */; };
-		9C2DD098176928B200EAA3D1 /* Arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD096176928B200EAA3D1 /* Arrow@2x.png */; };
 		9C2DD09B176928BE00EAA3D1 /* Close.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD099176928BE00EAA3D1 /* Close.png */; };
 		9C2DD09C176928BE00EAA3D1 /* Close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD09A176928BE00EAA3D1 /* Close@2x.png */; };
 		9C2DD09F176A37E800EAA3D1 /* EVFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2DD09E176A37E800EAA3D1 /* EVFormView.m */; };
@@ -452,10 +449,6 @@
 		D095EEDA1778F05A0016F434 /* EVCheckmarkButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D095EED91778F05A0016F434 /* EVCheckmarkButton.m */; };
 		D095EEDD1778F1940016F434 /* btn-facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEDB1778F1940016F434 /* btn-facebook.png */; };
 		D095EEDE1778F1940016F434 /* btn-facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEDC1778F1940016F434 /* btn-facebook@2x.png */; };
-		D095EEE31778F1A80016F434 /* check-hole.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEDF1778F1A80016F434 /* check-hole.png */; };
-		D095EEE41778F1A80016F434 /* check-hole@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEE01778F1A80016F434 /* check-hole@2x.png */; };
-		D095EEE51778F1A80016F434 /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEE11778F1A80016F434 /* checked.png */; };
-		D095EEE61778F1A80016F434 /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEE21778F1A80016F434 /* checked@2x.png */; };
 		D095EEE91778F1B80016F434 /* facebook-f@.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEE71778F1B80016F434 /* facebook-f@.png */; };
 		D095EEEA1778F1B80016F434 /* facebook-f@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D095EEE81778F1B80016F434 /* facebook-f@2x.png */; };
 		D099B397178BF2CB00C067EC /* EVFacebookManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D099B396178BF2CB00C067EC /* EVFacebookManager.m */; };
@@ -529,8 +522,6 @@
 		9C1606551788D61400852684 /* EVExchangeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeView.m; sourceTree = "<group>"; };
 		9C1606571788D6A200852684 /* EVExchangeBigAmountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeBigAmountView.h; sourceTree = "<group>"; };
 		9C1606581788D6A300852684 /* EVExchangeBigAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeBigAmountView.m; sourceTree = "<group>"; };
-		9C16065B1788D6FE00852684 /* EVRequestMultipleAmountsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestMultipleAmountsView.h; sourceTree = "<group>"; };
-		9C16065C1788D6FE00852684 /* EVRequestMultipleAmountsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestMultipleAmountsView.m; sourceTree = "<group>"; };
 		9C16065D1788D6FE00852684 /* EVExchangeHowMuchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeHowMuchView.h; sourceTree = "<group>"; };
 		9C16065E1788D6FE00852684 /* EVExchangeHowMuchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeHowMuchView.m; sourceTree = "<group>"; };
 		9C1606601788D6FE00852684 /* EVExchangeWhatForView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeWhatForView.h; sourceTree = "<group>"; };
@@ -653,8 +644,6 @@
 		9C2DD08C176928A500EAA3D1 /* Settings_notification_globe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Settings_notification_globe@2x.png"; sourceTree = "<group>"; };
 		9C2DD08D176928A500EAA3D1 /* Settings_passcode_key.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Settings_passcode_key.png; sourceTree = "<group>"; };
 		9C2DD08E176928A500EAA3D1 /* Settings_passcode_key@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Settings_passcode_key@2x.png"; sourceTree = "<group>"; };
-		9C2DD095176928B200EAA3D1 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
-		9C2DD096176928B200EAA3D1 /* Arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arrow@2x.png"; sourceTree = "<group>"; };
 		9C2DD099176928BE00EAA3D1 /* Close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Close.png; sourceTree = "<group>"; };
 		9C2DD09A176928BE00EAA3D1 /* Close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Close@2x.png"; sourceTree = "<group>"; };
 		9C2DD09D176A37E800EAA3D1 /* EVFormView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFormView.h; sourceTree = "<group>"; };
@@ -1152,10 +1141,6 @@
 		D095EED91778F05A0016F434 /* EVCheckmarkButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCheckmarkButton.m; sourceTree = "<group>"; };
 		D095EEDB1778F1940016F434 /* btn-facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-facebook.png"; sourceTree = "<group>"; };
 		D095EEDC1778F1940016F434 /* btn-facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-facebook@2x.png"; sourceTree = "<group>"; };
-		D095EEDF1778F1A80016F434 /* check-hole.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-hole.png"; sourceTree = "<group>"; };
-		D095EEE01778F1A80016F434 /* check-hole@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "check-hole@2x.png"; sourceTree = "<group>"; };
-		D095EEE11778F1A80016F434 /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
-		D095EEE21778F1A80016F434 /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
 		D095EEE71778F1B80016F434 /* facebook-f@.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook-f@.png"; sourceTree = "<group>"; };
 		D095EEE81778F1B80016F434 /* facebook-f@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook-f@2x.png"; sourceTree = "<group>"; };
 		D099B395178BF2CB00C067EC /* EVFacebookManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFacebookManager.h; sourceTree = "<group>"; };
@@ -1384,8 +1369,6 @@
 				9CE888FF17937AF400EF6E67 /* EVGroupRequestTierAssignmentView.m */,
 				9CE889041793811D00EF6E67 /* EVGroupRequestTierAssignmentViewCell.h */,
 				9CE889051793811D00EF6E67 /* EVGroupRequestTierAssignmentViewCell.m */,
-				9C16065B1788D6FE00852684 /* EVRequestMultipleAmountsView.h */,
-				9C16065C1788D6FE00852684 /* EVRequestMultipleAmountsView.m */,
 			);
 			path = HowMuch;
 			sourceTree = "<group>";
@@ -1601,8 +1584,6 @@
 		9C2DD088176928A500EAA3D1 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				9C2DD095176928B200EAA3D1 /* Arrow.png */,
-				9C2DD096176928B200EAA3D1 /* Arrow@2x.png */,
 				9C2DD089176928A500EAA3D1 /* Settings_logout_arrow.png */,
 				9C2DD08A176928A500EAA3D1 /* Settings_logout_arrow@2x.png */,
 				9C2DD08B176928A500EAA3D1 /* Settings_notification_globe.png */,
@@ -2583,10 +2564,6 @@
 				D07FBB3E1777C59F009D8AF3 /* onboard-card3@2x.png */,
 				D095EEDB1778F1940016F434 /* btn-facebook.png */,
 				D095EEDC1778F1940016F434 /* btn-facebook@2x.png */,
-				D095EEDF1778F1A80016F434 /* check-hole.png */,
-				D095EEE01778F1A80016F434 /* check-hole@2x.png */,
-				D095EEE11778F1A80016F434 /* checked.png */,
-				D095EEE21778F1A80016F434 /* checked@2x.png */,
 				D095EEE71778F1B80016F434 /* facebook-f@.png */,
 				D095EEE81778F1B80016F434 /* facebook-f@2x.png */,
 				D03A338D17849CDC007F4B0B /* people.png */,
@@ -2870,8 +2847,6 @@
 				9C2DD093176928A500EAA3D1 /* Settings_passcode_key.png in Resources */,
 				9CBCAE211778C0150039AB39 /* More.png in Resources */,
 				9C2DD094176928A500EAA3D1 /* Settings_passcode_key@2x.png in Resources */,
-				9C2DD097176928B200EAA3D1 /* Arrow.png in Resources */,
-				9C2DD098176928B200EAA3D1 /* Arrow@2x.png in Resources */,
 				9C2DD09B176928BE00EAA3D1 /* Close.png in Resources */,
 				9C2DD09C176928BE00EAA3D1 /* Close@2x.png in Resources */,
 				9C2DD0B0176A923400EAA3D1 /* Back.png in Resources */,
@@ -2915,10 +2890,6 @@
 				D07FBB441777C59F009D8AF3 /* onboard-card3@2x.png in Resources */,
 				D095EEDD1778F1940016F434 /* btn-facebook.png in Resources */,
 				D095EEDE1778F1940016F434 /* btn-facebook@2x.png in Resources */,
-				D095EEE31778F1A80016F434 /* check-hole.png in Resources */,
-				D095EEE41778F1A80016F434 /* check-hole@2x.png in Resources */,
-				D095EEE51778F1A80016F434 /* checked.png in Resources */,
-				D095EEE61778F1A80016F434 /* checked@2x.png in Resources */,
 				D095EEE91778F1B80016F434 /* facebook-f@.png in Resources */,
 				D095EEEA1778F1B80016F434 /* facebook-f@2x.png in Resources */,
 				D0930050177BE362009F1881 /* Icon-72.png in Resources */,
@@ -3278,7 +3249,6 @@
 				9C1606461788D5AE00852684 /* EVPrivacySelectorView.m in Sources */,
 				9C1606561788D61400852684 /* EVExchangeView.m in Sources */,
 				9C1606591788D6A300852684 /* EVExchangeBigAmountView.m in Sources */,
-				9C1606671788D6FE00852684 /* EVRequestMultipleAmountsView.m in Sources */,
 				9C1606681788D6FE00852684 /* EVExchangeHowMuchView.m in Sources */,
 				9C1606691788D6FE00852684 /* EVExchangeWhatForView.m in Sources */,
 				9C16066A1788D6FE00852684 /* EVGroupRequestWhatForView.m in Sources */,

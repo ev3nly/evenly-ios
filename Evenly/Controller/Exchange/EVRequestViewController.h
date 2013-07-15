@@ -12,9 +12,8 @@
 #import "EVGroupRequest.h"
 
 #import "EVRequestWhoView.h"
-#import "EVExchangeHowMuchView.h"
 
-#import "EVRequestMultipleAmountsView.h"
+#import "EVExchangeHowMuchView.h"
 #import "EVGroupRequestHowMuchView.h"
 
 #import "EVExchangeWhatForView.h"
