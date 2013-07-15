@@ -195,7 +195,10 @@
         else
         {
             self.groupRequest = [[EVGroupRequest alloc] init];
-            self.groupRequest.members = [self.initialView recipients];
+            NSArray *sortedRecipients = [[self.initialView recipients] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                return [[obj1 name] compare:[obj2 name]];
+            }];
+            self.groupRequest.initialMembers = sortedRecipients;
             self.groupHowMuchView.groupRequest = self.groupRequest;
             [self pushView:self.groupHowMuchView animated:YES];
             // Give the privacy selector to the multiple details view.
@@ -221,12 +224,14 @@
             }
 
             self.groupRequest.tiers = self.groupHowMuchView.tiers;
+            self.groupRequest.initialAssignments = self.groupHowMuchView.assignments;
+            
             NSArray *tierPrices = [self.groupRequest.tiers map:^id(id object) {
                 return [(EVGroupRequestTier*)object price];
             }];
             
             
-            EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader groupRequestHeaderForPeople:self.groupRequest.members
+            EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader groupRequestHeaderForPeople:self.groupRequest.initialMembers
                                                                                            amounts:tierPrices];
             self.groupWhatForView.whatForHeader = header;
 

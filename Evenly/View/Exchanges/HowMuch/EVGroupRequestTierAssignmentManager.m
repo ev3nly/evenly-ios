@@ -32,21 +32,10 @@
     return self;
 }
 
-- (void)setGroupRequest:(EVGroupRequest *)groupRequest {
-    _groupRequest = groupRequest;
-    self.alphabetizedMembers = nil;
-}
-
 #pragma mark - EVGroupRequestTierAssignmentViewDataSource
 
 - (NSArray *)fullMembershipForTierAssignmentView:(EVGroupRequestTierAssignmentView *)view {
-    if (!self.alphabetizedMembers)
-    {
-        self.alphabetizedMembers = [self.groupRequest.members sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            return [[obj1 name] compare:[obj2 name]];
-        }];
-    }
-    return self.alphabetizedMembers;
+    return self.groupRequest.initialMembers;
 }
 
 - (NSArray *)assignmentsForTierAssignmentView:(EVGroupRequestTierAssignmentView *)view {

@@ -36,6 +36,8 @@
 @property (nonatomic) BOOL showingMultipleOptions;
 
 @property (nonatomic, readonly) NSArray *tiers;
+@property (nonatomic, readonly) NSArray *assignments;
+
 @property (nonatomic, readonly) BOOL isValid;
 
 - (void)setShowingMultipleOptions:(BOOL)showing animated:(BOOL)animated completion:(void (^)(void))completion;

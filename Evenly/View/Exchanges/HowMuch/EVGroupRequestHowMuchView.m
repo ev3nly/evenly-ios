@@ -422,6 +422,33 @@
     return tiers;
 }
 
+- (NSArray *)assignments {
+    NSMutableArray *assignments = [NSMutableArray array];
+    
+    // If there's only one tier, assign all members to it.
+    if (self.optionCells.count == 1)
+    {
+        for (int i=0; i<[self.groupRequest.initialMembers count]; i++) {
+            [assignments addObject:@{ @"tier_index" : @(0), @"member_index" : @(i) }];
+        }
+    }
+    else
+    {
+        int tierIndex = 0;
+        int memberIndex;
+        for (NSArray *tierArray in self.tierAssignmentManager.tierMemberships) {
+            for (EVObject<EVExchangeable> *member in tierArray) {
+                memberIndex = [self.groupRequest.initialMembers indexOfObject:member];
+                [assignments addObject:@{
+                 @"member_index": @(memberIndex),
+                 @"tier_index" : @(tierIndex)
+                 }];
+            }
+            tierIndex++;
+        }
+    }
+    return [NSArray arrayWithArray:assignments];
+}
 
 #pragma mark - Button Actions
 
@@ -448,7 +475,7 @@
 }
 
 - (void)friendsButtonPress:(UIButton *)sender {
-    if ([self.groupRequest.members count] == 0) {
+    if ([self.groupRequest.initialMembers count] == 0) {
         [self flashMessage:@"Go back and add friends first!" withDuration:2.0];
         return;
     }

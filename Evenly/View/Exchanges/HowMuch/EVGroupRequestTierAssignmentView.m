@@ -13,10 +13,7 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        
-//        self.backgroundColor = EV_RGB_ALPHA_COLOR(36, 45, 50, 0.6);
-        
+    if (self) {        
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         [layout setSectionInset:UIEdgeInsetsMake(10, 10, 10, 10)];
         [layout setItemSize:CGSizeMake(65, 80)];
