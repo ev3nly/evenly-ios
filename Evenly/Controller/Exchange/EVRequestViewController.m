@@ -85,18 +85,18 @@
     self.initialView = [[EVRequestWhoView alloc] initWithFrame:[self.view bounds]];
     self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.singleAmountView = [[EVExchangeHowMuchView alloc] initWithFrame:[self contentViewFrame]];
-    self.singleAmountView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    self.singleHowMuchView = [[EVExchangeHowMuchView alloc] initWithFrame:[self contentViewFrame]];
+    self.singleHowMuchView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.multipleAmountsView = [[EVGroupRequestHowMuchView alloc] initWithFrame:[self.view bounds]];
-    self.multipleAmountsView.groupRequest = self.groupRequest;
-    self.multipleAmountsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    self.groupHowMuchView = [[EVGroupRequestHowMuchView alloc] initWithFrame:[self.view bounds]];
+    self.groupHowMuchView.groupRequest = self.groupRequest;
+    self.groupHowMuchView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.singleDetailsView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];
-    self.singleDetailsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;    
+    self.singleWhatForView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];
+    self.singleWhatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;    
     
-    self.multipleDetailsView = [[EVRequestMultipleDetailsView alloc] initWithFrame:[self.view bounds]];
-    self.multipleDetailsView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    self.groupWhatForView = [[EVGroupRequestWhatForView alloc] initWithFrame:[self.view bounds]];
+    self.groupWhatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     [self.view addSubview:self.initialView];
     [self.viewStack addObject:self.initialView];
@@ -122,21 +122,21 @@
     
     // SECOND SCREEN:
     // Single:
-    [self.singleAmountView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
+    [self.singleHowMuchView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
         [self validateForPhase:EVExchangePhaseHowMuch];
     }];
     // Multiple:
-    [RACAble(self.multipleAmountsView.isValid) subscribeNext:^(NSNumber *isValid) {
+    [RACAble(self.groupHowMuchView.isValid) subscribeNext:^(NSNumber *isValid) {
         [self validateForPhase:EVExchangePhaseHowMuch];
     }];
     
     // THIRD SCREEN:
     // Single
-    [self.singleDetailsView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
+    [self.singleWhatForView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
         [self validateForPhase:EVExchangePhaseWhatFor];
     }];
     // Multiple
-    [self.multipleDetailsView.nameField.rac_textSignal subscribeNext:^(NSString *nameString) {
+    [self.groupWhatForView.nameField.rac_textSignal subscribeNext:^(NSString *nameString) {
         [self validateForPhase:EVExchangePhaseWhatFor];
     }];
 }
@@ -158,22 +158,22 @@
     {
         if (!self.isGroupRequest)
         {
-            float amount = [[EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text] floatValue];
+            float amount = [[EVStringUtility amountFromAmountString:self.singleHowMuchView.amountField.text] floatValue];
             BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
             [button setEnabled:okay];
-            [self.singleAmountView.minimumAmountLabel setHidden:okay];
+            [self.singleHowMuchView.minimumAmountLabel setHidden:okay];
         }
         else
         {
-            [button setEnabled:self.multipleAmountsView.isValid];
+            [button setEnabled:self.groupHowMuchView.isValid];
         }
     }
     else if (phase == EVExchangePhaseWhatFor)
     {
         if (!self.isGroupRequest)
-            [button setEnabled:!EV_IS_EMPTY_STRING(self.singleDetailsView.descriptionField.text)];
+            [button setEnabled:!EV_IS_EMPTY_STRING(self.singleWhatForView.descriptionField.text)];
         else
-            [button setEnabled:!EV_IS_EMPTY_STRING(self.multipleDetailsView.nameField.text)];
+            [button setEnabled:!EV_IS_EMPTY_STRING(self.groupWhatForView.nameField.text)];
     }
 }
 
@@ -187,19 +187,19 @@
             self.request = [[EVRequest alloc] init];
             EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
             self.request.to = recipient;
-            [self.singleAmountView.titleLabel setText:[NSString stringWithFormat:@"%@ owes me...", [recipient name]]];
-            [self pushView:self.singleAmountView animated:YES];
+            [self.singleHowMuchView.titleLabel setText:[NSString stringWithFormat:@"%@ owes me...", [recipient name]]];
+            [self pushView:self.singleHowMuchView animated:YES];
             // Give the privacy selector to the single details view.
-            [self.singleDetailsView addSubview:self.privacySelector];
+            [self.singleWhatForView addSubview:self.privacySelector];
         }
         else
         {
             self.groupRequest = [[EVGroupRequest alloc] init];
             self.groupRequest.members = [self.initialView recipients];
-            self.multipleAmountsView.groupRequest = self.groupRequest;
-            [self pushView:self.multipleAmountsView animated:YES];
+            self.groupHowMuchView.groupRequest = self.groupRequest;
+            [self pushView:self.groupHowMuchView animated:YES];
             // Give the privacy selector to the multiple details view.
-            [self.multipleDetailsView addSubview:self.privacySelector];
+            [self.groupWhatForView addSubview:self.privacySelector];
         }
         self.phase = EVExchangePhaseHowMuch;
     }
@@ -207,20 +207,20 @@
     {
         if (!self.isGroupRequest)
         {
-            self.request.amount = [EVStringUtility amountFromAmountString:self.singleAmountView.amountField.text];
+            self.request.amount = [EVStringUtility amountFromAmountString:self.singleHowMuchView.amountField.text];
             EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader requestHeaderForPerson:self.request.to amount:self.request.amount];
-            self.singleDetailsView.whatForHeader = header;
-            [self pushView:self.singleDetailsView animated:YES];
+            self.singleWhatForView.whatForHeader = header;
+            [self pushView:self.singleWhatForView animated:YES];
         }
         else
         {
             if ([self isLessThanPermittedAmount])
             {
-                [self.multipleAmountsView.singleAmountView.bigAmountView flashMinimumAmountLabel];
+                [self.groupHowMuchView.singleAmountView.bigAmountView flashMinimumAmountLabel];
                 return;
             }
 
-            self.groupRequest.tiers = self.multipleAmountsView.tiers;
+            self.groupRequest.tiers = self.groupHowMuchView.tiers;
             NSArray *tierPrices = [self.groupRequest.tiers map:^id(id object) {
                 return [(EVGroupRequestTier*)object price];
             }];
@@ -228,9 +228,9 @@
             
             EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader groupRequestHeaderForPeople:self.groupRequest.members
                                                                                            amounts:tierPrices];
-            self.multipleDetailsView.whatForHeader = header;
+            self.groupWhatForView.whatForHeader = header;
 
-            [self pushView:self.multipleDetailsView animated:YES];
+            [self pushView:self.groupWhatForView animated:YES];
         }
         self.phase = EVExchangePhaseWhatFor;
     }
@@ -239,7 +239,7 @@
 }
 
 - (BOOL)isLessThanPermittedAmount {
-    NSArray *filtered = [self.multipleAmountsView.tiers filter:^BOOL(id object) {
+    NSArray *filtered = [self.groupHowMuchView.tiers filter:^BOOL(id object) {
         return [[object price] floatValue] < EV_MINIMUM_EXCHANGE_AMOUNT;
     }];
     return (filtered.count > 0);
@@ -251,7 +251,7 @@
     
     if (!self.isGroupRequest)
     {
-        self.request.memo = self.singleDetailsView.descriptionField.text;
+        self.request.memo = self.singleWhatForView.descriptionField.text;
         [self.request saveWithSuccess:^{
             
             EVStory *story = [EVStory storyFromPendingExchange:self.request];
@@ -271,8 +271,8 @@
     }
     else
     {
-        self.groupRequest.title = self.multipleDetailsView.nameField.text;
-        self.groupRequest.memo = self.multipleDetailsView.descriptionField.text;
+        self.groupRequest.title = self.groupWhatForView.nameField.text;
+        self.groupRequest.memo = self.groupWhatForView.descriptionField.text;
         DLog(@"Group request dictionary representation: %@", [self.groupRequest dictionaryRepresentation]);
 
         [EVGroupRequest createWithParams:[self.groupRequest dictionaryRepresentation]

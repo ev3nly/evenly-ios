@@ -32,7 +32,7 @@
 		9C1606671788D6FE00852684 /* EVRequestMultipleAmountsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16065C1788D6FE00852684 /* EVRequestMultipleAmountsView.m */; };
 		9C1606681788D6FE00852684 /* EVExchangeHowMuchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16065E1788D6FE00852684 /* EVExchangeHowMuchView.m */; };
 		9C1606691788D6FE00852684 /* EVExchangeWhatForView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606611788D6FE00852684 /* EVExchangeWhatForView.m */; };
-		9C16066A1788D6FE00852684 /* EVRequestMultipleDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606631788D6FE00852684 /* EVRequestMultipleDetailsView.m */; };
+		9C16066A1788D6FE00852684 /* EVGroupRequestWhatForView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606631788D6FE00852684 /* EVGroupRequestWhatForView.m */; };
 		9C16066B1788D6FE00852684 /* EVRequestWhoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606661788D6FE00852684 /* EVRequestWhoView.m */; };
 		9C16066E1788D75400852684 /* EVExchangeWhoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16066D1788D75400852684 /* EVExchangeWhoView.m */; };
 		9C1606711788EE4200852684 /* EVPaymentWhoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606701788EE4200852684 /* EVPaymentWhoView.m */; };
@@ -532,8 +532,8 @@
 		9C16065E1788D6FE00852684 /* EVExchangeHowMuchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeHowMuchView.m; sourceTree = "<group>"; };
 		9C1606601788D6FE00852684 /* EVExchangeWhatForView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeWhatForView.h; sourceTree = "<group>"; };
 		9C1606611788D6FE00852684 /* EVExchangeWhatForView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeWhatForView.m; sourceTree = "<group>"; };
-		9C1606621788D6FE00852684 /* EVRequestMultipleDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestMultipleDetailsView.h; sourceTree = "<group>"; };
-		9C1606631788D6FE00852684 /* EVRequestMultipleDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestMultipleDetailsView.m; sourceTree = "<group>"; };
+		9C1606621788D6FE00852684 /* EVGroupRequestWhatForView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestWhatForView.h; sourceTree = "<group>"; };
+		9C1606631788D6FE00852684 /* EVGroupRequestWhatForView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestWhatForView.m; sourceTree = "<group>"; };
 		9C1606651788D6FE00852684 /* EVRequestWhoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequestWhoView.h; sourceTree = "<group>"; };
 		9C1606661788D6FE00852684 /* EVRequestWhoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRequestWhoView.m; sourceTree = "<group>"; };
 		9C16066C1788D75400852684 /* EVExchangeWhoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeWhoView.h; sourceTree = "<group>"; };
@@ -1382,8 +1382,8 @@
 				9C1606611788D6FE00852684 /* EVExchangeWhatForView.m */,
 				9C160675178A086F00852684 /* EVExchangeWhatForHeader.h */,
 				9C160676178A086F00852684 /* EVExchangeWhatForHeader.m */,
-				9C1606621788D6FE00852684 /* EVRequestMultipleDetailsView.h */,
-				9C1606631788D6FE00852684 /* EVRequestMultipleDetailsView.m */,
+				9C1606621788D6FE00852684 /* EVGroupRequestWhatForView.h */,
+				9C1606631788D6FE00852684 /* EVGroupRequestWhatForView.m */,
 			);
 			path = WhatFor;
 			sourceTree = "<group>";
@@ -3266,7 +3266,7 @@
 				9C1606671788D6FE00852684 /* EVRequestMultipleAmountsView.m in Sources */,
 				9C1606681788D6FE00852684 /* EVExchangeHowMuchView.m in Sources */,
 				9C1606691788D6FE00852684 /* EVExchangeWhatForView.m in Sources */,
-				9C16066A1788D6FE00852684 /* EVRequestMultipleDetailsView.m in Sources */,
+				9C16066A1788D6FE00852684 /* EVGroupRequestWhatForView.m in Sources */,
 				9C16066B1788D6FE00852684 /* EVRequestWhoView.m in Sources */,
 				9C16066E1788D75400852684 /* EVExchangeWhoView.m in Sources */,
 				9C1606711788EE4200852684 /* EVPaymentWhoView.m in Sources */,

@@ -7,7 +7,7 @@
 //
 
 #import "EVGroupRequestEditViewController.h"
-#import "EVRequestMultipleDetailsView.h"
+#import "EVGroupRequestWhatForView.h"
 #import "EVGroupRequestEditAmountCell.h"
 #import "EVGroupedTableViewCell.h"
 #import "EVGroupRequestTier.h"
