@@ -72,7 +72,7 @@
     [mutableDictionary setObject:array forKey:@"tiers"];
     
     array = [NSMutableArray array];
-    for (EVObject<EVExchangeable> *member in self.members) {
+    for (EVObject<EVExchangeable> *member in self.initialMembers) {
         if ([member isKindOfClass:[EVUser class]]) {
             [array addObject:[member dbid]];
         } else {
@@ -81,6 +81,11 @@
     }
     if ([array count])
         [mutableDictionary setObject:array forKey:@"record_data"];
+    
+    if ([self.initialAssignments count])
+    {
+        [mutableDictionary setObject:self.initialAssignments forKey:@"assignments"];
+    }    
     return mutableDictionary;
 }
 

@@ -15,11 +15,13 @@
 
 @property (nonatomic, strong) EVObject<EVExchangeable> *from;
 @property (nonatomic, strong) NSArray *tiers;
-@property (nonatomic, strong) NSArray *members;
 @property (nonatomic, strong) NSArray *records;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *memo;
 @property (nonatomic) BOOL completed;
+
+@property (nonatomic, strong) NSArray *initialMembers;
+@property (nonatomic, strong) NSArray *initialAssignments;
 
 @property (nonatomic, readonly) UIImage *avatar;
 
