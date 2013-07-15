@@ -52,6 +52,12 @@
     return cell;
 }
 
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self.delegate tierAssignmentView:self didSelectMemberAtIndex:indexPath.item];
+}
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

@@ -53,7 +53,8 @@
         self.expandedCells = [[NSMutableIndexSet alloc] init];
 
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
-        [self addGestureRecognizer:self.tapRecognizer];        
+        self.tapRecognizer.cancelsTouchesInView = NO;
+        [self addGestureRecognizer:self.tapRecognizer];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillShowNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillDisappear:) name:UIKeyboardWillHideNotification object:nil];
@@ -181,6 +182,8 @@
 
 - (void)loadTierAssignmentView {
     self.tierAssignmentManager = [[EVGroupRequestTierAssignmentManager alloc] initWithGroupRequest:self.groupRequest];
+    self.tierAssignmentManager.delegate = self;
+    
     self.tierAssignmentView = [[EVGroupRequestTierAssignmentView alloc] initWithFrame:CGRectMake(0,
                                                                                                  self.frame.size.height,
                                                                                                  self.frame.size.width,
@@ -302,8 +305,6 @@
                                           
                                       }];
     };
-    
-    
     
     void (^multipleAmountsBlock)(void) = ^{
         [self.multipleAmountsView bounceAnimationToFrame:[self multipleAmountsViewOffscreenFrame]
@@ -473,6 +474,9 @@
 }
 
 - (void)tapRecognized:(UITapGestureRecognizer *)recognizer {
+    if (CGRectContainsPoint(self.tierAssignmentView.frame, [recognizer locationInView:recognizer.view]))
+        return;
+    
     [self.singleAmountView.bigAmountView resignFirstResponder];
     [self.optionCells makeObjectsPerformSelector:@selector(resignFirstResponder)];
     [self hideTierAssignmentView];
@@ -558,6 +562,24 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     return UITableViewCellEditingStyleNone;
+}
+
+#pragma mark - EVGroupRequestTierAssignmentManagerDelegate
+
+- (void)tierAssignmentManagerDidUpdateMemberships:(EVGroupRequestTierAssignmentManager *)manager {
+    int i=0;
+    for (EVGroupRequestAmountCell *cell in self.optionCells) {
+        NSArray *memberships = [[manager tierMemberships] objectAtIndex:i];
+        NSString *title = nil;
+        if ([memberships count] == 0)
+            title = @"SELECT FRIENDS";
+        else if ([memberships count] == 1)
+            title = @"1 FRIEND";
+        else
+            title = [NSString stringWithFormat:@"%d FRIENDS", [memberships count]];
+        [cell.friendsButton setTitle:title forState:UIControlStateNormal];
+        i++;
+    }
 }
 
 #pragma mark - Keyboard Observation

@@ -14,7 +14,7 @@
 
 #define ADD_OPTION_BUTTON_HEIGHT 35.0
 
-@interface EVGroupRequestHowMuchView : EVExchangeView <UITableViewDataSource, UITableViewDelegate>
+@interface EVGroupRequestHowMuchView : EVExchangeView <UITableViewDataSource, UITableViewDelegate, EVGroupRequestTierAssignmentManagerDelegate>
 
 @property (nonatomic, weak) EVGroupRequest *groupRequest;
 

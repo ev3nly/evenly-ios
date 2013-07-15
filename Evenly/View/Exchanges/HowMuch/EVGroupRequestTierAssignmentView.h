@@ -21,7 +21,7 @@
 
 @protocol EVGroupRequestTierAssignmentDelegate <NSObject>
 
-- (void)tierAssignmentView:(EVGroupRequestTierAssignmentView *)view didSelectMember:(EVObject<EVExchangeable> *)member;
+- (void)tierAssignmentView:(EVGroupRequestTierAssignmentView *)view didSelectMemberAtIndex:(NSInteger)index;
 
 @end
 

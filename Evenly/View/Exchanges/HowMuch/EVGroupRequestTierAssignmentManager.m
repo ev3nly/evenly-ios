@@ -8,6 +8,12 @@
 
 #import "EVGroupRequestTierAssignmentManager.h"
 
+@interface EVGroupRequestTierAssignmentManager ()
+
+@property (nonatomic, strong) NSArray *alphabetizedMembers;
+
+@end
+
 @implementation EVGroupRequestTierAssignmentManager
 
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest {
@@ -28,14 +34,19 @@
 
 - (void)setGroupRequest:(EVGroupRequest *)groupRequest {
     _groupRequest = groupRequest;
+    self.alphabetizedMembers = nil;
 }
 
 #pragma mark - EVGroupRequestTierAssignmentViewDataSource
 
 - (NSArray *)fullMembershipForTierAssignmentView:(EVGroupRequestTierAssignmentView *)view {
-    return [self.groupRequest.members sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [[obj1 name] compare:[obj2 name]];
-    }];
+    if (!self.alphabetizedMembers)
+    {
+        self.alphabetizedMembers = [self.groupRequest.members sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            return [[obj1 name] compare:[obj2 name]];
+        }];
+    }
+    return self.alphabetizedMembers;
 }
 
 - (NSArray *)assignmentsForTierAssignmentView:(EVGroupRequestTierAssignmentView *)view {
@@ -48,13 +59,18 @@
 
 #pragma mark - EVGroupRequesttierAssignmentViewDelegate
 
-- (void)tierAssignmentView:(EVGroupRequestTierAssignmentView *)view didSelectMember:(EVObject<EVExchangeable> *)member {
+- (void)tierAssignmentView:(EVGroupRequestTierAssignmentView *)view didSelectMemberAtIndex:(NSInteger)index {
     NSMutableArray *memberships = [self.tierMemberships objectAtIndex:self.representedTierIndex];
+    EVObject<EVExchangeable> *member = [[self fullMembershipForTierAssignmentView:view] objectAtIndex:index];
     if ([memberships containsObject:member]) {
         [memberships removeObject:member];
     } else {
+        for (NSMutableArray *otherMemberships in self.tierMemberships) {
+            [otherMemberships removeObject:member];
+        }
         [memberships addObject:member];
     }
+    [self.delegate tierAssignmentManagerDidUpdateMemberships:self];
 }
 
 @end
