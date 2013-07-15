@@ -9,6 +9,8 @@
 #import "EVExchangeView.h"
 #import "EVGroupRequestSingleAmountView.h"
 #import "EVGroupRequest.h"
+#import "EVGroupRequestTierAssignmentManager.h"
+#import "EVGroupRequestTierAssignmentView.h"
 
 #define ADD_OPTION_BUTTON_HEIGHT 35.0
 
@@ -23,8 +25,13 @@
 @property (nonatomic, strong) EVGroupRequestSingleAmountView *singleAmountView;
 
 @property (nonatomic, strong) UITableView *multipleAmountsView;
+
+@property (nonatomic, strong) EVGroupRequestTierAssignmentManager *tierAssignmentManager;
+@property (nonatomic, strong) EVGroupRequestTierAssignmentView *tierAssignmentView;
+
 @property (nonatomic, strong) UIView *footerView;
 @property (nonatomic, strong) UILabel *footerLabel;
+
 
 @property (nonatomic) BOOL showingMultipleOptions;
 

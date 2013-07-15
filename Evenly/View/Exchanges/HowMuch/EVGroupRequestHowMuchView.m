@@ -24,13 +24,14 @@
 
 @property (nonatomic, strong) NSMutableArray *optionCells;
 @property (nonatomic, strong) NSMutableIndexSet *expandedCells;
+
 @property (nonatomic) BOOL isValid;
 
 - (void)loadHeaderLabel;
 - (void)loadSingleAmountView;
 - (void)loadMultipleAmountsView;
-
 - (void)loadAddOptionButton;
+- (void)loadTierAssignmentView;
 
 @end
 
@@ -45,11 +46,12 @@
         [self loadCells];
         [self loadMultipleAmountsView];
         [self loadAddOptionButton];
+        [self loadTierAssignmentView];
         
         self.backgroundColor = [EVColor darkColor];
         
         self.expandedCells = [[NSMutableIndexSet alloc] init];
-        
+
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
         [self addGestureRecognizer:self.tapRecognizer];        
 
@@ -177,6 +179,17 @@
                       ADD_OPTION_BUTTON_HEIGHT + 2*Y_SPACING);
 }
 
+- (void)loadTierAssignmentView {
+    self.tierAssignmentManager = [[EVGroupRequestTierAssignmentManager alloc] initWithGroupRequest:self.groupRequest];
+    self.tierAssignmentView = [[EVGroupRequestTierAssignmentView alloc] initWithFrame:CGRectMake(0,
+                                                                                                 self.frame.size.height,
+                                                                                                 self.frame.size.width,
+                                                                                                 EV_DEFAULT_KEYBOARD_HEIGHT)];
+    self.tierAssignmentView.delegate = self.tierAssignmentManager;
+    self.tierAssignmentView.dataSource = self.tierAssignmentManager;
+    [self addSubview:self.tierAssignmentView];
+}
+
 - (void)loadCells {
     self.optionCells = [NSMutableArray array];
     
@@ -202,6 +215,14 @@
         [self validate];
     }];
     return cell;
+}
+
+#pragma mark - Property Overrides
+
+- (void)setGroupRequest:(EVGroupRequest *)groupRequest {
+    _groupRequest = groupRequest;
+    self.tierAssignmentManager.groupRequest = groupRequest;
+    [self.tierAssignmentView reloadData];
 }
 
 #pragma mark - Transition
@@ -298,6 +319,33 @@
     
 }
 
+- (void)showTierAssignmentView {
+    [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         [self.tierAssignmentView setFrame:CGRectMake(0,
+                                                                      self.frame.size.height - self.tierAssignmentView.frame.size.height - NAVIGATION_BAR_OFFSET,
+                                                                      self.tierAssignmentView.frame.size.width,
+                                                                      self.tierAssignmentView.frame.size.height)];
+                     } completion:^(BOOL finished) {
+                         
+                     }];
+}
+
+- (void)hideTierAssignmentView {
+    [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         [self.tierAssignmentView setFrame:CGRectMake(0,
+                                                                      self.frame.size.height,
+                                                                      self.tierAssignmentView.frame.size.width,
+                                                                      self.tierAssignmentView.frame.size.height)];
+                     } completion:^(BOOL finished) {
+                         
+                     }];
+}
 
 - (void)flashMessage:(NSString *)message withDuration:(NSTimeInterval)duration {
     
@@ -406,8 +454,8 @@
     
     EVGroupRequestAmountCell *cell = (EVGroupRequestAmountCell *)[[sender superview] superview];
     NSInteger index = [self.optionCells indexOfObject:cell];
-    
-
+    [self.tierAssignmentManager setRepresentedTierIndex:index];
+    [self showTierAssignmentView];    
 }
 
 - (void)arrowButtonPress:(UIButton *)sender {
@@ -427,6 +475,7 @@
 - (void)tapRecognized:(UITapGestureRecognizer *)recognizer {
     [self.singleAmountView.bigAmountView resignFirstResponder];
     [self.optionCells makeObjectsPerformSelector:@selector(resignFirstResponder)];
+    [self hideTierAssignmentView];
 }
 
 - (void)removeCellAtIndex:(NSInteger)index {
@@ -444,7 +493,9 @@
         else
             previous.optionAmountField.next = nil;
     }
+    
     [self.optionCells removeObjectAtIndex:index];
+    [self.tierAssignmentManager.tierMemberships removeObjectAtIndex:index];
     
     if (self.optionCells.count == 1) {
         __weak EVGroupRequestHowMuchView *weakSelf = self;
@@ -459,6 +510,9 @@
 
 - (void)addCell {
     [self.optionCells addObject:[self configuredCell]];
+    
+    [self.tierAssignmentManager.tierMemberships addObject:[NSMutableArray array]];
+
     [self.multipleAmountsView beginUpdates];
     [self.multipleAmountsView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:[self.optionCells count]-1 inSection:0]]
                                     withRowAnimation:UITableViewRowAnimationAutomatic];
