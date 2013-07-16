@@ -98,20 +98,19 @@
 
 - (void)payContact:(EVUser *)contact {
     EVPaymentViewController *paymentController = [EVPaymentViewController new];
-    [self preDisplayExchangeController:paymentController forContact:contact];
+    [paymentController viewDidLoad];
+    [paymentController addContact:contact];
+    // EVPaymentViewController has a reaction that advances when a contact is added,
+    // so don't advance phase here.
     [self displayExchangeController:paymentController];
 }
 
 - (void)requestFromContact:(EVUser *)contact {
     EVRequestViewController *requestController = [EVRequestViewController new];
-    [self preDisplayExchangeController:requestController forContact:contact];
-    [requestController nextButtonPress:nil];
+    [requestController viewDidLoad];
+    [requestController addContact:contact];
+    [requestController advancePhase];
     [self displayExchangeController:requestController];
-}
-
-- (void)preDisplayExchangeController:(EVExchangeViewController *)controller forContact:(EVUser *)contact {
-    [controller viewDidLoad];
-    [controller autocompleteViewController:nil didSelectContact:contact];
 }
 
 - (void)displayExchangeController:(EVExchangeViewController *)controller {

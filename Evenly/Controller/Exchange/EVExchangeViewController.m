@@ -51,6 +51,30 @@
     [self.initialView becomeFirstResponder];
 }
 
+#pragma mark - Basic Interface
+
+- (void)addContact:(id)contact {
+    if ([contact isKindOfClass:[ABContact class]]) {
+        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
+		EVContact *toContact = [[EVContact alloc] init];
+		toContact.email = emailAddress;
+        toContact.name = [contact compositeName];
+        contact = toContact;
+    }
+    [self.initialView addContact:contact];
+}
+
+- (void)advancePhase {
+    // abstract
+}
+
+- (void)sendExchangeToServer {
+    // abstract
+}
+
+#pragma mark - View Loading
+
+
 - (void)loadNavigationButtons {
     // abstract
 }
@@ -141,14 +165,13 @@
 }
 
 - (void)nextButtonPress:(id)sender {
-    // abstract
+    [self advancePhase];
 }
 
 - (void)actionButtonPress:(id)sender {
     [sender setEnabled:NO];
     self.navigationItem.leftBarButtonItem = nil;
-
-    // abstract
+    [self sendExchangeToServer];
 }
 
 #pragma mark - Validation 
@@ -160,14 +183,7 @@
 #pragma mark - UITableViewDelegate
 
 - (void)autocompleteViewController:(EVAutocompleteTableViewController *)viewController didSelectContact:(id)contact {
-    if ([contact isKindOfClass:[ABContact class]]) {
-        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
-		EVContact *toContact = [[EVContact alloc] init];
-		toContact.email = emailAddress;
-        toContact.name = [contact compositeName];
-        contact = toContact;
-    }
-    [self.initialView addContact:contact];
+    [self addContact:contact];
 }
 
 @end
