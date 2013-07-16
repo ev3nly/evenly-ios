@@ -247,4 +247,14 @@
     return [UIImage imageNamed:@"spinner"];
 }
 
+#pragma mark - Invite
+
++ (UIImage *)inviteContactsIcon {
+    return [UIImage imageNamed:@"contact"];
+}
+
++ (UIImage *)inviteFacebookIcon {
+    return [UIImage imageNamed:@"facebook"];
+}
+
 @end

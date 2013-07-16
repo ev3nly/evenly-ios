@@ -111,6 +111,8 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]
+                                              forKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
@@ -138,6 +140,7 @@
     
     NSDate *dateAppEnteredBackground = [[NSUserDefaults standardUserDefaults] objectForKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
     if (fabs([dateAppEnteredBackground timeIntervalSinceNow]) > EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY) {
+        NSLog(@"int since: %f", [dateAppEnteredBackground timeIntervalSinceNow]);
         EV_DISPATCH_AFTER(0.5, ^{
             if ([[EVPINUtility sharedUtility] pinIsSet])
                 [[self masterViewController] showPINViewControllerAnimated:YES];

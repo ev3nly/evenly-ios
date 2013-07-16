@@ -85,4 +85,8 @@
 + (UIImage *)grayLoadingLogo;
 + (UIImage *)loadingSpinner;
 
+#pragma mark - Invite
++ (UIImage *)inviteContactsIcon;
++ (UIImage *)inviteFacebookIcon;
+
 @end

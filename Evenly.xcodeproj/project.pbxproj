@@ -373,6 +373,10 @@
 		D02758231795DC18004F6F0A /* security_logo_color@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D027581F1795DC18004F6F0A /* security_logo_color@2x.png */; };
 		D02758241795DC18004F6F0A /* security_logo_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D02758201795DC18004F6F0A /* security_logo_gray.png */; };
 		D02758251795DC18004F6F0A /* security_logo_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D02758211795DC18004F6F0A /* security_logo_gray@2x.png */; };
+		D027582D1795F572004F6F0A /* contact.png in Resources */ = {isa = PBXBuildFile; fileRef = D027582B1795F572004F6F0A /* contact.png */; };
+		D027582E1795F572004F6F0A /* contact@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D027582C1795F572004F6F0A /* contact@2x.png */; };
+		D02758311795F57B004F6F0A /* facebook.png in Resources */ = {isa = PBXBuildFile; fileRef = D027582F1795F57B004F6F0A /* facebook.png */; };
+		D02758321795F57B004F6F0A /* facebook@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D02758301795F57B004F6F0A /* facebook@2x.png */; };
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
 		D031C3F11787F4F2008AC614 /* EVInviteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F01787F4F2008AC614 /* EVInviteListViewController.m */; };
 		D031C3F41787F550008AC614 /* EVInviteContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F31787F54F008AC614 /* EVInviteContactsViewController.m */; };
@@ -1040,6 +1044,10 @@
 		D027581F1795DC18004F6F0A /* security_logo_color@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "security_logo_color@2x.png"; sourceTree = "<group>"; };
 		D02758201795DC18004F6F0A /* security_logo_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = security_logo_gray.png; sourceTree = "<group>"; };
 		D02758211795DC18004F6F0A /* security_logo_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "security_logo_gray@2x.png"; sourceTree = "<group>"; };
+		D027582B1795F572004F6F0A /* contact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contact.png; sourceTree = "<group>"; };
+		D027582C1795F572004F6F0A /* contact@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "contact@2x.png"; sourceTree = "<group>"; };
+		D027582F1795F57B004F6F0A /* facebook.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook.png; sourceTree = "<group>"; };
+		D02758301795F57B004F6F0A /* facebook@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook@2x.png"; sourceTree = "<group>"; };
 		D02CAB0D1761483500323025 /* EVValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVValidator.h; sourceTree = "<group>"; };
 		D02CAB0E1761483500323025 /* EVValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidator.m; sourceTree = "<group>"; };
 		D031C3EF1787F4F2008AC614 /* EVInviteListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteListViewController.h; sourceTree = "<group>"; };
@@ -1898,13 +1906,6 @@
 			path = Grouped;
 			sourceTree = "<group>";
 		};
-		9C863C9917729E7D003ADB49 /* Invite */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Invite;
-			sourceTree = "<group>";
-		};
 		9C900D111767E83700E2F4C4 /* Deposit */ = {
 			isa = PBXGroup;
 			children = (
@@ -2102,7 +2103,7 @@
 				9C900D1F1767FA3E00E2F4C4 /* Buttons */,
 				9C3917391773DEAE002949C3 /* Cells */,
 				9C8186241782499000038B00 /* InstructionView */,
-				9C863C9917729E7D003ADB49 /* Invite */,
+				D027582A1795F567004F6F0A /* Invite */,
 				D099B3D7178CE08D00C067EC /* Loading */,
 				9C6CE666178F399000657D58 /* Logos */,
 				D03A338F1784ACAC007F4B0B /* MainMenu */,
@@ -2459,6 +2460,17 @@
 				D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */,
 			);
 			path = SVPullToRefresh;
+			sourceTree = "<group>";
+		};
+		D027582A1795F567004F6F0A /* Invite */ = {
+			isa = PBXGroup;
+			children = (
+				D027582B1795F572004F6F0A /* contact.png */,
+				D027582C1795F572004F6F0A /* contact@2x.png */,
+				D027582F1795F57B004F6F0A /* facebook.png */,
+				D02758301795F57B004F6F0A /* facebook@2x.png */,
+			);
+			path = Invite;
 			sourceTree = "<group>";
 		};
 		D031C3F617881049008AC614 /* Invite */ = {
@@ -2960,6 +2972,10 @@
 				D02758231795DC18004F6F0A /* security_logo_color@2x.png in Resources */,
 				D02758241795DC18004F6F0A /* security_logo_gray.png in Resources */,
 				D02758251795DC18004F6F0A /* security_logo_gray@2x.png in Resources */,
+				D027582D1795F572004F6F0A /* contact.png in Resources */,
+				D027582E1795F572004F6F0A /* contact@2x.png in Resources */,
+				D02758311795F57B004F6F0A /* facebook.png in Resources */,
+				D02758321795F57B004F6F0A /* facebook@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
