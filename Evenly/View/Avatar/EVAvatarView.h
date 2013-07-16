@@ -17,5 +17,6 @@
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, assign) float cornerRadius;
+@property (nonatomic, assign) BOOL highlighted;
 
 @end

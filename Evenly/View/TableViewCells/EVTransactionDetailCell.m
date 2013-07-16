@@ -29,6 +29,10 @@
         [self loadRightAvatarView];
         self.avatarView.cornerRadius = 8.0;
         [self.avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(leftAvatarTapped)]];
+        
+        EVGroupedTableViewCellBackground *background = [[EVGroupedTableViewCellBackground alloc] initWithFrame:self.bounds];
+        background.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+        self.selectedBackgroundView = background;
     }
     return self;
 }

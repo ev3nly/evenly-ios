@@ -23,6 +23,8 @@
     if (self) {
         
         self.spacing = 5.0f;
+        self.backgroundColor = [UIColor whiteColor];
+        self.highlightedColor = [EVColor newsfeedButtonHighlightColor];
         
         self.container = [[UIView alloc] initWithFrame:CGRectZero];
         self.container.userInteractionEnabled = NO;
@@ -77,7 +79,7 @@
 
 - (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
-    [self setBackgroundColor:(highlighted ? [EVColor newsfeedButtonHighlightColor] : [UIColor clearColor])];
+    [self setBackgroundColor:(highlighted ? self.highlightedColor : [UIColor whiteColor])];
 }
 
 /*

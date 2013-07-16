@@ -79,6 +79,19 @@
     return cell;
 }
 
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    EVTransactionDetailCell *cell = (EVTransactionDetailCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [cell.likeButton setHighlightedColor:[UIColor whiteColor]];
+    return indexPath;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    EVTransactionDetailCell *cell = (EVTransactionDetailCell *)[tableView cellForRowAtIndexPath:indexPath];
+    [cell.likeButton setHighlightedColor:[EVColor newsfeedButtonHighlightColor]];
+    return indexPath;
+}
+
+
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
