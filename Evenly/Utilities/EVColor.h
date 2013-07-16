@@ -52,4 +52,8 @@
 
 + (UIColor *)progressBarDisabledColor;
 
+#pragma mark - Debugging
+
++ (UIColor *)randomColor;
+
 @end
