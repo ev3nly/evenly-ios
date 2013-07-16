@@ -14,7 +14,8 @@
 #define PROFILE_AVATAR_BUFFER 10
 #define PROFILE_AVATAR_LENGTH 80
 #define PROFILE_FONT_SIZE 15
-#define PROFILE_EXTRA_TOTAL_LABEL_HEIGHT 4
+#define PROFILE_EXTRA_TOTAL_LABEL_HEIGHT -10
+#define PROFILE_INFO_LINES 3
 
 @interface EVProfileCell ()
 
@@ -42,7 +43,7 @@
         self.backgroundColor = [UIColor clearColor];
         [self loadAvatarView];
         [self loadNameLabel];
-        [self loadNetworkLabel];
+//        [self loadNetworkLabel];
         [self loadEmailLabel];
         [self loadPhoneNumberLabel];
         [self loadProfileButton];
@@ -184,26 +185,26 @@
 
 - (CGRect)nameLabelFrame {
     return CGRectMake(CGRectGetMaxX(self.avatarView.frame) + PROFILE_AVATAR_BUFFER,
-                      PROFILE_AVATAR_BUFFER,
+                      PROFILE_AVATAR_BUFFER + (PROFILE_AVATAR_LENGTH - [self totalTextHeight])/2,
                       self.bounds.size.width - CGRectGetMaxX(self.avatarView.frame) - PROFILE_AVATAR_BUFFER,
-                      [self totalTextHeight]/4);
+                      [self totalTextHeight]/PROFILE_INFO_LINES);
 }
 
 - (CGRect)networkLabelFrame {
     CGRect labelFrame = self.nameLabel.frame;
-    labelFrame.origin.y += ([self totalTextHeight]/4);
+    labelFrame.origin.y += ([self totalTextHeight]/PROFILE_INFO_LINES);
     return labelFrame;
 }
 
 - (CGRect)emailLabelFrame {
-    CGRect labelFrame = self.networkLabel.frame;
-    labelFrame.origin.y += ([self totalTextHeight]/4);
+    CGRect labelFrame = self.nameLabel.frame;
+    labelFrame.origin.y += ([self totalTextHeight]/PROFILE_INFO_LINES);
     return labelFrame;
 }
 
 - (CGRect)phoneNumberLabelFrame {
     CGRect labelFrame = self.emailLabel.frame;
-    labelFrame.origin.y += ([self totalTextHeight]/4);
+    labelFrame.origin.y += ([self totalTextHeight]/PROFILE_INFO_LINES);
     return labelFrame;
 }
 
