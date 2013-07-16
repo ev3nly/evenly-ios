@@ -39,9 +39,7 @@
 #pragma mark - Side Panels
 
 + (UIColor *)sidePanelBackgroundColor {
-    return EV_RGB_COLOR(242, 242, 242);
-    return [EVColor creamColor];
-    return [UIColor whiteColor];// EV_RGB_COLOR(0.1412, 0.1765, 0.1961);
+    return EV_RGB_COLOR(250, 250, 250);
 }
 
 + (UIColor *)sidePanelHeaderBackgroundColor {

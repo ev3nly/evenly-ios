@@ -102,8 +102,7 @@
 }
 
 - (void)setUpAppearance {
-    UIImage *navBarImage = [EVImageUtility overlayImage:[UIImage imageNamed:@"Header"] withColor:[EVColor blueColor] identifier:@"navBarImage"];
-    [[UINavigationBar appearance] setBackgroundImage:navBarImage forBarMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setBackgroundImage:[EVImages navBarBackground] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
 
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackground] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];

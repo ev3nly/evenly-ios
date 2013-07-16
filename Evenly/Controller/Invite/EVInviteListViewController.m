@@ -95,7 +95,7 @@
 
 - (void)loadSearchBar {
     self.searchBar = [UISearchBar new];    
-    self.searchBar.backgroundImage = [EVImageUtility imageWithColor:EV_RGB_COLOR(0, 114, 208)];
+    self.searchBar.backgroundImage = [EVImageUtility imageWithColor:[EVColor blueColor]];
     self.searchBar.showsCancelButton = NO;
     self.searchBar.delegate = self;
     [self.searchBar setPositionAdjustment:UIOffsetMake(1, 1) forSearchBarIcon:UISearchBarIconSearch];

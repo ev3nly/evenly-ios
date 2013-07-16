@@ -16,6 +16,20 @@
     return [[UIImage imageNamed:@"FeedContainer"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
 }
 
+#pragma mark - NavBar
+
++ (UIImage *)navBarBackground {
+    return [EVImageUtility overlayImage:[UIImage imageNamed:@"Header"] withColor:[EVColor blueColor] identifier:@"navBarImage"];
+}
+
++ (UIImage *)navBarBackButton {
+    return [UIImage imageNamed:@"Back"];
+}
+
++ (UIImage *)navBarCancelButton {
+    return [UIImage imageNamed:@"Close"];
+}
+
 #pragma mark - Buttons
 
 + (UIImage *)blueButtonBackground {
@@ -128,6 +142,14 @@
 
 + (UIImage *)emptyDot {
     return [UIImage imageNamed:@"Request-header-hole"];
+}
+
++ (UIImage *)dashboardTabInactiveBackground {
+    return [UIImage imageNamed:@"tab-inactive-background"];
+}
+
++ (UIImage *)dashboardDisclosureArrow {
+    return [UIImage imageNamed:@"Arrow"];
 }
 
 #pragma mark - Onboarding

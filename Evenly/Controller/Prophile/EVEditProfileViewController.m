@@ -234,16 +234,10 @@
         UIView *blackBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 320, 20)];
         blackBackground.backgroundColor = [UIColor blackColor];
         [viewController.view addSubview:blackBackground];
-        UIImageView *navBar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Header"]];
+        UIImageView *navBar = [[UIImageView alloc] initWithImage:[EVImages navBarBackground]];
         navBar.frame = CGRectMake(0, 20, navBar.image.size.width, navBar.image.size.height);
         [viewController.view addSubview:navBar];
-//        for (UIView *subview in viewController.view.subviews) {
-//            if ([subview isKindOfClass:[UITableView class]]) {
-//                UITableView *tableView = (UITableView *)subview;
-//                tableView.contentOffset = CGPointZero;
-//                tableView.frame = CGRectMake(0, 64, 320, 568 - 64);
-//            }
-//        }
+
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
         viewController.view.backgroundColor = [UIColor blackColor];

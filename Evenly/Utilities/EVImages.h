@@ -10,7 +10,13 @@
 
 @interface EVImages : NSObject
 
+#pragma mark - Backgrounds
 + (UIImage *)resizableTombstoneBackground;
+
+#pragma mark - NavBar
++ (UIImage *)navBarBackground;
++ (UIImage *)navBarBackButton;
++ (UIImage *)navBarCancelButton;
 
 #pragma mark - Button Backgrounds
 + (UIImage *)blueButtonBackground;
@@ -47,6 +53,8 @@
 + (UIImage *)inviteFriendsBanner;
 + (UIImage *)filledDot;
 + (UIImage *)emptyDot;
++ (UIImage *)dashboardTabInactiveBackground;
++ (UIImage *)dashboardDisclosureArrow;
 
 #pragma mark - Onboarding
 + (UIImage *)addPhotoIcon;
