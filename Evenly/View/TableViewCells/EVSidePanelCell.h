@@ -11,5 +11,6 @@
 @interface EVSidePanelCell : UITableViewCell
 
 @property (nonatomic, strong) UIView *stripe;
+@property (nonatomic) BOOL shouldHighlight;
 
 @end

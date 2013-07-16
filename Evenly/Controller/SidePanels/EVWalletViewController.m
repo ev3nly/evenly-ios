@@ -140,13 +140,6 @@
     [self.tableView beginUpdates];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:EVWalletSectionPending] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView endUpdates];
-    
-    // Reload History cell.
-//    [self.tableView beginUpdates];
-//    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowHistory
-//                                                                 inSection:EVWalletSectionWallet] ]
-//                          withRowAnimation:UITableViewRowAnimationAutomatic];
-//    [self.tableView endUpdates];
 }
 
 - (void)creditCardsDidUpdate:(NSNotification *)notification {
@@ -267,15 +260,19 @@
 
 - (EVWalletItemCell *)walletCellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVWalletItemCell *cell = (EVWalletItemCell *)[self.tableView dequeueReusableCellWithIdentifier:@"walletItemCell" forIndexPath:indexPath];
-    cell.isCash = NO;
+    cell.accessoryView.hidden = NO;
+    cell.shouldHighlight = YES;
     NSString *title = nil;
     NSString *value = nil;
     switch (indexPath.row) {
         case EVWalletRowCash:
+        {
             title = @"Cash";
             value = [EVStringUtility amountStringForAmount:[[[EVCIA sharedInstance] me] balance]];
-//            cell.isCash = YES;
+            cell.accessoryView.hidden = YES;
+            cell.shouldHighlight = NO;
             break;
+        }
         case EVWalletRowCards:
         {
             
@@ -295,7 +292,7 @@
                     cell.stamp = stamp;
                     
                 } else {
-                    value = @"Add a card ➔";
+                    value = @"Add a card";
                     cell.stamp = nil;
                 }
             }
@@ -320,23 +317,17 @@
                     
                     cell.stamp = stamp;
                 } else {
-                    value = @"Add a bank ➔";
+                    value = @"Add a bank";
+                    cell.stamp = nil;
                 }
             }
             break;
         }
-//        case EVWalletRowHistory:
-//            cell = [[EVWalletHistoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"historyCell"];
-//            title = @"History";
-//            break;
         default:
             break;
     }
     cell.titleLabel.text = title;
     cell.valueLabel.text = value;
-    DLog(@"Accessory view: %@", cell.accessoryView);
-    //    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletArrow"]];
-    //    cell.accessoryType = UITableViewCellAccessoryNone;
     return cell;
 }
 
@@ -366,12 +357,7 @@
         [self presentViewController:navController animated:YES completion:nil];
     }
     else     if (indexPath.section == EVWalletSectionWallet) {
-        if (indexPath.row == EVWalletRowCash)
-        {
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
-            [self presentViewController:navController animated:YES completion:NULL];
-        }
-        else if (indexPath.row == EVWalletRowCards)
+        if (indexPath.row == EVWalletRowCards)
         {
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVCardsViewController alloc] init]];
             [self presentViewController:navController animated:YES completion:NULL];
@@ -381,11 +367,6 @@
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVBanksViewController alloc] init]];
             [self presentViewController:navController animated:YES completion:NULL];
         }
-//        else if (indexPath.row == EVWalletRowHistory)
-//        {
-//            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVHistoryViewController new]];
-//            [self presentViewController:navController animated:YES completion:NULL];
-//        }
     }
 }
 
