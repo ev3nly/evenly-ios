@@ -33,7 +33,7 @@
 }
 
 + (UIColor *)blueColor {
-    return EV_RGB_COLOR(0, 115, 222);
+    return EV_RGB_COLOR(0, 127, 216);
 }
 
 #pragma mark - Side Panels

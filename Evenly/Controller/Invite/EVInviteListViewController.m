@@ -111,6 +111,7 @@
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    self.tableView.loading = ([self.displayedFriendList count] == 0);
     return [self.displayedFriendList count];
 }
 
