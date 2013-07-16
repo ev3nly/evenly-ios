@@ -14,6 +14,8 @@
 #import "EVProfileHistoryCell.h"
 #import "EVWithdrawal.h"
 #import "EVExchange.h"
+#import "EVRequestViewController.h"
+#import "EVPaymentViewController.h"
 
 #import "ReactiveCocoa.h"
 #import "UIScrollView+SVPullToRefresh.h"
@@ -94,8 +96,30 @@
     [self.navigationController pushViewController:editController animated:YES];
 }
 
-- (void)addFriendButtonTapped {
-    NSLog(@"add friend or whatever");
+- (void)payContact:(EVUser *)contact {
+    EVPaymentViewController *paymentController = [EVPaymentViewController new];
+    [self preDisplayExchangeController:paymentController forContact:contact];
+    [self displayExchangeController:paymentController];
+}
+
+- (void)requestFromContact:(EVUser *)contact {
+    EVRequestViewController *requestController = [EVRequestViewController new];
+    [self preDisplayExchangeController:requestController forContact:contact];
+    [requestController nextButtonPress:nil];
+    [self displayExchangeController:requestController];
+}
+
+- (void)preDisplayExchangeController:(EVExchangeViewController *)controller forContact:(EVUser *)contact {
+    [controller viewDidLoad];
+    [controller autocompleteViewController:nil didSelectContact:contact];
+}
+
+- (void)displayExchangeController:(EVExchangeViewController *)controller {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:navController animated:YES completion:NULL];
+    [controller unloadPageControlAnimated:NO];
+    [controller loadPageControl];
+    controller.pageControl.currentPage = 1;
 }
 
 #pragma mark - TableView DataSource/Delegate
@@ -121,6 +145,20 @@
         profileCell.user = self.user;
         profileCell.parent = self;
         profileCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        EVContact *contact = [EVContact new];
+        contact.email = self.user.email;
+        contact.name = self.user.name;
+        
+        if (![self.user.dbid isEqualToString:[EVCIA me].dbid]) {
+            profileCell.handleChargeUser = ^{
+                [self requestFromContact:self.user];
+            };
+            profileCell.handlePayUser = ^{
+                [self payContact:self.user];
+            };
+        }
+        
         cell = profileCell;
     } else if (![self hasExchanges] && !self.tableView.isLoading) {
         EVNoActivityCell *noActivityCell = [tableView dequeueReusableCellWithIdentifier:@"noActivityCell"];

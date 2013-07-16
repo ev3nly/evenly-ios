@@ -65,7 +65,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:signOutButton];}
 
 - (void)loadLogo {
-    self.logo = [[UIImageView alloc] initWithImage:[EVImages grayLogo]];
+    self.logo = [[UIImageView alloc] initWithImage:[EVImages securityLogoGray]];
     [self.view addSubview:self.logo];
 }
 
@@ -142,7 +142,8 @@
 }
 
 - (void)fadeInColoredLogoAndDismiss {
-    UIView *coloredLogo = [self freshlyColoredLogo];
+    UIImageView *coloredLogo = [[UIImageView alloc] initWithImage:[EVImages securityLogoColor]];
+    coloredLogo.frame = self.logo.frame;
     coloredLogo.alpha = 0;
     [self.view addSubview:coloredLogo];
     [UIView animateWithDuration:0.3
@@ -160,47 +161,6 @@
     pinView.handleNewPin = ^(NSString *pin) {
         [weakSelf userEnteredPIN:pin];
     };
-}
-
-#pragma mark - A Little View Fun
-
-- (UIView *)freshlyColoredLogo {
-    UIView *fullLogo = [[UIView alloc] initWithFrame:self.logo.frame];
-    [fullLogo addSubview:[self bottomHalfOfColoredLogo]];
-    [fullLogo addSubview:[self topHalfOfColoredLogo]];
-    return fullLogo;
-}
-
-- (UIView *)topHalfOfColoredLogo {
-    UIImageView *blueLogo = [[UIImageView alloc] initWithImage:[EVImageUtility overlayImage:self.logo.image
-                                                                                  withColor:[EVColor blueColor]
-                                                                                 identifier:@"blueLogoFromGray"]];
-    blueLogo.frame = self.logo.bounds;
-    
-    UIView *topHalf = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                               0,
-                                                               blueLogo.bounds.size.width,
-                                                               ceilf(blueLogo.bounds.size.height/2))];
-    [topHalf addSubview:blueLogo];
-    topHalf.clipsToBounds = YES;
-    return topHalf;
-}
-
-- (UIView *)bottomHalfOfColoredLogo {
-    UIImageView *greenLogo = [[UIImageView alloc] initWithImage:[EVImageUtility overlayImage:self.logo.image
-                                                                                   withColor:[EVColor lightGreenColor]
-                                                                                  identifier:@"greenLogoFromGray"]];
-    CGRect greenSmileFrame = self.logo.bounds;
-    greenSmileFrame.origin.y -= ceilf(greenLogo.bounds.size.height/2);
-    greenLogo.frame = greenSmileFrame;
-    
-    UIView *bottomHalf = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                                  ceilf(greenLogo.bounds.size.height/2),
-                                                                  greenLogo.bounds.size.width,
-                                                                  ceilf(greenLogo.bounds.size.height/2))];
-    [bottomHalf addSubview:greenLogo];
-    bottomHalf.clipsToBounds = YES;
-    return bottomHalf;
 }
 
 #pragma mark - Frames

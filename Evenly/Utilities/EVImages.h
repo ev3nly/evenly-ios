@@ -10,7 +10,17 @@
 
 @interface EVImages : NSObject
 
+#pragma mark - Backgrounds
 + (UIImage *)resizableTombstoneBackground;
+
+#pragma - Sign In/Pin Logos
++ (UIImage *)securityLogoGray;
++ (UIImage *)securityLogoColor;
+
+#pragma mark - NavBar
++ (UIImage *)navBarBackground;
++ (UIImage *)navBarBackButton;
++ (UIImage *)navBarCancelButton;
 
 #pragma mark - Button Backgrounds
 + (UIImage *)blueButtonBackground;
@@ -47,6 +57,8 @@
 + (UIImage *)inviteFriendsBanner;
 + (UIImage *)filledDot;
 + (UIImage *)emptyDot;
++ (UIImage *)dashboardTabInactiveBackground;
++ (UIImage *)dashboardDisclosureArrow;
 
 #pragma mark - Onboarding
 + (UIImage *)addPhotoIcon;
@@ -54,7 +66,7 @@
 + (UIImage *)onboardCard1;
 + (UIImage *)onboardCard2;
 + (UIImage *)onboardCard3;
-+ (UIImage *)iTunesArtwork;
++ (UIImage *)bigIcon;
 + (UIImage *)facebookButton;
 + (UIImage *)facebookButtonPress;
 + (UIImage *)facebookFIcon;
@@ -72,5 +84,9 @@
 + (UIImage *)loadingLogo;
 + (UIImage *)grayLoadingLogo;
 + (UIImage *)loadingSpinner;
+
+#pragma mark - Invite
++ (UIImage *)inviteContactsIcon;
++ (UIImage *)inviteFacebookIcon;
 
 @end

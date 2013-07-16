@@ -20,7 +20,7 @@
     if (self) {
         self.position = EVGroupedTableViewCellPositionBottom;
         
-        self.iconImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Request-Invite-Friends-Banner"]];
+        self.iconImageView = [[UIImageView alloc] initWithImage:[EVImages inviteFriendsBanner]];
         self.iconImageView.frame = CGRectMake((self.contentView.frame.size.width - self.iconImageView.frame.size.width) / 2.0,
                                           2*Y_MARGIN,
                                           self.iconImageView.frame.size.width,

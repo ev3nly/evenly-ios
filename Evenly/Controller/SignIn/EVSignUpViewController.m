@@ -9,6 +9,7 @@
 #import "EVSignUpViewController.h"
 #import "EVCheckmarkButton.h"
 #import "EVPhotoNameEmailCell.h"
+#import "EVFacebookManager.h"
 #import "ReactiveCocoa.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -192,7 +193,8 @@
                                    @"email" : self.phoneNumberCell.textField.text,
                                    @"phone_number" : self.photoNameEmailCell.emailField.text,
                                    @"password" : self.passwordCell.textField.text,
-                                   @"password_confirmation" : self.passwordCell.textField.text}];
+                                   @"password_confirmation" : self.passwordCell.textField.text,
+                                   @"facebook_token" : [EVFacebookManager sharedManager].tokenData}];
     if (self.photo)
         [params setObject:self.photo forKey:@"avatar"];
     
@@ -228,6 +230,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *pickedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    pickedImage = [EVImageUtility orientedImageFromImage:pickedImage];
     self.photo = pickedImage;
     self.photoNameEmailCell.photo = pickedImage;
     [self.tableView reloadData];
