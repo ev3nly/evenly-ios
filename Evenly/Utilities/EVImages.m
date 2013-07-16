@@ -33,11 +33,11 @@
 }
 
 + (UIImage *)navBarBackButton {
-    return [UIImage imageNamed:@"Back"];
+    return [UIImage imageNamed:@"Back_noshadow"];
 }
 
 + (UIImage *)navBarCancelButton {
-    return [UIImage imageNamed:@"Close"];
+    return [UIImage imageNamed:@"close_noshadow"];
 }
 
 #pragma mark - Buttons
