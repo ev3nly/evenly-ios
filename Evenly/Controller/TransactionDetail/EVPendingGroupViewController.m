@@ -70,9 +70,7 @@
         self.paymentOptionCell.headerLabel.text = @"Select A Payment Option";
     }
     
-    for (UIButton *button in self.paymentOptionCell.optionButtons) {
-        [button addTarget:self action:@selector(paymentOptionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    }
+    [self addTargetsToOptionButtons];
     
     [self.paymentOptionCell.payInFullButton addTarget:self
                                                action:@selector(payInFullButtonPress:)
@@ -80,6 +78,12 @@
     [self.paymentOptionCell.payPartialButton addTarget:self
                                                 action:@selector(payPartialButtonPress:)
                                       forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)addTargetsToOptionButtons {
+    for (UIButton *button in self.paymentOptionCell.optionButtons) {
+        [button addTarget:self action:@selector(paymentOptionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    }
 }
 
 #pragma mark - Public Interface
@@ -121,6 +125,7 @@
                                withSuccess:^(EVGroupRequestRecord *record) {
                                    self.record = record;
                                    [self.paymentOptionCell setRecord:record];
+                                   [self addTargetsToOptionButtons];
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
                                } failure:^(NSError *error) {
                                    DLog(@"Failed to update record: %@", error);
