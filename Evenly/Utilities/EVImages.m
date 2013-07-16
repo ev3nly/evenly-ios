@@ -16,6 +16,16 @@
     return [[UIImage imageNamed:@"FeedContainer"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
 }
 
+#pragma - Sign In/Pin Logos
+
++ (UIImage *)securityLogoGray {
+    return [UIImage imageNamed:@"security_logo_gray"];
+}
+
++ (UIImage *)securityLogoColor {
+    return [UIImage imageNamed:@"security_logo_color"];
+}
+
 #pragma mark - NavBar
 
 + (UIImage *)navBarBackground {
@@ -170,8 +180,8 @@
     return [UIImage imageNamed:@"onboard-card3"];
 }
 
-+ (UIImage *)iTunesArtwork {
-    return [UIImage imageNamed:@"iTunesArtwork"];
++ (UIImage *)bigIcon {
+    return [UIImage imageNamed:@"ob_icon_no_lip"];
 }
 
 + (UIImage *)facebookButton {

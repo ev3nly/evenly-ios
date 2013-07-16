@@ -13,6 +13,10 @@
 #pragma mark - Backgrounds
 + (UIImage *)resizableTombstoneBackground;
 
+#pragma - Sign In/Pin Logos
++ (UIImage *)securityLogoGray;
++ (UIImage *)securityLogoColor;
+
 #pragma mark - NavBar
 + (UIImage *)navBarBackground;
 + (UIImage *)navBarBackButton;
@@ -62,7 +66,7 @@
 + (UIImage *)onboardCard1;
 + (UIImage *)onboardCard2;
 + (UIImage *)onboardCard3;
-+ (UIImage *)iTunesArtwork;
++ (UIImage *)bigIcon;
 + (UIImage *)facebookButton;
 + (UIImage *)facebookButtonPress;
 + (UIImage *)facebookFIcon;
