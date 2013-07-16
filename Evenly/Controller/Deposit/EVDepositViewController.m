@@ -14,6 +14,8 @@
 #import "EVPrivacyNotice.h"
 #import "EVCurrencyTextFieldFormatter.h"
 
+#import "EVAddBankViewController.h"
+
 #define EV_DEPOSIT_MARGIN 10.0
 #define EV_DEPOSIT_BALANCE_PANE_HEIGHT 96.0
 #define EV_DEPOSIT_CELL_HEIGHT 44.0
@@ -183,8 +185,12 @@
         else {
             if (self.cia.loadingBankAccounts)
                 self.bankCell.textField.text = @"Loading...";
-            else
-                self.bankCell.textField.text = @"Please add a Bank Account";
+            else {
+                self.bankCell.textField.text = @"No bank account added.";
+                [self.depositButton setTitle:@"ADD BANK ACCOUNT" forState:UIControlStateNormal];
+                [self.depositButton setEnabled:YES];
+                [self.amountCell.textField setEnabled:NO];
+            }
             self.bankCell.textField.enabled = NO;
         }
         [self.bankCell setNeedsLayout];
@@ -237,6 +243,18 @@
 #pragma mark - Button Actions
 
 - (void)depositButtonPress:(id)sender {
+    if (self.chosenAccount)
+    {
+        [self deposit];
+    }
+    else
+    {
+        
+    }
+
+}
+
+- (void)deposit {
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"DEPOSITING MONEY..."];
     [self.view findAndResignFirstResponder];
     
