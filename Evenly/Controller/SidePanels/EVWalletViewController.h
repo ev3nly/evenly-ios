@@ -17,13 +17,13 @@ typedef enum {
 } EVWalletRow;
 
 typedef enum {
+    EVWalletSectionWallet,
     EVWalletSectionPending,
-    EVWalletSectionWallet
+    EVWalletSectionCOUNT
 } EVWalletSection;
 
 @interface EVWalletViewController : EVSidePanelViewController <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) UITableView *pendingTableView;
-@property (nonatomic, strong) UITableView *walletTableView;
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
