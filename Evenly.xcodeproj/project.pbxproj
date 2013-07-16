@@ -337,6 +337,7 @@
 		9CE8890C17949E9300EF6E67 /* user_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CE8890817949E9300EF6E67 /* user_selected.png */; };
 		9CE8890D17949E9300EF6E67 /* green_check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CE8890917949E9300EF6E67 /* green_check@2x.png */; };
 		9CE8890E17949E9300EF6E67 /* green_check.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CE8890A17949E9300EF6E67 /* green_check.png */; };
+		9CE889111794B64900EF6E67 /* EVGroupRequestInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE889101794B64900EF6E67 /* EVGroupRequestInviteViewController.m */; };
 		9CEEB7B51755250800C24C2A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB7B41755250800C24C2A /* QuartzCore.framework */; };
 		9CEEB7F01755261500C24C2A /* EVError.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB7D91755261500C24C2A /* EVError.m */; };
 		9CEEB7F11755261500C24C2A /* EVErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB7DB1755261500C24C2A /* EVErrorHandler.m */; };
@@ -988,6 +989,8 @@
 		9CE8890817949E9300EF6E67 /* user_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_selected.png; sourceTree = "<group>"; };
 		9CE8890917949E9300EF6E67 /* green_check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green_check@2x.png"; sourceTree = "<group>"; };
 		9CE8890A17949E9300EF6E67 /* green_check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_check.png; sourceTree = "<group>"; };
+		9CE8890F1794B64900EF6E67 /* EVGroupRequestInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestInviteViewController.h; sourceTree = "<group>"; };
+		9CE889101794B64900EF6E67 /* EVGroupRequestInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestInviteViewController.m; sourceTree = "<group>"; };
 		9CEEB7B41755250800C24C2A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9CEEB7D81755261500C24C2A /* EVError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EVError.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		9CEEB7D91755261500C24C2A /* EVError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EVError.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -1683,6 +1686,8 @@
 				9C659BDD177A1C5D0028072A /* EVGroupRequestRecordTableViewDataSource.m */,
 				9C1DEC4A177BAF9A0057526D /* EVGroupRequestEditViewController.h */,
 				9C1DEC4B177BAF9A0057526D /* EVGroupRequestEditViewController.m */,
+				9CE8890F1794B64900EF6E67 /* EVGroupRequestInviteViewController.h */,
+				9CE889101794B64900EF6E67 /* EVGroupRequestInviteViewController.m */,
 			);
 			path = GroupRequest;
 			sourceTree = "<group>";
@@ -3295,6 +3300,7 @@
 				9CE8890017937AF400EF6E67 /* EVGroupRequestTierAssignmentView.m in Sources */,
 				9CE8890317937CE300EF6E67 /* EVGroupRequestTierAssignmentManager.m in Sources */,
 				9CE889061793811D00EF6E67 /* EVGroupRequestTierAssignmentViewCell.m in Sources */,
+				9CE889111794B64900EF6E67 /* EVGroupRequestInviteViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

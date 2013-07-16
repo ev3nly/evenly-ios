@@ -22,6 +22,14 @@
     return self;
 }
 
+- (id)initWithGroupRequest:(EVGroupRequest *)groupRequest user:(EVObject<EVExchangeable> *)user {
+    self = [self initWithGroupRequest:groupRequest];
+    if (self) {
+        self.user = user;
+    }
+    return self;
+}
+
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest properties:(NSDictionary *)properties {
     self = [self initWithGroupRequest:groupRequest];
     if (self) {

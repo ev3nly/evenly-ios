@@ -8,6 +8,8 @@
 
 #import "EVImageUtility.h"
 #import <QuartzCore/QuartzCore.h>
+#import <AddressBook/AddressBook.h>
+#import "ABContactsHelper.h"
 
 @interface EVImageUtility ()
 
@@ -58,6 +60,41 @@
     UIImage *screenImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return screenImage;
+}
+
+static NSCache *_contactPhotoCache;
+
++ (UIImage *)imageForContact:(ABContact *)contact {
+    if (!_contactPhotoCache)
+        _contactPhotoCache = [NSCache new];
+    UIImage *image = [_contactPhotoCache objectForKey:[self identifierForContact:contact]];
+    if (image)
+        return image;
+    
+    ABAddressBookRef addressBook = [ABContactsHelper addressBook];
+    NSArray *peopleWithSameLastName = (__bridge NSArray *)ABAddressBookCopyPeopleWithName(addressBook, ABRecordCopyValue(contact.record, kABPersonLastNameProperty));
+    
+    if ([peopleWithSameLastName count] > 0) {
+        for (id untypedPerson in peopleWithSameLastName) {
+            ABRecordRef person = (__bridge ABRecordRef)untypedPerson;
+            NSString *firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+            NSString *lastName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
+            if ([firstName isEqualToString:contact.firstname] && [lastName isEqualToString:contact.lastname]) {
+                NSData *imageData = (__bridge NSData *)ABPersonCopyImageData(person);
+                if (imageData) {
+                    image = [UIImage imageWithData:imageData];
+                    break;
+                }
+            }
+        }
+    }
+    if (image)
+        [_contactPhotoCache setObject:image forKey:[self identifierForContact:contact]];
+    return image;
+}
+
++ (NSString *)identifierForContact:(ABContact *)contact {
+    return [NSString stringWithFormat:@"%@-%@", contact.compositeName, contact.creationDate];
 }
 
 

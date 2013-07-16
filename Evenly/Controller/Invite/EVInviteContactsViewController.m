@@ -55,7 +55,8 @@
     
     ABContact *contact = [self.displayedFriendList objectAtIndex:indexPath.row];    
 
-    [cell setName:[self displayNameForContact:contact] profilePicture:[self imageForContact:contact]];
+    [cell setName:[EVStringUtility displayNameForContact:contact]
+   profilePicture:[EVImageUtility imageForContact:contact]];
     cell.identifier = contact;
     cell.handleSelection = ^(ABContact *friend) {
         self.selectedFriends = [self.selectedFriends arrayByAddingObject:friend];
@@ -75,50 +76,6 @@
         NSString *name = [NSString stringWithFormat:@"%@ %@", contact.firstname, contact.lastname];
         return ([name.lowercaseString rangeOfString:search.lowercaseString].location != NSNotFound);
     }];
-}
-
-- (NSString *)displayNameForContact:(ABContact *)contact {
-    NSString *name = @"";
-    if (!EV_IS_EMPTY_STRING(contact.firstname))
-        name = [contact.firstname stringByAppendingString:@" "];
-    if (!EV_IS_EMPTY_STRING(contact.lastname))
-        name = [name stringByAppendingString:contact.lastname];
-    return name;
-}
-
-static NSCache *contactPhotoCache;
-
-- (UIImage *)imageForContact:(ABContact *)contact {
-    if (!contactPhotoCache)
-        contactPhotoCache = [NSCache new];
-    UIImage *image = [contactPhotoCache objectForKey:[self identifierForContact:contact]];
-    if (image)
-        return image;
-    
-    ABAddressBookRef addressBook = [ABContactsHelper addressBook];
-    NSArray *peopleWithSameLastName = (__bridge NSArray *)ABAddressBookCopyPeopleWithName(addressBook, ABRecordCopyValue(contact.record, kABPersonLastNameProperty));
-
-    if ([peopleWithSameLastName count] > 0) {
-        for (id untypedPerson in peopleWithSameLastName) {
-            ABRecordRef person = (__bridge ABRecordRef)untypedPerson;
-            NSString *firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
-            NSString *lastName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
-            if ([firstName isEqualToString:contact.firstname] && [lastName isEqualToString:contact.lastname]) {
-                NSData *imageData = (__bridge NSData *)ABPersonCopyImageData(person);
-                if (imageData) {
-                    image = [UIImage imageWithData:imageData];
-                    break;
-                }
-            }
-        }
-    }
-    if (image)
-        [contactPhotoCache setObject:image forKey:[self identifierForContact:contact]];
-    return image;
-}
-
-- (NSString *)identifierForContact:(ABContact *)contact {
-    return [NSString stringWithFormat:@"%@-%@", contact.compositeName, contact.creationDate];
 }
 
 @end
