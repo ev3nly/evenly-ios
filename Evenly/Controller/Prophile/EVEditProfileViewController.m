@@ -214,6 +214,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {    
     UIImage *pickedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    pickedImage = [EVImageUtility orientedImageFromImage:pickedImage];
     self.updatedImage = pickedImage;
     [EVCIA me].updatedAvatar = pickedImage;
     [self.tableView reloadData];

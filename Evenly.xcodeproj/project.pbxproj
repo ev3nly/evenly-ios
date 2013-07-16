@@ -3347,8 +3347,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -3375,8 +3375,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -3386,8 +3386,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3403,8 +3403,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
+				PROVISIONING_PROFILE = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3413,8 +3413,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3430,8 +3430,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
+				PROVISIONING_PROFILE = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

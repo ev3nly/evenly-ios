@@ -228,6 +228,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *pickedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    pickedImage = [EVImageUtility orientedImageFromImage:pickedImage];
     self.photo = pickedImage;
     self.photoNameEmailCell.photo = pickedImage;
     [self.tableView reloadData];
