@@ -96,20 +96,20 @@
     [self.navigationController pushViewController:editController animated:YES];
 }
 
-- (void)payContact:(EVContact *)contact {
+- (void)payContact:(EVUser *)contact {
     EVPaymentViewController *paymentController = [EVPaymentViewController new];
     [self preDisplayExchangeController:paymentController forContact:contact];
     [self displayExchangeController:paymentController];
 }
 
-- (void)requestFromContact:(EVContact *)contact {
+- (void)requestFromContact:(EVUser *)contact {
     EVRequestViewController *requestController = [EVRequestViewController new];
     [self preDisplayExchangeController:requestController forContact:contact];
     [requestController nextButtonPress:nil];
     [self displayExchangeController:requestController];
 }
 
-- (void)preDisplayExchangeController:(EVExchangeViewController *)controller forContact:(EVContact *)contact {
+- (void)preDisplayExchangeController:(EVExchangeViewController *)controller forContact:(EVUser *)contact {
     [controller viewDidLoad];
     [controller autocompleteViewController:nil didSelectContact:contact];
 }
@@ -152,10 +152,10 @@
         
         if (![self.user.dbid isEqualToString:[EVCIA me].dbid]) {
             profileCell.handleChargeUser = ^{
-                [self requestFromContact:contact];
+                [self requestFromContact:self.user];
             };
             profileCell.handlePayUser = ^{
-                [self payContact:contact];
+                [self payContact:self.user];
             };
         }
         
