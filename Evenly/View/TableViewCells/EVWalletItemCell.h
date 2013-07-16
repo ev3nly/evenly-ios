@@ -13,7 +13,6 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, strong) EVWalletStamp *stamp;
-@property (nonatomic) BOOL isCash;
 
 @end
 
