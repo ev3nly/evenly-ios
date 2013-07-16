@@ -17,6 +17,8 @@
 #import "EVInstructionView.h"
 #import "EVSettingsManager.h"
 
+#import "EVGroupRequestInviteViewController.h"
+
 typedef enum {
     EVGroupRequestActionEdit,
     EVGroupRequestActionInvite,
@@ -120,7 +122,7 @@ typedef enum {
 }
 
 - (void)inviteButtonPress:(id)sender {
-    
+    [self showInviteViewController];
 }
 
 - (void)remindAllButtonPress:(id)sender {
@@ -130,6 +132,15 @@ typedef enum {
     } failure:^(NSError *error) {
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
     }];
+}
+
+#pragma mark - Invite View Controller
+
+- (void)showInviteViewController {
+    EVGroupRequestInviteViewController *inviteViewController = [[EVGroupRequestInviteViewController alloc] initWithGroupRequest:self.groupRequest];
+    inviteViewController.delegate = self;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inviteViewController];
+    [self presentViewController:navController animated:YES completion:NULL];
 }
 
 #pragma mark - UITableViewDelegate
@@ -182,6 +193,10 @@ typedef enum {
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
         [self presentViewController:navController animated:YES completion:NULL];
     }
+    else if (buttonIndex == EVGroupRequestActionInvite)
+    {
+        [self showInviteViewController];
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
@@ -223,6 +238,13 @@ typedef enum {
 
 - (void)editViewControllerMadeChanges:(EVGroupRequestEditViewController *)editViewController {
     self.title = self.groupRequest.title;
+    [self.tableView reloadData];
+}
+
+#pragma mark - EVGroupRequestInviteViewControllerDelegate
+
+- (void)inviteViewController:(EVGroupRequestInviteViewController *)controller sentInvitesTo:(NSArray *)invitees {
+    [self.dataSource setGroupRequest:self.groupRequest];
     [self.tableView reloadData];
 }
 

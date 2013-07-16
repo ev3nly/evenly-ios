@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSArray *payments;
 
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest;
+- (id)initWithGroupRequest:(EVGroupRequest *)groupRequest user:(EVObject<EVExchangeable> *)user;
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest properties:(NSDictionary *)properties;
 
 @end
