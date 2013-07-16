@@ -232,11 +232,6 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     self.verticalRule.backgroundColor = [EVColor newsfeedStripeColor];
     self.horizontalRule.backgroundColor = [EVColor newsfeedStripeColor];
     [self.avatarView setHighlighted:highlighted];
-//    if (highlighted) {
-//        [self setBackgroundColor:[EVColor newsfeedButtonHighlightColor]];
-//    } else {
-//        [self setBackgroundColor:[UIColor whiteColor]];
-//    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

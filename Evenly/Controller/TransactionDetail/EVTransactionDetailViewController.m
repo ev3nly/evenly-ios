@@ -74,23 +74,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVTransactionDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"detailCell" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.story = self.story;
     cell.delegate = self;
     return cell;
 }
-
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVTransactionDetailCell *cell = (EVTransactionDetailCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [cell.likeButton setHighlightedColor:[UIColor whiteColor]];
-    return indexPath;
-}
-
-- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVTransactionDetailCell *cell = (EVTransactionDetailCell *)[tableView cellForRowAtIndexPath:indexPath];
-    [cell.likeButton setHighlightedColor:[EVColor newsfeedButtonHighlightColor]];
-    return indexPath;
-}
-
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
