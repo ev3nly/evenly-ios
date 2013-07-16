@@ -33,6 +33,12 @@
 @property (nonatomic, strong) EVWalletSectionHeader *walletHeader;
 @property (nonatomic, strong) EVWalletSectionHeader *pendingHeader;
 
+@property (nonatomic, strong) UIView *walletFooter;
+@property (nonatomic, strong) EVGrayButton *historyButton;
+@property (nonatomic, strong) EVGrayButton *depositButton;
+
+- (void)loadWalletFooter;
+
 @end
 
 @implementation EVWalletViewController
@@ -57,6 +63,8 @@
     
     self.pendingHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     self.pendingHeader.label.text = @"PENDING";
+    
+    [self loadWalletFooter];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(exchangesDidUpdate:)
@@ -89,6 +97,33 @@
     [self.view addSubview:self.tableView];
 }
 
+- (void)loadWalletFooter {
+    
+    CGFloat xOrigin = EV_RIGHT_OVERHANG_MARGIN;
+    CGFloat buttonMargin = EV_WALLET_CELL_MARGIN;
+    CGFloat buttonWidth = (self.view.frame.size.width - xOrigin - 3*buttonMargin) / 2.0;
+    CGFloat buttonHeight = 35.0;
+    CGFloat yMargin = 5.0;
+    
+    self.historyButton = [[EVGrayButton alloc] initWithFrame:CGRectMake(xOrigin + buttonMargin,
+                                                                        yMargin,
+                                                                        buttonWidth,
+                                                                        buttonHeight)];
+    [self.historyButton setTitle:@"HISTORY" forState:UIControlStateNormal];
+    [self.historyButton addTarget:self action:@selector(historyButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.depositButton = [[EVGrayButton alloc] initWithFrame:CGRectMake(xOrigin + 2*buttonMargin + buttonWidth,
+                                                                        yMargin,
+                                                                        buttonWidth,
+                                                                        buttonHeight)];
+    [self.depositButton setTitle:@"DEPOSIT" forState:UIControlStateNormal];
+    [self.depositButton addTarget:self action:@selector(depositButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.walletFooter = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 2*yMargin + buttonHeight)];
+    [self.walletFooter addSubview:self.historyButton];
+    [self.walletFooter addSubview:self.depositButton];
+}
+
 - (void)setUpReactions {
     // RACAble prefers to operate on properties of self, so we can make the CIA a property of self
     // for a little syntactic sugar.
@@ -107,11 +142,11 @@
     [self.tableView endUpdates];
     
     // Reload History cell.
-    [self.tableView beginUpdates];
-    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowHistory
-                                                                 inSection:EVWalletSectionWallet] ]
-                          withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView endUpdates];
+//    [self.tableView beginUpdates];
+//    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVWalletRowHistory
+//                                                                 inSection:EVWalletSectionWallet] ]
+//                          withRowAnimation:UITableViewRowAnimationAutomatic];
+//    [self.tableView endUpdates];
 }
 
 - (void)creditCardsDidUpdate:(NSNotification *)notification {
@@ -156,7 +191,7 @@
     }
     else
     {
-        count = 4;
+        count = EVWalletRowCOUNT;
     }
     return count;
 }
@@ -172,6 +207,18 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 44.0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (section == EVWalletSectionWallet)
+        return self.walletFooter;
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == EVWalletSectionWallet)
+        return 45.0;
+    return 0.0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -227,7 +274,7 @@
         case EVWalletRowCash:
             title = @"Cash";
             value = [EVStringUtility amountStringForAmount:[[[EVCIA sharedInstance] me] balance]];
-            cell.isCash = YES;
+//            cell.isCash = YES;
             break;
         case EVWalletRowCards:
         {
@@ -278,10 +325,10 @@
             }
             break;
         }
-        case EVWalletRowHistory:
-            cell = [[EVWalletHistoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"historyCell"];
-            title = @"History";
-            break;
+//        case EVWalletRowHistory:
+//            cell = [[EVWalletHistoryCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"historyCell"];
+//            title = @"History";
+//            break;
         default:
             break;
     }
@@ -334,14 +381,23 @@
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVBanksViewController alloc] init]];
             [self presentViewController:navController animated:YES completion:NULL];
         }
-        else if (indexPath.row == EVWalletRowHistory)
-        {
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVHistoryViewController new]];
-            [self presentViewController:navController animated:YES completion:NULL];
-        }
+//        else if (indexPath.row == EVWalletRowHistory)
+//        {
+//            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVHistoryViewController new]];
+//            [self presentViewController:navController animated:YES completion:NULL];
+//        }
     }
 }
 
+- (void)historyButtonPress:(id)sender {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVHistoryViewController new]];
+    [self presentViewController:navController animated:YES completion:NULL];
+}
+
+- (void)depositButtonPress:(id)sender {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
+    [self presentViewController:navController animated:YES completion:NULL];
+}
 
 #pragma mark - EVSidePanelViewController Overrides
 

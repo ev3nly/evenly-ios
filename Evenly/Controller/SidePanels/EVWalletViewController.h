@@ -12,7 +12,7 @@ typedef enum {
     EVWalletRowCash,
     EVWalletRowCards,
     EVWalletRowBanks,
-    EVWalletRowHistory,
+//    EVWalletRowHistory,
     EVWalletRowCOUNT
 } EVWalletRow;
 
