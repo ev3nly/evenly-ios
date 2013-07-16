@@ -66,6 +66,10 @@
       withSuccess:(void (^)(EVGroupRequestRecord *record))success
           failure:(void (^)(NSError *error))failure;
 
+- (void)addRecords:(NSArray *)records
+       withSuccess:(void (^)(NSArray *records))success
+           failure:(void (^)(NSError *error))failure;
+
 - (void)updateRecord:(EVGroupRequestRecord *)record
          withSuccess:(void (^)(EVGroupRequestRecord *record))success
              failure:(void (^)(NSError *error))failure;

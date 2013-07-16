@@ -12,6 +12,7 @@
 #import "EVPayment.h"
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
+#import "ABContact.h"
 
 @interface EVStringUtility (private)
 
@@ -302,6 +303,17 @@ static NSDateFormatter *_detailDateFormatter;
         return [NSString stringWithFormat:@"(%@) %@-%@", areaCode, firstThree, lastFour];
     }
     return phoneNumber;
+}
+
+#pragma mark - Contacts
+
++ (NSString *)displayNameForContact:(ABContact *)contact {
+    NSString *name = @"";
+    if (!EV_IS_EMPTY_STRING(contact.firstname))
+        name = [contact.firstname stringByAppendingString:@" "];
+    if (!EV_IS_EMPTY_STRING(contact.lastname))
+        name = [name stringByAppendingString:contact.lastname];
+    return name;
 }
 
 #pragma mark - Marketing Materials

@@ -10,4 +10,6 @@
 
 @interface EVInviteContactsViewController : EVInviteListViewController
 
+- (NSString *)displayNameForContact:(ABContact *)contact;
+
 @end
