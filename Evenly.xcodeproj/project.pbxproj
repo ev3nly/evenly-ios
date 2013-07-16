@@ -365,6 +365,8 @@
 		D021152F176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = D021152C176687C30063EE03 /* UIScrollView+SVInfiniteScrolling.m */; };
 		D0211530176687C30063EE03 /* UIScrollView+SVPullToRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */; };
 		D0219ADA1782B258007FA41C /* EVPhotoNameEmailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0219AD91782B258007FA41C /* EVPhotoNameEmailCell.m */; };
+		D02758181795DA60004F6F0A /* btn-facebook-active.png in Resources */ = {isa = PBXBuildFile; fileRef = D02758161795DA60004F6F0A /* btn-facebook-active.png */; };
+		D02758191795DA60004F6F0A /* btn-facebook-active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D02758171795DA60004F6F0A /* btn-facebook-active@2x.png */; };
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
 		D031C3F11787F4F2008AC614 /* EVInviteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F01787F4F2008AC614 /* EVInviteListViewController.m */; };
 		D031C3F41787F550008AC614 /* EVInviteContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F31787F54F008AC614 /* EVInviteContactsViewController.m */; };
@@ -1024,6 +1026,8 @@
 		D021152E176687C30063EE03 /* UIScrollView+SVPullToRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+SVPullToRefresh.m"; sourceTree = "<group>"; };
 		D0219AD81782B257007FA41C /* EVPhotoNameEmailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPhotoNameEmailCell.h; sourceTree = "<group>"; };
 		D0219AD91782B258007FA41C /* EVPhotoNameEmailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPhotoNameEmailCell.m; sourceTree = "<group>"; };
+		D02758161795DA60004F6F0A /* btn-facebook-active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-facebook-active.png"; sourceTree = "<group>"; };
+		D02758171795DA60004F6F0A /* btn-facebook-active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn-facebook-active@2x.png"; sourceTree = "<group>"; };
 		D02CAB0D1761483500323025 /* EVValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVValidator.h; sourceTree = "<group>"; };
 		D02CAB0E1761483500323025 /* EVValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidator.m; sourceTree = "<group>"; };
 		D031C3EF1787F4F2008AC614 /* EVInviteListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteListViewController.h; sourceTree = "<group>"; };
@@ -2541,6 +2545,8 @@
 				D07FBB3E1777C59F009D8AF3 /* onboard-card3@2x.png */,
 				D095EEDB1778F1940016F434 /* btn-facebook.png */,
 				D095EEDC1778F1940016F434 /* btn-facebook@2x.png */,
+				D02758161795DA60004F6F0A /* btn-facebook-active.png */,
+				D02758171795DA60004F6F0A /* btn-facebook-active@2x.png */,
 				D095EEDF1778F1A80016F434 /* check-hole.png */,
 				D095EEE01778F1A80016F434 /* check-hole@2x.png */,
 				D095EEE11778F1A80016F434 /* checked.png */,
@@ -2928,6 +2934,8 @@
 				9CD473B51790AE2E00E60E37 /* Default.png in Resources */,
 				9CD473B71790AE3100E60E37 /* Default@2x.png in Resources */,
 				9CD473B91790AE3400E60E37 /* Default-568h@2x.png in Resources */,
+				D02758181795DA60004F6F0A /* btn-facebook-active.png in Resources */,
+				D02758191795DA60004F6F0A /* btn-facebook-active@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -179,7 +179,7 @@
 }
 
 + (UIImage *)facebookButtonPress {
-    return [[UIImage imageNamed:@"btn-facebook"] resizableImageWithCapInsets:UIEdgeInsetsMake(21, 3, 21, 3)];
+    return [[UIImage imageNamed:@"btn-facebook-active"] resizableImageWithCapInsets:UIEdgeInsetsMake(21, 3, 21, 3)];
 }
 
 + (UIImage *)facebookFIcon {
