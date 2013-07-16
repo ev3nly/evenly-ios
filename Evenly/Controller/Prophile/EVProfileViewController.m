@@ -96,12 +96,30 @@
     [self.navigationController pushViewController:editController animated:YES];
 }
 
-- (void)payFriendButtonTapped {
-    NSLog(@"pay friend or whatever");
+- (void)payContact:(EVContact *)contact {
+    EVPaymentViewController *paymentController = [EVPaymentViewController new];
+    [self preDisplayExchangeController:paymentController forContact:contact];
+    [self displayExchangeController:paymentController];
 }
 
-- (void)requestFriendButtonTapped {
-    NSLog(@"request friend or whatever");
+- (void)requestFromContact:(EVContact *)contact {
+    EVRequestViewController *requestController = [EVRequestViewController new];
+    [self preDisplayExchangeController:requestController forContact:contact];
+    [requestController nextButtonPress:nil];
+    [self displayExchangeController:requestController];
+}
+
+- (void)preDisplayExchangeController:(EVExchangeViewController *)controller forContact:(EVContact *)contact {
+    [controller viewDidLoad];
+    [controller autocompleteViewController:nil didSelectContact:contact];
+}
+
+- (void)displayExchangeController:(EVExchangeViewController *)controller {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:navController animated:YES completion:NULL];
+    [controller unloadPageControlAnimated:NO];
+    [controller loadPageControl];
+    controller.pageControl.currentPage = 1;
 }
 
 #pragma mark - TableView DataSource/Delegate
@@ -134,19 +152,10 @@
         
         if (![self.user.dbid isEqualToString:[EVCIA me].dbid]) {
             profileCell.handleChargeUser = ^{
-                EVRequestViewController *requestController = [EVRequestViewController new];
-                [requestController viewDidLoad];
-                [requestController autocompleteViewController:nil didSelectContact:contact];
-                [requestController nextButtonPress:nil];
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:requestController];
-                [self presentViewController:navController animated:YES completion:NULL];
+                [self requestFromContact:contact];
             };
             profileCell.handlePayUser = ^{
-                EVPaymentViewController *paymentController = [EVPaymentViewController new];
-                [paymentController viewDidLoad];
-                [paymentController autocompleteViewController:nil didSelectContact:contact];
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:paymentController];
-                [self presentViewController:navController animated:YES completion:NULL];
+                [self payContact:contact];
             };
         }
         
