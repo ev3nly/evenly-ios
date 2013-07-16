@@ -95,7 +95,6 @@
 }
 
 - (void)setUpReactions {
-    
     // FIRST SCREEN:
     [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
         [self validateForPhase:EVExchangePhaseWho];

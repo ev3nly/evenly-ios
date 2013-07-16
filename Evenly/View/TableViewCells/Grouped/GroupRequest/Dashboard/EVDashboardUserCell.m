@@ -40,7 +40,7 @@
         [self loadOwesLabels];
         [self loadPaidLabels];
         
-        self.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Arrow"]];
+        self.accessoryView = [[UIImageView alloc] initWithImage:[EVImages dashboardDisclosureArrow]];
 
     }
     return self;

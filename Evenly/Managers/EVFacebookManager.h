@@ -7,8 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface EVFacebookManager : NSObject
+
+@property (nonatomic, strong) FBAccessTokenData *tokenData;
+
++ (EVFacebookManager *)sharedManager;
 
 + (void)loadMeWithCompletion:(void (^)(NSDictionary *userDict))completion;
 + (void)loadFriendsWithCompletion:(void (^)(NSArray *friends))completion;

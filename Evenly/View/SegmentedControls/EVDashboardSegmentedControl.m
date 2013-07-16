@@ -56,7 +56,7 @@
         self.autoresizesSubviews = YES;
         self.backgroundView = [[UIImageView alloc] initWithFrame:self.bounds];
         self.backgroundView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-        self.backgroundView.image = [UIImage imageNamed:@"tab-inactive-background"];
+        self.backgroundView.image = [EVImages dashboardTabInactiveBackground];
         self.backgroundView.contentMode = UIViewContentModeScaleAspectFill;
         self.backgroundView.clipsToBounds = YES;
         self.clipsToBounds = YES;

@@ -11,7 +11,7 @@
 @implementation EVBackButton
 
 + (id)button {
-    UIImage *image = [UIImage imageNamed:@"Back"];
+    UIImage *image = [EVImages navBarBackButton];
     UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
     UIButton *button = [[self alloc] initWithFrame:CGRectMake(0, 0, image.size.width + edgeInsets.left + edgeInsets.right, image.size.height)];
     [button setImage:image forState:UIControlStateNormal];

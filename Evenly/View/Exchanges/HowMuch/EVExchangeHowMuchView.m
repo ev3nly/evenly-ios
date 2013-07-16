@@ -50,6 +50,4 @@
     return [self.amountField becomeFirstResponder];
 }
 
-
-
 @end
