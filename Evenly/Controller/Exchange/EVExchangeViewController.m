@@ -26,9 +26,9 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+- (void)loadView {
+    [super loadView];
+    
     [self loadNavigationButtons];
     [self loadPageControl];
     

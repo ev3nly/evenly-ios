@@ -14,6 +14,8 @@
 #import "EVProfileHistoryCell.h"
 #import "EVWithdrawal.h"
 #import "EVExchange.h"
+#import "EVRequestViewController.h"
+#import "EVPaymentViewController.h"
 
 #import "ReactiveCocoa.h"
 #import "UIScrollView+SVPullToRefresh.h"
@@ -94,8 +96,12 @@
     [self.navigationController pushViewController:editController animated:YES];
 }
 
-- (void)addFriendButtonTapped {
-    NSLog(@"add friend or whatever");
+- (void)payFriendButtonTapped {
+    NSLog(@"pay friend or whatever");
+}
+
+- (void)requestFriendButtonTapped {
+    NSLog(@"request friend or whatever");
 }
 
 #pragma mark - TableView DataSource/Delegate
@@ -121,6 +127,29 @@
         profileCell.user = self.user;
         profileCell.parent = self;
         profileCell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        EVContact *contact = [EVContact new];
+        contact.email = self.user.email;
+        contact.name = self.user.name;
+        
+        if (![self.user.dbid isEqualToString:[EVCIA me].dbid]) {
+            profileCell.handleChargeUser = ^{
+                EVRequestViewController *requestController = [EVRequestViewController new];
+                [requestController viewDidLoad];
+                [requestController autocompleteViewController:nil didSelectContact:contact];
+                [requestController nextButtonPress:nil];
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:requestController];
+                [self presentViewController:navController animated:YES completion:NULL];
+            };
+            profileCell.handlePayUser = ^{
+                EVPaymentViewController *paymentController = [EVPaymentViewController new];
+                [paymentController viewDidLoad];
+                [paymentController autocompleteViewController:nil didSelectContact:contact];
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:paymentController];
+                [self presentViewController:navController animated:YES completion:NULL];
+            };
+        }
+        
         cell = profileCell;
     } else if (![self hasExchanges] && !self.tableView.isLoading) {
         EVNoActivityCell *noActivityCell = [tableView dequeueReusableCellWithIdentifier:@"noActivityCell"];

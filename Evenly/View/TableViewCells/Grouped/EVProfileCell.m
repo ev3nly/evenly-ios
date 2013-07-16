@@ -24,6 +24,8 @@
 @property (nonatomic, strong) UILabel *emailLabel;
 @property (nonatomic, strong) UILabel *phoneNumberLabel;
 
+@property (nonatomic, strong) UIButton *chargeButton;
+
 @end
 
 @implementation EVProfileCell
@@ -56,6 +58,7 @@
     self.networkLabel.frame = [self networkLabelFrame];
     self.emailLabel.frame = [self emailLabelFrame];
     self.phoneNumberLabel.frame = [self phoneNumberLabelFrame];
+    self.chargeButton.frame = [self chargeButtonFrame];
     self.profileButton.frame = [self profileButtonFrame];
 }
 
@@ -113,6 +116,17 @@
     [self.profileButton addSubview:settingsIcon];
 }
 
+- (void)loadChargeButton {
+    self.chargeButton = [UIButton new];
+    [self.chargeButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
+    [self.chargeButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
+    [self.chargeButton addTarget:self action:@selector(chargeButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.chargeButton setTitle:@"REQUEST" forState:UIControlStateNormal];
+    [self.chargeButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
+    self.chargeButton.titleLabel.font = [EVFont blackFontOfSize:14];
+    [self addSubview:self.chargeButton];    
+}
+
 - (UILabel *)configuredLabel {
     UILabel *label = [UILabel new];
     label.textColor = [EVColor lightLabelColor];
@@ -135,11 +149,27 @@
     if (![user.dbid isEqualToString:[EVCIA me].dbid]) {
         if ([self.profileButton viewWithTag:SETTINGS_GEAR_TAG])
             [[self.profileButton viewWithTag:SETTINGS_GEAR_TAG] removeFromSuperview];
-        [self.profileButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
-        [self.profileButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
-        [self.profileButton setTitle:@"ADD FRIEND" forState:UIControlStateNormal];
-        [self.profileButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self.profileButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
+        [self.profileButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
+        [self.profileButton setTitle:@"PAY" forState:UIControlStateNormal];
+        [self.profileButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
+        [self.profileButton removeTarget:self.parent action:@selector(editButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        [self.profileButton addTarget:self action:@selector(payButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self loadChargeButton];
     }
+}
+
+#pragma mark - Button Handling
+
+- (void)chargeButtonTapped {
+    if (self.handleChargeUser)
+        self.handleChargeUser();
+}
+
+- (void)payButtonTapped {
+    if (self.handlePayUser)
+        self.handlePayUser();
 }
 
 #pragma mark - Frames
@@ -177,7 +207,19 @@
     return labelFrame;
 }
 
+- (CGRect)chargeButtonFrame {
+    return CGRectMake(PROFILE_AVATAR_BUFFER*2,
+                      CGRectGetMaxY(self.avatarView.frame) + PROFILE_AVATAR_BUFFER,
+                      self.bounds.size.width/2 - (PROFILE_AVATAR_BUFFER*5)/2,
+                      [EVImages grayButtonBackground].size.height);
+}
+
 - (CGRect)profileButtonFrame {
+    if (self.chargeButton) {
+        CGRect frame = self.chargeButton.frame;
+        frame.origin.x += frame.size.width + PROFILE_AVATAR_BUFFER;
+        return frame;
+    }
     return CGRectMake(PROFILE_AVATAR_BUFFER*2,
                       CGRectGetMaxY(self.avatarView.frame) + PROFILE_AVATAR_BUFFER,
                       self.bounds.size.width - PROFILE_AVATAR_BUFFER*4,

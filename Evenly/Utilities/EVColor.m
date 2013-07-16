@@ -17,7 +17,7 @@
 }
 
 + (UIColor *)lightGreenColor {
-    return EV_RGB_COLOR(0, 200, 176);
+    return EV_RGB_COLOR(8, 192, 173 );
 }
 
 + (UIColor *)lightRedColor {
@@ -33,7 +33,7 @@
 }
 
 + (UIColor *)blueColor {
-    return EV_RGB_COLOR(0, 115, 222);
+    return EV_RGB_COLOR(0, 133, 214);
 }
 
 #pragma mark - Side Panels
@@ -62,7 +62,6 @@
 
 + (UIColor *)sidePanelIconColor {
     return [EVColor blueColor];
-//    return EV_RGB_COLOR(<#r#>, <#g#>, <#b#>)
 }
 
 #pragma mark - Newsfeed
