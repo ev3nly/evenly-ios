@@ -212,6 +212,9 @@ static NSDateFormatter *_dateFormatter = nil;
             success(object);
     
     };
+    NSData *bodyData = [request HTTPBody];
+    NSString *bodyString = [NSString stringWithCString:[bodyData bytes] encoding:NSUTF8StringEncoding];
+    DLog(@"Body string: %@", bodyString);
     
     AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
                                                                       success:successBlock

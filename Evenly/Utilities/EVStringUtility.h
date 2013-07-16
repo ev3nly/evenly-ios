@@ -13,7 +13,8 @@
         EVPayment,
         EVRequest,
         EVGroupRequest,
-        EVWithdrawal;
+        EVWithdrawal,
+        ABContact;
 
 @interface EVStringUtility : NSObject
 
@@ -40,6 +41,10 @@
 + (NSString *)groupRequestDescriptionPlaceholder;
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber;
+
+#pragma mark - Contacts
+
++ (NSString *)displayNameForContact:(ABContact *)contact;
 
 #pragma mark - Marketing Materials
 
@@ -74,5 +79,9 @@
 
 + (NSString *)groupRequestCreationInstructions;
 + (NSAttributedString *)groupRequestDashboardInstructions;
+
+#pragma mark - Request
+
++ (NSString *)addAdditionalOptionButtonTitle;
 
 @end

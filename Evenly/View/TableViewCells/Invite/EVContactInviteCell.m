@@ -25,6 +25,7 @@
 
 - (void)loadProfilePicture {
     self.profilePicture = [UIImageView new];
+    self.profilePicture.contentMode = UIViewContentModeScaleAspectFill;
     [self addSubview:self.profilePicture];
     [super loadProfilePicture];
 }

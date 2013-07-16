@@ -24,13 +24,17 @@
         stripe.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
         [self addSubview:stripe];
         self.stripe = stripe;
+        self.shouldHighlight = YES;
     }
     return self;
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];
-    [self setBackgroundColor:(highlighted ? [EVColor sidePanelSelectedColor] : [UIColor clearColor])];
+    if (self.shouldHighlight)
+    {
+        [self setBackgroundColor:(highlighted ? [EVColor sidePanelSelectedColor] : [UIColor clearColor])];
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

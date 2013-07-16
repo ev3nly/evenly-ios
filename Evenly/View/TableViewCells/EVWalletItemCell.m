@@ -65,11 +65,6 @@
     return self;
 }
 
-- (void)setIsCash:(BOOL)isCash {
-    _isCash = isCash;
-    self.accessoryView = [[UIImageView alloc] initWithImage:( _isCash ? [UIImage imageNamed:@"WalletArrow_blue"] : [UIImage imageNamed:@"WalletArrow"])];
-}
-
 - (void)setStamp:(EVWalletStamp *)stamp {
     if (_stamp) {
         [_stamp removeFromSuperview];
@@ -87,22 +82,10 @@
                                            (self.containerView.frame.size.height - self.titleLabel.frame.size.height) / 2.0)];
     
     [self.valueLabel sizeToFit];
-    if (self.isCash)
-    {
-        [self.containerView addSubview:self.cashLabel];
-        [self.cashLabel setOrigin:CGPointMake(self.containerView.frame.size.width - self.cashLabel.frame.size.width - EV_WALLET_CELL_MARGIN,
-                                              (self.containerView.frame.size.height - self.cashLabel.frame.size.height) / 2.0)];
-        [self.valueLabel setOrigin:CGPointMake(STAMP_LEFT_MARGIN,
-                                               (self.containerView.frame.size.height - self.valueLabel.frame.size.height) / 2.0)];
-        [self.containerView addSubview:self.verticalStripe];
-    }
-    else
-    {
-        [self.valueLabel setOrigin:CGPointMake(self.containerView.frame.size.width - self.valueLabel.frame.size.width - EV_WALLET_CELL_MARGIN,
-                                               (self.containerView.frame.size.height - self.valueLabel.frame.size.height) / 2.0)];
-        [self.cashLabel removeFromSuperview];
-        [self.verticalStripe removeFromSuperview];
-    }
+    [self.valueLabel setOrigin:CGPointMake(self.containerView.frame.size.width - self.valueLabel.frame.size.width - EV_WALLET_CELL_MARGIN,
+                                           (self.containerView.frame.size.height - self.valueLabel.frame.size.height) / 2.0)];
+    [self.cashLabel removeFromSuperview];
+    [self.verticalStripe removeFromSuperview];
     
     
     if (self.stamp) {
@@ -110,7 +93,6 @@
                                           (self.containerView.frame.size.height - self.stamp.frame.size.height) / 2.0)];
         [self.containerView addSubview:self.stamp];
     }
-    
 }
 
 @end

@@ -19,4 +19,6 @@
 - (void)loadRightButton;
 - (NSArray *)filterArray:(NSArray *)array forSearch:(NSString *)search;
 
+- (void)inviteFriends;
+
 @end

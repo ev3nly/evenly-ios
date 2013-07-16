@@ -11,7 +11,7 @@
 #import "EVPlaceholderTextView.h"
 #import "EVExchangeWhatForHeader.h"
 
-@interface EVRequestMultipleDetailsView : UIView<UITextFieldDelegate>
+@interface EVGroupRequestWhatForView : UIView<UITextFieldDelegate>
 
 @property (nonatomic, strong) EVExchangeWhatForHeader *whatForHeader;
 

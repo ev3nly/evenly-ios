@@ -18,9 +18,6 @@
      withSuccess:(void (^)(EVGroupRequestTier *tier))success
          failure:(void (^)(NSError *error))failure;
 
-- (void)saveRecord:(EVGroupRequestRecord *)record
-       withSuccess:(void (^)(EVGroupRequestRecord *record))success
-           failure:(void (^)(NSError *error))failure;
 @end
 
 @implementation EVGroupRequest
@@ -72,7 +69,7 @@
     [mutableDictionary setObject:array forKey:@"tiers"];
     
     array = [NSMutableArray array];
-    for (EVObject<EVExchangeable> *member in self.members) {
+    for (EVObject<EVExchangeable> *member in self.initialMembers) {
         if ([member isKindOfClass:[EVUser class]]) {
             [array addObject:[member dbid]];
         } else {
@@ -81,6 +78,11 @@
     }
     if ([array count])
         [mutableDictionary setObject:array forKey:@"record_data"];
+    
+    if ([self.initialAssignments count])
+    {
+        [mutableDictionary setObject:self.initialAssignments forKey:@"assignments"];
+    }    
     return mutableDictionary;
 }
 
@@ -312,23 +314,59 @@
     return newRecord;
 }
 
-- (void)saveRecord:(EVGroupRequestRecord *)record
-       withSuccess:(void (^)(EVGroupRequestRecord *record))success
+- (void)addRecord:(EVGroupRequestRecord *)record
+      withSuccess:(void (^)(EVGroupRequestRecord *record))success
+          failure:(void (^)(NSError *error))failure {
+    [self addRecords:@[ record ]
+         withSuccess:^(NSArray *records) {
+             if (success)
+                 success([records lastObject]);
+         } failure:failure];
+}
+
+- (void)addRecords:(NSArray *)records
+       withSuccess:(void (^)(NSArray *records))success
            failure:(void (^)(NSError *error))failure {
     NSString *method, *path;
+    method = @"POST";
+    path = [NSString stringWithFormat:@"%@/records", self.dbid];
     
-    if (record.dbid)
-    {
-        method = @"PUT";
-        path = [NSString stringWithFormat:@"%@/records/%@", self.dbid, record.dbid];
+    NSMutableArray *array = [NSMutableArray array];
+    for (EVGroupRequestRecord *record in records) {
+        [array addObject:[record dictionaryRepresentation]];
     }
-    else
-    {
-        method = @"POST";
-        path = [NSString stringWithFormat:@"%@/records", self.dbid];
-    }
+    NSDictionary *params = @{ @"users" : array };
+    NSMutableURLRequest *request = [[self class] requestWithMethod:method
+                                                              path:path
+                                                        parameters:params];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSMutableArray *array = [NSMutableArray array];
+        for (int i=0; i < [responseObject count]; i++) {
+            NSDictionary *responseDictionary = [responseObject objectAtIndex:i];
+            EVGroupRequestRecord *newRecord = [[EVGroupRequestRecord alloc] initWithGroupRequest:self properties:responseDictionary];
+            [array addObject:newRecord];
+        }
+        self.records = [self.records arrayByAddingObjectsFromArray:array];
+        if (success)
+            success(array);
+    };
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                              success:successBlock
+                                                                              failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                                  if (failure)
+                                                                                      failure(error);
+                                                                              }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
+- (void)updateRecord:(EVGroupRequestRecord *)record
+         withSuccess:(void (^)(EVGroupRequestRecord *record))success
+             failure:(void (^)(NSError *error))failure {
+    NSString *method, *path;
+    method = @"PUT";
+    path = [NSString stringWithFormat:@"%@/records/%@", self.dbid, record.dbid];
     
-    NSDictionary *params = [record dictionaryRepresentation];    
+    NSDictionary *params = [record dictionaryRepresentation];
     NSMutableURLRequest *request = [[self class] requestWithMethod:method
                                                               path:path
                                                         parameters:params];
@@ -344,18 +382,7 @@
                                                                                       failure(error);
                                                                               }];
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
-}
-
-- (void)addRecord:(EVGroupRequestRecord *)record
-      withSuccess:(void (^)(EVGroupRequestRecord *record))success
-          failure:(void (^)(NSError *error))failure {
-    [self saveRecord:record withSuccess:success failure:failure];
-}
-
-- (void)updateRecord:(EVGroupRequestRecord *)record
-         withSuccess:(void (^)(EVGroupRequestRecord *record))success
-             failure:(void (^)(NSError *error))failure {
-    [self saveRecord:record withSuccess:success failure:failure];    
+    
 }
 
 - (void)markRecordCompleted:(EVGroupRequestRecord *)record
