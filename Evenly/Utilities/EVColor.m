@@ -121,4 +121,13 @@
     return EV_RGB_COLOR(0.9843, 0.9765, 0.9804);
 }
 
+#pragma mark - Debugging
+#define ARC4RANDOM_MAX      0x100000000
+
++ (UIColor *)randomColor {
+    return EV_RGB_COLOR(((double)arc4random() / ARC4RANDOM_MAX),
+                        ((double)arc4random() / ARC4RANDOM_MAX),
+                        ((double)arc4random() / ARC4RANDOM_MAX));
+}
+
 @end
