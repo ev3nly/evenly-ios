@@ -33,25 +33,25 @@
 
 @implementation EVHTTPClient
 
-- (id)init {
-    self = [super initWithBaseURL:[NSURL URLWithString:EV_API_URL]];
+- (id)initWithBaseURL:(NSURL *)url {
+    self = [super initWithBaseURL:url];
     if (self) {
         self.parameterEncoding = AFJSONParameterEncoding;
         
         [self setDefaultHeader:@"Ios-Version" value:EV_APP_VERSION];
         [self setDefaultHeader:@"Ios-Build" value:EV_APP_BUILD];
-    #ifndef DEBUG
+#ifndef DEBUG
 #ifdef _AFNETWORKING_PIN_SSL_CERTIFICATES_
         [self setDefaultSSLPinningMode:AFSSLPinningModePublicKey];
 #endif
-    #else
-//        [self setDefaultSSLPinningMode:AFSSLPinningModeNone];
+#else
+        //        [self setDefaultSSLPinningMode:AFSSLPinningModeNone];
         
         NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0
                                                                 diskCapacity:0
                                                                     diskPath:nil];
         [NSURLCache setSharedURLCache:sharedCache];
-    #endif
+#endif
     }
     return self;
 }

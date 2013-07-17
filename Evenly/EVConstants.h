@@ -9,6 +9,13 @@
 #import <Foundation/Foundation.h>
 
 /* Vine */
+
+typedef enum {
+    EVServerSelectionProduction,
+    EVServerSelectionStaging,
+    EVServerSelectionLocal
+} EVServerSelection;
+
 #define EV_API_PRODUCTION_URL @"https://www.paywithivy.com/api/v1/"
 #define EV_API_STAGING_URL @"https://germ.herokuapp.com/api/v1/"
 #define EV_API_LOCAL_URL @"http://localhost:3000/api/v1/"
