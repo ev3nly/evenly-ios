@@ -157,7 +157,8 @@ static EVUser *_me;
             [story setProperties:dict];
             [array addObject:story];
         }
-        success(array);
+        if (success)
+            success(array);
     };
     
     AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
@@ -296,6 +297,33 @@ static EVUser *_me;
 
 - (void)evictAvatarFromCache {
     [[EVCIA sharedInstance] setImage:nil forURL:self.avatarURL];
+}
+
+#pragma mark - Timeline
+
+- (void)timelineWithSuccess:(void (^)(NSArray *timeline))success failure:(void (^)(NSError *error))failure {
+    NSString *path = [NSString stringWithFormat:@"%@/timeline", self.dbid];
+    NSMutableURLRequest *request = [[self class] requestWithMethod:@"GET" path:path parameters:nil];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSDictionary *dict in responseObject)
+        {
+            EVStory *story = [[EVStory alloc] init];
+            [story setProperties:dict];
+            [array addObject:story];
+        }
+        if (success)
+            success(array);
+    };
+    
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                      success:successBlock
+                                                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                          if (failure)
+                                                                              failure(error);
+                                                                      }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
 #pragma mark - NSCoding
