@@ -68,6 +68,8 @@ typedef enum {
 
 #pragma mark - Validation
 
-- (void)validateForPhase:(EVExchangePhase)phase;
+- (BOOL)shouldAdvanceToHowMuch;
+- (BOOL)shouldAdvanceToWhatFor;
+- (BOOL)shouldPerformAction;
 
 @end
