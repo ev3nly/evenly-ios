@@ -52,10 +52,7 @@
     self.window.rootViewController = self.masterViewController;
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
-    
-    NSArray *array = [UIFont fontNamesForFamilyName:@"Avenir"];
-    DLog(@"Avenir variants: %@", array);
-    
+
     // STRICTLY TEMPORARY
     if (![[EVCIA sharedInstance] session])
     {
