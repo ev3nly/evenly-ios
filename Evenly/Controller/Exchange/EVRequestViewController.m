@@ -304,6 +304,35 @@
     }
 }
 
+
+- (BOOL)shouldAdvanceToWhatFor {
+    if ([self.groupHowMuchView showingMultipleOptions])
+    {
+        if ([self.groupHowMuchView isMissingAmount]) {
+            [self.groupHowMuchView flashMessage:@"You're missing at least one amount."
+                                   withDuration:1.0f];
+            return NO;
+        }
+        
+        if ([self.groupHowMuchView hasTierBelowMinimum]) {
+            [self.groupHowMuchView flashMessage:@"You have to request at least $0.50."
+                                   withDuration:1.0f];
+            return NO;
+        }
+    }
+    else
+    {
+        if ([self isLessThanPermittedAmount])
+        {
+            [self.groupHowMuchView.singleAmountView.bigAmountView flashMinimumAmountLabel];
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+
 - (BOOL)isLessThanPermittedAmount {
     NSArray *filtered = [self.groupHowMuchView.tiers filter:^BOOL(id object) {
         return [[object price] floatValue] < EV_MINIMUM_EXCHANGE_AMOUNT;
