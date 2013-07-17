@@ -139,7 +139,6 @@
 - (void)setUpNavBar {
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self leftButtonForPhase:self.phase]] animated:YES];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self rightButtonForPhase:self.phase]] animated:YES];
-    [self.navigationItem.rightBarButtonItem setEnabled:NO];
     [self.pageControl setCurrentPage:self.phase];
 }
 

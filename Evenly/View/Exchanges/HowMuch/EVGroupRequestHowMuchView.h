@@ -42,6 +42,5 @@
 @property (nonatomic, readonly) BOOL hasTierBelowMinimum;
 
 - (void)setShowingMultipleOptions:(BOOL)showing animated:(BOOL)animated completion:(void (^)(void))completion;
-- (void)flashMessage:(NSString *)message withDuration:(NSTimeInterval)duration;
 
 @end

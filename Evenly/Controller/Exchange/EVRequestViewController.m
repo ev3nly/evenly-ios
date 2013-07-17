@@ -44,6 +44,9 @@
 - (void)advancePhase {
     if (self.phase == EVExchangePhaseWho)
     {
+        if (![self shouldAdvanceToHowMuch])
+            return;
+        
         if (!self.isGroupRequest)
         {
             self.request = [[EVRequest alloc] init];
@@ -99,7 +102,6 @@
         self.phase = EVExchangePhaseWhatFor;
     }
     [self setUpNavBar];
-    [self validateForPhase:self.phase];
 }
 
 - (void)sendExchangeToServer {
@@ -184,19 +186,15 @@
     // Right buttons
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
     [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [button setEnabled:NO];
     [right addObject:button];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
 
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
     [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [button setEnabled:NO];
     [right addObject:button];
     
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Request"];
     [button addTarget:self action:@selector(actionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [button setEnabled:NO];
     [right addObject:button];
     
     self.leftButtons = [NSArray arrayWithArray:left];
@@ -235,73 +233,29 @@
     RAC(self.isGroupRequest) = RACAble(self.initialView.requestSwitch.on);
     
     [RACAble(self.isGroupRequest) subscribeNext:^(NSNumber *isGroupRequest) {
-        [self validateForPhase:EVExchangePhaseWho];
-    }];
-    
-    [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
-        [self validateForPhase:EVExchangePhaseWho];
-    }];
-    
-    // SECOND SCREEN:
-    // Single:
-    [self.singleHowMuchView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
-        [self validateForPhase:EVExchangePhaseHowMuch];
-    }];
-    // Multiple:
-//    [RACAble(self.groupHowMuchView.isValid) subscribeNext:^(NSNumber *isValid) {
-//        [self validateForPhase:EVExchangePhaseHowMuch];
-//    }];
-    
-    // THIRD SCREEN:
-    // Single
-    [self.singleWhatForView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
-        [self validateForPhase:EVExchangePhaseWhatFor];
-    }];
-    // Multiple
-    [self.groupWhatForView.nameField.rac_textSignal subscribeNext:^(NSString *nameString) {
-        [self validateForPhase:EVExchangePhaseWhatFor];
+        UIButton *button = [self rightButtonForPhase:EVExchangePhaseWho];
+        if (self.isGroupRequest) {
+            NSString *title = (self.initialView.recipientCount ? @"Next" : @"Skip");
+            [button setTitle:title forState:UIControlStateNormal];
+        } else {
+            [button setTitle:@"Next" forState:UIControlStateNormal];
+        }
     }];
 }
 
 #pragma mark - Validation
 
-- (void)validateForPhase:(EVExchangePhase)phase {
-    UIButton *button = [self rightButtonForPhase:phase];
-    if (phase == EVExchangePhaseWho)
-    {
-        if (self.isGroupRequest) {
-            [button setEnabled:YES];
-            NSString *title = (self.initialView.recipientCount ? @"Next" : @"Skip");
-            [button setTitle:title forState:UIControlStateNormal];
-        } else {
-            [button setEnabled:(BOOL)self.initialView.recipientCount];
-            [button setTitle:@"Next" forState:UIControlStateNormal];
+- (BOOL)shouldAdvanceToHowMuch {
+    if (![self isGroupRequest]) {
+        if (self.initialView.recipientCount == 0) {
+            [self.initialView flashMessage:@"Oops. Add a person or choose \"Group\".  Thanks!"
+                                   inFrame:self.initialView.toFieldFrame
+                              withDuration:2.0];
+            return NO;
         }
     }
-    else if (phase == EVExchangePhaseHowMuch)
-    {
-        [button setEnabled:YES];
-//        if (!self.isGroupRequest)
-//        {
-//            float amount = [[EVStringUtility amountFromAmountString:self.singleHowMuchView.amountField.text] floatValue];
-//            BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
-//            [button setEnabled:okay];
-//            [self.singleHowMuchView.minimumAmountLabel setHidden:okay];
-//        }
-//        else
-//        {
-//            [button setEnabled:YES];
-//        }
-    }
-    else if (phase == EVExchangePhaseWhatFor)
-    {
-        if (!self.isGroupRequest)
-            [button setEnabled:!EV_IS_EMPTY_STRING(self.singleWhatForView.descriptionField.text)];
-        else
-            [button setEnabled:!EV_IS_EMPTY_STRING(self.groupWhatForView.nameField.text)];
-    }
+    return YES;
 }
-
 
 - (BOOL)shouldAdvanceToWhatFor {
     if ([self isGroupRequest])
@@ -310,6 +264,7 @@
         {
             if ([self.groupHowMuchView isMissingAmount]) {
                 [self.groupHowMuchView flashMessage:@"You're missing at least one amount."
+                                            inFrame:self.groupHowMuchView.headerLabel.frame
                                        withDuration:1.0f];
                 return NO;
             }
@@ -317,6 +272,7 @@
         
         if ([self.groupHowMuchView hasTierBelowMinimum]) {
             [self.groupHowMuchView flashMessage:@"You have to request at least $0.50."
+                                        inFrame:self.groupHowMuchView.headerLabel.frame
                                    withDuration:1.0f];
             return NO;
         }
@@ -334,12 +290,20 @@
     return YES;
 }
 
-
-- (BOOL)isLessThanPermittedAmount {
-    NSArray *filtered = [self.groupHowMuchView.tiers filter:^BOOL(id object) {
-        return [[object price] floatValue] < EV_MINIMUM_EXCHANGE_AMOUNT;
-    }];
-    return (filtered.count > 0);
+- (void)actionButtonPress:(id)sender {
+    if ([self isGroupRequest]) {
+        if (EV_IS_EMPTY_STRING(self.groupWhatForView.nameField.text))
+        {
+            [self.groupWhatForView flashNoDescriptionMessage];
+            return;
+        }
+    } else {
+        if (EV_IS_EMPTY_STRING(self.singleWhatForView.descriptionField.text))
+        {
+            [self.singleWhatForView flashNoDescriptionMessage];
+            return;
+        }
+    }
+    [super actionButtonPress:sender];
 }
-
 @end

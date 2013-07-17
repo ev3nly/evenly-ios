@@ -110,4 +110,12 @@
     self.descriptionField.frame = [self descriptionFieldFrame];
 }
 
+- (void)flashNoDescriptionMessage {
+    CGRect frame = [self forLabelFrame];
+    frame.size.width = CGRectGetMaxX([self descriptionFieldFrame]);
+    [self flashMessage:@"Oops. Please add a brief description."
+               inFrame:frame
+          withDuration:1.0];
+}
+
 @end

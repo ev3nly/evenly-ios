@@ -358,34 +358,6 @@
                      }];
 }
 
-- (void)flashMessage:(NSString *)message withDuration:(NSTimeInterval)duration {
-    
-    UIView *view = [[UIView alloc] initWithFrame:self.headerLabel.bounds];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectInset(view.bounds, 5, 2)];
-    label.backgroundColor = [UIColor whiteColor];
-    label.textColor = [EVColor lightRedColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.numberOfLines = 0;
-    label.lineBreakMode = NSLineBreakByWordWrapping;
-    label.font = [EVFont defaultFontOfSize:15];
-    label.text = message;
-    label.alpha = 0.0f;
-    [self addSubview:label];
-    [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION
-                     animations:^{
-                         label.alpha = 1.0;
-                     } completion:^(BOOL finished) {
-                         [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION
-                                               delay:duration
-                                             options:0
-                                          animations:^{
-                                              label.alpha = 0.0f;
-                                          } completion:^(BOOL finished) {
-                                              
-                                          }];
-                     }];
-}
-
 #pragma mark - Model
 
 - (void)validate {
@@ -511,7 +483,9 @@
 
 - (void)friendsButtonPress:(UIButton *)sender {
     if ([self.groupRequest.initialMembers count] == 0) {
-        [self flashMessage:@"Go back and add friends first!" withDuration:2.0];
+        [self flashMessage:@"Go back and add friends first!"
+                   inFrame:self.headerLabel.bounds
+              withDuration:2.0f];
         return;
     }
     
