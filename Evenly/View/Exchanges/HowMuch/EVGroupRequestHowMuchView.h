@@ -38,7 +38,8 @@
 @property (nonatomic, readonly) NSArray *tiers;
 @property (nonatomic, readonly) NSArray *assignments;
 
-@property (nonatomic, readonly) BOOL isValid;
+@property (nonatomic, readonly) BOOL isMissingAmount;
+@property (nonatomic, readonly) BOOL hasTierBelowMinimum;
 
 - (void)setShowingMultipleOptions:(BOOL)showing animated:(BOOL)animated completion:(void (^)(void))completion;
 - (void)flashMessage:(NSString *)message withDuration:(NSTimeInterval)duration;

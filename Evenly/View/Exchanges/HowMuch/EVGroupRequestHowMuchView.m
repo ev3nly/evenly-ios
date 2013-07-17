@@ -233,6 +233,15 @@
 - (void)setShowingMultipleOptions:(BOOL)showing animated:(BOOL)animated completion:(void (^)(void))completion {
     _showingMultipleOptions = showing;
     
+    EVGroupRequestAmountCell *firstCell = [self.optionCells objectAtIndex:0];
+    if (showing) {
+        [firstCell.optionAmountField setText:self.singleAmountView.bigAmountView.amountField.text];
+        [firstCell.currencyFormatter replaceUnderlyingDetailsWithThoseOfFormatter:self.singleAmountView.bigAmountView.currencyFormatter];
+    } else {
+        [self.singleAmountView.bigAmountView.amountField setText:firstCell.optionAmountField.text];
+        [self.singleAmountView.bigAmountView.currencyFormatter replaceUnderlyingDetailsWithThoseOfFormatter:firstCell.currencyFormatter];
+    }
+    
     if (!animated)
     {
         if (showing) {
@@ -383,10 +392,29 @@
     if (self.optionCells.count == 1)
     {
         float amount = [[EVStringUtility amountFromAmountString:self.singleAmountView.bigAmountView.amountField.text] floatValue];
-//        self.isValid = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
+        //        self.isValid = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
         self.isValid = (amount > 0.0f);
     }
     else
+    {
+        self.isValid = ![self hasTierBelowMinimum];
+    }
+}
+
+- (BOOL)isMissingAmount {
+    BOOL isAllGood = ([self.optionCells count] > 0);
+    for (EVGroupRequestAmountCell *cell in self.optionCells) {
+        if (EV_IS_EMPTY_STRING(cell.optionAmountField.text))
+        {
+            isAllGood = NO;
+            break;
+        }
+    }
+    return !isAllGood;
+}
+
+- (BOOL)hasTierBelowMinimum {
+    if ([self showingMultipleOptions])
     {
         BOOL isAllGood = ([self.optionCells count] > 0);
         for (EVGroupRequestAmountCell *cell in self.optionCells) {
@@ -397,9 +425,15 @@
                 break;
             }
         }
-        self.isValid = isAllGood;
+        return !isAllGood;
+    }
+    else
+    {
+        float amount = [[EVStringUtility amountFromAmountString:self.singleAmountView.bigAmountView.amountField.text] floatValue];
+        return (amount < EV_MINIMUM_DEPOSIT_AMOUNT);
     }
 }
+
 
 - (NSArray *)tiers {
     NSArray *tiers = nil;

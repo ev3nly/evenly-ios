@@ -70,6 +70,9 @@
     }
     else if (self.phase == EVExchangePhaseHowMuch)
     {
+        if (![self shouldAdvanceToWhatFor])
+            return;
+        
         if (!self.isGroupRequest)
         {
             self.request.amount = [EVStringUtility amountFromAmountString:self.singleHowMuchView.amountField.text];
@@ -79,12 +82,6 @@
         }
         else
         {
-            if ([self isLessThanPermittedAmount])
-            {
-                [self.groupHowMuchView.singleAmountView.bigAmountView flashMinimumAmountLabel];
-                return;
-            }
-            
             self.groupRequest.tiers = self.groupHowMuchView.tiers;
             self.groupRequest.initialAssignments = self.groupHowMuchView.assignments;
             
@@ -251,9 +248,9 @@
         [self validateForPhase:EVExchangePhaseHowMuch];
     }];
     // Multiple:
-    [RACAble(self.groupHowMuchView.isValid) subscribeNext:^(NSNumber *isValid) {
-        [self validateForPhase:EVExchangePhaseHowMuch];
-    }];
+//    [RACAble(self.groupHowMuchView.isValid) subscribeNext:^(NSNumber *isValid) {
+//        [self validateForPhase:EVExchangePhaseHowMuch];
+//    }];
     
     // THIRD SCREEN:
     // Single
@@ -283,17 +280,18 @@
     }
     else if (phase == EVExchangePhaseHowMuch)
     {
-        if (!self.isGroupRequest)
-        {
-            float amount = [[EVStringUtility amountFromAmountString:self.singleHowMuchView.amountField.text] floatValue];
-            BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
-            [button setEnabled:okay];
-            [self.singleHowMuchView.minimumAmountLabel setHidden:okay];
-        }
-        else
-        {
-            [button setEnabled:self.groupHowMuchView.isValid];
-        }
+        [button setEnabled:YES];
+//        if (!self.isGroupRequest)
+//        {
+//            float amount = [[EVStringUtility amountFromAmountString:self.singleHowMuchView.amountField.text] floatValue];
+//            BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
+//            [button setEnabled:okay];
+//            [self.singleHowMuchView.minimumAmountLabel setHidden:okay];
+//        }
+//        else
+//        {
+//            [button setEnabled:YES];
+//        }
     }
     else if (phase == EVExchangePhaseWhatFor)
     {
@@ -306,12 +304,15 @@
 
 
 - (BOOL)shouldAdvanceToWhatFor {
-    if ([self.groupHowMuchView showingMultipleOptions])
+    if ([self isGroupRequest])
     {
-        if ([self.groupHowMuchView isMissingAmount]) {
-            [self.groupHowMuchView flashMessage:@"You're missing at least one amount."
-                                   withDuration:1.0f];
-            return NO;
+        if ([self.groupHowMuchView showingMultipleOptions])
+        {
+            if ([self.groupHowMuchView isMissingAmount]) {
+                [self.groupHowMuchView flashMessage:@"You're missing at least one amount."
+                                       withDuration:1.0f];
+                return NO;
+            }
         }
         
         if ([self.groupHowMuchView hasTierBelowMinimum]) {
@@ -322,13 +323,14 @@
     }
     else
     {
-        if ([self isLessThanPermittedAmount])
+        float amount = [[EVStringUtility amountFromAmountString:self.singleHowMuchView.amountField.text] floatValue];
+        BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
+        if (!okay)
         {
-            [self.groupHowMuchView.singleAmountView.bigAmountView flashMinimumAmountLabel];
+            [self.singleHowMuchView.bigAmountView flashMinimumAmountLabel];
             return NO;
         }
     }
-    
     return YES;
 }
 
