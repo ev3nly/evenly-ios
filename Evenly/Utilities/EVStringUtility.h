@@ -84,4 +84,9 @@
 
 + (NSString *)addAdditionalOptionButtonTitle;
 
+#pragma mark - Password Reset
++ (NSString *)confirmResetForEmail:(NSString *)email;
++ (NSString *)resetSuccessMessage;
++ (NSString *)resetFailureMessageGivenError:(NSError *)error;
+
 @end

@@ -419,4 +419,18 @@ static NSDateFormatter *_detailDateFormatter;
     return @"ADD ANOTHER PAYMENT OPTION";
 }
 
+#pragma mark - Password Reset
+
++ (NSString *)confirmResetForEmail:(NSString *)email {
+    return [NSString stringWithFormat:@"Would you like to reset the password for %@?", email];
+}
+
++ (NSString *)resetSuccessMessage {
+    return @"Alright! Check your email for instructions on resetting the password to your account";
+}
+
++ (NSString *)resetFailureMessageGivenError:(NSError *)error {
+    return @"Sorry, there was an issue! Please try again";
+}
+
 @end

@@ -11,6 +11,7 @@
 #import "EVFormRow.h"
 #import "EVTextField.h"
 #import "EVNavigationBarButton.h"
+#import "EVValidator.h"
 
 #import "EVSession.h"
 
@@ -31,6 +32,8 @@
 @end
 
 @implementation EVSignInViewController
+
+#pragma mark - Lifecycle
 
 - (id)init {
     return [self initWithAuthenticationSuccess:NULL];
@@ -65,6 +68,8 @@
     [[self.view viewWithTag:FORM_VIEW_TAG] layoutIfNeeded];
     self.labelButton.frame = [self labelButtonFrame];
 }
+
+#pragma mark - View Loading
 
 - (void)loadDoneButton {
     self.doneButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
@@ -138,6 +143,8 @@
     RAC(self.doneButton.enabled) = formValidSignal;
 }
 
+#pragma mark - TextField Delegate
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if ([(EVTextField *)textField next]) {
         [[(EVTextField *)textField next] becomeFirstResponder];
@@ -149,6 +156,8 @@
     }
     return YES;
 }
+
+#pragma mark - Button Handling
 
 - (void)signIn {
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SIGNING IN..."];
@@ -178,9 +187,26 @@
 }
 
 - (void)forgotPasswordButtonPressed {
-    [[[UIAlertView alloc] initWithTitle:@"Oh no!" message:@"Sorry about that.  Think harder" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    NSLog(@"PASSWORD YAH KNO?!");
+    if ([[EVValidator sharedValidator] stringIsValidEmail:self.emailField.text]) {
+        [UIAlertView alertViewWithTitle:nil
+                                message:[EVStringUtility confirmResetForEmail:self.emailField.text]
+                      cancelButtonTitle:@"Cancel"
+                      otherButtonTitles:@[@"Reset"]
+                              onDismiss:^(int buttonIndex) {
+                                  [[EVCIA sharedInstance] resetPasswordForEmail:self.emailField.text
+                                                                    withSuccess:^{
+                                                                        [UIAlertView alertViewWithTitle:nil message:[EVStringUtility resetSuccessMessage]];
+                                                                    } failure:^(NSError *error) {
+                                                                        [UIAlertView alertViewWithTitle:@"Whoops!"
+                                                                                                message:[EVStringUtility resetFailureMessageGivenError:error]];
+                                                                    }];
+                              } onCancel:nil];
+    } else {
+        [UIAlertView alertViewWithTitle:nil message:@"Please enter a valid email address to reset. Thanks!"];
+    }
 }
+
+#pragma mark - Frames
 
 - (CGRect)labelButtonFrame {
     return CGRectMake(0,
