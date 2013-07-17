@@ -13,7 +13,6 @@
 
 @interface EVWalletItemCell ()
 
-@property (nonatomic, strong) UILabel *cashLabel;
 @property (nonatomic, strong) UIView *verticalStripe;
 
 @end
@@ -47,27 +46,10 @@
         self.valueLabel.textAlignment = NSTextAlignmentRight;
         [self.containerView addSubview:self.valueLabel];
         
-        self.cashLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.containerView.frame.size.width / 2.0,
-                                                                   0.0,
-                                                                   self.containerView.frame.size.width / 2.0 - margin,
-                                                                   self.containerView.frame.size.height)];
-        self.cashLabel.backgroundColor = [UIColor clearColor];
-        self.cashLabel.textColor = [EVColor blueColor];
-        self.cashLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
-        self.cashLabel.font = [EVFont boldFontOfSize:15];
-        self.cashLabel.textAlignment = NSTextAlignmentRight;
-        self.cashLabel.text = @"DEPOSIT";
-        [self.cashLabel sizeToFit];
-        
         self.verticalStripe = [[UIView alloc] initWithFrame:CGRectMake(165, 0, 1, self.frame.size.height)];
         self.verticalStripe.backgroundColor = [EVColor sidePanelStripeColor];
     }
     return self;
-}
-
-- (void)setIsCash:(BOOL)isCash {
-    _isCash = isCash;
-    self.accessoryView = [[UIImageView alloc] initWithImage:( _isCash ? [UIImage imageNamed:@"WalletArrow_blue"] : [UIImage imageNamed:@"WalletArrow"])];
 }
 
 - (void)setStamp:(EVWalletStamp *)stamp {
@@ -87,22 +69,9 @@
                                            (self.containerView.frame.size.height - self.titleLabel.frame.size.height) / 2.0)];
     
     [self.valueLabel sizeToFit];
-    if (self.isCash)
-    {
-        [self.containerView addSubview:self.cashLabel];
-        [self.cashLabel setOrigin:CGPointMake(self.containerView.frame.size.width - self.cashLabel.frame.size.width - EV_WALLET_CELL_MARGIN,
-                                              (self.containerView.frame.size.height - self.cashLabel.frame.size.height) / 2.0)];
-        [self.valueLabel setOrigin:CGPointMake(STAMP_LEFT_MARGIN,
-                                               (self.containerView.frame.size.height - self.valueLabel.frame.size.height) / 2.0)];
-        [self.containerView addSubview:self.verticalStripe];
-    }
-    else
-    {
-        [self.valueLabel setOrigin:CGPointMake(self.containerView.frame.size.width - self.valueLabel.frame.size.width - EV_WALLET_CELL_MARGIN,
-                                               (self.containerView.frame.size.height - self.valueLabel.frame.size.height) / 2.0)];
-        [self.cashLabel removeFromSuperview];
-        [self.verticalStripe removeFromSuperview];
-    }
+    [self.valueLabel setOrigin:CGPointMake(self.containerView.frame.size.width - self.valueLabel.frame.size.width - EV_WALLET_CELL_MARGIN,
+                                           (self.containerView.frame.size.height - self.valueLabel.frame.size.height) / 2.0)];
+    [self.verticalStripe removeFromSuperview];
     
     
     if (self.stamp) {
@@ -110,7 +79,6 @@
                                           (self.containerView.frame.size.height - self.stamp.frame.size.height) / 2.0)];
         [self.containerView addSubview:self.stamp];
     }
-    
 }
 
 @end

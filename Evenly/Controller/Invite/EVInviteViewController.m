@@ -154,7 +154,14 @@
     EVGroupedTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"groupedTableViewCell"];
     
     cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Arrow"]];
-    cell.textLabel.text = indexPath.row == EVInviteMethodFacebook ? @"Invite From Facebook" : @"Invite From Contacts";
+    
+    if (indexPath.row == EVInviteMethodFacebook) {
+        cell.textLabel.text = @"Invite From Facebook";
+        cell.imageView.image = [EVImages inviteFacebookIcon];
+    } else if (indexPath.row == EVInviteMethodContacts) {
+        cell.textLabel.text = @"Invite From Contacts";
+        cell.imageView.image = [EVImages inviteContactsIcon];
+    }
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     return cell;
 }

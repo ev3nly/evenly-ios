@@ -26,9 +26,9 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+- (void)loadView {
+    [super loadView];
+    
     [self loadNavigationButtons];
     [self loadPageControl];
     
@@ -37,6 +37,13 @@
     [self loadAutocomplete];
     
     [self setUpReactions];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    [self.pageControl setCenter:CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0,
+                                            self.titleLabel.frame.size.height + 5.0)];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -53,8 +60,6 @@
     self.pageControl.numberOfPages = 3;
     self.pageControl.currentPage = 0;
     [self.pageControl sizeToFit];
-    [self.pageControl setCenter:CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0,
-                                            self.titleLabel.frame.size.height + 5.0)];
     [self.navigationController.navigationBar addSubview:self.pageControl];
     CGFloat positionAdjustment = -TITLE_PAGE_CONTROL_Y_OFFSET;
     [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:positionAdjustment

@@ -95,7 +95,7 @@
 
 - (void)loadSearchBar {
     self.searchBar = [UISearchBar new];    
-    self.searchBar.backgroundImage = [EVImageUtility imageWithColor:EV_RGB_COLOR(0, 114, 208)];
+    self.searchBar.backgroundImage = [EVImageUtility imageWithColor:[EVColor blueColor]];
     self.searchBar.showsCancelButton = NO;
     self.searchBar.delegate = self;
     [self.searchBar setPositionAdjustment:UIOffsetMake(1, 1) forSearchBarIcon:UISearchBarIconSearch];
@@ -111,6 +111,7 @@
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    self.tableView.loading = ([self.displayedFriendList count] == 0);
     return [self.displayedFriendList count];
 }
 

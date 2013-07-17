@@ -16,7 +16,5 @@
 @property (nonatomic, strong) NSArray *exchanges;
 
 - (id)initWithUser:(EVUser *)user;
-- (void)editProfileButtonTapped;
-- (void)addFriendButtonTapped;
 
 @end

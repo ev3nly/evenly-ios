@@ -22,6 +22,16 @@
 
 @implementation EVDashboardUserCell
 
++ (UILabel *)configuredNoTierLabel {
+    UILabel *noTierLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    noTierLabel.backgroundColor = [UIColor clearColor];
+    noTierLabel.textColor = [EVColor lightLabelColor];
+    noTierLabel.font = [EVFont defaultFontOfSize:15.0];
+    noTierLabel.text = @"Set amount";
+    [noTierLabel sizeToFit];
+    return noTierLabel;
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -30,7 +40,7 @@
         [self loadOwesLabels];
         [self loadPaidLabels];
         
-        self.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Arrow"]];
+        self.accessoryView = [[UIImageView alloc] initWithImage:[EVImages dashboardDisclosureArrow]];
 
     }
     return self;
@@ -75,10 +85,10 @@
     _paidStamp = paidStamp;
 }
 
-- (void)setNoTierButton:(UIButton *)noTierButton {
-    if (_noTierButton)
-        [_noTierButton removeFromSuperview];
-    _noTierButton = noTierButton;
+- (void)setNoTierLabel:(UILabel *)noTierLabel {
+    if (_noTierLabel)
+        [_noTierLabel removeFromSuperview];
+    _noTierLabel = noTierLabel;
 }
 
 - (void)layoutSubviews {
@@ -87,9 +97,9 @@
     {
         [self layoutStamp];
     }
-    else if (self.noTierButton)
+    else if (self.noTierLabel)
     {
-        [self layoutNoTierButton];
+        [self layoutNoTierLabel];
     }
     else
     {
@@ -110,17 +120,17 @@
     [self.contentView addSubview:self.paidStamp];
 }
 
-- (void)layoutNoTierButton {
+- (void)layoutNoTierLabel {
     self.owesLabel.hidden = YES;
     self.paidLabel.hidden = YES;
     self.owesAmountLabel.hidden = YES;
     self.paidAmountLabel.hidden = YES;
     
-    CGRect noTierFrame = self.noTierButton.frame;
-    noTierFrame.origin.x = self.contentView.frame.size.width - noTierFrame.size.width - STAMP_RIGHT_MARGIN;
+    CGRect noTierFrame = self.noTierLabel.frame;
+    noTierFrame.origin.x = AMOUNT_LABELS_MAX_X - noTierFrame.size.width;
     noTierFrame.origin.y = (int)((self.contentView.frame.size.height - noTierFrame.size.height) / 2.0);
-    self.noTierButton.frame = noTierFrame;
-    [self.contentView addSubview:self.noTierButton];
+    self.noTierLabel.frame = noTierFrame;
+    [self.contentView addSubview:self.noTierLabel];
 }
 
 - (void)layoutLabels {

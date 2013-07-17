@@ -30,7 +30,7 @@
 }
 
 - (void)loadCancelButton {
-    UIImage *closeImage = [UIImage imageNamed:@"Close"];
+    UIImage *closeImage = [EVImages navBarCancelButton];
     UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, closeImage.size.width + 20.0, closeImage.size.height)];
     [cancelButton setImage:closeImage forState:UIControlStateNormal];
     [cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];

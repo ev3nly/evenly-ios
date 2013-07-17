@@ -73,6 +73,7 @@
         default:
             break;
     }
+    icon = [EVImageUtility overlayImage:icon withColor:[EVColor blueColor] identifier:[NSString stringWithFormat:@"mainMenuIcon-%i", indexPath.row]];
     [cell.label setText:title];
     [cell.iconView setImage:icon];
     

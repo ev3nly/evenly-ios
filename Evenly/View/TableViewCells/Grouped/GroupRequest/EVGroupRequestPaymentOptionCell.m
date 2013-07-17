@@ -27,6 +27,7 @@
         [self.headerLabel setFont:[EVFont blackFontOfSize:14]];
         [self.contentView addSubview:self.headerLabel];
         
+        
         self.optionButtons = [NSMutableArray array];
         
         self.position = EVGroupedTableViewCellPositionCenter;
@@ -51,6 +52,7 @@
             [self.contentView addSubview:button];
             [self.optionButtons addObject:button];
             [button setSelected:(record.tier == tier)];
+            [button setEnabled:YES];
         }
     }
     

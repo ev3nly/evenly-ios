@@ -17,7 +17,7 @@
 }
 
 + (UIColor *)lightGreenColor {
-    return EV_RGB_COLOR(0, 200, 176);
+    return EV_RGB_COLOR(8, 192, 173 );
 }
 
 + (UIColor *)lightRedColor {
@@ -33,15 +33,13 @@
 }
 
 + (UIColor *)blueColor {
-    return EV_RGB_COLOR(0, 115, 222);
+    return EV_RGB_COLOR(0, 127, 216);
 }
 
 #pragma mark - Side Panels
 
 + (UIColor *)sidePanelBackgroundColor {
-    return EV_RGB_COLOR(242, 242, 242);
-    return [EVColor creamColor];
-    return [UIColor whiteColor];// EV_RGB_COLOR(0.1412, 0.1765, 0.1961);
+    return EV_RGB_COLOR(250, 250, 250);
 }
 
 + (UIColor *)sidePanelHeaderBackgroundColor {
@@ -62,7 +60,6 @@
 
 + (UIColor *)sidePanelIconColor {
     return [EVColor blueColor];
-//    return EV_RGB_COLOR(<#r#>, <#g#>, <#b#>)
 }
 
 #pragma mark - Newsfeed
@@ -119,6 +116,15 @@
 
 + (UIColor *)progressBarDisabledColor {
     return EV_RGB_COLOR(0.9843, 0.9765, 0.9804);
+}
+
+#pragma mark - Debugging
+#define ARC4RANDOM_MAX      0x100000000
+
++ (UIColor *)randomColor {
+    return EV_RGB_COLOR(((double)arc4random() / ARC4RANDOM_MAX),
+                        ((double)arc4random() / ARC4RANDOM_MAX),
+                        ((double)arc4random() / ARC4RANDOM_MAX));
 }
 
 @end
