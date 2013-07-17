@@ -2627,10 +2627,6 @@
 				D095EEDC1778F1940016F434 /* btn-facebook@2x.png */,
 				D02758161795DA60004F6F0A /* btn-facebook-active.png */,
 				D02758171795DA60004F6F0A /* btn-facebook-active@2x.png */,
-				D095EEDF1778F1A80016F434 /* check-hole.png */,
-				D095EEE01778F1A80016F434 /* check-hole@2x.png */,
-				D095EEE11778F1A80016F434 /* checked.png */,
-				D095EEE21778F1A80016F434 /* checked@2x.png */,
 				D095EEE71778F1B80016F434 /* facebook-f@.png */,
 				D095EEE81778F1B80016F434 /* facebook-f@2x.png */,
 				D03A338D17849CDC007F4B0B /* people.png */,
@@ -3498,8 +3494,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Brunet (29LDK233A6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3515,8 +3511,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3525,8 +3521,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Brunet (29LDK233A6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3542,8 +3538,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
