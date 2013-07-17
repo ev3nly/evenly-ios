@@ -39,6 +39,130 @@
     [super viewDidLoad];
 }
 
+#pragma mark - Basic Interface
+
+- (void)advancePhase {
+    if (self.phase == EVExchangePhaseWho)
+    {
+        if (![self shouldAdvanceToHowMuch])
+            return;
+        
+        if (!self.isGroupRequest)
+        {
+            self.request = [[EVRequest alloc] init];
+            EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
+            self.request.to = recipient;
+            [self.singleHowMuchView.titleLabel setText:[NSString stringWithFormat:@"%@ owes me...", [recipient name]]];
+            [self pushView:self.singleHowMuchView animated:YES];
+            // Give the privacy selector to the single details view.
+            [self.singleWhatForView addSubview:self.privacySelector];
+        }
+        else
+        {
+            self.groupRequest = [[EVGroupRequest alloc] init];
+            NSArray *sortedRecipients = [[self.initialView recipients] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                return [[obj1 name] compare:[obj2 name]];
+            }];
+            self.groupRequest.initialMembers = sortedRecipients;
+            self.groupHowMuchView.groupRequest = self.groupRequest;
+            [self pushView:self.groupHowMuchView animated:YES];
+            // Give the privacy selector to the multiple details view.
+            [self.groupWhatForView addSubview:self.privacySelector];
+        }
+        self.phase = EVExchangePhaseHowMuch;
+    }
+    else if (self.phase == EVExchangePhaseHowMuch)
+    {
+        if (![self shouldAdvanceToWhatFor])
+            return;
+        
+        if (!self.isGroupRequest)
+        {
+            self.request.amount = [EVStringUtility amountFromAmountString:self.singleHowMuchView.amountField.text];
+            EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader requestHeaderForPerson:self.request.to amount:self.request.amount];
+            self.singleWhatForView.whatForHeader = header;
+            [self pushView:self.singleWhatForView animated:YES];
+        }
+        else
+        {
+            self.groupRequest.tiers = self.groupHowMuchView.tiers;
+            self.groupRequest.initialAssignments = self.groupHowMuchView.assignments;
+            
+            NSArray *tierPrices = [self.groupRequest.tiers map:^id(id object) {
+                return [(EVGroupRequestTier*)object price];
+            }];
+            
+            
+            EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader groupRequestHeaderForPeople:self.groupRequest.initialMembers
+                                                                                           amounts:tierPrices];
+            self.groupWhatForView.whatForHeader = header;
+            
+            [self pushView:self.groupWhatForView animated:YES];
+        }
+        self.phase = EVExchangePhaseWhatFor;
+    }
+    [self setUpNavBar];
+}
+
+- (void)sendExchangeToServer {
+    
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REQUEST..."];
+    
+    if (!self.isGroupRequest)
+    {
+        self.request.memo = self.singleWhatForView.descriptionField.text;
+        [self.request saveWithSuccess:^{
+            
+            EVStory *story = [EVStory storyFromPendingExchange:self.request];
+            story.publishedAt = [NSDate date];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
+            
+            [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+            };
+        } failure:^(NSError *error) {
+            DLog(@"failed to create %@", NSStringFromClass([self.request class]));
+            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+            [[self rightButtonForPhase:self.phase] setEnabled:YES];
+        }];
+    }
+    else
+    {
+        self.groupRequest.title = self.groupWhatForView.nameField.text;
+        self.groupRequest.memo = self.groupWhatForView.descriptionField.text;
+        DLog(@"Group request dictionary representation: %@", [self.groupRequest dictionaryRepresentation]);
+        
+        [EVGroupRequest createWithParams:[self.groupRequest dictionaryRepresentation]
+                                 success:^(EVObject *object) {
+                                     EVGroupRequest *createdRequest = (EVGroupRequest *)object;
+                                     
+                                     [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
+                                     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+                                     
+                                     EVStory *story = [EVStory storyFromGroupRequest:self.groupRequest];
+                                     story.publishedAt = [NSDate date];
+                                     [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
+                                     
+                                     [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
+                                         __block UIViewController *presenter = self.presentingViewController;
+                                         [self.presentingViewController dismissViewControllerAnimated:YES
+                                                                                           completion:^{
+                                                                                               EVGroupRequestDashboardViewController *dashboardVC = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:createdRequest];
+                                                                                               UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardVC];
+                                                                                               [presenter presentViewController:navController animated:YES completion:NULL];
+                                                                                           }];
+                                     };
+                                 } failure:^(NSError *error) {
+                                     DLog(@"failed to create %@", NSStringFromClass([self.request class]));
+                                     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                                 }];
+    }
+}
+
+#pragma mark - View Loading
+
 - (void)loadNavigationButtons {
     
     NSMutableArray *left = [NSMutableArray array];
@@ -62,19 +186,15 @@
     // Right buttons
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
     [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [button setEnabled:NO];
     [right addObject:button];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
 
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
     [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [button setEnabled:NO];
     [right addObject:button];
     
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Request"];
     [button addTarget:self action:@selector(actionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [button setEnabled:NO];
     [right addObject:button];
     
     self.leftButtons = [NSArray arrayWithArray:left];
@@ -113,198 +233,78 @@
     RAC(self.isGroupRequest) = RACAble(self.initialView.requestSwitch.on);
     
     [RACAble(self.isGroupRequest) subscribeNext:^(NSNumber *isGroupRequest) {
-        [self validateForPhase:EVExchangePhaseWho];
-    }];
-    
-    [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
-        [self validateForPhase:EVExchangePhaseWho];
-    }];
-    
-    // SECOND SCREEN:
-    // Single:
-    [self.singleHowMuchView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
-        [self validateForPhase:EVExchangePhaseHowMuch];
-    }];
-    // Multiple:
-    [RACAble(self.groupHowMuchView.isValid) subscribeNext:^(NSNumber *isValid) {
-        [self validateForPhase:EVExchangePhaseHowMuch];
-    }];
-    
-    // THIRD SCREEN:
-    // Single
-    [self.singleWhatForView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
-        [self validateForPhase:EVExchangePhaseWhatFor];
-    }];
-    // Multiple
-    [self.groupWhatForView.nameField.rac_textSignal subscribeNext:^(NSString *nameString) {
-        [self validateForPhase:EVExchangePhaseWhatFor];
-    }];
-}
-
-- (void)validateForPhase:(EVExchangePhase)phase {
-    UIButton *button = [self rightButtonForPhase:phase];
-    if (phase == EVExchangePhaseWho)
-    {
+        UIButton *button = [self rightButtonForPhase:EVExchangePhaseWho];
         if (self.isGroupRequest) {
-            [button setEnabled:YES];
             NSString *title = (self.initialView.recipientCount ? @"Next" : @"Skip");
             [button setTitle:title forState:UIControlStateNormal];
         } else {
-            [button setEnabled:(BOOL)self.initialView.recipientCount];
             [button setTitle:@"Next" forState:UIControlStateNormal];
         }
-    }
-    else if (phase == EVExchangePhaseHowMuch)
-    {
-        if (!self.isGroupRequest)
-        {
-            float amount = [[EVStringUtility amountFromAmountString:self.singleHowMuchView.amountField.text] floatValue];
-            BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
-            [button setEnabled:okay];
-            [self.singleHowMuchView.minimumAmountLabel setHidden:okay];
-        }
-        else
-        {
-            [button setEnabled:self.groupHowMuchView.isValid];
-        }
-    }
-    else if (phase == EVExchangePhaseWhatFor)
-    {
-        if (!self.isGroupRequest)
-            [button setEnabled:!EV_IS_EMPTY_STRING(self.singleWhatForView.descriptionField.text)];
-        else
-            [button setEnabled:!EV_IS_EMPTY_STRING(self.groupWhatForView.nameField.text)];
-    }
-}
-
-#pragma mark - Button Actions
-
-- (void)nextButtonPress:(id)sender {
-    if (self.phase == EVExchangePhaseWho)
-    {
-        if (!self.isGroupRequest)
-        {
-            self.request = [[EVRequest alloc] init];
-            EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
-            self.request.to = recipient;
-            [self.singleHowMuchView.titleLabel setText:[NSString stringWithFormat:@"%@ owes me...", [recipient name]]];
-            [self pushView:self.singleHowMuchView animated:YES];
-            // Give the privacy selector to the single details view.
-            [self.singleWhatForView addSubview:self.privacySelector];
-        }
-        else
-        {
-            self.groupRequest = [[EVGroupRequest alloc] init];
-            NSArray *sortedRecipients = [[self.initialView recipients] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                return [[obj1 name] compare:[obj2 name]];
-            }];
-            self.groupRequest.initialMembers = sortedRecipients;
-            self.groupHowMuchView.groupRequest = self.groupRequest;
-            [self pushView:self.groupHowMuchView animated:YES];
-            // Give the privacy selector to the multiple details view.
-            [self.groupWhatForView addSubview:self.privacySelector];
-        }
-        self.phase = EVExchangePhaseHowMuch;
-    }
-    else if (self.phase == EVExchangePhaseHowMuch)
-    {
-        if (!self.isGroupRequest)
-        {
-            self.request.amount = [EVStringUtility amountFromAmountString:self.singleHowMuchView.amountField.text];
-            EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader requestHeaderForPerson:self.request.to amount:self.request.amount];
-            self.singleWhatForView.whatForHeader = header;
-            [self pushView:self.singleWhatForView animated:YES];
-        }
-        else
-        {
-            if ([self isLessThanPermittedAmount])
-            {
-                [self.groupHowMuchView.singleAmountView.bigAmountView flashMinimumAmountLabel];
-                return;
-            }
-
-            self.groupRequest.tiers = self.groupHowMuchView.tiers;
-            self.groupRequest.initialAssignments = self.groupHowMuchView.assignments;
-            
-            NSArray *tierPrices = [self.groupRequest.tiers map:^id(id object) {
-                return [(EVGroupRequestTier*)object price];
-            }];
-            
-            
-            EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader groupRequestHeaderForPeople:self.groupRequest.initialMembers
-                                                                                           amounts:tierPrices];
-            self.groupWhatForView.whatForHeader = header;
-
-            [self pushView:self.groupWhatForView animated:YES];
-        }
-        self.phase = EVExchangePhaseWhatFor;
-    }
-    [self setUpNavBar];
-    [self validateForPhase:self.phase];
-}
-
-- (BOOL)isLessThanPermittedAmount {
-    NSArray *filtered = [self.groupHowMuchView.tiers filter:^BOOL(id object) {
-        return [[object price] floatValue] < EV_MINIMUM_EXCHANGE_AMOUNT;
     }];
-    return (filtered.count > 0);
 }
 
-- (void)actionButtonPress:(id)sender {
-    [sender setEnabled:NO];
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REQUEST..."];
-    
-    if (!self.isGroupRequest)
+#pragma mark - Validation
+
+- (BOOL)shouldAdvanceToHowMuch {
+    if (![self isGroupRequest]) {
+        if (self.initialView.recipientCount == 0) {
+            [self.initialView flashMessage:@"Oops. Add a person or choose \"Group.\"  Thanks!"
+                                   inFrame:self.initialView.toFieldFrame
+                              withDuration:2.0];
+            return NO;
+        }
+    }
+    return YES;
+}
+
+- (BOOL)shouldAdvanceToWhatFor {
+    if ([self isGroupRequest])
     {
-        self.request.memo = self.singleWhatForView.descriptionField.text;
-        [self.request saveWithSuccess:^{
-            
-            EVStory *story = [EVStory storyFromPendingExchange:self.request];
-            story.publishedAt = [NSDate date];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
-            
-            [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
-            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-            };
-        } failure:^(NSError *error) {
-            DLog(@"failed to create %@", NSStringFromClass([self.request class]));
-            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-            [sender setEnabled:YES];
-        }];
+        if ([self.groupHowMuchView showingMultipleOptions])
+        {
+            if ([self.groupHowMuchView isMissingAmount]) {
+                [self.groupHowMuchView flashMessage:@"You're missing at least one amount."
+                                            inFrame:self.groupHowMuchView.headerLabel.frame
+                                       withDuration:1.0f];
+                return NO;
+            }
+        }
+        
+        if ([self.groupHowMuchView hasTierBelowMinimum]) {
+            [self.groupHowMuchView flashMessage:@"You have to request at least $0.50."
+                                        inFrame:self.groupHowMuchView.headerLabel.frame
+                                   withDuration:1.0f];
+            return NO;
+        }
     }
     else
     {
-        self.groupRequest.title = self.groupWhatForView.nameField.text;
-        self.groupRequest.memo = self.groupWhatForView.descriptionField.text;
-        DLog(@"Group request dictionary representation: %@", [self.groupRequest dictionaryRepresentation]);
-
-        [EVGroupRequest createWithParams:[self.groupRequest dictionaryRepresentation]
-                                 success:^(EVObject *object) {
-                                     EVGroupRequest *createdRequest = (EVGroupRequest *)object;
-                                     
-                                     [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
-                                     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-                                     
-                                     EVStory *story = [EVStory storyFromGroupRequest:self.groupRequest];
-                                     story.publishedAt = [NSDate date];
-                                     [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
-                                     
-                                     [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
-                                         __block UIViewController *presenter = self.presentingViewController;
-                                         [self.presentingViewController dismissViewControllerAnimated:YES
-                                                                                           completion:^{
-                                                                                               EVGroupRequestDashboardViewController *dashboardVC = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:createdRequest];
-                                                                                               UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardVC];
-                                                                                               [presenter presentViewController:navController animated:YES completion:NULL];
-                                                                                           }];
-                                     };
-                                 } failure:^(NSError *error) {
-                                     DLog(@"failed to create %@", NSStringFromClass([self.request class]));
-                                     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-                                 }];
+        float amount = [[EVStringUtility amountFromAmountString:self.singleHowMuchView.amountField.text] floatValue];
+        BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
+        if (!okay)
+        {
+            [self.singleHowMuchView.bigAmountView flashMinimumAmountLabel];
+            return NO;
+        }
     }
+    return YES;
+}
+
+- (BOOL)shouldPerformAction {
+    if ([self isGroupRequest]) {
+        if (EV_IS_EMPTY_STRING(self.groupWhatForView.nameField.text))
+        {
+            [self.groupWhatForView flashNoDescriptionMessage];
+            return NO;
+        }
+    } else {
+        if (EV_IS_EMPTY_STRING(self.singleWhatForView.descriptionField.text))
+        {
+            [self.singleWhatForView flashNoDescriptionMessage];
+            return NO;
+        }
+    }
+    return YES;
 }
 
 @end
