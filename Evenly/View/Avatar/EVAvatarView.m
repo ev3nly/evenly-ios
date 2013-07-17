@@ -11,10 +11,23 @@
 
 static void *EVAvatarViewContext = &EVAvatarViewContext;
 
+@interface EVAvatarViewBorder : UIView
+
+@end
+
+@implementation EVAvatarViewBorder
+
++ (Class)layerClass {
+    return [CAShapeLayer class];
+}
+
+@end
+
 @interface EVAvatarView ()
 
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImageView *overlay;
+@property (nonatomic, strong) EVAvatarViewBorder *border;
 
 @end
 
@@ -40,6 +53,11 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:self.imageView];
         
+        self.border = [[EVAvatarViewBorder alloc] initWithFrame:self.bounds];
+        self.border.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+        [self.border setHidden:YES];
+        [self addSubview:self.border];
+        
         self.size = frame.size;
     }
     return self;
@@ -62,6 +80,12 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
     overlayLayer.path = [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, avatarSize.width, avatarSize.height) cornerRadius:self.cornerRadius] CGPath];
     [overlayLayer setFillColor:[[UIColor blackColor] CGColor]];
     self.overlay.layer.mask = overlayLayer;
+    
+    CAShapeLayer *borderLayer = (CAShapeLayer *)[self.border layer];
+    [borderLayer setPath:[[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, avatarSize.width, avatarSize.height) cornerRadius:self.cornerRadius - 1.0] CGPath]];
+    [borderLayer setLineWidth:1.0];
+    [borderLayer setStrokeColor:[EV_RGB_ALPHA_COLOR(0, 0, 0, 0.3) CGColor]];
+    [borderLayer setFillColor:[[UIColor clearColor] CGColor]];
 }
 
 - (void)setAvatarOwner:(id<EVAvatarOwning>)avatarOwner {
@@ -105,6 +129,11 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
 - (void)setCornerRadius:(float)cornerRadius {
     _cornerRadius = cornerRadius;
     [self configureMasks];
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    _highlighted = highlighted;
+    [self.border setHidden:!highlighted];
 }
 
 @end

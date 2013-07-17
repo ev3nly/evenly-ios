@@ -13,10 +13,8 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) EVUser *user;
-@property (nonatomic, strong) NSArray *exchanges;
+@property (nonatomic, strong) NSArray *timeline;
 
 - (id)initWithUser:(EVUser *)user;
-- (void)editProfileButtonTapped;
-- (void)addFriendButtonTapped;
 
 @end

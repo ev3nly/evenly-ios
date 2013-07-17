@@ -25,6 +25,11 @@
     return self;
 }
 
+- (void)replaceUnderlyingDetailsWithThoseOfFormatter:(EVCurrencyTextFieldFormatter *)formatter {
+    self.amountBackingStore = formatter.amountBackingStore;
+    self.formattedString = formatter.formattedString;
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     // Prevent deletion when no amount exists.
     if (self.amountBackingStore.length == 0 && range.length > 0)

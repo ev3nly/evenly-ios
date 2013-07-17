@@ -139,12 +139,11 @@
     
     float totalHeight = LOGO_LENGTH + LOGO_TEXT_BUFFER + [self sizeForLabel:label].height;
     
-    UIImageView *logo = [[UIImageView alloc] initWithImage:[EVImages iTunesArtwork]];
+    UIImageView *logo = [[UIImageView alloc] initWithImage:[EVImages bigIcon]];
     logo.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - LOGO_LENGTH/2,
                             CGRectGetMidY(self.scrollView.bounds) - totalHeight/2,
                             LOGO_LENGTH,
                             LOGO_LENGTH);
-    logo.layer.cornerRadius = 16.0;
     logo.layer.masksToBounds = YES;
     label.frame = CGRectMake(0,
                              CGRectGetMaxY(logo.frame) + LOGO_TEXT_BUFFER,

@@ -16,6 +16,8 @@
 @property (nonatomic, weak) EVProfileViewController *parent;
 @property (nonatomic, strong) EVUser *user;
 @property (nonatomic, strong) UIButton *profileButton;
+@property (nonatomic, strong) void(^handleChargeUser)(void);
+@property (nonatomic, strong) void(^handlePayUser)(void);
 
 + (float)cellHeightForUser:(EVUser *)user;
 

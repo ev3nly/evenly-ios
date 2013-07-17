@@ -56,7 +56,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
         [self loadLikeButton];
         [self loadIncomeIcon];
 
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.selectionStyle = UITableViewCellSelectionStyleGray;
         self.position = EVGroupedTableViewCellPositionSingle;
     }
     return self;
@@ -225,6 +225,18 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 - (float)bottomSectionHeight {
     return EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted:highlighted animated:animated];
+    self.verticalRule.backgroundColor = [EVColor newsfeedStripeColor];
+    self.horizontalRule.backgroundColor = [EVColor newsfeedStripeColor];
+    [self.avatarView setHighlighted:highlighted];
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    self.verticalRule.backgroundColor = [EVColor newsfeedStripeColor];
+    self.horizontalRule.backgroundColor = [EVColor newsfeedStripeColor];
 }
 
 @end

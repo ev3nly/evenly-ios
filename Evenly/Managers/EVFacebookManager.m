@@ -7,9 +7,18 @@
 //
 
 #import "EVFacebookManager.h"
-#import <FacebookSDK/FacebookSDK.h>
 
 @implementation EVFacebookManager
+
+static EVFacebookManager *_sharedManager;
+
++ (EVFacebookManager *)sharedManager {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedManager = [EVFacebookManager new];
+    });
+    return _sharedManager;
+}
 
 #pragma mark - Basics
 
@@ -37,8 +46,7 @@
              default:
                  break;
          }
-         FBAccessTokenData *data = session.accessTokenData;
-         NSLog(@"data: %@", data);
+         [self sharedManager].tokenData = session.accessTokenData;
          if (error) {
              [[[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
              [self fbResync];

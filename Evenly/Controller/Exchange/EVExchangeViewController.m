@@ -26,9 +26,9 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+- (void)loadView {
+    [super loadView];
+    
     [self loadNavigationButtons];
     [self loadPageControl];
     
@@ -39,10 +39,41 @@
     [self setUpReactions];
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    [self.pageControl setCenter:CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0,
+                                            self.titleLabel.frame.size.height + 5.0)];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.initialView becomeFirstResponder];
 }
+
+#pragma mark - Basic Interface
+
+- (void)addContact:(id)contact {
+    if ([contact isKindOfClass:[ABContact class]]) {
+        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
+		EVContact *toContact = [[EVContact alloc] init];
+		toContact.email = emailAddress;
+        toContact.name = [contact compositeName];
+        contact = toContact;
+    }
+    [self.initialView addContact:contact];
+}
+
+- (void)advancePhase {
+    // abstract
+}
+
+- (void)sendExchangeToServer {
+    // abstract
+}
+
+#pragma mark - View Loading
+
 
 - (void)loadNavigationButtons {
     // abstract
@@ -53,8 +84,6 @@
     self.pageControl.numberOfPages = 3;
     self.pageControl.currentPage = 0;
     [self.pageControl sizeToFit];
-    [self.pageControl setCenter:CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0,
-                                            self.titleLabel.frame.size.height + 5.0)];
     [self.navigationController.navigationBar addSubview:self.pageControl];
     CGFloat positionAdjustment = -TITLE_PAGE_CONTROL_Y_OFFSET;
     [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:positionAdjustment
@@ -110,7 +139,6 @@
 - (void)setUpNavBar {
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self leftButtonForPhase:self.phase]] animated:YES];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self rightButtonForPhase:self.phase]] animated:YES];
-    [self.navigationItem.rightBarButtonItem setEnabled:NO];
     [self.pageControl setCurrentPage:self.phase];
 }
 
@@ -132,37 +160,39 @@
     [self popViewAnimated:YES];
     self.phase--;
     [self setUpNavBar];
-    [self validateForPhase:self.phase];
 }
 
 - (void)nextButtonPress:(id)sender {
-    // abstract
+    [self advancePhase];
 }
 
 - (void)actionButtonPress:(id)sender {
+    if (![self shouldPerformAction])
+        return;
+    
     [sender setEnabled:NO];
     self.navigationItem.leftBarButtonItem = nil;
-
-    // abstract
+    [self sendExchangeToServer];
 }
 
 #pragma mark - Validation 
 
-- (void)validateForPhase:(EVExchangePhase)phase {
-    // abstract
+- (BOOL)shouldAdvanceToHowMuch {
+    return YES; // abstract
+}
+
+- (BOOL)shouldAdvanceToWhatFor {
+    return YES; // abstract
+}
+
+- (BOOL)shouldPerformAction {
+    return YES; // abstract
 }
 
 #pragma mark - UITableViewDelegate
 
 - (void)autocompleteViewController:(EVAutocompleteTableViewController *)viewController didSelectContact:(id)contact {
-    if ([contact isKindOfClass:[ABContact class]]) {
-        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
-		EVContact *toContact = [[EVContact alloc] init];
-		toContact.email = emailAddress;
-        toContact.name = [contact compositeName];
-        contact = toContact;
-    }
-    [self.initialView addContact:contact];
+    [self addContact:contact];
 }
 
 

@@ -29,12 +29,17 @@ static EVNetworkManager *_instance;
 - (id)init {
     self = [super init];
     if (self) {
-        _httpClient = [[EVHTTPClient alloc] init];
-        [_httpClient registerHTTPOperationClass:[EVJSONRequestOperation class]];
+        [self reloadHTTPClient];
         _operationQueue = [[NSOperationQueue alloc] init];
         _activityIndicatorCounter = 0;
     }
     return self;
+}
+
+- (void)reloadHTTPClient {
+    _httpClient = nil;
+    _httpClient = [[EVHTTPClient alloc] initWithBaseURL:[self urlForServerSelection:[self serverSelection]]];
+    [_httpClient registerHTTPOperationClass:[EVJSONRequestOperation class]];
 }
 
 - (BOOL)enqueueRequest:(NSOperation *)request {
@@ -63,5 +68,38 @@ static EVNetworkManager *_instance;
             [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     }
 }
+
+- (void)setServerSelection:(EVServerSelection)serverSelection {
+    [[NSUserDefaults standardUserDefaults] setInteger:serverSelection forKey:@"serverSelection"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (EVServerSelection)serverSelection {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:@"serverSelection"];
+}
+
+
+- (NSURL *)urlForServerSelection:(EVServerSelection)serverSelection {
+#ifdef DEBUG
+    NSURL *url = nil;
+    switch (serverSelection) {
+        case EVServerSelectionProduction:
+            url = [NSURL URLWithString:EV_API_PRODUCTION_URL];
+            break;
+        case EVServerSelectionStaging:
+            url = [NSURL URLWithString:EV_API_STAGING_URL];
+            break;
+        case EVServerSelectionLocal:
+            url = [NSURL URLWithString:EV_API_LOCAL_URL];
+            break;
+        default:
+            break;
+    }
+    return url;
+#else
+    return [NSURL URLWithString:EV_API_PRODUCTION_URL];
+#endif
+}
+
 
 @end
