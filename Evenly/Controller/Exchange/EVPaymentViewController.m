@@ -34,6 +34,9 @@
 - (void)advancePhase {
     if (self.phase == EVExchangePhaseWho)
     {
+        if (![self shouldAdvanceToHowMuch])
+            return;
+        
         self.payment = [[EVPayment alloc] init];
         EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
         self.payment.to = recipient;
@@ -44,6 +47,9 @@
     }
     else if (self.phase == EVExchangePhaseHowMuch)
     {
+        if (![self shouldAdvanceToWhatFor])
+            return;
+        
         self.payment.amount = [EVStringUtility amountFromAmountString:self.howMuchView.amountField.text];
         EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader paymentHeaderForPerson:self.payment.to amount:self.payment.amount];
         self.whatForView.whatForHeader = header;
@@ -52,7 +58,6 @@
         self.phase = EVExchangePhaseWhatFor;
     }
     [self setUpNavBar];
-    [self validateForPhase:self.phase];
 }
 
 - (void)sendExchangeToServer {
@@ -116,19 +121,15 @@
     // Right buttons
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
     [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [button setEnabled:NO];
     [right addObject:button];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
-    self.navigationItem.rightBarButtonItem.enabled = NO;
     
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
     [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [button setEnabled:NO];
     [right addObject:button];
     
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Pay"];
     [button addTarget:self action:@selector(actionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [button setEnabled:NO];
     [right addObject:button];
     
     self.leftButtons = [NSArray arrayWithArray:left];
@@ -154,42 +155,41 @@
 - (void)setUpReactions {
     // FIRST SCREEN:
     [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
-        [self validateForPhase:EVExchangePhaseWho];
         if ([hasRecipients integerValue] == 1)
             [self advancePhase];
-    }];
-    
-    // SECOND SCREEN:
-    [self.howMuchView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
-        [self validateForPhase:EVExchangePhaseHowMuch];
-    }];
-
-    // THIRD SCREEN:
-    [self.whatForView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
-        [self validateForPhase:EVExchangePhaseWhatFor];
     }];
 }
 
 #pragma mark - Validation
 
-- (void)validateForPhase:(EVExchangePhase)phase {
-    UIButton *button = [self rightButtonForPhase:phase];
-    if (phase == EVExchangePhaseWho)
-    {
-        [button setEnabled:(BOOL)self.initialView.recipientCount];
-        [button setTitle:@"Next" forState:UIControlStateNormal];
+- (BOOL)shouldAdvanceToHowMuch {
+    if (self.initialView.recipientCount == 0) {
+        [self.initialView flashMessage:@"You've got to tell us who you want to pay!"
+                               inFrame:self.initialView.toFieldFrame
+                          withDuration:2.0];
+        return NO;
     }
-    else if (phase == EVExchangePhaseHowMuch)
+    return YES;
+}
+
+- (BOOL)shouldAdvanceToWhatFor {
+    float amount = [[EVStringUtility amountFromAmountString:self.howMuchView.amountField.text] floatValue];
+    BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
+    if (!okay)
     {
-        float amount = [[EVStringUtility amountFromAmountString:self.howMuchView.amountField.text] floatValue];
-        BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
-        [button setEnabled:okay];
-        [self.howMuchView.minimumAmountLabel setHidden:okay];
+        [self.howMuchView.bigAmountView flashMinimumAmountLabel];
+        return NO;
     }
-    else if (phase == EVExchangePhaseWhatFor)
+    return YES;
+}
+
+- (BOOL)shouldPerformAction {
+    if (EV_IS_EMPTY_STRING(self.whatForView.descriptionField.text))
     {
-        [button setEnabled:!EV_IS_EMPTY_STRING(self.whatForView.descriptionField.text)];
+        [self.whatForView flashNoDescriptionMessage];
+        return NO;
     }
+    return YES;
 }
 
 @end

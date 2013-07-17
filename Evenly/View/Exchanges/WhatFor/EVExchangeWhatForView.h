@@ -17,4 +17,6 @@
 
 @property (nonatomic, strong) UITextView *descriptionField;
 
+- (void)flashNoDescriptionMessage;
+
 @end

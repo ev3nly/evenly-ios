@@ -142,6 +142,12 @@
                       self.bounds.size.height - y);
 }
 
+- (void)flashNoDescriptionMessage {
+    [self flashMessage:@"Oops. Please add a brief description."
+               inFrame:self.nameField.frame
+          withDuration:1.0];
+}
+
 #pragma mark - Layout
 
 - (void)layoutSubviews {
