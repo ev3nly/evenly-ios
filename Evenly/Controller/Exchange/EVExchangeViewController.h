@@ -34,6 +34,14 @@ typedef enum {
 
 @property (nonatomic, strong) EVPrivacySelectorView *privacySelector;
 
+#pragma mark - Basic Interface
+
+- (void)addContact:(id)contact;
+- (void)advancePhase;
+- (void)sendExchangeToServer;
+
+#pragma mark - View Loading
+
 - (void)loadNavigationButtons;
 
 - (void)loadPageControl;
@@ -46,15 +54,20 @@ typedef enum {
 - (void)setUpReactions;
 
 #pragma mark - Nav Bar Buttons
+
 - (void)setUpNavBar;
 - (UIButton *)leftButtonForPhase:(EVExchangePhase)phase;
 - (UIButton *)rightButtonForPhase:(EVExchangePhase)phase;
 
-- (void)validateForPhase:(EVExchangePhase)phase;
+#pragma mark - Button Actions
 
 - (void)cancelButtonPress:(id)sender;
 - (void)backButtonPress:(id)sender;
 - (void)nextButtonPress:(id)sender;
 - (void)actionButtonPress:(id)sender;
+
+#pragma mark - Validation
+
+- (void)validateForPhase:(EVExchangePhase)phase;
 
 @end

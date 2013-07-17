@@ -29,12 +29,69 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
+#pragma mark - Basic Interface
+
+- (void)advancePhase {
+    if (self.phase == EVExchangePhaseWho)
+    {
+        self.payment = [[EVPayment alloc] init];
+        EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
+        self.payment.to = recipient;
+        [self.howMuchView.titleLabel setText:[NSString stringWithFormat:@"Pay %@...", [recipient name]]];
+        [self pushView:self.howMuchView animated:YES];
+        
+        self.phase = EVExchangePhaseHowMuch;
+    }
+    else if (self.phase == EVExchangePhaseHowMuch)
+    {
+        self.payment.amount = [EVStringUtility amountFromAmountString:self.howMuchView.amountField.text];
+        EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader paymentHeaderForPerson:self.payment.to amount:self.payment.amount];
+        self.whatForView.whatForHeader = header;
+        [self pushView:self.whatForView animated:YES];
+        
+        self.phase = EVExchangePhaseWhatFor;
+    }
+    [self setUpNavBar];
+    [self validateForPhase:self.phase];
 }
 
+- (void)sendExchangeToServer {
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
+    
+    self.payment.memo = self.whatForView.descriptionField.text;
+    [self.payment saveWithSuccess:^{
+        [[EVCIA me] setBalance:[[[EVCIA me] balance] decimalNumberBySubtracting:self.payment.amount]];
+        [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+        
+        EVStory *story = [EVStory storyFromCompletedExchange:self.payment];
+        story.publishedAt = [NSDate date];
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
+        
+        void (^completion)(void) = NULL;
+        
+        if (self.payment.reward)
+        {
+            EVRewardsGameViewController *rewardsViewController = [[EVRewardsGameViewController alloc] initWithReward:self.payment.reward];
+            [self unloadPageControlAnimated:YES];
+            completion = ^{
+                [self.navigationController pushViewController:rewardsViewController animated:YES];
+            };
+        } else {
+            completion = ^(void) {
+                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+            };
+        }
+        [EVStatusBarManager sharedManager].duringSuccess = completion;
+        
+    } failure:^(NSError *error) {
+        DLog(@"failed to create %@", NSStringFromClass([self.payment class]));
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+        [[self rightButtonForPhase:self.phase] setEnabled:YES];
+    }];
+}
+
+#pragma mark - View Loading
 
 - (void)loadNavigationButtons {
     
@@ -99,7 +156,7 @@
     [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
         [self validateForPhase:EVExchangePhaseWho];
         if ([hasRecipients integerValue] == 1)
-            [self nextButtonPress:nil];
+            [self advancePhase];
     }];
     
     // SECOND SCREEN:
@@ -111,8 +168,9 @@
     [self.whatForView.descriptionField.rac_textSignal subscribeNext:^(NSString *descriptionString) {
         [self validateForPhase:EVExchangePhaseWhatFor];
     }];
-
 }
+
+#pragma mark - Validation
 
 - (void)validateForPhase:(EVExchangePhase)phase {
     UIButton *button = [self rightButtonForPhase:phase];
@@ -133,68 +191,5 @@
         [button setEnabled:!EV_IS_EMPTY_STRING(self.whatForView.descriptionField.text)];
     }
 }
-
-- (void)nextButtonPress:(id)sender {
-    if (self.phase == EVExchangePhaseWho)
-    {
-        self.payment = [[EVPayment alloc] init];
-        EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
-        self.payment.to = recipient;
-        [self.howMuchView.titleLabel setText:[NSString stringWithFormat:@"Pay %@...", [recipient name]]];
-        [self pushView:self.howMuchView animated:YES];
-
-        self.phase = EVExchangePhaseHowMuch;
-    }
-    else if (self.phase == EVExchangePhaseHowMuch)
-    {
-        self.payment.amount = [EVStringUtility amountFromAmountString:self.howMuchView.amountField.text];
-        EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader paymentHeaderForPerson:self.payment.to amount:self.payment.amount];
-        self.whatForView.whatForHeader = header;
-        [self pushView:self.whatForView animated:YES];
-
-        self.phase = EVExchangePhaseWhatFor;
-    }
-    [self setUpNavBar];
-    [self validateForPhase:self.phase];
-}
-
-- (void)actionButtonPress:(id)sender {
-    [super actionButtonPress:sender];
-    
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
-    
-    self.payment.memo = self.whatForView.descriptionField.text;
-    [self.payment saveWithSuccess:^{
-        [[EVCIA me] setBalance:[[[EVCIA me] balance] decimalNumberBySubtracting:self.payment.amount]];
-        [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
-        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-        
-        EVStory *story = [EVStory storyFromCompletedExchange:self.payment];
-        story.publishedAt = [NSDate date];
-        [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
-        
-        void (^completion)(void) = NULL;
-
-        if (self.payment.reward)
-        {
-            EVRewardsGameViewController *rewardsViewController = [[EVRewardsGameViewController alloc] initWithReward:self.payment.reward];
-            [self unloadPageControlAnimated:YES];
-            completion = ^{
-                [self.navigationController pushViewController:rewardsViewController animated:YES];
-            };
-        } else {
-            completion = ^(void) {
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-            };
-        }
-        [EVStatusBarManager sharedManager].duringSuccess = completion;
-
-    } failure:^(NSError *error) {
-        DLog(@"failed to create %@", NSStringFromClass([self.payment class]));
-        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-        [sender setEnabled:YES];
-    }];
-}
-
 
 @end
