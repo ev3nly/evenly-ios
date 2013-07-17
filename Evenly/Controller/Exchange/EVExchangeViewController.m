@@ -160,7 +160,6 @@
     [self popViewAnimated:YES];
     self.phase--;
     [self setUpNavBar];
-    [self validateForPhase:self.phase];
 }
 
 - (void)nextButtonPress:(id)sender {
@@ -168,6 +167,9 @@
 }
 
 - (void)actionButtonPress:(id)sender {
+    if (![self shouldPerformAction])
+        return;
+    
     [sender setEnabled:NO];
     self.navigationItem.leftBarButtonItem = nil;
     [self sendExchangeToServer];
@@ -175,8 +177,16 @@
 
 #pragma mark - Validation 
 
-- (void)validateForPhase:(EVExchangePhase)phase {
-    // abstract
+- (BOOL)shouldAdvanceToHowMuch {
+    return YES; // abstract
+}
+
+- (BOOL)shouldAdvanceToWhatFor {
+    return YES; // abstract
+}
+
+- (BOOL)shouldPerformAction {
+    return YES; // abstract
 }
 
 #pragma mark - UITableViewDelegate

@@ -248,7 +248,7 @@
 - (BOOL)shouldAdvanceToHowMuch {
     if (![self isGroupRequest]) {
         if (self.initialView.recipientCount == 0) {
-            [self.initialView flashMessage:@"Oops. Add a person or choose \"Group\".  Thanks!"
+            [self.initialView flashMessage:@"Oops. Add a person or choose \"Group.\"  Thanks!"
                                    inFrame:self.initialView.toFieldFrame
                               withDuration:2.0];
             return NO;
@@ -290,20 +290,21 @@
     return YES;
 }
 
-- (void)actionButtonPress:(id)sender {
+- (BOOL)shouldPerformAction {
     if ([self isGroupRequest]) {
         if (EV_IS_EMPTY_STRING(self.groupWhatForView.nameField.text))
         {
             [self.groupWhatForView flashNoDescriptionMessage];
-            return;
+            return NO;
         }
     } else {
         if (EV_IS_EMPTY_STRING(self.singleWhatForView.descriptionField.text))
         {
             [self.singleWhatForView flashNoDescriptionMessage];
-            return;
+            return NO;
         }
     }
-    [super actionButtonPress:sender];
+    return YES;
 }
+
 @end
