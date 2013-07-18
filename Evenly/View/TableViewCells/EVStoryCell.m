@@ -125,6 +125,21 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 #pragma mark - Button Handling
 
 - (void)likeButtonPress:(id)sender {
+    
+    if (self.story.liked) {
+        [self.story unlikeWithSuccess:^{
+            
+        } failure:^(NSError *error) {
+            
+        }];
+    } else {
+        [self.story likeWithSuccess:^{
+            
+        } failure:^(NSError *error) {
+            
+        }];
+    }
+    
     self.likeButton.selected = !self.likeButton.selected;
     [self.story setLiked:!self.story.liked];
     [self.likeButton setTitle:[self.story likeButtonString]];
