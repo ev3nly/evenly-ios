@@ -18,7 +18,13 @@ typedef enum {
     EVMainMenuOptionCOUNT
 } EVMainMenuOption;
 
-@interface EVMainMenuViewController : EVSidePanelViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
+typedef enum {
+    EVSupportOptionFAQ = 0,
+    EVSupportOptionEmail,
+    EVSupportOptionTwitter
+} EVSupportOption;
+
+@interface EVMainMenuViewController : EVSidePanelViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
