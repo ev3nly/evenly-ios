@@ -159,6 +159,7 @@
 
 
 - (void)setLoading {
+    self.navigationItem.leftBarButtonItem.enabled = NO;
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -168,6 +169,7 @@
 }
 
 - (void)setError {
+    self.navigationItem.leftBarButtonItem.enabled = YES;
     self.navigationItem.rightBarButtonItem.enabled = YES;
     
     self.hud.mode = MBProgressHUDModeText;
@@ -184,7 +186,10 @@
     
     dispatch_queue_t queue = dispatch_get_main_queue();
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), queue, ^{
-        [self.navigationController popViewControllerAnimated:YES];
+        if (self.canDismissManually)
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+        else
+            [self.navigationController popViewControllerAnimated:YES];
     });
 }
 
@@ -203,6 +208,7 @@
         [self.bankAccount saveWithSuccess:^{
             [[EVCIA sharedInstance] reloadBankAccountsWithCompletion:NULL];
             [self setSuccess];
+            
         } failure:^(NSError *error) {
             [self setError];
         }];
