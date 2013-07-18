@@ -34,6 +34,8 @@ static EVValidator *_sharedValidator = nil;
 }
 
 - (BOOL)stringIsValidEmail:(NSString *)string {
+    if (!string)
+        return NO;
     NSError *error = NULL;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[\\w]+@[\\w]+\\.[a-z]{2,4}\\b"
                                                                            options:NSRegularExpressionCaseInsensitive

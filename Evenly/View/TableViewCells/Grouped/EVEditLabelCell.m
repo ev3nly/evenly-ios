@@ -46,7 +46,7 @@
 }
 
 - (void)loadTextField {
-    self.textField = [UITextField new];
+    self.textField = [EVTextField new];
     self.textField.text = @"";
     self.textField.textColor = [EVColor darkLabelColor];
     self.textField.font = [EVFont defaultFontOfSize:16];
@@ -64,8 +64,10 @@
 
 #pragma mark - TextField Delegate
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(EVTextField *)textField {
     [self.textField resignFirstResponder];
+    if (self.textField.next)
+        [self.textField.next becomeFirstResponder];
     return YES;
 }
 

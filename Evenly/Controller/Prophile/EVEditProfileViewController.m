@@ -7,14 +7,17 @@
 //
 
 #import "EVEditProfileViewController.h"
+#import "EVChangePasswordViewController.h"
 #import "EVKeyboardTracker.h"
 #import "EVStatusBarManager.h"
+#import "ReactiveCocoa.h"
 
 #define BUTTON_BUFFER 10
 
 @interface EVEditProfileViewController ()
 
 @property (nonatomic, assign) BOOL keyboardIsHiding;
+@property (nonatomic, strong) UIButton *changePasswordButton;
 
 @end
 
@@ -43,6 +46,7 @@
     
     [self loadTableView];
     [self loadFooterView];
+    [self loadChangePasswordButton];
     [self loadPinButton];
 }
 
@@ -50,6 +54,7 @@
     [super viewWillLayoutSubviews];
     
     self.tableView.frame = [self tableViewFrame];
+    self.changePasswordButton.frame = [self changePasswordButtonFrame];
 }
 
 #pragma mark - View Loading
@@ -72,6 +77,18 @@
     self.footerView.backgroundColor = [UIColor clearColor];
     self.footerView.frame = [self footerViewFrame];
     self.tableView.tableFooterView = self.footerView;
+}
+
+- (void)loadChangePasswordButton {
+    self.changePasswordButton = [UIButton new];
+    [self.changePasswordButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
+    [self.changePasswordButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
+    [self.changePasswordButton addTarget:self action:@selector(changePasswordButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.changePasswordButton setTitle:@"Change Password" forState:UIControlStateNormal];
+    [self.changePasswordButton setTitleColor:[EVColor darkColor] forState:UIControlStateNormal];
+    self.changePasswordButton.titleLabel.font = [EVFont defaultButtonFont];
+    self.changePasswordButton.frame = [self changePasswordButtonFrame];
+    [self.footerView addSubview:self.changePasswordButton];
 }
 
 - (void)loadPinButton {
@@ -163,6 +180,21 @@
             if (!EV_IS_EMPTY_STRING(text))
                 [EVCIA me].phoneNumber = text;
         };
+        [cell.textField.rac_textSignal subscribeNext:^(NSString *text) {
+            text = [text stringByReplacingOccurrencesOfString:@"-" withString:@""];
+            if (text.length > 10)
+                text = [text substringToIndex:10];
+            if (text.length > 6) {
+                NSString *firstThree = [text substringWithRange:NSMakeRange(0, 3)];
+                NSString *nextThree = [text substringWithRange:NSMakeRange(3, 3)];
+                NSString *rest = [text substringFromIndex:6];
+                text = [NSString stringWithFormat:@"%@-%@-%@", firstThree, nextThree, rest];
+            } else if (text.length > 3) {
+                NSString *firstThree = [text substringWithRange:NSMakeRange(0, 3)];
+                NSString *rest = [text substringFromIndex:3];
+                text = [NSString stringWithFormat:@"%@-%@", firstThree, rest];
+            }
+        }];
     }
     return cell;
 }
@@ -181,6 +213,11 @@
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:@"Take Photo", @"Choose Photo", nil];
     [actionSheet showInView:self.view];
+}
+
+- (void)changePasswordButtonTapped {
+    EVChangePasswordViewController *changePasswordController = [[EVChangePasswordViewController alloc] init];
+    [self.navigationController pushViewController:changePasswordController animated:YES];
 }
 
 - (void)saveButtonTapped {
@@ -296,12 +333,19 @@
     return CGRectMake(0,
                       0,
                       self.view.bounds.size.width,
-                      BUTTON_BUFFER + [EVImages blueButtonBackground].size.height + BUTTON_BUFFER);
+                      BUTTON_BUFFER + [EVImages blueButtonBackground].size.height*2 + BUTTON_BUFFER*2);
+}
+
+- (CGRect)changePasswordButtonFrame {
+    return CGRectMake(BUTTON_BUFFER,
+                      BUTTON_BUFFER/2,
+                      self.view.bounds.size.width - BUTTON_BUFFER*2,
+                      [EVImages blueButtonBackground].size.height);
 }
 
 - (CGRect)pinButtonFrame {
     return CGRectMake(BUTTON_BUFFER,
-                      0,
+                      CGRectGetMaxY(self.changePasswordButton.frame) + BUTTON_BUFFER*2,
                       self.view.bounds.size.width - BUTTON_BUFFER*2,
                       [EVImages blueButtonBackground].size.height);
 }
