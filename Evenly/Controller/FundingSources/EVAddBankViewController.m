@@ -58,9 +58,6 @@
     [self loadStaticCells];
     [self loadSaveButton];
     [self setUpReactions];
-    
-    if (self.presentedModally)
-        [self loadCancelButton];
 }
 
 - (void)loadTableView {
@@ -143,20 +140,6 @@
     self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
-
-- (void)loadCancelButton {
-    UIImage *closeImage = [UIImage imageNamed:@"Close"];
-    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, closeImage.size.width + 20.0, closeImage.size.height)];
-    [cancelButton setImage:closeImage forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [cancelButton setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
-    cancelButton.adjustsImageWhenHighlighted = NO;
-    cancelButton.showsTouchWhenHighlighted = YES;
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:cancelButton]];
-}
-
-
-
 - (void)setUpReactions {
     RACSignal *formValidSignal = [RACSignal combineLatest:@[self.ownerNameCell.textField.rac_textSignal,
                                                             self.routingNumberCell.textField.rac_textSignal,
@@ -203,15 +186,11 @@
     
     dispatch_queue_t queue = dispatch_get_main_queue();
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), queue, ^{
-        if (self.presentedModally)
+        if (self.canDismissManually)
             [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
         else
             [self.navigationController popViewControllerAnimated:YES];
     });
-}
-
-- (void)cancelButtonPress:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)saveBankAccount {
