@@ -21,6 +21,8 @@
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSString *confirmPassword;
 
+@property (nonatomic, strong) NSMutableArray *cells;
+
 @end
 
 @implementation EVChangePasswordViewController
@@ -30,6 +32,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.title = @"Change Password";
+        self.cells = [NSMutableArray arrayWithCapacity:0];
     }
     return self;
 }
@@ -111,6 +114,8 @@
             self.password = text;
             [self validatePasswords];
         }];
+        EVEditLabelCell *previousCell = [self.cells objectAtIndex:0];
+        previousCell.textField.next = cell.textField;
     } else {
         [cell setTitle:@"Confirm" placeholder:@"Same as above"];
         cell.textField.secureTextEntry = YES;
@@ -119,10 +124,13 @@
             self.confirmPassword = text;
             [self validatePasswords];
         }];
+        EVEditLabelCell *previousCell = [self.cells objectAtIndex:1];
+        previousCell.textField.next = cell.textField;
     }
     
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [self.cells addObject:cell];
     return cell;
 }
 

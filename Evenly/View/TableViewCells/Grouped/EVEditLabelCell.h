@@ -7,11 +7,11 @@
 //
 
 #import "EVGroupedTableViewCell.h"
-
+#import "EVTextField.h"
 
 @interface EVEditLabelCell : EVGroupedTableViewCell <UITextFieldDelegate>
 
-@property (nonatomic, strong) UITextField *textField;
+@property (nonatomic, strong) EVTextField *textField;
 @property (nonatomic, strong) EVHandleTextChangeBlock handleTextChange;
 
 + (float)cellHeight;
