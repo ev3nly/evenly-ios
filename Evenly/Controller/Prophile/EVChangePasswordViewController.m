@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UIView *footerView;
 @property (nonatomic, strong) UIButton *saveButton;
 
+@property (nonatomic, strong) NSString *previousPassword;
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSString *confirmPassword;
 
@@ -39,6 +40,7 @@
     [self loadTableView];
     [self loadFooterView];
     [self loadSaveButton];
+    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -84,7 +86,7 @@
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -95,12 +97,19 @@
     EVEditLabelCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"editLabelCell" forIndexPath:indexPath];
     
     if (indexPath.row == 0) {
-        [cell setTitle:@"Password" placeholder:@"At least 8 characters"];
+        [cell setTitle:@"Old Password" placeholder:@"Previous password"];
+        cell.textField.secureTextEntry = YES;
+        cell.textField.returnKeyType = UIReturnKeyNext;
+        [cell.textField.rac_textSignal subscribeNext:^(NSString *text) {
+            self.previousPassword = text;
+        }];
+    } else if (indexPath.row == 1) {
+        [cell setTitle:@"New Password" placeholder:@"At least 8 characters"];
         cell.textField.secureTextEntry = YES;
         cell.textField.returnKeyType = UIReturnKeyNext;
         [cell.textField.rac_textSignal subscribeNext:^(NSString *text) {
             self.password = text;
-            self.saveButton.enabled = (text.length >= 8 && [self.password isEqualToString:self.confirmPassword]);
+            [self validatePasswords];
         }];
     } else {
         [cell setTitle:@"Confirm" placeholder:@"Same as above"];
@@ -108,13 +117,17 @@
         cell.textField.returnKeyType = UIReturnKeyDone;
         [cell.textField.rac_textSignal subscribeNext:^(NSString *text) {
             self.confirmPassword = text;
-            self.saveButton.enabled = (text.length >= 8 && [self.confirmPassword isEqualToString:self.password]);
+            [self validatePasswords];
         }];
     }
     
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (void)validatePasswords {
+    self.saveButton.enabled = (self.password.length >= 8 && [self.confirmPassword isEqualToString:self.password]);
 }
 
 #pragma mark - Button Handling
@@ -124,6 +137,8 @@
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress];
     
     [EVCIA me].password = self.password;
+    [EVCIA me].currentPassword = self.previousPassword;
+    self.saveButton.enabled = NO;
     
     [[EVCIA me] updateWithSuccess:^{
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];

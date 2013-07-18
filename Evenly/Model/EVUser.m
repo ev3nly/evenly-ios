@@ -88,6 +88,7 @@ static EVUser *_me;
     setValueForKeyIfNonNil(self.password, @"password");
     setValueForKeyIfNonNil(self.password, @"password_confirmation");
     setValueForKeyIfNonNil(@(self.isConfirmed), @"confirmed");
+    setValueForKeyIfNonNil(self.currentPassword, @"current_password");
     
     return [NSDictionary dictionaryWithDictionary:mutableDictionary];
 }

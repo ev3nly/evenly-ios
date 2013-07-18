@@ -52,6 +52,7 @@
 @property (nonatomic, getter = isConfirmed) BOOL confirmed;
 @property (nonatomic, assign) EVPrivacySetting privacySetting;
 @property (nonatomic, strong) NSArray *connections;
+@property (nonatomic, strong) NSString *currentPassword;
 
 + (EVUser *)me;
 + (void)setMe:(EVUser *)user;

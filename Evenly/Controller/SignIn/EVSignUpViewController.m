@@ -7,6 +7,7 @@
 //
 
 #import "EVSignUpViewController.h"
+#import "EVWebViewController.h"
 #import "EVCheckmarkButton.h"
 #import "EVPhotoNameEmailCell.h"
 #import "EVFacebookManager.h"
@@ -16,6 +17,7 @@
 #define CHECK_VIEW_HEIGHT 40
 #define FOOTER_VIEW_BOTTOM_MARGIN 10
 #define CHECKMARK_BUFFER 14
+#define BUTTON_BUFFER 10
 
 @interface EVSignUpViewController ()
 
@@ -87,6 +89,9 @@
     [self.tableView registerClass:[EVPhotoNameEmailCell class] forCellReuseIdentifier:@"photoNameEmailCell"];
 }
 
+- (void)loadChangePasswordButton {
+}
+
 - (void)loadPinButton {
     [super loadPinButton];
     
@@ -111,18 +116,6 @@
     [self.tosAgreementButton linkToUrl:[self tosUrl] forText:@"terms of service"];
     [self.tosAgreementButton linkToUrl:[self privacyPolicyUrl] forText:@"privacy policy"];
     [self.footerView addSubview:self.tosAgreementButton];
-}
-
-- (NSURL *)tosUrl {
-    return [NSURL URLWithString:@"www.yahoo.com"];
-}
-
-- (NSURL *)privacyPolicyUrl {
-    return [NSURL URLWithString:@"www.apple.com"];
-}
-
-- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
-    NSLog(@"selected url: %@", url);
 }
 
 - (void)loadCells {
@@ -180,6 +173,25 @@
         }
     }];
 }
+
+#pragma mark - TOS/Privacy Policy
+
+- (NSURL *)tosUrl {
+    return [NSURL URLWithString:@"http://ev3nly.github.io/#/terms"];
+}
+
+- (NSURL *)privacyPolicyUrl {
+    return [NSURL URLWithString:@"http://ev3nly.github.io/#/privacy"];
+}
+
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    EVWebViewController *controller = [[EVWebViewController alloc] initWithURL:url];
+    controller.title = [url isEqual:[self tosUrl]] ? @"Terms of Service" : @"Privacy Policy";
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
+
 
 #pragma mark - Gesture Handling
 
@@ -354,6 +366,13 @@
                       CGRectGetMaxY(self.syncContactsButton.frame) + CHECKMARK_BUFFER,
                       self.footerView.bounds.size.width,
                       CHECK_VIEW_HEIGHT);
+}
+
+- (CGRect)pinButtonFrame {
+    return CGRectMake(BUTTON_BUFFER,
+                      0,
+                      self.view.bounds.size.width - BUTTON_BUFFER*2,
+                      [EVImages blueButtonBackground].size.height);
 }
 
 @end
