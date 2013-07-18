@@ -7,11 +7,12 @@
 //
 
 #import "EVExchangeWhatForView.h"
+#import "EVExchangeView.h"
 #import "EVTextField.h"
 #import "EVPlaceholderTextView.h"
 #import "EVExchangeWhatForHeader.h"
 
-@interface EVGroupRequestWhatForView : UIView<UITextFieldDelegate>
+@interface EVGroupRequestWhatForView : EVExchangeView<UITextFieldDelegate>
 
 @property (nonatomic, strong) EVExchangeWhatForHeader *whatForHeader;
 
@@ -21,5 +22,7 @@
 @property (nonatomic, strong) UIView *divider;
 
 @property (nonatomic, strong) EVPlaceholderTextView *descriptionField;
+
+- (void)flashNoDescriptionMessage;
 
 @end

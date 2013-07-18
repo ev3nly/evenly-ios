@@ -14,11 +14,14 @@
 @interface EVWebViewController ()
 
 @property (nonatomic, strong) UIWebView *webView;
-@property (nonatomic, assign) int loadingCounter;
+@property (nonatomic, strong) EVLoadingIndicator *loadingIndicator;
+@property (atomic, assign) int loadingCounter;
 
 @end
 
 @implementation EVWebViewController
+
+#pragma mark - Lifecycle
 
 - (id)initWithURL:(NSURL *)url {
     if (self = [super initWithNibName:nil bundle:nil]) {
@@ -31,13 +34,17 @@
     [super viewDidLoad];
 
     [self loadWebView];
+    [self loadLoadingIndicator];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
     self.webView.frame = [self webViewFrame];
+    self.loadingIndicator.frame = [self loadingIndicatorFrame];
 }
+
+#pragma mark - View Loading
 
 - (void)loadWebView {
     self.webView = [UIWebView new];
@@ -47,50 +54,59 @@
         [self.webView loadRequest:[NSURLRequest requestWithURL:self.url]];
 }
 
+- (void)loadLoadingIndicator {
+    self.loadingIndicator = [EVLoadingIndicator new];
+    self.loadingIndicator.autoresizingMask = EV_AUTORESIZE_TO_CENTER;
+    [self.view addSubview:self.loadingIndicator];
+}
+
+#pragma mark - Setters
+
 - (void)setUrl:(NSURL *)url {
     _url = url;
     
-    if (self.webView)
+    if (self.webView) {
+        if (!self.loadingIndicator)
+            [self loadLoadingIndicator];
         [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
+    }
 }
 
+#pragma mark - WebView Delegate
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSLog(@"should start: %i, %@", self.loadingCounter, request.URL);
     return YES;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    NSLog(@"did start");
     self.loadingCounter++;
-    if (![self.view viewWithTag:LOADING_INDICATOR_TAG]) {
-        EVLoadingIndicator *indicator = [EVLoadingIndicator new];
-        indicator.tag = LOADING_INDICATOR_TAG;
-        indicator.autoresizingMask = EV_AUTORESIZE_TO_CENTER;
-        [self.view addSubview:indicator];
-        [indicator sizeToFit];
-        indicator.frame = CGRectMake(CGRectGetMidX(self.view.bounds) - indicator.bounds.size.width/2,
-                                     CGRectGetMidY(self.view.bounds) - indicator.bounds.size.height/2,
-                                     indicator.bounds.size.width,
-                                     indicator.bounds.size.height);
-        [indicator startAnimating];
-    }
-
+    if (self.loadingIndicator)
+        [self.loadingIndicator startAnimating];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     self.loadingCounter--;
-    NSLog(@"did finish: %i", self.loadingCounter);
     
-    EV_DISPATCH_AFTER(0.5, ^{
-        EVLoadingIndicator *indicator = (EVLoadingIndicator *)[self.view viewWithTag:LOADING_INDICATOR_TAG];
-        if (indicator && self.loadingCounter == 0) {
-            [indicator stopAnimating];
+    @synchronized (self) {
+        if (self.loadingIndicator && self.loadingCounter == 0) {
+            [self.loadingIndicator stopAnimating];
+            self.loadingIndicator = nil;
         }
-    });
+    }
 }
+
+#pragma mark - Frames
 
 - (CGRect)webViewFrame {
     return self.view.bounds;
+}
+
+- (CGRect)loadingIndicatorFrame {
+    [self.loadingIndicator sizeToFit];
+    return CGRectMake(CGRectGetMidX(self.view.bounds) - self.loadingIndicator.bounds.size.width/2,
+                      CGRectGetMidY(self.view.bounds) - self.loadingIndicator.bounds.size.height/2,
+                      self.loadingIndicator.bounds.size.width,
+                      self.loadingIndicator.bounds.size.height);
 }
 
 @end

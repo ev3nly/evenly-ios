@@ -25,6 +25,8 @@
 @property (nonatomic, strong) UIImageView *logo;
 @property (nonatomic, strong) UIButton *labelButton;
 
+@property (nonatomic, strong) UISegmentedControl *serverControl;
+
 - (void)loadDoneButton;
 - (void)loadForm;
 - (void)setUpReactions;
@@ -58,6 +60,11 @@
     [self loadForm];
     [self loadLabelButton];
     [self setUpReactions];
+    
+#ifdef DEBUG
+    [self loadSegmentedControl];
+#endif
+    
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
 }
 
@@ -67,6 +74,7 @@
     [[self.view viewWithTag:FORM_VIEW_TAG] setNeedsLayout];
     [[self.view viewWithTag:FORM_VIEW_TAG] layoutIfNeeded];
     self.labelButton.frame = [self labelButtonFrame];
+    self.serverControl.frame = [self serverControlFrame];
 }
 
 #pragma mark - View Loading
@@ -131,6 +139,14 @@
     [self.labelButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateHighlighted];
     self.labelButton.titleLabel.font = [EVFont blackFontOfSize:15];
     [self.view addSubview:self.labelButton];
+}
+
+- (void)loadSegmentedControl {
+    self.serverControl = [[UISegmentedControl alloc] initWithItems:@[ @"PROD", @"DEV", @"LOCAL" ]];
+    [self.serverControl setSegmentedControlStyle:UISegmentedControlStyleBordered];
+    [self.serverControl setSelectedSegmentIndex:[[EVNetworkManager sharedInstance] serverSelection]];
+    [self.serverControl addTarget:self action:@selector(serverControlChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.serverControl];
 }
 
 - (void)setUpReactions {
@@ -206,6 +222,11 @@
     }
 }
 
+- (void)serverControlChanged:(UISegmentedControl *)segmentedControl {
+    [[EVNetworkManager sharedInstance] setServerSelection:[segmentedControl selectedSegmentIndex]];
+    [[EVNetworkManager sharedInstance] reloadHTTPClient];
+}
+
 #pragma mark - Frames
 
 - (CGRect)labelButtonFrame {
@@ -213,6 +234,13 @@
                       CGRectGetMaxY([self.view viewWithTag:FORM_VIEW_TAG].frame) + FORM_LABEL_BUFFER,
                       self.view.bounds.size.width,
                       LOGO_BUFFER);
+}
+
+- (CGRect)serverControlFrame {
+    return CGRectMake(10,
+                      CGRectGetMaxY(self.labelButton.frame) + 10,
+                      self.view.frame.size.width - 20,
+                      44.0);
 }
 
 #pragma mark - A Little View Fun

@@ -49,16 +49,16 @@
 {
     [super viewWillAppear:animated];
     
-    if ([self.exchanges count] == 0)
+    if ([self.timeline count] == 0)
         self.tableView.loading = YES;
     [self.tableView reloadData];
     self.view.backgroundColor = [EVColor creamColor];
-    [EVCIA reloadMe];
-    [[EVCIA me] loadAvatar];
-    [[EVCIA sharedInstance] refreshHistoryWithCompletion:^(NSArray *history) {
+    [self.user timelineWithSuccess:^(NSArray *timeline) {
+        self.timeline = timeline;
         self.tableView.loading = NO;
-        self.exchanges = history;
         [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        DLog(@"Failure: %@", error);
     }];
 }
 
@@ -82,7 +82,7 @@
     [self.tableView addPullToRefreshWithActionHandler:^{
         [[EVCIA sharedInstance] refreshHistoryWithCompletion:^(NSArray *history) {
             profileController.tableView.loading = NO;
-            profileController.exchanges = history;
+            profileController.timeline = history;
             [profileController.tableView reloadData];
             [profileController.tableView.pullToRefreshView stopAnimating];
         }];
@@ -98,20 +98,19 @@
 
 - (void)payContact:(EVUser *)contact {
     EVPaymentViewController *paymentController = [EVPaymentViewController new];
-    [self preDisplayExchangeController:paymentController forContact:contact];
+    [paymentController viewDidLoad];
+    [paymentController addContact:contact];
+    // EVPaymentViewController has a reaction that advances when a contact is added,
+    // so don't advance phase here.
     [self displayExchangeController:paymentController];
 }
 
 - (void)requestFromContact:(EVUser *)contact {
     EVRequestViewController *requestController = [EVRequestViewController new];
-    [self preDisplayExchangeController:requestController forContact:contact];
-    [requestController nextButtonPress:nil];
+    [requestController viewDidLoad];
+    [requestController addContact:contact];
+    [requestController advancePhase];
     [self displayExchangeController:requestController];
-}
-
-- (void)preDisplayExchangeController:(EVExchangeViewController *)controller forContact:(EVUser *)contact {
-    [controller viewDidLoad];
-    [controller autocompleteViewController:nil didSelectContact:contact];
 }
 
 - (void)displayExchangeController:(EVExchangeViewController *)controller {
@@ -127,7 +126,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (![self hasExchanges] && !self.tableView.isLoading)
         return 2;
-    return (1 + [self.exchanges count]);
+    return (1 + [self.timeline count]);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -165,8 +164,8 @@
         cell = noActivityCell;
     } else {
         EVProfileHistoryCell *historyCell = [tableView dequeueReusableCellWithIdentifier:@"profileHistoryCell"];
-        EVObject *object = [self.exchanges objectAtIndex:indexPath.row-1];
-        historyCell.story = [self storyForObject:object];
+        EVStory *story = [self.timeline objectAtIndex:indexPath.row - 1];
+        historyCell.story = story;
         cell = historyCell;
     }
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
@@ -178,24 +177,14 @@
     
     if (indexPath.row == 0 || ![self hasExchanges])
         return;
-    EVObject *object = [self.exchanges objectAtIndex:indexPath.row-1];
-    EVTransactionDetailViewController *detailController = [[EVTransactionDetailViewController alloc] initWithStory:[self storyForObject:object]];
+    EVTransactionDetailViewController *detailController = [[EVTransactionDetailViewController alloc] initWithStory:[self.timeline objectAtIndex:indexPath.row-1]];
     [self.navigationController pushViewController:detailController animated:YES];
 }
 
 #pragma mark - Utility
 
-- (EVStory *)storyForObject:(EVObject *)object {
-    EVStory *story;
-    if ([object isKindOfClass:[EVExchange class]])
-        story = [EVStory storyFromCompletedExchange:(EVExchange *)object];
-    else if ([object isKindOfClass:[EVWithdrawal class]])
-        story = [EVStory storyFromWithdrawal:(EVWithdrawal *)object];
-    return story;
-}
-
 - (BOOL)hasExchanges {
-    return (self.exchanges && [self.exchanges count] != 0);
+    return (self.timeline && [self.timeline count] != 0);
 }
 
 #pragma mark - Frames

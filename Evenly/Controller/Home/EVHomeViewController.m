@@ -229,7 +229,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVStoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storyCell" forIndexPath:indexPath];
     EVStory *story = [self.newsfeed objectAtIndex:indexPath.section];
-    [story setLikeCount:indexPath.section];
     cell.story = story;
     return cell;
 }

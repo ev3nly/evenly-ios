@@ -23,6 +23,8 @@
     if (self) {
         
         self.spacing = 5.0f;
+        self.backgroundColor = [UIColor whiteColor];
+        self.highlightedColor = [EVColor newsfeedButtonHighlightColor];
         
         self.container = [[UIView alloc] initWithFrame:CGRectZero];
         self.container.userInteractionEnabled = NO;
@@ -58,13 +60,28 @@
     self.container.center = CGPointMake(self.frame.size.width / 2.0, self.frame.size.height / 2.0);
     self.container.frame = CGRectIntegral(self.container.frame);
     
-    self.likeIcon.frame = CGRectMake(0, (self.container.frame.size.height - self.likeIcon.frame.size.height) / 2.0,
-                                     self.likeIcon.frame.size.width, self.likeIcon.frame.size.height);
+    self.likeIcon.frame = CGRectMake(0,
+                                     (self.container.frame.size.height - self.likeIcon.frame.size.height) / 2.0,
+                                     self.likeIcon.frame.size.width,
+                                     self.likeIcon.frame.size.height);
     self.label.frame = CGRectMake(CGRectGetMaxX(self.likeIcon.frame) + self.spacing,
-                                  (self.container.frame.size.height - self.label.frame.size.height) / 2.0,
+                                  (self.container.frame.size.height - self.label.frame.size.height) / 2.0 + 1,
                                   self.label.frame.size.width,
                                   self.label.frame.size.height);
 
+}
+
+- (void)setIsPrivate:(BOOL)isPrivate {
+    _isPrivate = isPrivate;
+    if (_isPrivate) {
+        self.likeIcon.image = [UIImage imageNamed:@"Lock"];
+    } else {
+        if (self.selected)
+            self.likeIcon.image = [UIImage imageNamed:@"HeartRed"];
+        else
+            self.likeIcon.image = [UIImage imageNamed:@"Heart"];
+    }
+    [self setEnabled:!_isPrivate];
 }
 
 - (void)setSelected:(BOOL)selected {
@@ -77,7 +94,7 @@
 
 - (void)setHighlighted:(BOOL)highlighted {
     [super setHighlighted:highlighted];
-    [self setBackgroundColor:(highlighted ? [EVColor newsfeedButtonHighlightColor] : [UIColor clearColor])];
+    [self setBackgroundColor:(highlighted ? self.highlightedColor : [UIColor whiteColor])];
 }
 
 /*

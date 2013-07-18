@@ -66,6 +66,8 @@
 - (void)loadAvatar;
 - (void)evictAvatarFromCache;
 
+- (void)timelineWithSuccess:(void (^)(NSArray *timeline))success failure:(void (^)(NSError *error))failure;
+
 @end
 
 

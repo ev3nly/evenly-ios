@@ -57,6 +57,8 @@
 + (NSString *)supportEmailSubjectLine;
 + (NSString *)feedbackEmail;
 + (NSString *)generalEmail;
++ (NSString *)supportTwitterHandle;
++ (NSURL *)faqURL;
 
 #pragma mark - Error Messaging
 

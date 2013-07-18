@@ -56,7 +56,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
         [self loadLikeButton];
         [self loadIncomeIcon];
 
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.selectionStyle = UITableViewCellSelectionStyleGray;
         self.position = EVGroupedTableViewCellPositionSingle;
     }
     return self;
@@ -125,6 +125,21 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 #pragma mark - Button Handling
 
 - (void)likeButtonPress:(id)sender {
+    
+    if (self.story.liked) {
+        [self.story unlikeWithSuccess:^{
+            
+        } failure:^(NSError *error) {
+            
+        }];
+    } else {
+        [self.story likeWithSuccess:^{
+            
+        } failure:^(NSError *error) {
+            
+        }];
+    }
+    
     self.likeButton.selected = !self.likeButton.selected;
     [self.story setLiked:!self.story.liked];
     [self.likeButton setTitle:[self.story likeButtonString]];
@@ -145,6 +160,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
                                                                          toDate:[story publishedAt]];
     self.incomeIcon.image = [self iconForStoryType:story.storyType];
     [self.likeButton setSelected:story.liked];
+    [self.likeButton setIsPrivate:story.isPrivate];
     [self.likeButton setTitle:[story likeButtonString]];
 }
 
@@ -225,6 +241,18 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 - (float)bottomSectionHeight {
     return EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    [super setHighlighted:highlighted animated:animated];
+    self.verticalRule.backgroundColor = [EVColor newsfeedStripeColor];
+    self.horizontalRule.backgroundColor = [EVColor newsfeedStripeColor];
+    [self.avatarView setHighlighted:highlighted];
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    self.verticalRule.backgroundColor = [EVColor newsfeedStripeColor];
+    self.horizontalRule.backgroundColor = [EVColor newsfeedStripeColor];
 }
 
 @end

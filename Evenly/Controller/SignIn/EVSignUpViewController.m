@@ -13,6 +13,7 @@
 #import "EVFacebookManager.h"
 #import "ReactiveCocoa.h"
 #import <QuartzCore/QuartzCore.h>
+#import "OpenInChromeController.h"
 
 #define CHECK_VIEW_HEIGHT 40
 #define FOOTER_VIEW_BOTTOM_MARGIN 10
@@ -184,14 +185,12 @@
     return [NSURL URLWithString:@"http://ev3nly.github.io/#/privacy"];
 }
 
-- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {    
     EVWebViewController *controller = [[EVWebViewController alloc] initWithURL:url];
     controller.title = [url isEqual:[self tosUrl]] ? @"Terms of Service" : @"Privacy Policy";
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navController animated:YES completion:nil];
 }
-
-
 
 #pragma mark - Gesture Handling
 

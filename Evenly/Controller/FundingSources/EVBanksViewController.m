@@ -56,6 +56,7 @@
 
 - (void)goToAddNewScreenFromSelectedIndexPath:(NSIndexPath *)indexPath {
     EVAddBankViewController *controller = [[EVAddBankViewController alloc] init];
+    controller.canDismissManually = NO;
     [self.navigationController pushViewController:controller animated:YES];
 }
 

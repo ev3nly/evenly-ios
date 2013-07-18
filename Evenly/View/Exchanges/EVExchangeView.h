@@ -14,4 +14,6 @@
 
 @property (nonatomic, strong) UILabel *titleLabel;
 
+- (void)flashMessage:(NSString *)message inFrame:(CGRect)frame withDuration:(NSTimeInterval)duration;
+
 @end

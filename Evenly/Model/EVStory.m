@@ -1,3 +1,4 @@
+
 //
 //  EVStory.m
 //  Evenly
@@ -7,6 +8,7 @@
 //
 
 #import "EVStory.h"
+#import "EVLike.h"
 #import "EVUser.h"
 #import "EVPayment.h"
 #import "EVRequest.h"
@@ -22,6 +24,10 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
 @end
 
 @implementation EVStory
+
++ (NSString *)controllerName {
+    return @"stories";
+}
 
 + (EVStory *)storyFromPendingExchange:(EVExchange *)exchange {
     NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
@@ -121,7 +127,6 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
             self.amount = [NSDecimalNumber decimalNumberWithString:properties[@"amount"]];
     }
     
-
     // Subject
     if ([properties[@"subject"] isKindOfClass:[EVUser class]])
         self.subject = properties[@"subject"];
@@ -151,6 +156,18 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     else
         [self.owner setDbid:[properties[@"owner_id"] stringValue]];
     
+    
+    // Likes
+    NSMutableArray *array = [NSMutableArray array];
+    for (NSDictionary *likeDictionary in properties[@"likes"]) {
+        EVLike *like = [[EVLike alloc] initWithDictionary:likeDictionary];
+        if ([like.liker isEqual:[EVCIA me]]) {
+            self.liked = YES;
+        }
+        [array addObject:like];
+    }
+    self.likes = array;
+
     [self determineStoryType];
 }
 
@@ -260,7 +277,14 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     return attrString;
 }
 
+- (NSInteger)likeCount {
+    return self.likes.count;
+}
+
 - (NSString *)likeButtonString {
+    if (self.isPrivate)
+        return @"Private";
+    
     NSString *string = nil;
     if (self.liked)
     {
@@ -285,6 +309,23 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
                                                         parameters:nil];
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
                                                                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                                  self.liked = YES;
+                                                                                  if (success)
+                                                                                      success();
+                                                                              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                                                  if (failure)
+                                                                                      failure(error);
+                                                                              }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
+- (void)unlikeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [[self class] requestWithMethod:@"DELETE"
+                                                              path:[NSString stringWithFormat:@"%@/likes", self.dbid]
+                                                        parameters:nil];
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                                                                  self.liked = NO;
                                                                                   if (success)
                                                                                       success();
                                                                               } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

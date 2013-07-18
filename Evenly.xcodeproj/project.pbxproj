@@ -191,6 +191,7 @@
 		9C659C00177A52F10028072A /* EVGrayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BFF177A52E10028072A /* EVGrayButton.m */; };
 		9C659C03177A8A050028072A /* EVGroupRequestStatementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */; };
 		9C68F9DD17814B2300A0E1C1 /* EVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C68F9DC17814B2300A0E1C1 /* EVConnection.m */; };
+		9C6ACAE517977A7B00A3FB10 /* OpenInChromeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ACAE417977A7B00A3FB10 /* OpenInChromeController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9C6CE66F178F399000657D58 /* logo-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE667178F399000657D58 /* logo-gray.png */; };
 		9C6CE670178F399000657D58 /* logo-gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE668178F399000657D58 /* logo-gray@2x.png */; };
 		9C6CE671178F399000657D58 /* popover_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE669178F399000657D58 /* popover_logo.png */; };
@@ -324,6 +325,9 @@
 		9CD473D71790CE6700E60E37 /* EVExpansionArrowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD473D61790CE6700E60E37 /* EVExpansionArrowButton.m */; };
 		9CE05EF1175942610095CCFC /* JASidePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EEE175942610095CCFC /* JASidePanelController.m */; };
 		9CE05EF2175942610095CCFC /* UIViewController+JASidePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */; };
+		9CE3EFFC179786580040AADA /* Lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CE3EFFA179786580040AADA /* Lock@2x.png */; };
+		9CE3EFFD179786580040AADA /* Lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CE3EFFB179786580040AADA /* Lock.png */; };
+		9CE3F000179792430040AADA /* EVLike.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE3EFFF179792430040AADA /* EVLike.m */; };
 		9CE703EA175D1A7200561ADA /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B40174FD95600BE9506 /* SenTestingKit.framework */; };
 		9CE703EB175D1A7200561ADA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B22174FD95600BE9506 /* UIKit.framework */; };
 		9CE703EC175D1A7200561ADA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B24174FD95600BE9506 /* Foundation.framework */; };
@@ -805,6 +809,8 @@
 		9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestStatementCell.m; sourceTree = "<group>"; };
 		9C68F9DB17814B2300A0E1C1 /* EVConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConnection.h; sourceTree = "<group>"; };
 		9C68F9DC17814B2300A0E1C1 /* EVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConnection.m; sourceTree = "<group>"; };
+		9C6ACAE317977A7B00A3FB10 /* OpenInChromeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenInChromeController.h; sourceTree = "<group>"; };
+		9C6ACAE417977A7B00A3FB10 /* OpenInChromeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenInChromeController.m; sourceTree = "<group>"; };
 		9C6CE667178F399000657D58 /* logo-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-gray.png"; sourceTree = "<group>"; };
 		9C6CE668178F399000657D58 /* logo-gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-gray@2x.png"; sourceTree = "<group>"; };
 		9C6CE669178F399000657D58 /* popover_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popover_logo.png; sourceTree = "<group>"; };
@@ -989,6 +995,10 @@
 		9CE05EEE175942610095CCFC /* JASidePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JASidePanelController.m; sourceTree = "<group>"; };
 		9CE05EEF175942610095CCFC /* UIViewController+JASidePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+JASidePanel.h"; sourceTree = "<group>"; };
 		9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+JASidePanel.m"; sourceTree = "<group>"; };
+		9CE3EFFA179786580040AADA /* Lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lock@2x.png"; sourceTree = "<group>"; };
+		9CE3EFFB179786580040AADA /* Lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lock.png; sourceTree = "<group>"; };
+		9CE3EFFE179792430040AADA /* EVLike.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVLike.h; sourceTree = "<group>"; };
+		9CE3EFFF179792430040AADA /* EVLike.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVLike.m; sourceTree = "<group>"; };
 		9CE703E9175D1A7200561ADA /* KiwiUnitTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KiwiUnitTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CE703EF175D1A7200561ADA /* KiwiUnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KiwiUnitTest-Info.plist"; sourceTree = "<group>"; };
 		9CE703F1175D1A7200561ADA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1537,6 +1547,8 @@
 				9C3917291773A2D6002949C3 /* EVGroupRequestRecord.m */,
 				9C1F480F175691B600B26A1B /* EVInvite.h */,
 				9C1F4810175691B600B26A1B /* EVInvite.m */,
+				9CE3EFFE179792430040AADA /* EVLike.h */,
+				9CE3EFFF179792430040AADA /* EVLike.m */,
 				9C1F4811175691B600B26A1B /* EVNotificationSetting.h */,
 				9C1F4812175691B600B26A1B /* EVNotificationSetting.m */,
 				9C1F4813175691B600B26A1B /* EVObject.h */,
@@ -1867,6 +1879,15 @@
 				9C659BE9177A28CF0028072A /* EVDashboardUserCell.m */,
 			);
 			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		9C6ACAE217977A7B00A3FB10 /* OpenInChrome */ = {
+			isa = PBXGroup;
+			children = (
+				9C6ACAE317977A7B00A3FB10 /* OpenInChromeController.h */,
+				9C6ACAE417977A7B00A3FB10 /* OpenInChromeController.m */,
+			);
+			path = OpenInChrome;
 			sourceTree = "<group>";
 		};
 		9C6CE666178F399000657D58 /* Logos */ = {
@@ -2242,6 +2263,8 @@
 				9CB285891761521E009B26BB /* HeartRed@2x.png */,
 				9CB2858A1761521E009B26BB /* Income.png */,
 				9CB2858B1761521E009B26BB /* Income@2x.png */,
+				9CE3EFFA179786580040AADA /* Lock@2x.png */,
+				9CE3EFFB179786580040AADA /* Lock.png */,
 				9CB2858C1761521E009B26BB /* Payment.png */,
 				9CB2858D1761521E009B26BB /* Payment@2x.png */,
 				9CB2858E1761521E009B26BB /* PendingIncome.png */,
@@ -2436,6 +2459,7 @@
 				9C504465177122850090D865 /* JSTokenField */,
 				9C038F74177E109A00CDE030 /* MKAdditions */,
 				9CEEB840175526EC00C24C2A /* KeychainItemWrapper */,
+				9C6ACAE217977A7B00A3FB10 /* OpenInChrome */,
 				D0211529176687A50063EE03 /* SVPullToRefresh */,
 			);
 			path = Libraries;
@@ -3048,6 +3072,8 @@
 				D02758361795FAB3004F6F0A /* Back_noshadow@2x.png in Resources */,
 				D02758391795FABA004F6F0A /* close_noshadow.png in Resources */,
 				D027583A1795FABA004F6F0A /* close_noshadow@2x.png in Resources */,
+				9CE3EFFC179786580040AADA /* Lock@2x.png in Resources */,
+				9CE3EFFD179786580040AADA /* Lock.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3383,6 +3409,8 @@
 				9CE8890317937CE300EF6E67 /* EVGroupRequestTierAssignmentManager.m in Sources */,
 				9CE889061793811D00EF6E67 /* EVGroupRequestTierAssignmentViewCell.m in Sources */,
 				9CE889111794B64900EF6E67 /* EVGroupRequestInviteViewController.m in Sources */,
+				9C6ACAE517977A7B00A3FB10 /* OpenInChromeController.m in Sources */,
+				9CE3F000179792430040AADA /* EVLike.m in Sources */,
 				D027584D1796221A004F6F0A /* EVChangePasswordViewController.m in Sources */,
 				D0275851179673B3004F6F0A /* EVWebViewController.m in Sources */,
 			);
@@ -3514,8 +3542,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Brunet (29LDK233A6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3531,8 +3559,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3541,8 +3569,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Brunet (29LDK233A6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3558,8 +3586,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

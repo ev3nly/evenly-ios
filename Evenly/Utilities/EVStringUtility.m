@@ -344,6 +344,15 @@ static NSDateFormatter *_detailDateFormatter;
     return @"info@paywithivy.com";
 }
 
++ (NSString *)supportTwitterHandle {
+    return @"@EvenlySupport";
+}
+
++ (NSURL *)faqURL {
+    return [NSURL URLWithString:@"http://help.evenly.com"];
+}
+
+
 #pragma mark - Error Messaging
 
 + (NSString *)serverMaintenanceError {

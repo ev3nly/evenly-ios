@@ -14,4 +14,8 @@
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic) CGFloat spacing;
 
+@property (nonatomic, strong) UIColor *highlightedColor;
+
+@property (nonatomic) BOOL isPrivate;
+
 @end
