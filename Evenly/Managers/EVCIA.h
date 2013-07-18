@@ -82,4 +82,8 @@ extern NSString *const EVCIAUpdatedBankAccountsNotification;
                 withSuccess:(void(^)(void))success
                     failure:(void(^)(NSError *))failure;
 
+#pragma mark - Reset Password
+
+- (void)resetPasswordForEmail:(NSString *)email withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
+
 @end

@@ -20,6 +20,8 @@
 @property (nonatomic, strong) UIImageView *logoView;
 @property (nonatomic, strong) UIImageView *coloredLogoView;
 
+@property (nonatomic, assign) BOOL animating;
+
 @end
 
 @implementation EVLoadingIndicator
@@ -56,14 +58,20 @@
 #pragma mark - Spinning
 
 - (void)startAnimating {
-    [self zoomBounceWithDuration:0.2 completion:nil];
-    [self.coloredLogoView pulseFromAlpha:COLORED_LOGO_MIN_ALPHA toAlpha:COLORED_LOGO_MAX_ALPHA duration:PULSE_DURATION];
+    if (!self.animating) {
+        [self zoomBounceWithDuration:0.2 completion:nil];
+        [self.coloredLogoView pulseFromAlpha:COLORED_LOGO_MIN_ALPHA toAlpha:COLORED_LOGO_MAX_ALPHA duration:PULSE_DURATION];
+        self.animating = YES;
+    }
 }
 
 - (void)stopAnimating {
-    [self shrinkBounceWithDuration:0.2 completion:^{
-        [self removeFromSuperview];
-    }];
+    if (self.animating) {
+        [self shrinkBounceWithDuration:0.2 completion:^{
+            [self removeFromSuperview];
+            self.animating = NO;
+        }];
+    }
 }
 
 #pragma mark - Frames
