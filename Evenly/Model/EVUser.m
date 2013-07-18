@@ -88,6 +88,7 @@ static EVUser *_me;
     setValueForKeyIfNonNil(self.password, @"password");
     setValueForKeyIfNonNil(self.password, @"password_confirmation");
     setValueForKeyIfNonNil(@(self.isConfirmed), @"confirmed");
+    setValueForKeyIfNonNil(self.currentPassword, @"current_password");
     
     return [NSDictionary dictionaryWithDictionary:mutableDictionary];
 }
@@ -215,6 +216,21 @@ static EVUser *_me;
                                                                                   if (failure)
                                                                                       failure(error);
                                                                               }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
++ (void)resetPasswordForEmail:(NSString *)email withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [EVMe requestWithMethod:@"POST" path:@"reset-password" parameters:@{@"email": email}];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        success();
+    };
+    
+    AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
+                                                                      success:successBlock
+                                                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                          if (failure)
+                                                                              failure(error);
+                                                                      }];
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 

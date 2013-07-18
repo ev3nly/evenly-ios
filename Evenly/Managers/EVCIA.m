@@ -399,6 +399,12 @@ NSString *const EVCIAUpdatedBankAccountsNotification = @"EVCIAUpdatedBankAccount
     }];
 }
 
+#pragma mark - Reset Password
 
+- (void)resetPasswordForEmail:(NSString *)email withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    [EVUser resetPasswordForEmail:email
+                      withSuccess:success
+                          failure:failure];
+}
 
 @end

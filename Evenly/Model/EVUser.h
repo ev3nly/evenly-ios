@@ -52,6 +52,7 @@
 @property (nonatomic, getter = isConfirmed) BOOL confirmed;
 @property (nonatomic, assign) EVPrivacySetting privacySetting;
 @property (nonatomic, strong) NSArray *connections;
+@property (nonatomic, strong) NSString *currentPassword;
 
 + (EVUser *)me;
 + (void)setMe:(EVUser *)user;
@@ -59,6 +60,8 @@
 + (void)saveMeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 + (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure;
 + (void)loadUser:(EVUser *)user withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
+
++ (void)resetPasswordForEmail:(NSString *)email withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 
 - (void)loadAvatar;
 - (void)evictAvatarFromCache;
