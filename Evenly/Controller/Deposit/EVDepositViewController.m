@@ -282,7 +282,6 @@
 
 - (void)presentAddBankController {
     EVAddBankViewController *addBankController = [[EVAddBankViewController alloc] init];
-    addBankController.presentedModally = YES;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addBankController];
     [self presentViewController:navController animated:YES completion:NULL];
 }
