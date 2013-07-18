@@ -442,4 +442,14 @@ static NSDateFormatter *_detailDateFormatter;
     return @"Sorry, there was an issue! Please try again";
 }
 
+#pragma mark - Profile
+
++ (NSString *)noActivityMessageForSelf {
+    return @"No Evenly activity yet. Today's a great day to send your first payment or request.";
+}
+
++ (NSString *)noActivityMessageForOthers {
+    return @"No Evenly activity yet. Tap above and show them how it's done.";
+}
+
 @end

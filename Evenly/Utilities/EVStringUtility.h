@@ -91,4 +91,8 @@
 + (NSString *)resetSuccessMessage;
 + (NSString *)resetFailureMessageGivenError:(NSError *)error;
 
+#pragma mark - Profile
++ (NSString *)noActivityMessageForSelf;
++ (NSString *)noActivityMessageForOthers;
+
 @end
