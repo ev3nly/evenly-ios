@@ -80,10 +80,14 @@
     
     __block EVProfileViewController *profileController = self;
     [self.tableView addPullToRefreshWithActionHandler:^{
-        [[EVCIA sharedInstance] refreshHistoryWithCompletion:^(NSArray *history) {
+        [profileController.user timelineWithSuccess:^(NSArray *timeline) {
+            profileController.timeline = timeline;
             profileController.tableView.loading = NO;
-            profileController.timeline = history;
             [profileController.tableView reloadData];
+            [profileController.tableView.pullToRefreshView stopAnimating];
+        } failure:^(NSError *error) {
+            DLog(@"Failure: %@", error);
+            profileController.tableView.loading = NO;
             [profileController.tableView.pullToRefreshView stopAnimating];
         }];
     }];
