@@ -261,6 +261,9 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
 }
 
 - (NSString *)likeButtonString {
+    if (self.isPrivate)
+        return @"Private";
+    
     NSString *string = nil;
     if (self.liked)
     {
