@@ -375,6 +375,17 @@ static EVUser *_me;
     [aCoder encodeBool:self.confirmed forKey:@"EVUser_confirmed"];
 }
 
+- (void)setPrivacySetting:(EVPrivacySetting)privacySetting {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:privacySetting] forKey:@"privacySetting"];
+}
+
+- (EVPrivacySetting)privacySetting {
+    NSNumber *setting = [NSNumber numberWithInt:EVPrivacySettingFriends];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"privacySetting"])
+        setting = [[NSUserDefaults standardUserDefaults] objectForKey:@"privacySetting"];
+    return [setting intValue];
+}
+
 @end
 
 

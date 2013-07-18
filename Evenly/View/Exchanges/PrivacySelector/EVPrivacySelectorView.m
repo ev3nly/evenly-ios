@@ -13,7 +13,7 @@
 #import "EVUser.h"
 
 #define LINE_HEIGHT 40.0
-#define NUM_LINES 4
+#define NUM_LINES 1
 #define DIVIDER_HUE 230
 
 @interface EVPrivacySelectorView ()

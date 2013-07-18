@@ -399,6 +399,7 @@
 		D027583A1795FABA004F6F0A /* close_noshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D02758381795FABA004F6F0A /* close_noshadow@2x.png */; };
 		D027584D1796221A004F6F0A /* EVChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D027584C1796221A004F6F0A /* EVChangePasswordViewController.m */; };
 		D0275851179673B3004F6F0A /* EVWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0275850179673B3004F6F0A /* EVWebViewController.m */; };
+		D027586417989B11004F6F0A /* EVPrivacySelectorToggle.m in Sources */ = {isa = PBXBuildFile; fileRef = D027586317989B11004F6F0A /* EVPrivacySelectorToggle.m */; };
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
 		D031C3F11787F4F2008AC614 /* EVInviteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F01787F4F2008AC614 /* EVInviteListViewController.m */; };
 		D031C3F41787F550008AC614 /* EVInviteContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F31787F54F008AC614 /* EVInviteContactsViewController.m */; };
@@ -1098,6 +1099,8 @@
 		D027584C1796221A004F6F0A /* EVChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVChangePasswordViewController.m; sourceTree = "<group>"; };
 		D027584F179673B3004F6F0A /* EVWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWebViewController.h; sourceTree = "<group>"; };
 		D0275850179673B3004F6F0A /* EVWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWebViewController.m; sourceTree = "<group>"; };
+		D027586217989B10004F6F0A /* EVPrivacySelectorToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPrivacySelectorToggle.h; sourceTree = "<group>"; };
+		D027586317989B11004F6F0A /* EVPrivacySelectorToggle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacySelectorToggle.m; sourceTree = "<group>"; };
 		D02CAB0D1761483500323025 /* EVValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVValidator.h; sourceTree = "<group>"; };
 		D02CAB0E1761483500323025 /* EVValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidator.m; sourceTree = "<group>"; };
 		D031C3EF1787F4F2008AC614 /* EVInviteListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteListViewController.h; sourceTree = "<group>"; };
@@ -1412,6 +1415,8 @@
 				9C1606401788D5AE00852684 /* EVPrivacySelectorOption.m */,
 				9C1606411788D5AE00852684 /* EVPrivacySelectorView.h */,
 				9C1606421788D5AE00852684 /* EVPrivacySelectorView.m */,
+				D027586217989B10004F6F0A /* EVPrivacySelectorToggle.h */,
+				D027586317989B11004F6F0A /* EVPrivacySelectorToggle.m */,
 			);
 			path = PrivacySelector;
 			sourceTree = "<group>";
@@ -3413,6 +3418,7 @@
 				9CE3F000179792430040AADA /* EVLike.m in Sources */,
 				D027584D1796221A004F6F0A /* EVChangePasswordViewController.m in Sources */,
 				D0275851179673B3004F6F0A /* EVWebViewController.m in Sources */,
+				D027586417989B11004F6F0A /* EVPrivacySelectorToggle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

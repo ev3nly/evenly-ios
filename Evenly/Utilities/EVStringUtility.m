@@ -94,6 +94,14 @@ static NSDateFormatter *_shortDateFormatter;
     return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
 }
 
++ (NSString *)stringForPrivacySetting:(EVPrivacySetting)privacySetting {
+    if (privacySetting == EVPrivacySettingFriends)
+        return @"friends";
+    else if (privacySetting == EVPrivacySettingNetwork)
+        return @"network";
+    return @"private";
+}
+
 #pragma mark - Group Requests
 
 + (NSString *)stringForGroupRequest:(EVGroupRequest *)groupRequest {

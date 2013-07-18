@@ -83,7 +83,8 @@
     return @{
         @"amount":          [self.amount stringValue],
         @"description":     self.memo,
-        @"to":              mutableDictionary
+        @"to":              mutableDictionary,
+        @"visibility":      [EVStringUtility stringForPrivacySetting:[EVCIA me].privacySetting]
     };
 }
 

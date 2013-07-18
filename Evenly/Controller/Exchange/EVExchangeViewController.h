@@ -11,7 +11,7 @@
 #import "EVAutocompleteTableViewController.h" 
 
 #import "EVPageControl.h"
-#import "EVPrivacySelectorView.h"
+#import "EVPrivacySelectorToggle.h"
 
 #import "EVExchangeWhoView.h"
 
@@ -32,7 +32,7 @@ typedef enum {
 @property (nonatomic, strong) EVAutocompleteTableViewController *autocompleteTableViewController;
 @property (nonatomic, strong) EVExchangeWhoView *initialView;
 
-@property (nonatomic, strong) EVPrivacySelectorView *privacySelector;
+@property (nonatomic, strong) EVPrivacySelectorToggle *privacySelector;
 
 #pragma mark - Basic Interface
 

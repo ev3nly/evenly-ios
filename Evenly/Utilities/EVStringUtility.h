@@ -42,6 +42,8 @@
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber;
 
++ (NSString *)stringForPrivacySetting:(EVPrivacySetting)privacySetting;
+
 #pragma mark - Contacts
 
 + (NSString *)displayNameForContact:(ABContact *)contact;

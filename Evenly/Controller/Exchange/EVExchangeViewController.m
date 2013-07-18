@@ -106,15 +106,15 @@
 
 
 - (void)loadPrivacySelector {
-    _privacySelector = [[EVPrivacySelectorView alloc] initWithFrame:[self privacySelectorFrame]];
+    _privacySelector = [[EVPrivacySelectorToggle alloc] initWithFrame:[self privacySelectorFrame]];
 }
 
 - (CGRect)privacySelectorFrame {
-    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorView lineHeight] - self.navigationController.navigationBar.bounds.size.height;
+    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorToggle lineHeight] - self.navigationController.navigationBar.bounds.size.height;
     return CGRectMake(0,
                       yOrigin,
                       self.view.bounds.size.width,
-                      [EVPrivacySelectorView lineHeight] * [EVPrivacySelectorView numberOfLines]);
+                      [EVPrivacySelectorToggle lineHeight] * [EVPrivacySelectorToggle numberOfLines]);
 }
 
 - (void)loadContentViews {
