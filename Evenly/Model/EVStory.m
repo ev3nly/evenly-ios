@@ -112,7 +112,7 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     
     // Easy things first
     self.verb = properties[@"verb"];
-    self.isPrivate = [properties[@"private"] boolValue];
+    self.isPrivate = [properties[@"visibility"] isEqualToString:@"private"];
     self.storyDescription = properties[@"description"];
     if (![properties[@"published_at"] isKindOfClass:[NSNull class]]) {
         if ([properties[@"published_at"] isKindOfClass:[NSString class]])
