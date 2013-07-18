@@ -40,7 +40,8 @@ typedef enum {
 @property (nonatomic, strong) id source;
 @property (nonatomic, strong) NSDate *publishedAt;
 @property (nonatomic) BOOL liked;
-@property (nonatomic) NSInteger likeCount;
+@property (nonatomic, strong) NSArray *likes;
+@property (nonatomic, readonly) NSInteger likeCount;
 
 @property (nonatomic, readonly) NSAttributedString *attributedString;
 @property (nonatomic, readonly) EVStoryType storyType;
@@ -53,5 +54,6 @@ typedef enum {
 + (EVStory *)storyFromWithdrawal:(EVWithdrawal *)withdrawal;
 
 - (void)likeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
+- (void)unlikeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 
 @end
