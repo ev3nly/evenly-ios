@@ -10,7 +10,6 @@
 
 #define TOP_BOTTOM_BUFFER 30
 #define IMAGE_LABEL_BUFFER 12
-#define NO_ACTIVITY_TEXT @"No Activity Yet..."
 #define LABEL_FONT [EVFont defaultFontOfSize:16]
 
 @interface EVNoActivityCell ()
@@ -22,12 +21,23 @@
 
 @implementation EVNoActivityCell
 
-+ (float)cellHeight {
++ (float)cellHeightForUser:(EVUser *)user {
+    UILabel *label = [self configuredLabel];
+    label.text = [user.dbid isEqualToString:[EVCIA me].dbid] ? [EVStringUtility noActivityMessageForSelf] : [EVStringUtility noActivityMessageForOthers];
+    float labelHeight = [label.text sizeWithFont:label.font
+                               constrainedToSize:CGSizeMake(320 - 40, 100000)
+                                   lineBreakMode:label.lineBreakMode].height;
+    return (TOP_BOTTOM_BUFFER + [EVImages inviteFriendsBanner].size.height + IMAGE_LABEL_BUFFER + labelHeight + TOP_BOTTOM_BUFFER);
+}
+
++ (UILabel *)configuredLabel {
     UILabel *label = [UILabel new];
-    label.text = NO_ACTIVITY_TEXT;
+    label.backgroundColor = [UIColor clearColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor lightGrayColor];
     label.font = LABEL_FONT;
-    [label sizeToFit];
-    return (TOP_BOTTOM_BUFFER + [EVImages inviteFriendsBanner].size.height + IMAGE_LABEL_BUFFER + label.bounds.size.height + TOP_BOTTOM_BUFFER);
+    label.numberOfLines = 0;
+    return label;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -52,13 +62,14 @@
 }
 
 - (void)loadNoActivityLabel {
-    self.noActivityLabel = [UILabel new];
-    self.noActivityLabel.backgroundColor = [UIColor clearColor];
-    self.noActivityLabel.text = NO_ACTIVITY_TEXT;
-    self.noActivityLabel.textAlignment = NSTextAlignmentCenter;
-    self.noActivityLabel.textColor = [UIColor lightGrayColor];
-    self.noActivityLabel.font = LABEL_FONT;
+    self.noActivityLabel = [[self class] configuredLabel];
     [self addSubview:self.noActivityLabel];
+}
+
+- (void)setUserIsSelf:(BOOL)userIsSelf {
+    _userIsSelf = userIsSelf;
+    
+    self.noActivityLabel.text = userIsSelf ? [EVStringUtility noActivityMessageForSelf] : [EVStringUtility noActivityMessageForOthers];
 }
 
 - (CGRect)placeholderImageViewFrame {
@@ -70,11 +81,13 @@
 }
 
 - (CGRect)noActivityLabelFrame {
-    [self.noActivityLabel sizeToFit];
-    return CGRectMake(CGRectGetMidX(self.bounds) - self.noActivityLabel.bounds.size.width/2,
+    CGSize labelSize = [self.noActivityLabel.text sizeWithFont:self.noActivityLabel.font
+                                             constrainedToSize:CGSizeMake(320 - 40, 100000)
+                                                 lineBreakMode:self.noActivityLabel.lineBreakMode];
+    return CGRectMake(CGRectGetMidX(self.bounds) - labelSize.width/2,
                       CGRectGetMaxY(self.placeholderImageView.frame) + IMAGE_LABEL_BUFFER,
-                      self.noActivityLabel.bounds.size.width,
-                      self.noActivityLabel.bounds.size.height);
+                      labelSize.width,
+                      labelSize.height);
 }
 
 @end

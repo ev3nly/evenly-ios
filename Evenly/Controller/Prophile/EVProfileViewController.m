@@ -54,7 +54,7 @@
     [self.tableView reloadData];
     self.view.backgroundColor = [EVColor creamColor];
     [self.user timelineWithSuccess:^(NSArray *timeline) {
-        self.timeline = timeline;
+//        self.timeline = timeline;
         self.tableView.loading = NO;
         [self.tableView reloadData];
     } failure:^(NSError *error) {
@@ -137,7 +137,7 @@
     if (indexPath.row == 0)
         return [EVProfileCell cellHeightForUser:self.user];
     if (![self hasExchanges])
-        return [EVNoActivityCell cellHeight];
+        return [EVNoActivityCell cellHeightForUser:self.user];
     return [EVProfileHistoryCell cellHeight];
 }
 
@@ -165,6 +165,7 @@
         cell = profileCell;
     } else if (![self hasExchanges] && !self.tableView.isLoading) {
         EVNoActivityCell *noActivityCell = [tableView dequeueReusableCellWithIdentifier:@"noActivityCell"];
+        noActivityCell.userIsSelf = [self.user.dbid isEqualToString:[EVCIA me].dbid];
         cell = noActivityCell;
     } else {
         EVProfileHistoryCell *historyCell = [tableView dequeueReusableCellWithIdentifier:@"profileHistoryCell"];
