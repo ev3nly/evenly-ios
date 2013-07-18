@@ -40,6 +40,7 @@
     
     self = [self initWithFrame:CGRectMake(0, 0, textSize.width + 16, textSize.height + 10)];
     if (self) {
+        if ([text isEqualToString:@"American Express"])
         self.text = [text uppercaseString];
         self.label.text = self.text;
         self.maxWidth = maxWidth;

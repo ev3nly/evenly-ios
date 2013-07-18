@@ -27,7 +27,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.textLabel.font = [EVFont boldFontOfSize:16];
+        self.textLabel.font = [EVFont blackFontOfSize:15];
         self.textLabel.backgroundColor = [UIColor clearColor];
         self.textLabel.highlightedTextColor = [EVColor newsfeedNounColor];
     }
@@ -50,7 +50,8 @@
         EVBankAccount *bankAccount = (EVBankAccount *)fundingSource;
         [self setUpWithAccountNumber:bankAccount.accountNumber andBankName:bankAccount.bankName];
     }
-    [self setAccessoryType:(fundingSource.isActive ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone)];
+    [self setAccessoryView:(fundingSource.isActive ? [[UIImageView alloc] initWithImage:[EVImages checkIcon]] : nil)];
+//    [self setAccessoryType:(fundingSource.isActive ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone)];
 }
 
 - (void)setUpWithLastFour:(NSString *)lastFour andBrandImage:(UIImage *)brandImage {
@@ -79,3 +80,50 @@
 }
 
 @end
+
+@implementation EVNoFundingSourcesCell
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.illustrationView = [[UIImageView alloc] init];
+        [self.contentView addSubview:self.illustrationView];
+        
+        self.label = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.label.backgroundColor = [UIColor clearColor];
+        self.label.font = [EVFont blackFontOfSize:15];
+        self.label.textColor = [EVColor darkColor];
+        self.label.textAlignment = NSTextAlignmentCenter;
+        [self.contentView addSubview:self.label];
+        
+    }
+    return self;
+}
+
++ (CGFloat)height {
+    return 172.0;
+}
+
+- (void)setUpWithIllustration:(UIImage *)illustration text:(NSString *)text {
+    self.illustrationView.image = illustration;
+    self.label.text = text;
+    [self setNeedsLayout];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGSize illustrationSize = self.illustrationView.image.size;
+    [self.illustrationView setFrame:CGRectMake((self.contentView.frame.size.width - illustrationSize.width) / 2.0,
+                                               20.0,
+                                               illustrationSize.width,
+                                               illustrationSize.height)];
+    [self.label setFrame:CGRectMake(0,
+                                    CGRectGetMaxY(self.illustrationView.frame),
+                                    self.contentView.frame.size.width,
+                                    self.contentView.frame.size.height - CGRectGetMaxY(self.illustrationView.frame))];
+    
+}
+
+@end
+
