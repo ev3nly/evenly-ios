@@ -191,6 +191,7 @@
 		9C659C00177A52F10028072A /* EVGrayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659BFF177A52E10028072A /* EVGrayButton.m */; };
 		9C659C03177A8A050028072A /* EVGroupRequestStatementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */; };
 		9C68F9DD17814B2300A0E1C1 /* EVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C68F9DC17814B2300A0E1C1 /* EVConnection.m */; };
+		9C6ACAE517977A7B00A3FB10 /* OpenInChromeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ACAE417977A7B00A3FB10 /* OpenInChromeController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9C6CE66F178F399000657D58 /* logo-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE667178F399000657D58 /* logo-gray.png */; };
 		9C6CE670178F399000657D58 /* logo-gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE668178F399000657D58 /* logo-gray@2x.png */; };
 		9C6CE671178F399000657D58 /* popover_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE669178F399000657D58 /* popover_logo.png */; };
@@ -803,6 +804,8 @@
 		9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestStatementCell.m; sourceTree = "<group>"; };
 		9C68F9DB17814B2300A0E1C1 /* EVConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVConnection.h; sourceTree = "<group>"; };
 		9C68F9DC17814B2300A0E1C1 /* EVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConnection.m; sourceTree = "<group>"; };
+		9C6ACAE317977A7B00A3FB10 /* OpenInChromeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenInChromeController.h; sourceTree = "<group>"; };
+		9C6ACAE417977A7B00A3FB10 /* OpenInChromeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenInChromeController.m; sourceTree = "<group>"; };
 		9C6CE667178F399000657D58 /* logo-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-gray.png"; sourceTree = "<group>"; };
 		9C6CE668178F399000657D58 /* logo-gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-gray@2x.png"; sourceTree = "<group>"; };
 		9C6CE669178F399000657D58 /* popover_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popover_logo.png; sourceTree = "<group>"; };
@@ -1860,6 +1863,15 @@
 			path = Dashboard;
 			sourceTree = "<group>";
 		};
+		9C6ACAE217977A7B00A3FB10 /* OpenInChrome */ = {
+			isa = PBXGroup;
+			children = (
+				9C6ACAE317977A7B00A3FB10 /* OpenInChromeController.h */,
+				9C6ACAE417977A7B00A3FB10 /* OpenInChromeController.m */,
+			);
+			path = OpenInChrome;
+			sourceTree = "<group>";
+		};
 		9C6CE666178F399000657D58 /* Logos */ = {
 			isa = PBXGroup;
 			children = (
@@ -2427,6 +2439,7 @@
 				9C504465177122850090D865 /* JSTokenField */,
 				9C038F74177E109A00CDE030 /* MKAdditions */,
 				9CEEB840175526EC00C24C2A /* KeychainItemWrapper */,
+				9C6ACAE217977A7B00A3FB10 /* OpenInChrome */,
 				D0211529176687A50063EE03 /* SVPullToRefresh */,
 			);
 			path = Libraries;
@@ -3365,6 +3378,7 @@
 				9CE8890317937CE300EF6E67 /* EVGroupRequestTierAssignmentManager.m in Sources */,
 				9CE889061793811D00EF6E67 /* EVGroupRequestTierAssignmentViewCell.m in Sources */,
 				9CE889111794B64900EF6E67 /* EVGroupRequestInviteViewController.m in Sources */,
+				9C6ACAE517977A7B00A3FB10 /* OpenInChromeController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
