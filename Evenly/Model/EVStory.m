@@ -159,9 +159,12 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     
     // Likes
     NSMutableArray *array = [NSMutableArray array];
-    for (NSDictionary *like in properties[@"likes"]) {
-        NSString *likerClass = [NSString stringWithFormat:@"EV%@", like[@"class"]];
-        [array addObject: [[NSClassFromString(likerClass) alloc] initWithDictionary:like] ];
+    for (NSDictionary *likeDictionary in properties[@"likes"]) {
+        EVLike *like = [[EVLike alloc] initWithDictionary:likeDictionary];
+        if ([like.liker isEqual:[EVCIA me]]) {
+            self.liked = YES;
+        }
+        [array addObject:like];
     }
     self.likes = array;
 
