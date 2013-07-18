@@ -30,6 +30,7 @@ typedef enum {
 - (id)initWithUser:(EVUser *)user;
 
 - (void)loadFooterView;
+- (void)loadChangePasswordButton;
 - (void)loadPinButton;
 
 - (void)photoTapped;

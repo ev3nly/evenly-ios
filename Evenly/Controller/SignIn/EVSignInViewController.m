@@ -11,6 +11,7 @@
 #import "EVFormRow.h"
 #import "EVTextField.h"
 #import "EVNavigationBarButton.h"
+#import "EVValidator.h"
 
 #import "EVSession.h"
 
@@ -33,6 +34,8 @@
 @end
 
 @implementation EVSignInViewController
+
+#pragma mark - Lifecycle
 
 - (id)init {
     return [self initWithAuthenticationSuccess:NULL];
@@ -71,11 +74,10 @@
     [[self.view viewWithTag:FORM_VIEW_TAG] setNeedsLayout];
     [[self.view viewWithTag:FORM_VIEW_TAG] layoutIfNeeded];
     self.labelButton.frame = [self labelButtonFrame];
-    [self.serverControl setFrame:CGRectMake(10,
-                                            CGRectGetMaxY(self.labelButton.frame) + 10,
-                                            self.view.frame.size.width - 20,
-                                            44.0)];
+    self.serverControl.frame = [self serverControlFrame];
 }
+
+#pragma mark - View Loading
 
 - (void)loadDoneButton {
     self.doneButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
@@ -139,14 +141,6 @@
     [self.view addSubview:self.labelButton];
 }
 
-- (CGRect)labelButtonFrame {
-    return CGRectMake(0,
-                      CGRectGetMaxY([self.view viewWithTag:FORM_VIEW_TAG].frame) + FORM_LABEL_BUFFER,
-                      self.view.bounds.size.width,
-                      LOGO_BUFFER);
-}
-
-
 - (void)loadSegmentedControl {
     self.serverControl = [[UISegmentedControl alloc] initWithItems:@[ @"PROD", @"DEV", @"LOCAL" ]];
     [self.serverControl setSegmentedControlStyle:UISegmentedControlStyleBordered];
@@ -165,6 +159,8 @@
     RAC(self.doneButton.enabled) = formValidSignal;
 }
 
+#pragma mark - TextField Delegate
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if ([(EVTextField *)textField next]) {
         [[(EVTextField *)textField next] becomeFirstResponder];
@@ -176,6 +172,8 @@
     }
     return YES;
 }
+
+#pragma mark - Button Handling
 
 - (void)signIn {
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SIGNING IN..."];
@@ -199,21 +197,50 @@
     }];
 }
 
-#pragma mark - Button Actions
-
 - (void)doneButtonPress:(id)sender {
     [self.view findAndResignFirstResponder];
     [self signIn];
 }
 
 - (void)forgotPasswordButtonPressed {
-    [[[UIAlertView alloc] initWithTitle:@"Oh no!" message:@"Sorry about that.  Think harder" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    NSLog(@"PASSWORD YAH KNO?!");
+    if ([[EVValidator sharedValidator] stringIsValidEmail:self.emailField.text]) {
+        [UIAlertView alertViewWithTitle:nil
+                                message:[EVStringUtility confirmResetForEmail:self.emailField.text]
+                      cancelButtonTitle:@"Cancel"
+                      otherButtonTitles:@[@"Reset"]
+                              onDismiss:^(int buttonIndex) {
+                                  [[EVCIA sharedInstance] resetPasswordForEmail:self.emailField.text
+                                                                    withSuccess:^{
+                                                                        [UIAlertView alertViewWithTitle:nil message:[EVStringUtility resetSuccessMessage]];
+                                                                    } failure:^(NSError *error) {
+                                                                        [UIAlertView alertViewWithTitle:@"Whoops!"
+                                                                                                message:[EVStringUtility resetFailureMessageGivenError:error]];
+                                                                    }];
+                              } onCancel:nil];
+    } else {
+        [UIAlertView alertViewWithTitle:nil message:@"Please enter a valid email address to reset. Thanks!"];
+    }
 }
 
 - (void)serverControlChanged:(UISegmentedControl *)segmentedControl {
     [[EVNetworkManager sharedInstance] setServerSelection:[segmentedControl selectedSegmentIndex]];
     [[EVNetworkManager sharedInstance] reloadHTTPClient];
+}
+
+#pragma mark - Frames
+
+- (CGRect)labelButtonFrame {
+    return CGRectMake(0,
+                      CGRectGetMaxY([self.view viewWithTag:FORM_VIEW_TAG].frame) + FORM_LABEL_BUFFER,
+                      self.view.bounds.size.width,
+                      LOGO_BUFFER);
+}
+
+- (CGRect)serverControlFrame {
+    return CGRectMake(10,
+                      CGRectGetMaxY(self.labelButton.frame) + 10,
+                      self.view.frame.size.width - 20,
+                      44.0);
 }
 
 #pragma mark - A Little View Fun
