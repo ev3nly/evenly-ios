@@ -106,7 +106,8 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     
     // Easy things first
     self.verb = properties[@"verb"];
-    self.isPrivate = [properties[@"private"] boolValue];
+    self.isPrivate = round(arc4random());
+//    self.isPrivate = [properties[@"private"] boolValue];
     self.storyDescription = properties[@"description"];
     if (![properties[@"published_at"] isKindOfClass:[NSNull class]]) {
         if ([properties[@"published_at"] isKindOfClass:[NSString class]])
@@ -261,6 +262,9 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
 }
 
 - (NSString *)likeButtonString {
+    if (self.isPrivate)
+        return @"Private";
+    
     NSString *string = nil;
     if (self.liked)
     {

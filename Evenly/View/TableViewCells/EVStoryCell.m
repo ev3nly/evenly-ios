@@ -145,6 +145,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
                                                                          toDate:[story publishedAt]];
     self.incomeIcon.image = [self iconForStoryType:story.storyType];
     [self.likeButton setSelected:story.liked];
+    [self.likeButton setIsPrivate:story.isPrivate];
     [self.likeButton setTitle:[story likeButtonString]];
 }
 

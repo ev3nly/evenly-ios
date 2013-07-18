@@ -325,6 +325,8 @@
 		9CD473D71790CE6700E60E37 /* EVExpansionArrowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD473D61790CE6700E60E37 /* EVExpansionArrowButton.m */; };
 		9CE05EF1175942610095CCFC /* JASidePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EEE175942610095CCFC /* JASidePanelController.m */; };
 		9CE05EF2175942610095CCFC /* UIViewController+JASidePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */; };
+		9CE3EFFC179786580040AADA /* Lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CE3EFFA179786580040AADA /* Lock@2x.png */; };
+		9CE3EFFD179786580040AADA /* Lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CE3EFFB179786580040AADA /* Lock.png */; };
 		9CE703EA175D1A7200561ADA /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B40174FD95600BE9506 /* SenTestingKit.framework */; };
 		9CE703EB175D1A7200561ADA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B22174FD95600BE9506 /* UIKit.framework */; };
 		9CE703EC175D1A7200561ADA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B24174FD95600BE9506 /* Foundation.framework */; };
@@ -990,6 +992,8 @@
 		9CE05EEE175942610095CCFC /* JASidePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JASidePanelController.m; sourceTree = "<group>"; };
 		9CE05EEF175942610095CCFC /* UIViewController+JASidePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+JASidePanel.h"; sourceTree = "<group>"; };
 		9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+JASidePanel.m"; sourceTree = "<group>"; };
+		9CE3EFFA179786580040AADA /* Lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Lock@2x.png"; sourceTree = "<group>"; };
+		9CE3EFFB179786580040AADA /* Lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Lock.png; sourceTree = "<group>"; };
 		9CE703E9175D1A7200561ADA /* KiwiUnitTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KiwiUnitTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CE703EF175D1A7200561ADA /* KiwiUnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KiwiUnitTest-Info.plist"; sourceTree = "<group>"; };
 		9CE703F1175D1A7200561ADA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2245,6 +2249,8 @@
 				9CB285891761521E009B26BB /* HeartRed@2x.png */,
 				9CB2858A1761521E009B26BB /* Income.png */,
 				9CB2858B1761521E009B26BB /* Income@2x.png */,
+				9CE3EFFA179786580040AADA /* Lock@2x.png */,
+				9CE3EFFB179786580040AADA /* Lock.png */,
 				9CB2858C1761521E009B26BB /* Payment.png */,
 				9CB2858D1761521E009B26BB /* Payment@2x.png */,
 				9CB2858E1761521E009B26BB /* PendingIncome.png */,
@@ -3043,6 +3049,8 @@
 				D02758361795FAB3004F6F0A /* Back_noshadow@2x.png in Resources */,
 				D02758391795FABA004F6F0A /* close_noshadow.png in Resources */,
 				D027583A1795FABA004F6F0A /* close_noshadow@2x.png in Resources */,
+				9CE3EFFC179786580040AADA /* Lock@2x.png in Resources */,
+				9CE3EFFD179786580040AADA /* Lock.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
