@@ -13,6 +13,7 @@
 		9C038F7C177E109A00CDE030 /* NSObject+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F77177E109A00CDE030 /* NSObject+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9C038F7D177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F79177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9C038F7E177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F7B177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9C06820A17986FC60015BAF5 /* EVMainMenuFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C06820917986FC60015BAF5 /* EVMainMenuFooter.m */; };
 		9C0EC744175D1D6D003B93E2 /* KWSpec+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC732175D1C2E003B93E2 /* KWSpec+Helper.m */; };
 		9C0EC748175D479F003B93E2 /* EVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC747175D479F003B93E2 /* EVViewController.m */; };
 		9C0EC759175D7CFC003B93E2 /* EVHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC754175D7CFC003B93E2 /* EVHomeViewController.m */; };
@@ -192,8 +193,6 @@
 		9C659C03177A8A050028072A /* EVGroupRequestStatementCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C659C02177A88E50028072A /* EVGroupRequestStatementCell.m */; };
 		9C68F9DD17814B2300A0E1C1 /* EVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C68F9DC17814B2300A0E1C1 /* EVConnection.m */; };
 		9C6ACAE517977A7B00A3FB10 /* OpenInChromeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6ACAE417977A7B00A3FB10 /* OpenInChromeController.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		9C6CE66F178F399000657D58 /* logo-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE667178F399000657D58 /* logo-gray.png */; };
-		9C6CE670178F399000657D58 /* logo-gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE668178F399000657D58 /* logo-gray@2x.png */; };
 		9C6CE671178F399000657D58 /* popover_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE669178F399000657D58 /* popover_logo.png */; };
 		9C6CE672178F399000657D58 /* popover_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE66A178F399000657D58 /* popover_logo@2x.png */; };
 		9C6CE673178F399000657D58 /* small_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE66B178F399000657D58 /* small_logo.png */; };
@@ -517,6 +516,8 @@
 		9C038F79177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+MKBlockAdditions.m"; sourceTree = "<group>"; };
 		9C038F7A177E109A00CDE030 /* UIAlertView+MKBlockAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+MKBlockAdditions.h"; sourceTree = "<group>"; };
 		9C038F7B177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+MKBlockAdditions.m"; sourceTree = "<group>"; };
+		9C06820817986FC60015BAF5 /* EVMainMenuFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMainMenuFooter.h; sourceTree = "<group>"; };
+		9C06820917986FC60015BAF5 /* EVMainMenuFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMainMenuFooter.m; sourceTree = "<group>"; };
 		9C0EC731175D1C2E003B93E2 /* KWSpec+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KWSpec+Helper.h"; sourceTree = "<group>"; };
 		9C0EC732175D1C2E003B93E2 /* KWSpec+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KWSpec+Helper.m"; sourceTree = "<group>"; };
 		9C0EC746175D479F003B93E2 /* EVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVViewController.h; sourceTree = "<group>"; };
@@ -811,8 +812,6 @@
 		9C68F9DC17814B2300A0E1C1 /* EVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVConnection.m; sourceTree = "<group>"; };
 		9C6ACAE317977A7B00A3FB10 /* OpenInChromeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenInChromeController.h; sourceTree = "<group>"; };
 		9C6ACAE417977A7B00A3FB10 /* OpenInChromeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenInChromeController.m; sourceTree = "<group>"; };
-		9C6CE667178F399000657D58 /* logo-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-gray.png"; sourceTree = "<group>"; };
-		9C6CE668178F399000657D58 /* logo-gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-gray@2x.png"; sourceTree = "<group>"; };
 		9C6CE669178F399000657D58 /* popover_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popover_logo.png; sourceTree = "<group>"; };
 		9C6CE66A178F399000657D58 /* popover_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popover_logo@2x.png"; sourceTree = "<group>"; };
 		9C6CE66B178F399000657D58 /* small_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small_logo.png; sourceTree = "<group>"; };
@@ -1630,6 +1629,8 @@
 				9C2DD0A5176A4B2B00EAA3D1 /* EVFormRow.m */,
 				D07A3900176A661D00EABEB7 /* EVTapGestureRecognizer.h */,
 				D07A3901176A661D00EABEB7 /* EVTapGestureRecognizer.m */,
+				9C06820817986FC60015BAF5 /* EVMainMenuFooter.h */,
+				9C06820917986FC60015BAF5 /* EVMainMenuFooter.m */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -1893,8 +1894,6 @@
 		9C6CE666178F399000657D58 /* Logos */ = {
 			isa = PBXGroup;
 			children = (
-				9C6CE667178F399000657D58 /* logo-gray.png */,
-				9C6CE668178F399000657D58 /* logo-gray@2x.png */,
 				9C6CE669178F399000657D58 /* popover_logo.png */,
 				9C6CE66A178F399000657D58 /* popover_logo@2x.png */,
 				9C6CE66B178F399000657D58 /* small_logo.png */,
@@ -3037,8 +3036,6 @@
 				9CB7FB5B178CD44200827B5B /* reward_arrow@2x.png in Resources */,
 				9CB7FB5C178CD44200827B5B /* big_smile.png in Resources */,
 				9CB7FB5D178CD44200827B5B /* big_smile@2x.png in Resources */,
-				9C6CE66F178F399000657D58 /* logo-gray.png in Resources */,
-				9C6CE670178F399000657D58 /* logo-gray@2x.png in Resources */,
 				9C6CE671178F399000657D58 /* popover_logo.png in Resources */,
 				9C6CE672178F399000657D58 /* popover_logo@2x.png in Resources */,
 				9C6CE673178F399000657D58 /* small_logo.png in Resources */,
@@ -3411,6 +3408,7 @@
 				9CE889111794B64900EF6E67 /* EVGroupRequestInviteViewController.m in Sources */,
 				9C6ACAE517977A7B00A3FB10 /* OpenInChromeController.m in Sources */,
 				9CE3F000179792430040AADA /* EVLike.m in Sources */,
+				9C06820A17986FC60015BAF5 /* EVMainMenuFooter.m in Sources */,
 				D027584D1796221A004F6F0A /* EVChangePasswordViewController.m in Sources */,
 				D0275851179673B3004F6F0A /* EVWebViewController.m in Sources */,
 			);
