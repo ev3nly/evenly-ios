@@ -14,4 +14,6 @@
                                                        UIPickerViewDelegate,
                                                        UIPickerViewDataSource>
 
+@property (nonatomic) BOOL presentedModally;
+
 @end

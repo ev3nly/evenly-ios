@@ -181,6 +181,11 @@
         if (bank) {
             self.bankCell.textField.text = bank.bankName;
             self.bankCell.textField.enabled = YES;
+            NSString *amountText = self.amountCell.textField.text;
+            if (EV_IS_EMPTY_STRING(amountText))
+                amountText = self.amountCell.textField.placeholder;
+            [self.depositButton setTitle:[NSString stringWithFormat:@"DEPOSIT %@", amountText] forState:UIControlStateNormal];
+            [self.amountCell.textField setEnabled:YES];
         }
         else {
             if (self.cia.loadingBankAccounts)
@@ -249,16 +254,14 @@
     }
     else
     {
-        
+        [self presentAddBankController];
     }
-
 }
 
 - (void)deposit {
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"DEPOSITING MONEY..."];
     [self.view findAndResignFirstResponder];
     
-    // TODO: Add code to set bank account for withdrawal, once endpoint is ready.
     self.withdrawal.bankAccount = self.chosenAccount;
     [self.withdrawal saveWithSuccess:^{
         
@@ -275,6 +278,13 @@
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
         
     }];
+}
+
+- (void)presentAddBankController {
+    EVAddBankViewController *addBankController = [[EVAddBankViewController alloc] init];
+    addBankController.presentedModally = YES;
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addBankController];
+    [self presentViewController:navController animated:YES completion:NULL];
 }
 
 - (void)tapRecognized:(UITapGestureRecognizer *)recognizer {
