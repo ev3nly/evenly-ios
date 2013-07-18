@@ -9,10 +9,13 @@
 #import "EVMainMenuViewController.h"
 #import "EVNavigationManager.h"
 #import "EVMainMenuCell.h"
+#import "EVMainMenuFooter.h"
 #import <Social/Social.h>
 #import "OpenInChromeController.h"
 
 @interface EVMainMenuViewController ()
+
+@property (nonatomic, strong) EVMainMenuFooter *footerView;
 
 @end
 
@@ -39,6 +42,16 @@
     
     [self.tableView registerClass:[EVMainMenuCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
+    
+    [self loadFooter];
+}
+
+- (void)loadFooter {
+    self.footerView = [[EVMainMenuFooter alloc] initWithFrame:CGRectMake(0,
+                                                                         self.view.frame.size.height - 60.0,
+                                                                         self.view.frame.size.width - EV_RIGHT_OVERHANG_MARGIN,
+                                                                         60.0)];
+    [self.view addSubview:self.footerView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

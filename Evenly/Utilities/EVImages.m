@@ -205,7 +205,7 @@
 }
 
 + (UIImage *)grayLogo {
-    return [UIImage imageNamed:@"logo-gray"];
+    return [UIImage imageNamed:@"security_logo_gray"];
 }
 
 #pragma mark - Avatars
