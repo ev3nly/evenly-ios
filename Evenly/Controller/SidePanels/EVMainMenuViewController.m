@@ -13,6 +13,8 @@
 #import <Social/Social.h>
 #import "OpenInChromeController.h"
 
+#define FOOTER_HEIGHT 60.0
+
 @interface EVMainMenuViewController ()
 
 @property (nonatomic, strong) EVMainMenuFooter *footerView;
@@ -48,9 +50,9 @@
 
 - (void)loadFooter {
     self.footerView = [[EVMainMenuFooter alloc] initWithFrame:CGRectMake(0,
-                                                                         self.view.frame.size.height - 60.0,
+                                                                         self.view.frame.size.height - FOOTER_HEIGHT,
                                                                          self.view.frame.size.width - EV_RIGHT_OVERHANG_MARGIN,
-                                                                         60.0)];
+                                                                         FOOTER_HEIGHT)];
     [self.view addSubview:self.footerView];
 }
 
