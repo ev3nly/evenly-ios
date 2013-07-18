@@ -435,11 +435,11 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSString *)resetSuccessMessage {
-    return @"Alright! Check your email for instructions on resetting the password to your account";
+    return @"OK! Check your email for instructions on resetting the password to your account.";
 }
 
 + (NSString *)resetFailureMessageGivenError:(NSError *)error {
-    return @"Sorry, there was an issue! Please try again";
+    return @"Sorry, there was an issue! Please try again.";
 }
 
 #pragma mark - Profile
