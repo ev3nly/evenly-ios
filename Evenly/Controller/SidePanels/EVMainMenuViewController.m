@@ -9,6 +9,8 @@
 #import "EVMainMenuViewController.h"
 #import "EVNavigationManager.h"
 #import "EVMainMenuCell.h"
+#import <Social/Social.h>
+#import "OpenInChromeController.h"
 
 @interface EVMainMenuViewController ()
 
@@ -83,13 +85,26 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == EVMainMenuOptionSupport)
     {
-        MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
-        [composer setToRecipients:@[ [EVStringUtility supportEmail] ]];
-        [composer setSubject:[EVStringUtility supportEmailSubjectLine]];
-        [composer setMailComposeDelegate:self];
-        [self presentViewController:composer
-                           animated:YES
-                         completion:nil];
+        UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Support" delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles:nil];
+        
+        int buttonIndex = 0;
+        [actionSheet addButtonWithTitle:@"Visit our FAQ Page"];
+        buttonIndex++;
+        
+        if ([MFMailComposeViewController canSendMail]) {
+            [actionSheet addButtonWithTitle:@"Email Us"];
+            buttonIndex++;
+        }
+        
+        if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+            [actionSheet addButtonWithTitle:[NSString stringWithFormat:@"Tweet %@", [EVStringUtility supportTwitterHandle]]];
+            buttonIndex++;
+        }
+        
+        [actionSheet addButtonWithTitle:@"Cancel"];
+        [actionSheet setCancelButtonIndex:buttonIndex];       
+        
+        [actionSheet showInView:self.view];
         return;
     }
     
@@ -117,6 +132,44 @@
     }
 }
 
+#pragma mark - Action Sheet Delegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == [actionSheet cancelButtonIndex])
+        return;
+    
+    if (buttonIndex == EVSupportOptionFAQ)
+    {
+        OpenInChromeController *chromeController = [OpenInChromeController sharedInstance];
+        if ([chromeController isChromeInstalled]) {
+            [chromeController openInChrome:[EVStringUtility faqURL]
+                           withCallbackURL:[NSURL URLWithString:@"evenly://home"]
+                              createNewTab:YES];
+        }
+        else {
+            [[UIApplication sharedApplication] openURL:[EVStringUtility faqURL]];
+        }
+        
+    }
+    else if ([MFMailComposeViewController canSendMail] && buttonIndex == EVSupportOptionEmail)
+    {
+        MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
+        [composer setToRecipients:@[ [EVStringUtility supportEmail] ]];
+        [composer setSubject:[EVStringUtility supportEmailSubjectLine]];
+        [composer setMailComposeDelegate:self];
+        [self presentViewController:composer
+                           animated:YES
+                         completion:nil];
+    }
+    else
+    {
+        SLComposeViewController *composer = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+        [composer setInitialText:[NSString stringWithFormat:@"%@ ", [EVStringUtility supportTwitterHandle]]];
+        [self presentViewController:composer
+                           animated:YES
+                         completion:nil];
+    }
+}
 
 #pragma mark - Mail Compose Delegate
 
