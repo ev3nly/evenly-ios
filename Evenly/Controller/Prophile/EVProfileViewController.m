@@ -54,7 +54,7 @@
     [self.tableView reloadData];
     self.view.backgroundColor = [EVColor creamColor];
     [self.user timelineWithSuccess:^(NSArray *timeline) {
-//        self.timeline = timeline;
+        self.timeline = timeline;
         self.tableView.loading = NO;
         [self.tableView reloadData];
     } failure:^(NSError *error) {
