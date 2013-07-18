@@ -6,12 +6,11 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVViewController.h"
+#import "EVModalViewController.h"
 
-@interface EVAddBankViewController : EVViewController <UITableViewDataSource,
+@interface EVAddBankViewController : EVModalViewController <UITableViewDataSource,
                                                        UITableViewDelegate,
                                                        UITextFieldDelegate,
                                                        UIPickerViewDelegate,
                                                        UIPickerViewDataSource>
-
 @end

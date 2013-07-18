@@ -14,6 +14,8 @@
 #import "EVPrivacyNotice.h"
 #import "EVCurrencyTextFieldFormatter.h"
 
+#import "EVAddBankViewController.h"
+
 #define EV_DEPOSIT_MARGIN 10.0
 #define EV_DEPOSIT_BALANCE_PANE_HEIGHT 96.0
 #define EV_DEPOSIT_CELL_HEIGHT 44.0
@@ -179,12 +181,21 @@
         if (bank) {
             self.bankCell.textField.text = bank.bankName;
             self.bankCell.textField.enabled = YES;
+            NSString *amountText = self.amountCell.textField.text;
+            if (EV_IS_EMPTY_STRING(amountText))
+                amountText = self.amountCell.textField.placeholder;
+            [self.depositButton setTitle:[NSString stringWithFormat:@"DEPOSIT %@", amountText] forState:UIControlStateNormal];
+            [self.amountCell.textField setEnabled:YES];
         }
         else {
             if (self.cia.loadingBankAccounts)
                 self.bankCell.textField.text = @"Loading...";
-            else
-                self.bankCell.textField.text = @"Please add a Bank Account";
+            else {
+                self.bankCell.textField.text = @"No bank account added.";
+                [self.depositButton setTitle:@"ADD BANK ACCOUNT" forState:UIControlStateNormal];
+                [self.depositButton setEnabled:YES];
+                [self.amountCell.textField setEnabled:NO];
+            }
             self.bankCell.textField.enabled = NO;
         }
         [self.bankCell setNeedsLayout];
@@ -237,10 +248,20 @@
 #pragma mark - Button Actions
 
 - (void)depositButtonPress:(id)sender {
+    if (self.chosenAccount)
+    {
+        [self deposit];
+    }
+    else
+    {
+        [self presentAddBankController];
+    }
+}
+
+- (void)deposit {
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"DEPOSITING MONEY..."];
     [self.view findAndResignFirstResponder];
     
-    // TODO: Add code to set bank account for withdrawal, once endpoint is ready.
     self.withdrawal.bankAccount = self.chosenAccount;
     [self.withdrawal saveWithSuccess:^{
         
@@ -257,6 +278,12 @@
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
         
     }];
+}
+
+- (void)presentAddBankController {
+    EVAddBankViewController *addBankController = [[EVAddBankViewController alloc] init];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addBankController];
+    [self presentViewController:navController animated:YES completion:NULL];
 }
 
 - (void)tapRecognized:(UITapGestureRecognizer *)recognizer {
