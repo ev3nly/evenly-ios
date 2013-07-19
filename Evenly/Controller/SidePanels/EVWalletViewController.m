@@ -247,8 +247,6 @@
         EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
         [cell.avatarView setImage:[exchange avatar]];
         [cell configureForInteraction:exchange];
-//        NSString *text = [EVStringUtility stringForInteraction:exchange];
-//        cell.label.text = text;
     }
     else
     {

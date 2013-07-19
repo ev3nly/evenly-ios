@@ -30,13 +30,6 @@
 
 + (NSAttributedString *)attributedStringForPendingExchange:(EVExchange *)exchange;
 
-/*
-+ (NSArray *)attributedStringsForObject:(EVObject *)object;
-+ (NSArray *)attributedStringsForExchange:(EVExchange *)exchange;
-+ (NSArray *)attributedStringsForWithdrawal:(EVWithdrawal *)withdrawal;
-+ (NSString *)userNameForObject:(EVObject<EVExchangeable> *)object;
-*/
-
 + (NSDateFormatter *)detailDateFormatter;
 + (NSString *)nameForDetailField:(EVExchangeDetailField)field;
 + (NSString *)detailStringFromDate:(NSDate *)date;
