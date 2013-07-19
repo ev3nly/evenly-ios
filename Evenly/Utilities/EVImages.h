@@ -89,4 +89,10 @@
 + (UIImage *)inviteContactsIcon;
 + (UIImage *)inviteFacebookIcon;
 
+#pragma mark - Banks and Cards
++ (UIImage *)banksCardsAddIcon;
++ (UIImage *)banksCardsDeleteIcon;
++ (UIImage *)bankIllustration;
++ (UIImage *)cardIllustration;
+
 @end

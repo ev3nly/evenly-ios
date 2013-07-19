@@ -60,6 +60,7 @@
 }
 
 - (void)configureAddNewCell:(EVGroupedTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    [super configureAddNewCell:cell atIndexPath:indexPath];
     if (indexPath.row == EVCardsAddNewRowCredit)
         cell.textLabel.text = @"Add Credit Card";
     else
@@ -73,8 +74,12 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 
+- (UIImage *)noFundingSourcesImage {
+    return [EVImages cardIllustration];
+}
+
 - (NSString *)noFundingSourcesAddedString {
-    return @"No cards added.";
+    return @"You haven't added any cards yet.";
 }
 
 - (NSString *)changingActiveString {

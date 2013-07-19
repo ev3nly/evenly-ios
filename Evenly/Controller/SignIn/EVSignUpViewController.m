@@ -8,7 +8,7 @@
 
 #import "EVSignUpViewController.h"
 #import "EVWebViewController.h"
-#import "EVCheckmarkButton.h"
+#import "EVCheckmarkLinkButton.h"
 #import "EVPhotoNameEmailCell.h"
 #import "EVFacebookManager.h"
 #import "ReactiveCocoa.h"
@@ -23,8 +23,8 @@
 @interface EVSignUpViewController ()
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) EVCheckmarkButton *syncContactsButton;
-@property (nonatomic, strong) EVCheckmarkButton *tosAgreementButton;
+@property (nonatomic, strong) EVCheckmarkLinkButton *syncContactsButton;
+@property (nonatomic, strong) EVCheckmarkLinkButton *tosAgreementButton;
 
 @property (nonatomic, strong) UIImage *photo;
 
@@ -104,14 +104,14 @@
 }
 
 - (void)loadSyncContactsButton {
-    self.syncContactsButton = [[EVCheckmarkButton alloc] initWithText:@"Sync Contacts to Server"];
+    self.syncContactsButton = [[EVCheckmarkLinkButton alloc] initWithText:@"Sync Contacts to Server"];
     self.syncContactsButton.checked = YES;
     self.syncContactsButton.frame = [self syncContactsButtonFrame];
     [self.footerView addSubview:self.syncContactsButton];
 }
 
 - (void)loadTosAgreementButton {
-    self.tosAgreementButton = [[EVCheckmarkButton alloc] initWithText:@"I agree to the terms of service and privacy policy"];
+    self.tosAgreementButton = [[EVCheckmarkLinkButton alloc] initWithText:@"I agree to the terms of service and privacy policy"];
     self.tosAgreementButton.frame = [self tosAgreementButtonFrame];
     [self.tosAgreementButton setLinkDelegate:self];
     [self.tosAgreementButton linkToUrl:[self tosUrl] forText:@"terms of service"];

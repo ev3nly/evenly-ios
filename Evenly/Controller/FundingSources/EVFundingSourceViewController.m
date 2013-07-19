@@ -8,9 +8,12 @@
 
 #import "EVFundingSourceViewController.h"
 #import "EVFundingSourceCell.h"
+#import "EVNavigationBarButton.h"
 
 @interface EVFundingSourceViewController ()
 
+@property (nonatomic, strong) EVNoFundingSourcesCell *noFundingSourcesCell;
+@property (nonatomic, strong) EVNavigationBarButton *editButton;
 @end
 
 @implementation EVFundingSourceViewController
@@ -28,6 +31,12 @@
 {
     [super viewDidLoad];
     [self loadTableView];
+    
+    // Make sure the edit button is big enough to accommodate "Done"
+    self.editButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
+    [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
+    [self.editButton addTarget:self action:@selector(editButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:self.editButton]];
 }
 
 - (void)loadTableView {
@@ -39,6 +48,7 @@
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVFundingSourceCell class] forCellReuseIdentifier:@"fundingSourceCell"];
+    [self.tableView registerClass:[EVNoFundingSourcesCell class] forCellReuseIdentifier:@"noFundingSourcesCell"];
     [self.view addSubview:self.tableView];
 }
 
@@ -53,6 +63,15 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)editButtonPress:(id)sender {
+    [self.tableView setEditing:!self.tableView.editing animated:YES];
+    if (self.tableView.editing) {
+        [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
+    } else {
+        [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -72,7 +91,26 @@
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == EVFundingSourceSectionSources) {
+        if (![self isLoading] && [self.fundingSources count] == 0) {
+            return [EVNoFundingSourcesCell height];
+        }
+    }
+    return 44.0;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+   
+    if (indexPath.section == EVFundingSourceSectionSources && ![self isLoading] && [self.fundingSources count] == 0)
+    {
+        EVNoFundingSourcesCell *noFundingSourcesCell = (EVNoFundingSourcesCell *)[tableView dequeueReusableCellWithIdentifier:@"noFundingSourcesCell" forIndexPath:indexPath];
+        [noFundingSourcesCell setUpWithIllustration:[self noFundingSourcesImage]
+                                                    text:[self noFundingSourcesAddedString]];
+        noFundingSourcesCell.position = EVGroupedTableViewCellPositionSingle;
+        return noFundingSourcesCell;
+    }
+    
     EVFundingSourceCell *cell = (EVFundingSourceCell *)[tableView dequeueReusableCellWithIdentifier:@"fundingSourceCell" forIndexPath:indexPath];
     cell.imageView.image = nil;
     cell.textLabel.text = nil;
@@ -81,10 +119,6 @@
         if ([self isLoading])
         {
             cell.textLabel.text = @"Loading...";
-            cell.position = EVGroupedTableViewCellPositionSingle;
-        }
-        else if ([self.fundingSources count] == 0) {
-            cell.textLabel.text = [self noFundingSourcesAddedString];
             cell.position = EVGroupedTableViewCellPositionSingle;
         }
         else
@@ -212,11 +246,16 @@
 }
 
 - (void)configureAddNewCell:(EVGroupedTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    // abstract
+    cell.imageView.image = [EVImages banksCardsAddIcon];
+    cell.accessoryView = [[UIImageView alloc] initWithImage:[EVImages dashboardDisclosureArrow]];
 }
 
 - (BOOL)isLoading {
     return NO; // abstract
+}
+
+- (UIImage *)noFundingSourcesImage {
+    return nil; //abstract
 }
 
 - (NSString *)noFundingSourcesAddedString {

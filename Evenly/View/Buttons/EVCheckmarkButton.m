@@ -7,17 +7,10 @@
 //
 
 #import "EVCheckmarkButton.h"
-#import "EVTapGestureRecognizer.h"
-#import "TTTAttributedLabel.h"
-
-#define SIDE_MARGIN 20
-#define CHECK_LABEL_BUFFER 10
 
 @interface EVCheckmarkButton ()
 
-@property (nonatomic, strong) UIImageView *check;
-@property (nonatomic, strong) TTTAttributedLabel *label;
-@property (nonatomic, assign) BOOL hasLinks;
+@property (nonatomic, strong) UILabel *label;
 
 - (void)loadCheckHole;
 - (void)loadLabel;
@@ -33,6 +26,10 @@
         [self loadCheckHole];
         [self loadLabel];
         self.text = text;
+        
+        self.xMargin = 10.0;
+        self.checkLabelBuffer = 10.0;
+        
         EVTapGestureRecognizer *tapRecognizer = [[EVTapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         tapRecognizer.delegate = self;
         tapRecognizer.cancelsTouchesInView = NO;
@@ -42,10 +39,26 @@
 }
 
 - (void)layoutSubviews {
-    [super layoutSubviews];
+    float maxLabelWidth = (self.bounds.size.width - CGRectGetMaxX(self.check.frame) - self.xMargin - self.checkLabelBuffer);
     
-    self.check.frame = [self checkHoleFrame];
-    self.label.frame = [self labelFrame];
+    
+    CGSize labelSize = [self.label.text sizeWithFont:self.label.font
+                                   constrainedToSize:CGSizeMake(maxLabelWidth, 1000)
+                                       lineBreakMode:self.label.lineBreakMode];
+    
+    CGFloat totalWidth = self.check.image.size.width + self.checkLabelBuffer + labelSize.width;
+    
+    CGFloat xOrigin = (self.frame.size.width - totalWidth) / 2.0;
+    
+    self.check.frame = CGRectMake(xOrigin,
+                                  (self.frame.size.height - self.check.image.size.height) / 2.0,
+                                  self.check.image.size.width,
+                                  self.check.image.size.height);
+    
+    self.label.frame = CGRectMake(CGRectGetMaxX(self.check.frame) + self.checkLabelBuffer,
+                                  CGRectGetMidY(self.bounds) - labelSize.height/2,
+                                  labelSize.width,
+                                  labelSize.height);
 }
 
 #pragma mark - View Loading
@@ -56,23 +69,17 @@
 }
 
 - (void)loadLabel {
-    self.label = [TTTAttributedLabel new];
-    self.label.textColor = [EVColor lightLabelColor];
-    self.label.font = [EVFont defaultFontOfSize:15];
+    self.label = [UILabel new];
+    self.label.textColor = [EVColor darkColor];
+    self.label.font = [EVFont blackFontOfSize:15];
     self.label.backgroundColor = [UIColor clearColor];
-    self.label.numberOfLines = 2;
+    self.label.numberOfLines = 1;
     [self addSubview:self.label];
 }
 
-#pragma mark - Gesture Handling
-
 static BOOL ignoringTap = NO;
 
-- (void)handleTap:(EVTapGestureRecognizer *)tapRecognizer {
-    CGPoint location = [tapRecognizer locationInView:self];
-    if (CGRectContainsPoint(self.label.frame, location) && self.hasLinks)
-        ignoringTap = YES;
-        
+- (void)handleTap:(EVTapGestureRecognizer *)tapRecognizer {    
     if (tapRecognizer.state == UIGestureRecognizerStateBegan && !ignoringTap) {
         [self setHighlighted:YES];
     }
@@ -95,6 +102,8 @@ static BOOL ignoringTap = NO;
         [self setHighlighted:NO];
     }
 }
+
+#pragma mark - Gesture Handling
 
 - (void)setHighlighted:(BOOL)highlighted {
 //    if (self.hasLinks)
@@ -145,36 +154,6 @@ static BOOL ignoringTap = NO;
     
     if (self.label)
         self.label.text = text;
-}
-
-- (void)setLinkDelegate:(id)delegate {
-    self.label.delegate = delegate;
-}
-
-- (void)linkToUrl:(NSURL *)url forText:(NSString *)text {
-    NSRange r = [self.label.text rangeOfString:text];
-    [self.label addLinkToURL:url withRange:r];
-    self.hasLinks = YES;
-}
-
-#pragma mark - Frames
-
-- (CGRect)checkHoleFrame {
-    return CGRectMake(SIDE_MARGIN,
-                      CGRectGetMidY(self.bounds) - self.check.image.size.height/2,
-                      self.check.image.size.width,
-                      self.check.image.size.height);
-}
-
-- (CGRect)labelFrame {
-    float maxLabelWidth = (self.bounds.size.width - CGRectGetMaxX(self.check.frame) - SIDE_MARGIN - CHECK_LABEL_BUFFER);
-    CGSize labelSize = [self.label.text sizeWithFont:self.label.font
-                                   constrainedToSize:CGSizeMake(maxLabelWidth, 1000)
-                                       lineBreakMode:self.label.lineBreakMode];
-    return CGRectMake(CGRectGetMaxX(self.check.frame) + CHECK_LABEL_BUFFER,
-                      CGRectGetMidY(self.bounds) - labelSize.height/2,
-                      labelSize.width,
-                      labelSize.height);
 }
 
 @end
