@@ -40,7 +40,7 @@
 {
     self.textField = [[EVTextField alloc] initWithFrame:CGRectZero];
     _textField.backgroundColor = [UIColor clearColor];
-    _textField.font = [EVFont defaultFontOfSize:16];
+    _textField.font = [EVFont defaultFontOfSize:15];
     _textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     _textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     _textField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -52,7 +52,7 @@
 - (void)configureTextLabel
 {
     self.textLabel.textColor = [EVColor newsfeedNounColor];
-    self.textLabel.font = [EVFont boldFontOfSize:16];
+    self.textLabel.font = [EVFont blackFontOfSize:15];
     self.textLabel.backgroundColor = [UIColor clearColor];
 }
 

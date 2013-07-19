@@ -14,6 +14,16 @@
 		9C038F7D177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F79177E109A00CDE030 /* UIActionSheet+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9C038F7E177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C038F7B177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9C06820A17986FC60015BAF5 /* EVMainMenuFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C06820917986FC60015BAF5 /* EVMainMenuFooter.m */; };
+		9C0682351798855C0015BAF5 /* bc_add.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C06822D1798855C0015BAF5 /* bc_add.png */; };
+		9C0682361798855C0015BAF5 /* bc_add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C06822E1798855C0015BAF5 /* bc_add@2x.png */; };
+		9C0682371798855C0015BAF5 /* bc_bank_illo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C06822F1798855C0015BAF5 /* bc_bank_illo.png */; };
+		9C0682381798855C0015BAF5 /* bc_bank_illo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C0682301798855C0015BAF5 /* bc_bank_illo@2x.png */; };
+		9C0682391798855C0015BAF5 /* bc_card_illo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C0682311798855C0015BAF5 /* bc_card_illo.png */; };
+		9C06823A1798855C0015BAF5 /* bc_card_illo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C0682321798855C0015BAF5 /* bc_card_illo@2x.png */; };
+		9C06823B1798855C0015BAF5 /* bc_remove.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C0682331798855C0015BAF5 /* bc_remove.png */; };
+		9C06823C1798855C0015BAF5 /* bc_remove@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C0682341798855C0015BAF5 /* bc_remove@2x.png */; };
+		9C06824F1798AFC10015BAF5 /* EVCheckingSavingsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C06824E1798AFC10015BAF5 /* EVCheckingSavingsCell.m */; };
+		9C0682521798B3EF0015BAF5 /* EVCheckmarkLinkButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0682511798B3EF0015BAF5 /* EVCheckmarkLinkButton.m */; };
 		9C0EC744175D1D6D003B93E2 /* KWSpec+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC732175D1C2E003B93E2 /* KWSpec+Helper.m */; };
 		9C0EC748175D479F003B93E2 /* EVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC747175D479F003B93E2 /* EVViewController.m */; };
 		9C0EC759175D7CFC003B93E2 /* EVHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC754175D7CFC003B93E2 /* EVHomeViewController.m */; };
@@ -518,6 +528,18 @@
 		9C038F7B177E109A00CDE030 /* UIAlertView+MKBlockAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+MKBlockAdditions.m"; sourceTree = "<group>"; };
 		9C06820817986FC60015BAF5 /* EVMainMenuFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMainMenuFooter.h; sourceTree = "<group>"; };
 		9C06820917986FC60015BAF5 /* EVMainMenuFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMainMenuFooter.m; sourceTree = "<group>"; };
+		9C06822D1798855C0015BAF5 /* bc_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bc_add.png; sourceTree = "<group>"; };
+		9C06822E1798855C0015BAF5 /* bc_add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bc_add@2x.png"; sourceTree = "<group>"; };
+		9C06822F1798855C0015BAF5 /* bc_bank_illo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bc_bank_illo.png; sourceTree = "<group>"; };
+		9C0682301798855C0015BAF5 /* bc_bank_illo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bc_bank_illo@2x.png"; sourceTree = "<group>"; };
+		9C0682311798855C0015BAF5 /* bc_card_illo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bc_card_illo.png; sourceTree = "<group>"; };
+		9C0682321798855C0015BAF5 /* bc_card_illo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bc_card_illo@2x.png"; sourceTree = "<group>"; };
+		9C0682331798855C0015BAF5 /* bc_remove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bc_remove.png; sourceTree = "<group>"; };
+		9C0682341798855C0015BAF5 /* bc_remove@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bc_remove@2x.png"; sourceTree = "<group>"; };
+		9C06824D1798AFC10015BAF5 /* EVCheckingSavingsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCheckingSavingsCell.h; sourceTree = "<group>"; };
+		9C06824E1798AFC10015BAF5 /* EVCheckingSavingsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCheckingSavingsCell.m; sourceTree = "<group>"; };
+		9C0682501798B3EF0015BAF5 /* EVCheckmarkLinkButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCheckmarkLinkButton.h; sourceTree = "<group>"; };
+		9C0682511798B3EF0015BAF5 /* EVCheckmarkLinkButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCheckmarkLinkButton.m; sourceTree = "<group>"; };
 		9C0EC731175D1C2E003B93E2 /* KWSpec+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "KWSpec+Helper.h"; sourceTree = "<group>"; };
 		9C0EC732175D1C2E003B93E2 /* KWSpec+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "KWSpec+Helper.m"; sourceTree = "<group>"; };
 		9C0EC746175D479F003B93E2 /* EVViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVViewController.h; sourceTree = "<group>"; };
@@ -1301,6 +1323,21 @@
 			path = MKAdditions;
 			sourceTree = "<group>";
 		};
+		9C06822C1798855C0015BAF5 /* Banks-Cards */ = {
+			isa = PBXGroup;
+			children = (
+				9C06822D1798855C0015BAF5 /* bc_add.png */,
+				9C06822E1798855C0015BAF5 /* bc_add@2x.png */,
+				9C06822F1798855C0015BAF5 /* bc_bank_illo.png */,
+				9C0682301798855C0015BAF5 /* bc_bank_illo@2x.png */,
+				9C0682311798855C0015BAF5 /* bc_card_illo.png */,
+				9C0682321798855C0015BAF5 /* bc_card_illo@2x.png */,
+				9C0682331798855C0015BAF5 /* bc_remove.png */,
+				9C0682341798855C0015BAF5 /* bc_remove@2x.png */,
+			);
+			path = "Banks-Cards";
+			sourceTree = "<group>";
+		};
 		9C0EC745175D478A003B93E2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -1595,6 +1632,8 @@
 				9C659BF4177A3F080028072A /* EVGroupRequestPaymentOptionButton.m */,
 				D095EED81778F05A0016F434 /* EVCheckmarkButton.h */,
 				D095EED91778F05A0016F434 /* EVCheckmarkButton.m */,
+				9C0682501798B3EF0015BAF5 /* EVCheckmarkLinkButton.h */,
+				9C0682511798B3EF0015BAF5 /* EVCheckmarkLinkButton.m */,
 				9CD473D51790CE6700E60E37 /* EVExpansionArrowButton.h */,
 				9CD473D61790CE6700E60E37 /* EVExpansionArrowButton.m */,
 			);
@@ -1971,6 +2010,8 @@
 				D0770B36177514730002B572 /* EVEditPhotoCell.m */,
 				D0219AD81782B257007FA41C /* EVPhotoNameEmailCell.h */,
 				D0219AD91782B258007FA41C /* EVPhotoNameEmailCell.m */,
+				9C06824D1798AFC10015BAF5 /* EVCheckingSavingsCell.h */,
+				9C06824E1798AFC10015BAF5 /* EVCheckingSavingsCell.m */,
 			);
 			path = Grouped;
 			sourceTree = "<group>";
@@ -2169,6 +2210,7 @@
 			isa = PBXGroup;
 			children = (
 				D03A33771783FE63007F4B0B /* Avatars */,
+				9C06822C1798855C0015BAF5 /* Banks-Cards */,
 				9C900D1F1767FA3E00E2F4C4 /* Buttons */,
 				9C3917391773DEAE002949C3 /* Cells */,
 				9C8186241782499000038B00 /* InstructionView */,
@@ -3071,6 +3113,14 @@
 				D027583A1795FABA004F6F0A /* close_noshadow@2x.png in Resources */,
 				9CE3EFFC179786580040AADA /* Lock@2x.png in Resources */,
 				9CE3EFFD179786580040AADA /* Lock.png in Resources */,
+				9C0682351798855C0015BAF5 /* bc_add.png in Resources */,
+				9C0682361798855C0015BAF5 /* bc_add@2x.png in Resources */,
+				9C0682371798855C0015BAF5 /* bc_bank_illo.png in Resources */,
+				9C0682381798855C0015BAF5 /* bc_bank_illo@2x.png in Resources */,
+				9C0682391798855C0015BAF5 /* bc_card_illo.png in Resources */,
+				9C06823A1798855C0015BAF5 /* bc_card_illo@2x.png in Resources */,
+				9C06823B1798855C0015BAF5 /* bc_remove.png in Resources */,
+				9C06823C1798855C0015BAF5 /* bc_remove@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3411,6 +3461,8 @@
 				9C06820A17986FC60015BAF5 /* EVMainMenuFooter.m in Sources */,
 				D027584D1796221A004F6F0A /* EVChangePasswordViewController.m in Sources */,
 				D0275851179673B3004F6F0A /* EVWebViewController.m in Sources */,
+				9C06824F1798AFC10015BAF5 /* EVCheckingSavingsCell.m in Sources */,
+				9C0682521798B3EF0015BAF5 /* EVCheckmarkLinkButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

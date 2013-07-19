@@ -252,6 +252,7 @@
     else
     {
         cell = (EVPendingExchangeCell *)[self.tableView dequeueReusableCellWithIdentifier:@"noPendingCell" forIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return cell;
 }
@@ -332,6 +333,12 @@
 }
 
 #pragma mark - UITableViewDelegate
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == EVWalletSectionPending && ![self hasPendingExchanges])
+        return nil;
+    return indexPath;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

@@ -15,3 +15,14 @@
 - (void)setUpWithFundingSource:(EVFundingSource *)fundingSource;
 
 @end
+
+@interface EVNoFundingSourcesCell : EVFundingSourceCell
+
+@property (nonatomic, strong) UIImageView *illustrationView;
+@property (nonatomic, strong) UILabel *label;
+
++ (CGFloat)height;
+
+- (void)setUpWithIllustration:(UIImage *)illustration text:(NSString *)text;
+
+@end

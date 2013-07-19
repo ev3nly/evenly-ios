@@ -32,6 +32,8 @@ typedef enum {
 - (BOOL)isLoading;
 - (void)configureAddNewCell:(EVGroupedTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 - (void)goToAddNewScreenFromSelectedIndexPath:(NSIndexPath *)indexPath;
+
+- (UIImage *)noFundingSourcesImage;
 - (NSString *)noFundingSourcesAddedString;
 - (NSString *)changingActiveString;
 @end

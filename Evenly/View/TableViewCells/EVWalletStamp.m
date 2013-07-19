@@ -36,7 +36,11 @@
 }
 
 - (id)initWithText:(NSString *)text maxWidth:(CGFloat)maxWidth {
-    CGSize textSize = [[text uppercaseString] sizeWithFont:[self font] constrainedToSize:CGSizeMake(maxWidth, [self font].lineHeight) lineBreakMode:NSLineBreakByTruncatingMiddle];
+    if ([text isEqualToString:@"American Express"])
+        text = @"Amex";
+    CGSize textSize = [[text uppercaseString] sizeWithFont:[self font]
+                                         constrainedToSize:CGSizeMake(maxWidth, [self font].lineHeight)
+                                             lineBreakMode:NSLineBreakByTruncatingMiddle];
     
     self = [self initWithFrame:CGRectMake(0, 0, textSize.width + 16, textSize.height + 10)];
     if (self) {

@@ -51,6 +51,7 @@
 }
 
 - (void)configureAddNewCell:(EVGroupedTableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    [super configureAddNewCell:cell atIndexPath:indexPath];
     cell.textLabel.text = @"Add Bank Account";
 }
 
@@ -60,8 +61,12 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 
+- (UIImage *)noFundingSourcesImage {
+    return [EVImages bankIllustration];
+}
+
 - (NSString *)noFundingSourcesAddedString {
-    return @"No accounts added.";
+    return @"You haven't added any banks yet.";
 }
 
 - (NSString *)changingActiveString {
