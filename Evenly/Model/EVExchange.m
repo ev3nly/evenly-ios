@@ -80,11 +80,15 @@
     setValueForKeyIfNonNil(self.to.dbid, @"id");
     setValueForKeyIfNonNil(self.to.email, @"email");
     
+    EVPrivacySetting privacySetting = [EVCIA me].privacySetting;
+    if (!self.to.dbid && self.to.email)
+        privacySetting = EVPrivacySettingPrivate;
+    
     return @{
         @"amount":          [self.amount stringValue],
         @"description":     self.memo,
         @"to":              mutableDictionary,
-        @"visibility":      [EVStringUtility stringForPrivacySetting:[EVCIA me].privacySetting]
+        @"visibility":      [EVStringUtility stringForPrivacySetting:privacySetting]
     };
 }
 
