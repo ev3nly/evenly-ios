@@ -13,9 +13,13 @@
 
 #define EV_PENDING_EXCHANGE_CELL_MARGIN 10.0
 #define EV_PENDING_EXCHANGE_CELL_Y_MARGIN 5.0
-#define EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH 190.0
+#define EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH 185.0
 
 #define EV_PENDING_EXCHANGE_CELL_FONT [EVFont defaultFontOfSize:14]
+#define EV_PENDING_EXCHANGE_CELL_BOLD_FONT [EVFont boldFontOfSize:14]
+
+#define MIN_LABEL_SPACING 3
+
 
 @interface EVPendingExchangeCell ()
 
@@ -69,13 +73,19 @@
     self.exchangeContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
 
     self.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.descriptionLabel.backgroundColor = [UIColor clearColor];
     [self.exchangeContainer addSubview:self.descriptionLabel];
     
     self.amountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.amountLabel.font = EV_PENDING_EXCHANGE_CELL_BOLD_FONT;
+    self.amountLabel.backgroundColor = [UIColor clearColor];
+    
     [self.exchangeContainer addSubview:self.amountLabel];
     
     self.dateLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    [self.exchangeContainer addSubview:self.dateLabel];    
+    self.dateLabel.font = EV_PENDING_EXCHANGE_CELL_FONT;
+    self.dateLabel.backgroundColor = [UIColor clearColor];
+    [self.exchangeContainer addSubview:self.dateLabel];
 }
 
 - (void)loadGroupRequestViews {
@@ -103,6 +113,38 @@
 - (void)configureForExchange:(EVExchange *)exchange {
     [self.groupRequestContainer removeFromSuperview];
 
+    [self.exchangeContainer setFrame:[self containerFrame]];
+    NSAttributedString *descriptionString = [EVStringUtility attributedStringForPendingExchange:exchange];
+    NSString *amountString = [EVStringUtility amountStringForAmount:exchange.amount];
+    NSString *dateString = [[EVStringUtility shortDateFormatter] stringFromDate:exchange.createdAt];
+    
+    self.amountLabel.text = amountString;
+    [self.amountLabel sizeToFit];
+    CGFloat yMidpoint = self.exchangeContainer.frame.size.height / 2.0;
+    
+    [self.amountLabel setFrame:CGRectMake(self.exchangeContainer.frame.size.width - self.amountLabel.frame.size.width,
+                                          yMidpoint - self.amountLabel.frame.size.height,
+                                          self.amountLabel.frame.size.width,
+                                          self.amountLabel.frame.size.height)];
+    self.amountLabel.textColor = (exchange.from == nil) ? [EVColor lightGreenColor] : [EVColor lightRedColor];
+
+    [self.descriptionLabel setAttributedText:descriptionString];
+    [self.descriptionLabel setFrame:CGRectMake(0,
+                                               yMidpoint - self.amountLabel.frame.size.height,
+                                               CGRectGetMinX(self.amountLabel.frame) - MIN_LABEL_SPACING,
+                                               self.amountLabel.frame.size.height)];
+    [self.descriptionLabel setAdjustsFontSizeToFitWidth:YES];
+    [self.descriptionLabel setAdjustsLetterSpacingToFitWidth:YES];
+    [self.descriptionLabel setNumberOfLines:1];
+    [self.descriptionLabel setLineBreakMode:NSLineBreakByTruncatingTail];
+    
+    [self.dateLabel setText:dateString];
+    [self.dateLabel sizeToFit];
+    [self.dateLabel setFrame:CGRectMake(0,
+                                        CGRectGetMaxY(self.descriptionLabel.frame),
+                                        self.dateLabel.frame.size.width,
+                                        self.dateLabel.frame.size.height)];
+    [self.containerView addSubview:self.exchangeContainer];
 }
 
 - (void)configureForGroupRequest:(EVGroupRequest *)groupRequest {

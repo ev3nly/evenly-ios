@@ -94,6 +94,51 @@ static NSDateFormatter *_shortDateFormatter;
     return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
 }
 
++ (NSAttributedString *)attributedStringForPendingExchange:(EVExchange *)exchange {
+    NSDictionary *components = [self subjectVerbAndObjectForPendingExchange:exchange];
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@""];
+    
+    NSDictionary *boldAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:14],
+                                      NSForegroundColorAttributeName : [EVColor darkColor] };
+    NSDictionary *regularAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:14],
+                                         NSForegroundColorAttributeName : [EVColor darkColor] };
+    
+    NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" " attributes:regularAttributes];
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:components[@"subject"]
+                                                                       attributes:[components[@"subject"] isEqualToString:@"You"] ? regularAttributes : boldAttributes]];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:components[@"verb"]
+                                                                       attributes:regularAttributes]];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:components[@"object"]
+                                                                       attributes:[components[@"object"] isEqualToString:@"You"] ? regularAttributes : boldAttributes]];
+    return attrString;
+}
+
++ (NSDictionary *)subjectVerbAndObjectForPendingExchange:(EVExchange *)exchange {
+    NSDictionary *dictionary = [self subjectVerbAndObjectForExchange:exchange];
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary:dictionary];
+    NSString *key, *value;
+    if ([mutableDict[@"subject"] isEqualToString:@"You"]) {
+        key = @"object";
+    } else {
+        key = @"subject";
+    }
+    value = mutableDict[key];
+    
+    NSMutableArray *components = [NSMutableArray arrayWithArray:[value componentsSeparatedByString:@" "]];
+    if ([components count] > 1) {
+        NSString *lastName = [components lastObject];
+        lastName = [lastName substringToIndex:1];
+        [components replaceObjectAtIndex:[components count] - 1 withObject:lastName];
+        value = [components componentsJoinedByString:@" "];
+    }
+    mutableDict[key] = value;
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
 #pragma mark - Group Requests
 
 + (NSString *)stringForGroupRequest:(EVGroupRequest *)groupRequest {
@@ -130,6 +175,8 @@ static NSDateFormatter *_shortDateFormatter;
     return [NSString stringWithFormat:@"%d people", numberOfPeople];
 }
 
+
+/*
 + (NSArray *)attributedStringsForObject:(EVObject *)object {
 	if ([object isKindOfClass:[EVExchange class]])
 		return [self attributedStringsForExchange:(EVExchange *)object];
@@ -187,7 +234,7 @@ static NSDateFormatter *_shortDateFormatter;
     NSMutableArray *array = [NSMutableArray array];
     [array addObject:[self attributedStringForSubject:@"You" verb:@"deposited into" object:@"" preposition:@""]];
     [array addObject:[self attributedStringForSubject:withdrawal.bankName verb:@"" object:@"" preposition:@""]];
-    [array addObject:[self attributedStringForDateString:date amountString:amount amountColor:[UIColor blackColor] /* [EVColor withdrawalColor] */]];
+    [array addObject:[self attributedStringForDateString:date amountString:amount amountColor:[UIColor blackColor]]];
     
     return array;
 }
@@ -237,6 +284,8 @@ static NSDateFormatter *_shortDateFormatter;
     }
     return object.name;
 }
+
+*/
 
 static NSDateFormatter *_detailDateFormatter;
 
