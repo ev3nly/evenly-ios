@@ -149,6 +149,10 @@
                              CGRectGetMaxY(logo.frame) + LOGO_TEXT_BUFFER,
                              self.scrollView.bounds.size.width,
                              [self sizeForLabel:label].height);
+    
+    [logo align];
+    [label align];
+    
     [view addSubview:logo];
     [view addSubview:label];
     return view;

@@ -73,6 +73,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     self.dateLabel.frame = [self dateLabelFrame];
     self.likeButton.frame = [self likeButtonFrame];
     self.incomeIcon.frame = [self incomeIconFrame];
+    [self.incomeIcon align];
 }
 
 #pragma mark - Loading
