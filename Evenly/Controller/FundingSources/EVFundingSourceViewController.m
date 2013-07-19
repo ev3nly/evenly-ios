@@ -238,6 +238,10 @@
     return NO; // abstract
 }
 
+- (UIImage *)noFundingSourcesImage {
+    return nil; //abstract
+}
+
 - (NSString *)noFundingSourcesAddedString {
     return nil; // abstract
 }

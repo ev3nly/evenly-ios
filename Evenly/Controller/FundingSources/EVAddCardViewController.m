@@ -33,7 +33,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Add Card";
+        self.title = @"Add a Card";
         self.creditCard = [[EVCreditCard alloc] init];
     }
     return self;
