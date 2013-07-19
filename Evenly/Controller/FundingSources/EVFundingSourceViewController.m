@@ -8,11 +8,12 @@
 
 #import "EVFundingSourceViewController.h"
 #import "EVFundingSourceCell.h"
+#import "EVNavigationBarButton.h"
 
 @interface EVFundingSourceViewController ()
 
 @property (nonatomic, strong) EVNoFundingSourcesCell *noFundingSourcesCell;
-
+@property (nonatomic, strong) EVNavigationBarButton *editButton;
 @end
 
 @implementation EVFundingSourceViewController
@@ -30,6 +31,12 @@
 {
     [super viewDidLoad];
     [self loadTableView];
+    
+    // Make sure the edit button is big enough to accommodate "Done"
+    self.editButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
+    [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
+    [self.editButton addTarget:self action:@selector(editButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:self.editButton]];
 }
 
 - (void)loadTableView {
@@ -56,6 +63,15 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)editButtonPress:(id)sender {
+    [self.tableView setEditing:!self.tableView.editing animated:YES];
+    if (self.tableView.editing) {
+        [self.editButton setTitle:@"Done" forState:UIControlStateNormal];
+    } else {
+        [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
+    }
 }
 
 #pragma mark - UITableViewDataSource
