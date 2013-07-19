@@ -11,6 +11,7 @@
 #import "EVBackButton.h"
 #import "EVExchangeWhatForHeader.h"
 #import "EVStory.h"
+#import "EVValidator.h"
 
 #import "EVRewardsGameViewController.h"
 
@@ -160,10 +161,27 @@
     }];
 }
 
+- (void)nextButtonPress:(id)sender {
+    if (self.phase == EVExchangePhaseWho)
+    {
+        NSString *toFieldContents = self.initialView.toField.textField.text;
+        if ([[EVValidator sharedValidator] stringIsValidEmail:toFieldContents]) {
+            [self.initialView addTokenFromField:self.initialView.toField];
+            [self.autocompleteTableViewController handleFieldInput:nil];
+        } else {
+            [self advancePhase];
+        }
+    }
+    else
+    {
+        [super nextButtonPress:sender];
+    }
+}
+
 #pragma mark - Validation
 
 - (BOOL)shouldAdvanceToHowMuch {
-    if (self.initialView.recipientCount == 0) {
+   if (self.initialView.recipientCount == 0) {
         [self.initialView flashMessage:@"You've got to tell us who you want to pay!"
                                inFrame:self.initialView.toFieldFrame
                           withDuration:2.0];

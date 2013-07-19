@@ -89,6 +89,8 @@
 #pragma mark - Public Interface
 
 - (void)payInFullButtonPress:(id)sender {
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"PAYING..."];
     [self.groupRequest makePaymentOfAmount:self.record.amountOwed
                                  forRecord:self.record
@@ -100,6 +102,8 @@
                                    }];
                                } failure:^(NSError *error) {
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                                   self.navigationItem.leftBarButtonItem.enabled = YES;
+                                   self.navigationItem.rightBarButtonItem.enabled = YES;
                                }];
 }
 
