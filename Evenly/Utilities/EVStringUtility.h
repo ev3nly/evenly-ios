@@ -18,6 +18,8 @@
 
 @interface EVStringUtility : NSObject
 
++ (NSDateFormatter *)shortDateFormatter;
+
 + (NSString *)stringForInteraction:(EVObject *)interaction;
 + (NSString *)stringForExchange:(EVExchange *)exchange;
 + (NSString *)stringForGroupRequest:(EVGroupRequest *)groupRequest;
@@ -26,10 +28,7 @@
 
 + (NSDictionary *)subjectVerbAndObjectForExchange:(EVExchange *)exchange;
 
-+ (NSArray *)attributedStringsForObject:(EVObject *)object;
-+ (NSArray *)attributedStringsForExchange:(EVExchange *)exchange;
-+ (NSArray *)attributedStringsForWithdrawal:(EVWithdrawal *)withdrawal;
-+ (NSString *)userNameForObject:(EVObject<EVExchangeable> *)object;
++ (NSAttributedString *)attributedStringForPendingExchange:(EVExchange *)exchange;
 
 + (NSDateFormatter *)detailDateFormatter;
 + (NSString *)nameForDetailField:(EVExchangeDetailField)field;

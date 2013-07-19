@@ -13,9 +13,10 @@
 @interface EVPendingExchangeCell : EVWalletCell
 
 @property (nonatomic, strong) EVAvatarView *avatarView;
-@property (nonatomic, strong) UILabel *label;
 
 + (CGSize)sizeForInteraction:(EVObject *)object;
+
+- (void)configureForInteraction:(EVObject *)object;
 
 @end
 

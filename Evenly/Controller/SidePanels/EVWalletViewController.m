@@ -246,8 +246,7 @@
                                                                              forIndexPath:indexPath];
         EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
         [cell.avatarView setImage:[exchange avatar]];
-        NSString *text = [EVStringUtility stringForInteraction:exchange];
-        cell.label.text = text;
+        [cell configureForInteraction:exchange];
     }
     else
     {
