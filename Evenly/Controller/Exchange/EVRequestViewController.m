@@ -16,6 +16,7 @@
 #import "EVGroupRequest.h"
 #import "EVGroupRequestTier.h"
 #import "EVStory.h"
+#import "EVValidator.h"
 
 @interface EVRequestViewController ()
 
@@ -242,6 +243,23 @@
         }
     }];
 }
+
+- (void)nextButtonPress:(id)sender {
+    if (self.phase == EVExchangePhaseWho)
+    {
+        NSString *toFieldContents = self.initialView.toField.textField.text;
+        if ([[EVValidator sharedValidator] stringIsValidEmail:toFieldContents]) {
+            [self.initialView addTokenFromField:self.initialView.toField];
+            [self.autocompleteTableViewController handleFieldInput:nil];
+        }
+        [self advancePhase];
+    }
+    else
+    {
+        [super nextButtonPress:sender];
+    }
+}
+
 
 #pragma mark - Validation
 
