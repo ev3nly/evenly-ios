@@ -56,7 +56,7 @@ static NSDateFormatter *_shortDateFormatter;
 + (NSString *)stringForExchange:(EVExchange *)exchange {
     
     NSDictionary *components = [self subjectVerbAndObjectForExchange:exchange];
-    NSString *string = [NSString stringWithFormat:@"%@ %@ %@ %@ for %@\u00A0\u00A0\u00A0•\u00A0\u00A0\u00A0%@",
+    NSString *string = [NSString stringWithFormat:@"%@ %@ %@ %@ for %@\n%@",
                         components[@"subject"],
                         components[@"verb"],
                         components[@"object"],
