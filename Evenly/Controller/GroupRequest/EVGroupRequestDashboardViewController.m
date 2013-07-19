@@ -206,6 +206,8 @@ typedef enum {
 }
 
 - (void)closeRequest {
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     self.groupRequest.completed = YES;
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CLOSING REQUEST..."];
     [self.groupRequest updateWithSuccess:^{
@@ -217,6 +219,8 @@ typedef enum {
         };
     } failure:^(NSError *error) {
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+        self.navigationItem.rightBarButtonItem.enabled = YES;
     }];
 }
 
