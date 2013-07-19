@@ -13,6 +13,8 @@
 #define TO_FIELD_HEIGHT 35
 #define LINE_HEIGHT 40
 
+NSString *const EVExchangeWhoViewAddedTokenFromReturnPressNotification = @"EVExchangeWhoViewAddedTokenFromReturnPressNotification";
+
 @implementation EVExchangeWhoView
 
 - (id)initWithFrame:(CGRect)frame
@@ -174,8 +176,9 @@
         [contact setName:text];
         [self addContact:contact];
         tokenField.textField.text = nil;
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVExchangeWhoViewAddedTokenFromReturnPressNotification
+                                                            object:self];
     }
-    
     // TODO: Support if text is phone number.
 }
 
