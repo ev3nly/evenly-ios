@@ -205,7 +205,7 @@
 }
 
 + (UIImage *)grayLogo {
-    return [UIImage imageNamed:@"logo-gray"];
+    return [UIImage imageNamed:@"security_logo_gray"];
 }
 
 #pragma mark - Avatars
@@ -255,6 +255,24 @@
 
 + (UIImage *)inviteFacebookIcon {
     return [UIImage imageNamed:@"facebook"];
+}
+
+#pragma mark - Banks and Cards
+
++ (UIImage *)banksCardsAddIcon {
+    return [UIImage imageNamed:@"bc_add"];
+}
+
++ (UIImage *)banksCardsDeleteIcon {
+    return [UIImage imageNamed:@"bc_remove"];
+}
+
++ (UIImage *)bankIllustration {
+    return [UIImage imageNamed:@"bc_bank_illo"];
+}
+
++ (UIImage *)cardIllustration {
+    return [UIImage imageNamed:@"bc_card_illo"];
 }
 
 @end

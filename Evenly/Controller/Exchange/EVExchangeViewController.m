@@ -37,6 +37,15 @@
     [self loadAutocomplete];
     
     [self setUpReactions];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tokenAddedByReturnPress:)
+                                                 name:EVExchangeWhoViewAddedTokenFromReturnPressNotification
+                                               object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -201,6 +210,10 @@
 
 - (void)autocompleteViewController:(EVAutocompleteTableViewController *)viewController didSelectContact:(id)contact {
     [self addContact:contact];
+}
+
+- (void)tokenAddedByReturnPress:(NSNotification *)notification {
+    [self.autocompleteTableViewController handleFieldInput:nil];
 }
 
 

@@ -10,11 +10,11 @@
 #import "EVBankAccount.h"
 #import "EVTitleTextFieldCell.h"
 #import "EVNavigationBarButton.h"
+#import "EVCheckingSavingsCell.h"
 
 @interface EVAddBankViewController ()
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIPickerView *pickerView;
 @property (nonatomic, strong) EVBankAccount *bankAccount;
 @property (nonatomic, strong) MBProgressHUD *hud;
 @property (nonatomic, strong) EVNavigationBarButton *saveButton;
@@ -22,10 +22,9 @@
 @property (nonatomic, strong) EVTitleTextFieldCell *ownerNameCell;
 @property (nonatomic, strong) EVTitleTextFieldCell *routingNumberCell;
 @property (nonatomic, strong) EVTitleTextFieldCell *accountNumberCell;
-@property (nonatomic, strong) EVTitleTextFieldCell *accountTypeCell;
+@property (nonatomic, strong) EVCheckingSavingsCell *accountTypeCell;
 
 - (void)loadTableView;
-- (void)loadPickerView;
 - (void)loadStaticCells;
 - (void)loadSaveButton;
 - (void)setUpReactions;
@@ -43,7 +42,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Add Bank Account";
+        self.title = @"Add a Bank";
         self.bankAccount = [[EVBankAccount alloc] init];
     }
     return self;
@@ -54,7 +53,6 @@
     [super viewDidLoad];
     
     [self loadTableView];
-    [self loadPickerView];
     [self loadStaticCells];
     [self loadSaveButton];
     [self setUpReactions];
@@ -72,20 +70,13 @@
     [self.view addSubview:self.tableView];
 }
 
-- (void)loadPickerView {
-    self.pickerView = [[UIPickerView alloc] init];
-    self.pickerView.delegate = self;
-    self.pickerView.dataSource = self;
-    self.pickerView.showsSelectionIndicator = YES;
-}
-
 - (void)loadStaticCells {
     EVTitleTextFieldCell *cell;
     NSInteger index = 0;
     
     cell = [[EVTitleTextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = @"Account Owner";
+    cell.textLabel.text = @"Name";
     cell.textField.placeholder = @"John Grey";
     cell.textField.keyboardType = UIKeyboardTypeNamePhonePad;
     cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
@@ -96,7 +87,7 @@
     
     cell = [[EVTitleTextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = @"Routing Number";
+    cell.textLabel.text = @"Routing";
     cell.textField.placeholder = @"123456789";
     cell.textField.keyboardType = UIKeyboardTypeNumberPad;
     cell.textField.tag = index++;
@@ -107,7 +98,7 @@
     
     cell = [[EVTitleTextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = @"Account Number";
+    cell.textLabel.text = @"Account";
     cell.textField.placeholder = @"123456789";
     cell.textField.keyboardType = UIKeyboardTypeNumberPad;
     cell.textField.tag = index++;
@@ -116,16 +107,11 @@
     self.accountNumberCell.position = EVGroupedTableViewCellPositionCenter;
     self.routingNumberCell.textField.next = self.accountNumberCell.textField;
 
-    cell = [[EVTitleTextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = @"Type";
-    cell.textField.placeholder = @"Checking";
-    cell.textField.inputView = self.pickerView;
-    cell.textField.tag = index++;
-    cell.textField.delegate = self;
-    self.accountTypeCell = cell;
+    EVCheckingSavingsCell *checkingSavingsCell = [[EVCheckingSavingsCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                              reuseIdentifier:nil];
+    checkingSavingsCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.accountTypeCell = checkingSavingsCell;
     self.accountTypeCell.position = EVGroupedTableViewCellPositionBottom;
-    self.accountNumberCell.textField.next = self.accountTypeCell.textField;
 }
 
 - (UITextField *)textFieldAtIndex:(NSInteger)index {
@@ -143,13 +129,11 @@
 - (void)setUpReactions {
     RACSignal *formValidSignal = [RACSignal combineLatest:@[self.ownerNameCell.textField.rac_textSignal,
                                                             self.routingNumberCell.textField.rac_textSignal,
-                                                            self.accountNumberCell.textField.rac_textSignal,
-                                                            self.accountTypeCell.textField.rac_textSignal]
-                                                   reduce:^(NSString *ownerName, NSString *routingNumber, NSString *accountNumber, NSString *accountType) {
+                                                            self.accountNumberCell.textField.rac_textSignal]
+                                                   reduce:^(NSString *ownerName, NSString *routingNumber, NSString *accountNumber) {
                                                        return @([ownerName length] > 0 &&
                                                        [routingNumber length] > 0 && [routingNumber isInteger] &&
-                                                       [accountNumber length] > 0 && [accountNumber isInteger] &&
-                                                       ([accountType isEqualToString:@"Checking"] || [accountType isEqualToString:@"Savings"]));
+                                                       [accountNumber length] > 0 && [accountNumber isInteger]);
                                                    }];
     
     RAC(self.navigationItem.rightBarButtonItem.enabled) = formValidSignal;
@@ -199,7 +183,7 @@
     self.bankAccount.name = self.ownerNameCell.textField.text;
     self.bankAccount.routingNumber = self.routingNumberCell.textField.text;
     self.bankAccount.accountNumber = self.accountNumberCell.textField.text;
-    self.bankAccount.type = self.accountTypeCell.textField.text;
+    self.bankAccount.type = self.accountTypeCell.savingsButton.checked ? @"savings" : @"checking";
     
     [self.bankAccount tokenizeWithSuccess:^{
         
@@ -230,7 +214,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVTitleTextFieldCell *cell;
+    UITableViewCell *cell;
     switch (indexPath.row) {
         case 0:
             cell = self.ownerNameCell;
@@ -250,55 +234,19 @@
     return cell;
 }
 
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 3)
+        return nil;
+    return indexPath;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     EVTitleTextFieldCell *cell = (EVTitleTextFieldCell *)[tableView cellForRowAtIndexPath:indexPath];
     [cell.textField becomeFirstResponder];
 }
 
-#pragma mark - UIPickerViewDataSource
-
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return 2;
-}
-
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    NSString *title = nil;
-    switch (row) {
-        case 0:
-            title = @"Checking";
-            break;
-        case 1:
-            title = @"Savings";
-            break;
-        default:
-            break;
-    }
-    return title;
-}
-
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    NSString *title = [self pickerView:pickerView titleForRow:row forComponent:component];
-    EVTitleTextFieldCell *cell = (EVTitleTextFieldCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
-    [cell.textField setText:title];
-    [cell.textField sendActionsForControlEvents:UIControlEventEditingChanged]; // for rac_textSignal to fire
-}
-
 #pragma mark - UITextFieldDelegate
-
-- (UITextField *)accountTypeField {
-    return [self textFieldAtIndex:3];
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    if (textField == [self accountTypeField]) {
-        [self pickerView:self.pickerView didSelectRow:[self.pickerView selectedRowInComponent:0] inComponent:0];
-    }
-}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if ([(EVTextField *)textField next]) {

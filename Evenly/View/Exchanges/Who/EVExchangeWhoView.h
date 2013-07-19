@@ -9,6 +9,8 @@
 #import "EVExchangeView.h"
 #import "JSTokenField.h"
 
+extern NSString *const EVExchangeWhoViewAddedTokenFromReturnPressNotification;
+
 @interface EVExchangeWhoView : EVExchangeView <JSTokenFieldDelegate>
 
 @property (nonatomic, strong) UIView *upperStripe;
@@ -20,6 +22,7 @@
 @property (nonatomic, strong) NSMutableArray *recipients;
 @property (nonatomic) NSInteger recipientCount;
 
+- (void)addTokenFromField:(JSTokenField *)tokenField;
 - (void)addContact:(EVObject<EVExchangeable> *)contact;
 - (void)loadToField;
 

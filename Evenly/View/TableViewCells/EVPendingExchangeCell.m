@@ -71,14 +71,17 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.label.font = [EVFont boldFontOfSize:14];
+        self.label.font = [EVFont blackFontOfSize:14];
         self.label.textAlignment = NSTextAlignmentCenter;
         self.label.numberOfLines = 1;
-        self.label.text = @"No pending transactions";
+        self.label.text = @"Congrats!  You're all settled up!";
         self.label.frame = self.containerView.bounds;
         [self.avatarView removeFromSuperview];
         self.avatarView = nil;
-        self.accessoryView = nil;        
+        self.accessoryView = nil;
+        
+        [self.stripe removeFromSuperview];
+        self.stripe = nil;
     }
     return self;
 }

@@ -10,7 +10,5 @@
 
 @interface EVAddBankViewController : EVModalViewController <UITableViewDataSource,
                                                        UITableViewDelegate,
-                                                       UITextFieldDelegate,
-                                                       UIPickerViewDelegate,
-                                                       UIPickerViewDataSource>
+                                                       UITextFieldDelegate>
 @end

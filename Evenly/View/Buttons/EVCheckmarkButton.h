@@ -7,14 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVTapGestureRecognizer.h"
 
-@interface EVCheckmarkButton : UIView <UIGestureRecognizerDelegate>
+@interface EVCheckmarkButton : UIControl <UIGestureRecognizerDelegate>
 
 @property (nonatomic, assign) BOOL checked;
+@property (nonatomic, readonly) UILabel *label;
 @property (nonatomic, strong) NSString *text;
+@property (nonatomic, strong) UIImageView *check;
+
+@property (nonatomic) CGFloat xMargin;
+@property (nonatomic) CGFloat checkLabelBuffer;
 
 - (id)initWithText:(NSString *)text;
-- (void)setLinkDelegate:(id)delegate;
-- (void)linkToUrl:(NSURL *)url forText:(NSString *)text;
+- (void)fadeBetweenChecks;
 
 @end
