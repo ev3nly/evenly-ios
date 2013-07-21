@@ -293,22 +293,26 @@ static EVUser *_me;
 #pragma mark Images
 
 - (void)loadAvatar {
-    UIImage *image = [[EVCIA sharedInstance] imageForURL:self.avatarURL];
-    if (image) {
-        self.avatar = image;
-        return;
-    }
-    NSURLRequest *request = [NSURLRequest requestWithURL:self.avatarURL];
-    AFImageRequestOperation *imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
-                                                                                          imageProcessingBlock:NULL
-                                                                                                       success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                                                                           [[EVCIA sharedInstance] setImage:image forURL:self.avatarURL];
-                                                                                                           self.avatar = image;
-                                                                                                           DLog(@"Downloaded image, see? %@", self.avatar);
-                                                                                                       } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                                                                                           //                                                                                                           DLog(@"Houston, you know what's coming next: %@", error);
-                                                                                                       }];
-    [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
+    [[EVCIA sharedInstance] loadImageFromURL:self.avatarURL
+                                     success:^(UIImage *image) {
+                                         self.avatar = image;
+                                     } failure:nil];
+//    UIImage *image = [[EVCIA sharedInstance] imageForURL:self.avatarURL];
+//    if (image) {
+//        self.avatar = image;
+//        return;
+//    }
+//    NSURLRequest *request = [NSURLRequest requestWithURL:self.avatarURL];
+//    AFImageRequestOperation *imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
+//                                                                                          imageProcessingBlock:NULL
+//                                                                                                       success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+//                                                                                                           [[EVCIA sharedInstance] setImage:image forURL:self.avatarURL];
+//                                                                                                           self.avatar = image;
+//                                                                                                           DLog(@"Downloaded image, see? %@", self.avatar);
+//                                                                                                       } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+//                                                                                                           //                                                                                                           DLog(@"Houston, you know what's coming next: %@", error);
+//                                                                                                       }];
+//    [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
 }
 
 - (void)evictAvatarFromCache {

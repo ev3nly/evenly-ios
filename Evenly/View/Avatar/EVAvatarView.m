@@ -108,6 +108,26 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
     self.imageView.image = _avatarOwner.avatar;
 }
 
+- (void)setImageURL:(NSURL *)imageURL {
+    _imageURL = imageURL;
+    
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    indicator.autoresizingMask = EV_AUTORESIZE_TO_CENTER;
+    indicator.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+    [self addSubview:indicator];
+    [indicator startAnimating];
+    
+    [[EVCIA sharedInstance] loadImageFromURL:imageURL
+                                     success:^(UIImage *image) {
+                                         [indicator stopAnimating];
+                                         [indicator removeFromSuperview];
+                                         self.imageView.image = image;
+                                     } failure:^(NSError *error) {
+                                         [indicator stopAnimating];
+                                         [indicator removeFromSuperview];
+                                     }];
+}
+
 - (void)setImage:(UIImage *)image {
     self.imageView.image = image;
 }

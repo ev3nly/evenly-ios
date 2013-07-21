@@ -49,17 +49,10 @@
 #pragma mark - Button Handling
 
 - (void)avatarTappedForUser:(EVUser *)user {
-
+    if (!user.dbid)
+        return;
     EVProfileViewController *profileController = [[EVProfileViewController alloc] initWithUser:user];
     [self.navigationController pushViewController:profileController animated:YES];
-    return;
-    [EVUser loadUser:user withSuccess:^{
-        EVProfileViewController *profileController = [[EVProfileViewController alloc] initWithUser:user];
-        [self.navigationController pushViewController:profileController animated:YES];
-
-    } failure:^(NSError *error) {
-        NSLog(@"failed arg");
-    }];
 }
 
 #pragma mark - TableView DataSource/Delegate

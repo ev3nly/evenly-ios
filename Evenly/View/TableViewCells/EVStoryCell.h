@@ -35,7 +35,7 @@
 @property (nonatomic, strong) UIImageView *incomeIcon;
 
 - (void)loadStoryLabel;
-- (UIImage *)iconForStoryType:(EVStoryType)type;
+- (UIImage *)iconForStoryType:(EVStoryTransactionType)type;
 
 - (CGRect)avatarViewFrame;
 - (CGRect)storyLabelFrame;

@@ -20,7 +20,7 @@
 #define CARD_SCALE (self.view.bounds.size.height/548.0)
 #define TARGET_CARD_HEIGHT 450.0
 #define CARD_HEIGHT ((int)(TARGET_CARD_HEIGHT * CARD_SCALE))
-#define CARD_SIDE_BUFFER 14
+#define CARD_SIDE_BUFFER 16
 #define CARD_PAGE_CONTROL_BUFER 10
 #define SIGN_IN_LABEL_BOTTOM_BUFFER 16
 #define SIGN_IN_LABEL_FONT_SIZE 14
@@ -35,13 +35,16 @@
 #define PICTURE_SCALE_CONSTANT 140.0
 #define PICTURE_SCALE ((self.view.bounds.size.height-PICTURE_SCALE_CONSTANT)/(548.0-PICTURE_SCALE_CONSTANT))
 
-#define SIGNUP_LABEL_Y_ORIGIN 200
+#define SIGNUP_LABEL_Y_ORIGIN 180
 #define BUTTON_LEFT_MARGIN 30
-#define SIGNUP_LABEL_BUTTON_BUFFER 30
+#define SIGNUP_LABEL_BUTTON_BUFFER 20
 #define OR_LABEL_BUTTON_BUFFER 10
 
 #define FACEBOOK_F_TITLE_BUFFER 20
 #define F_ICON_TAG 4402
+#define ROUNDED_CARD_TAG 4205
+
+#define SMALL_SCREEN_PEOPLE_IMAGE_BUFFER 14
 
 @interface EVOnboardingViewController ()
 
@@ -192,8 +195,14 @@
     UIImageView *peopleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"people"]];
     
     [view addSubview:signUpLabel];
-    [view addSubview:peopleImage];
     [view addSubview:facebookButton];
+    
+    for (UIView *subview in view.subviews) {
+        if ([subview viewWithTag:ROUNDED_CARD_TAG])
+            [[subview viewWithTag:ROUNDED_CARD_TAG] addSubview:peopleImage];
+    }
+    
+    float smallScreenBuffer = (self.view.bounds.size.height > 480) ? 0 : SMALL_SCREEN_PEOPLE_IMAGE_BUFFER;
     
     signUpLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:signUpLabel].width/2,
                                    SIGNUP_LABEL_Y_ORIGIN * CARD_SCALE,
@@ -203,10 +212,10 @@
                                       CGRectGetMaxY(signUpLabel.frame) + SIGNUP_LABEL_BUTTON_BUFFER,
                                       self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
                                       [EVImages facebookButton].size.height);
-    peopleImage.frame = CGRectMake(20,
-                                   CGRectGetMaxY(facebookButton.frame) - 40,
-                                   280,
-                                   200);
+    peopleImage.frame = CGRectMake((peopleImage.superview.bounds.size.width - peopleImage.image.size.width)/2,
+                                   peopleImage.superview.bounds.size.height - peopleImage.image.size.height + smallScreenBuffer,
+                                   peopleImage.image.size.width,
+                                   peopleImage.image.size.height);
     
     if ([facebookButton viewWithTag:F_ICON_TAG]) {
         float totalWidth = [EVImages facebookButton].size.width + FACEBOOK_F_TITLE_BUFFER + facebookButton.titleLabel.bounds.size.width;
@@ -281,9 +290,9 @@
     card.backgroundColor = [UIColor whiteColor];
     UIView *baigeBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, card.bounds.size.width, CARD_HEIGHT/3)];
     baigeBackground.backgroundColor = EV_RGB_COLOR(246, 245, 242);
-//    [card addSubview:baigeBackground];
     card.layer.cornerRadius = 10.0;
     card.clipsToBounds = YES;
+    card.tag = ROUNDED_CARD_TAG;
     return card;
 }
 

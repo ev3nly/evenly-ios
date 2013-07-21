@@ -19,7 +19,8 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
 
 @interface EVStory ()
 
-@property (nonatomic, assign) EVStoryType storyType;
+@property (nonatomic, assign) EVStoryTransactionType transactionType;
+@property (nonatomic, assign) int fakeLikeCount;
 
 @end
 
@@ -109,7 +110,7 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
 
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
-    
+    NSLog(@"props: %@", properties);
     // Easy things first
     self.verb = properties[@"verb"];
     self.isPrivate = [properties[@"visibility"] isEqualToString:@"private"];
@@ -167,38 +168,101 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
         [array addObject:like];
     }
     self.likes = array;
+    
+    if (properties[@"likes_count"])
+        self.fakeLikeCount = [properties[@"likes_count"] intValue];
+    else
+        self.fakeLikeCount = -1;
+    
+    self.sourceType = EVStorySourceTypeNormal;
+    if (properties[@"source_type"]) {
+        NSString *sourceType = properties[@"source_type"];
+        if ([sourceType isEqualToString:@"User"])
+            self.sourceType = EVStorySourceTypeUser;
+        else if ([sourceType isEqualToString:@"Hint"])
+            self.sourceType = EVStorySourceTypeHint;
+        else if ([sourceType isEqualToString:@"GettingStarted"])
+            self.sourceType = EVStorySourceTypeGettingStarted;
+    }
+    
+    self.imageURL = [NSURL URLWithString:properties[@"image_url"]];
 
     [self determineStoryType];
 }
 
 - (void)determineStoryType {
     EVUser *me = [[EVCIA sharedInstance] me];
-    if (![[self.subject dbid] isEqualToString:me.dbid] && ![[self.target dbid] isEqualToString:me.dbid])
-        self.storyType = EVStoryTypeNotInvolved;
+    if (![[self.subject dbid] isEqualToString:me.dbid] && ![[self.target dbid] isEqualToString:me.dbid]) {
+        if (self.sourceType == EVStorySourceTypeHint || self.sourceType == EVStorySourceTypeGettingStarted)
+            self.transactionType = EVStoryTransactionTypeInformational;
+        else
+            self.transactionType = EVStoryTransactionTypeNotInvolved;
+    }
     else
     {
         if ([[self.subject dbid] isEqualToString:me.dbid])
         {
             if ([self.verb isEqualToString:@"paid"]) {
-                self.storyType = EVStoryTypeOutgoing;
+                self.transactionType = EVStoryTransactionTypeOutgoing;
             } else if ([self.verb isEqualToString:@"requested"] || [self.verb isEqualToString:@"charged"]) {
-                self.storyType = EVStoryTypePendingIncoming;
+                self.transactionType = EVStoryTransactionTypePendingIncoming;
             } else if ([self.verb isEqualToString:@"withdrew"]) {
-                self.storyType = EVStoryTypeWithdrawal;
+                self.transactionType = EVStoryTransactionTypeWithdrawal;
             }
         }
         else
         {
             if ([self.verb isEqualToString:@"paid"]) {
-                self.storyType = EVStoryTypeIncoming;
+                self.transactionType = EVStoryTransactionTypeIncoming;
             } else if ([self.verb isEqualToString:@"requested"] || [self.verb isEqualToString:@"charged"]) {
-                self.storyType = EVStoryTypePendingOutgoing;
+                self.transactionType = EVStoryTransactionTypePendingOutgoing;
             }
         }
     }
 }
 
+- (NSAttributedString *)attributedStringForHintSourceType {
+    CGFloat fontSize = 15;
+    NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
+                                      NSForegroundColorAttributeName : [EVColor newsfeedNounColor] };
+    NSDictionary *copyAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:fontSize],
+                                      NSForegroundColorAttributeName : [EVColor newsfeedTextColor] };
+    
+    NSAttributedString *title = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", self.verb]
+                                                                attributes:nounAttributes];
+    NSAttributedString *description = [[NSAttributedString alloc] initWithString:self.storyDescription
+                                                                      attributes:copyAttributes];
+
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:title];
+    [attrString appendAttributedString:description];
+
+    return attrString;
+}
+
+- (NSAttributedString *)attributedStringForGettingStartedSourceType {
+    CGFloat fontSize = 15;
+    NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
+                                      NSForegroundColorAttributeName : [EVColor newsfeedNounColor] };
+    NSDictionary *copyAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:fontSize],
+                                      NSForegroundColorAttributeName : [EVColor newsfeedTextColor] };
+    
+    NSAttributedString *title = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", self.verb]
+                                                                attributes:nounAttributes];
+    NSAttributedString *description = [[NSAttributedString alloc] initWithString:self.storyDescription
+                                                                      attributes:copyAttributes];
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:title];
+    [attrString appendAttributedString:description];
+    
+    return attrString;
+}
+
 - (NSAttributedString *)attributedString {
+    
+    if (self.sourceType == EVStorySourceTypeHint)
+        return [self attributedStringForHintSourceType];
+    if (self.sourceType == EVStorySourceTypeGettingStarted)
+        return [self attributedStringForGettingStartedSourceType];
     
     CGFloat fontSize = 15;
     NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
@@ -217,7 +281,7 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     verb = [[NSAttributedString alloc] initWithString:self.verb
                                            attributes:copyAttributes];
     if (self.target) {
-        if (self.displayType != EVStoryDisplayTypePendingTransactionDetail || self.storyType == EVStoryTypePendingIncoming) {
+        if (self.displayType != EVStoryDisplayTypePendingTransactionDetail || self.transactionType == EVStoryTransactionTypePendingIncoming) {
         NSString *targetName = [[self.target dbid] isEqualToString:[EVCIA me].dbid] ? @"You" : [self.target name];
         target = [[NSAttributedString alloc] initWithString:targetName
                                                  attributes:nounAttributes];
@@ -225,14 +289,15 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     }
     if (self.amount == nil || [self.amount isEqualToNumber:[NSDecimalNumber notANumber]])
     {
-        amount = [[NSAttributedString alloc] initWithString:@"money" attributes:copyAttributes];
+        if (self.sourceType == EVStorySourceTypeUser)
+            amount = [[NSAttributedString alloc] initWithString:@"Evenly!" attributes:copyAttributes];
     }
     else
     {
-        if (self.storyType == EVStoryTypeOutgoing || self.storyType == EVStoryTypePendingOutgoing)
+        if (self.transactionType == EVStoryTransactionTypeOutgoing || self.transactionType == EVStoryTransactionTypePendingOutgoing)
             amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
                                                      attributes:negativeAttributes];
-        else if (self.storyType == EVStoryTypeNotInvolved || self.storyType == EVStoryTypeWithdrawal)
+        else if (self.transactionType == EVStoryTransactionTypeNotInvolved || self.transactionType == EVStoryTransactionTypeWithdrawal)
             amount = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount]
                                                      attributes:nounAttributes];
         else
@@ -241,7 +306,7 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     }
 
     if (!EV_IS_EMPTY_STRING(self.storyDescription)) {
-        NSString *preposition = (self.storyType == EVStoryTypeWithdrawal) ? @"into" : @"for";
+        NSString *preposition = (self.transactionType == EVStoryTransactionTypeWithdrawal) ? @"into" : @"for";
         description = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ %@", preposition, self.storyDescription]
                                                       attributes:copyAttributes];
     }
@@ -251,10 +316,12 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     [attrString appendAttributedString:space];
     [attrString appendAttributedString:verb];
     
-    if (self.displayType == EVStoryDisplayTypePendingTransactionDetail && self.storyType == EVStoryTypePendingIncoming) {
+    if (self.displayType == EVStoryDisplayTypePendingTransactionDetail && self.transactionType == EVStoryTransactionTypePendingIncoming) {
         NSAttributedString *from = [[NSAttributedString alloc] initWithString:@"from" attributes:copyAttributes];
-        [attrString appendAttributedString:space];
-        [attrString appendAttributedString:amount];
+        if (amount) {
+            [attrString appendAttributedString:space];
+            [attrString appendAttributedString:amount];
+        }
         if (target) {
             [attrString appendAttributedString:space];
             [attrString appendAttributedString:from];
@@ -267,8 +334,10 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
             [attrString appendAttributedString:space];
             [attrString appendAttributedString:target];
         }
-        [attrString appendAttributedString:space];
-        [attrString appendAttributedString:amount];
+        if (amount) {
+            [attrString appendAttributedString:space];
+            [attrString appendAttributedString:amount];
+        }
     }
     if (description) {
         [attrString appendAttributedString:space];
@@ -278,6 +347,8 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
 }
 
 - (NSInteger)likeCount {
+    if (self.fakeLikeCount >= 0)
+        return self.fakeLikeCount;
     return self.likes.count;
 }
 

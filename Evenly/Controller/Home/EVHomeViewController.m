@@ -123,9 +123,6 @@
     
     [self.view addSubview:self.floatingView];
     
-    [self.floatingView align];
-    [self.requestButton align];
-    [self.payButton align];
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.floatingView.frame.size.height, 0);
 }
 

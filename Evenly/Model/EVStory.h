@@ -14,13 +14,21 @@ extern NSString *const EVStoryLocallyCreatedNotification;
 @class EVGroupRequest;
 
 typedef enum {
-    EVStoryTypeNotInvolved,
-    EVStoryTypePendingIncoming,
-    EVStoryTypePendingOutgoing,
-    EVStoryTypeIncoming,
-    EVStoryTypeOutgoing,
-    EVStoryTypeWithdrawal
-} EVStoryType;
+    EVStorySourceTypeNormal,
+    EVStorySourceTypeUser,
+    EVStorySourceTypeHint,
+    EVStorySourceTypeGettingStarted
+} EVStorySourceType;
+
+typedef enum {
+    EVStoryTransactionTypeNotInvolved,
+    EVStoryTransactionTypePendingIncoming,
+    EVStoryTransactionTypePendingOutgoing,
+    EVStoryTransactionTypeIncoming,
+    EVStoryTransactionTypeOutgoing,
+    EVStoryTransactionTypeWithdrawal,
+    EVStoryTransactionTypeInformational
+} EVStoryTransactionType;
 
 typedef enum {
     EVStoryDisplayTypeMainFeed,
@@ -44,9 +52,12 @@ typedef enum {
 @property (nonatomic, readonly) NSInteger likeCount;
 
 @property (nonatomic, readonly) NSAttributedString *attributedString;
-@property (nonatomic, readonly) EVStoryType storyType;
+@property (nonatomic, readonly) EVStoryTransactionType transactionType;
 @property (nonatomic, assign) EVStoryDisplayType displayType;
+@property (nonatomic, assign) EVStorySourceType sourceType;
 @property (nonatomic, readonly) NSString *likeButtonString;
+
+@property (nonatomic, strong) NSURL *imageURL;
 
 + (EVStory *)storyFromPendingExchange:(EVExchange *)exchange;
 + (EVStory *)storyFromCompletedExchange:(EVExchange *)exchange;

@@ -126,19 +126,20 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 #pragma mark - Button Handling
 
 - (void)likeButtonPress:(id)sender {
-    
-    if (self.story.liked) {
-        [self.story unlikeWithSuccess:^{
-            
-        } failure:^(NSError *error) {
-            
-        }];
-    } else {
-        [self.story likeWithSuccess:^{
-            
-        } failure:^(NSError *error) {
-            
-        }];
+    if (self.story.dbid) {
+        if (self.story.liked) {
+            [self.story unlikeWithSuccess:^{
+                
+            } failure:^(NSError *error) {
+                
+            }];
+        } else {
+            [self.story likeWithSuccess:^{
+                
+            } failure:^(NSError *error) {
+                
+            }];
+        }
     }
     
     self.likeButton.selected = !self.likeButton.selected;
@@ -151,15 +152,14 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 - (void)setStory:(EVStory *)story {
     _story = story;
     
-//    if ([[story.subject dbid] isEqualToString:[EVCIA me].dbid] && story.target)
-//        self.avatarView.avatarOwner = story.target;
-//    else
+    if (story.imageURL)
+        self.avatarView.imageURL = story.imageURL;
+    else
         self.avatarView.avatarOwner = story.subject;
     
     self.storyLabel.attributedText = [story attributedString];
-    self.dateLabel.text = [[[self class] timeIntervalFormatter] stringForTimeIntervalFromDate:[NSDate date]
-                                                                         toDate:[story publishedAt]];
-    self.incomeIcon.image = [self iconForStoryType:story.storyType];
+    self.dateLabel.text = [self dateLabelText];
+    self.incomeIcon.image = [self iconForStoryType:story.transactionType];
     [self.likeButton setSelected:story.liked];
     [self.likeButton setIsPrivate:story.isPrivate];
     [self.likeButton setTitle:[story likeButtonString]];
@@ -167,23 +167,36 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 #pragma mark - Utility
 
-- (UIImage *)iconForStoryType:(EVStoryType)type {
+- (UIImage *)iconForStoryType:(EVStoryTransactionType)type {
     switch (type) {
-        case EVStoryTypeNotInvolved:
+        case EVStoryTransactionTypeNotInvolved:
             return [EVImages transferIcon];
-        case EVStoryTypeIncoming:
+        case EVStoryTransactionTypeIncoming:
             return [EVImages incomeIcon];
-        case EVStoryTypeOutgoing:
+        case EVStoryTransactionTypeOutgoing:
             return [EVImages paymentIcon];
-        case EVStoryTypePendingIncoming:
+        case EVStoryTransactionTypePendingIncoming:
             return [EVImages pendingIncomeIcon];
-        case EVStoryTypePendingOutgoing:
+        case EVStoryTransactionTypePendingOutgoing:
             return [EVImages pendingPaymentIcon];
-        case EVStoryTypeWithdrawal:
+        case EVStoryTransactionTypeWithdrawal:
             return [EVImages transferIcon];
+        case EVStoryTransactionTypeInformational:
+            return [EVImageUtility overlayImage:[EVImages supportIcon] withColor:[UIColor lightGrayColor] identifier:@"graySupportIcon"];
         default:
             return nil;
     }
+}
+
+- (NSString *)dateLabelText {
+    if (self.story.sourceType == EVStorySourceTypeGettingStarted)
+        return @"Getting Started";
+    else if (self.story.sourceType == EVStorySourceTypeHint)
+        return @"Hint";
+    else if (self.story.publishedAt)
+        return [[[self class] timeIntervalFormatter] stringForTimeIntervalFromDate:[NSDate date]
+                                                                            toDate:self.story.publishedAt];
+    return @":)";
 }
 
 #pragma mark - Frames

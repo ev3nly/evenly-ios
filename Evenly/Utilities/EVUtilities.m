@@ -47,6 +47,8 @@
         dbid = [[dictionary valueForKey:@"id"] stringValue];
     else
         dbid = [dictionary valueForKey:@"id"];
+    if (!dbid)
+        dbid = [NSString stringWithFormat:@"%i", (arc4random() % 100000000)];
     return dbid;
 }
 
