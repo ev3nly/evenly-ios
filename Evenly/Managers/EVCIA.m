@@ -273,12 +273,13 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
 }
 
 - (NSArray *)pendingExchanges {
-    NSArray *received = [self pendingReceivedExchanges];
-    NSArray *sent = [received arrayByAddingObjectsFromArray:[self pendingSentExchanges]];
-    NSArray *sorted = [sent sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [[obj1 createdAt] compare:[obj2 createdAt]];
+    NSArray *received = [[self pendingReceivedExchanges] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [[obj2 createdAt] compare:[obj1 createdAt]];
     }];
-    return sorted;
+    NSArray *sent = [[self pendingSentExchanges] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [[obj2 createdAt] compare:[obj1 createdAt]];
+    }];
+    return [received arrayByAddingObjectsFromArray:sent];
 }
 
 - (NSArray *)pendingReceivedExchanges {

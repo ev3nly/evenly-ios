@@ -56,7 +56,7 @@ static NSDateFormatter *_shortDateFormatter;
 + (NSString *)stringForExchange:(EVExchange *)exchange {
     
     NSDictionary *components = [self subjectVerbAndObjectForExchange:exchange];
-    NSString *string = [NSString stringWithFormat:@"%@ %@ %@ %@ for %@\u00A0\u00A0\u00A0•\u00A0\u00A0\u00A0%@",
+    NSString *string = [NSString stringWithFormat:@"%@ %@ %@ %@ for %@\n%@",
                         components[@"subject"],
                         components[@"verb"],
                         components[@"object"],
@@ -102,6 +102,51 @@ static NSDateFormatter *_shortDateFormatter;
     return @"private";
 }
 
++ (NSAttributedString *)attributedStringForPendingExchange:(EVExchange *)exchange {
+    NSDictionary *components = [self subjectVerbAndObjectForPendingExchange:exchange];
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@""];
+    
+    NSDictionary *boldAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:14],
+                                      NSForegroundColorAttributeName : [EVColor darkColor] };
+    NSDictionary *regularAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:14],
+                                         NSForegroundColorAttributeName : [EVColor darkColor] };
+    
+    NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" " attributes:regularAttributes];
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:components[@"subject"]
+                                                                       attributes:[components[@"subject"] isEqualToString:@"You"] ? regularAttributes : boldAttributes]];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:components[@"verb"]
+                                                                       attributes:regularAttributes]];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:components[@"object"]
+                                                                       attributes:[components[@"object"] isEqualToString:@"You"] ? regularAttributes : boldAttributes]];
+    return attrString;
+}
+
++ (NSDictionary *)subjectVerbAndObjectForPendingExchange:(EVExchange *)exchange {
+    NSDictionary *dictionary = [self subjectVerbAndObjectForExchange:exchange];
+    NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary:dictionary];
+    NSString *key, *value;
+    if ([mutableDict[@"subject"] isEqualToString:@"You"]) {
+        key = @"object";
+    } else {
+        key = @"subject";
+    }
+    value = mutableDict[key];
+    
+    NSMutableArray *components = [NSMutableArray arrayWithArray:[value componentsSeparatedByString:@" "]];
+    if ([components count] > 1) {
+        NSString *lastName = [components lastObject];
+        lastName = [lastName substringToIndex:1];
+        [components replaceObjectAtIndex:[components count] - 1 withObject:lastName];
+        value = [components componentsJoinedByString:@" "];
+    }
+    mutableDict[key] = value;
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
 #pragma mark - Group Requests
 
 + (NSString *)stringForGroupRequest:(EVGroupRequest *)groupRequest {
@@ -136,114 +181,6 @@ static NSDateFormatter *_shortDateFormatter;
         return @"1 person";
     }
     return [NSString stringWithFormat:@"%d people", numberOfPeople];
-}
-
-+ (NSArray *)attributedStringsForObject:(EVObject *)object {
-	if ([object isKindOfClass:[EVExchange class]])
-		return [self attributedStringsForExchange:(EVExchange *)object];
-	else if ([object isKindOfClass:[EVWithdrawal class]])
-		return [self attributedStringsForWithdrawal:(EVWithdrawal *)object];
-	
-	return nil;
-}
-
-+ (NSArray *)attributedStringsForExchange:(EVExchange *)exchange {
-    NSMutableArray *array = [NSMutableArray array];
-    
-    NSString *subject;
-    NSString *object;
-    NSString *verb;
-    NSString *description = exchange.memo;
-    NSString *amount = [self amountStringForAmount:exchange.amount];
-    
-    UIColor *amountColor = [UIColor blackColor]; // ([exchange isIncoming] ? [EVColor incomingColor] : [EVColor outgoingColor]);
-    
-    NSString *date = [[self shortDateFormatter] stringFromDate:exchange.createdAt];
-    
-    if ([exchange isKindOfClass:[EVPayment class]]) {
-        verb = @"paid";
-        if (exchange.from == nil) {
-            subject = @"You";
-            object = exchange.to.name;
-        } else { // to = nil
-            subject = exchange.from.name;
-            object = @"You";
-        }
-    } else {
-        if (exchange.from == nil) {
-            subject = exchange.to.name;
-            verb = @"owes";
-            object = @"You";
-        } else { // to = nil
-            subject = @"You";
-            verb = @"owe";
-            object = exchange.from.name;
-        }
-    }
-    
-    [array addObject:[self attributedStringForSubject:subject verb:verb object:object preposition:@"for"]];
-    [array addObject:[[NSMutableAttributedString alloc] initWithString:description]];
-    [array addObject:[self attributedStringForDateString:date amountString:amount amountColor:amountColor]];
-    return array;
-}
-
-+ (NSArray *)attributedStringsForWithdrawal:(EVWithdrawal *)withdrawal {
-    NSString *amount = [self amountStringForAmount:withdrawal.amount];
-    NSString *date = [[self shortDateFormatter] stringFromDate:withdrawal.createdAt];
-
-    
-    NSMutableArray *array = [NSMutableArray array];
-    [array addObject:[self attributedStringForSubject:@"You" verb:@"deposited into" object:@"" preposition:@""]];
-    [array addObject:[self attributedStringForSubject:withdrawal.bankName verb:@"" object:@"" preposition:@""]];
-    [array addObject:[self attributedStringForDateString:date amountString:amount amountColor:[UIColor blackColor] /* [EVColor withdrawalColor] */]];
-    
-    return array;
-}
-
-+ (NSMutableAttributedString *)attributedStringForSubject:(NSString *)subject
-                                                     verb:(NSString *)verb
-                                                   object:(NSString *)object
-                                              preposition:(NSString *)preposition {
-    
-    if (subject == nil)
-        subject = @"Unknown";
-    if (object == nil)
-        object = @"Unknown";
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:subject
-                                                                       attributes:@{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12] }]];
-    NSString *format = @" %@ ";
-    if (EV_IS_EMPTY_STRING(subject))
-        format = @"%@ ";
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:format, verb]
-                                                                       attributes:@{ NSFontAttributeName : [EVFont defaultFontOfSize:14] }]];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:object
-                                                                       attributes:@{ NSFontAttributeName : [EVFont boldFontOfSize:14] }]];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %@", preposition]
-                                                                       attributes:@{ NSFontAttributeName : [EVFont defaultFontOfSize:14] }]];
-    return attrString;
-}
-
-+ (NSMutableAttributedString *)attributedStringForDateString:(NSString *)dateString
-                                                amountString:(NSString *)amountString
-                                                 amountColor:(UIColor *)amountColor {
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] init];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@   •   ", dateString]
-                                                                       attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:12] }]];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:amountString
-                                                                       attributes:@{ NSFontAttributeName : [UIFont boldSystemFontOfSize:12],
-                                                  NSForegroundColorAttributeName : amountColor}]];
-    
-    return attrString;
-}
-
-+ (NSString *)userNameForObject:(EVObject<EVExchangeable> *)object {
-    if (EV_IS_EMPTY_STRING(object.name)) {
-        return @"You";
-    }
-    return object.name;
 }
 
 static NSDateFormatter *_detailDateFormatter;
