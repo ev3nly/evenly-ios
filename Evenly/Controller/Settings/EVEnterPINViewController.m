@@ -72,7 +72,7 @@
 - (void)loadInstructionsLabel {
     self.instructionsLabel = [UILabel new];
     self.instructionsLabel.backgroundColor = [UIColor clearColor];
-    self.instructionsLabel.text = ENTER_TEXT;
+    self.instructionsLabel.text = [self enterPinPrompt];
     self.instructionsLabel.textAlignment = NSTextAlignmentCenter;
     self.instructionsLabel.textColor = [EVColor darkLabelColor];
     self.instructionsLabel.font = [EVFont blackFontOfSize:16];
@@ -161,6 +161,12 @@
     pinView.handleNewPin = ^(NSString *pin) {
         [weakSelf userEnteredPIN:pin];
     };
+}
+
+#pragma mark - Utility
+
+- (NSString *)enterPinPrompt {
+    return ENTER_TEXT;
 }
 
 #pragma mark - Frames

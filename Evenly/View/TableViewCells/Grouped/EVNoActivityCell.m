@@ -11,6 +11,8 @@
 #define TOP_BOTTOM_BUFFER 30
 #define IMAGE_LABEL_BUFFER 12
 #define LABEL_FONT [EVFont defaultFontOfSize:16]
+#define SCREEN_WIDTH [UIApplication sharedApplication].keyWindow.bounds.size.width
+#define LABEL_SIDE_BUFFER 20
 
 @interface EVNoActivityCell ()
 
@@ -25,7 +27,7 @@
     UILabel *label = [self configuredLabel];
     label.text = [user.dbid isEqualToString:[EVCIA me].dbid] ? [EVStringUtility noActivityMessageForSelf] : [EVStringUtility noActivityMessageForOthers];
     float labelHeight = [label.text sizeWithFont:label.font
-                               constrainedToSize:CGSizeMake(320 - 40, 100000)
+                               constrainedToSize:CGSizeMake(SCREEN_WIDTH - LABEL_SIDE_BUFFER*2, 100000)
                                    lineBreakMode:label.lineBreakMode].height;
     return (TOP_BOTTOM_BUFFER + [EVImages inviteFriendsBanner].size.height + IMAGE_LABEL_BUFFER + labelHeight + TOP_BOTTOM_BUFFER);
 }
@@ -82,7 +84,7 @@
 
 - (CGRect)noActivityLabelFrame {
     CGSize labelSize = [self.noActivityLabel.text sizeWithFont:self.noActivityLabel.font
-                                             constrainedToSize:CGSizeMake(320 - 40, 100000)
+                                             constrainedToSize:CGSizeMake(SCREEN_WIDTH - LABEL_SIDE_BUFFER*2, 100000)
                                                  lineBreakMode:self.noActivityLabel.lineBreakMode];
     return CGRectMake(CGRectGetMidX(self.bounds) - labelSize.width/2,
                       CGRectGetMaxY(self.placeholderImageView.frame) + IMAGE_LABEL_BUFFER,

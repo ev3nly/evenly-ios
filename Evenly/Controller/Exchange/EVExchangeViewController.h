@@ -72,4 +72,8 @@ typedef enum {
 - (BOOL)shouldAdvanceToWhatFor;
 - (BOOL)shouldPerformAction;
 
+#pragma mark - Utility
+
+- (void)setVisibilityForExchange:(EVExchange *)exchange;
+
 @end

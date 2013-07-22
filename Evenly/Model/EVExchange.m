@@ -39,6 +39,7 @@
             self.reward = [[EVReward alloc] initWithDictionary:properties[@"reward"]];
         }
     }
+    self.visibility = (properties[@"visibility"]) ? properties[@"visibility"] : [EVStringUtility stringForPrivacySetting:[EVCIA me].privacySetting];
 }
 
 - (NSDictionary *)dictionaryRepresentation {

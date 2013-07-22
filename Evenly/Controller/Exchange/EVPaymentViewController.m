@@ -62,14 +62,11 @@
 }
 
 - (void)sendExchangeToServer {
-    EVPrivacySetting privacySetting = [EVCIA me].privacySetting;
-    if (!self.payment.to.dbid && self.payment.to.email)
-        privacySetting = EVPrivacySettingPrivate;
-    self.payment.visibility = [EVStringUtility stringForPrivacySetting:privacySetting];
-    
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
     
     self.payment.memo = self.whatForView.descriptionField.text;
+    [self setVisibilityForExchange:self.payment];
+    
     [self.payment saveWithSuccess:^{
         [[EVCIA me] setBalance:[[[EVCIA me] balance] decimalNumberBySubtracting:self.payment.amount]];
         [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];

@@ -7,6 +7,8 @@
 //
 
 #import "EVExchangeViewController.h"
+#import "EVExchange.h"
+#import "EVGroupRequest.h"
 #import "ABContactsHelper.h"
 
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
@@ -216,6 +218,13 @@
     [self.autocompleteTableViewController handleFieldInput:nil];
 }
 
+#pragma mark - Utility
 
+- (void)setVisibilityForExchange:(EVExchange *)exchange {
+    EVPrivacySetting privacySetting = [EVCIA me].privacySetting;
+    if (!exchange.to.dbid && exchange.to.email)
+        privacySetting = EVPrivacySettingPrivate;
+    exchange.visibility = [EVStringUtility stringForPrivacySetting:privacySetting];
+}
 
 @end
