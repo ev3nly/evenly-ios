@@ -8,7 +8,7 @@
 
 #import "EVInviteViewController.h"
 #import "EVGroupedTableViewCell.h"
-#import "EVFacebookInviteViewController.h"
+#import "EVInviteFacebookViewController.h"
 #import "EVInviteContactsViewController.h"
 #import "EVInvite.h"
 #import "EVValidator.h"
@@ -170,7 +170,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row == EVInviteMethodFacebook) {
-        EVFacebookInviteViewController *facebookInviteController = [[EVFacebookInviteViewController alloc] initWithNibName:nil bundle:nil];
+        EVInviteFacebookViewController *facebookInviteController = [[EVInviteFacebookViewController alloc] initWithNibName:nil bundle:nil];
         [self.navigationController pushViewController:facebookInviteController animated:YES];
     } else if (indexPath.row == EVInviteMethodContacts) {
         EVInviteContactsViewController *inviteContactsController = [[EVInviteContactsViewController alloc] initWithNibName:nil bundle:nil];

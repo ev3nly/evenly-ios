@@ -8,6 +8,6 @@
 
 #import "EVInviteListViewController.h"
 
-@interface EVFacebookInviteViewController : EVInviteListViewController
+@interface EVInviteFacebookViewController : EVInviteListViewController
 
 @end
