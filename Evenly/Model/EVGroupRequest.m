@@ -52,6 +52,7 @@
     }
     self.records = records;
     self.completed = [properties[@"completed"] boolValue];
+    self.visibility = (properties[@"visibility"]) ? properties[@"visibility"] : [EVStringUtility stringForPrivacySetting:[EVCIA me].privacySetting];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -59,6 +60,7 @@
     
     setValueForKeyIfNonNil(self.title, @"title");
     setValueForKeyIfNonNil(self.memo, @"description");
+    setValueForKeyIfNonNil(self.visibility, @"visibility");
     
     [mutableDictionary setObject:[NSNumber numberWithBool:self.completed] forKey:@"completed"];
     
@@ -443,7 +445,8 @@
                                                                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                                                   NSMutableArray *newRecords = [NSMutableArray arrayWithArray:self.records];
                                                                                   [newRecords removeObject:record];
-                                                                                  self.records = newRecords;                                                                                  if (success)
+                                                                                  self.records = newRecords;
+                                                                                  if (success)
                                                                                       success();
                                                                               }
                                                                               failure:^(AFHTTPRequestOperation *operation, NSError *error)  {

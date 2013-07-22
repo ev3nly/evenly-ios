@@ -7,6 +7,8 @@
 //
 
 #import "EVExchangeViewController.h"
+#import "EVExchange.h"
+#import "EVGroupRequest.h"
 #import "ABContactsHelper.h"
 
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
@@ -53,6 +55,7 @@
     
     [self.pageControl setCenter:CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0,
                                             self.titleLabel.frame.size.height + 5.0)];
+    self.privacySelector.frame = [self privacySelectorFrame];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -115,15 +118,22 @@
 
 
 - (void)loadPrivacySelector {
-    _privacySelector = [[EVPrivacySelectorView alloc] initWithFrame:[self privacySelectorFrame]];
+    _privacySelector = [[EVPrivacySelectorToggle alloc] initWithFrame:[self privacySelectorFrame]];
 }
 
 - (CGRect)privacySelectorFrame {
-    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorView lineHeight] - self.navigationController.navigationBar.bounds.size.height;
+    BOOL shouldShowPrivacySelector = NO;
+    for (EVObject<EVExchangeable> *recipient in [self.initialView recipients]) {
+        if (recipient.dbid)
+            shouldShowPrivacySelector = YES;
+    }
+    self.privacySelector.hidden = !shouldShowPrivacySelector;
+    
+    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorToggle lineHeight];// - self.navigationController.navigationBar.bounds.size.height;
     return CGRectMake(0,
                       yOrigin,
                       self.view.bounds.size.width,
-                      [EVPrivacySelectorView lineHeight] * [EVPrivacySelectorView numberOfLines]);
+                      [EVPrivacySelectorToggle lineHeight] * [EVPrivacySelectorToggle numberOfLines]);
 }
 
 - (void)loadContentViews {
@@ -208,6 +218,13 @@
     [self.autocompleteTableViewController handleFieldInput:nil];
 }
 
+#pragma mark - Utility
 
+- (void)setVisibilityForExchange:(EVExchange *)exchange {
+    EVPrivacySetting privacySetting = [EVCIA me].privacySetting;
+    if (!exchange.to.dbid && exchange.to.email)
+        privacySetting = EVPrivacySettingPrivate;
+    exchange.visibility = [EVStringUtility stringForPrivacySetting:privacySetting];
+}
 
 @end

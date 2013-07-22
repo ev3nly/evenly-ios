@@ -106,12 +106,13 @@
 }
 
 - (void)sendExchangeToServer {
-    
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REQUEST..."];
     
     if (!self.isGroupRequest)
     {
+        [self setVisibilityForExchange:self.request];
         self.request.memo = self.singleWhatForView.descriptionField.text;
+        
         [self.request saveWithSuccess:^{
             
             EVStory *story = [EVStory storyFromPendingExchange:self.request];
@@ -133,6 +134,7 @@
     {
         self.groupRequest.title = self.groupWhatForView.nameField.text;
         self.groupRequest.memo = self.groupWhatForView.descriptionField.text;
+        [self setVisibilityForGroupRequest:self.groupRequest];
         DLog(@"Group request dictionary representation: %@", [self.groupRequest dictionaryRepresentation]);
         
         [EVGroupRequest createWithParams:[self.groupRequest dictionaryRepresentation]
@@ -323,6 +325,13 @@
         }
     }
     return YES;
+}
+
+#pragma mark - Utility
+
+- (void)setVisibilityForGroupRequest:(EVGroupRequest *)groupRequest {
+    EVPrivacySetting privacySetting = [EVCIA me].privacySetting;
+    groupRequest.visibility = [EVStringUtility stringForPrivacySetting:privacySetting];
 }
 
 @end

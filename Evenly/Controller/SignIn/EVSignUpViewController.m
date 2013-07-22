@@ -191,21 +191,22 @@
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navController animated:YES completion:nil];
 }
-
+ 
 #pragma mark - Gesture Handling
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    NSLog(@"gest: %@, oth: %@", gestureRecognizer, otherGestureRecognizer);
-    return YES;
+    if ([otherGestureRecognizer.view isKindOfClass:[EVCheckmarkLinkButton class]])
+        return YES;
+    return NO;
 }
 
 - (void)saveButtonTapped {
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{ @"name" : self.photoNameEmailCell.nameField.text,
-                                   @"email" : self.phoneNumberCell.textField.text,
-                                   @"phone_number" : self.photoNameEmailCell.emailField.text,
+                                   @"email" : self.photoNameEmailCell.emailField.text,
+                                   @"phone_number" : self.phoneNumberCell.textField.text,
                                    @"password" : self.passwordCell.textField.text,
                                    @"password_confirmation" : self.passwordCell.textField.text,
-                                   @"facebook_token" : [EVFacebookManager sharedManager].tokenData}];
+                                   @"facebook_token" : [NSString stringWithFormat:@"%@", [EVFacebookManager sharedManager].tokenData]}];
     if (self.photo)
         [params setObject:self.photo forKey:@"avatar"];
     
@@ -310,6 +311,7 @@
     
     if (row == EVSignUpCellRowPhoneNumber) {
         [editLabelCell setTitle:@"Phone Number" placeholder:@"XXX-XXX-XXXX"];
+        editLabelCell.textField.keyboardType = UIKeyboardTypeNumberPad;
         self.phoneNumberCell = editLabelCell;
     } else if (row == EVSignUpCellRowPassword) {
         [editLabelCell setTitle:@"Password" placeholder:@"at least 8 characters"];
@@ -349,7 +351,7 @@
 
 - (CGRect)footerViewFrame {
     CGRect footerFrame = [super footerViewFrame];
-    footerFrame.size.height += CHECK_VIEW_HEIGHT*2 + CHECKMARK_BUFFER*2;
+    footerFrame.size.height = BUTTON_BUFFER + [EVImages blueButtonBackground].size.height + BUTTON_BUFFER + CHECK_VIEW_HEIGHT*2 + CHECKMARK_BUFFER*2;
     return footerFrame;
 }
 

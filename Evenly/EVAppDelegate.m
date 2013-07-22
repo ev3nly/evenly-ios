@@ -136,8 +136,7 @@
     [FBSession.activeSession handleDidBecomeActive];
     
     NSDate *dateAppEnteredBackground = [[NSUserDefaults standardUserDefaults] objectForKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
-    if (fabs([dateAppEnteredBackground timeIntervalSinceNow]) > EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY) {
-        NSLog(@"int since: %f", [dateAppEnteredBackground timeIntervalSinceNow]);
+    if (dateAppEnteredBackground && fabs([dateAppEnteredBackground timeIntervalSinceNow]) > EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY) {
         EV_DISPATCH_AFTER(0.5, ^{
             if ([[EVPINUtility sharedUtility] pinIsSet])
                 [[self masterViewController] showPINViewControllerAnimated:YES];

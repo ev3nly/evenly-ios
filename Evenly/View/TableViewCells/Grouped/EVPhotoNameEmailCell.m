@@ -102,7 +102,6 @@
     self.emailField.font = [EVFont defaultFontOfSize:16];
     self.emailField.delegate = self;
     self.emailField.returnKeyType = UIReturnKeyNext;
-    self.emailField.keyboardType = UIKeyboardTypeNumberPad;
     self.emailField.placeholder = @"Email";
     self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
