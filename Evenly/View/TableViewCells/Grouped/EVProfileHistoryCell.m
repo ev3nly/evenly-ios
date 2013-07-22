@@ -95,24 +95,24 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
         self.avatarView.avatarOwner = story.subject;
     
     self.storyLabel.attributedText = [story attributedString];
-    self.incomeIcon.image = [self iconForStoryType:story.storyType];
+    self.incomeIcon.image = [self iconForStoryType:story.transactionType];
 }
 
 #pragma mark - Utility
 
-- (UIImage *)iconForStoryType:(EVStoryType)type {
+- (UIImage *)iconForStoryType:(EVStoryTransactionType)type {
     switch (type) {
-        case EVStoryTypeNotInvolved:
+        case EVStoryTransactionTypeNotInvolved:
             return [EVImages transferIcon];
-        case EVStoryTypeIncoming:
+        case EVStoryTransactionTypeIncoming:
             return [EVImages incomeIcon];
-        case EVStoryTypeOutgoing:
+        case EVStoryTransactionTypeOutgoing:
             return [EVImages paymentIcon];
-        case EVStoryTypePendingIncoming:
+        case EVStoryTransactionTypePendingIncoming:
             return [EVImages pendingIncomeIcon];
-        case EVStoryTypePendingOutgoing:
+        case EVStoryTransactionTypePendingOutgoing:
             return [EVImages pendingPaymentIcon];
-        case EVStoryTypeWithdrawal:
+        case EVStoryTransactionTypeWithdrawal:
             return [EVImages transferIcon];
         default:
             return nil;

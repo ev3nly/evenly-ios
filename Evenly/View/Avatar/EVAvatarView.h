@@ -18,5 +18,6 @@
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, assign) float cornerRadius;
 @property (nonatomic, assign) BOOL highlighted;
+@property (nonatomic, strong) NSURL *imageURL;
 
 @end

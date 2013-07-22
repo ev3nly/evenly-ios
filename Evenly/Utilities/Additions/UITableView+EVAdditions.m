@@ -28,7 +28,7 @@
         [self addSubview:indicator];
         [indicator sizeToFit];
         indicator.frame = CGRectMake(CGRectGetMidX(self.bounds) - indicator.bounds.size.width/2,
-                                     CGRectGetMidY(self.bounds) - indicator.bounds.size.height/2,
+                                     CGRectGetMidY(self.bounds) - indicator.bounds.size.height/2 + self.loadingIndicatorYOffset,
                                      indicator.bounds.size.width,
                                      indicator.bounds.size.height);
         [indicator startAnimating];
@@ -50,6 +50,17 @@
         }
     }
     return NO;
+}
+
+static char _loadingIndicatorYOffset;
+
+- (void)setLoadingIndicatorYOffset:(float)loadingIndicatorYOffset {
+    objc_setAssociatedObject(self, &_loadingIndicatorYOffset, [NSNumber numberWithFloat:loadingIndicatorYOffset], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (float)loadingIndicatorYOffset {
+    NSNumber *offset = objc_getAssociatedObject(self, &_loadingIndicatorYOffset);
+    return [offset floatValue];
 }
 
 - (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath {

@@ -11,39 +11,6 @@
 #import "EVRequest.h"
 #import "EVPayment.h"
 
-/* 
- {
-    amount = "10.0";
-    class = Charge;
-    "created_at" = "2013-04-04T04:56:01Z";
-    description = "Lunch @ Sai's";
-    from =     {
-        class = User;
-        "created_at" = "2013-04-03T05:41:57Z";
-        id = 8;
-        name = "Norole Jones";
-    };
-    id = 268;
-    to = me;
- }
- 
- {
-    "class": "SignUpCharge",
-    "id": 335,
-    "created_at": "2013-04-02T22:28:57Z",
-    "amount": "10.0",
-    "description": "Lunch @ Sai's",
-    "to": {
-        "class": "SignUpContact",
-        "id": 128,
-        "created_at": "2013-04-02T22:28:57Z",
-        "name": "joe@paywithivy.com",
-        "information": "joe@paywithivy.com"
-    },
-    "from": "me"
- }
-*/
-
 @implementation EVExchange
 
 - (void)setProperties:(NSDictionary *)properties {
@@ -72,6 +39,7 @@
             self.reward = [[EVReward alloc] initWithDictionary:properties[@"reward"]];
         }
     }
+    self.visibility = (properties[@"visibility"]) ? properties[@"visibility"] : [EVStringUtility stringForPrivacySetting:[EVCIA me].privacySetting];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -83,11 +51,10 @@
     return @{
         @"amount":          [self.amount stringValue],
         @"description":     self.memo,
-        @"to":              mutableDictionary
+        @"to":              mutableDictionary,
+        @"visibility":      self.visibility
     };
 }
-
-
 
 - (BOOL)isIncoming {
     if ([self isKindOfClass:[EVRequest class]])
@@ -119,8 +86,6 @@
         isValid = NO;
     else if (!self.to)
         isValid = NO;
-//    else if (!self.from)
-//        isValid = NO;
     else
         isValid = YES;
     

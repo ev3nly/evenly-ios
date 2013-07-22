@@ -94,6 +94,14 @@ static NSDateFormatter *_shortDateFormatter;
     return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
 }
 
++ (NSString *)stringForPrivacySetting:(EVPrivacySetting)privacySetting {
+    if (privacySetting == EVPrivacySettingFriends)
+        return @"friends";
+    else if (privacySetting == EVPrivacySettingNetwork)
+        return @"network";
+    return @"private";
+}
+
 + (NSAttributedString *)attributedStringForPendingExchange:(EVExchange *)exchange {
     NSDictionary *components = [self subjectVerbAndObjectForPendingExchange:exchange];
     
@@ -377,6 +385,16 @@ static NSDateFormatter *_detailDateFormatter;
 
 + (NSString *)resetFailureMessageGivenError:(NSError *)error {
     return @"Sorry, there was an issue! Please try again.";
+}
+
+#pragma mark - Profile
+
++ (NSString *)noActivityMessageForSelf {
+    return @"No Evenly activity yet. Today's a great day to send your first payment or request.";
+}
+
++ (NSString *)noActivityMessageForOthers {
+    return @"No Evenly activity yet. Tap above and show them how it's done.";
 }
 
 @end

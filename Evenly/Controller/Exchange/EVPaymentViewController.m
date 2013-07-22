@@ -65,6 +65,8 @@
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
     
     self.payment.memo = self.whatForView.descriptionField.text;
+    [self setVisibilityForExchange:self.payment];
+    
     [self.payment saveWithSuccess:^{
         [[EVCIA me] setBalance:[[[EVCIA me] balance] decimalNumberBySubtracting:self.payment.amount]];
         [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];

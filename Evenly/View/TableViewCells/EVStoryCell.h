@@ -22,7 +22,7 @@
 
 @interface EVStoryCell : EVGroupedTableViewCell
 
-+ (CGFloat)cellHeight;
++ (CGFloat)cellHeightForStory:(EVStory *)story;
 + (TTTTimeIntervalFormatter *)timeIntervalFormatter;
 
 @property (nonatomic, weak) EVStory *story;
@@ -35,7 +35,7 @@
 @property (nonatomic, strong) UIImageView *incomeIcon;
 
 - (void)loadStoryLabel;
-- (UIImage *)iconForStoryType:(EVStoryType)type;
+- (UIImage *)iconForStoryType:(EVStoryTransactionType)type;
 
 - (CGRect)avatarViewFrame;
 - (CGRect)storyLabelFrame;
