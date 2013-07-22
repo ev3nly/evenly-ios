@@ -39,16 +39,20 @@
     }
     
     NSMutableArray *tiers = [NSMutableArray array];
-    for (NSDictionary *dictionary in properties[@"tiers"]) {
-        EVGroupRequestTier *tier = [[EVGroupRequestTier alloc] initWithGroupRequest:self properties:dictionary];
-        [tiers addObject:tier];
+    if (properties[@"tiers"]) {
+        for (NSDictionary *dictionary in properties[@"tiers"]) {
+            EVGroupRequestTier *tier = [[EVGroupRequestTier alloc] initWithGroupRequest:self properties:dictionary];
+            [tiers addObject:tier];
+        }
     }
     self.tiers = [NSArray arrayWithArray:tiers];
     
     NSMutableArray *records = [NSMutableArray array];
-    for (NSDictionary *dictionary in properties[@"records"]) {
-        EVGroupRequestRecord *record = [[EVGroupRequestRecord alloc] initWithGroupRequest:self properties:dictionary];
-        [records addObject:record];
+    if (properties[@"records"]) {
+        for (NSDictionary *dictionary in properties[@"records"]) {
+            EVGroupRequestRecord *record = [[EVGroupRequestRecord alloc] initWithGroupRequest:self properties:dictionary];
+            [records addObject:record];
+        }
     }
     self.records = records;
     self.completed = [properties[@"completed"] boolValue];
