@@ -21,7 +21,7 @@
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 
-#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -16
+#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -20
 
 @interface EVHomeViewController ()
 
