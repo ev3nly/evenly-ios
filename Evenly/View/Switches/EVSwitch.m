@@ -95,13 +95,17 @@
 
 #pragma mark - Public Interface
 
+- (void)setOn:(BOOL)on {
+    [self setOn:on animated:NO];
+}
+
 - (void)setOn:(BOOL)on animated:(BOOL)animated {
     NSTimeInterval duration = (animated ? EV_DEFAULT_ANIMATION_DURATION : 0.0);
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(switchControl:willChangeStateTo:animationDuration:)])
         [self.delegate switchControl:self willChangeStateTo:on animationDuration:duration];
 
-    self.on = on;
+    _on = on;
     self.xPercentage = (_on ? 1.0 : 0.0);
     [UIView animateWithDuration:duration animations:^{
         [self layoutForState];

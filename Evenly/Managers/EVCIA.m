@@ -309,10 +309,18 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
 }
 
 - (void)reloadHistoryWithCompletion:(void (^)(NSArray *history))completion {
-    [self reloadAllExchangesWithCompletion:^{
-        if (completion)
-            completion([self.internalCache objectForKey:@"recent"]);
+    [EVUser historyStartingAtPage:1
+                          success:^(NSArray *history) {
+                              [self.internalCache setObject:history forKey:@"recent"];
+                              if (completion)
+                                  completion(history);
+    } failure:^(NSError *error) {
+        DLog(@"Error reloading history: %@", error);
     }];
+//    [self reloadAllExchangesWithCompletion:^{
+//        if (completion)
+//            completion([self.internalCache objectForKey:@"recent"]);
+//    }];
 }
 
 - (void)refreshHistoryWithCompletion:(void (^)(NSArray *history))completion {
