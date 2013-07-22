@@ -59,10 +59,12 @@
    profilePicture:[EVImageUtility imageForContact:contact]];
     cell.identifier = contact;
     cell.handleSelection = ^(ABContact *friend) {
-        self.selectedFriends = [self.selectedFriends arrayByAddingObject:friend];
+        if (![self.selectedFriends containsObject:friend])
+            self.selectedFriends = [self.selectedFriends arrayByAddingObject:friend];
     };
     cell.handleDeselection = ^(ABContact *friend) {
-        self.selectedFriends = [self.selectedFriends arrayByRemovingObject:friend];
+        if ([self.selectedFriends containsObject:friend])
+            self.selectedFriends = [self.selectedFriends arrayByRemovingObject:friend];
     };
     cell.shouldInvite = [self.selectedFriends containsObject:contact];
     
