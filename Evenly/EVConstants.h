@@ -84,3 +84,7 @@ typedef enum {
 #pragma mark - Block Typedefs
 
 typedef void(^EVHandleTextChangeBlock)(NSString *text);
+
+#pragma mark - History
+
+#define EV_HISTORY_ITEMS_PER_PAGE 25
