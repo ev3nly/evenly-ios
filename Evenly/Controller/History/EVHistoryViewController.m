@@ -12,6 +12,7 @@
 #import "EVExchange.h"
 #import "EVWithdrawal.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
+#import "EVLoadingIndicator.h"
 
 #define CELL_HEIGHT 60
 
@@ -80,22 +81,34 @@ static NSDateFormatter *_dateFormatter = nil;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVHistoryCell class] forCellReuseIdentifier:@"historyCell"];
     [self.view addSubview:self.tableView];
+
     
+    EVLoadingIndicator *customLoadingIndicator = [[EVLoadingIndicator alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     __weak EVHistoryViewController *weakSelf = self;
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         weakSelf.pageNumber++;
         [weakSelf.tableView.infiniteScrollingView startAnimating];
-
+        [customLoadingIndicator startAnimating];
         [EVUser historyStartingAtPage:weakSelf.pageNumber
                               success:^(NSArray *history) {
                                   weakSelf.exchanges = [weakSelf.exchanges arrayByAddingObjectsFromArray:history];
                                   [weakSelf.tableView reloadData];
                                   [weakSelf.tableView.infiniteScrollingView stopAnimating];
+                                  [customLoadingIndicator stopAnimating];
                               } failure:^(NSError *error) {
                                   DLog(@"error: %@", error);
+                                  weakSelf.pageNumber--;
                                   [weakSelf.tableView.infiniteScrollingView stopAnimating];
+                                  [customLoadingIndicator stopAnimating];
                               }];
     }];
+    [self.tableView.infiniteScrollingView setCustomView:customLoadingIndicator
+                                               forState:SVInfiniteScrollingStateLoading];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    [self.tableView setFrame:[self.view bounds]];
 }
 
 #pragma mark - TableView DataSource/Delegate
