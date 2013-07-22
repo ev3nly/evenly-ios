@@ -83,7 +83,8 @@ static NSDateFormatter *_dateFormatter = nil;
     [self.view addSubview:self.tableView];
 
     
-    EVLoadingIndicator *customLoadingIndicator = [[EVLoadingIndicator alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+    EVLoadingIndicator *customLoadingIndicator = [[EVLoadingIndicator alloc] initWithFrame:CGRectZero];
+    [customLoadingIndicator sizeToFit];
     __weak EVHistoryViewController *weakSelf = self;
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         weakSelf.pageNumber++;
