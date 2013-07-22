@@ -27,7 +27,10 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(userSignedIn:)
+                                                     name:EVSessionSignedInNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -46,6 +49,12 @@
     [self.view addSubview:self.tableView];
     
     [self loadFooter];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self.tableView reloadData];
 }
 
 - (void)loadFooter {
@@ -145,6 +154,10 @@
     {
         self.masterViewController.centerPanel = viewController;
     }
+}
+
+- (void)userSignedIn:(NSNotification *)notification {
+    [self.tableView reloadData];
 }
 
 #pragma mark - Action Sheet Delegate
