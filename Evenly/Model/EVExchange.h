@@ -18,6 +18,7 @@
 @property (nonatomic, strong) EVObject<EVExchangeable> *from;
 @property (nonatomic, readonly) BOOL isIncoming;
 @property (nonatomic, readonly) UIImage *avatar;
+@property (nonatomic, strong) NSString *visibility;
 
 @property (nonatomic, strong) EVReward *reward;
 

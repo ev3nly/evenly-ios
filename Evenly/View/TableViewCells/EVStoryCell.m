@@ -8,7 +8,6 @@
 
 #import "EVStoryCell.h"
 
-#define EV_STORY_CELL_BACKGROUND_MARGIN 12.0
 #define EV_STORY_CELL_LABEL_WIDTH 200.0
 #define EV_STORY_CELL_LABEL_HEIGHT 44.0
 
@@ -17,20 +16,26 @@
 
 #define EV_STORY_CELL_INCOME_ICON_BUFFER 8
 
-@interface EVStoryCell ()
+#define AVATAR_LENGTH 44
+#define AVATAR_TOP_BUFFER 20
+#define AVATAR_SIDE_BUFFER 20
+#define TEXT_BUFFER 10
 
-- (void)loadAvatarView;
-- (void)loadStoryLabel;
-- (void)loadRules;
-- (void)loadDateLabel;
-- (void)loadLikeButton;
+#define LABEL_ATTRIBUTED_STRING_SIDE_BUFFER 2
+
+@interface EVStoryCell ()
 
 @end
 
 @implementation EVStoryCell
 
-+ (CGFloat)cellHeight {
-    return 112.0;
++ (CGFloat)cellHeightForStory:(EVStory *)story {
+    float labelHeight = [story.attributedString boundingRectWithSize:CGSizeMake(EV_STORY_CELL_LABEL_WIDTH, 100000)
+                                                             options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                                             context:NULL].size.height;
+    float heightDueToLabel = EV_STORY_CELL_BACKGROUND_MARGIN + TEXT_BUFFER + labelHeight + TEXT_BUFFER/2 + EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
+    float minimumHeight = EV_STORY_CELL_BACKGROUND_MARGIN + TEXT_BUFFER + AVATAR_LENGTH + EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
+    return fmaxf(heightDueToLabel, minimumHeight);
 }
 
 static TTTTimeIntervalFormatter *_timeIntervalFormatter;
@@ -73,6 +78,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     self.dateLabel.frame = [self dateLabelFrame];
     self.likeButton.frame = [self likeButtonFrame];
     self.incomeIcon.frame = [self incomeIconFrame];
+    [self.incomeIcon align];
 }
 
 #pragma mark - Loading
@@ -85,8 +91,8 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 - (void)loadStoryLabel {
     self.storyLabel = [UILabel new];
     self.storyLabel.backgroundColor = [UIColor clearColor];
-    self.storyLabel.numberOfLines = 3;
-    self.storyLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    self.storyLabel.numberOfLines = 0;
+    self.storyLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.storyLabel.font = [EVFont defaultFontOfSize:15.0];
     [self.contentView addSubview:self.storyLabel];
 }
@@ -125,19 +131,20 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 #pragma mark - Button Handling
 
 - (void)likeButtonPress:(id)sender {
-    
-    if (self.story.liked) {
-        [self.story unlikeWithSuccess:^{
-            
-        } failure:^(NSError *error) {
-            
-        }];
-    } else {
-        [self.story likeWithSuccess:^{
-            
-        } failure:^(NSError *error) {
-            
-        }];
+    if (self.story.dbid) {
+        if (self.story.liked) {
+            [self.story unlikeWithSuccess:^{
+                
+            } failure:^(NSError *error) {
+                
+            }];
+        } else {
+            [self.story likeWithSuccess:^{
+                
+            } failure:^(NSError *error) {
+                
+            }];
+        }
     }
     
     self.likeButton.selected = !self.likeButton.selected;
@@ -150,15 +157,14 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 - (void)setStory:(EVStory *)story {
     _story = story;
     
-//    if ([[story.subject dbid] isEqualToString:[EVCIA me].dbid] && story.target)
-//        self.avatarView.avatarOwner = story.target;
-//    else
+    if (story.imageURL)
+        self.avatarView.imageURL = story.imageURL;
+    else
         self.avatarView.avatarOwner = story.subject;
     
     self.storyLabel.attributedText = [story attributedString];
-    self.dateLabel.text = [[[self class] timeIntervalFormatter] stringForTimeIntervalFromDate:[NSDate date]
-                                                                         toDate:[story publishedAt]];
-    self.incomeIcon.image = [self iconForStoryType:story.storyType];
+    self.dateLabel.text = [self dateLabelText];
+    self.incomeIcon.image = [self iconForStoryType:story.transactionType];
     [self.likeButton setSelected:story.liked];
     [self.likeButton setIsPrivate:story.isPrivate];
     [self.likeButton setTitle:[story likeButtonString]];
@@ -166,23 +172,36 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 #pragma mark - Utility
 
-- (UIImage *)iconForStoryType:(EVStoryType)type {
+- (UIImage *)iconForStoryType:(EVStoryTransactionType)type {
     switch (type) {
-        case EVStoryTypeNotInvolved:
+        case EVStoryTransactionTypeNotInvolved:
             return [EVImages transferIcon];
-        case EVStoryTypeIncoming:
+        case EVStoryTransactionTypeIncoming:
             return [EVImages incomeIcon];
-        case EVStoryTypeOutgoing:
+        case EVStoryTransactionTypeOutgoing:
             return [EVImages paymentIcon];
-        case EVStoryTypePendingIncoming:
+        case EVStoryTransactionTypePendingIncoming:
             return [EVImages pendingIncomeIcon];
-        case EVStoryTypePendingOutgoing:
+        case EVStoryTransactionTypePendingOutgoing:
             return [EVImages pendingPaymentIcon];
-        case EVStoryTypeWithdrawal:
+        case EVStoryTransactionTypeWithdrawal:
             return [EVImages transferIcon];
+        case EVStoryTransactionTypeInformational:
+            return [EVImageUtility overlayImage:[EVImages supportIcon] withColor:[UIColor lightGrayColor] identifier:@"graySupportIcon"];
         default:
             return nil;
     }
+}
+
+- (NSString *)dateLabelText {
+    if (self.story.sourceType == EVStorySourceTypeGettingStarted)
+        return @"Getting Started";
+    else if (self.story.sourceType == EVStorySourceTypeHint)
+        return @"Hint";
+    else if (self.story.publishedAt)
+        return [[[self class] timeIntervalFormatter] stringForTimeIntervalFromDate:[NSDate date]
+                                                                            toDate:self.story.publishedAt];
+    return @":)";
 }
 
 #pragma mark - Frames
@@ -195,10 +214,15 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 }
 
 - (CGRect)storyLabelFrame {
+    float labelHeight = EV_STORY_CELL_LABEL_HEIGHT;
+    if (self.story)
+        labelHeight = [self.story.attributedString boundingRectWithSize:CGSizeMake(EV_STORY_CELL_LABEL_WIDTH-LABEL_ATTRIBUTED_STRING_SIDE_BUFFER, 100000)
+                                                                options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                                                context:NULL].size.height;
     return CGRectMake(CGRectGetMaxX(self.avatarView.frame) + EV_STORY_CELL_INTERIOR_MARGIN,
                       EV_STORY_CELL_INTERIOR_MARGIN,
                       EV_STORY_CELL_LABEL_WIDTH,
-                      EV_STORY_CELL_LABEL_HEIGHT);
+                      labelHeight);
 }
 
 - (CGRect)horizontalRuleFrame {

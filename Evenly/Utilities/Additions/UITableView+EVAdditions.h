@@ -12,6 +12,7 @@
 @interface UITableView (EVAdditions)
 
 @property (nonatomic, assign, getter=isLoading) BOOL loading;
+@property (nonatomic, assign) float loadingIndicatorYOffset;
 
 - (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath;
 

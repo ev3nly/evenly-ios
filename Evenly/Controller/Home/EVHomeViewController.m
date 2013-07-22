@@ -21,6 +21,8 @@
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 
+#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -20
+
 @interface EVHomeViewController ()
 
 @property (nonatomic, weak) EVCIA *cia;
@@ -96,6 +98,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [EVColor creamColor];
     self.tableView.backgroundView = nil;
+    self.tableView.loadingIndicatorYOffset = TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET;
     [self.tableView registerClass:[EVStoryCell class] forCellReuseIdentifier:@"storyCell"];
     [self.view addSubview:self.tableView];
 }
@@ -223,7 +226,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [EVStoryCell cellHeight];
+    return [EVStoryCell cellHeightForStory:[self.newsfeed objectAtIndex:indexPath.section]];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

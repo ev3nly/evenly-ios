@@ -100,13 +100,13 @@
 - (void)setStory:(EVStory *)story {
     [super setStory:story];
 //    [self switchAvatars];
-    [self configureButtonsForStoryType:story.storyType];
+    [self configureButtonsForStoryType:story.transactionType];
 }
 
 #pragma mark - Utility
 
-- (void)configureButtonsForStoryType:(EVStoryType)storyType {
-    if (storyType == EVStoryTypePendingIncoming) {
+- (void)configureButtonsForStoryType:(EVStoryTransactionType)storyType {
+    if (storyType == EVStoryTransactionTypePendingIncoming) {
         [self loadCancelButton];
         [self loadRemindButton];
     } else {

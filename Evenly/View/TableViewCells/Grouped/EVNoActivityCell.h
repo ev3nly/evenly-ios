@@ -10,6 +10,8 @@
 
 @interface EVNoActivityCell : EVGroupedTableViewCell
 
-+ (float)cellHeight;
+@property (nonatomic, assign) BOOL userIsSelf;
+
++ (float)cellHeightForUser:(EVUser *)user;
 
 @end

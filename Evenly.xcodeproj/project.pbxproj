@@ -408,6 +408,9 @@
 		D027583A1795FABA004F6F0A /* close_noshadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D02758381795FABA004F6F0A /* close_noshadow@2x.png */; };
 		D027584D1796221A004F6F0A /* EVChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D027584C1796221A004F6F0A /* EVChangePasswordViewController.m */; };
 		D0275851179673B3004F6F0A /* EVWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0275850179673B3004F6F0A /* EVWebViewController.m */; };
+		D027586417989B11004F6F0A /* EVPrivacySelectorToggle.m in Sources */ = {isa = PBXBuildFile; fileRef = D027586317989B11004F6F0A /* EVPrivacySelectorToggle.m */; };
+		D02758761799BD7E004F6F0A /* people.png in Resources */ = {isa = PBXBuildFile; fileRef = D02758751799BD7E004F6F0A /* people.png */; };
+		D02758781799F402004F6F0A /* people@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D02758771799F402004F6F0A /* people@2x.png */; };
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
 		D031C3F11787F4F2008AC614 /* EVInviteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F01787F4F2008AC614 /* EVInviteListViewController.m */; };
 		D031C3F41787F550008AC614 /* EVInviteContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F31787F54F008AC614 /* EVInviteContactsViewController.m */; };
@@ -425,7 +428,6 @@
 		D03A338A17840B7D007F4B0B /* btn_invite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A338617840B7D007F4B0B /* btn_invite@2x.png */; };
 		D03A338B17840B7D007F4B0B /* btn_invited.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A338717840B7D007F4B0B /* btn_invited.png */; };
 		D03A338C17840B7D007F4B0B /* btn_invited@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A338817840B7D007F4B0B /* btn_invited@2x.png */; };
-		D03A338E17849CDC007F4B0B /* people.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A338D17849CDC007F4B0B /* people.png */; };
 		D03A339A1784ACBA007F4B0B /* Home.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A33901784ACBA007F4B0B /* Home.png */; };
 		D03A339B1784ACBA007F4B0B /* Home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A33911784ACBA007F4B0B /* Home@2x.png */; };
 		D03A339C1784ACBA007F4B0B /* Invite.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A33921784ACBA007F4B0B /* Invite.png */; };
@@ -1119,6 +1121,10 @@
 		D027584C1796221A004F6F0A /* EVChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVChangePasswordViewController.m; sourceTree = "<group>"; };
 		D027584F179673B3004F6F0A /* EVWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWebViewController.h; sourceTree = "<group>"; };
 		D0275850179673B3004F6F0A /* EVWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWebViewController.m; sourceTree = "<group>"; };
+		D027586217989B10004F6F0A /* EVPrivacySelectorToggle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPrivacySelectorToggle.h; sourceTree = "<group>"; };
+		D027586317989B11004F6F0A /* EVPrivacySelectorToggle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPrivacySelectorToggle.m; sourceTree = "<group>"; };
+		D02758751799BD7E004F6F0A /* people.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = people.png; sourceTree = "<group>"; };
+		D02758771799F402004F6F0A /* people@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "people@2x.png"; sourceTree = "<group>"; };
 		D02CAB0D1761483500323025 /* EVValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVValidator.h; sourceTree = "<group>"; };
 		D02CAB0E1761483500323025 /* EVValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVValidator.m; sourceTree = "<group>"; };
 		D031C3EF1787F4F2008AC614 /* EVInviteListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteListViewController.h; sourceTree = "<group>"; };
@@ -1143,7 +1149,6 @@
 		D03A338617840B7D007F4B0B /* btn_invite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_invite@2x.png"; sourceTree = "<group>"; };
 		D03A338717840B7D007F4B0B /* btn_invited.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_invited.png; sourceTree = "<group>"; };
 		D03A338817840B7D007F4B0B /* btn_invited@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_invited@2x.png"; sourceTree = "<group>"; };
-		D03A338D17849CDC007F4B0B /* people.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = people.png; sourceTree = "<group>"; };
 		D03A33901784ACBA007F4B0B /* Home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Home.png; sourceTree = "<group>"; };
 		D03A33911784ACBA007F4B0B /* Home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Home@2x.png"; sourceTree = "<group>"; };
 		D03A33921784ACBA007F4B0B /* Invite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Invite.png; sourceTree = "<group>"; };
@@ -1448,6 +1453,8 @@
 				9C1606401788D5AE00852684 /* EVPrivacySelectorOption.m */,
 				9C1606411788D5AE00852684 /* EVPrivacySelectorView.h */,
 				9C1606421788D5AE00852684 /* EVPrivacySelectorView.m */,
+				D027586217989B10004F6F0A /* EVPrivacySelectorToggle.h */,
+				D027586317989B11004F6F0A /* EVPrivacySelectorToggle.m */,
 			);
 			path = PrivacySelector;
 			sourceTree = "<group>";
@@ -2712,7 +2719,8 @@
 				D02758171795DA60004F6F0A /* btn-facebook-active@2x.png */,
 				D095EEE71778F1B80016F434 /* facebook-f@.png */,
 				D095EEE81778F1B80016F434 /* facebook-f@2x.png */,
-				D03A338D17849CDC007F4B0B /* people.png */,
+				D02758751799BD7E004F6F0A /* people.png */,
+				D02758771799F402004F6F0A /* people@2x.png */,
 				D027581A1795DBE6004F6F0A /* ob_icon_no_lip.png */,
 				D027581B1795DBE6004F6F0A /* ob_icon_no_lip@2x.png */,
 			);
@@ -3053,7 +3061,6 @@
 				D03A338A17840B7D007F4B0B /* btn_invite@2x.png in Resources */,
 				D03A338B17840B7D007F4B0B /* btn_invited.png in Resources */,
 				D03A338C17840B7D007F4B0B /* btn_invited@2x.png in Resources */,
-				D03A338E17849CDC007F4B0B /* people.png in Resources */,
 				D03A339A1784ACBA007F4B0B /* Home.png in Resources */,
 				D03A339B1784ACBA007F4B0B /* Home@2x.png in Resources */,
 				D03A339C1784ACBA007F4B0B /* Invite.png in Resources */,
@@ -3121,6 +3128,8 @@
 				9C06823A1798855C0015BAF5 /* bc_card_illo@2x.png in Resources */,
 				9C06823B1798855C0015BAF5 /* bc_remove.png in Resources */,
 				9C06823C1798855C0015BAF5 /* bc_remove@2x.png in Resources */,
+				D02758761799BD7E004F6F0A /* people.png in Resources */,
+				D02758781799F402004F6F0A /* people@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3463,6 +3472,7 @@
 				D0275851179673B3004F6F0A /* EVWebViewController.m in Sources */,
 				9C06824F1798AFC10015BAF5 /* EVCheckingSavingsCell.m in Sources */,
 				9C0682521798B3EF0015BAF5 /* EVCheckmarkLinkButton.m in Sources */,
+				D027586417989B11004F6F0A /* EVPrivacySelectorToggle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

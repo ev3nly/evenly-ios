@@ -24,4 +24,6 @@
 
 - (void)configureHandlerOnPinView:(EVPINView *)pinView;
 
+- (NSString *)enterPinPrompt;
+
 @end

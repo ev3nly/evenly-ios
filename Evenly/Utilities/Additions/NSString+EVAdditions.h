@@ -16,4 +16,6 @@
 - (BOOL)isEmail;
 - (BOOL)isPhoneNumber;
 
+- (BOOL)containsString:(NSString *)string;
+
 @end
