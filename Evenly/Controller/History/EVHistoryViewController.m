@@ -11,12 +11,14 @@
 #import "EVActivity.h"
 #import "EVExchange.h"
 #import "EVWithdrawal.h"
+#import "UIScrollView+SVInfiniteScrolling.h"
 
 #define CELL_HEIGHT 60
 
 @interface EVHistoryViewController ()
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic) int pageNumber;
 
 - (void)loadTableView;
 
@@ -39,6 +41,7 @@ static NSDateFormatter *_dateFormatter = nil;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.title = @"History";
+        self.pageNumber = 1;
     }
     return self;
 }
@@ -77,6 +80,22 @@ static NSDateFormatter *_dateFormatter = nil;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVHistoryCell class] forCellReuseIdentifier:@"historyCell"];
     [self.view addSubview:self.tableView];
+    
+    __weak EVHistoryViewController *weakSelf = self;
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        weakSelf.pageNumber++;
+        [weakSelf.tableView.infiniteScrollingView startAnimating];
+
+        [EVUser historyStartingAtPage:weakSelf.pageNumber
+                              success:^(NSArray *history) {
+                                  weakSelf.exchanges = [weakSelf.exchanges arrayByAddingObjectsFromArray:history];
+                                  [weakSelf.tableView reloadData];
+                                  [weakSelf.tableView.infiniteScrollingView stopAnimating];
+                              } failure:^(NSError *error) {
+                                  DLog(@"error: %@", error);
+                                  [weakSelf.tableView.infiniteScrollingView stopAnimating];
+                              }];
+    }];
 }
 
 #pragma mark - TableView DataSource/Delegate

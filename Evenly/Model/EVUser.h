@@ -58,7 +58,13 @@
 + (void)setMe:(EVUser *)user;
 + (void)meWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure reload:(BOOL)reload;
 + (void)saveMeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
+
 + (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure;
++ (void)historyStartingAtPage:(int)pageNumber
+                      success:(void (^)(NSArray *history))success
+                      failure:(void (^)(NSError *error))failure;
+
+
 + (void)loadUser:(EVUser *)user withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 
 + (void)resetPasswordForEmail:(NSString *)email withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
