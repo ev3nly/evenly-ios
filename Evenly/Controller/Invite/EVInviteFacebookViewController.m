@@ -6,16 +6,16 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVFacebookInviteViewController.h"
-#import "EVFacebookInviteCell.h"
+#import "EVInviteFacebookViewController.h"
+#import "EVInviteFacebookCell.h"
 #import "EVFacebookManager.h"
 #import <FacebookSDK/FacebookSDK.h>
 
-@interface EVFacebookInviteViewController ()
+@interface EVInviteFacebookViewController ()
 
 @end
 
-@implementation EVFacebookInviteViewController
+@implementation EVInviteFacebookViewController
 
 #pragma mark - Lifecycle
 
@@ -39,16 +39,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableView registerClass:[EVFacebookInviteCell class] forCellReuseIdentifier:@"facebookInviteCell"];
+    [self.tableView registerClass:[EVInviteFacebookCell class] forCellReuseIdentifier:@"facebookInviteCell"];
 }
 
 #pragma mark - TableView DataSource/Delegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *reuseIdentifier = [NSString stringWithFormat:@"facebookInviteCell-%i", (indexPath.row % 30)];
-    EVFacebookInviteCell *cell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    EVInviteFacebookCell *cell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if (!cell)
-        cell = [[EVFacebookInviteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+        cell = [[EVInviteFacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     
     NSDictionary *userDict = [self.displayedFriendList objectAtIndex:indexPath.row];

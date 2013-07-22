@@ -6,15 +6,15 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVContactInviteCell.h"
+#import "EVInviteContactCell.h"
 
-@interface EVContactInviteCell ()
+@interface EVInviteContactCell ()
 
 @property (nonatomic, strong) UIImageView *profilePicture;
 
 @end
 
-@implementation EVContactInviteCell
+@implementation EVInviteContactCell
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {

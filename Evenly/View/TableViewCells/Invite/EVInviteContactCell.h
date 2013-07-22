@@ -8,7 +8,7 @@
 
 #import "EVInviteCell.h"
 
-@interface EVContactInviteCell : EVInviteCell
+@interface EVInviteContactCell : EVInviteCell
 
 - (void)setName:(NSString *)name profilePicture:(UIImage *)picture;
 
