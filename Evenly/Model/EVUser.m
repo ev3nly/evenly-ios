@@ -148,7 +148,18 @@ static EVUser *_me;
 }
 
 + (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure {
-    NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET" path:@"newsfeed" parameters:nil];
+    [self newsfeedStartingAtPage:1 success:success failure:failure];
+}
+
++ (void)newsfeedStartingAtPage:(int)pageNumber
+                       success:(void (^)(NSArray *newsfeed))success
+                       failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET"
+                                                      path:@"newsfeed"
+                                                parameters:@{
+                                                                @"page" : @(pageNumber),
+                                                                @"per" : @(EV_ITEMS_PER_PAGE)
+                                                            }];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSMutableArray *array = [NSMutableArray array];
@@ -170,6 +181,7 @@ static EVUser *_me;
                                                                       }];
     
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+
 }
 
 
@@ -180,7 +192,7 @@ static EVUser *_me;
                                                       path:@"history"
                                                 parameters:@{
                                                                 @"page" : @(pageNumber),
-                                                                @"per" : @(EV_HISTORY_ITEMS_PER_PAGE)
+                                                                @"per" : @(EV_ITEMS_PER_PAGE)
                                                             }];
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
