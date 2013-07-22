@@ -22,7 +22,7 @@
 
 @interface EVStoryCell : EVGroupedTableViewCell
 
-+ (CGFloat)cellHeight;
++ (CGFloat)cellHeightForStory:(EVStory *)story;
 + (TTTTimeIntervalFormatter *)timeIntervalFormatter;
 
 @property (nonatomic, weak) EVStory *story;

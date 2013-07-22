@@ -8,7 +8,6 @@
 
 #import "EVStoryCell.h"
 
-#define EV_STORY_CELL_BACKGROUND_MARGIN 12.0
 #define EV_STORY_CELL_LABEL_WIDTH 200.0
 #define EV_STORY_CELL_LABEL_HEIGHT 44.0
 
@@ -17,20 +16,26 @@
 
 #define EV_STORY_CELL_INCOME_ICON_BUFFER 8
 
-@interface EVStoryCell ()
+#define AVATAR_LENGTH 44
+#define AVATAR_TOP_BUFFER 20
+#define AVATAR_SIDE_BUFFER 20
+#define TEXT_BUFFER 10
 
-- (void)loadAvatarView;
-- (void)loadStoryLabel;
-- (void)loadRules;
-- (void)loadDateLabel;
-- (void)loadLikeButton;
+#define LABEL_ATTRIBUTED_STRING_SIDE_BUFFER 2
+
+@interface EVStoryCell ()
 
 @end
 
 @implementation EVStoryCell
 
-+ (CGFloat)cellHeight {
-    return 112.0;
++ (CGFloat)cellHeightForStory:(EVStory *)story {
+    float labelHeight = [story.attributedString boundingRectWithSize:CGSizeMake(EV_STORY_CELL_LABEL_WIDTH, 100000)
+                                                             options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                                             context:NULL].size.height;
+    float heightDueToLabel = EV_STORY_CELL_BACKGROUND_MARGIN + TEXT_BUFFER + labelHeight + TEXT_BUFFER/2 + EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
+    float minimumHeight = EV_STORY_CELL_BACKGROUND_MARGIN + TEXT_BUFFER + AVATAR_LENGTH + EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
+    return fmaxf(heightDueToLabel, minimumHeight);
 }
 
 static TTTTimeIntervalFormatter *_timeIntervalFormatter;
@@ -86,8 +91,8 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 - (void)loadStoryLabel {
     self.storyLabel = [UILabel new];
     self.storyLabel.backgroundColor = [UIColor clearColor];
-    self.storyLabel.numberOfLines = 3;
-    self.storyLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    self.storyLabel.numberOfLines = 0;
+    self.storyLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.storyLabel.font = [EVFont defaultFontOfSize:15.0];
     [self.contentView addSubview:self.storyLabel];
 }
@@ -209,10 +214,15 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 }
 
 - (CGRect)storyLabelFrame {
+    float labelHeight = EV_STORY_CELL_LABEL_HEIGHT;
+    if (self.story)
+        labelHeight = [self.story.attributedString boundingRectWithSize:CGSizeMake(EV_STORY_CELL_LABEL_WIDTH-LABEL_ATTRIBUTED_STRING_SIDE_BUFFER, 100000)
+                                                                options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                                                context:NULL].size.height;
     return CGRectMake(CGRectGetMaxX(self.avatarView.frame) + EV_STORY_CELL_INTERIOR_MARGIN,
                       EV_STORY_CELL_INTERIOR_MARGIN,
                       EV_STORY_CELL_LABEL_WIDTH,
-                      EV_STORY_CELL_LABEL_HEIGHT);
+                      labelHeight);
 }
 
 - (CGRect)horizontalRuleFrame {

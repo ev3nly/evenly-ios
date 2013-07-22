@@ -51,7 +51,7 @@ typedef enum {
 @property (nonatomic, strong) NSArray *likes;
 @property (nonatomic, readonly) NSInteger likeCount;
 
-@property (nonatomic, readonly) NSAttributedString *attributedString;
+@property (nonatomic, strong) NSAttributedString *attributedString;
 @property (nonatomic, readonly) EVStoryTransactionType transactionType;
 @property (nonatomic, assign) EVStoryDisplayType displayType;
 @property (nonatomic, assign) EVStorySourceType sourceType;

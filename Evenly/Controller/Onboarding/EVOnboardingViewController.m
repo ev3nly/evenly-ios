@@ -194,7 +194,7 @@
     
     UIImageView *peopleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"people"]];
     
-    [view addSubview:signUpLabel];
+//    [view addSubview:signUpLabel];
     [view addSubview:facebookButton];
     
     for (UIView *subview in view.subviews) {
@@ -209,7 +209,7 @@
                                    [self sizeForLabel:signUpLabel].width,
                                    [self sizeForLabel:signUpLabel].height);
     facebookButton.frame = CGRectMake(BUTTON_LEFT_MARGIN,
-                                      CGRectGetMaxY(signUpLabel.frame) + SIGNUP_LABEL_BUTTON_BUFFER,
+                                      CGRectGetMaxY(signUpLabel.frame),// + SIGNUP_LABEL_BUTTON_BUFFER,
                                       self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
                                       [EVImages facebookButton].size.height);
     peopleImage.frame = CGRectMake((peopleImage.superview.bounds.size.width - peopleImage.image.size.width)/2,

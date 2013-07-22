@@ -87,13 +87,17 @@
 
     [FBWebDialogs
      presentRequestsDialogModallyWithSession:nil
-     message:@"Try Evenly! It's a free way to transfer money between friends!"
+     message:@"Evenly is a free and easy way to share any expense"
      title:nil
      parameters:params
      handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
          if (error) {
              // Error launching the dialog or sending the request.
              NSLog(@"Error sending request.");
+         }
+         if ([[resultURL relativeString] containsString:@"request="]) {
+             self.selectedFriends = [NSArray array];
+             [self.tableView reloadData];
          }
      }];
 }

@@ -63,4 +63,8 @@
     }
 }
 
+- (BOOL)containsString:(NSString *)string {
+    return [self rangeOfString:string].location != NSNotFound;
+}
+
 @end

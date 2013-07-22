@@ -223,7 +223,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [EVStoryCell cellHeight];
+    return [EVStoryCell cellHeightForStory:[self.newsfeed objectAtIndex:indexPath.section]];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
