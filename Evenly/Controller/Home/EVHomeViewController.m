@@ -20,6 +20,7 @@
 
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
+#import "EVLoadingIndicator.h"
 
 #define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -20
 
@@ -30,6 +31,7 @@
 @property (nonatomic, strong) UILabel *balanceLabel;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *newsfeed;
+@property (nonatomic) int pageNumber;
 
 - (void)configurePullToRefresh;
 
@@ -42,6 +44,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Evenly";
+        self.pageNumber = 1;
     }
     return self;
 }
@@ -101,6 +104,29 @@
     self.tableView.loadingIndicatorYOffset = TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET;
     [self.tableView registerClass:[EVStoryCell class] forCellReuseIdentifier:@"storyCell"];
     [self.view addSubview:self.tableView];
+    
+    EVLoadingIndicator *customLoadingIndicator = [[EVLoadingIndicator alloc] initWithFrame:CGRectZero];
+    [customLoadingIndicator sizeToFit];
+    __weak EVHomeViewController *weakSelf = self;
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        weakSelf.pageNumber++;
+        [weakSelf.tableView.infiniteScrollingView startAnimating];
+        [customLoadingIndicator startAnimating];
+        [EVUser newsfeedStartingAtPage:weakSelf.pageNumber
+                              success:^(NSArray *history) {
+                                  weakSelf.newsfeed = [weakSelf.newsfeed arrayByAddingObjectsFromArray:history];
+                                  [weakSelf.tableView reloadData];
+                                  [weakSelf.tableView.infiniteScrollingView stopAnimating];
+                                  [customLoadingIndicator stopAnimating];
+                              } failure:^(NSError *error) {
+                                  DLog(@"error: %@", error);
+                                  weakSelf.pageNumber--;
+                                  [weakSelf.tableView.infiniteScrollingView stopAnimating];
+                                  [customLoadingIndicator stopAnimating];
+                              }];
+    }];
+    [self.tableView.infiniteScrollingView setCustomView:customLoadingIndicator
+                                               forState:SVInfiniteScrollingStateLoading];
 }
 
 - (void)loadFloatingView {
@@ -126,7 +152,7 @@
     
     [self.view addSubview:self.floatingView];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.floatingView.frame.size.height, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.floatingView.frame.size.height + self.tableView.infiniteScrollingView.frame.size.height, 0);
 }
 
 - (void)configurePullToRefresh {

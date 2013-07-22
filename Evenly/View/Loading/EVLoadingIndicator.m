@@ -84,8 +84,4 @@
                       self.logoView.bounds.size.height);
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview {
-    DLog(@"Will move to superview %@", newSuperview);
-}
-
 @end
