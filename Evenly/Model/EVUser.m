@@ -262,6 +262,8 @@ static EVUser *_me;
 
 - (void)updateWithNewAvatar:(UIImage *)newAvatar success:(void (^)(void))success failure:(void (^)(NSError *error))failure
 {
+    self.avatar = newAvatar;
+    
     NSMutableURLRequest *request = nil;
     void (^formBlock)(id<AFMultipartFormData> formData) = NULL;
     NSString *method = @"PUT";
