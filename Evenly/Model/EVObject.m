@@ -179,7 +179,9 @@ static NSDateFormatter *_dateFormatter = nil;
         if ([responseObject isKindOfClass:[NSArray class]]) {
             result = [NSMutableArray array];
             for (NSDictionary *object in responseObject) {
-                [result addObject:[EVSerializer serializeDictionary:object]];
+                EVObject *serializedObject = [EVSerializer serializeDictionary:object];
+                if (serializedObject)
+                    [result addObject:serializedObject];
             }
         } else if ([responseObject isKindOfClass:[NSDictionary class]] && responseObject[@"class"] != nil) {
             result = [EVSerializer serializeDictionary:responseObject];
