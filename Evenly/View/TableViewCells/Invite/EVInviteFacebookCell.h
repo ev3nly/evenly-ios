@@ -8,7 +8,7 @@
 
 #import "EVInviteCell.h"
 
-@interface EVFacebookInviteCell : EVInviteCell
+@interface EVInviteFacebookCell : EVInviteCell
 
 - (void)setName:(NSString *)name profileID:(NSString *)profileID;
 

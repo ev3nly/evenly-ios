@@ -6,16 +6,16 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVFacebookInviteCell.h"
+#import "EVInviteFacebookCell.h"
 #import <FacebookSDK/FacebookSDK.h>
 
-@interface EVFacebookInviteCell ()
+@interface EVInviteFacebookCell ()
 
 @property (nonatomic, strong) FBProfilePictureView *profilePicture;
 
 @end
 
-@implementation EVFacebookInviteCell
+@implementation EVInviteFacebookCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {

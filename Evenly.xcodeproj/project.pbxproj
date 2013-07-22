@@ -414,10 +414,10 @@
 		D02CAB0F1761483500323025 /* EVValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = D02CAB0E1761483500323025 /* EVValidator.m */; };
 		D031C3F11787F4F2008AC614 /* EVInviteListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F01787F4F2008AC614 /* EVInviteListViewController.m */; };
 		D031C3F41787F550008AC614 /* EVInviteContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F31787F54F008AC614 /* EVInviteContactsViewController.m */; };
-		D031C3F917881079008AC614 /* EVFacebookInviteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F817881079008AC614 /* EVFacebookInviteCell.m */; };
+		D031C3F917881079008AC614 /* EVInviteFacebookCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3F817881079008AC614 /* EVInviteFacebookCell.m */; };
 		D031C3FC1788108A008AC614 /* EVInviteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3FB1788108A008AC614 /* EVInviteCell.m */; };
-		D031C3FF1788D146008AC614 /* EVContactInviteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3FE1788D146008AC614 /* EVContactInviteCell.m */; };
-		D03A33731783C01A007F4B0B /* EVFacebookInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03A33721783C01A007F4B0B /* EVFacebookInviteViewController.m */; };
+		D031C3FF1788D146008AC614 /* EVInviteContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3FE1788D146008AC614 /* EVInviteContactCell.m */; };
+		D03A33731783C01A007F4B0B /* EVInviteFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03A33721783C01A007F4B0B /* EVInviteFacebookViewController.m */; };
 		D03A337E1783FE71007F4B0B /* evenly_profilePic1.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A33781783FE71007F4B0B /* evenly_profilePic1.png */; };
 		D03A337F1783FE71007F4B0B /* evenly_profilePic2.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A33791783FE71007F4B0B /* evenly_profilePic2.png */; };
 		D03A33801783FE71007F4B0B /* evenly_profilePic3.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A337A1783FE71007F4B0B /* evenly_profilePic3.png */; };
@@ -1131,14 +1131,14 @@
 		D031C3F01787F4F2008AC614 /* EVInviteListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteListViewController.m; sourceTree = "<group>"; };
 		D031C3F21787F54F008AC614 /* EVInviteContactsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteContactsViewController.h; sourceTree = "<group>"; };
 		D031C3F31787F54F008AC614 /* EVInviteContactsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteContactsViewController.m; sourceTree = "<group>"; };
-		D031C3F717881079008AC614 /* EVFacebookInviteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFacebookInviteCell.h; sourceTree = "<group>"; };
-		D031C3F817881079008AC614 /* EVFacebookInviteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFacebookInviteCell.m; sourceTree = "<group>"; };
+		D031C3F717881079008AC614 /* EVInviteFacebookCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteFacebookCell.h; sourceTree = "<group>"; };
+		D031C3F817881079008AC614 /* EVInviteFacebookCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteFacebookCell.m; sourceTree = "<group>"; };
 		D031C3FA1788108A008AC614 /* EVInviteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteCell.h; sourceTree = "<group>"; };
 		D031C3FB1788108A008AC614 /* EVInviteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteCell.m; sourceTree = "<group>"; };
-		D031C3FD1788D146008AC614 /* EVContactInviteCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVContactInviteCell.h; sourceTree = "<group>"; };
-		D031C3FE1788D146008AC614 /* EVContactInviteCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVContactInviteCell.m; sourceTree = "<group>"; };
-		D03A33711783C019007F4B0B /* EVFacebookInviteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFacebookInviteViewController.h; sourceTree = "<group>"; };
-		D03A33721783C01A007F4B0B /* EVFacebookInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVFacebookInviteViewController.m; sourceTree = "<group>"; };
+		D031C3FD1788D146008AC614 /* EVInviteContactCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteContactCell.h; sourceTree = "<group>"; };
+		D031C3FE1788D146008AC614 /* EVInviteContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteContactCell.m; sourceTree = "<group>"; };
+		D03A33711783C019007F4B0B /* EVInviteFacebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteFacebookViewController.h; sourceTree = "<group>"; };
+		D03A33721783C01A007F4B0B /* EVInviteFacebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteFacebookViewController.m; sourceTree = "<group>"; };
 		D03A33781783FE71007F4B0B /* evenly_profilePic1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_profilePic1.png; sourceTree = "<group>"; };
 		D03A33791783FE71007F4B0B /* evenly_profilePic2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_profilePic2.png; sourceTree = "<group>"; };
 		D03A337A1783FE71007F4B0B /* evenly_profilePic3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_profilePic3.png; sourceTree = "<group>"; };
@@ -1389,8 +1389,8 @@
 				9C0EC766175D80B1003B93E2 /* EVInviteViewController.m */,
 				D031C3EF1787F4F2008AC614 /* EVInviteListViewController.h */,
 				D031C3F01787F4F2008AC614 /* EVInviteListViewController.m */,
-				D03A33711783C019007F4B0B /* EVFacebookInviteViewController.h */,
-				D03A33721783C01A007F4B0B /* EVFacebookInviteViewController.m */,
+				D03A33711783C019007F4B0B /* EVInviteFacebookViewController.h */,
+				D03A33721783C01A007F4B0B /* EVInviteFacebookViewController.m */,
 				D031C3F21787F54F008AC614 /* EVInviteContactsViewController.h */,
 				D031C3F31787F54F008AC614 /* EVInviteContactsViewController.m */,
 			);
@@ -2610,12 +2610,12 @@
 		D031C3F617881049008AC614 /* Invite */ = {
 			isa = PBXGroup;
 			children = (
-				D031C3F717881079008AC614 /* EVFacebookInviteCell.h */,
-				D031C3F817881079008AC614 /* EVFacebookInviteCell.m */,
+				D031C3F717881079008AC614 /* EVInviteFacebookCell.h */,
+				D031C3F817881079008AC614 /* EVInviteFacebookCell.m */,
 				D031C3FA1788108A008AC614 /* EVInviteCell.h */,
 				D031C3FB1788108A008AC614 /* EVInviteCell.m */,
-				D031C3FD1788D146008AC614 /* EVContactInviteCell.h */,
-				D031C3FE1788D146008AC614 /* EVContactInviteCell.m */,
+				D031C3FD1788D146008AC614 /* EVInviteContactCell.h */,
+				D031C3FE1788D146008AC614 /* EVInviteContactCell.m */,
 			);
 			path = Invite;
 			sourceTree = "<group>";
@@ -3443,12 +3443,12 @@
 				9C160677178A086F00852684 /* EVExchangeWhatForHeader.m in Sources */,
 				9C16067A178A0C2600852684 /* EVAvatarToken.m in Sources */,
 				D0219ADA1782B258007FA41C /* EVPhotoNameEmailCell.m in Sources */,
-				D03A33731783C01A007F4B0B /* EVFacebookInviteViewController.m in Sources */,
+				D03A33731783C01A007F4B0B /* EVInviteFacebookViewController.m in Sources */,
 				D031C3F11787F4F2008AC614 /* EVInviteListViewController.m in Sources */,
 				D031C3F41787F550008AC614 /* EVInviteContactsViewController.m in Sources */,
-				D031C3F917881079008AC614 /* EVFacebookInviteCell.m in Sources */,
+				D031C3F917881079008AC614 /* EVInviteFacebookCell.m in Sources */,
 				D031C3FC1788108A008AC614 /* EVInviteCell.m in Sources */,
-				D031C3FF1788D146008AC614 /* EVContactInviteCell.m in Sources */,
+				D031C3FF1788D146008AC614 /* EVInviteContactCell.m in Sources */,
 				D099B397178BF2CB00C067EC /* EVFacebookManager.m in Sources */,
 				D099B3C6178CBF7200C067EC /* EVLoadingIndicator.m in Sources */,
 				9CB7FB4E178CA3BD00827B5B /* EVReward.m in Sources */,
