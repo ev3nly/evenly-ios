@@ -132,6 +132,8 @@
 		9C32422D1777AD3F004A358F /* Progress-Active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C3242291777AD3F004A358F /* Progress-Active@2x.png */; };
 		9C32422E1777AD3F004A358F /* Progress-Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C32422A1777AD3F004A358F /* Progress-Inactive.png */; };
 		9C32422F1777AD3F004A358F /* Progress-Inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C32422B1777AD3F004A358F /* Progress-Inactive@2x.png */; };
+		9C340BB7179DAA1000714169 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C340BB6179DAA1000714169 /* Parse.framework */; };
+		9C340BB9179DAA4900714169 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C340BB8179DAA4900714169 /* StoreKit.framework */; };
 		9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6EF176186A500084FA7 /* EVWalletCell.m */; };
 		9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6F21761871000084FA7 /* EVSidePanelCell.m */; };
 		9C35B6F717618A4400084FA7 /* WalletArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F517618A4400084FA7 /* WalletArrow.png */; };
@@ -730,6 +732,8 @@
 		9C3242291777AD3F004A358F /* Progress-Active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Progress-Active@2x.png"; sourceTree = "<group>"; };
 		9C32422A1777AD3F004A358F /* Progress-Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Progress-Inactive.png"; sourceTree = "<group>"; };
 		9C32422B1777AD3F004A358F /* Progress-Inactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Progress-Inactive@2x.png"; sourceTree = "<group>"; };
+		9C340BB6179DAA1000714169 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		9C340BB8179DAA4900714169 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		9C35B6EE176186A500084FA7 /* EVWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletCell.h; sourceTree = "<group>"; };
 		9C35B6EF176186A500084FA7 /* EVWalletCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletCell.m; sourceTree = "<group>"; };
 		9C35B6F11761871000084FA7 /* EVSidePanelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSidePanelCell.h; sourceTree = "<group>"; };
@@ -1250,6 +1254,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C340BB9179DAA4900714169 /* StoreKit.framework in Frameworks */,
 				D07DC179177E1AFB006DAAF2 /* libsqlite3.dylib in Frameworks */,
 				9C900D341768028D00E2F4C4 /* CoreText.framework in Frameworks */,
 				9CEEB8621755854500C24C2A /* Accounts.framework in Frameworks */,
@@ -1273,6 +1278,7 @@
 				9CEEB8531755271100C24C2A /* Balanced.framework in Frameworks */,
 				9C2FCEF817592062003F13BC /* Crashlytics.framework in Frameworks */,
 				D07DC175177E1A01006DAAF2 /* FacebookSDK.framework in Frameworks */,
+				9C340BB7179DAA1000714169 /* Parse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2134,10 +2140,12 @@
 				D07DC178177E1AFB006DAAF2 /* libsqlite3.dylib */,
 				9CEEB85D1755854400C24C2A /* MessageUI.framework */,
 				9CEEB85E1755854400C24C2A /* MobileCoreServices.framework */,
+				9C340BB6179DAA1000714169 /* Parse.framework */,
 				9CEEB7B41755250800C24C2A /* QuartzCore.framework */,
 				9CEEB85F1755854500C24C2A /* Security.framework */,
 				9C981B40174FD95600BE9506 /* SenTestingKit.framework */,
 				9CEEB8601755854500C24C2A /* Social.framework */,
+				9C340BB8179DAA4900714169 /* StoreKit.framework */,
 				9CEEB8611755854500C24C2A /* SystemConfiguration.framework */,
 				9C981B22174FD95600BE9506 /* UIKit.framework */,
 			);

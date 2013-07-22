@@ -29,6 +29,7 @@
 #import "EVSignInViewController.h"
 
 #import <FacebookSDK/FacebookSDK.h>
+#import <Parse/Parse.h>
 
 #define EV_APP_ENTERED_BACKGROUND_DATE_KEY @"EVAppEnteredBackgroundDate"
 #define EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY 30
@@ -72,8 +73,8 @@
 - (void)registerWithServices {
     [Crashlytics startWithAPIKey:@"57feb0d7e994889c02aae5608c93b9891426fff9"];
     [NewRelicAgent startWithApplicationToken:@"AA4424ba31b14b47817d4f97239eb1accee8d301fc"];
-    //    [Parse setApplicationId:@"O1LVB8cEUNOYvAjjWjKSKzgx3CkEt4jDykr5H8ah"
-    //                  clientKey:@"IylwifyGsv729Cg6HuiIsHkQBUvdrLttQIQTPlFV"];
+    [Parse setApplicationId:@"O1LVB8cEUNOYvAjjWjKSKzgx3CkEt4jDykr5H8ah"
+                  clientKey:@"IylwifyGsv729Cg6HuiIsHkQBUvdrLttQIQTPlFV"];
     
 #ifdef DEBUG //Germ
     [Mixpanel sharedInstanceWithToken:@"1d7eede1da7d22f6623a22c694f2a97f"];
@@ -134,7 +135,8 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     [FBSession.activeSession handleDidBecomeActive];
-    
+    [EVAnalyticsUtility trackEvent:EVAnalyticsOpenedApp];
+
     NSDate *dateAppEnteredBackground = [[NSUserDefaults standardUserDefaults] objectForKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
     if (fabs([dateAppEnteredBackground timeIntervalSinceNow]) > EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY) {
         NSLog(@"int since: %f", [dateAppEnteredBackground timeIntervalSinceNow]);
@@ -155,4 +157,21 @@
     return [FBSession.activeSession handleOpenURL:url];
 }
 
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    // Store the deviceToken in the current installation and save it to Parse.
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    [currentInstallation setObject:[[EVCIA me] dbid] forKey:@"user_id"];
+    [currentInstallation saveInBackground];
+    
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel.people addPushDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [PFPush handlePush:userInfo];
+}
 @end

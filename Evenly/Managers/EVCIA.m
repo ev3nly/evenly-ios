@@ -12,6 +12,7 @@
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
 #import "EVConnection.h"
+#import <Mixpanel/Mixpanel.h>
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
 NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKey";
@@ -124,8 +125,24 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
 + (void)reloadMe {
     [EVUser meWithSuccess:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedMeNotification object:nil];
+        
+        EVUser *me = [[self sharedInstance] me];
         DLog(@"Got me: %@", [[self sharedInstance] me]);
         [[self sharedInstance] reloadAllExchangesWithCompletion:NULL];
+        
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        
+        [mixpanel identify:me.dbid];
+        
+    	[mixpanel.people identify:me.dbid];
+        [mixpanel.people set:@"$name"       to:me.name];
+        [mixpanel.people set:@"$email"      to:me.email];
+        [mixpanel.people set:@"$created"    to:me.createdAt];
+        [mixpanel.people set:@"$last_login" to:[NSDate date]];
+        [mixpanel.people set:@"iOS App True Version"    to:EV_APP_VERSION];
+        [mixpanel.people set:@"iOS App True Build"      to:EV_APP_BUILD];
+        
+        mixpanel.nameTag = me.name;
         
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
