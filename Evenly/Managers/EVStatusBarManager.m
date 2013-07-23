@@ -7,6 +7,7 @@
 //
 
 #import "EVStatusBarManager.h"
+#import "EVNavigationManager.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define DEFAULT_IN_PROGRESS_TEXT @"SAVING.."
@@ -168,6 +169,7 @@ static EVStatusBarManager *_sharedManager = nil;
                              if (self.postSuccess)
                                  self.postSuccess();
                              self.postSuccess = nil;
+                             [[EVNavigationManager sharedManager].masterViewController viewWillAppear:NO];
                          }];
     });
 }

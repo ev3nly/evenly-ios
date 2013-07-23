@@ -165,6 +165,7 @@ static char ja_kvoContext;
     
     self.rightPanelContainer = [[UIView alloc] initWithFrame:self.view.bounds];
     self.rightPanelContainer.hidden = YES;
+    [self _loadRightPanel];
     
     [self _configureContainers];
     

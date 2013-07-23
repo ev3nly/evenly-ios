@@ -140,6 +140,8 @@
     [self.tableView beginUpdates];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:EVWalletSectionPending] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView endUpdates];
+    
+    [[EVNavigationManager sharedManager] setPendingNotifications:[[self pendingExchanges] count] shouldFlag:[self hasPendingReceivedExchanges]];
 }
 
 - (void)creditCardsDidUpdate:(NSNotification *)notification {
@@ -165,6 +167,10 @@
 
 - (BOOL)hasPendingExchanges {
     return [[self pendingExchanges] count] > 0;
+}
+
+- (BOOL)hasPendingReceivedExchanges {
+    return [[[EVCIA sharedInstance] pendingReceivedExchanges] count] > 0;
 }
 
 #pragma mark - UITableViewDataSource

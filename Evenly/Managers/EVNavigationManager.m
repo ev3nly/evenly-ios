@@ -7,6 +7,11 @@
 //
 
 #import "EVNavigationManager.h"
+#import "EVNavBarBadge.h"
+
+#define NAV_BAR_BADGE_TAG 9237
+#define BADGE_VIEW_OFFSET 0.5
+
 static EVNavigationManager *_sharedManager;
 
 @interface EVNavigationManager () {
@@ -19,6 +24,8 @@ static EVNavigationManager *_sharedManager;
     UINavigationController *_profileViewController;
     UINavigationController *_inviteViewController;
     UINavigationController *_settingsViewController;
+    
+    EVNavBarBadge *_badgeView;
 }
 
 @end
@@ -105,6 +112,29 @@ static EVNavigationManager *_sharedManager;
 
 - (void)userSignedOut:(NSNotification *)notification {
     _profileViewController = nil;
+}
+
+- (void)setPendingNotifications:(int)numPending shouldFlag:(BOOL)shouldFlag {
+    if (!_badgeView)
+        _badgeView = [EVNavBarBadge new];
+    
+    _badgeView.number = numPending;
+    _badgeView.shouldFlag = shouldFlag;
+    _badgeView.frame = [self badgeViewFrame];
+
+    if (numPending > 0)
+        [_homeViewController.navigationBar addSubview:_badgeView];
+    else
+        [_badgeView removeFromSuperview];
+}
+
+- (CGRect)badgeViewFrame {
+    [_badgeView sizeToFit];
+    UIViewController *homeController = [_homeViewController.viewControllers objectAtIndex:0];
+    return CGRectMake(homeController.navigationItem.rightBarButtonItem.customView.frame.origin.x - _badgeView.bounds.size.width,
+                      homeController.navigationItem.rightBarButtonItem.customView.frame.origin.y - BADGE_VIEW_OFFSET,
+                      _badgeView.bounds.size.width,
+                      _badgeView.bounds.size.height);
 }
 
 @end

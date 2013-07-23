@@ -15,6 +15,7 @@
 #import "EVPaymentViewController.h"
 #import "EVRequestViewController.h"
 #import "EVTransactionDetailViewController.h"
+#import "EVNavigationManager.h"
 
 #import "EVRewardsGameViewController.h"
 
@@ -56,7 +57,7 @@
     [self loadTableView];
     [self loadFloatingView];
     [self configurePullToRefresh];
-    
+        
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignOut:) name:EVSessionSignedOutNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(storyWasCreatedLocally:) name:EVStoryLocallyCreatedNotification object:nil];
