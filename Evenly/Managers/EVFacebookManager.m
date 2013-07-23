@@ -55,6 +55,10 @@ static EVFacebookManager *_sharedManager;
      }];
 }
 
++ (void)closeAndClearSession {
+    [[FBSession activeSession] closeAndClearTokenInformation];
+}
+
 + (void)fbResync {
     ACAccountStore *accountStore;
     ACAccountType *accountTypeFB;
