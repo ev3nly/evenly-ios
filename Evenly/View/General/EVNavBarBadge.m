@@ -43,7 +43,7 @@
     float labelWidth = [self.numberLabel.text sizeWithFont:self.numberLabel.font
                                          constrainedToSize:CGSizeMake(320, 1000000)
                                              lineBreakMode:self.numberLabel.lineBreakMode].width;
-    return CGSizeMake(fmaxf(labelWidth + LABEL_SIDE_BUFFER*2, self.backgroundView.image.size.width), self.backgroundView.image.size.height);
+    return CGSizeMake(fmaxf(0/*labelWidth + LABEL_SIDE_BUFFER*2*/, self.backgroundView.image.size.width), self.backgroundView.image.size.height);
 }
 
 #pragma mark - View Loading
@@ -56,7 +56,7 @@
 - (void)loadNumberLabel {
     self.numberLabel = [UILabel new];
     self.numberLabel.backgroundColor = [UIColor clearColor];
-    self.numberLabel.font = [EVFont boldFontOfSize:13];
+    self.numberLabel.font = [EVFont boldFontOfSize:12];
     self.numberLabel.textAlignment = NSTextAlignmentCenter;
     self.numberLabel.textColor = [EVColor lightColor];
     self.numberLabel.text = @""; 
@@ -86,6 +86,7 @@
 - (CGRect)numberLabelFrame {
     CGRect numberFrame = self.bounds;
     numberFrame.origin.x += LABEL_OFFSET;
+    numberFrame.origin.y += LABEL_OFFSET;
     return numberFrame;
 }
 
