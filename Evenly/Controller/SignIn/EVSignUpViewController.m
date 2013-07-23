@@ -193,6 +193,7 @@
                                    @"phone_number" : self.phoneNumberCell.textField.text,
                                    @"password" : self.passwordCell.textField.text,
                                    @"password_confirmation" : self.passwordCell.textField.text,
+                                   @"facebook_id" : [EVFacebookManager sharedManager].facebookID,
                                    @"facebook_token" : [NSString stringWithFormat:@"%@", [EVFacebookManager sharedManager].tokenData]}];
     if (self.photo)
         [params setObject:self.photo forKey:@"avatar"];
