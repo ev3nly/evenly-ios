@@ -18,6 +18,7 @@
 #import "EVSetPINViewController.h"
 
 #import "EVWebViewController.h"
+#import "EVFacebookManager.h"
 
 #define EV_SETTINGS_MARGIN 10.0
 #define EV_SETTINGS_ROW_HEIGHT 50.0
@@ -81,15 +82,15 @@
     {
         switch (indexPath.row) {
             case EVSettingsMainRowFacebook:
-                cell.iconView.image = [UIImage imageNamed:@"facebook_small"];
-                cell.label.text = @"Connect Facebook";
+                cell.iconView.image = [EVImages settingsFacebookIcon];
+                cell.label.text = ([EVFacebookManager isConnected] ? @"Disconnect Facebook" : @"Connect Facebook");
                 break;
             case EVSettingsMainRowNotifications:
-                cell.iconView.image = [UIImage imageNamed:@"Settings_notification_globe"];
+                cell.iconView.image = [EVImages settingsNotificationsIcon];
                 cell.label.text = @"Notifications";
                 break;
             case EVSettingsMainRowChangePasscode:
-                cell.iconView.image = [UIImage imageNamed:@"Settings_passcode_key"];
+                cell.iconView.image = [EVImages settingsPasscodeIcon];
                 cell.label.text = @"Change Passcode";
                 break;
             default:
@@ -113,7 +114,7 @@
     }
     else
     {
-        cell.iconView.image = [UIImage imageNamed:@"Settings_logout_arrow"];
+        cell.iconView.image = [EVImages settingsLogoutIcon];
         cell.label.text = @"Logout";
     }
     [cell setNeedsLayout];
@@ -193,7 +194,6 @@
     } failure:^(NSError *error) {
         DLog(@"Error: %@", error);
     }];
-    
 }
 
 - (void)didReceiveMemoryWarning

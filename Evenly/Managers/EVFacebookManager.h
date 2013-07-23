@@ -16,7 +16,7 @@
 
 + (EVFacebookManager *)sharedManager;
 
-+ (void)closeAndClearSession;
++ (BOOL)isConnected;
 
 + (void)loadMeWithCompletion:(void (^)(NSDictionary *userDict))completion;
 + (void)loadFriendsWithCompletion:(void (^)(NSArray *friends))completion;

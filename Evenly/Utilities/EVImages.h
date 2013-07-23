@@ -95,4 +95,10 @@
 + (UIImage *)bankIllustration;
 + (UIImage *)cardIllustration;
 
+#pragma mark - Settings
++ (UIImage *)settingsNotificationsIcon;
++ (UIImage *)settingsPasscodeIcon;
++ (UIImage *)settingsFacebookIcon;
++ (UIImage *)settingsLogoutIcon;
+
 @end

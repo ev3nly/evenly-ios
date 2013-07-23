@@ -22,8 +22,12 @@ static EVFacebookManager *_sharedManager;
 
 #pragma mark - Basics
 
++ (BOOL)isConnected {
+    return FBSession.activeSession.isOpen;
+}
+
 + (void)performRequest:(void (^)(void))request {
-    if (FBSession.activeSession.isOpen)
+    if ([self isConnected])
         request();
     else
         [self openSessionWithCompletion:request];
