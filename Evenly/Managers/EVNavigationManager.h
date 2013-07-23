@@ -34,4 +34,6 @@
 
 - (UIViewController *)viewControllerForMainMenuOption:(EVMainMenuOption)option;
 
+- (void)setPendingNotifications:(int)numPending shouldFlag:(BOOL)shouldFlag;
+
 @end

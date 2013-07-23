@@ -105,7 +105,10 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(switchControl:willChangeStateTo:animationDuration:)])
         [self.delegate switchControl:self willChangeStateTo:on animationDuration:duration];
 
+    [self willChangeValueForKey:@"on"];
     _on = on;
+    [self didChangeValueForKey:@"on"];
+
     self.xPercentage = (_on ? 1.0 : 0.0);
     [UIView animateWithDuration:duration animations:^{
         [self layoutForState];
