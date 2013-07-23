@@ -13,6 +13,7 @@
 #define LABEL_SQUARE_BUFFER 20
 #define SQUARE_HEIGHT 54
 
+#define ENTER_TEXT @"Enter New Passcode"
 #define CONFIRM_TEXT @"Confirm Your Passcode"
 #define FAILED_TEXT @"Please Try Again"
 
@@ -124,4 +125,9 @@
                          self.pinView = newView;
                      }];
 }
+
+- (NSString *)enterPinPrompt {
+    return ENTER_TEXT;
+}
+
 @end

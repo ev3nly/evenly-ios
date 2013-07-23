@@ -41,9 +41,12 @@
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber;
 
++ (NSString *)stringForPrivacySetting:(EVPrivacySetting)privacySetting;
+
 #pragma mark - Contacts
 
 + (NSString *)displayNameForContact:(ABContact *)contact;
++ (NSString *)addHyphensToPhoneNumber:(NSString *)phoneNumber;
 
 #pragma mark - Marketing Materials
 
@@ -89,5 +92,9 @@
 + (NSString *)confirmResetForEmail:(NSString *)email;
 + (NSString *)resetSuccessMessage;
 + (NSString *)resetFailureMessageGivenError:(NSError *)error;
+
+#pragma mark - Profile
++ (NSString *)noActivityMessageForSelf;
++ (NSString *)noActivityMessageForOthers;
 
 @end

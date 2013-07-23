@@ -85,6 +85,7 @@
     self.nameField.textAlignment = NSTextAlignmentLeft;
     self.nameField.returnKeyType = UIReturnKeyNext;
     self.nameField.placeholder = @"Name";
+    self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     [self addSubview:self.nameField];
 }
 
@@ -102,10 +103,10 @@
     self.emailField.font = [EVFont defaultFontOfSize:16];
     self.emailField.delegate = self;
     self.emailField.returnKeyType = UIReturnKeyNext;
-    self.emailField.keyboardType = UIKeyboardTypeNumberPad;
     self.emailField.placeholder = @"Email";
     self.emailField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.emailField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    self.emailField.keyboardType = UIKeyboardTypeEmailAddress;
     [self addSubview:self.emailField];
 }
 

@@ -94,6 +94,14 @@ static NSDateFormatter *_shortDateFormatter;
     return @{ @"subject" : subject, @"verb" : verb, @"object" : object };
 }
 
++ (NSString *)stringForPrivacySetting:(EVPrivacySetting)privacySetting {
+    if (privacySetting == EVPrivacySettingFriends)
+        return @"friends";
+    else if (privacySetting == EVPrivacySettingNetwork)
+        return @"network";
+    return @"private";
+}
+
 + (NSAttributedString *)attributedStringForPendingExchange:(EVExchange *)exchange {
     NSDictionary *components = [self subjectVerbAndObjectForPendingExchange:exchange];
     
@@ -253,6 +261,23 @@ static NSDateFormatter *_detailDateFormatter;
     return name;
 }
 
++ (NSString *)addHyphensToPhoneNumber:(NSString *)phoneNumber {
+    phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    if (phoneNumber.length > 10)
+        phoneNumber = [phoneNumber substringToIndex:10];
+    if (phoneNumber.length > 6) {
+        NSString *firstThree = [phoneNumber substringWithRange:NSMakeRange(0, 3)];
+        NSString *nextThree = [phoneNumber substringWithRange:NSMakeRange(3, 3)];
+        NSString *rest = [phoneNumber substringFromIndex:6];
+        phoneNumber = [NSString stringWithFormat:@"%@-%@-%@", firstThree, nextThree, rest];
+    } else if (phoneNumber.length > 3) {
+        NSString *firstThree = [phoneNumber substringWithRange:NSMakeRange(0, 3)];
+        NSString *rest = [phoneNumber substringFromIndex:3];
+        phoneNumber = [NSString stringWithFormat:@"%@-%@", firstThree, rest];
+    }
+    return phoneNumber;
+}
+
 #pragma mark - Marketing Materials
 
 + (NSString *)appName {
@@ -377,6 +402,16 @@ static NSDateFormatter *_detailDateFormatter;
 
 + (NSString *)resetFailureMessageGivenError:(NSError *)error {
     return @"Sorry, there was an issue! Please try again.";
+}
+
+#pragma mark - Profile
+
++ (NSString *)noActivityMessageForSelf {
+    return @"No Evenly activity yet. Today's a great day to send your first payment or request.";
+}
+
++ (NSString *)noActivityMessageForOthers {
+    return @"No Evenly activity yet. Tap above and show them how it's done.";
 }
 
 @end

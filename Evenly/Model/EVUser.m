@@ -148,7 +148,18 @@ static EVUser *_me;
 }
 
 + (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure {
-    NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET" path:@"newsfeed" parameters:nil];
+    [self newsfeedStartingAtPage:1 success:success failure:failure];
+}
+
++ (void)newsfeedStartingAtPage:(int)pageNumber
+                       success:(void (^)(NSArray *newsfeed))success
+                       failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET"
+                                                      path:@"newsfeed"
+                                                parameters:@{
+                                                                @"page" : @(pageNumber),
+                                                                @"per" : @(EV_ITEMS_PER_PAGE)
+                                                            }];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSMutableArray *array = [NSMutableArray array];
@@ -170,7 +181,40 @@ static EVUser *_me;
                                                                       }];
     
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+
 }
+
+
++ (void)historyStartingAtPage:(int)pageNumber
+                      success:(void (^)(NSArray *history))success
+                      failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET"
+                                                      path:@"history"
+                                                parameters:@{
+                                                                @"page" : @(pageNumber),
+                                                                @"per" : @(EV_ITEMS_PER_PAGE)
+                                                            }];
+    
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSDictionary *dict in responseObject)
+        {
+            [array addObject:[EVSerializer serializeDictionary:dict]];
+        }
+        if (success)
+            success(array);
+    };
+    
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                              success:successBlock
+                                                                              failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                                  if (failure)
+                                                                                      failure(error);
+                                                                              }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
 
 + (void)loadUser:(EVUser *)user withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     [EVUser allWithSuccess:^(id result) {
@@ -262,6 +306,8 @@ static EVUser *_me;
 
 - (void)updateWithNewAvatar:(UIImage *)newAvatar success:(void (^)(void))success failure:(void (^)(NSError *error))failure
 {
+    self.avatar = newAvatar;
+    
     NSMutableURLRequest *request = nil;
     void (^formBlock)(id<AFMultipartFormData> formData) = NULL;
     NSString *method = @"PUT";
@@ -293,22 +339,26 @@ static EVUser *_me;
 #pragma mark Images
 
 - (void)loadAvatar {
-    UIImage *image = [[EVCIA sharedInstance] imageForURL:self.avatarURL];
-    if (image) {
-        self.avatar = image;
-        return;
-    }
-    NSURLRequest *request = [NSURLRequest requestWithURL:self.avatarURL];
-    AFImageRequestOperation *imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
-                                                                                          imageProcessingBlock:NULL
-                                                                                                       success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                                                                           [[EVCIA sharedInstance] setImage:image forURL:self.avatarURL];
-                                                                                                           self.avatar = image;
-                                                                                                           DLog(@"Downloaded image, see? %@", self.avatar);
-                                                                                                       } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                                                                                           //                                                                                                           DLog(@"Houston, you know what's coming next: %@", error);
-                                                                                                       }];
-    [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
+    [[EVCIA sharedInstance] loadImageFromURL:self.avatarURL
+                                     success:^(UIImage *image) {
+                                         self.avatar = image;
+                                     } failure:nil];
+//    UIImage *image = [[EVCIA sharedInstance] imageForURL:self.avatarURL];
+//    if (image) {
+//        self.avatar = image;
+//        return;
+//    }
+//    NSURLRequest *request = [NSURLRequest requestWithURL:self.avatarURL];
+//    AFImageRequestOperation *imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
+//                                                                                          imageProcessingBlock:NULL
+//                                                                                                       success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+//                                                                                                           [[EVCIA sharedInstance] setImage:image forURL:self.avatarURL];
+//                                                                                                           self.avatar = image;
+//                                                                                                           DLog(@"Downloaded image, see? %@", self.avatar);
+//                                                                                                       } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+//                                                                                                           //                                                                                                           DLog(@"Houston, you know what's coming next: %@", error);
+//                                                                                                       }];
+//    [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
 }
 
 - (void)evictAvatarFromCache {
@@ -373,6 +423,17 @@ static EVUser *_me;
     [aCoder encodeObject:[self.balance descriptionWithLocale:[NSLocale systemLocale]] forKey:@"EVUser_balance"];
     [aCoder encodeObject:[self.avatarURL absoluteString] forKey:@"EVUser_avatarURL"];
     [aCoder encodeBool:self.confirmed forKey:@"EVUser_confirmed"];
+}
+
+- (void)setPrivacySetting:(EVPrivacySetting)privacySetting {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:privacySetting] forKey:@"privacySetting"];
+}
+
+- (EVPrivacySetting)privacySetting {
+    NSNumber *setting = [NSNumber numberWithInt:EVPrivacySettingFriends];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"privacySetting"])
+        setting = [[NSUserDefaults standardUserDefaults] objectForKey:@"privacySetting"];
+    return [setting intValue];
 }
 
 @end

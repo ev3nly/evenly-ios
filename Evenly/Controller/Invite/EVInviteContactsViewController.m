@@ -7,7 +7,7 @@
 //
 
 #import "EVInviteContactsViewController.h"
-#import "EVContactInviteCell.h"
+#import "EVInviteContactCell.h"
 #import "ABContactsHelper.h"
 #import <AddressBook/AddressBook.h>
 
@@ -38,7 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableView registerClass:[EVContactInviteCell class] forCellReuseIdentifier:@"contactInviteCell"];
+    [self.tableView registerClass:[EVInviteContactCell class] forCellReuseIdentifier:@"contactInviteCell"];
 }
 
 #pragma mark - Invite
@@ -50,7 +50,7 @@
 #pragma mark - TableView DataSource/Delegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVContactInviteCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"contactInviteCell"];
+    EVInviteContactCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"contactInviteCell"];
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     
     ABContact *contact = [self.displayedFriendList objectAtIndex:indexPath.row];    
@@ -59,10 +59,12 @@
    profilePicture:[EVImageUtility imageForContact:contact]];
     cell.identifier = contact;
     cell.handleSelection = ^(ABContact *friend) {
-        self.selectedFriends = [self.selectedFriends arrayByAddingObject:friend];
+        if (![self.selectedFriends containsObject:friend])
+            self.selectedFriends = [self.selectedFriends arrayByAddingObject:friend];
     };
     cell.handleDeselection = ^(ABContact *friend) {
-        self.selectedFriends = [self.selectedFriends arrayByRemovingObject:friend];
+        if ([self.selectedFriends containsObject:friend])
+            self.selectedFriends = [self.selectedFriends arrayByRemovingObject:friend];
     };
     cell.shouldInvite = [self.selectedFriends containsObject:contact];
     

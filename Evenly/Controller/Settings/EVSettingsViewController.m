@@ -7,7 +7,7 @@
 //
 
 #import "EVSettingsViewController.h"
-#import "EVSettingsRow.h"
+#import "EVSettingsCell.h"
 
 #import "EVSession.h"
 #import "EVNavigationManager.h"
@@ -17,6 +17,9 @@
 #import "EVNotificationsViewController.h"
 #import "EVSetPINViewController.h"
 
+#import "EVWebViewController.h"
+#import "EVFacebookManager.h"
+
 #define EV_SETTINGS_MARGIN 10.0
 #define EV_SETTINGS_ROW_HEIGHT 50.0
 #define EV_SETTINGS_STRIPE_HEIGHT 1.0
@@ -24,11 +27,6 @@
 @interface EVSettingsViewController ()
 
 @property (nonatomic, strong) UITableView *tableView;
-
-@property (nonatomic, strong) EVFormView *panel;
-@property (nonatomic, strong) EVSettingsRow *notificationsRow;
-@property (nonatomic, strong) EVSettingsRow *passcodeRow;
-@property (nonatomic, strong) EVSettingsRow *logoutRow;
 
 @end
 
@@ -47,71 +45,137 @@
 {
     [super viewDidLoad];
     
-    [self loadTableView]; // Use the table view for the scrolling feel, nothing else.
-    [self loadPanel];
-    [self loadRows];
-
-    [self.notificationsRow addTarget:self action:@selector(notificationsButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [self.passcodeRow addTarget:self action:@selector(passcodeButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [self.logoutRow addTarget:self action:@selector(logoutButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [self loadTableView];
 }
 
 - (void)loadTableView {
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundView = nil;
+    [self.tableView registerClass:[EVSettingsCell class] forCellReuseIdentifier:@"settingsCell"];
     [self.view addSubview:self.tableView];
 }
 
-- (void)loadPanel {
-    self.panel = [[EVFormView alloc] initWithFrame:CGRectMake(EV_SETTINGS_MARGIN,
-                                                              EV_SETTINGS_MARGIN,
-                                                              self.view.frame.size.width - 2*EV_SETTINGS_MARGIN,
-                                                              EV_SETTINGS_ROW_HEIGHT * 3 + EV_SETTINGS_STRIPE_HEIGHT * 4)];
-    [self.tableView addSubview:self.panel];
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return EVSettingsSectionCOUNT;
 }
 
-- (void)loadRows {
-    CGFloat yOrigin = 1.0;
-    EVSettingsRow *row = nil;
-    CGRect frame = CGRectMake(1, 1, self.panel.frame.size.width-2, EV_SETTINGS_ROW_HEIGHT);
-    
-    row = [[EVSettingsRow alloc] initWithFrame:frame];
-    row.iconView.image = [UIImage imageNamed:@"Settings_notification_globe"];
-    row.label.text = @"Notifications";
-    self.notificationsRow = row;
-    yOrigin += EV_SETTINGS_ROW_HEIGHT;
-    
-    row = [[EVSettingsRow alloc] initWithFrame:frame];
-    row.iconView.image = [UIImage imageNamed:@"Settings_passcode_key"];
-    row.label.text = @"Change Passcode";
-    self.passcodeRow = row;
-    yOrigin += EV_SETTINGS_ROW_HEIGHT;
-    
-    row = [[EVSettingsRow alloc] initWithFrame:frame];
-    row.iconView.image = [UIImage imageNamed:@"Settings_logout_arrow"];
-    row.label.text = @"Logout";
-    self.logoutRow = row;
-    yOrigin += EV_SETTINGS_ROW_HEIGHT;
-    
-    [self.panel setFormRows:@[ self.notificationsRow, self.passcodeRow, self.logoutRow ]];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (section == EVSettingsSectionMain) {
+        return EVSettingsMainRowCOUNT;
+    } else if (section == EVSettingsSectionLegal) {
+        return EVSettingsLegalRowCOUNT;
+    } else {
+        return 1;
+    }
 }
 
-- (void)notificationsButtonPress:(id)sender {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    EVSettingsCell *cell = (EVSettingsCell *)[tableView dequeueReusableCellWithIdentifier:@"settingsCell" forIndexPath:indexPath];
+    [cell setPosition:[tableView cellPositionForIndexPath:indexPath]];
+    
+    if (indexPath.section == EVSettingsSectionMain)
+    {
+        switch (indexPath.row) {
+            case EVSettingsMainRowFacebook:
+                cell.iconView.image = [EVImages settingsFacebookIcon];
+                cell.label.text = ([EVFacebookManager isConnected] ? @"Disconnect Facebook" : @"Connect Facebook");
+                break;
+            case EVSettingsMainRowNotifications:
+                cell.iconView.image = [EVImages settingsNotificationsIcon];
+                cell.label.text = @"Notifications";
+                break;
+            case EVSettingsMainRowChangePasscode:
+                cell.iconView.image = [EVImages settingsPasscodeIcon];
+                cell.label.text = @"Change Passcode";
+                break;
+            default:
+                break;
+        }
+    }
+    else if (indexPath.section == EVSettingsSectionLegal)
+    {
+        switch (indexPath.row) {
+            case EVSettingsLegalRowTermsAndConditions:
+                cell.iconView.image = nil;
+                cell.label.text = @"Terms and Conditions";
+                break;
+            case EVSettingsLegalRowPrivacyPolicy:
+                cell.iconView.image = nil;
+                cell.label.text = @"Privacy Policy";
+                break;
+            default:
+                break;
+        }
+    }
+    else
+    {
+        cell.iconView.image = [EVImages settingsLogoutIcon];
+        cell.label.text = @"Logout";
+    }
+    [cell setNeedsLayout];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == EVSettingsSectionMain)
+    {
+        switch (indexPath.row) {
+            case EVSettingsMainRowFacebook:
+
+                break;
+            case EVSettingsMainRowNotifications:
+                [self showNotificationsController];
+                break;
+            case EVSettingsMainRowChangePasscode:
+                [self showPasscodeController];
+                break;
+            default:
+                break;
+        }
+    }
+    else if (indexPath.section == EVSettingsSectionLegal)
+    {
+        NSURL *fileURL = nil;
+        NSString *title = nil;
+        if (indexPath.row == EVSettingsLegalRowTermsAndConditions)
+        {
+            fileURL = [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Terms and Conditions.html")];
+            title = @"Terms and Conditions";
+        }
+        else if (indexPath.row == EVSettingsLegalRowPrivacyPolicy)
+        {
+            fileURL = [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Privacy Policy.html")];
+            title = @"Privacy Policy";
+        }
+        EVWebViewController *webViewController = [[EVWebViewController alloc] initWithURL:fileURL];
+        [webViewController setTitle:title];
+        [webViewController setCanDismissManually:NO];
+        [webViewController.webView setDataDetectorTypes:UIDataDetectorTypeAll];
+        [self.navigationController pushViewController:webViewController animated:YES];
+    }
+    else if (indexPath.section == EVSettingsSectionLogout)
+    {
+        [self showLogOutActionSheet];
+    }
+}
+
+- (void)showNotificationsController {
     EVNotificationsViewController *notificationsViewController = [[EVNotificationsViewController alloc] init];
     [self.navigationController pushViewController:notificationsViewController animated:YES];
 }
 
-- (void)passcodeButtonPress:(id)sender {
+- (void)showPasscodeController {
     EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
     [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
-- (void)logoutButtonPress:(id)sender {
-    [self showLogOutActionSheet];
-}
 
 - (void)showLogOutActionSheet {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Log out" otherButtonTitles:nil];
@@ -130,7 +194,6 @@
     } failure:^(NSError *error) {
         DLog(@"Error: %@", error);
     }];
-    
 }
 
 - (void)didReceiveMemoryWarning

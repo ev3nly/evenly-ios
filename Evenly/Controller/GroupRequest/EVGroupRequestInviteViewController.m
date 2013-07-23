@@ -7,7 +7,7 @@
 //
 
 #import "EVGroupRequestInviteViewController.h"
-#import "EVContactInviteCell.h"
+#import "EVInviteContactCell.h"
 #import "ABContactsHelper.h"
 #import "EVGroupRequest.h"
 #import "EVGroupRequestRecord.h"
@@ -79,7 +79,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVContactInviteCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"contactInviteCell"];
+    EVInviteContactCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"contactInviteCell"];
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     
     id contact = [self.displayedFriendList objectAtIndex:indexPath.row];

@@ -18,7 +18,9 @@
 
 + (instancetype)sharedInstance;
 
-#pragma mark - Image Caching
+#pragma mark - Image Loading
+
+- (void)loadImageFromURL:(NSURL *)url success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure;
 
 @property (nonatomic, strong) NSCache *imageCache;
 - (UIImage *)imageForURL:(NSURL *)url;

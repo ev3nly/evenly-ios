@@ -22,8 +22,12 @@ static EVFacebookManager *_sharedManager;
 
 #pragma mark - Basics
 
++ (BOOL)isConnected {
+    return FBSession.activeSession.isOpen;
+}
+
 + (void)performRequest:(void (^)(void))request {
-    if (FBSession.activeSession.isOpen)
+    if ([self isConnected])
         request();
     else
         [self openSessionWithCompletion:request];
@@ -73,6 +77,7 @@ static EVFacebookManager *_sharedManager;
 + (void)loadMeWithCompletion:(void (^)(NSDictionary *userDict))completion {
     [self performRequest:^{
         [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+            [self sharedManager].facebookID = user[@"id"];
             if (!error)
                 completion(user);
             else

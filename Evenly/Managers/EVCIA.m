@@ -70,7 +70,27 @@ static EVCIA *_sharedInstance;
     [self reloadBankAccountsWithCompletion:NULL];
 }
 
-#pragma mark - Image Caching
+#pragma mark - Image Loading
+
+- (void)loadImageFromURL:(NSURL *)url success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure {
+    if ([self imageForURL:url]) {
+        if (success)
+            success([self imageForURL:url]);
+        return;
+    }
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    AFImageRequestOperation *imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
+                                                                                          imageProcessingBlock:NULL
+                                                                                                       success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                                                                                           [[EVCIA sharedInstance] setImage:image forURL:url];
+                                                                                                           if (success)
+                                                                                                               success(image);
+                                                                                                       } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                                                                           if (failure)
+                                                                                                               failure(error);
+                                                                                                       }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
+}
 
 - (UIImage *)imageForURL:(NSURL *)url {
     UIImage *image = nil;
@@ -106,10 +126,8 @@ static EVCIA *_sharedInstance;
     else // store in memory and disk caches
     {
         [self.imageCache setObject:image forKey:url];
-        BOOL success = [UIImagePNGRepresentation(image) writeToFile:[EVStringUtility cachePathFromURL:url]
-                                                         atomically:YES];
-        if (success)
-            DLog(@"Wrote to file at %@", [EVStringUtility cachePathFromURL:url]);
+        [UIImagePNGRepresentation(image) writeToFile:[EVStringUtility cachePathFromURL:url]
+                                          atomically:YES];
     }
 }
 
@@ -308,10 +326,18 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
 }
 
 - (void)reloadHistoryWithCompletion:(void (^)(NSArray *history))completion {
-    [self reloadAllExchangesWithCompletion:^{
-        if (completion)
-            completion([self.internalCache objectForKey:@"recent"]);
+    [EVUser historyStartingAtPage:1
+                          success:^(NSArray *history) {
+                              [self.internalCache setObject:history forKey:@"recent"];
+                              if (completion)
+                                  completion(history);
+    } failure:^(NSError *error) {
+        DLog(@"Error reloading history: %@", error);
     }];
+//    [self reloadAllExchangesWithCompletion:^{
+//        if (completion)
+//            completion([self.internalCache objectForKey:@"recent"]);
+//    }];
 }
 
 - (void)refreshHistoryWithCompletion:(void (^)(NSArray *history))completion {

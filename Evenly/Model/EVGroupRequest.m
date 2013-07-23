@@ -39,19 +39,24 @@
     }
     
     NSMutableArray *tiers = [NSMutableArray array];
-    for (NSDictionary *dictionary in properties[@"tiers"]) {
-        EVGroupRequestTier *tier = [[EVGroupRequestTier alloc] initWithGroupRequest:self properties:dictionary];
-        [tiers addObject:tier];
+    if (properties[@"tiers"]) {
+        for (NSDictionary *dictionary in properties[@"tiers"]) {
+            EVGroupRequestTier *tier = [[EVGroupRequestTier alloc] initWithGroupRequest:self properties:dictionary];
+            [tiers addObject:tier];
+        }
     }
     self.tiers = [NSArray arrayWithArray:tiers];
     
     NSMutableArray *records = [NSMutableArray array];
-    for (NSDictionary *dictionary in properties[@"records"]) {
-        EVGroupRequestRecord *record = [[EVGroupRequestRecord alloc] initWithGroupRequest:self properties:dictionary];
-        [records addObject:record];
+    if (properties[@"records"]) {
+        for (NSDictionary *dictionary in properties[@"records"]) {
+            EVGroupRequestRecord *record = [[EVGroupRequestRecord alloc] initWithGroupRequest:self properties:dictionary];
+            [records addObject:record];
+        }
     }
     self.records = records;
     self.completed = [properties[@"completed"] boolValue];
+    self.visibility = (properties[@"visibility"]) ? properties[@"visibility"] : [EVStringUtility stringForPrivacySetting:[EVCIA me].privacySetting];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -59,6 +64,7 @@
     
     setValueForKeyIfNonNil(self.title, @"title");
     setValueForKeyIfNonNil(self.memo, @"description");
+    setValueForKeyIfNonNil(self.visibility, @"visibility");
     
     [mutableDictionary setObject:[NSNumber numberWithBool:self.completed] forKey:@"completed"];
     
@@ -443,7 +449,8 @@
                                                                               success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                                                                   NSMutableArray *newRecords = [NSMutableArray arrayWithArray:self.records];
                                                                                   [newRecords removeObject:record];
-                                                                                  self.records = newRecords;                                                                                  if (success)
+                                                                                  self.records = newRecords;
+                                                                                  if (success)
                                                                                       success();
                                                                               }
                                                                               failure:^(AFHTTPRequestOperation *operation, NSError *error)  {

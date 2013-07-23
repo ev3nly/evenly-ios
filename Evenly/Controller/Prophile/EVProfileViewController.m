@@ -97,6 +97,10 @@
 
 - (void)editProfileButtonTapped {
     EVEditProfileViewController *editController = [[EVEditProfileViewController alloc] initWithUser:self.user];
+    editController.handleSave = ^(EVUser *user) {
+        self.user = user;
+        [self.tableView reloadData];
+    };
     [self.navigationController pushViewController:editController animated:YES];
 }
 
@@ -137,7 +141,7 @@
     if (indexPath.row == 0)
         return [EVProfileCell cellHeightForUser:self.user];
     if (![self hasExchanges])
-        return [EVNoActivityCell cellHeight];
+        return [EVNoActivityCell cellHeightForUser:self.user];
     return [EVProfileHistoryCell cellHeight];
 }
 
@@ -165,6 +169,7 @@
         cell = profileCell;
     } else if (![self hasExchanges] && !self.tableView.isLoading) {
         EVNoActivityCell *noActivityCell = [tableView dequeueReusableCellWithIdentifier:@"noActivityCell"];
+        noActivityCell.userIsSelf = [self.user.dbid isEqualToString:[EVCIA me].dbid];
         cell = noActivityCell;
     } else {
         EVProfileHistoryCell *historyCell = [tableView dequeueReusableCellWithIdentifier:@"profileHistoryCell"];

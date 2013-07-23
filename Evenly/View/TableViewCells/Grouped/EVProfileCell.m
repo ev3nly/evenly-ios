@@ -141,7 +141,11 @@
 - (void)setUser:(EVUser *)user {
     _user = user;
     
-    self.avatarView.avatarOwner = user;
+    if (user.updatedAvatar)
+        self.avatarView.image = user.updatedAvatar;
+    else
+        self.avatarView.avatarOwner = user;
+    
     self.nameLabel.text = user.name;
     self.networkLabel.text = @"Network?";
     self.emailLabel.text = user.email;

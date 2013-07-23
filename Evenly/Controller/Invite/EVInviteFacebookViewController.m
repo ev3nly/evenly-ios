@@ -6,16 +6,16 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVFacebookInviteViewController.h"
-#import "EVFacebookInviteCell.h"
+#import "EVInviteFacebookViewController.h"
+#import "EVInviteFacebookCell.h"
 #import "EVFacebookManager.h"
 #import <FacebookSDK/FacebookSDK.h>
 
-@interface EVFacebookInviteViewController ()
+@interface EVInviteFacebookViewController ()
 
 @end
 
-@implementation EVFacebookInviteViewController
+@implementation EVInviteFacebookViewController
 
 #pragma mark - Lifecycle
 
@@ -39,25 +39,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableView registerClass:[EVFacebookInviteCell class] forCellReuseIdentifier:@"facebookInviteCell"];
+    [self.tableView registerClass:[EVInviteFacebookCell class] forCellReuseIdentifier:@"facebookInviteCell"];
 }
 
 #pragma mark - TableView DataSource/Delegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *reuseIdentifier = [NSString stringWithFormat:@"facebookInviteCell-%i", (indexPath.row % 30)];
-    EVFacebookInviteCell *cell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+    EVInviteFacebookCell *cell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if (!cell)
-        cell = [[EVFacebookInviteCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+        cell = [[EVInviteFacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     
     NSDictionary *userDict = [self.displayedFriendList objectAtIndex:indexPath.row];
     [cell setName:[NSString stringWithFormat:@"%@ %@", userDict[@"first_name"], userDict[@"last_name"]] profileID:userDict[@"id"]];
     cell.handleSelection = ^(NSString *profileID) {
-        self.selectedFriends = [self.selectedFriends arrayByAddingObject:profileID];
+        if (![self.selectedFriends containsObject:profileID])
+            self.selectedFriends = [self.selectedFriends arrayByAddingObject:profileID];
     };
     cell.handleDeselection = ^(NSString *profileID) {
-        self.selectedFriends = [self.selectedFriends arrayByRemovingObject:profileID];
+        if ([self.selectedFriends containsObject:profileID])
+            self.selectedFriends = [self.selectedFriends arrayByRemovingObject:profileID];
     };
     cell.shouldInvite = [self.selectedFriends containsObject:userDict[@"id"]];
     
@@ -87,13 +89,17 @@
 
     [FBWebDialogs
      presentRequestsDialogModallyWithSession:nil
-     message:@"Try Evenly! It's a free way to transfer money between friends!"
+     message:@"Evenly is a free and easy way to share any expense"
      title:nil
      parameters:params
      handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
          if (error) {
              // Error launching the dialog or sending the request.
              NSLog(@"Error sending request.");
+         }
+         if ([[resultURL relativeString] containsString:@"request="]) {
+             self.selectedFriends = [NSArray array];
+             [self.tableView reloadData];
          }
      }];
 }

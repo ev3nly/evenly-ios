@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSArray *records;
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *memo;
+@property (nonatomic, strong) NSString *visibility;
 @property (nonatomic) BOOL completed;
 
 @property (nonatomic, strong) NSArray *initialMembers;
