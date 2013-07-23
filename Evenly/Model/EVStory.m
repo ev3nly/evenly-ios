@@ -67,6 +67,8 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypeCompletedTransactionDetail;
     story.isPrivate = [exchange.visibility isEqualToString:[EVStringUtility stringForPrivacySetting:EVPrivacySettingPrivate]];
+    story.source = exchange;
+    story.createdAt = [NSDate date];
     return story;
 }
 
@@ -174,6 +176,12 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
         self.fakeLikeCount = [properties[@"likes_count"] intValue];
     else
         self.fakeLikeCount = -1;
+    
+    // Source Object
+    if (properties[@"source_type"] && properties[@"source_id"]) {
+        self.source = @{ @"type" : properties[@"source_type"],
+                         @"id" : properties[@"source_id"] };
+    }
     
     self.sourceType = EVStorySourceTypeNormal;
     if (properties[@"source_type"]) {
