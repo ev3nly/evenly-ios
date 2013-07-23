@@ -114,9 +114,11 @@
 
 - (CGRect)nameLabelFrame {
     [self.nameLabel sizeToFit];
-    return CGRectMake(CGRectGetMaxX(self.profilePicture.frame) + EV_INVITE_CELL_SIDE_MARGIN,
+    CGFloat xOrigin = CGRectGetMaxX(self.profilePicture.frame) + EV_INVITE_CELL_SIDE_MARGIN;
+    
+    return CGRectMake(xOrigin,
                       self.bounds.size.height/2 - self.nameLabel.bounds.size.height/2,
-                      self.nameLabel.bounds.size.width,
+                      CGRectGetMinX([self inviteButtonFrame]) - xOrigin,
                       self.nameLabel.bounds.size.height);
 }
 
