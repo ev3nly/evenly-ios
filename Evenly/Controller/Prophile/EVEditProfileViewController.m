@@ -151,9 +151,13 @@
 
 - (EVGroupedTableViewCell *)editPhotoCell {
     EVEditPhotoCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"editPhotoCell"];
-    cell.avatarView.avatarOwner = self.user;
     if (self.updatedImage)
         cell.avatarView.image = self.updatedImage;
+    else if (self.user.updatedAvatar)
+        cell.avatarView.image = self.user.updatedAvatar;
+    else
+        cell.avatarView.avatarOwner = self.user;
+
     if ([cell.gestureRecognizers count] == 0)
         [cell.avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoTapped)]];
     return cell;
@@ -164,36 +168,32 @@
     
     if (indexPath.row == EVEditProfileCellRowName) {
         [cell setTitle:@"Name" placeholder:self.user.name];
+        cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
         cell.handleTextChange = ^(NSString *text) {
             if (!EV_IS_EMPTY_STRING(text))
                 [EVCIA me].name = text;
         };
     } else if (indexPath.row == EVEditProfileCellRowEmail) {
         [cell setTitle:@"Email" placeholder:self.user.email];
+        cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
+        cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
         cell.handleTextChange = ^(NSString *text) {
             if (!EV_IS_EMPTY_STRING(text))
                 [EVCIA me].email = text;
         };
     } else if (indexPath.row == EVEditProfileCellRowPhoneNumber) {
-        [cell setTitle:@"Phone Number" placeholder:self.user.phoneNumber];
+        [cell setTitle:@"Phone Number" placeholder:[EVStringUtility addHyphensToPhoneNumber:self.user.phoneNumber]];
+        cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         cell.handleTextChange = ^(NSString *text) {
             if (!EV_IS_EMPTY_STRING(text))
-                [EVCIA me].phoneNumber = text;
+                [EVCIA me].phoneNumber = [text stringByReplacingOccurrencesOfString:@"-" withString:@""];
         };
         [cell.textField.rac_textSignal subscribeNext:^(NSString *text) {
-            text = [text stringByReplacingOccurrencesOfString:@"-" withString:@""];
-            if (text.length > 10)
-                text = [text substringToIndex:10];
-            if (text.length > 6) {
-                NSString *firstThree = [text substringWithRange:NSMakeRange(0, 3)];
-                NSString *nextThree = [text substringWithRange:NSMakeRange(3, 3)];
-                NSString *rest = [text substringFromIndex:6];
-                text = [NSString stringWithFormat:@"%@-%@-%@", firstThree, nextThree, rest];
-            } else if (text.length > 3) {
-                NSString *firstThree = [text substringWithRange:NSMakeRange(0, 3)];
-                NSString *rest = [text substringFromIndex:3];
-                text = [NSString stringWithFormat:@"%@-%@", firstThree, rest];
-            }
+            text = [EVStringUtility addHyphensToPhoneNumber:text];
+            cell.textField.text = text;
+            if (text.length == 12)
+                [cell.textField resignFirstResponder];
         }];
     }
     return cell;
