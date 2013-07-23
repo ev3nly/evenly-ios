@@ -27,6 +27,7 @@
 #import "EVPINUtility.h"
 
 #import "EVSignInViewController.h"
+#import "EVSetPINViewController.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -140,6 +141,12 @@
         EV_DISPATCH_AFTER(0.5, ^{
             if ([[EVPINUtility sharedUtility] pinIsSet])
                 [[self masterViewController] showPINViewControllerAnimated:YES];
+            else {
+                EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
+                pinController.canDismissManually = NO;
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+                [self.masterViewController presentViewController:navController animated:YES completion:nil];
+            }
         });
     }
 }

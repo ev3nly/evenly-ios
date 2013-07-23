@@ -10,7 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define ROTATION_DURATION 0.8
-#define PULSE_DURATION 1.0
+#define PULSE_DURATION 1.2
 #define COLORED_LOGO_MIN_ALPHA 0.1
 #define COLORED_LOGO_MAX_ALPHA 0.7
 
