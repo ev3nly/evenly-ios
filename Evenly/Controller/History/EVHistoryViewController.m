@@ -8,7 +8,6 @@
 
 #import "EVHistoryViewController.h"
 #import "EVHistoryCell.h"
-#import "EVActivity.h"
 #import "EVExchange.h"
 #import "EVWithdrawal.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
