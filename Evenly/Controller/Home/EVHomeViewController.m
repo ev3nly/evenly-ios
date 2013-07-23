@@ -206,10 +206,6 @@
 
     UIView *slider = [[label superview] superview];
     label.frame = slider.frame;
-    
-    
-//    CGRect newRect = [self.view convertRect:label.frame fromView:label.superview.superview];
-//    label.frame = newRect;
     [self.view addSubview:label];
     
     [self dismissViewControllerAnimated:YES completion:^{

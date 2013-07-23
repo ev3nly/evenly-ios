@@ -8,9 +8,10 @@
 
 #import "EVNavigationManager.h"
 #import "EVNavBarBadge.h"
+#import "ReactiveCocoa.h"
 
 #define NAV_BAR_BADGE_TAG 9237
-#define BADGE_VIEW_OFFSET 0.5
+#define BADGE_VIEW_OFFSET -0.5
 
 static EVNavigationManager *_sharedManager;
 
@@ -24,9 +25,9 @@ static EVNavigationManager *_sharedManager;
     UINavigationController *_profileViewController;
     UINavigationController *_inviteViewController;
     UINavigationController *_settingsViewController;
-    
-    EVNavBarBadge *_badgeView;
 }
+
+@property (nonatomic, strong) EVNavBarBadge *badgeView;
 
 @end
 
@@ -115,26 +116,37 @@ static EVNavigationManager *_sharedManager;
 }
 
 - (void)setPendingNotifications:(int)numPending shouldFlag:(BOOL)shouldFlag {
-    if (!_badgeView)
-        _badgeView = [EVNavBarBadge new];
+    if (!self.badgeView)
+        self.badgeView = [EVNavBarBadge new];
     
-    _badgeView.number = numPending;
-    _badgeView.shouldFlag = shouldFlag;
-    _badgeView.frame = [self badgeViewFrame];
+    self.badgeView.frame = [self badgeViewFrame];
+    self.badgeView.number = numPending;
+    self.badgeView.shouldFlag = shouldFlag;
 
-    if (numPending > 0)
-        [_homeViewController.navigationBar addSubview:_badgeView];
-    else
-        [_badgeView removeFromSuperview];
+    if (numPending > 0 && !self.badgeView.superview) {
+        UIView *button = [self walletButtonCustomView];
+        [button addSubview:self.badgeView];
+        [self.badgeView zoomBounceWithDuration:0.2 completion:nil];
+    }
+    else if (numPending <= 0 && self.badgeView.superview) {
+        [self.badgeView shrinkBounceWithDuration:0.2 completion:^{
+            [self.badgeView removeFromSuperview];
+            self.badgeView = nil;
+        }];
+    }
+}
+
+- (UIView *)walletButtonCustomView {
+    UIViewController *homeController = [_homeViewController.viewControllers objectAtIndex:0];
+    return homeController.navigationItem.rightBarButtonItem.customView;
 }
 
 - (CGRect)badgeViewFrame {
-    [_badgeView sizeToFit];
-    UIViewController *homeController = [_homeViewController.viewControllers objectAtIndex:0];
-    return CGRectMake(homeController.navigationItem.rightBarButtonItem.customView.frame.origin.x - _badgeView.bounds.size.width,
-                      homeController.navigationItem.rightBarButtonItem.customView.frame.origin.y - BADGE_VIEW_OFFSET,
-                      _badgeView.bounds.size.width,
-                      _badgeView.bounds.size.height);
+    [self.badgeView sizeToFit];
+    return CGRectMake(0 - self.badgeView.bounds.size.width,
+                      BADGE_VIEW_OFFSET,
+                      self.badgeView.bounds.size.width,
+                      self.badgeView.bounds.size.height);
 }
 
 @end

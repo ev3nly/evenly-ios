@@ -221,6 +221,7 @@
 }
 
 - (void)saveButtonTapped {
+    self.saveButton.enabled = NO;
     [self.view findAndResignFirstResponder];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress];
 
