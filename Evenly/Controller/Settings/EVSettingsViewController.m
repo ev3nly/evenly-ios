@@ -19,6 +19,7 @@
 
 #import "EVWebViewController.h"
 #import "EVFacebookManager.h"
+#import "EVUser.h"
 
 #define EV_SETTINGS_MARGIN 10.0
 #define EV_SETTINGS_ROW_HEIGHT 50.0
@@ -127,7 +128,7 @@
     {
         switch (indexPath.row) {
             case EVSettingsMainRowFacebook:
-
+                [self toggleFacebook];
                 break;
             case EVSettingsMainRowNotifications:
                 [self showNotificationsController];
@@ -165,6 +166,43 @@
     }
 }
 
+#pragma mark - Action
+
+- (void)toggleFacebook {
+    EVStatusBarManager *statusManager = [EVStatusBarManager sharedManager];
+    [statusManager setStatus:EVStatusBarStatusInProgress text:@"UPDATING..."];
+    if ([EVFacebookManager isConnected])
+    {
+        [EVFacebookManager closeAndClearSession];
+        [self updateWithToken:nil
+                   facebookID:nil];
+    }
+    else
+    {
+        [EVFacebookManager loadMeWithCompletion:^(NSDictionary *userDict){
+            [self updateWithToken:[EVFacebookManager sharedManager].tokenData.accessToken
+                       facebookID:[EVFacebookManager sharedManager].facebookID];
+        }];
+    }
+}
+
+- (void)updateWithToken:(NSString *)token facebookID:(NSString *)facebookID {
+    EVStatusBarManager *statusManager = [EVStatusBarManager sharedManager];
+    [EVUser updateMeWithFacebookToken:token
+                           facebookID:facebookID
+                              success:^{
+        [statusManager setStatus:EVStatusBarStatusSuccess];
+        [statusManager setDuringSuccess:^{
+            [self.tableView beginUpdates];
+            [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVSettingsMainRowFacebook inSection:EVSettingsSectionMain] ]
+                                  withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView endUpdates];
+        }];
+    } failure:^(NSError *error) {
+        [statusManager setStatus:EVStatusBarStatusFailure];
+    }];
+}
+
 - (void)showNotificationsController {
     EVNotificationsViewController *notificationsViewController = [[EVNotificationsViewController alloc] init];
     [self.navigationController pushViewController:notificationsViewController animated:YES];
@@ -175,7 +213,6 @@
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
     [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
-
 
 - (void)showLogOutActionSheet {
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Log out" otherButtonTitles:nil];
