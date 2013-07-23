@@ -27,5 +27,5 @@
 - (void)loadProfilePicture;
 
 - (CGRect)nameLabelFrame;
-
+- (CGRect)inviteButtonFrame;
 @end
