@@ -148,7 +148,18 @@ static EVUser *_me;
 }
 
 + (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure {
-    NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET" path:@"newsfeed" parameters:nil];
+    [self newsfeedStartingAtPage:1 success:success failure:failure];
+}
+
++ (void)newsfeedStartingAtPage:(int)pageNumber
+                       success:(void (^)(NSArray *newsfeed))success
+                       failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET"
+                                                      path:@"newsfeed"
+                                                parameters:@{
+                                                                @"page" : @(pageNumber),
+                                                                @"per" : @(EV_ITEMS_PER_PAGE)
+                                                            }];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSMutableArray *array = [NSMutableArray array];
@@ -170,7 +181,40 @@ static EVUser *_me;
                                                                       }];
     
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+
 }
+
+
++ (void)historyStartingAtPage:(int)pageNumber
+                      success:(void (^)(NSArray *history))success
+                      failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET"
+                                                      path:@"history"
+                                                parameters:@{
+                                                                @"page" : @(pageNumber),
+                                                                @"per" : @(EV_ITEMS_PER_PAGE)
+                                                            }];
+    
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSDictionary *dict in responseObject)
+        {
+            [array addObject:[EVSerializer serializeDictionary:dict]];
+        }
+        if (success)
+            success(array);
+    };
+    
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                              success:successBlock
+                                                                              failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                                  if (failure)
+                                                                                      failure(error);
+                                                                              }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
 
 + (void)loadUser:(EVUser *)user withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     [EVUser allWithSuccess:^(id result) {

@@ -12,8 +12,11 @@
 @interface EVFacebookManager : NSObject
 
 @property (nonatomic, strong) FBAccessTokenData *tokenData;
+@property (nonatomic, strong) NSString *facebookID;
 
 + (EVFacebookManager *)sharedManager;
+
++ (BOOL)isConnected;
 
 + (void)loadMeWithCompletion:(void (^)(NSDictionary *userDict))completion;
 + (void)loadFriendsWithCompletion:(void (^)(NSArray *friends))completion;
