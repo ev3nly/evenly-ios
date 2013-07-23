@@ -53,6 +53,15 @@
     [self.view addSubview:self.tableView];
     
     [self loadFooter];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(didSignIn:)
+                                                 name:EVSessionSignedInNotification
+                                               object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -67,6 +76,10 @@
                                                                          self.view.frame.size.width - EV_RIGHT_OVERHANG_MARGIN,
                                                                          FOOTER_HEIGHT)];
     [self.view addSubview:self.footerView];
+}
+
+- (void)didSignIn:(NSNotification *)notification {
+    [self.tableView reloadData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
