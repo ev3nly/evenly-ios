@@ -275,4 +275,23 @@
     return [UIImage imageNamed:@"bc_card_illo"];
 }
 
+#pragma mark - Settings
+
++ (UIImage *)settingsNotificationsIcon {
+    return [UIImage imageNamed:@"Settings_notification_globe"];
+}
+
++ (UIImage *)settingsPasscodeIcon {
+    return [UIImage imageNamed:@"Settings_passcode_key"];
+}
+
++ (UIImage *)settingsFacebookIcon {
+    return [UIImage imageNamed:@"facebook_small"];
+}
+
++ (UIImage *)settingsLogoutIcon {
+    return [UIImage imageNamed:@"Settings_logout_arrow"];
+}
+
+
 @end
