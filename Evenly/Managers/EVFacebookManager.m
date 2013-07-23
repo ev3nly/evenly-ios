@@ -73,6 +73,7 @@ static EVFacebookManager *_sharedManager;
 + (void)loadMeWithCompletion:(void (^)(NSDictionary *userDict))completion {
     [self performRequest:^{
         [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+            [self sharedManager].facebookID = user[@"id"];
             if (!error)
                 completion(user);
             else
