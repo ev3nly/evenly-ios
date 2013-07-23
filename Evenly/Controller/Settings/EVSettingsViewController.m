@@ -171,24 +171,26 @@
 - (void)toggleFacebook {
     EVStatusBarManager *statusManager = [EVStatusBarManager sharedManager];
     [statusManager setStatus:EVStatusBarStatusInProgress text:@"UPDATING..."];
-    __block NSString *token = nil;
     if ([EVFacebookManager isConnected])
     {
         [EVFacebookManager closeAndClearSession];
-        [self updateWithToken:nil];
+        [self updateWithToken:nil
+                   facebookID:nil];
     }
     else
     {
-        [EVFacebookManager openSessionWithCompletion:^{
-            token = [EVFacebookManager sharedManager].tokenData.accessToken;
-            [self updateWithToken:token];
+        [EVFacebookManager loadMeWithCompletion:^(NSDictionary *userDict){
+            [self updateWithToken:[EVFacebookManager sharedManager].tokenData.accessToken
+                       facebookID:[EVFacebookManager sharedManager].facebookID];
         }];
     }
 }
 
-- (void)updateWithToken:(NSString *)token {
+- (void)updateWithToken:(NSString *)token facebookID:(NSString *)facebookID {
     EVStatusBarManager *statusManager = [EVStatusBarManager sharedManager];
-    [EVUser updateMeWithFacebookToken:token success:^{
+    [EVUser updateMeWithFacebookToken:token
+                           facebookID:facebookID
+                              success:^{
         [statusManager setStatus:EVStatusBarStatusSuccess];
         [statusManager setDuringSuccess:^{
             [self.tableView beginUpdates];

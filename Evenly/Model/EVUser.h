@@ -58,7 +58,10 @@
 + (void)setMe:(EVUser *)user;
 + (void)meWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure reload:(BOOL)reload;
 + (void)saveMeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
-+ (void)updateMeWithFacebookToken:(NSString *)token success:(void (^)(void))success failure:(void (^)(NSError *error))failure;
++ (void)updateMeWithFacebookToken:(NSString *)token
+                       facebookID:(NSString *)facebookID
+                          success:(void (^)(void))success
+                          failure:(void (^)(NSError *error))failure;
 
 + (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure;
 + (void)newsfeedStartingAtPage:(int)pageNumber

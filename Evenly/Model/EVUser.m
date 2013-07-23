@@ -288,10 +288,14 @@ static EVUser *_me;
     } failure:failure];
 }
 
-+ (void)updateMeWithFacebookToken:(NSString *)token success:(void (^)(void))success failure:(void (^)(NSError *error))failure {
++ (void)updateMeWithFacebookToken:(NSString *)token
+                       facebookID:(NSString *)facebookID
+                          success:(void (^)(void))success
+                          failure:(void (^)(NSError *))failure {
     NSMutableURLRequest *request = [EVMe requestWithMethod:@"PUT"
                                                       path:@""
-                                                parameters:@{ @"facebook_token" : (token ?: [NSNull null]) }];
+                                                parameters:@{ @"facebook_token" : (token ?: [NSNull null]),
+                                                                 @"facebook_id" : (facebookID ?: [NSNull null])}];
     
     DLog(@"Request body: %@", [NSString stringWithUTF8String:[[request HTTPBody] bytes]]);
     
