@@ -357,7 +357,7 @@ NSString *const EVCIAUpdatedCreditCardsNotification = @"EVCIAUpdatedCreditCardsN
         self.loadingCreditCards = NO;
         NSArray *cards = [result sortedArrayUsingSelector:@selector(compareByBrandAndLastFour:)];
         NSArray *oldCards = [self creditCards];
-        if (![cards isEqualToArray:oldCards])
+        if (cards && ![cards isEqualToArray:oldCards])
         {
             [self.internalCache setObject:cards forKey:@"credit_cards"];
             [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
