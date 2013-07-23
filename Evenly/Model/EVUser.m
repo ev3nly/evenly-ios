@@ -288,6 +288,28 @@ static EVUser *_me;
     } failure:failure];
 }
 
++ (void)updateMeWithFacebookToken:(NSString *)token success:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    NSMutableURLRequest *request = [EVMe requestWithMethod:@"PUT"
+                                                      path:@""
+                                                parameters:@{ @"facebook_token" : (token ?: [NSNull null]) }];
+    
+    DLog(@"Request body: %@", [NSString stringWithUTF8String:[[request HTTPBody] bytes]]);
+    
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        if (success)
+            success();
+    };
+    
+    AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
+                                                                      success:successBlock
+                                                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                          if (failure)
+                                                                              failure(error);
+                                                                      }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
+
 - (void)updateWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     if (self == _me) {
         EVMe *me = [[EVMe alloc] initWithDictionary:[_me dictionaryRepresentation]];
