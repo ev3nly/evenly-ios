@@ -42,14 +42,20 @@
 
 + (UIImage *)navBarNotificationBackground {
     CGSize imageSize = [UIImage imageNamed:@"pending-number-container"].size;
-    return [[UIImage imageNamed:@"pending-number-container"] resizableImageWithCapInsets:UIEdgeInsetsMake(imageSize.height/2, imageSize.width/2, imageSize.height/2, imageSize.width/2)];
-    return [EVImageUtility overlayImage:[UIImage imageNamed:@"pending-number-container"] withColor:[EVColor lightRedColor] identifier:@"redNotificationBackground"];
+    return [[UIImage imageNamed:@"pending-number-container"] resizableImageWithCapInsets:UIEdgeInsetsMake(imageSize.height/2,
+                                                                                                          imageSize.width/2,
+                                                                                                          imageSize.height/2,
+                                                                                                          imageSize.width/2)];
 }
 
 + (UIImage *)navBarNotificationBackgroundRed {
     CGSize imageSize = [UIImage imageNamed:@"pending-number-container-red"].size;
-    return [[EVImageUtility overlayImage:[UIImage imageNamed:@"pending-number-container-red"] withColor:[EVColor lightRedColor] identifier:@"redNotificationBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(imageSize.height/2, imageSize.width/2, imageSize.height/2, imageSize.width/2)];
-    return [EVImageUtility overlayImage:[UIImage imageNamed:@"pending-number-container-red"] withColor:[EVColor lightRedColor] identifier:@"redNotificationBackground"];
+    return [[EVImageUtility overlayImage:[UIImage imageNamed:@"pending-number-container-red"]
+                               withColor:[EVColor lightRedColor]
+                              identifier:@"redNotificationBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(imageSize.height/2,
+                                                                                                                    imageSize.width/2,
+                                                                                                                    imageSize.height/2,
+                                                                                                                    imageSize.width/2)];
 }
 
 #pragma mark - Buttons

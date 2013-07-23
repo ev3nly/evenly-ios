@@ -156,8 +156,6 @@
         EVContact *contact = [EVContact new];
         contact.email = self.user.email;
         contact.name = self.user.name;
-        if (!contact.email || [contact.email isEqualToString:@""])
-            NSLog(@"WTF MAN");
         
         if (![self.user.dbid isEqualToString:[EVCIA me].dbid]) {
             profileCell.handleChargeUser = ^{
