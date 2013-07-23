@@ -59,7 +59,7 @@
     self.numberLabel.font = [EVFont boldFontOfSize:13];
     self.numberLabel.textAlignment = NSTextAlignmentCenter;
     self.numberLabel.textColor = [EVColor lightColor];
-    self.numberLabel.text = @"";
+    self.numberLabel.text = @""; 
     [self addSubview:self.numberLabel];
 }
 
@@ -68,8 +68,7 @@
 - (void)setNumber:(int)number {
     _number = number;
     
-    [self.numberLabel fadeToText:[NSString stringWithFormat:@"%i", number]];
-//    self.numberLabel.text = [NSString stringWithFormat:@"%i", number];
+    self.numberLabel.text = [NSString stringWithFormat:@"%i", number];
 }
 
 - (void)setShouldFlag:(BOOL)shouldFlag {

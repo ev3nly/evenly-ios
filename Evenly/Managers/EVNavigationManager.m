@@ -119,9 +119,9 @@ static EVNavigationManager *_sharedManager;
     if (!self.badgeView)
         self.badgeView = [EVNavBarBadge new];
     
+    self.badgeView.number = 17;
+    self.badgeView.shouldFlag = YES;
     self.badgeView.frame = [self badgeViewFrame];
-    self.badgeView.number = numPending;
-    self.badgeView.shouldFlag = shouldFlag;
 
     if (numPending > 0 && !self.badgeView.superview) {
         UIView *button = [self walletButtonCustomView];
