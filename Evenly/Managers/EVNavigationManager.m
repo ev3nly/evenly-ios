@@ -7,6 +7,12 @@
 //
 
 #import "EVNavigationManager.h"
+#import "EVNavBarBadge.h"
+#import "ReactiveCocoa.h"
+
+#define NAV_BAR_BADGE_TAG 9237
+#define BADGE_VIEW_OFFSET -0.5
+
 static EVNavigationManager *_sharedManager;
 
 @interface EVNavigationManager () {
@@ -20,6 +26,8 @@ static EVNavigationManager *_sharedManager;
     UINavigationController *_inviteViewController;
     UINavigationController *_settingsViewController;
 }
+
+@property (nonatomic, strong) EVNavBarBadge *badgeView;
 
 @end
 
@@ -105,6 +113,40 @@ static EVNavigationManager *_sharedManager;
 
 - (void)userSignedOut:(NSNotification *)notification {
     _profileViewController = nil;
+}
+
+- (void)setPendingNotifications:(int)numPending shouldFlag:(BOOL)shouldFlag {
+    if (!self.badgeView)
+        self.badgeView = [EVNavBarBadge new];
+    
+    self.badgeView.number = numPending;
+    self.badgeView.shouldFlag = shouldFlag;
+    self.badgeView.frame = [self badgeViewFrame];
+
+    if (numPending > 0 && !self.badgeView.superview) {
+        UIView *button = [self walletButtonCustomView];
+        [button addSubview:self.badgeView];
+        [self.badgeView zoomBounceWithDuration:0.2 completion:nil];
+    }
+    else if (numPending <= 0 && self.badgeView.superview) {
+        [self.badgeView shrinkBounceWithDuration:0.2 completion:^{
+            [self.badgeView removeFromSuperview];
+            self.badgeView = nil;
+        }];
+    }
+}
+
+- (UIView *)walletButtonCustomView {
+    UIViewController *homeController = [_homeViewController.viewControllers objectAtIndex:0];
+    return homeController.navigationItem.rightBarButtonItem.customView;
+}
+
+- (CGRect)badgeViewFrame {
+    [self.badgeView sizeToFit];
+    return CGRectMake(0 - self.badgeView.bounds.size.width,
+                      BADGE_VIEW_OFFSET,
+                      self.badgeView.bounds.size.width,
+                      self.badgeView.bounds.size.height);
 }
 
 @end
