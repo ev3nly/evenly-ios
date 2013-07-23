@@ -13,5 +13,6 @@
 
 @property (nonatomic, strong) EVGrayButton *payInFullButton;
 @property (nonatomic, strong) EVGrayButton *payPartialButton;
+@property (nonatomic, strong) EVGrayButton *declineButton;
 
 @end

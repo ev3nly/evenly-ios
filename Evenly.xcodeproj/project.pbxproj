@@ -66,7 +66,6 @@
 		9C1F47FB1756914B00B26A1B /* EVStringUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47E81756914B00B26A1B /* EVStringUtility.m */; };
 		9C1F47FC1756914B00B26A1B /* EVUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47EA1756914B00B26A1B /* EVUtilities.m */; };
 		9C1F47FD1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F47ED1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m */; };
-		9C1F481F175691B600B26A1B /* EVActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4800175691B600B26A1B /* EVActivity.m */; };
 		9C1F4820175691B600B26A1B /* EVBankAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4802175691B600B26A1B /* EVBankAccount.m */; };
 		9C1F4822175691B600B26A1B /* EVRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4806175691B600B26A1B /* EVRequest.m */; };
 		9C1F4823175691B600B26A1B /* EVCreditCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1F4808175691B600B26A1B /* EVCreditCard.m */; };
@@ -644,8 +643,6 @@
 		9C1F47EA1756914B00B26A1B /* EVUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVUtilities.m; sourceTree = "<group>"; };
 		9C1F47EC1756914B00B26A1B /* EVCurrencyTextFieldFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVCurrencyTextFieldFormatter.h; sourceTree = "<group>"; };
 		9C1F47ED1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVCurrencyTextFieldFormatter.m; sourceTree = "<group>"; };
-		9C1F47FF175691B600B26A1B /* EVActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVActivity.h; sourceTree = "<group>"; };
-		9C1F4800175691B600B26A1B /* EVActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVActivity.m; sourceTree = "<group>"; };
 		9C1F4801175691B600B26A1B /* EVBankAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVBankAccount.h; sourceTree = "<group>"; };
 		9C1F4802175691B600B26A1B /* EVBankAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVBankAccount.m; sourceTree = "<group>"; };
 		9C1F4805175691B600B26A1B /* EVRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRequest.h; sourceTree = "<group>"; };
@@ -1590,8 +1587,6 @@
 		9C1F47FE175691B600B26A1B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				9C1F47FF175691B600B26A1B /* EVActivity.h */,
-				9C1F4800175691B600B26A1B /* EVActivity.m */,
 				9C1F4801175691B600B26A1B /* EVBankAccount.h */,
 				9C1F4802175691B600B26A1B /* EVBankAccount.m */,
 				9C1F4805175691B600B26A1B /* EVRequest.h */,
@@ -3346,7 +3341,6 @@
 				9C1F47FC1756914B00B26A1B /* EVUtilities.m in Sources */,
 				9C1F47FD1756914B00B26A1B /* EVCurrencyTextFieldFormatter.m in Sources */,
 				9C9017E817821A6B00FCD32A /* EVAutocompletePhotoCell.m in Sources */,
-				9C1F481F175691B600B26A1B /* EVActivity.m in Sources */,
 				9C1F4820175691B600B26A1B /* EVBankAccount.m in Sources */,
 				9C1F4822175691B600B26A1B /* EVRequest.m in Sources */,
 				9C659BEC177A28CF0028072A /* EVDashboardNoOneJoinedCell.m in Sources */,
