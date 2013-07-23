@@ -153,7 +153,8 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
 
 - (void)cacheNewSession {
     //retrieve user from session call, cache user
-    EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
+    NSDictionary *originalDictionary = [EVSession sharedSession].originalDictionary[@"user"];
+    EVUser *me = [[EVUser alloc] initWithDictionary:originalDictionary];
     [EVUser setMe:me];
     [self setMe:me];
     
@@ -218,6 +219,8 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         DLog(@"Auth token: %@", session.authenticationToken);
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [self.internalCache removeAllObjects];
 }
 
 #pragma mark - Data Caching
