@@ -11,6 +11,7 @@
 @interface EVWebViewController : EVModalViewController <UIWebViewDelegate>
 
 @property (nonatomic, strong) NSURL *url;
+@property (nonatomic, strong) UIWebView *webView;
 
 - (id)initWithURL:(NSURL *)url;
 

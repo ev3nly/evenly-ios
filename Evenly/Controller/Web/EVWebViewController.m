@@ -13,7 +13,6 @@
 
 @interface EVWebViewController ()
 
-@property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong) EVLoadingIndicator *loadingIndicator;
 @property (atomic, assign) int loadingCounter;
 
