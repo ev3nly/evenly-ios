@@ -8,6 +8,26 @@
 
 #import "EVViewController.h"
 
-@interface EVSettingsViewController : EVViewController <UIActionSheetDelegate>
+typedef enum {
+    EVSettingsSectionMain,
+    EVSettingsSectionLegal,
+    EVSettingsSectionLogout,
+    EVSettingsSectionCOUNT
+} EVSettingsSection;
+
+typedef enum {
+    EVSettingsMainRowFacebook,
+    EVSettingsMainRowNotifications,
+    EVSettingsMainRowChangePasscode,
+    EVSettingsMainRowCOUNT
+} EVSettingsMainRow;
+
+typedef enum {
+    EVSettingsLegalRowTermsAndConditions,
+    EVSettingsLegalRowPrivacyPolicy,
+    EVSettingsLegalRowCOUNT
+} EVSettingsLegalRow;
+
+@interface EVSettingsViewController : EVViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 
 @end
