@@ -327,7 +327,6 @@
 		9CD306AB1762970300D23852 /* EVStoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306AA1762970300D23852 /* EVStoryCell.m */; };
 		9CD473B31790992E00E60E37 /* EVGroupRequestHowMuchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD473B21790992E00E60E37 /* EVGroupRequestHowMuchView.m */; };
 		9CD473B51790AE2E00E60E37 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473B41790AE2E00E60E37 /* Default.png */; };
-		9CD473B71790AE3100E60E37 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473B61790AE3100E60E37 /* Default@2x.png */; };
 		9CD473B91790AE3400E60E37 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473B81790AE3400E60E37 /* Default-568h@2x.png */; };
 		9CD473CC1790C4E400E60E37 /* EVGroupRequestSingleAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD473CB1790C4E400E60E37 /* EVGroupRequestSingleAmountView.m */; };
 		9CD473CF1790CA8100E60E37 /* xbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473CD1790CA8100E60E37 /* xbutton.png */; };
@@ -496,10 +495,16 @@
 		D099B3C6178CBF7200C067EC /* EVLoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = D099B3C5178CBF7200C067EC /* EVLoadingIndicator.m */; };
 		D099B3DE178CE09700C067EC /* evenly_logo_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3D8178CE09700C067EC /* evenly_logo_gray.png */; };
 		D099B3DF178CE09700C067EC /* evenly_logo_gray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3D9178CE09700C067EC /* evenly_logo_gray@2x.png */; };
-		D099B3E0178CE09700C067EC /* evenly_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3DA178CE09700C067EC /* evenly_logo.png */; };
-		D099B3E1178CE09700C067EC /* evenly_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3DB178CE09700C067EC /* evenly_logo@2x.png */; };
 		D099B3E2178CE09700C067EC /* spinner.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3DC178CE09700C067EC /* spinner.png */; };
 		D099B3E3178CE09700C067EC /* spinner@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D099B3DD178CE09700C067EC /* spinner@2x.png */; };
+		D0A0BB67179E0E94002C0EA0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A0BB66179E0E94002C0EA0 /* Default@2x.png */; };
+		D0A0BB6A179E0EC2002C0EA0 /* evenly_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A0BB68179E0EC2002C0EA0 /* evenly_logo.png */; };
+		D0A0BB6B179E0EC2002C0EA0 /* evenly_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A0BB69179E0EC2002C0EA0 /* evenly_logo@2x.png */; };
+		D0A0BB6E179E2102002C0EA0 /* pending-number-container-red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A0BB6C179E2102002C0EA0 /* pending-number-container-red@2x.png */; };
+		D0A0BB6F179E2102002C0EA0 /* pending-number-container-red.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A0BB6D179E2102002C0EA0 /* pending-number-container-red.png */; };
+		D0A0BB72179E413E002C0EA0 /* EVNavBarBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A0BB71179E413E002C0EA0 /* EVNavBarBadge.m */; };
+		D0A0BB75179E472F002C0EA0 /* pending-number-container.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A0BB73179E472F002C0EA0 /* pending-number-container.png */; };
+		D0A0BB76179E472F002C0EA0 /* pending-number-container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A0BB74179E472F002C0EA0 /* pending-number-container@2x.png */; };
 		D0C30AF71770F480005606E8 /* EVTransactionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF61770F480005606E8 /* EVTransactionDetailViewController.m */; };
 		D0C30AFA1770F63A005606E8 /* EVTransactionDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF91770F63A005606E8 /* EVTransactionDetailCell.m */; };
 		D0C30AFE177217A3005606E8 /* EVPendingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AFD177217A3005606E8 /* EVPendingDetailViewController.m */; };
@@ -1011,7 +1016,6 @@
 		9CD473B11790992E00E60E37 /* EVGroupRequestHowMuchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestHowMuchView.h; sourceTree = "<group>"; };
 		9CD473B21790992E00E60E37 /* EVGroupRequestHowMuchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestHowMuchView.m; sourceTree = "<group>"; };
 		9CD473B41790AE2E00E60E37 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		9CD473B61790AE3100E60E37 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9CD473B81790AE3400E60E37 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		9CD473CA1790C4E400E60E37 /* EVGroupRequestSingleAmountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGroupRequestSingleAmountView.h; sourceTree = "<group>"; };
 		9CD473CB1790C4E400E60E37 /* EVGroupRequestSingleAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestSingleAmountView.m; sourceTree = "<group>"; };
@@ -1241,10 +1245,17 @@
 		D099B3C5178CBF7200C067EC /* EVLoadingIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVLoadingIndicator.m; sourceTree = "<group>"; };
 		D099B3D8178CE09700C067EC /* evenly_logo_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_logo_gray.png; sourceTree = "<group>"; };
 		D099B3D9178CE09700C067EC /* evenly_logo_gray@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evenly_logo_gray@2x.png"; sourceTree = "<group>"; };
-		D099B3DA178CE09700C067EC /* evenly_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_logo.png; sourceTree = "<group>"; };
-		D099B3DB178CE09700C067EC /* evenly_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evenly_logo@2x.png"; sourceTree = "<group>"; };
 		D099B3DC178CE09700C067EC /* spinner.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = spinner.png; sourceTree = "<group>"; };
 		D099B3DD178CE09700C067EC /* spinner@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "spinner@2x.png"; sourceTree = "<group>"; };
+		D0A0BB66179E0E94002C0EA0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		D0A0BB68179E0EC2002C0EA0 /* evenly_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_logo.png; sourceTree = "<group>"; };
+		D0A0BB69179E0EC2002C0EA0 /* evenly_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evenly_logo@2x.png"; sourceTree = "<group>"; };
+		D0A0BB6C179E2102002C0EA0 /* pending-number-container-red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-number-container-red@2x.png"; sourceTree = "<group>"; };
+		D0A0BB6D179E2102002C0EA0 /* pending-number-container-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-number-container-red.png"; sourceTree = "<group>"; };
+		D0A0BB70179E413E002C0EA0 /* EVNavBarBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNavBarBadge.h; sourceTree = "<group>"; };
+		D0A0BB71179E413E002C0EA0 /* EVNavBarBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNavBarBadge.m; sourceTree = "<group>"; };
+		D0A0BB73179E472F002C0EA0 /* pending-number-container.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-number-container.png"; sourceTree = "<group>"; };
+		D0A0BB74179E472F002C0EA0 /* pending-number-container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-number-container@2x.png"; sourceTree = "<group>"; };
 		D0C30AF51770F480005606E8 /* EVTransactionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTransactionDetailViewController.h; sourceTree = "<group>"; };
 		D0C30AF61770F480005606E8 /* EVTransactionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTransactionDetailViewController.m; sourceTree = "<group>"; };
 		D0C30AF81770F63A005606E8 /* EVTransactionDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTransactionDetailCell.h; sourceTree = "<group>"; };
@@ -1684,6 +1695,8 @@
 				D07A3901176A661D00EABEB7 /* EVTapGestureRecognizer.m */,
 				9C06820817986FC60015BAF5 /* EVMainMenuFooter.h */,
 				9C06820917986FC60015BAF5 /* EVMainMenuFooter.m */,
+				D0A0BB70179E413E002C0EA0 /* EVNavBarBadge.h */,
+				D0A0BB71179E413E002C0EA0 /* EVNavBarBadge.m */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -2106,7 +2119,7 @@
 			children = (
 				9CD473B81790AE3400E60E37 /* Default-568h@2x.png */,
 				9CD473B41790AE2E00E60E37 /* Default.png */,
-				9CD473B61790AE3100E60E37 /* Default@2x.png */,
+				D0A0BB66179E0E94002C0EA0 /* Default@2x.png */,
 				9C1DEC46177B9E170057526D /* Icon-72.png */,
 				9C1DEC47177B9E170057526D /* Icon-72@2x.png */,
 				9C1DEC36177B9E040057526D /* Icon-Small-50.png */,
@@ -2311,6 +2324,10 @@
 				9CBCAE201778C0150039AB39 /* More@2x.png */,
 				9CB2857F1761521E009B26BB /* Wallet.png */,
 				9CB285801761521E009B26BB /* Wallet@2x.png */,
+				D0A0BB73179E472F002C0EA0 /* pending-number-container.png */,
+				D0A0BB74179E472F002C0EA0 /* pending-number-container@2x.png */,
+				D0A0BB6C179E2102002C0EA0 /* pending-number-container-red@2x.png */,
+				D0A0BB6D179E2102002C0EA0 /* pending-number-container-red.png */,
 			);
 			path = NavBar;
 			sourceTree = "<group>";
@@ -2782,10 +2799,10 @@
 		D099B3D7178CE08D00C067EC /* Loading */ = {
 			isa = PBXGroup;
 			children = (
+				D0A0BB68179E0EC2002C0EA0 /* evenly_logo.png */,
+				D0A0BB69179E0EC2002C0EA0 /* evenly_logo@2x.png */,
 				D099B3D8178CE09700C067EC /* evenly_logo_gray.png */,
 				D099B3D9178CE09700C067EC /* evenly_logo_gray@2x.png */,
-				D099B3DA178CE09700C067EC /* evenly_logo.png */,
-				D099B3DB178CE09700C067EC /* evenly_logo@2x.png */,
 				D099B3DC178CE09700C067EC /* spinner.png */,
 				D099B3DD178CE09700C067EC /* spinner@2x.png */,
 			);
@@ -3092,8 +3109,6 @@
 				D03A33A31784ACBA007F4B0B /* User@2x.png in Resources */,
 				D099B3DE178CE09700C067EC /* evenly_logo_gray.png in Resources */,
 				D099B3DF178CE09700C067EC /* evenly_logo_gray@2x.png in Resources */,
-				D099B3E0178CE09700C067EC /* evenly_logo.png in Resources */,
-				D099B3E1178CE09700C067EC /* evenly_logo@2x.png in Resources */,
 				D099B3E2178CE09700C067EC /* spinner.png in Resources */,
 				D099B3E3178CE09700C067EC /* spinner@2x.png in Resources */,
 				9CA81700178DE0E9000F0417 /* history.png in Resources */,
@@ -3111,7 +3126,6 @@
 				9C6CE675178F399000657D58 /* small_smile.png in Resources */,
 				9C6CE676178F399000657D58 /* small_smile@2x.png in Resources */,
 				9CD473B51790AE2E00E60E37 /* Default.png in Resources */,
-				9CD473B71790AE3100E60E37 /* Default@2x.png in Resources */,
 				9CD473B91790AE3400E60E37 /* Default-568h@2x.png in Resources */,
 				9CD473CF1790CA8100E60E37 /* xbutton.png in Resources */,
 				9CD473D01790CA8100E60E37 /* xbutton@2x.png in Resources */,
@@ -3151,6 +3165,13 @@
 				D02758781799F402004F6F0A /* people@2x.png in Resources */,
 				9C340BC0179E2C0D00714169 /* Privacy Policy.html in Resources */,
 				9C340BC1179E2C0D00714169 /* Terms and Conditions.html in Resources */,
+				D0A0BB67179E0E94002C0EA0 /* Default@2x.png in Resources */,
+				D0A0BB6A179E0EC2002C0EA0 /* evenly_logo.png in Resources */,
+				D0A0BB6B179E0EC2002C0EA0 /* evenly_logo@2x.png in Resources */,
+				D0A0BB6E179E2102002C0EA0 /* pending-number-container-red@2x.png in Resources */,
+				D0A0BB6F179E2102002C0EA0 /* pending-number-container-red.png in Resources */,
+				D0A0BB75179E472F002C0EA0 /* pending-number-container.png in Resources */,
+				D0A0BB76179E472F002C0EA0 /* pending-number-container@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3495,6 +3516,7 @@
 				9C0682521798B3EF0015BAF5 /* EVCheckmarkLinkButton.m in Sources */,
 				D027586417989B11004F6F0A /* EVPrivacySelectorToggle.m in Sources */,
 				9C340BBC179E1E2D00714169 /* EVSettingsCell.m in Sources */,
+				D0A0BB72179E413E002C0EA0 /* EVNavBarBadge.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
