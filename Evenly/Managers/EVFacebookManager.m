@@ -41,6 +41,7 @@ static EVFacebookManager *_sharedManager;
        FBSessionState state, NSError *error) {
          switch (state) {
              case FBSessionStateOpen:
+                 [self sharedManager].tokenData = session.accessTokenData;
                  completion();
                  break;
              case FBSessionStateClosed:
@@ -50,13 +51,16 @@ static EVFacebookManager *_sharedManager;
              default:
                  break;
          }
-         [self sharedManager].tokenData = session.accessTokenData;
          if (error) {
              [[[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
              [self fbResync];
              [NSThread sleepForTimeInterval:0.5];
          }
      }];
+}
+
++ (void)closeAndClearSession {
+    [[FBSession activeSession] closeAndClearTokenInformation];
 }
 
 + (void)fbResync {
