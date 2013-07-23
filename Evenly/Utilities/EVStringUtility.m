@@ -261,6 +261,23 @@ static NSDateFormatter *_detailDateFormatter;
     return name;
 }
 
++ (NSString *)addHyphensToPhoneNumber:(NSString *)phoneNumber {
+    phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    if (phoneNumber.length > 10)
+        phoneNumber = [phoneNumber substringToIndex:10];
+    if (phoneNumber.length > 6) {
+        NSString *firstThree = [phoneNumber substringWithRange:NSMakeRange(0, 3)];
+        NSString *nextThree = [phoneNumber substringWithRange:NSMakeRange(3, 3)];
+        NSString *rest = [phoneNumber substringFromIndex:6];
+        phoneNumber = [NSString stringWithFormat:@"%@-%@-%@", firstThree, nextThree, rest];
+    } else if (phoneNumber.length > 3) {
+        NSString *firstThree = [phoneNumber substringWithRange:NSMakeRange(0, 3)];
+        NSString *rest = [phoneNumber substringFromIndex:3];
+        phoneNumber = [NSString stringWithFormat:@"%@-%@", firstThree, rest];
+    }
+    return phoneNumber;
+}
+
 #pragma mark - Marketing Materials
 
 + (NSString *)appName {

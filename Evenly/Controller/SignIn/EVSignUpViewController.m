@@ -155,23 +155,10 @@
     RAC(self.saveButton.enabled) = validFormSignal;
     
     [self.phoneNumberCell.textField.rac_textSignal subscribeNext:^(NSString *text) {
-        text = [text stringByReplacingOccurrencesOfString:@"-" withString:@""];
-        if (text.length > 10)
-            text = [text substringToIndex:10];
-        if (text.length > 6) {
-            NSString *firstThree = [text substringWithRange:NSMakeRange(0, 3)];
-            NSString *nextThree = [text substringWithRange:NSMakeRange(3, 3)];
-            NSString *rest = [text substringFromIndex:6];
-            text = [NSString stringWithFormat:@"%@-%@-%@", firstThree, nextThree, rest];
-        } else if (text.length > 3) {
-            NSString *firstThree = [text substringWithRange:NSMakeRange(0, 3)];
-            NSString *rest = [text substringFromIndex:3];
-            text = [NSString stringWithFormat:@"%@-%@", firstThree, rest];
-        }
+        text = [EVStringUtility addHyphensToPhoneNumber:text];
         self.phoneNumberCell.textField.text = text;
-        if (text.length == 12) {
+        if (text.length == 12)
             [self.passwordCell.textField becomeFirstResponder];
-        }
     }];
 }
 
@@ -288,6 +275,7 @@
         cell.nameField.text = self.user.name;
     if (self.user.email)
         cell.emailField.text = self.user.email;
+
     cell.handleEnteredEmail = ^{
         [self.phoneNumberCell.textField becomeFirstResponder];
     };
