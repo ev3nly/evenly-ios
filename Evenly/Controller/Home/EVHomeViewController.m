@@ -31,7 +31,10 @@
 
 @property (nonatomic, strong) UILabel *balanceLabel;
 @property (nonatomic, strong) UITableView *tableView;
+
 @property (nonatomic, strong) NSArray *newsfeed;
+@property (nonatomic, strong) NSMutableArray *locallyCreatedStories;
+
 @property (nonatomic) int pageNumber;
 
 - (void)configurePullToRefresh;
@@ -46,6 +49,7 @@
     if (self) {
         self.title = @"Evenly";
         self.pageNumber = 1;
+        self.locallyCreatedStories = [NSMutableArray array];
     }
     return self;
 }
@@ -185,6 +189,9 @@
 
     [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
         self.newsfeed = newsfeed;
+        
+        [self compareLocalStories];        
+        
         [self.tableView reloadData];
         [self.tableView.pullToRefreshView stopAnimating];
         self.tableView.loading = NO;
@@ -193,10 +200,52 @@
     }];
 }
 
+- (void)compareLocalStories {
+    if ([self.locallyCreatedStories count] == 0)
+        return;
+    
+    EVStory *mostRecentLocalStory = [self.locallyCreatedStories objectAtIndex:0];
+    EVStory *mostRecentRemoteStory = [self.newsfeed objectAtIndex:0];
+    
+    // Remote story is older than local story
+    if ([mostRecentRemoteStory.createdAt compare:mostRecentLocalStory.createdAt] == NSOrderedAscending) {
+        self.newsfeed = [self.locallyCreatedStories arrayByAddingObjectsFromArray:self.newsfeed];
+        return;
+    } else {
+        NSArray *localStories = [NSArray arrayWithArray:self.locallyCreatedStories];
+        for (EVStory *localStory in localStories) {
+            DLog(@"Local story: %@", localStory);
+            for (EVStory *remoteStory in self.newsfeed) {
+                DLog(@"Remote story: %@", remoteStory);
+                // Jump ship if we've passed the local story chronologically.
+                if ([remoteStory.createdAt compare:localStory.createdAt] == NSOrderedAscending)
+                    break;
+                
+                NSDictionary *remoteSource = [remoteStory source];
+                NSString *remoteSourceClass = [NSString stringWithFormat:@"EV%@", remoteSource[@"type"]];
+                NSString *localSourceClass = NSStringFromClass([localStory.source class]);
+                
+                NSString *remoteID = [remoteSource[@"id"] stringValue];
+                NSString *localID = [localStory.source dbid];
+                if ([remoteSourceClass isEqual:localSourceClass] && [remoteID isEqual:localID]) {
+                    DLog(@"They match!");
+                    [self.locallyCreatedStories removeObject:localStory];
+                    break;
+                }
+            }
+        }
+    }
+    
+    if ([self.locallyCreatedStories count] > 0) {
+        self.newsfeed = [self.locallyCreatedStories arrayByAddingObjectsFromArray:self.newsfeed];
+    }
+}
+
 - (void)storyWasCreatedLocally:(NSNotification *)notification {
     EVStory *story = [[notification userInfo] objectForKey:@"story"];
+    [self.locallyCreatedStories insertObject:story atIndex:0];
     
-    self.newsfeed = [@[ story ] arrayByAddingObjectsFromArray:self.newsfeed];
+    self.newsfeed = [self.locallyCreatedStories arrayByAddingObjectsFromArray:self.newsfeed];
 }
 
 - (void)rewardRedeemed:(NSNotification *)notification {

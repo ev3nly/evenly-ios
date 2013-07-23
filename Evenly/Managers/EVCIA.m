@@ -48,6 +48,10 @@ static EVCIA *_sharedInstance;
                                                      name:EVSessionSignedInNotification
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didSignOut:)
+                                                     name:EVSessionSignedOutNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didReceiveMemoryWarning:)
                                                      name:UIApplicationDidReceiveMemoryWarningNotification
                                                    object:nil];
@@ -67,6 +71,10 @@ static EVCIA *_sharedInstance;
     [self reloadAllExchangesWithCompletion:NULL];
     [self reloadCreditCardsWithCompletion:NULL];
     [self reloadBankAccountsWithCompletion:NULL];
+}
+
+- (void)didSignOut:(NSNotification *)notification {
+    [self.internalCache removeAllObjects];
 }
 
 #pragma mark - Image Loading
@@ -219,8 +227,6 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         DLog(@"Auth token: %@", session.authenticationToken);
     }
     [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    [self.internalCache removeAllObjects];
 }
 
 #pragma mark - Data Caching
@@ -351,7 +357,7 @@ NSString *const EVCIAUpdatedCreditCardsNotification = @"EVCIAUpdatedCreditCardsN
         self.loadingCreditCards = NO;
         NSArray *cards = [result sortedArrayUsingSelector:@selector(compareByBrandAndLastFour:)];
         NSArray *oldCards = [self creditCards];
-        if (![cards isEqualToArray:oldCards])
+        if (cards && ![cards isEqualToArray:oldCards])
         {
             [self.internalCache setObject:cards forKey:@"credit_cards"];
             [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
