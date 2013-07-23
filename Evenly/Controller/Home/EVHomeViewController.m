@@ -157,6 +157,10 @@
     
     [self.view addSubview:self.floatingView];
     
+    [self updateTableViewContentInset];
+}
+
+- (void)updateTableViewContentInset {
     self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.floatingView.frame.size.height + self.tableView.infiniteScrollingView.frame.size.height, 0);
 }
 
@@ -184,8 +188,10 @@
 }
 
 - (void)reloadNewsFeed {
-    if ([self.newsfeed count] == 0)
+    if ([self.newsfeed count] == 0) {
         self.tableView.loading = YES;
+        [self.tableView setShowsInfiniteScrolling:NO];
+    }
 
     [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
         self.newsfeed = newsfeed;
@@ -195,8 +201,12 @@
         [self.tableView reloadData];
         [self.tableView.pullToRefreshView stopAnimating];
         self.tableView.loading = NO;
+        [self.tableView setShowsInfiniteScrolling:YES];
+        [self updateTableViewContentInset];
     } failure:^(NSError *error) {
         self.tableView.loading = NO;
+        [self.tableView setShowsInfiniteScrolling:YES];
+        [self updateTableViewContentInset];
     }];
 }
 
