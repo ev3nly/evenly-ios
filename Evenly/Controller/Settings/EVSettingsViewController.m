@@ -81,7 +81,7 @@
     {
         switch (indexPath.row) {
             case EVSettingsMainRowFacebook:
-                cell.iconView.image = nil;
+                cell.iconView.image = [UIImage imageNamed:@"facebook_small"];
                 cell.label.text = @"Connect Facebook";
                 break;
             case EVSettingsMainRowNotifications:

@@ -135,6 +135,8 @@
 		9C340BBC179E1E2D00714169 /* EVSettingsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C340BBB179E1E2C00714169 /* EVSettingsCell.m */; };
 		9C340BC0179E2C0D00714169 /* Privacy Policy.html in Resources */ = {isa = PBXBuildFile; fileRef = 9C340BBE179E2C0D00714169 /* Privacy Policy.html */; };
 		9C340BC1179E2C0D00714169 /* Terms and Conditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 9C340BBF179E2C0D00714169 /* Terms and Conditions.html */; };
+		9C340BC4179E338B00714169 /* facebook_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C340BC2179E338B00714169 /* facebook_small.png */; };
+		9C340BC5179E338B00714169 /* facebook_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C340BC3179E338B00714169 /* facebook_small@2x.png */; };
 		9C35B6F0176186A500084FA7 /* EVWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6EF176186A500084FA7 /* EVWalletCell.m */; };
 		9C35B6F31761871000084FA7 /* EVSidePanelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C35B6F21761871000084FA7 /* EVSidePanelCell.m */; };
 		9C35B6F717618A4400084FA7 /* WalletArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C35B6F517618A4400084FA7 /* WalletArrow.png */; };
@@ -739,6 +741,8 @@
 		9C340BBB179E1E2C00714169 /* EVSettingsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSettingsCell.m; sourceTree = "<group>"; };
 		9C340BBE179E2C0D00714169 /* Privacy Policy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Privacy Policy.html"; sourceTree = "<group>"; };
 		9C340BBF179E2C0D00714169 /* Terms and Conditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Terms and Conditions.html"; sourceTree = "<group>"; };
+		9C340BC2179E338B00714169 /* facebook_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook_small.png; sourceTree = "<group>"; };
+		9C340BC3179E338B00714169 /* facebook_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook_small@2x.png"; sourceTree = "<group>"; };
 		9C35B6EE176186A500084FA7 /* EVWalletCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletCell.h; sourceTree = "<group>"; };
 		9C35B6EF176186A500084FA7 /* EVWalletCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletCell.m; sourceTree = "<group>"; };
 		9C35B6F11761871000084FA7 /* EVSidePanelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSidePanelCell.h; sourceTree = "<group>"; };
@@ -1702,6 +1706,8 @@
 		9C2DD088176928A500EAA3D1 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9C340BC2179E338B00714169 /* facebook_small.png */,
+				9C340BC3179E338B00714169 /* facebook_small@2x.png */,
 				9C2DD089176928A500EAA3D1 /* Settings_logout_arrow.png */,
 				9C2DD08A176928A500EAA3D1 /* Settings_logout_arrow@2x.png */,
 				9C2DD08B176928A500EAA3D1 /* Settings_notification_globe.png */,
@@ -3151,6 +3157,8 @@
 				D02758781799F402004F6F0A /* people@2x.png in Resources */,
 				9C340BC0179E2C0D00714169 /* Privacy Policy.html in Resources */,
 				9C340BC1179E2C0D00714169 /* Terms and Conditions.html in Resources */,
+				9C340BC4179E338B00714169 /* facebook_small.png in Resources */,
+				9C340BC5179E338B00714169 /* facebook_small@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

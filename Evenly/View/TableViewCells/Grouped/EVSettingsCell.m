@@ -41,7 +41,7 @@
                                            (self.contentView.frame.size.height - self.iconView.image.size.height) / 2.0,
                                            self.iconView.image.size.width,
                                            self.iconView.image.size.height)];
-        xOrigin = CGRectGetMaxX(self.iconView.frame) + EV_SETTINGS_ROW_MARGIN;
+        xOrigin = (CGRectGetMaxX(self.iconView.frame) + EV_SETTINGS_ROW_MARGIN);
     }
     
     [self.label setFrame:CGRectMake(xOrigin,
