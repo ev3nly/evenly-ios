@@ -33,6 +33,25 @@ static EVNavigationManager *_sharedManager;
     return _sharedManager;
 }
 
+- (id)init {
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didSignIn:)
+                                                     name:EVSessionSignedInNotification
+                                                   object:nil];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)didSignIn:(NSNotification *)notification {
+    _profileViewController = nil;
+}
+
 - (EVMasterViewController *)masterViewController {
     if (!_masterViewController) {
         _masterViewController = [[EVMasterViewController alloc] init];
