@@ -97,6 +97,7 @@
     
     // Load user's settings from server.
     [[EVSettingsManager sharedManager] loadSettingsFromServer];
+    
 }
 
 - (void)setUpAppearance {
@@ -136,6 +137,7 @@
     
     [FBSession.activeSession handleDidBecomeActive];
     [EVAnalyticsUtility trackEvent:EVAnalyticsOpenedApp];
+    [EVUtilities registerForPushNotifications];
 
     NSDate *dateAppEnteredBackground = [[NSUserDefaults standardUserDefaults] objectForKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
     if (dateAppEnteredBackground && fabs([dateAppEnteredBackground timeIntervalSinceNow]) > EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY) {
@@ -163,8 +165,14 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     [currentInstallation setObject:[[EVCIA me] dbid] forKey:@"user_id"];
+    if ([[currentInstallation channels] count] < 2)
+    {
+        [currentInstallation addUniqueObject:@"all" forKey:@"channels"];
+        [currentInstallation addUniqueObject:[NSString stringWithFormat:@"user_%@", [[EVCIA me] dbid]]
+                                      forKey:@"channels"];
+    }
     [currentInstallation saveInBackground];
-    
+
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel.people addPushDeviceToken:deviceToken];
 }
