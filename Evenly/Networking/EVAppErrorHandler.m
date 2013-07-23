@@ -15,8 +15,6 @@
 #import "EVUser.h"
 #import "EVCIA.h"
 
-#import "EVActivity.h"
-
 #import "EVSerializer.h"
 
 static BOOL _handling418;

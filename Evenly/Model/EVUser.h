@@ -63,14 +63,16 @@
                           success:(void (^)(void))success
                           failure:(void (^)(NSError *error))failure;
 
-+ (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure;
++ (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success
+                    failure:(void (^)(NSError *error))failure;
 + (void)newsfeedStartingAtPage:(int)pageNumber
                        success:(void (^)(NSArray *newsfeed))success
                        failure:(void (^)(NSError *error))failure;
 + (void)historyStartingAtPage:(int)pageNumber
                       success:(void (^)(NSArray *history))success
                       failure:(void (^)(NSError *error))failure;
-
++ (void)pendingWithSuccess:(void (^)(NSArray *pending))success
+                   failure:(void (^)(NSError *error))failure;
 
 + (void)loadUser:(EVUser *)user withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 

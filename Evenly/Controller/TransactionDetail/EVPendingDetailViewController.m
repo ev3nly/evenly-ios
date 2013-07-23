@@ -63,7 +63,8 @@
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                    [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
+                        
                     }];
                 }];
             };
@@ -84,7 +85,7 @@
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                    [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
                     }];
                 }];
             };
@@ -105,7 +106,7 @@
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                    [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
                     }];
                 }];
             };
@@ -126,7 +127,7 @@
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                    [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
                     }];
                 }];
             };

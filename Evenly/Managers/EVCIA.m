@@ -8,13 +8,16 @@
 
 #import "EVCIA.h"
 #import "EVObject.h"
-#import "EVActivity.h"
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
 #import "EVConnection.h"
+#import "EVExchange.h"
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
 NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKey";
+
+NSString *const EVPendingReceivedExchangesKey = @"pending_received";
+NSString *const EVPendingSentExchangesKey = @"pending_sent";
 
 static EVCIA *_sharedInstance;
 
@@ -68,7 +71,8 @@ static EVCIA *_sharedInstance;
 }
 
 - (void)didSignIn:(NSNotification *)notification {
-    [self reloadAllExchangesWithCompletion:NULL];
+    [self reloadPendingExchangesWithCompletion:NULL];
+    [self reloadHistoryWithCompletion:NULL];
     [self reloadCreditCardsWithCompletion:NULL];
     [self reloadBankAccountsWithCompletion:NULL];
 }
@@ -151,8 +155,8 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
     [EVUser meWithSuccess:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedMeNotification object:nil];
         DLog(@"Got me: %@", [[self sharedInstance] me]);
-        [[self sharedInstance] reloadAllExchangesWithCompletion:NULL];
-        
+        [[self sharedInstance] reloadPendingExchangesWithCompletion:NULL];
+        [[self sharedInstance] reloadHistoryWithCompletion:NULL];
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];
@@ -252,35 +256,6 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
 
 NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotification";
 
-- (void)reloadAllExchangesWithCompletion:(void (^)(void))completion {
-    [self reloadAllExchangesWithCompletion:completion actOnCache:YES];
-}
-
-- (void)reloadAllExchangesWithCompletion:(void (^)(void))completion actOnCache:(BOOL)actOnCache {
-    [EVActivity allWithSuccess:^(id result) {
-        
-        BOOL updated = NO;
-        for (id key in [result allKeys]) {
-            NSArray *oldResult = [self.internalCache objectForKey:key];
-            if (!oldResult || ![oldResult isEqualToArray:[result objectForKey:key]])
-            {
-                updated = YES;
-                [self.internalCache setObject:[result objectForKey:key] forKey:key];
-            }
-        }
-        if (completion)
-            completion();
-        if (updated)
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
-                                                                object:self
-                                                              userInfo:nil];
-    } failure:^(NSError *error) {
-        DLog(@"Failed to reload: %@", error);
-    }];
-    if (actOnCache && completion)
-        completion();
-}
-
 - (NSArray *)pendingExchanges {
     NSArray *received = [[self pendingReceivedExchanges] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         return [[obj2 createdAt] compare:[obj1 createdAt]];
@@ -292,24 +267,56 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
 }
 
 - (NSArray *)pendingReceivedExchanges {
-    return [self.internalCache objectForKey:@"pending_received"];
+    return [self.internalCache objectForKey:EVPendingReceivedExchangesKey];
+}
+
+- (void)reloadPendingExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
+    [EVUser pendingWithSuccess:^(NSArray *pending) {
+        BOOL updated = NO;
+        NSArray *incoming = [pending filter:^BOOL(id object) {
+            return [object isIncoming];
+        }];
+        NSArray *outgoing = [pending filter:^BOOL(id object) {
+            return ![object isIncoming];
+        }];
+        
+        NSArray *oldIncoming = [self.internalCache objectForKey:EVPendingSentExchangesKey];
+        if (!oldIncoming || ![oldIncoming isEqualToArray:incoming]) {
+            updated = YES;
+            [self.internalCache setObject:incoming forKey:EVPendingSentExchangesKey];
+        }
+        
+        NSArray *oldOutgoing = [self.internalCache objectForKey:EVPendingReceivedExchangesKey];
+        if (!oldOutgoing || ![oldOutgoing isEqualToArray:outgoing]) {
+            updated = YES;
+            [self.internalCache setObject:outgoing forKey:EVPendingReceivedExchangesKey];
+        }
+        if (completion)
+            completion(pending);
+        if (updated)
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
+                                                                object:self
+                                                              userInfo:nil];
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 - (void)reloadPendingReceivedExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
-    [self reloadAllExchangesWithCompletion:^{
+    [self reloadPendingExchangesWithCompletion:^(NSArray *exchanges){
         if (completion)
-            completion([self.internalCache objectForKey:@"pending_received"]);
+            completion([self pendingReceivedExchanges]);
     }];
 }
 
 - (NSArray *)pendingSentExchanges {
-    return [self.internalCache objectForKey:@"pending_sent"];
+    return [self.internalCache objectForKey:EVPendingSentExchangesKey];
 }
 
 - (void)reloadPendingSentExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
-    [self reloadAllExchangesWithCompletion:^{
+    [self reloadPendingExchangesWithCompletion:^(NSArray *exchanges){
         if (completion)
-            completion([self.internalCache objectForKey:@"pending_sent"]);
+            completion([self pendingSentExchanges]);
     }];
 }
 
@@ -326,17 +333,6 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
     } failure:^(NSError *error) {
         DLog(@"Error reloading history: %@", error);
     }];
-//    [self reloadAllExchangesWithCompletion:^{
-//        if (completion)
-//            completion([self.internalCache objectForKey:@"recent"]);
-//    }];
-}
-
-- (void)refreshHistoryWithCompletion:(void (^)(NSArray *history))completion {
-    [self reloadAllExchangesWithCompletion:^{
-        if (completion)
-            completion([self.internalCache objectForKey:@"recent"]);
-    } actOnCache:NO];
 }
 
 #pragma mark - Credit Cards

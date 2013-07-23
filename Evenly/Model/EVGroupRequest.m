@@ -146,6 +146,10 @@
     return editable;
 }
 
+- (BOOL)isIncoming {
+    return (self.from == nil);
+}
+
 #pragma mark - API Interactions
 
 - (void)remindAllWithSuccess:(void (^)(void))success failure:(void(^)(NSError *error))failure {
