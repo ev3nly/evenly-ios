@@ -119,8 +119,8 @@ static EVNavigationManager *_sharedManager;
     if (!self.badgeView)
         self.badgeView = [EVNavBarBadge new];
     
-    self.badgeView.number = 17;
-    self.badgeView.shouldFlag = YES;
+    self.badgeView.number = numPending;
+    self.badgeView.shouldFlag = shouldFlag;
     self.badgeView.frame = [self badgeViewFrame];
 
     if (numPending > 0 && !self.badgeView.superview) {

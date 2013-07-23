@@ -68,7 +68,7 @@
 - (void)setNumber:(int)number {
     _number = number;
     
-    self.numberLabel.text = [NSString stringWithFormat:@"%i", number];
+    self.numberLabel.text = EV_STRING_FROM_INT(number);
 }
 
 - (void)setShouldFlag:(BOOL)shouldFlag {
