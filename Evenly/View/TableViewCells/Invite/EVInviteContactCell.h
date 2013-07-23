@@ -10,6 +10,8 @@
 
 @interface EVInviteContactCell : EVInviteCell
 
+@property (nonatomic, strong) UILabel *emailLabel;
+
 - (void)setName:(NSString *)name profilePicture:(UIImage *)picture;
 
 @end
