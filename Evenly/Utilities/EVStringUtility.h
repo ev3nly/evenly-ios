@@ -46,6 +46,7 @@
 #pragma mark - Contacts
 
 + (NSString *)displayNameForContact:(ABContact *)contact;
++ (NSString *)addHyphensToPhoneNumber:(NSString *)phoneNumber;
 
 #pragma mark - Marketing Materials
 

@@ -29,6 +29,10 @@ static EVNavigationManager *_sharedManager;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedManager = [[EVNavigationManager alloc] init];
+        [[NSNotificationCenter defaultCenter] addObserver:_sharedManager
+                                                 selector:@selector(userSignedOut:)
+                                                     name:EVSessionSignedOutNotification
+                                                   object:nil];
     });
     return _sharedManager;
 }
@@ -97,6 +101,10 @@ static EVNavigationManager *_sharedManager;
             break;
     }
     return controller;    
+}
+
+- (void)userSignedOut:(NSNotification *)notification {
+    _profileViewController = nil;
 }
 
 @end
