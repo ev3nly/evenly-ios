@@ -20,7 +20,7 @@
 + (void)openSessionWithCompletion:(void (^)(void))completion;
 + (void)closeAndClearSession;
 
-+ (void)loadMeWithCompletion:(void (^)(NSDictionary *userDict))completion;
-+ (void)loadFriendsWithCompletion:(void (^)(NSArray *friends))completion;
++ (void)loadMeWithCompletion:(void (^)(NSDictionary *userDict))completion failure:(void (^)(NSError *error))failure;
++ (void)loadFriendsWithCompletion:(void (^)(NSArray *friends))completion failure:(void (^)(NSError *error))failure;
 
 @end

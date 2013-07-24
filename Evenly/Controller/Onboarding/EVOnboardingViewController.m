@@ -52,6 +52,7 @@
 @property (nonatomic, strong) UIPageControl *pageControl;
 @property (nonatomic, strong) NSArray *onboardingViews;
 @property (nonatomic, strong) UIButton *signInLabel;
+@property (nonatomic, strong) UIButton *facebookButton;
 
 @end
 
@@ -190,12 +191,12 @@
     UILabel *signUpLabel = [self titleLabelWithText:@"Sign up in seconds."];
     signUpLabel.font = [EVFont blackFontOfSize:18];
         
-    UIButton *facebookButton = [self facebookButton];
+    self.facebookButton = [self configuredFacebookButton];
     
     UIImageView *peopleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"people"]];
     
 //    [view addSubview:signUpLabel];
-    [view addSubview:facebookButton];
+    [view addSubview:self.facebookButton];
     
     for (UIView *subview in view.subviews) {
         if ([subview viewWithTag:ROUNDED_CARD_TAG])
@@ -208,7 +209,7 @@
                                    SIGNUP_LABEL_Y_ORIGIN * CARD_SCALE,
                                    [self sizeForLabel:signUpLabel].width,
                                    [self sizeForLabel:signUpLabel].height);
-    facebookButton.frame = CGRectMake(BUTTON_LEFT_MARGIN,
+    self.facebookButton.frame = CGRectMake(BUTTON_LEFT_MARGIN,
                                       CGRectGetMaxY(signUpLabel.frame),// + SIGNUP_LABEL_BUTTON_BUFFER,
                                       self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
                                       [EVImages facebookButton].size.height);
@@ -217,10 +218,10 @@
                                    peopleImage.image.size.width,
                                    peopleImage.image.size.height);
     
-    if ([facebookButton viewWithTag:F_ICON_TAG]) {
-        float totalWidth = [EVImages facebookButton].size.width + FACEBOOK_F_TITLE_BUFFER + facebookButton.titleLabel.bounds.size.width;
-        [facebookButton viewWithTag:F_ICON_TAG].frame = CGRectMake(CGRectGetMidX(facebookButton.bounds) - totalWidth/2,
-                                                                   CGRectGetMidY(facebookButton.bounds) - [EVImages facebookFIcon].size.height/2,
+    if ([self.facebookButton viewWithTag:F_ICON_TAG]) {
+        float totalWidth = [EVImages facebookButton].size.width + FACEBOOK_F_TITLE_BUFFER + self.facebookButton.titleLabel.bounds.size.width;
+        [self.facebookButton viewWithTag:F_ICON_TAG].frame = CGRectMake(CGRectGetMidX(self.facebookButton.bounds) - totalWidth/2,
+                                                                   CGRectGetMidY(self.facebookButton.bounds) - [EVImages facebookFIcon].size.height/2,
                                                                    [EVImages facebookFIcon].size.width,
                                                                    [EVImages facebookFIcon].size.height);
     }
@@ -296,7 +297,7 @@
     return card;
 }
 
-- (UIButton *)facebookButton {
+- (UIButton *)configuredFacebookButton {
     UIButton *button = [UIButton new];
     [button setBackgroundImage:[EVImages facebookButton] forState:UIControlStateNormal];
     [button setBackgroundImage:[EVImages facebookButtonPress] forState:UIControlStateHighlighted];
@@ -324,7 +325,14 @@
 #pragma mark - Button Handling
 
 - (void)facebookButtonTapped {
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [indicator sizeToFit];
+    indicator.center = CGPointMake(self.facebookButton.center.x, self.facebookButton.center.y - 60);
+    [self.facebookButton.superview addSubview:indicator];
+    [indicator startAnimating];
+
     [EVFacebookManager loadMeWithCompletion:^(NSDictionary *userDict) {
+        [indicator removeFromSuperview];
         NSString *avatarUrlString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?width=176&height=176", [userDict objectForKey:@"id"]];
         EVUser *newUser = [EVUser new];
         newUser.name = [userDict objectForKey:@"name"];
@@ -341,6 +349,11 @@
         } user:newUser];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
         [self presentViewController:navController animated:YES completion:nil];
+    } failure:^(NSError *error) {
+        [indicator removeFromSuperview];
+        [[UIAlertView alertViewWithTitle:@"Error"
+                                  message:@"Sorry! We couldn't connect with Facebook right now. Please make sure you're using the right username and password and try again!"
+                        cancelButtonTitle:@"OK"] show];
     }];
 }
 
