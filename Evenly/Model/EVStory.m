@@ -29,6 +29,19 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     return @"stories";
 }
 
++ (EVStory *)storyFromObject:(EVObject *)object {
+    if ([object isKindOfClass:[EVRequest class]]) {
+        return [self storyFromPendingExchange:(EVExchange *)object];
+    } else if ([object isKindOfClass:[EVPayment class]]) {
+        return [self storyFromCompletedExchange:(EVExchange *)object];
+    } else if ([object isKindOfClass:[EVWithdrawal class]]) {
+        return [self storyFromWithdrawal:(EVWithdrawal *)object];
+    } else if ([object isKindOfClass:[EVGroupRequest class]]) {
+        return [self storyFromGroupRequest:(EVGroupRequest *)object];
+    }
+    return nil;
+}
+
 + (EVStory *)storyFromPendingExchange:(EVExchange *)exchange {
     NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
     

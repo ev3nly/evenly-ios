@@ -59,6 +59,8 @@ typedef enum {
 
 @property (nonatomic, strong) NSURL *imageURL;
 
+
++ (EVStory *)storyFromObject:(EVObject *)object;
 + (EVStory *)storyFromPendingExchange:(EVExchange *)exchange;
 + (EVStory *)storyFromCompletedExchange:(EVExchange *)exchange;
 + (EVStory *)storyFromGroupRequest:(EVGroupRequest *)groupRequest;
