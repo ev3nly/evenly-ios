@@ -205,7 +205,9 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
 + (NSArray *)myConnections {
     NSMutableArray *array = [NSMutableArray array];
     [[[self me] connections] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [array addObject:[(EVConnection *)obj user]];
+        id user = [(EVConnection *)obj user];
+        if (user)
+            [array addObject:user];
     }];
     return array;
 }
