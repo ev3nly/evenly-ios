@@ -124,22 +124,24 @@ static EVCIA *_sharedInstance;
 }
 
 - (void)setImage:(UIImage *)image forURL:(NSURL *)url {
-    if (!image) // remove image from memory and disk caches
-    {
-        [self.imageCache removeObjectForKey:url];
-        NSError *error;
-        [[NSFileManager defaultManager] removeItemAtPath:[EVStringUtility cachePathFromURL:url]
-                                                   error:&error];
-        if (error)
-            DLog(@"Error: %@", error);
-        return;
-    }
-    else // store in memory and disk caches
-    {
-        [self.imageCache setObject:image forKey:url];
-        [UIImagePNGRepresentation(image) writeToFile:[EVStringUtility cachePathFromURL:url]
-                                          atomically:YES];
-    }
+    EV_PERFORM_ON_MAIN_QUEUE(^{
+        if (!image) // remove image from memory and disk caches
+        {
+            [self.imageCache removeObjectForKey:url];
+            NSError *error;
+            [[NSFileManager defaultManager] removeItemAtPath:[EVStringUtility cachePathFromURL:url]
+                                                       error:&error];
+            if (error)
+                DLog(@"Error: %@", error);
+            return;
+        }
+        else // store in memory and disk caches
+        {
+            [self.imageCache setObject:image forKey:url];
+            [UIImagePNGRepresentation(image) writeToFile:[EVStringUtility cachePathFromURL:url]
+                                              atomically:YES];
+        }
+    });
 }
 
 
