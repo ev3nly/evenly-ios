@@ -15,6 +15,7 @@
 #import "EVRewardsFooterView.h"
 
 #import "EVHomeViewController.h"
+#import "EVFacebookManager.h"
 
 @interface EVRewardsGameViewController ()
 
@@ -182,9 +183,32 @@
     [self.reward redeemWithSuccess:^(EVReward *reward) {
         self.reward = reward;
         [self updateInterface];
+        if (self.switchView.shareSwitch.on && ![self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
+            [self share];
+        }
     } failure:^(NSError *error) {
         DLog(@"Rewarding failed");
     }];
+}
+
+- (void (^)(void))shareBlock {
+    return ^{
+            NSMutableDictionary<FBGraphObject> *action = [FBGraphObject graphObject];
+            action[@"reward"] = [NSString stringWithFormat:@"https://paywithivy.com/facebook/reward?amount=%@", [EVStringUtility amountStringForAmount:self.reward.selectedAmount]];
+            [FBRequestConnection startForPostWithGraphPath:@"me/evenlyapp:win"
+                                               graphObject:action completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                                   DLog(@"Result: %@", result);
+                                                   DLog(@"Error? %@", error);
+                                               }];
+    };
+}
+
+- (void)share {
+    if ([EVFacebookManager isConnected]) {
+        [self shareBlock]();
+    } else {
+        [EVFacebookManager openSessionWithCompletion:[self shareBlock]];
+    }
 }
 
 #pragma mark - Managing Sliders
