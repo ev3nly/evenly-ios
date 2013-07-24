@@ -182,7 +182,7 @@
         [EVFacebookManager loadMeWithCompletion:^(NSDictionary *userDict){
             [self updateWithToken:[EVFacebookManager sharedManager].tokenData.accessToken
                        facebookID:[EVFacebookManager sharedManager].facebookID];
-        }];
+        } failure:nil];
     }
 }
 

@@ -150,7 +150,7 @@
     [self.nameField sizeToFit];
     return CGRectMake(CGRectGetMaxX(self.verticalStripe.frame) + SIDE_MARGIN,
                       self.bounds.size.height/4 - self.nameField.bounds.size.height/2,
-                      self.bounds.size.width - CGRectGetMaxX(self.verticalStripe.frame) - SIDE_MARGIN,
+                      self.bounds.size.width - CGRectGetMaxX(self.verticalStripe.frame) - SIDE_MARGIN*2,
                       self.nameField.bounds.size.height);
 }
 
