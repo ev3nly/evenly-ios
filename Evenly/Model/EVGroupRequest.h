@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSString *memo;
 @property (nonatomic, strong) NSString *visibility;
 @property (nonatomic) BOOL completed;
+@property (nonatomic, readonly) BOOL isIncoming;
 
 @property (nonatomic, strong) NSArray *initialMembers;
 @property (nonatomic, strong) NSArray *initialAssignments;
