@@ -80,6 +80,7 @@
     [operation setCacheResponseBlock:^NSCachedURLResponse *(NSURLConnection *connection, NSCachedURLResponse *cachedResponse) {
         return nil;
     }];
+    [[EVNetworkManager sharedInstance] increaseActivityIndicatorCounter];
     return operation;
 }
 
@@ -124,12 +125,14 @@ static NSDateFormatter *_dateFormatter = nil;
 }
 
 - (void)setProperties:(NSDictionary *)properties {
-    if ([[properties valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
-        _dbid = [[properties valueForKey:@"id"] stringValue];
-    else
-        _dbid = [properties valueForKey:@"id"];
-    if (![properties[@"created_at"] isKindOfClass:[NSNull class]])
-        self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+    EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+        if ([[properties valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
+            _dbid = [[properties valueForKey:@"id"] stringValue];
+        else
+            _dbid = [properties valueForKey:@"id"];
+        if (![properties[@"created_at"] isKindOfClass:[NSNull class]])
+            self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+    });
 }
 
 - (NSDictionary *)dictionaryRepresentation {

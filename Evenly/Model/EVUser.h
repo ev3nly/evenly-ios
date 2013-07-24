@@ -8,6 +8,8 @@
 
 #import "EVObject.h"
 
+#define EV_USER_DEFAULT_AVATAR_HEIGHT 80
+
 /*
  
  EVAvatarOwning - protocol that defines needed properties for avatar data

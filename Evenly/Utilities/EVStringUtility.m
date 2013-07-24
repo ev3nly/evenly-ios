@@ -324,9 +324,13 @@ static NSDateFormatter *_detailDateFormatter;
 #pragma mark - File Naming
 
 + (NSString *)cachePathFromURL:(NSURL *)url {
+    return [self cachePathFromURL:url size:CGSizeZero];
+}
+
++ (NSString *)cachePathFromURL:(NSURL *)url size:(CGSize)size {
     NSString *hashedURL = EV_STRING_FROM_INT([url hash]);
     NSString *cachePath = EV_CACHE_PATH(hashedURL);
-    return cachePath;
+    return [NSString stringWithFormat:@"%@-%f-%f", cachePath, size.width, size.height];
 }
 
 #pragma mark - Amounts

@@ -69,6 +69,7 @@
 #pragma mark - File Naming
 
 + (NSString *)cachePathFromURL:(NSURL *)url;
++ (NSString *)cachePathFromURL:(NSURL *)url size:(CGSize)size;
 
 #pragma mark - Amounts
 + (NSString *)amountStringForAmount:(NSDecimalNumber *)amount;

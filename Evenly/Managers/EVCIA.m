@@ -84,52 +84,85 @@ static EVCIA *_sharedInstance;
 #pragma mark - Image Loading
 
 - (void)loadImageFromURL:(NSURL *)url success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure {
-    if ([self imageForURL:url]) {
-        if (success)
-            success([self imageForURL:url]);
-        return;
-    }
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    AFImageRequestOperation *imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
-                                                                                          imageProcessingBlock:NULL
-                                                                                                       success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                                                                           [[EVCIA sharedInstance] setImage:image forURL:url];
-                                                                                                           if (success)
-                                                                                                               success(image);
-                                                                                                       } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                                                                                           if (failure)
-                                                                                                               failure(error);
-                                                                                                       }];
-    [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
+    [self loadImageFromURL:url size:CGSizeZero success:success failure:failure];
+}
+
+- (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure {
+    EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+        UIImage *cachedImage = [self imageForURL:url size:size];
+        if (cachedImage) {
+            if (success) {
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    success(cachedImage);
+                });
+            }
+            return;
+        }
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        AFImageRequestOperation *imageRequestOperation;
+        imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
+                                                                     imageProcessingBlock:NULL
+                                                                                  success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                                                                      CGSize constrainedSize = [EVImageUtility sizeForImage:image
+                                                                                                                      withInnerBoundingSize:size];
+                                                                                      UIImage *resizedImage = [EVImageUtility resizeImage:image
+                                                                                                                                   toSize:constrainedSize];
+                                                                                      [[EVCIA sharedInstance] setImage:resizedImage
+                                                                                                                forURL:url
+                                                                                                              withSize:size];
+                                                                                      if (success) {
+                                                                                          EV_PERFORM_ON_MAIN_QUEUE(^{
+                                                                                              success(resizedImage);
+                                                                                          });
+                                                                                      }
+                                                                                  } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                                                      if (failure) {
+                                                                                          EV_PERFORM_ON_MAIN_QUEUE(^{
+                                                                                              failure(error);
+                                                                                          });
+                                                                                      }
+                                                                                  }];
+        [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
+    });
 }
 
 - (UIImage *)imageForURL:(NSURL *)url {
+    return [self imageForURL:url size:CGSizeZero];
+}
+
+- (UIImage *)imageForURL:(NSURL *)url size:(CGSize)size {
     UIImage *image = nil;
+    NSString *cachePath = [EVStringUtility cachePathFromURL:url size:size];
     // Check memory cache
-    if ((image = [self.imageCache objectForKey:url]))
+    if ((image = [self.imageCache objectForKey:cachePath]))
         return image;
     else // Check disk cache
     {
         NSError *error = nil;
-        NSData *data = [NSData dataWithContentsOfFile:[EVStringUtility cachePathFromURL:url]
+        NSData *data = [NSData dataWithContentsOfFile:cachePath
                                               options:0
                                                 error:&error];
         if (data && !error)
         {
             image = [UIImage imageWithData:data];
-            [self.imageCache setObject:image forKey:url];
+            [self.imageCache setObject:image forKey:cachePath];
         }
     }
     return image;
 }
 
 - (void)setImage:(UIImage *)image forURL:(NSURL *)url {
-    EV_PERFORM_ON_MAIN_QUEUE(^{
+    [self setImage:image forURL:url withSize:CGSizeZero];
+}
+
+- (void)setImage:(UIImage *)image forURL:(NSURL *)url withSize:(CGSize)size {
+    EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+        NSString *cachePath = [EVStringUtility cachePathFromURL:url size:size];
         if (!image) // remove image from memory and disk caches
         {
-            [self.imageCache removeObjectForKey:url];
+            [self.imageCache removeObjectForKey:cachePath];
             NSError *error;
-            [[NSFileManager defaultManager] removeItemAtPath:[EVStringUtility cachePathFromURL:url]
+            [[NSFileManager defaultManager] removeItemAtPath:cachePath
                                                        error:&error];
             if (error)
                 DLog(@"Error: %@", error);
@@ -137,13 +170,12 @@ static EVCIA *_sharedInstance;
         }
         else // store in memory and disk caches
         {
-            [self.imageCache setObject:image forKey:url];
-            [UIImagePNGRepresentation(image) writeToFile:[EVStringUtility cachePathFromURL:url]
-                                              atomically:YES];
+            [self.imageCache setObject:image forKey:cachePath];
+            [UIImagePNGRepresentation(image) writeToFile:cachePath
+                                                     atomically:YES];
         }
     });
 }
-
 
 #pragma mark - Me
 

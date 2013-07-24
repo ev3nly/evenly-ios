@@ -392,6 +392,7 @@ static EVUser *_me;
 
 - (void)loadAvatar {
     [[EVCIA sharedInstance] loadImageFromURL:self.avatarURL
+                                        size:CGSizeMake(EV_USER_DEFAULT_AVATAR_HEIGHT*2, EV_USER_DEFAULT_AVATAR_HEIGHT*2)
                                      success:^(UIImage *image) {
                                          self.avatar = image;
                                      } failure:nil];

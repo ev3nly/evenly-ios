@@ -8,7 +8,7 @@
 
 #import "EVTransactionDetailCell.h"
 
-#define AVATAR_LENGTH 80
+#define AVATAR_LENGTH (EV_USER_DEFAULT_AVATAR_HEIGHT)
 #define AVATAR_TOP_BUFFER 20
 #define AVATAR_SIDE_BUFFER 20
 #define TEXT_BUFFER 10
