@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) NSArray *exchanges;
 
+- (void)reloadHistory;
+
 @end
