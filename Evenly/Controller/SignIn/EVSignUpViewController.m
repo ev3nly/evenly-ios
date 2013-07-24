@@ -199,6 +199,7 @@
         [params setObject:self.photo forKey:@"avatar"];
     
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CREATING ACCOUNT..."];
+    self.saveButton.enabled = NO;
     
     [EVUser createWithParams:params success:^(EVObject *object) {
         [EVSession createWithEmail:params[@"email"] password:params[@"password"] success:^{

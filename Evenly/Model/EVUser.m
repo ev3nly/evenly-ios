@@ -319,6 +319,7 @@ static EVUser *_me;
         EVMe *me = [[EVMe alloc] initWithDictionary:[_me dictionaryRepresentation]];
         if (self.updatedAvatar)
         {
+            [me evictAvatarFromCache];
             [me updateWithNewAvatar:self.updatedAvatar success:success failure:failure];
         }
         else
@@ -369,22 +370,6 @@ static EVUser *_me;
                                      success:^(UIImage *image) {
                                          self.avatar = image;
                                      } failure:nil];
-//    UIImage *image = [[EVCIA sharedInstance] imageForURL:self.avatarURL];
-//    if (image) {
-//        self.avatar = image;
-//        return;
-//    }
-//    NSURLRequest *request = [NSURLRequest requestWithURL:self.avatarURL];
-//    AFImageRequestOperation *imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
-//                                                                                          imageProcessingBlock:NULL
-//                                                                                                       success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-//                                                                                                           [[EVCIA sharedInstance] setImage:image forURL:self.avatarURL];
-//                                                                                                           self.avatar = image;
-//                                                                                                           DLog(@"Downloaded image, see? %@", self.avatar);
-//                                                                                                       } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-//                                                                                                           //                                                                                                           DLog(@"Houston, you know what's coming next: %@", error);
-//                                                                                                       }];
-//    [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
 }
 
 - (void)evictAvatarFromCache {
