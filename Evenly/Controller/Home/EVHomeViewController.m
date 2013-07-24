@@ -232,7 +232,11 @@
                     break;
                 
                 NSDictionary *remoteSource = [remoteStory source];
-                NSString *remoteSourceClass = [NSString stringWithFormat:@"EV%@", remoteSource[@"type"]];
+                NSString *remoteType = remoteSource[@"type"];
+                if ([remoteType isEqualToString:@"Charge"])
+                    remoteType = @"Request";
+                
+                NSString *remoteSourceClass = [NSString stringWithFormat:@"EV%@", remoteType];
                 NSString *localSourceClass = NSStringFromClass([localStory.source class]);
                 
                 NSString *remoteID = [remoteSource[@"id"] stringValue];
