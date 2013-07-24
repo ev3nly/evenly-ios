@@ -13,7 +13,7 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "EVLoadingIndicator.h"
 #import "EVStory.h"
-#import "EVTransactionDetailViewController.h"
+#import "EVStoryDetailViewController.h"
 
 #define CELL_HEIGHT 60
 
@@ -168,7 +168,7 @@ static NSDateFormatter *_dateFormatter = nil;
     EVObject *historyItem = (EVObject *)[self.exchanges objectAtIndex:indexPath.row];
     EVStory *story = [EVStory storyFromObject:historyItem];
     
-    EVTransactionDetailViewController *viewController = [[EVTransactionDetailViewController alloc] initWithStory:story];
+    EVStoryDetailViewController *viewController = [[EVStoryDetailViewController alloc] initWithStory:story];
     [self.navigationController pushViewController:viewController animated:YES];
     
     //load transaction detail controller

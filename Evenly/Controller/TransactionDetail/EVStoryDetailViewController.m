@@ -1,20 +1,20 @@
 //
-//  EVTransactionDetailViewController.m
+//  EVStoryDetailViewController.m
 //  Evenly
 //
 //  Created by Justin Brunet on 6/18/13.
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVTransactionDetailViewController.h"
+#import "EVStoryDetailViewController.h"
 #import "EVProfileViewController.h"
 #import "EVStory.h"
 
-@interface EVTransactionDetailViewController ()
+@interface EVStoryDetailViewController ()
 
 @end
 
-@implementation EVTransactionDetailViewController
+@implementation EVStoryDetailViewController
 
 #pragma mark - Lifecycle
 
