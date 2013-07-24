@@ -78,7 +78,6 @@ static EVNetworkManager *_instance;
     return [[NSUserDefaults standardUserDefaults] integerForKey:@"serverSelection"];
 }
 
-
 - (NSURL *)urlForServerSelection:(EVServerSelection)serverSelection {
 #ifdef DEBUG
     NSURL *url = nil;
@@ -101,5 +100,26 @@ static EVNetworkManager *_instance;
 #endif
 }
 
+- (NSString *)balancedURLStringForServerSelection:(EVServerSelection)serverSelection {
+#ifdef DEBUG
+    NSString *url = nil;
+    switch (serverSelection) {
+        case EVServerSelectionProduction:
+            url = BALANCED_PRODUCTION_URI;
+            break;
+        case EVServerSelectionStaging:
+            url = BALANCED_STAGING_URI;
+            break;
+        case EVServerSelectionLocal:
+            url = BALANCED_STAGING_URI;
+            break;
+        default:
+            break;
+    }
+    return url;
+#else
+    return BALANCED_PRODUCTION_URI;
+#endif
+}
 
 @end
