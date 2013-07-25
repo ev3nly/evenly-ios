@@ -44,4 +44,6 @@
 
 + (NSString *)dbidFromDictionary:(NSDictionary *)dictionary;
 
++ (BOOL)deviceHasTallScreen;
+
 @end

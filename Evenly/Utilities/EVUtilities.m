@@ -50,4 +50,8 @@
     return dbid;
 }
 
++ (BOOL)deviceHasTallScreen {
+    return ([UIApplication sharedApplication].keyWindow.bounds.size.height > 480.0);
+}
+
 @end

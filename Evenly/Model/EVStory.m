@@ -124,7 +124,7 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     return nil;
 }
 
-- (void)setProperties:(NSDictionary *)properties {
+- (void)setProperties:(NSDictionary *)properties {    
     [super setProperties:properties];
 
     // Easy things first

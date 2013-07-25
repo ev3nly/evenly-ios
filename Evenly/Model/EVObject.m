@@ -63,6 +63,7 @@
 + (EVJSONRequestOperation *)JSONRequestOperationWithRequest:(NSMutableURLRequest *)request
                                                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                                                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+
     AFSuccessBlock modifiedSuccess = ^(AFHTTPRequestOperation *operation, id responseObject) {
         [[EVNetworkManager sharedInstance] decreaseActivityIndicatorCounter];
         success(operation, responseObject);
@@ -80,6 +81,7 @@
     [operation setCacheResponseBlock:^NSCachedURLResponse *(NSURLConnection *connection, NSCachedURLResponse *cachedResponse) {
         return nil;
     }];
+    [[EVNetworkManager sharedInstance] increaseActivityIndicatorCounter];
     return operation;
 }
 
@@ -124,12 +126,14 @@ static NSDateFormatter *_dateFormatter = nil;
 }
 
 - (void)setProperties:(NSDictionary *)properties {
-    if ([[properties valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
-        _dbid = [[properties valueForKey:@"id"] stringValue];
-    else
-        _dbid = [properties valueForKey:@"id"];
-    if (![properties[@"created_at"] isKindOfClass:[NSNull class]])
-        self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+//    EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+        if ([[properties valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
+            _dbid = [[properties valueForKey:@"id"] stringValue];
+        else
+            _dbid = [properties valueForKey:@"id"];
+        if (![properties[@"created_at"] isKindOfClass:[NSNull class]])
+            self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+//    });
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -171,6 +175,10 @@ static NSDateFormatter *_dateFormatter = nil;
 }
 
 + (void)allWithParams:(NSDictionary *)params success:(void (^)(id result))success failure:(void (^)(NSError *error))failure {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self allWithParams:params success:success failure:failure];
+    });
+    
     NSMutableURLRequest *request = [self requestWithMethod:@"GET" path:nil parameters:params];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -204,6 +212,10 @@ static NSDateFormatter *_dateFormatter = nil;
                  success:(void (^)(EVObject *))success
                  failure:(void (^)(NSError *error))failure
 {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self createWithParams:params success:success failure:failure];
+    });
+    
     NSMutableURLRequest *request = [self requestWithMethod:@"POST" path:nil parameters:params];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -241,6 +253,10 @@ static NSDateFormatter *_dateFormatter = nil;
 }
 
 - (void)updateWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self updateWithSuccess:success failure:failure];
+    });
+    
     NSMutableURLRequest *request = [[self class] requestWithMethod:@"PUT" path:self.dbid parameters:[self dictionaryRepresentation]];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         success();
@@ -254,6 +270,10 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (void)destroyWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure
 {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self destroyWithSuccess:success failure:failure];
+    });
+    
     NSMutableURLRequest *request = [[self class] requestWithMethod:@"DELETE" path:self.dbid parameters:nil];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -272,6 +292,10 @@ static NSDateFormatter *_dateFormatter = nil;
     parameters:(NSDictionary *)parameters
        success:(void (^)(void))success
        failure:(void (^)(NSError *error))failure {
+    
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self action:action method:method parameters:parameters success:success failure:failure];
+    });
     
     NSString *path = [NSString stringWithFormat:@"%@/%@", self.dbid, action];
     

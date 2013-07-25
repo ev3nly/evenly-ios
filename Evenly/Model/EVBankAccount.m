@@ -52,7 +52,6 @@ static NSDateFormatter *_dateFormatter = nil;
         NSDictionary *response = [balanced tokenizeBankAccount:bankAccount error:&error];
         
         if (!error) {
-            NSLog(@"%@", response);
             self.uri = response[@"uri"];
         }
         else {

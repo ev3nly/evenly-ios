@@ -53,6 +53,21 @@
     return imageViewSize;
 }
 
++ (CGSize)sizeForImage:(UIImage *)image withInnerBoundingSize:(CGSize)boundingSize {
+    CGSize imageSize = image.size;
+    CGSize imageViewSize;
+    
+    CGFloat wRatio = imageSize.width / boundingSize.width;
+    CGFloat hRatio = imageSize.height / boundingSize.height;
+    
+    if (wRatio > hRatio)
+        imageViewSize = CGSizeMake(floorf(boundingSize.width * (imageSize.width/imageSize.height)), boundingSize.height);
+    else
+        imageViewSize = CGSizeMake(boundingSize.width, floorf(boundingSize.height * (imageSize.height/imageSize.width)));
+
+    return imageViewSize;
+}
+
 #pragma mark - Orientation Fixing
 
 + (UIImage *)orientedImageFromImage:(UIImage *)image {    
@@ -132,6 +147,16 @@
     CGContextRelease(ctx);
     CGImageRelease(cgimg);
     return img;
+}
+
+#pragma mark - Image Resizing
+
++ (UIImage *)resizeImage:(UIImage *)image toSize:(CGSize)size {    
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width,size.height)];
+    UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return resizedImage;
 }
 
 #pragma mark - Image Making

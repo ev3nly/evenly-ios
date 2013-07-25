@@ -126,13 +126,10 @@ static EVNavigationManager *_sharedManager;
     if (numPending > 0 && !self.badgeView.superview) {
         UIView *button = [self walletButtonCustomView];
         [button addSubview:self.badgeView];
-        [self.badgeView zoomBounceWithDuration:0.2 completion:nil];
     }
     else if (numPending <= 0 && self.badgeView.superview) {
-        [self.badgeView shrinkBounceWithDuration:0.2 completion:^{
-            [self.badgeView removeFromSuperview];
-            self.badgeView = nil;
-        }];
+        [self.badgeView removeFromSuperview];
+        self.badgeView = nil;
     }
 }
 

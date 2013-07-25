@@ -66,7 +66,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 #pragma mark - Loading
 
 - (void)loadAvatarView {
-    self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(0, 0, PROFILE_HISTORY_LABEL_HEIGHT, PROFILE_HISTORY_LABEL_HEIGHT)];
+    self.avatarView = [EVAvatarView new];
     [self addSubview:self.avatarView];
 }
 
@@ -124,8 +124,8 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 - (CGRect)avatarViewFrame {
     return CGRectMake(PROFILE_HISTORY_INTERIOR_MARGIN*2,
                       PROFILE_HISTORY_INTERIOR_MARGIN,
-                      self.avatarView.size.width,
-                      self.avatarView.size.height);
+                      PROFILE_HISTORY_LABEL_HEIGHT,
+                      PROFILE_HISTORY_LABEL_HEIGHT);
 }
 
 - (CGRect)incomeIconFrame {

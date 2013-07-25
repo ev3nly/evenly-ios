@@ -61,6 +61,11 @@
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(secs * NSEC_PER_SEC)); \
         dispatch_after(popTime, dispatch_get_main_queue(), block); \
     } while (0)
+#define EV_ONLY_PERFORM_IN_BACKGROUND(block) \
+    if ([[NSThread currentThread] isMainThread]) { \
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), block); \
+        return; \
+    } \
 
 ////////////////////////////////////////////////
 // View Controllers
