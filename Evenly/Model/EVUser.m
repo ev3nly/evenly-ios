@@ -112,8 +112,6 @@ static EVUser *_me;
 + (void)meWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure reload:(BOOL)reload {
     if (reload || _me == nil) {
         [EVMe allWithSuccess:^(id result){
-            
-            
             //setting properties on existing me because ReactiveCocoa depends on this.
             //this might not be the right call, in the long term.
             if (_me) {
@@ -128,12 +126,17 @@ static EVUser *_me;
             } else
                 [[EVCIA sharedInstance] setMe:_me];
             
-            if (success)
-                success();
-            
+            if (success) {
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    success();
+                });
+            }
         } failure:^(NSError *error){
-            if (failure)
-                failure(error);
+            if (failure) {
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    failure(error);
+                });
+            }
             
         }];
     } else {
@@ -154,23 +157,30 @@ static EVUser *_me;
 + (void)newsfeedStartingAtPage:(int)pageNumber
                        success:(void (^)(NSArray *newsfeed))success
                        failure:(void (^)(NSError *error))failure {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self newsfeedStartingAtPage:pageNumber success:success failure:failure];
+    });
+
     NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET"
                                                       path:@"newsfeed"
                                                 parameters:@{
-                                                                @"page" : @(pageNumber),
-                                                                @"per" : @(EV_ITEMS_PER_PAGE)
-                                                            }];
+                                    @"page" : @(pageNumber),
+                                    @"per" : @(EV_ITEMS_PER_PAGE)
+                                    }];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSMutableArray *array = [NSMutableArray array];
-        for (NSDictionary *dict in responseObject)
-        {
-            EVStory *story = [[EVStory alloc] init];
-            [story setProperties:dict];
-            [array addObject:story];
-        }
-        if (success)
-            success(array);
+        EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+            NSMutableArray *array = [NSMutableArray array];
+            for (NSDictionary *dict in responseObject)
+            {
+                EVStory *story = [[EVStory alloc] init];
+                [story setProperties:dict];
+                [array addObject:story];
+            }
+            EV_PERFORM_ON_MAIN_QUEUE(^{
+                if (success)
+                    success(array);
+            });
+        });
     };
     
     AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
@@ -181,7 +191,6 @@ static EVUser *_me;
                                                                       }];
     
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
-
 }
 
 
@@ -194,16 +203,22 @@ static EVUser *_me;
                                                                 @"page" : @(pageNumber),
                                                                 @"per" : @(EV_ITEMS_PER_PAGE)
                                                             }];
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self historyStartingAtPage:pageNumber success:success failure:failure];
+    });
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSMutableArray *array = [NSMutableArray array];
-        for (NSDictionary *dict in responseObject)
-        {
-            [array addObject:[EVSerializer serializeDictionary:dict]];
-        }
-        if (success)
-            success(array);
+        EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+            NSMutableArray *array = [NSMutableArray array];
+            for (NSDictionary *dict in responseObject)
+            {
+                [array addObject:[EVSerializer serializeDictionary:dict]];
+            }
+            EV_PERFORM_ON_MAIN_QUEUE(^{
+                if (success)
+                    success(array);
+            });
+        });
     };
     
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
@@ -220,16 +235,21 @@ static EVUser *_me;
     NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET"
                                                       path:@"pending"
                                                 parameters:nil];
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self pendingWithSuccess:success failure:failure];
+    });
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSMutableArray *array = [NSMutableArray array];
-        for (NSDictionary *dict in responseObject)
-        {
-            [array addObject:[EVSerializer serializeDictionary:dict]];
-        }
-        if (success)
-            success(array);
+        EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+            NSMutableArray *array = [NSMutableArray array];
+            for (NSDictionary *dict in responseObject) {
+                [array addObject:[EVSerializer serializeDictionary:dict]];
+            }
+            EV_PERFORM_ON_MAIN_QUEUE(^{
+                if (success)
+                    success(array);                
+            });
+        });
     };
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
                                                                               success:successBlock
@@ -257,6 +277,10 @@ static EVUser *_me;
                  success:(void (^)(EVObject *))success
                  failure:(void (^)(NSError *error))failure
 {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self createWithParams:params success:success failure:failure];
+    });
+    
     if (![params objectForKey:@"avatar"]) {
         [super createWithParams:params success:success failure:failure];
         return;
@@ -289,6 +313,10 @@ static EVUser *_me;
 }
 
 + (void)resetPasswordForEmail:(NSString *)email withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self resetPasswordForEmail:email withSuccess:success failure:failure];
+    });
+    
     NSMutableURLRequest *request = [EVMe requestWithMethod:@"POST" path:@"reset-password" parameters:@{@"email": email}];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         success();
@@ -317,6 +345,10 @@ static EVUser *_me;
                        facebookID:(NSString *)facebookID
                           success:(void (^)(void))success
                           failure:(void (^)(NSError *))failure {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self updateMeWithFacebookToken:token facebookID:facebookID success:success failure:failure];
+    });
+    
     NSMutableURLRequest *request = [EVMe requestWithMethod:@"PUT"
                                                       path:@""
                                                 parameters:@{ @"facebook_token" : (token ?: [NSNull null]),
@@ -358,6 +390,10 @@ static EVUser *_me;
 
 - (void)updateWithNewAvatar:(UIImage *)newAvatar success:(void (^)(void))success failure:(void (^)(NSError *error))failure
 {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self updateWithNewAvatar:newAvatar success:success failure:failure];
+    });
+    
     self.avatar = newAvatar;
     
     NSMutableURLRequest *request = nil;
@@ -392,6 +428,7 @@ static EVUser *_me;
 
 - (void)loadAvatar {
     [[EVCIA sharedInstance] loadImageFromURL:self.avatarURL
+                                        size:CGSizeMake(EV_USER_DEFAULT_AVATAR_HEIGHT*2, EV_USER_DEFAULT_AVATAR_HEIGHT*2)
                                      success:^(UIImage *image) {
                                          self.avatar = image;
                                      } failure:nil];
@@ -404,19 +441,26 @@ static EVUser *_me;
 #pragma mark - Timeline
 
 - (void)timelineWithSuccess:(void (^)(NSArray *timeline))success failure:(void (^)(NSError *error))failure {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self timelineWithSuccess:success failure:failure];
+    });
+    
     NSString *path = [NSString stringWithFormat:@"%@/timeline", self.dbid];
     NSMutableURLRequest *request = [[self class] requestWithMethod:@"GET" path:path parameters:nil];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSMutableArray *array = [NSMutableArray array];
-        for (NSDictionary *dict in responseObject)
-        {
-            EVStory *story = [[EVStory alloc] init];
-            [story setProperties:dict];
-            [array addObject:story];
-        }
-        if (success)
-            success(array);
+        EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+            NSMutableArray *array = [NSMutableArray array];
+            for (NSDictionary *dict in responseObject)
+            {
+                EVStory *story = [[EVStory alloc] init];
+                [story setProperties:dict];
+                [array addObject:story];
+            }
+            EV_PERFORM_ON_MAIN_QUEUE(^{
+                if (success)
+                    success(array);
+            });
+        });
     };
     
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request

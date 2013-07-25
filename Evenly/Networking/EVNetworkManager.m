@@ -49,7 +49,7 @@ static EVNetworkManager *_instance;
     if ([[_operationQueue operations] containsObject:request])
         return NO;
     [_operationQueue addOperation:request];
-    [self increaseActivityIndicatorCounter];
+//    [self increaseActivityIndicatorCounter];
     return YES;
 }
 

@@ -51,7 +51,6 @@ static NSDateFormatter *_dateFormatter = nil;
         NSDictionary *response = [balanced tokenizeCard:card error:&error];
         
         if (!error) {
-            NSLog(@"%@", response);
             self.uri = response[@"uri"];
         }
         else {
