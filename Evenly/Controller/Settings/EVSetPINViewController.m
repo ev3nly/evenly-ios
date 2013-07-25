@@ -39,10 +39,8 @@
 - (void)userEnteredPIN:(NSString *)pin {
     if (!self.enteredPin) {
         self.enteredPin = pin;
-//        EV_DISPATCH_AFTER(0.2, ^{
-            [self slideInNewPinView];
-            [self.instructionsLabel fadeToText:CONFIRM_TEXT withColor:[EVColor darkLabelColor] duration:0.2];
-//        });
+        [self slideInNewPinView];
+        [self.instructionsLabel fadeToText:CONFIRM_TEXT withColor:[EVColor darkLabelColor] duration:0.2];
     }
     else {
         if ([self.enteredPin isEqualToString:pin])
