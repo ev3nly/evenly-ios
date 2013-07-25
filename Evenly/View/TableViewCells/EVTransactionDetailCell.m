@@ -120,4 +120,8 @@
                       self.incomeIcon.image.size.height);
 }
 
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    // no-op
+}
+
 @end

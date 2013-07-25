@@ -60,6 +60,8 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
         [self addSubview:self.border];
         
         self.size = frame.size;
+        
+        
     }
     return self;
 }
@@ -138,6 +140,21 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
 - (void)setHighlighted:(BOOL)highlighted {
     _highlighted = highlighted;
     [self.border setHidden:!highlighted];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    [self setHighlighted:YES];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+    [self setHighlighted:NO];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesCancelled:touches withEvent:event];
+    [self setHighlighted:NO];
 }
 
 @end
