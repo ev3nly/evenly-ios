@@ -103,24 +103,23 @@ static EVCIA *_sharedInstance;
         imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
                                                                      imageProcessingBlock:NULL
                                                                                   success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                                                      CGSize constrainedSize = [EVImageUtility sizeForImage:image
-                                                                                                                      withInnerBoundingSize:size];
-                                                                                      UIImage *resizedImage = [EVImageUtility resizeImage:image
-                                                                                                                                   toSize:constrainedSize];
-                                                                                      [[EVCIA sharedInstance] setImage:resizedImage
-                                                                                                                forURL:url
-                                                                                                              withSize:size];
-                                                                                      if (success) {
-                                                                                          EV_PERFORM_ON_MAIN_QUEUE(^{
-                                                                                              success(resizedImage);
-                                                                                          });
-                                                                                      }
+                                                                                      EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+                                                                                          CGSize constrainedSize = [EVImageUtility sizeForImage:image
+                                                                                                                          withInnerBoundingSize:size];
+                                                                                          UIImage *resizedImage = [EVImageUtility resizeImage:image
+                                                                                                                                       toSize:constrainedSize];
+                                                                                          [[EVCIA sharedInstance] setImage:resizedImage
+                                                                                                                    forURL:url
+                                                                                                                  withSize:size];
+                                                                                          if (success) {
+                                                                                              EV_PERFORM_ON_MAIN_QUEUE(^{
+                                                                                                  success(resizedImage);
+                                                                                              });
+                                                                                          }
+                                                                                      });
                                                                                   } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                                                                      if (failure) {
-                                                                                          EV_PERFORM_ON_MAIN_QUEUE(^{
-                                                                                              failure(error);
-                                                                                          });
-                                                                                      }
+                                                                                      if (failure)
+                                                                                          failure(error);
                                                                                   }];
         [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
     });
@@ -152,7 +151,7 @@ static EVCIA *_sharedInstance;
 }
 
 - (void)setImage:(UIImage *)image forURL:(NSURL *)url {
-    [self setImage:image forURL:url withSize:CGSizeZero];
+    [self setImage:image forURL:url withSize:CGSizeZero]; //CGSizeZero signifies full size image
 }
 
 - (void)setImage:(UIImage *)image forURL:(NSURL *)url withSize:(CGSize)size {
@@ -306,31 +305,35 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
 
 - (void)reloadPendingExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
     [EVUser pendingWithSuccess:^(NSArray *pending) {
-        BOOL updated = NO;
-        NSArray *incoming = [pending filter:^BOOL(id object) {
-            return [object isIncoming];
-        }];
-        NSArray *outgoing = [pending filter:^BOOL(id object) {
-            return ![object isIncoming];
-        }];
-        
-        NSArray *oldIncoming = [self.internalCache objectForKey:EVPendingSentExchangesKey];
-        if (!oldIncoming || ![oldIncoming isEqualToArray:incoming]) {
-            updated = YES;
-            [self.internalCache setObject:incoming forKey:EVPendingSentExchangesKey];
-        }
-        
-        NSArray *oldOutgoing = [self.internalCache objectForKey:EVPendingReceivedExchangesKey];
-        if (!oldOutgoing || ![oldOutgoing isEqualToArray:outgoing]) {
-            updated = YES;
-            [self.internalCache setObject:outgoing forKey:EVPendingReceivedExchangesKey];
-        }
-        if (completion)
-            completion(pending);
-        if (updated)
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
-                                                                object:self
-                                                              userInfo:nil];
+        EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+            BOOL updated = NO;
+            NSArray *incoming = [pending filter:^BOOL(id object) {
+                return [object isIncoming];
+            }];
+            NSArray *outgoing = [pending filter:^BOOL(id object) {
+                return ![object isIncoming];
+            }];
+            
+            NSArray *oldIncoming = [self.internalCache objectForKey:EVPendingSentExchangesKey];
+            if (!oldIncoming || ![oldIncoming isEqualToArray:incoming]) {
+                updated = YES;
+                [self.internalCache setObject:incoming forKey:EVPendingSentExchangesKey];
+            }
+            
+            NSArray *oldOutgoing = [self.internalCache objectForKey:EVPendingReceivedExchangesKey];
+            if (!oldOutgoing || ![oldOutgoing isEqualToArray:outgoing]) {
+                updated = YES;
+                [self.internalCache setObject:outgoing forKey:EVPendingReceivedExchangesKey];
+            }
+            EV_PERFORM_ON_MAIN_QUEUE(^{
+                if (completion)
+                    completion(pending);
+                if (updated)
+                    [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
+                                                                        object:self
+                                                                      userInfo:nil];
+            });
+        });
     } failure:^(NSError *error) {
         
     }];
@@ -384,18 +387,23 @@ NSString *const EVCIAUpdatedCreditCardsNotification = @"EVCIAUpdatedCreditCardsN
 - (void)reloadCreditCardsWithCompletion:(void (^)(NSArray *creditCards))completion {
     self.loadingCreditCards = YES;
     [EVCreditCard allWithSuccess:^(id result){
-        self.loadingCreditCards = NO;
-        NSArray *cards = [result sortedArrayUsingSelector:@selector(compareByBrandAndLastFour:)];
-        NSArray *oldCards = [self creditCards];
-        if (cards && ![cards isEqualToArray:oldCards])
-        {
-            [self.internalCache setObject:cards forKey:@"credit_cards"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
-                                                                object:self
-                                                              userInfo:@{ @"cards" : cards }];
-        }
-        if (completion)
-            completion(cards);
+        EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+            self.loadingCreditCards = NO;
+            NSArray *cards = [result sortedArrayUsingSelector:@selector(compareByBrandAndLastFour:)];
+            NSArray *oldCards = [self creditCards];
+            if (cards && ![cards isEqualToArray:oldCards])
+            {
+                [self.internalCache setObject:cards forKey:@"credit_cards"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
+                                                                    object:self
+                                                                  userInfo:@{ @"cards" : cards }];
+            }
+            if (completion) {
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    completion(cards);
+                });
+            }
+        });
     } failure:^(NSError *error){
         self.loadingCreditCards = NO;
     }];
