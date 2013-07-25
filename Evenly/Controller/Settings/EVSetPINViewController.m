@@ -39,16 +39,14 @@
 - (void)userEnteredPIN:(NSString *)pin {
     if (!self.enteredPin) {
         self.enteredPin = pin;
-        EV_DISPATCH_AFTER(0.2, ^{
-            [self slideInNewPinView];
-            [self.instructionsLabel fadeToText:CONFIRM_TEXT withColor:[EVColor darkLabelColor] duration:0.2];
-        });
+        [self slideInNewPinView];
+        [self.instructionsLabel fadeToText:CONFIRM_TEXT withColor:[EVColor darkLabelColor] duration:0.2];
     }
     else {
         if ([self.enteredPin isEqualToString:pin])
             [self handleCorrectPin];
         else {
-            EV_DISPATCH_AFTER(0.2, ^{
+            EV_DISPATCH_AFTER(0.1, ^{
                 [self handleIncorrectPin];
             });
         }
@@ -79,21 +77,12 @@
     
     newView.frame = rightFrame;
     [self.pinView bounceAnimationToFrame:leftFrame duration:0.25 completion:nil];
-    [newView bounceAnimationToFrame:middleFrame duration:0.25 completion:^{
-        [self.pinView removeFromSuperview];
-        self.pinView = newView;
-    }];
-    return;
-    [UIView animateWithDuration:0.3
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         self.pinView.frame = leftFrame;
-                         newView.frame = middleFrame;
-                     } completion:^(BOOL finished) {
-                         [self.pinView removeFromSuperview];
-                         self.pinView = newView;
-                     }];
+    EV_DISPATCH_AFTER(0.2, ^{
+        [newView bounceAnimationToFrame:middleFrame duration:0.25 completion:^{
+            [self.pinView removeFromSuperview];
+            self.pinView = newView;
+        }];
+    });
 }
 
 - (void)slideBackPinView {
@@ -109,21 +98,12 @@
     
     newView.frame = leftFrame;
     [self.pinView bounceAnimationToFrame:rightFrame duration:0.25 completion:nil];
-    [newView bounceAnimationToFrame:middleFrame duration:0.25 completion:^{
-        [self.pinView removeFromSuperview];
-        self.pinView = newView;
-    }];
-    return;
-    [UIView animateWithDuration:0.3
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         self.pinView.frame = rightFrame;
-                         newView.frame = middleFrame;
-                     } completion:^(BOOL finished) {
-                         [self.pinView removeFromSuperview];
-                         self.pinView = newView;
-                     }];
+    EV_DISPATCH_AFTER(0.2, ^{
+        [newView bounceAnimationToFrame:middleFrame duration:0.25 completion:^{
+            [self.pinView removeFromSuperview];
+            self.pinView = newView;
+        }];
+    });
 }
 
 - (NSString *)enterPinPrompt {
