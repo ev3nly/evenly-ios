@@ -124,12 +124,7 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     return nil;
 }
 
-- (void)setProperties:(NSDictionary *)properties {
-//    if ([[NSThread currentThread] isMainThread]) {
-//        [self performSelectorInBackground:@selector(setProperties:) withObject:properties];
-//        return;
-//    }
-    
+- (void)setProperties:(NSDictionary *)properties {    
     [super setProperties:properties];
 
     // Easy things first

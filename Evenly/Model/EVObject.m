@@ -63,16 +63,14 @@
 + (EVJSONRequestOperation *)JSONRequestOperationWithRequest:(NSMutableURLRequest *)request
                                                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                                                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
-    NSLog(@"ZZZ started: %@", request);
+
     AFSuccessBlock modifiedSuccess = ^(AFHTTPRequestOperation *operation, id responseObject) {
         [[EVNetworkManager sharedInstance] decreaseActivityIndicatorCounter];
         success(operation, responseObject);
-        NSLog(@"ZZZ success: %@", request);
     };
     AFFailureBlock modifiedFailure =  ^(AFHTTPRequestOperation *operation, NSError *error)  {
         [[EVNetworkManager sharedInstance] decreaseActivityIndicatorCounter];
         failure(operation, error);
-        NSLog(@"ZZZ failure: %@", request);
     };
     
     EVHTTPClient *httpClient = [[EVNetworkManager sharedInstance] httpClient];
@@ -177,7 +175,7 @@ static NSDateFormatter *_dateFormatter = nil;
 }
 
 + (void)allWithParams:(NSDictionary *)params success:(void (^)(id result))success failure:(void (^)(NSError *error))failure {
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self allWithParams:params success:success failure:failure];
     });
     
@@ -214,7 +212,7 @@ static NSDateFormatter *_dateFormatter = nil;
                  success:(void (^)(EVObject *))success
                  failure:(void (^)(NSError *error))failure
 {
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self createWithParams:params success:success failure:failure];
     });
     
@@ -255,7 +253,7 @@ static NSDateFormatter *_dateFormatter = nil;
 }
 
 - (void)updateWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self updateWithSuccess:success failure:failure];
     });
     
@@ -272,7 +270,7 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (void)destroyWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure
 {
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self destroyWithSuccess:success failure:failure];
     });
     
@@ -295,7 +293,7 @@ static NSDateFormatter *_dateFormatter = nil;
        success:(void (^)(void))success
        failure:(void (^)(NSError *error))failure {
     
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self action:action method:method parameters:parameters success:success failure:failure];
     });
     

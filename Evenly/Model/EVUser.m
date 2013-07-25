@@ -157,7 +157,7 @@ static EVUser *_me;
 + (void)newsfeedStartingAtPage:(int)pageNumber
                        success:(void (^)(NSArray *newsfeed))success
                        failure:(void (^)(NSError *error))failure {
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self newsfeedStartingAtPage:pageNumber success:success failure:failure];
     });
 
@@ -203,7 +203,7 @@ static EVUser *_me;
                                                                 @"page" : @(pageNumber),
                                                                 @"per" : @(EV_ITEMS_PER_PAGE)
                                                             }];
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self historyStartingAtPage:pageNumber success:success failure:failure];
     });
     
@@ -235,7 +235,7 @@ static EVUser *_me;
     NSMutableURLRequest *request = [EVMe requestWithMethod:@"GET"
                                                       path:@"pending"
                                                 parameters:nil];
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self pendingWithSuccess:success failure:failure];
     });
     
@@ -277,7 +277,7 @@ static EVUser *_me;
                  success:(void (^)(EVObject *))success
                  failure:(void (^)(NSError *error))failure
 {
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self createWithParams:params success:success failure:failure];
     });
     
@@ -313,7 +313,7 @@ static EVUser *_me;
 }
 
 + (void)resetPasswordForEmail:(NSString *)email withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self resetPasswordForEmail:email withSuccess:success failure:failure];
     });
     
@@ -345,7 +345,7 @@ static EVUser *_me;
                        facebookID:(NSString *)facebookID
                           success:(void (^)(void))success
                           failure:(void (^)(NSError *))failure {
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self updateMeWithFacebookToken:token facebookID:facebookID success:success failure:failure];
     });
     
@@ -390,7 +390,7 @@ static EVUser *_me;
 
 - (void)updateWithNewAvatar:(UIImage *)newAvatar success:(void (^)(void))success failure:(void (^)(NSError *error))failure
 {
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self updateWithNewAvatar:newAvatar success:success failure:failure];
     });
     
@@ -441,7 +441,7 @@ static EVUser *_me;
 #pragma mark - Timeline
 
 - (void)timelineWithSuccess:(void (^)(NSArray *timeline))success failure:(void (^)(NSError *error))failure {
-    EV_IF_MAIN_QUEUE(^{
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
         [self timelineWithSuccess:success failure:failure];
     });
     
