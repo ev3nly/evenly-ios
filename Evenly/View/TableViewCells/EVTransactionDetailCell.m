@@ -121,8 +121,7 @@
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-    [super setHighlighted:highlighted animated:animated];
-    [self.rightAvatarView setHighlighted:highlighted];
+    // no-op
 }
 
 @end
