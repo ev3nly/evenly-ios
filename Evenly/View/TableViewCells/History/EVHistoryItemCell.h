@@ -10,4 +10,14 @@
 
 @interface EVHistoryItemCell : EVGroupedTableViewCell
 
++ (CGFloat)heightForValueText:(NSString *)valueText;
+
++ (CGFloat)valueLabelWidth;
++ (UIFont *)valueLabelFont;
+
++ (CGFloat)cellMinimumHeight;
+
+@property (nonatomic, strong) UILabel *fieldLabel;
+@property (nonatomic, strong) UILabel *valueLabel;
+
 @end

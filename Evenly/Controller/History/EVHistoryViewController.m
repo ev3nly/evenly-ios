@@ -13,7 +13,9 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "EVLoadingIndicator.h"
 #import "EVStory.h"
-#import "EVStoryDetailViewController.h"
+
+#import "EVHistoryPaymentViewController.h"
+#import "EVHistoryDepositViewController.h"
 
 #define CELL_HEIGHT 60
 
@@ -166,10 +168,13 @@ static NSDateFormatter *_dateFormatter = nil;
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     EVObject *historyItem = (EVObject *)[self.exchanges objectAtIndex:indexPath.row];
-    EVStory *story = [EVStory storyFromObject:historyItem];
-    
-    EVStoryDetailViewController *viewController = [[EVStoryDetailViewController alloc] initWithStory:story];
-    [self.navigationController pushViewController:viewController animated:YES];
+    UIViewController *controller = nil;
+    if ([historyItem isKindOfClass:[EVPayment class]]) {
+        controller = [[EVHistoryPaymentViewController alloc] initWithPayment:(EVPayment *)historyItem];
+    } else {
+        controller = [[EVHistoryDepositViewController alloc] initWithWithdrawal:(EVWithdrawal *)historyItem];
+    }
+    [self.navigationController pushViewController:controller animated:YES];
     
     //load transaction detail controller
 }
