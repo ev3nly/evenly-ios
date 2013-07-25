@@ -161,7 +161,10 @@
 }
 
 - (void)updateTableViewContentInset {
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, self.floatingView.frame.size.height + self.tableView.infiniteScrollingView.frame.size.height, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(0,
+                                                   0,
+                                                   self.floatingView.frame.size.height + self.tableView.infiniteScrollingView.frame.size.height,
+                                                   0);
 }
 
 - (void)configurePullToRefresh {
@@ -202,11 +205,16 @@
         [self.tableView.pullToRefreshView stopAnimating];
         self.tableView.loading = NO;
         [self.tableView setShowsInfiniteScrolling:YES];
-        [self updateTableViewContentInset];
+        EV_DISPATCH_AFTER(0.5, ^{
+            [self updateTableViewContentInset];
+        });
     } failure:^(NSError *error) {
+        [self.tableView.pullToRefreshView stopAnimating];
         self.tableView.loading = NO;
         [self.tableView setShowsInfiniteScrolling:YES];
-        [self updateTableViewContentInset];
+        EV_DISPATCH_AFTER(0.5, ^{
+            [self updateTableViewContentInset];
+        });
     }];
 }
 
