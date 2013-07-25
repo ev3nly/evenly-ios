@@ -14,7 +14,7 @@
 #import "EVFloatingPaymentButton.h"
 #import "EVPaymentViewController.h"
 #import "EVRequestViewController.h"
-#import "EVTransactionDetailViewController.h"
+#import "EVStoryDetailViewController.h"
 #import "EVNavigationManager.h"
 
 #import "EVRewardsGameViewController.h"
@@ -328,7 +328,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     EVStory *story = [self.newsfeed objectAtIndex:indexPath.section];
-    [self.navigationController pushViewController:[[EVTransactionDetailViewController alloc] initWithStory:story] animated:YES];
+    [self.navigationController pushViewController:[[EVStoryDetailViewController alloc] initWithStory:story] animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
