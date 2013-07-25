@@ -1,5 +1,5 @@
 //
-//  EVTransactionDetailViewController.h
+//  EVStoryDetailViewController.h
 //  Evenly
 //
 //  Created by Justin Brunet on 6/18/13.
@@ -11,7 +11,7 @@
 
 @class EVStory;
 
-@interface EVTransactionDetailViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, EVTransactionDetailCellDelegate>
+@interface EVStoryDetailViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, EVTransactionDetailCellDelegate>
 
 @property (nonatomic, strong) EVStory *story;
 @property (nonatomic, strong) UITableView *tableView;

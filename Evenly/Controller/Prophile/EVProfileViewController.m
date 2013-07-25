@@ -7,7 +7,7 @@
 //
 
 #import "EVProfileViewController.h"
-#import "EVTransactionDetailViewController.h"
+#import "EVStoryDetailViewController.h"
 #import "EVEditProfileViewController.h"
 #import "EVProfileCell.h"
 #import "EVNoActivityCell.h"
@@ -192,7 +192,7 @@
     
     if (indexPath.row == 0 || ![self hasExchanges])
         return;
-    EVTransactionDetailViewController *detailController = [[EVTransactionDetailViewController alloc] initWithStory:[self.timeline objectAtIndex:indexPath.row-1]];
+    EVStoryDetailViewController *detailController = [[EVStoryDetailViewController alloc] initWithStory:[self.timeline objectAtIndex:indexPath.row-1]];
     [self.navigationController pushViewController:detailController animated:YES];
 }
 

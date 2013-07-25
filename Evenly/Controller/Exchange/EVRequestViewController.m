@@ -117,6 +117,7 @@
             
             EVStory *story = [EVStory storyFromPendingExchange:self.request];
             story.publishedAt = [NSDate date];
+            story.source = self.request;
             [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
             
             [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
@@ -144,10 +145,14 @@
                                      [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
                                      [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
                                      
+                                     /*  
+                                      // No stories (yet) for group requests
+                                      
                                      EVStory *story = [EVStory storyFromGroupRequest:self.groupRequest];
                                      story.publishedAt = [NSDate date];
+                                     story.source = createdRequest;
                                      [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
-                                     
+                                     */
                                      [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                                          __block UIViewController *presenter = self.presentingViewController;
                                          [self.presentingViewController dismissViewControllerAnimated:YES

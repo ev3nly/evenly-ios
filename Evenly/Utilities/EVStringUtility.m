@@ -291,7 +291,7 @@ static NSDateFormatter *_detailDateFormatter;
 #pragma mark - Contact Methods
 
 + (NSString *)supportEmail {
-    return @"support@paywithivy.com";
+    return @"support@evenly.com";
 }
 
 + (NSString *)supportEmailSubjectLine {
@@ -299,11 +299,11 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSString *)feedbackEmail {
-    return @"feedback@paywithivy.com";
+    return @"feedback@evenly.com";
 }
 
 + (NSString *)generalEmail {
-    return @"info@paywithivy.com";
+    return @"info@evenly.com";
 }
 
 + (NSString *)supportTwitterHandle {
