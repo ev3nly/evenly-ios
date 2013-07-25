@@ -38,6 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
 }
 
 #pragma mark - Basic Interface
