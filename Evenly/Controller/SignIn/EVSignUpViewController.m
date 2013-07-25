@@ -165,11 +165,11 @@
 #pragma mark - TOS/Privacy Policy
 
 - (NSURL *)tosUrl {
-    return [NSURL URLWithString:@"http://ev3nly.github.io/#/terms"];
+    return [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Terms and Conditions.html")];
 }
 
 - (NSURL *)privacyPolicyUrl {
-    return [NSURL URLWithString:@"http://ev3nly.github.io/#/privacy"];
+    return [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Privacy Policy.html")];
 }
 
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {    
