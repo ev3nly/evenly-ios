@@ -124,6 +124,36 @@
     return [self.textField resignFirstResponder];
 }
 
+#pragma mark - Animation Override
+
+#define SQUARE_DELAY 0.035
+
+- (void)bounceAnimationToFrame:(CGRect)targetFrame duration:(float)duration completion:(void (^)(void))completion {
+    NSArray *orderedArray = [NSArray arrayWithArray:self.squares];
+    if (targetFrame.origin.x > self.frame.origin.x)
+        orderedArray = [orderedArray reversedArray];
+    
+    for (UIView *square in orderedArray) {
+        square.frame = [self squareFrameForIndex:[self.squares indexOfObject:square]];
+        CGRect squareFrame = square.frame;
+        squareFrame.origin.x += (targetFrame.origin.x - self.frame.origin.x);
+        [square bounceAnimationToFrame:squareFrame
+                              duration:duration
+                                 delay:(SQUARE_DELAY * [orderedArray indexOfObject:square])
+                            completion:^{
+                                if ([orderedArray indexOfObject:square] == [self.squares count]-1) {
+                                    self.frame = targetFrame;
+                                    for (UIView *square in self.squares) {
+                                        square.frame = [self squareFrameForIndex:[self.squares indexOfObject:square]];
+                                        [square align];
+                                    }
+                                    if (completion)
+                                        completion();
+                                }
+                            }];
+    }
+}
+
 #pragma mark - Frames
 
 - (CGRect)squareFrameForIndex:(int)index {
