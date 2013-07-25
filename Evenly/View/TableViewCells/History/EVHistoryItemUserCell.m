@@ -18,7 +18,7 @@
 @implementation EVHistoryItemUserCell
 
 + (CGFloat)valueLabelWidth {
-    return 190.0 - AVATAR_VIEW_DIMENSION - AVATAR_SPACING;
+    return VALUE_LABEL_WIDTH;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -35,14 +35,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
-    CGFloat maxX = CGRectGetMaxX(self.valueLabel.frame);
-    CGFloat height = self.valueLabel.frame.size.height;
-//    [self.valueLabel setFrame:CGRectMake(maxX - self.valueLabel.frame.size.width,
-//                                         (self.contentView.frame.size.height - height) / 2.0,
-//                                         self.valueLabel.frame.size.width,
-//                                         height)];
-    
+
     CGSize valueLabelSize = [self.valueLabel.text sizeWithFont:self.valueLabel.font
                                              constrainedToSize:CGSizeMake(self.valueLabel.frame.size.width, FLT_MAX)
                                                  lineBreakMode:self.valueLabel.lineBreakMode];
