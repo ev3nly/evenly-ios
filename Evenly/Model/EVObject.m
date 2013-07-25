@@ -63,13 +63,16 @@
 + (EVJSONRequestOperation *)JSONRequestOperationWithRequest:(NSMutableURLRequest *)request
                                                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                                                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+    NSLog(@"ZZZ started: %@", request);
     AFSuccessBlock modifiedSuccess = ^(AFHTTPRequestOperation *operation, id responseObject) {
         [[EVNetworkManager sharedInstance] decreaseActivityIndicatorCounter];
         success(operation, responseObject);
+        NSLog(@"ZZZ success: %@", request);
     };
     AFFailureBlock modifiedFailure =  ^(AFHTTPRequestOperation *operation, NSError *error)  {
         [[EVNetworkManager sharedInstance] decreaseActivityIndicatorCounter];
         failure(operation, error);
+        NSLog(@"ZZZ failure: %@", request);
     };
     
     EVHTTPClient *httpClient = [[EVNetworkManager sharedInstance] httpClient];

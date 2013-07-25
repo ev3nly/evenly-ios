@@ -46,6 +46,8 @@
 
 #define SMALL_SCREEN_PEOPLE_IMAGE_BUFFER 14
 
+#define FACEBOOK_BUTTON_LOADING_Y_OFFSET ([EVUtilities deviceHasTallScreen] ? -60 : -46)
+
 @interface EVOnboardingViewController ()
 
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -327,7 +329,7 @@
 - (void)facebookButtonTapped {
     UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [indicator sizeToFit];
-    indicator.center = CGPointMake(self.facebookButton.center.x, self.facebookButton.center.y - 60);
+    indicator.center = CGPointMake(self.facebookButton.center.x, self.facebookButton.center.y + FACEBOOK_BUTTON_LOADING_Y_OFFSET);
     [self.facebookButton.superview addSubview:indicator];
     [indicator startAnimating];
 
