@@ -8,12 +8,10 @@
 
 #import "EVFundingSourceViewController.h"
 #import "EVFundingSourceCell.h"
-#import "EVNavigationBarButton.h"
 
 @interface EVFundingSourceViewController ()
 
 @property (nonatomic, strong) EVNoFundingSourcesCell *noFundingSourcesCell;
-@property (nonatomic, strong) EVNavigationBarButton *editButton;
 @end
 
 @implementation EVFundingSourceViewController
@@ -36,7 +34,14 @@
     self.editButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
     [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
     [self.editButton addTarget:self action:@selector(editButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:self.editButton]];
+}
+
+- (void)updateEditButton {
+    if ([self.fundingSources count] > 0) {
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:self.editButton]];
+    } else {
+        [self.navigationItem setRightBarButtonItem:nil];
+    }
 }
 
 - (void)loadTableView {
@@ -57,6 +62,8 @@
     [self.tableView beginUpdates];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView endUpdates];
+    
+    [self updateEditButton];
 }
 
 - (void)didReceiveMemoryWarning

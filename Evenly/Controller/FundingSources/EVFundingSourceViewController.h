@@ -9,6 +9,7 @@
 #import "EVModalViewController.h"
 #import "EVFundingSource.h"
 #import "EVGroupedTableViewCell.h"
+#import "EVNavigationBarButton.h"
 
 typedef enum {
     EVFundingSourceSectionSources,
@@ -21,8 +22,10 @@ typedef enum {
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) MBProgressHUD *hud;
+@property (nonatomic, strong) EVNavigationBarButton *editButton;
 
 - (void)loadTableView;
+- (void)updateEditButton;
 - (void)showSuccessMessage;
 - (void)showErrorMessage;
 

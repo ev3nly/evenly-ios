@@ -396,9 +396,12 @@ NSString *const EVCIAUpdatedCreditCardsNotification = @"EVCIAUpdatedCreditCardsN
             if (cards && ![cards isEqualToArray:oldCards])
             {
                 [self.internalCache setObject:cards forKey:@"credit_cards"];
-                [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
-                                                                    object:self
-                                                                  userInfo:@{ @"cards" : cards }];
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
+                                                                        object:self
+                                                                      userInfo:@{ @"cards" : cards }];
+                });
+
             }
             if (completion) {
                 EV_PERFORM_ON_MAIN_QUEUE(^{
@@ -431,9 +434,12 @@ NSString *const EVCIAUpdatedBankAccountsNotification = @"EVCIAUpdatedBankAccount
         if (![oldAccounts isEqualToArray:result])
         {
             [self.internalCache setObject:result forKey:@"bank_accounts"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedBankAccountsNotification
-                                                                object:self
-                                                              userInfo:@{ @"accounts" : result }];
+            EV_PERFORM_ON_MAIN_QUEUE(^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedBankAccountsNotification
+                                                                    object:self
+                                                                  userInfo:@{ @"accounts" : result }];
+            });
+
         }
         if (completion)
             completion(result);
