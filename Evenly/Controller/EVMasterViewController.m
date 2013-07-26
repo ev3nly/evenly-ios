@@ -10,6 +10,7 @@
 #import "EVSignInViewController.h"
 #import "EVOnboardingViewController.h"
 #import "EVEnterPINViewController.h"
+#import "EVNavigationManager.h"
 
 @interface EVMasterViewController ()
 
@@ -76,10 +77,9 @@
     [self dismissViewControllerAnimated:YES completion:^{
         [EVSession signOutWithSuccess:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedOutNotification object:nil];
-            [self showLoginViewControllerWithCompletion:nil
-                                               animated:YES
-                                  authenticationSuccess:^{
-                                  } ];
+            [self showOnboardingControllerWithCompletion:^{
+                [self setCenterPanel:[[EVNavigationManager sharedManager] homeViewController]];
+            } animated:YES];
         } failure:^(NSError *error) {
             DLog(@"Error: %@", error);
         }];
