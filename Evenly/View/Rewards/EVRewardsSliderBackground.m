@@ -8,6 +8,7 @@
 
 #import "EVRewardsSliderBackground.h"
 #import "NSArray+EVAdditions.h"
+#import "EVRewardsCardAmountView.h"
 
 #define NUMBER_OF_LOGOS 6
 
@@ -21,9 +22,8 @@
 
 @implementation EVRewardsSliderBackground
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+- (id)initWithFrame:(CGRect)frame sliderColor:(EVRewardsSliderColor)color {
+    self = [self initWithFrame:frame];
     if (self) {
         NSMutableArray *array = [NSMutableArray array];
         CGRect frame = (CGRect){CGPointZero, [self logoSize]};
@@ -36,11 +36,8 @@
         self.logos = [NSArray arrayWithArray:array];
         self.animating = NO;
         
-        self.rewardAmountLabel = [[UILabel alloc] initWithFrame:self.bounds];
-        self.rewardAmountLabel.backgroundColor = [UIColor clearColor];
-        self.rewardAmountLabel.textColor = [EVColor darkColor];
-        self.rewardAmountLabel.font = [EVFont blackFontOfSize:48];
-        self.rewardAmountLabel.textAlignment = NSTextAlignmentCenter;
+        self.rewardCard = [EVRewardsCardAmountView cardWithColor:color];
+        [self.rewardCard setCenter:CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0)];
     }
     return self;
 }
@@ -51,29 +48,35 @@
 
 - (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated {
     _rewardAmount = rewardAmount;
-    self.rewardAmountLabel.text = [EVStringUtility amountStringForAmount:_rewardAmount];
+    [self.rewardCard setText:[EVStringUtility amountStringForAmount:_rewardAmount]];
+
     if (!animated) {
-        [self.rewardAmountLabel setFrame:self.bounds];
-        [self addSubview:self.rewardAmountLabel];
+        [self.rewardCard setCenter:CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0)];
+        [self addSubview:self.rewardCard];
         [self setBackgroundColor:[UIColor whiteColor]];
         [self.logos makeObjectsPerformSelector:@selector(removeFromSuperview)];
     } else {
-        [self.rewardAmountLabel setSize:CGSizeMake(1, 1)];
-        [self.rewardAmountLabel setCenter:CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0)];
-        [self addSubview:self.rewardAmountLabel];
-        [UIView animateWithDuration:1.0f
+        [self.rewardCard setCenter:CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0)];
+        [self.rewardCard setTransform:CGAffineTransformMakeScale(0.01, 0.01)];
+        [self addSubview:self.rewardCard];
+        [UIView animateWithDuration:0.2
                          animations:^{
                              [self setBackgroundColor:[UIColor whiteColor]];
-                             [self.rewardAmountLabel setFrame:self.bounds];
-                             for (UIImageView *logo in self.logos) {
-                                 [logo setAlpha:0.0f];
-                             }
-                         } completion:^(BOOL finished){
+                             [self stopAnimating];
+                         } completion:^(BOOL finished) {
                              [self.logos makeObjectsPerformSelector:@selector(removeFromSuperview)];
+                             [UIView animateWithDuration:1.0f
+                                              animations:^{
+                                                  [self.rewardCard setTransform:CGAffineTransformIdentity];
+                                                  for (UIImageView *logo in self.logos) {
+                                                      [logo setAlpha:0.0f];
+                                                  }
+                                              } completion:^(BOOL finished){
+                                                  
+                                              }];
                          }];
     }
 }
-
 
 #pragma mark - Images
 

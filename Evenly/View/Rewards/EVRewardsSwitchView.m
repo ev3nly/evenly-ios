@@ -41,10 +41,8 @@
     
     [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"Share your reward on Facebook and "
                                                                        attributes:normalAttributes]];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"2x"
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"increase your mojo"
                                                                        attributes:boldAttributes]];
-    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" your opportunity"
-                                                                       attributes:normalAttributes]];
     
     self.label.attributedText = attrString;
     
