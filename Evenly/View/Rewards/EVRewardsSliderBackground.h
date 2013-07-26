@@ -7,13 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVRewardsCardAmountView.h"
 
 @interface EVRewardsSliderBackground : UIView
 
 @property (nonatomic, strong) NSArray *logos;
 @property (nonatomic, readonly, getter = isAnimating) BOOL animating;
 @property (nonatomic, strong) NSDecimalNumber *rewardAmount;
-@property (nonatomic, strong) UILabel *rewardAmountLabel;
+@property (nonatomic, strong) EVRewardsCardAmountView *rewardCard;
+
+//@property (nonatomic, strong) UILabel *rewardAmountLabel;
+
+- (id)initWithFrame:(CGRect)frame sliderColor:(EVRewardsSliderColor)color;
 
 - (void)startAnimating;
 - (void)stopAnimating;

@@ -97,7 +97,6 @@
 - (void)loadSliders {
     CGFloat height = 72;
     
-    NSArray *colors = @[ [EVColor blueColor], [EVColor lightColor], [EVColor lightGreenColor] ];
     NSArray *words = @[ @"Blue", @"Gray", @"Green" ];
     
     NSMutableArray *slidersArray = [NSMutableArray array];
@@ -105,8 +104,8 @@
         EVRewardsSlider *slider = [[EVRewardsSlider alloc] initWithFrame:CGRectMake(0,
                                                                                     CGRectGetMaxY(self.switchView.frame) + i*height,
                                                                                     self.view.frame.size.width,
-                                                                                    height)];
-        [slider setForegroundColor:[colors objectAtIndex:i]];
+                                                                                    height)
+                                   sliderColor:(EVRewardsSliderColor)i];
         [slider.label setText:[words objectAtIndex:i]];
         [slider addTarget:self action:@selector(optionSelected:) forControlEvents:UIControlEventValueChanged];
         [self.view addSubview:slider];
@@ -158,7 +157,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardRedeemedNotification
                                                             object:self
                                                           userInfo:@{ @"reward" : self.reward,
-                                                                       @"label" : self.chosenSlider.backgroundView.rewardAmountLabel }];
+                                                                       @"label" : self.chosenSlider.backgroundView.rewardCard.label }];
     }
 }
 

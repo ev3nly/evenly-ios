@@ -19,11 +19,11 @@ NSString *const EVRewardsSliderSwipeEndedNotification = @"EVRewardsSliderSwipeEn
 
 @implementation EVRewardsSlider
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+- (id)initWithFrame:(CGRect)frame sliderColor:(EVRewardsSliderColor)color {
+    self = [self initWithFrame:frame];
     if (self) {
-        self.autoresizesSubviews = YES;
+        self.sliderColor = color;
+
         [self loadForeground];
         
         [self loadBackground];
@@ -32,7 +32,7 @@ NSString *const EVRewardsSliderSwipeEndedNotification = @"EVRewardsSliderSwipeEn
         self.swipeRecognizer.delegate = self;
         [self.swipeRecognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
         [self.foregroundView addGestureRecognizer:self.swipeRecognizer];
-
+        
         self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panRecognized:)];
         self.panRecognizer.delegate = self;
         [self.foregroundView addGestureRecognizer:self.panRecognizer];
@@ -60,6 +60,18 @@ NSString *const EVRewardsSliderSwipeEndedNotification = @"EVRewardsSliderSwipeEn
                                                  selector:@selector(swipeEnded:)
                                                      name:EVRewardsSliderSwipeEndedNotification
                                                    object:nil];
+        self.sliderColor = color;
+
+    }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.autoresizesSubviews = YES;
+
     }
     return self;
 }
@@ -92,15 +104,17 @@ NSString *const EVRewardsSliderSwipeEndedNotification = @"EVRewardsSliderSwipeEn
     [self.arrowContainer setOrigin:CGPointMake(self.frame.size.width - self.arrowContainer.frame.size.width - X_MARGIN,
                                                (self.frame.size.height- self.arrowContainer.frame.size.height) / 2.0)];
     [self.foregroundView addSubview:self.arrowContainer];
+    [self.foregroundView setBackgroundColor:[EVColor colorForRewardsSliderColor:self.sliderColor]];
 }
 
-- (void)setForegroundColor:(UIColor *)foregroundColor {
-    _foregroundColor = foregroundColor;
-    [self.foregroundView setBackgroundColor:_foregroundColor];
+- (void)setSliderColor:(EVRewardsSliderColor)sliderColor {
+    _sliderColor = sliderColor;
+    [self.foregroundView setBackgroundColor:[EVColor colorForRewardsSliderColor:_sliderColor]];
+    [self.backgroundView.rewardCard setCardColor:_sliderColor];
 }
 
 - (void)loadBackground {
-    self.backgroundView = [[EVRewardsSliderBackground alloc] initWithFrame:self.bounds];
+    self.backgroundView = [[EVRewardsSliderBackground alloc] initWithFrame:self.bounds sliderColor:self.sliderColor];
     self.backgroundView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     [self insertSubview:self.backgroundView belowSubview:self.foregroundView];
     

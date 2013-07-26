@@ -266,6 +266,13 @@
 		9C981B43174FD95600BE9506 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C981B24174FD95600BE9506 /* Foundation.framework */; };
 		9C981B4B174FD95600BE9506 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9C981B49174FD95600BE9506 /* InfoPlist.strings */; };
 		9C981B4E174FD95600BE9506 /* EvenlyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C981B4D174FD95600BE9506 /* EvenlyTests.m */; };
+		9C9C7C8F17A1DB660095FB54 /* blue_card.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C9C7C8917A1DB660095FB54 /* blue_card.png */; };
+		9C9C7C9017A1DB660095FB54 /* blue_card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C9C7C8A17A1DB660095FB54 /* blue_card@2x.png */; };
+		9C9C7C9117A1DB660095FB54 /* gray_card.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C9C7C8B17A1DB660095FB54 /* gray_card.png */; };
+		9C9C7C9217A1DB660095FB54 /* gray_card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C9C7C8C17A1DB660095FB54 /* gray_card@2x.png */; };
+		9C9C7C9317A1DB660095FB54 /* green_card.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C9C7C8D17A1DB660095FB54 /* green_card.png */; };
+		9C9C7C9417A1DB660095FB54 /* green_card@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C9C7C8E17A1DB660095FB54 /* green_card@2x.png */; };
+		9C9C7C9717A1E3080095FB54 /* EVRewardsCardAmountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9C7C9617A1E3080095FB54 /* EVRewardsCardAmountView.m */; };
 		9CA81700178DE0E9000F0417 /* history.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CA816FF178DE0E9000F0417 /* history.png */; };
 		9CA81702178DE0EF000F0417 /* history@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CA81701178DE0EF000F0417 /* history@2x.png */; };
 		9CA8170D178DEEDD000F0417 /* WalletArrow_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CA8170B178DEEDD000F0417 /* WalletArrow_blue@2x.png */; };
@@ -941,6 +948,14 @@
 		9C981B4A174FD95600BE9506 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		9C981B4C174FD95600BE9506 /* EvenlyTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EvenlyTests.h; sourceTree = "<group>"; };
 		9C981B4D174FD95600BE9506 /* EvenlyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EvenlyTests.m; sourceTree = "<group>"; };
+		9C9C7C8917A1DB660095FB54 /* blue_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_card.png; sourceTree = "<group>"; };
+		9C9C7C8A17A1DB660095FB54 /* blue_card@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue_card@2x.png"; sourceTree = "<group>"; };
+		9C9C7C8B17A1DB660095FB54 /* gray_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gray_card.png; sourceTree = "<group>"; };
+		9C9C7C8C17A1DB660095FB54 /* gray_card@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gray_card@2x.png"; sourceTree = "<group>"; };
+		9C9C7C8D17A1DB660095FB54 /* green_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = green_card.png; sourceTree = "<group>"; };
+		9C9C7C8E17A1DB660095FB54 /* green_card@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green_card@2x.png"; sourceTree = "<group>"; };
+		9C9C7C9517A1E3080095FB54 /* EVRewardsCardAmountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardsCardAmountView.h; sourceTree = "<group>"; };
+		9C9C7C9617A1E3080095FB54 /* EVRewardsCardAmountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardsCardAmountView.m; sourceTree = "<group>"; };
 		9CA816FF178DE0E9000F0417 /* history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = history.png; sourceTree = "<group>"; };
 		9CA81701178DE0EF000F0417 /* history@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "history@2x.png"; sourceTree = "<group>"; };
 		9CA8170B178DEEDD000F0417 /* WalletArrow_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WalletArrow_blue@2x.png"; sourceTree = "<group>"; };
@@ -2455,6 +2470,12 @@
 		9CB7FB53178CD44200827B5B /* Rewards */ = {
 			isa = PBXGroup;
 			children = (
+				9C9C7C8917A1DB660095FB54 /* blue_card.png */,
+				9C9C7C8A17A1DB660095FB54 /* blue_card@2x.png */,
+				9C9C7C8B17A1DB660095FB54 /* gray_card.png */,
+				9C9C7C8C17A1DB660095FB54 /* gray_card@2x.png */,
+				9C9C7C8D17A1DB660095FB54 /* green_card.png */,
+				9C9C7C8E17A1DB660095FB54 /* green_card@2x.png */,
 				9CB7FB54178CD44200827B5B /* reward_arrow.png */,
 				9CB7FB55178CD44200827B5B /* reward_arrow@2x.png */,
 				9CB7FB56178CD44200827B5B /* big_smile.png */,
@@ -2476,6 +2497,8 @@
 				9C8768DF178F3C72004A6387 /* EVRewardsSliderBackground.m */,
 				9CB7FB64178CD70200827B5B /* EVRewardsFooterView.h */,
 				9CB7FB65178CD70200827B5B /* EVRewardsFooterView.m */,
+				9C9C7C9517A1E3080095FB54 /* EVRewardsCardAmountView.h */,
+				9C9C7C9617A1E3080095FB54 /* EVRewardsCardAmountView.m */,
 			);
 			path = Rewards;
 			sourceTree = "<group>";
@@ -3204,6 +3227,12 @@
 				D0A0BB6F179E2102002C0EA0 /* pending-number-container-red.png in Resources */,
 				D0A0BB75179E472F002C0EA0 /* pending-number-container.png in Resources */,
 				D0A0BB76179E472F002C0EA0 /* pending-number-container@2x.png in Resources */,
+				9C9C7C8F17A1DB660095FB54 /* blue_card.png in Resources */,
+				9C9C7C9017A1DB660095FB54 /* blue_card@2x.png in Resources */,
+				9C9C7C9117A1DB660095FB54 /* gray_card.png in Resources */,
+				9C9C7C9217A1DB660095FB54 /* gray_card@2x.png in Resources */,
+				9C9C7C9317A1DB660095FB54 /* green_card.png in Resources */,
+				9C9C7C9417A1DB660095FB54 /* green_card@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3553,6 +3582,7 @@
 				9C163F3417A099FD00A3A3A0 /* EVHistoryItemUserCell.m in Sources */,
 				9C163F3717A09F2E00A3A3A0 /* EVHistoryPaymentViewController.m in Sources */,
 				9C163F3A17A09F3A00A3A3A0 /* EVHistoryDepositViewController.m in Sources */,
+				9C9C7C9717A1E3080095FB54 /* EVRewardsCardAmountView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
