@@ -166,6 +166,10 @@
     return [FBSession.activeSession handleOpenURL:url];
 }
 
+- (NSString *)stringWithNamespace:(NSString *)namespace string:(NSString *)string {
+    return [NSString stringWithFormat:@"%@_%@", namespace, string];
+}
+
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
@@ -173,16 +177,27 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
-    [currentInstallation setObject:[[EVCIA me] dbid] forKey:@"user_id"];
-    [currentInstallation addUniqueObject:@"all" forKey:@"channels"];
+    
+    NSString *namespace = @"VINE";
+    if ([[EVNetworkManager sharedInstance] serverSelection] != EVServerSelectionProduction)
+        namespace = @"GERM";
+    [currentInstallation setObject:[self stringWithNamespace:namespace string:[[EVCIA me] dbid]]
+                            forKey:@"user_id"];
+    [currentInstallation addUniqueObject:[self stringWithNamespace:namespace string:@"all"]
+                                  forKey:@"channels"];
 #ifdef DEBUG
-    [currentInstallation addUniqueObject:@"evenly" forKey:@"channels"];
+    [currentInstallation addUniqueObject:[self stringWithNamespace:namespace string:@"evenly"]
+                                  forKey:@"channels"];
 #endif
     NSString *channelName = [NSString stringWithFormat:@"user_%@", [[EVCIA me] dbid]];
-    if ([[EVNetworkManager sharedInstance] serverSelection] != EVServerSelectionProduction)
-        channelName = [channelName stringByAppendingString:@"_DEV"];
-    [currentInstallation addUniqueObject:channelName
+    [currentInstallation addUniqueObject:[self stringWithNamespace:namespace string:channelName]
                                   forKey:@"channels"];
+    
+    for (NSString *role in [[EVCIA me] roles]) {
+        [currentInstallation addUniqueObject:[self stringWithNamespace:namespace string:role]
+                                      forKey:@"channels"];
+    }
+    
     [currentInstallation saveInBackground];
 
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
