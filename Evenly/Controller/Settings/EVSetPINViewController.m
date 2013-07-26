@@ -120,7 +120,7 @@
 }
 
 - (NSString *)enterPinPrompt {
-    return ENTER_OLD_TEXT;
+    return (self.currentState == EVEnterPINStateEnterOld ? ENTER_OLD_TEXT : ENTER_NEW_TEXT);
 }
 
 @end
