@@ -40,8 +40,8 @@ static NSDateFormatter *_dateFormatter = nil;
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
     dispatch_async(queue, ^{
-        
-        Balanced *balanced = [[Balanced alloc] initWithMarketplaceURI:BALANCED_URI];
+        NSString *balancedURL = [[EVNetworkManager sharedInstance] balancedURLStringForServerSelection:[[EVNetworkManager sharedInstance] serverSelection]];
+        Balanced *balanced = [[Balanced alloc] initWithMarketplaceURI:balancedURL];
         BPCard *card = [[BPCard alloc] initWithNumber:self.number
                                    andExperationMonth:self.expirationMonth
                                     andExperationYear:self.expirationYear
