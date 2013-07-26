@@ -7,10 +7,12 @@
 //
 
 #import "EVSignInViewController.h"
+#import "EVSetPINViewController.h"
 #import "EVFormView.h"
 #import "EVFormRow.h"
 #import "EVTextField.h"
 #import "EVNavigationBarButton.h"
+#import "EVNavigationManager.h"
 #import "EVValidator.h"
 
 #import "EVSession.h"
@@ -182,15 +184,20 @@
     };
     
     [EVSession createWithEmail:self.emailField.text password:self.passwordField.text success:^{
-        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
         [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
             if (self.authenticationSuccess)
                 self.authenticationSuccess();
             [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
         };
-        DLog(@"Logged in.");
+        [EVStatusBarManager sharedManager].postSuccess = ^(void) {
+            EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
+            pinController.canDismissManually = NO;
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+            [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
+        };
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
         [[EVCIA sharedInstance] cacheNewSession];
-
+        DLog(@"Logged in.");
     } failure:^(NSError *error) {
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
         DLog(@"Failure?! %@", error);
