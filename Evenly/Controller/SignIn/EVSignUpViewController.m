@@ -232,7 +232,7 @@
 }
 
 - (void)informUserFormNotFinished {
-    NSString *message = @"You must agree to the Terms of Service and Privacy Policy";
+    NSString *message = @"You must agree to the Terms of Service and Privacy Policy.";
     if (self.passwordCell.textField.text.length < 8)
         message = @"Your password must be at least 8 characters.";
     [[UIAlertView alertViewWithTitle:@"Whoops!" message:message cancelButtonTitle:@"OK"] show];
