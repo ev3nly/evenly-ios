@@ -130,6 +130,7 @@
             DLog(@"failed to create %@", NSStringFromClass([self.request class]));
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
             [[self rightButtonForPhase:self.phase] setEnabled:YES];
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self leftButtonForPhase:self.phase]];
         }];
     }
     else
@@ -166,6 +167,8 @@
                                  } failure:^(NSError *error) {
                                      DLog(@"failed to create %@", NSStringFromClass([self.request class]));
                                      [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                                     [[self rightButtonForPhase:self.phase] setEnabled:YES];
+                                     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self leftButtonForPhase:self.phase]];
                                  }];
     }
 }
