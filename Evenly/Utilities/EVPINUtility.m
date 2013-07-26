@@ -63,20 +63,23 @@ static int _failedPINAttemptCount;
     return [self.keychainItem objectForKey:(__bridge id)kSecValueData];
 }
 
-- (BOOL)isValidPIN:(NSString *)pin {
-    NSString *savedPin = [self pin];
-    BOOL isValid = [pin isEqualToString:savedPin];
+- (BOOL)validatePIN:(NSString *)pin {
+    BOOL isValid = [self isValidPIN:pin];
     if (!isValid)
         _failedPINAttemptCount++;
     else
         _failedPINAttemptCount = 0;
-
+    
     if (_failedPINAttemptCount >= EV_MAX_PIN_ATTEMPTS) {
         [self clearStoredPIN];
         [[NSNotificationCenter defaultCenter] postNotificationName:EVPINUtilityTooManyFailedAttemptsNotification object:nil];
     }
-    
     return isValid;
+}
+
+- (BOOL)isValidPIN:(NSString *)pin {
+    NSString *savedPin = [self pin];
+    return [pin isEqualToString:savedPin];    
 }
 
 - (BOOL)pinIsSet {

@@ -13,12 +13,14 @@
 #define LABEL_SQUARE_BUFFER 20
 #define SQUARE_HEIGHT 54
 
-#define ENTER_TEXT @"Enter New Passcode"
+#define ENTER_OLD_TEXT @"Enter Old Passcode"
+#define ENTER_NEW_TEXT @"Enter New Passcode"
 #define CONFIRM_TEXT @"Confirm Your Passcode"
 #define FAILED_TEXT @"Please Try Again"
 
 @interface EVSetPINViewController ()
 
+@property (nonatomic, assign) EVEnterPINState currentState;
 @property (nonatomic, strong) NSString *enteredPin;
 
 @end
@@ -28,6 +30,8 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.title = @"Set Passcode";
+        if (![[EVPINUtility sharedUtility] pinIsSet])
+            self.currentState = EVEnterPINStateEnterNew;
     }
     return self;
 }
@@ -37,18 +41,27 @@
 }
 
 - (void)userEnteredPIN:(NSString *)pin {
-    if (!self.enteredPin) {
+    if (self.currentState == EVEnterPINStateEnterOld) {
+        if ([[EVPINUtility sharedUtility] isValidPIN:pin]) {
+            [self slideInNewPinView];
+            [self.instructionsLabel fadeToText:ENTER_NEW_TEXT withColor:[EVColor darkLabelColor] duration:0.2];
+            self.currentState = EVEnterPINStateEnterNew;
+        } else {
+            [super handleIncorrectPin];
+        }
+    } else if (self.currentState == EVEnterPINStateEnterNew) {
         self.enteredPin = pin;
         [self slideInNewPinView];
         [self.instructionsLabel fadeToText:CONFIRM_TEXT withColor:[EVColor darkLabelColor] duration:0.2];
-    }
-    else {
+        self.currentState = EVEnterPINStateConfirmNew;
+    } else if (self.currentState == EVEnterPINStateConfirmNew) {
         if ([self.enteredPin isEqualToString:pin])
             [self handleCorrectPin];
         else {
             EV_DISPATCH_AFTER(0.1, ^{
                 [self handleIncorrectPin];
             });
+            self.currentState = EVEnterPINStateEnterNew;
         }
     }
 }
@@ -107,7 +120,7 @@
 }
 
 - (NSString *)enterPinPrompt {
-    return ENTER_TEXT;
+    return (self.currentState == EVEnterPINStateEnterOld ? ENTER_OLD_TEXT : ENTER_NEW_TEXT);
 }
 
 @end
