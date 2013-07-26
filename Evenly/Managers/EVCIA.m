@@ -208,6 +208,8 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         
         mixpanel.nameTag = me.name;
         
+        [EVParseUtility registerChannels];
+        
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];

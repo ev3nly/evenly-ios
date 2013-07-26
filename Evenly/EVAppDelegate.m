@@ -166,40 +166,11 @@
     return [FBSession.activeSession handleOpenURL:url];
 }
 
-- (NSString *)stringWithNamespace:(NSString *)namespace string:(NSString *)string {
-    return [NSString stringWithFormat:@"%@_%@", namespace, string];
-}
-
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     DLog(@"Did register for remote notifications");
-    // Store the deviceToken in the current installation and save it to Parse.
-    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-    [currentInstallation setDeviceTokenFromData:deviceToken];
-    
-    NSString *namespace = @"VINE";
-    if ([[EVNetworkManager sharedInstance] serverSelection] != EVServerSelectionProduction)
-        namespace = @"GERM";
-    [currentInstallation setObject:[self stringWithNamespace:namespace string:[[EVCIA me] dbid]]
-                            forKey:@"user_id"];
-    [currentInstallation addUniqueObject:[self stringWithNamespace:namespace string:@"all"]
-                                  forKey:@"channels"];
-#ifdef DEBUG
-    [currentInstallation addUniqueObject:[self stringWithNamespace:namespace string:@"evenly"]
-                                  forKey:@"channels"];
-#endif
-    NSString *channelName = [NSString stringWithFormat:@"user_%@", [[EVCIA me] dbid]];
-    [currentInstallation addUniqueObject:[self stringWithNamespace:namespace string:channelName]
-                                  forKey:@"channels"];
-    
-    for (NSString *role in [[EVCIA me] roles]) {
-        [currentInstallation addUniqueObject:[self stringWithNamespace:namespace string:role]
-                                      forKey:@"channels"];
-    }
-    
-    [currentInstallation saveInBackground];
-
+    [EVParseUtility registerChannelsWithDeviceTokenData:deviceToken];
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel.people addPushDeviceToken:deviceToken];
 }

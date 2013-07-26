@@ -399,6 +399,7 @@
 		9CEEB86D1755854500C24C2A /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB8601755854500C24C2A /* Social.framework */; };
 		9CEEB86E1755854500C24C2A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEEB8611755854500C24C2A /* SystemConfiguration.framework */; };
 		9CFD9DA617A32F8500DE8190 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7E43FA179F39F200CD3AD8 /* FacebookSDK.framework */; };
+		9CFD9DA917A33D1000DE8190 /* EVParseUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFD9DA817A33D1000DE8190 /* EVParseUtility.m */; };
 		9CFDBAAD17625F5600D4E36C /* EVPendingExchangeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDBAAC17625F5600D4E36C /* EVPendingExchangeCell.m */; };
 		9CFDBAB117625F7200D4E36C /* EVAvatarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CFDBAB017625F7200D4E36C /* EVAvatarView.m */; };
 		D01418FE17619675003ED527 /* EVExchangeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D01418FC17619675003ED527 /* EVExchangeTests.m */; };
@@ -1132,6 +1133,8 @@
 		9CEEB85F1755854500C24C2A /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9CEEB8601755854500C24C2A /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		9CEEB8611755854500C24C2A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		9CFD9DA717A33D1000DE8190 /* EVParseUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVParseUtility.h; sourceTree = "<group>"; };
+		9CFD9DA817A33D1000DE8190 /* EVParseUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVParseUtility.m; sourceTree = "<group>"; };
 		9CFDBAAB17625F5600D4E36C /* EVPendingExchangeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPendingExchangeCell.h; sourceTree = "<group>"; };
 		9CFDBAAC17625F5600D4E36C /* EVPendingExchangeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPendingExchangeCell.m; sourceTree = "<group>"; };
 		9CFDBAAF17625F7200D4E36C /* EVAvatarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAvatarView.h; sourceTree = "<group>"; };
@@ -1593,6 +1596,8 @@
 				9C1F47E81756914B00B26A1B /* EVStringUtility.m */,
 				9C1F47E91756914B00B26A1B /* EVUtilities.h */,
 				9C1F47EA1756914B00B26A1B /* EVUtilities.m */,
+				9CFD9DA717A33D1000DE8190 /* EVParseUtility.h */,
+				9CFD9DA817A33D1000DE8190 /* EVParseUtility.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -3591,6 +3596,7 @@
 				9C163F3717A09F2E00A3A3A0 /* EVHistoryPaymentViewController.m in Sources */,
 				9C163F3A17A09F3A00A3A3A0 /* EVHistoryDepositViewController.m in Sources */,
 				9C9C7C9717A1E3080095FB54 /* EVRewardsCardAmountView.m in Sources */,
+				9CFD9DA917A33D1000DE8190 /* EVParseUtility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
