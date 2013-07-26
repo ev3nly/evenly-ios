@@ -103,4 +103,9 @@
 + (UIImage *)settingsFacebookIcon;
 + (UIImage *)settingsLogoutIcon;
 
+#pragma mark - Rewards
++ (UIImage *)rewardsGreenCardImage;
++ (UIImage *)rewardsGrayCardImage;
++ (UIImage *)rewardsBlueCardImage;
+
 @end
