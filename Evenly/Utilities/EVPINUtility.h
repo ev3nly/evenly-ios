@@ -20,6 +20,7 @@ extern NSString *const EVPINUtilityTooManyFailedAttemptsNotification;
 - (void)setPIN:(NSString *)pin;
 - (BOOL)pinIsSet;
 - (int)failedPINAttemptCount;
+- (BOOL)validatePIN:(NSString *)pin;
 - (BOOL)isValidPIN:(NSString *)pin;
 - (void)clearStoredPIN;
 
