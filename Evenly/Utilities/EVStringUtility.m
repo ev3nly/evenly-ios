@@ -227,11 +227,11 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSString *)requestDescriptionPlaceholder {
-    return @"Lunch, dinner, taxi, or anything else";
+    return @"What'd you share?\n(e.g. gas, rent or anything else)";
 }
 
 + (NSString *)groupRequestTitlePlaceholder {
-    return @"BBQ, Sunday Dinner, or anything else";
+    return @"What'd you share?";
 }
 
 + (NSString *)groupRequestDescriptionPlaceholder {
