@@ -345,6 +345,7 @@
         EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
             [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                 EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
+                pinController.canDismissManually = NO;
                 UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
                 [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
             }];

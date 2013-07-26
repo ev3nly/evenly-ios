@@ -300,7 +300,10 @@ static EVUser *_me;
     
     request = [[self class] multipartFormRequestWithMethod:method path:path parameters:params constructingBodyWithBlock:formBlock];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        success(responseObject);
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success(responseObject);
+        });
     };
     
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
@@ -319,7 +322,10 @@ static EVUser *_me;
     
     NSMutableURLRequest *request = [EVMe requestWithMethod:@"POST" path:@"reset-password" parameters:@{@"email": email}];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        success();
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success();
+        });
     };
     
     AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
@@ -357,8 +363,10 @@ static EVUser *_me;
     DLog(@"Request body: %@", [NSString stringWithUTF8String:[[request HTTPBody] bytes]]);
     
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        if (success)
-            success();
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success();
+        });
     };
     
     AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
@@ -412,7 +420,10 @@ static EVUser *_me;
     
     request = [[self class] multipartFormRequestWithMethod:method path:path parameters:parameters constructingBodyWithBlock:formBlock];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        success();
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success();
+        });
     };
     
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
