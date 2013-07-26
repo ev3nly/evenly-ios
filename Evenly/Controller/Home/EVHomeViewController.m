@@ -274,6 +274,7 @@
     EVReward *reward = [[notification userInfo] objectForKey:@"reward"];
     UILabel *label = [[notification userInfo] objectForKey:@"label"];
     label.adjustsFontSizeToFitWidth = YES;
+    label.textColor = [EVColor darkColor];
 
     UIView *slider = [[label superview] superview];
     label.frame = slider.frame;

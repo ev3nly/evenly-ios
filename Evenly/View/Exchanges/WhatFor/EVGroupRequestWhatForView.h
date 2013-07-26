@@ -15,12 +15,8 @@
 @interface EVGroupRequestWhatForView : EVExchangeView<UITextFieldDelegate>
 
 @property (nonatomic, strong) EVExchangeWhatForHeader *whatForHeader;
-
-@property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) EVTextField *nameField;
-
 @property (nonatomic, strong) UIView *divider;
-
 @property (nonatomic, strong) EVPlaceholderTextView *descriptionField;
 
 - (void)flashNoDescriptionMessage;

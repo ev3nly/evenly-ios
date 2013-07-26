@@ -19,7 +19,7 @@ extern NSString *const EVRewardsSliderSwipeEndedNotification;
 @property (nonatomic, strong) UIView *foregroundView;
 
 @property (nonatomic, strong) UILabel *label;
-@property (nonatomic, strong) UIColor *foregroundColor;
+@property (nonatomic) EVRewardsSliderColor sliderColor;
 @property (nonatomic, strong) UIView *arrowContainer;
 @property (nonatomic, strong) NSArray *arrows;
 
@@ -33,6 +33,8 @@ extern NSString *const EVRewardsSliderSwipeEndedNotification;
 @property (nonatomic, strong) NSDecimalNumber *rewardAmount;
 
 @property (nonatomic) BOOL animationEnabled;
+
+- (id)initWithFrame:(CGRect)frame sliderColor:(EVRewardsSliderColor)color;
 
 - (void)makeAnAppearanceWithDuration:(NSTimeInterval)duration completion:(void (^)(void))completion;
 - (void)pulse;

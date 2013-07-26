@@ -59,6 +59,15 @@
     if ([self.exchange isKindOfClass:[EVRequest class]]) {
         EVRequest *request = (EVRequest *)self.exchange;
         [request completeWithSuccess:^{
+            [[EVCIA me] setBalance:[[[EVCIA me] balance] decimalNumberBySubtracting:self.exchange.amount]];
+            [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
+            
+            EVStory *story = [EVStory storyFromCompletedExchange:self.exchange];
+            story.publishedAt = [NSDate date];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification
+                                                                object:nil
+                                                              userInfo:@{ @"story" : story }];
+            
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {

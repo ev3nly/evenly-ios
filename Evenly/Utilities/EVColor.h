@@ -56,4 +56,14 @@
 
 + (UIColor *)randomColor;
 
+#pragma mark - Rewards
+
+typedef enum {
+    EVRewardsSliderColorBlue,
+    EVRewardsSliderColorGray,
+    EVRewardsSliderColorGreen
+} EVRewardsSliderColor;
+
++ (UIColor *)colorForRewardsSliderColor:(EVRewardsSliderColor)colorFlag;
+
 @end

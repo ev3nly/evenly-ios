@@ -92,6 +92,8 @@
     [self.tableView beginUpdates];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView endUpdates];
+    
+    [self updateEditButton];
 }
 
 @end

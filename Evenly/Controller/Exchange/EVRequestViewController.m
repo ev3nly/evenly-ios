@@ -250,6 +250,16 @@
             [button setTitle:@"Next" forState:UIControlStateNormal];
         }
     }];
+    
+    [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *countNumber) {
+        int count = [countNumber intValue];
+        UIButton *button = [self rightButtonForPhase:EVExchangePhaseWho];
+        if (count == 0 && self.isGroupRequest) {
+            [button setTitle:@"Skip" forState:UIControlStateNormal];
+        } else {
+            [button setTitle:@"Next" forState:UIControlStateNormal];
+        }
+    }];
 }
 
 - (void)nextButtonPress:(id)sender {

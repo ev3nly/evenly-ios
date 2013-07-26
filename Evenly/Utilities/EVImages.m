@@ -311,5 +311,21 @@
     return [UIImage imageNamed:@"Settings_logout_arrow"];
 }
 
+#pragma mark - Rewards
+
++ (UIImage *)rewardsGreenCardImage {
+    return [UIImage imageNamed:@"green_card"];
+}
+
++ (UIImage *)rewardsGrayCardImage {
+    return [UIImage imageNamed:@"gray_card"];
+}
+
++ (UIImage *)rewardsBlueCardImage {
+    return [UIImage imageNamed:@"blue_card"];   
+}
+
+
+
 
 @end
