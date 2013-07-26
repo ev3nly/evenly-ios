@@ -55,6 +55,7 @@
 @property (nonatomic, assign) EVPrivacySetting privacySetting;
 @property (nonatomic, strong) NSArray *connections;
 @property (nonatomic, strong) NSString *currentPassword;
+@property (nonatomic) BOOL facebookConnected;
 
 + (EVUser *)me;
 + (void)setMe:(EVUser *)user;
