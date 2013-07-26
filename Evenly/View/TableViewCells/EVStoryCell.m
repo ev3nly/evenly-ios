@@ -161,7 +161,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
         self.avatarView.imageURL = story.imageURL;
     else
         self.avatarView.avatarOwner = story.subject;
-    
+
     self.storyLabel.attributedText = [story attributedString];
     self.dateLabel.text = [self dateLabelText];
     self.incomeIcon.image = [self iconForStoryType:story.transactionType];

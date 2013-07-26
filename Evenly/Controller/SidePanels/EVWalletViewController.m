@@ -37,6 +37,8 @@
 @property (nonatomic, strong) EVGrayButton *historyButton;
 @property (nonatomic, strong) EVGrayButton *depositButton;
 
+@property (nonatomic, strong) NSArray *pendingExchanges;
+
 - (void)loadWalletFooter;
 
 @end
@@ -47,7 +49,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.pendingExchanges = [NSArray array];
     }
     return self;
 }
@@ -137,9 +139,13 @@
 }
 
 - (void)exchangesDidUpdate:(NSNotification *)notification {
+    self.pendingExchanges = [self.cia pendingExchanges];
+    
     [self.tableView beginUpdates];
     [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:EVWalletSectionPending] withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView endUpdates];
+    
+    [[EVNavigationManager sharedManager] setPendingNotifications:[self.pendingExchanges count] shouldFlag:[self hasPendingReceivedExchanges]];
 }
 
 - (void)creditCardsDidUpdate:(NSNotification *)notification {
@@ -159,12 +165,12 @@
     
 }
 
-- (NSArray *)pendingExchanges {
-    return [[EVCIA sharedInstance] pendingExchanges];
+- (BOOL)hasPendingExchanges {
+    return [self.pendingExchanges count] > 0;
 }
 
-- (BOOL)hasPendingExchanges {
-    return [[self pendingExchanges] count] > 0;
+- (BOOL)hasPendingReceivedExchanges {
+    return [[[EVCIA sharedInstance] pendingReceivedExchanges] count] > 0;
 }
 
 #pragma mark - UITableViewDataSource
@@ -178,7 +184,7 @@
     if (section == EVWalletSectionPending)
     {
         if ([self hasPendingExchanges])
-            count = [[self pendingExchanges] count];
+            count = [self.pendingExchanges count];
         else
             count = 1;
     }
@@ -219,7 +225,7 @@
     {
         if ([self hasPendingExchanges])
         {
-            EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
+            EVExchange *exchange = (EVExchange *)[self.pendingExchanges objectAtIndex:indexPath.row];
             return [EVPendingExchangeCell sizeForInteraction:exchange].height;
         }
     }
@@ -244,7 +250,7 @@
     {
         cell = (EVPendingExchangeCell *)[self.tableView dequeueReusableCellWithIdentifier:@"pendingCell"
                                                                              forIndexPath:indexPath];
-        EVExchange *exchange = (EVExchange *)[[self pendingExchanges] objectAtIndex:indexPath.row];
+        EVExchange *exchange = (EVExchange *)[self.pendingExchanges objectAtIndex:indexPath.row];
         [cell.avatarView setImage:[exchange avatar]];
         [cell configureForInteraction:exchange];
     }
@@ -343,7 +349,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == EVWalletSectionPending) {
-        EVObject *interaction = (EVObject *)[[self pendingExchanges] objectAtIndex:indexPath.row];
+        EVObject *interaction = (EVObject *)[self.pendingExchanges objectAtIndex:indexPath.row];
         UIViewController *controller = nil;
         if ([interaction isKindOfClass:[EVExchange class]])
         {

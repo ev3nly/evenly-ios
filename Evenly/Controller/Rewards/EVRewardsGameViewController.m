@@ -15,6 +15,7 @@
 #import "EVRewardsFooterView.h"
 
 #import "EVHomeViewController.h"
+#import "EVFacebookManager.h"
 
 @interface EVRewardsGameViewController ()
 
@@ -96,7 +97,6 @@
 - (void)loadSliders {
     CGFloat height = 72;
     
-    NSArray *colors = @[ [EVColor blueColor], [EVColor lightColor], [EVColor lightGreenColor] ];
     NSArray *words = @[ @"Blue", @"Gray", @"Green" ];
     
     NSMutableArray *slidersArray = [NSMutableArray array];
@@ -104,8 +104,8 @@
         EVRewardsSlider *slider = [[EVRewardsSlider alloc] initWithFrame:CGRectMake(0,
                                                                                     CGRectGetMaxY(self.switchView.frame) + i*height,
                                                                                     self.view.frame.size.width,
-                                                                                    height)];
-        [slider setForegroundColor:[colors objectAtIndex:i]];
+                                                                                    height)
+                                   sliderColor:(EVRewardsSliderColor)i];
         [slider.label setText:[words objectAtIndex:i]];
         [slider addTarget:self action:@selector(optionSelected:) forControlEvents:UIControlEventValueChanged];
         [self.view addSubview:slider];
@@ -157,7 +157,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardRedeemedNotification
                                                             object:self
                                                           userInfo:@{ @"reward" : self.reward,
-                                                                       @"label" : self.chosenSlider.backgroundView.rewardAmountLabel }];
+                                                                       @"label" : self.chosenSlider.backgroundView.rewardCard.label }];
     }
 }
 
@@ -182,9 +182,32 @@
     [self.reward redeemWithSuccess:^(EVReward *reward) {
         self.reward = reward;
         [self updateInterface];
+        if (self.switchView.shareSwitch.on && ![self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
+            [self share];
+        }
     } failure:^(NSError *error) {
         DLog(@"Rewarding failed");
     }];
+}
+
+- (void (^)(void))shareBlock {
+    return ^{
+            NSMutableDictionary<FBGraphObject> *action = [FBGraphObject graphObject];
+            action[@"reward"] = [NSString stringWithFormat:@"https://paywithivy.com/facebook/reward?amount=%@", [EVStringUtility amountStringForAmount:self.reward.selectedAmount]];
+            [FBRequestConnection startForPostWithGraphPath:@"me/evenlyapp:win"
+                                               graphObject:action completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                                   DLog(@"Result: %@", result);
+                                                   DLog(@"Error? %@", error);
+                                               }];
+    };
+}
+
+- (void)share {
+    if ([EVFacebookManager isConnected]) {
+        [self shareBlock]();
+    } else {
+        [EVFacebookManager openSessionWithCompletion:[self shareBlock]];
+    }
 }
 
 #pragma mark - Managing Sliders

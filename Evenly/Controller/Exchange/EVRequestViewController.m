@@ -38,6 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
 }
 
 #pragma mark - Basic Interface
@@ -117,6 +118,7 @@
             
             EVStory *story = [EVStory storyFromPendingExchange:self.request];
             story.publishedAt = [NSDate date];
+            story.source = self.request;
             [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
             
             [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
@@ -128,6 +130,7 @@
             DLog(@"failed to create %@", NSStringFromClass([self.request class]));
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
             [[self rightButtonForPhase:self.phase] setEnabled:YES];
+            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self leftButtonForPhase:self.phase]];
         }];
     }
     else
@@ -144,10 +147,14 @@
                                      [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
                                      [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
                                      
+                                     /*  
+                                      // No stories (yet) for group requests
+                                      
                                      EVStory *story = [EVStory storyFromGroupRequest:self.groupRequest];
                                      story.publishedAt = [NSDate date];
+                                     story.source = createdRequest;
                                      [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
-                                     
+                                     */
                                      [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                                          __block UIViewController *presenter = self.presentingViewController;
                                          [self.presentingViewController dismissViewControllerAnimated:YES
@@ -160,6 +167,8 @@
                                  } failure:^(NSError *error) {
                                      DLog(@"failed to create %@", NSStringFromClass([self.request class]));
                                      [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                                     [[self rightButtonForPhase:self.phase] setEnabled:YES];
+                                     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:[self leftButtonForPhase:self.phase]];
                                  }];
     }
 }
@@ -240,6 +249,16 @@
         if (self.isGroupRequest) {
             NSString *title = (self.initialView.recipientCount ? @"Next" : @"Skip");
             [button setTitle:title forState:UIControlStateNormal];
+        } else {
+            [button setTitle:@"Next" forState:UIControlStateNormal];
+        }
+    }];
+    
+    [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *countNumber) {
+        int count = [countNumber intValue];
+        UIButton *button = [self rightButtonForPhase:EVExchangePhaseWho];
+        if (count == 0 && self.isGroupRequest) {
+            [button setTitle:@"Skip" forState:UIControlStateNormal];
         } else {
             [button setTitle:@"Next" forState:UIControlStateNormal];
         }

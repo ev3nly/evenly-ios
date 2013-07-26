@@ -59,11 +59,21 @@
     if ([self.exchange isKindOfClass:[EVRequest class]]) {
         EVRequest *request = (EVRequest *)self.exchange;
         [request completeWithSuccess:^{
+            [[EVCIA me] setBalance:[[[EVCIA me] balance] decimalNumberBySubtracting:self.exchange.amount]];
+            [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
+            
+            EVStory *story = [EVStory storyFromCompletedExchange:self.exchange];
+            story.publishedAt = [NSDate date];
+            [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification
+                                                                object:nil
+                                                              userInfo:@{ @"story" : story }];
+            
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                    [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
+                        
                     }];
                 }];
             };
@@ -84,7 +94,7 @@
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                    [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
                     }];
                 }];
             };
@@ -105,7 +115,7 @@
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                    [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
                     }];
                 }];
             };
@@ -117,7 +127,7 @@
 }
 
 - (void)cancelRequest {
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CANCELING PAYMENT..."];
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CANCELING REQUEST..."];
     
     if ([self.exchange isKindOfClass:[EVRequest class]]) {
         EVRequest *request = (EVRequest *)self.exchange;
@@ -126,7 +136,7 @@
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:^{
+                    [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
                     }];
                 }];
             };

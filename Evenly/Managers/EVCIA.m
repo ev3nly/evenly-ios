@@ -8,14 +8,17 @@
 
 #import "EVCIA.h"
 #import "EVObject.h"
-#import "EVActivity.h"
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
 #import "EVConnection.h"
+#import "EVExchange.h"
 #import <Mixpanel/Mixpanel.h>
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
 NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKey";
+
+NSString *const EVPendingReceivedExchangesKey = @"pending_received";
+NSString *const EVPendingSentExchangesKey = @"pending_sent";
 
 static EVCIA *_sharedInstance;
 
@@ -49,6 +52,10 @@ static EVCIA *_sharedInstance;
                                                      name:EVSessionSignedInNotification
                                                    object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(didSignOut:)
+                                                     name:EVSessionSignedOutNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didReceiveMemoryWarning:)
                                                      name:UIApplicationDidReceiveMemoryWarningNotification
                                                    object:nil];
@@ -65,72 +72,110 @@ static EVCIA *_sharedInstance;
 }
 
 - (void)didSignIn:(NSNotification *)notification {
-    [self reloadAllExchangesWithCompletion:NULL];
+    [self reloadPendingExchangesWithCompletion:NULL];
+    [self reloadHistoryWithCompletion:NULL];
     [self reloadCreditCardsWithCompletion:NULL];
     [self reloadBankAccountsWithCompletion:NULL];
+}
+
+- (void)didSignOut:(NSNotification *)notification {
+    [self.internalCache removeAllObjects];
 }
 
 #pragma mark - Image Loading
 
 - (void)loadImageFromURL:(NSURL *)url success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure {
-    if ([self imageForURL:url]) {
-        if (success)
-            success([self imageForURL:url]);
-        return;
-    }
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    AFImageRequestOperation *imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
-                                                                                          imageProcessingBlock:NULL
-                                                                                                       success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
-                                                                                                           [[EVCIA sharedInstance] setImage:image forURL:url];
-                                                                                                           if (success)
-                                                                                                               success(image);
-                                                                                                       } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-                                                                                                           if (failure)
-                                                                                                               failure(error);
-                                                                                                       }];
-    [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
+    [self loadImageFromURL:url size:CGSizeZero success:success failure:failure];
+}
+
+- (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure {
+    EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+        UIImage *cachedImage = [self imageForURL:url size:size];
+        if (cachedImage) {
+            if (success) {
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    success(cachedImage);
+                });
+            }
+            return;
+        }
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        AFImageRequestOperation *imageRequestOperation;
+        imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
+                                                                     imageProcessingBlock:NULL
+                                                                                  success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+                                                                                      EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+                                                                                          CGSize constrainedSize = [EVImageUtility sizeForImage:image
+                                                                                                                          withInnerBoundingSize:size];
+                                                                                          UIImage *resizedImage = [EVImageUtility resizeImage:image
+                                                                                                                                       toSize:constrainedSize];
+                                                                                          [[EVCIA sharedInstance] setImage:resizedImage
+                                                                                                                    forURL:url
+                                                                                                                  withSize:size];
+                                                                                          if (success) {
+                                                                                              EV_PERFORM_ON_MAIN_QUEUE(^{
+                                                                                                  success(resizedImage);
+                                                                                              });
+                                                                                          }
+                                                                                      });
+                                                                                  } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
+                                                                                      if (failure)
+                                                                                          failure(error);
+                                                                                  }];
+        [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
+    });
 }
 
 - (UIImage *)imageForURL:(NSURL *)url {
+    return [self imageForURL:url size:CGSizeZero];
+}
+
+- (UIImage *)imageForURL:(NSURL *)url size:(CGSize)size {
     UIImage *image = nil;
+    NSString *cachePath = [EVStringUtility cachePathFromURL:url size:size];
     // Check memory cache
-    if ((image = [self.imageCache objectForKey:url]))
+    if ((image = [self.imageCache objectForKey:cachePath]))
         return image;
     else // Check disk cache
     {
         NSError *error = nil;
-        NSData *data = [NSData dataWithContentsOfFile:[EVStringUtility cachePathFromURL:url]
+        NSData *data = [NSData dataWithContentsOfFile:cachePath
                                               options:0
                                                 error:&error];
         if (data && !error)
         {
             image = [UIImage imageWithData:data];
-            [self.imageCache setObject:image forKey:url];
+            [self.imageCache setObject:image forKey:cachePath];
         }
     }
     return image;
 }
 
 - (void)setImage:(UIImage *)image forURL:(NSURL *)url {
-    if (!image) // remove image from memory and disk caches
-    {
-        [self.imageCache removeObjectForKey:url];
-        NSError *error;
-        [[NSFileManager defaultManager] removeItemAtPath:[EVStringUtility cachePathFromURL:url]
-                                                   error:&error];
-        if (error)
-            DLog(@"Error: %@", error);
-        return;
-    }
-    else // store in memory and disk caches
-    {
-        [self.imageCache setObject:image forKey:url];
-        [UIImagePNGRepresentation(image) writeToFile:[EVStringUtility cachePathFromURL:url]
-                                          atomically:YES];
-    }
+    [self setImage:image forURL:url withSize:CGSizeZero]; //CGSizeZero signifies full size image
 }
 
+- (void)setImage:(UIImage *)image forURL:(NSURL *)url withSize:(CGSize)size {
+    EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+        NSString *cachePath = [EVStringUtility cachePathFromURL:url size:size];
+        if (!image) // remove image from memory and disk caches
+        {
+            [self.imageCache removeObjectForKey:cachePath];
+            NSError *error;
+            [[NSFileManager defaultManager] removeItemAtPath:cachePath
+                                                       error:&error];
+            if (error)
+                DLog(@"Error: %@", error);
+            return;
+        }
+        else // store in memory and disk caches
+        {
+            [self.imageCache setObject:image forKey:cachePath];
+            [UIImagePNGRepresentation(image) writeToFile:cachePath
+                                                     atomically:YES];
+        }
+    });
+}
 
 #pragma mark - Me
 
@@ -146,7 +191,8 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         
         EVUser *me = [[self sharedInstance] me];
         DLog(@"Got me: %@", [[self sharedInstance] me]);
-        [[self sharedInstance] reloadAllExchangesWithCompletion:NULL];
+        [[self sharedInstance] reloadPendingExchangesWithCompletion:NULL];
+        [[self sharedInstance] reloadHistoryWithCompletion:NULL];
         
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         
@@ -170,7 +216,8 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
 
 - (void)cacheNewSession {
     //retrieve user from session call, cache user
-    EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
+    NSDictionary *originalDictionary = [EVSession sharedSession].originalDictionary[@"user"];
+    EVUser *me = [[EVUser alloc] initWithDictionary:originalDictionary];
     [EVUser setMe:me];
     [self setMe:me];
     
@@ -209,7 +256,9 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
 + (NSArray *)myConnections {
     NSMutableArray *array = [NSMutableArray array];
     [[[self me] connections] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [array addObject:[(EVConnection *)obj user]];
+        id user = [(EVConnection *)obj user];
+        if (user)
+            [array addObject:user];
     }];
     return array;
 }
@@ -260,35 +309,6 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
 
 NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotification";
 
-- (void)reloadAllExchangesWithCompletion:(void (^)(void))completion {
-    [self reloadAllExchangesWithCompletion:completion actOnCache:YES];
-}
-
-- (void)reloadAllExchangesWithCompletion:(void (^)(void))completion actOnCache:(BOOL)actOnCache {
-    [EVActivity allWithSuccess:^(id result) {
-        
-        BOOL updated = NO;
-        for (id key in [result allKeys]) {
-            NSArray *oldResult = [self.internalCache objectForKey:key];
-            if (!oldResult || ![oldResult isEqualToArray:[result objectForKey:key]])
-            {
-                updated = YES;
-                [self.internalCache setObject:[result objectForKey:key] forKey:key];
-            }
-        }
-        if (completion)
-            completion();
-        if (updated)
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
-                                                                object:self
-                                                              userInfo:nil];
-    } failure:^(NSError *error) {
-        DLog(@"Failed to reload: %@", error);
-    }];
-    if (actOnCache && completion)
-        completion();
-}
-
 - (NSArray *)pendingExchanges {
     NSArray *received = [[self pendingReceivedExchanges] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         return [[obj2 createdAt] compare:[obj1 createdAt]];
@@ -300,24 +320,60 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
 }
 
 - (NSArray *)pendingReceivedExchanges {
-    return [self.internalCache objectForKey:@"pending_received"];
+    return [self.internalCache objectForKey:EVPendingReceivedExchangesKey];
+}
+
+- (void)reloadPendingExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
+    [EVUser pendingWithSuccess:^(NSArray *pending) {
+        EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+            BOOL updated = NO;
+            NSArray *incoming = [pending filter:^BOOL(id object) {
+                return [object isIncoming];
+            }];
+            NSArray *outgoing = [pending filter:^BOOL(id object) {
+                return ![object isIncoming];
+            }];
+            
+            NSArray *oldIncoming = [self.internalCache objectForKey:EVPendingSentExchangesKey];
+            if (!oldIncoming || ![oldIncoming isEqualToArray:incoming]) {
+                updated = YES;
+                [self.internalCache setObject:incoming forKey:EVPendingSentExchangesKey];
+            }
+            
+            NSArray *oldOutgoing = [self.internalCache objectForKey:EVPendingReceivedExchangesKey];
+            if (!oldOutgoing || ![oldOutgoing isEqualToArray:outgoing]) {
+                updated = YES;
+                [self.internalCache setObject:outgoing forKey:EVPendingReceivedExchangesKey];
+            }
+            EV_PERFORM_ON_MAIN_QUEUE(^{
+                if (completion)
+                    completion(pending);
+                if (updated)
+                    [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
+                                                                        object:self
+                                                                      userInfo:nil];
+            });
+        });
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 - (void)reloadPendingReceivedExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
-    [self reloadAllExchangesWithCompletion:^{
+    [self reloadPendingExchangesWithCompletion:^(NSArray *exchanges){
         if (completion)
-            completion([self.internalCache objectForKey:@"pending_received"]);
+            completion([self pendingReceivedExchanges]);
     }];
 }
 
 - (NSArray *)pendingSentExchanges {
-    return [self.internalCache objectForKey:@"pending_sent"];
+    return [self.internalCache objectForKey:EVPendingSentExchangesKey];
 }
 
 - (void)reloadPendingSentExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
-    [self reloadAllExchangesWithCompletion:^{
+    [self reloadPendingExchangesWithCompletion:^(NSArray *exchanges){
         if (completion)
-            completion([self.internalCache objectForKey:@"pending_sent"]);
+            completion([self pendingSentExchanges]);
     }];
 }
 
@@ -334,17 +390,6 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
     } failure:^(NSError *error) {
         DLog(@"Error reloading history: %@", error);
     }];
-//    [self reloadAllExchangesWithCompletion:^{
-//        if (completion)
-//            completion([self.internalCache objectForKey:@"recent"]);
-//    }];
-}
-
-- (void)refreshHistoryWithCompletion:(void (^)(NSArray *history))completion {
-    [self reloadAllExchangesWithCompletion:^{
-        if (completion)
-            completion([self.internalCache objectForKey:@"recent"]);
-    } actOnCache:NO];
 }
 
 #pragma mark - Credit Cards
@@ -362,18 +407,26 @@ NSString *const EVCIAUpdatedCreditCardsNotification = @"EVCIAUpdatedCreditCardsN
 - (void)reloadCreditCardsWithCompletion:(void (^)(NSArray *creditCards))completion {
     self.loadingCreditCards = YES;
     [EVCreditCard allWithSuccess:^(id result){
-        self.loadingCreditCards = NO;
-        NSArray *cards = [result sortedArrayUsingSelector:@selector(compareByBrandAndLastFour:)];
-        NSArray *oldCards = [self creditCards];
-        if (![cards isEqualToArray:oldCards])
-        {
-            [self.internalCache setObject:cards forKey:@"credit_cards"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
-                                                                object:self
-                                                              userInfo:@{ @"cards" : cards }];
-        }
-        if (completion)
-            completion(cards);
+        EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+            self.loadingCreditCards = NO;
+            NSArray *cards = [result sortedArrayUsingSelector:@selector(compareByBrandAndLastFour:)];
+            NSArray *oldCards = [self creditCards];
+            if (cards && ![cards isEqualToArray:oldCards])
+            {
+                [self.internalCache setObject:cards forKey:@"credit_cards"];
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
+                                                                        object:self
+                                                                      userInfo:@{ @"cards" : cards }];
+                });
+
+            }
+            if (completion) {
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    completion(cards);
+                });
+            }
+        });
     } failure:^(NSError *error){
         self.loadingCreditCards = NO;
     }];
@@ -399,9 +452,12 @@ NSString *const EVCIAUpdatedBankAccountsNotification = @"EVCIAUpdatedBankAccount
         if (![oldAccounts isEqualToArray:result])
         {
             [self.internalCache setObject:result forKey:@"bank_accounts"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedBankAccountsNotification
-                                                                object:self
-                                                              userInfo:@{ @"accounts" : result }];
+            EV_PERFORM_ON_MAIN_QUEUE(^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedBankAccountsNotification
+                                                                    object:self
+                                                                  userInfo:@{ @"accounts" : result }];
+            });
+
         }
         if (completion)
             completion(result);
@@ -416,30 +472,37 @@ NSString *const EVCIAUpdatedBankAccountsNotification = @"EVCIAUpdatedBankAccount
                 withSuccess:(void(^)(void))success
                     failure:(void(^)(NSError *))failure {
     [fundingSource destroyWithSuccess:^{
-        
-        NSMutableArray *fundingSources;
-        if ([fundingSource isKindOfClass:[EVBankAccount class]]) {
-            fundingSources = [NSMutableArray arrayWithArray:[self bankAccounts]];
-            [fundingSources removeObject:fundingSource];
-            [self.internalCache setObject:fundingSources forKey:@"bank_accounts"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedBankAccountsNotification
-                                                                object:self
-                                                              userInfo:@{ @"accounts" : fundingSources }];
-            
-        } else if ([fundingSource isKindOfClass:[EVCreditCard class]]) {
-            fundingSources = [NSMutableArray arrayWithArray:[self creditCards]];
-            [fundingSources removeObject:fundingSource];
-            [self.internalCache setObject:fundingSources forKey:@"credit_cards"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
-                                                                object:self
-                                                              userInfo:@{ @"cards" : fundingSources }];
-        }
-        
-        if (success)
-            success();
+        EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+            NSMutableArray *fundingSources;
+            if ([fundingSource isKindOfClass:[EVBankAccount class]]) {
+                fundingSources = [NSMutableArray arrayWithArray:[self bankAccounts]];
+                [fundingSources removeObject:fundingSource];
+                [self.internalCache setObject:fundingSources forKey:@"bank_accounts"];
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedBankAccountsNotification
+                                                                        object:self
+                                                                      userInfo:@{ @"accounts" : fundingSources }];
+                });
+            } else if ([fundingSource isKindOfClass:[EVCreditCard class]]) {
+                fundingSources = [NSMutableArray arrayWithArray:[self creditCards]];
+                [fundingSources removeObject:fundingSource];
+                [self.internalCache setObject:fundingSources forKey:@"credit_cards"];
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
+                                                                        object:self
+                                                                      userInfo:@{ @"cards" : fundingSources }];
+                });
+            }
+            EV_PERFORM_ON_MAIN_QUEUE(^{
+                if (success)
+                    success();
+            });
+        });
     } failure:^(NSError *error) {
-        if (failure)
-            failure(error);
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (failure)
+                failure(error);
+        });
     }];
 }
 

@@ -79,6 +79,7 @@ static EVSession *_sharedSession = nil;
     
     [EVUser setMe:nil];
     [EVSession setSharedSession:nil];
+
     if (success)
         success();
     

@@ -28,6 +28,10 @@
     return self;
 }
 
+- (void)dealloc {
+    [self.navigationController.view removeGestureRecognizers];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

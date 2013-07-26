@@ -41,6 +41,7 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
     if (self) {
         self.autoresizesSubviews = YES;
         self.cornerRadius = 4.0;
+        self.clipsToBounds = YES;
         
         self.overlay = [[UIImageView alloc] initWithFrame:self.bounds];
         self.overlay.autoresizingMask = EV_AUTORESIZE_TO_FIT;
@@ -59,6 +60,8 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
         [self addSubview:self.border];
         
         self.size = frame.size;
+        
+        
     }
     return self;
 }
@@ -71,16 +74,8 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
 
 - (void)configureMasks {
     CGSize avatarSize = self.size;
-    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-    shapeLayer.path = [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, avatarSize.width, avatarSize.height) cornerRadius:self.cornerRadius] CGPath];
-    [shapeLayer setFillColor:[[UIColor blackColor] CGColor]];
-    self.imageView.layer.mask = shapeLayer;
-    
-    CAShapeLayer *overlayLayer = [CAShapeLayer layer];
-    overlayLayer.path = [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, avatarSize.width, avatarSize.height) cornerRadius:self.cornerRadius] CGPath];
-    [overlayLayer setFillColor:[[UIColor blackColor] CGColor]];
-    self.overlay.layer.mask = overlayLayer;
-    
+    self.layer.cornerRadius = self.cornerRadius;
+
     CAShapeLayer *borderLayer = (CAShapeLayer *)[self.border layer];
     [borderLayer setPath:[[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, avatarSize.width, avatarSize.height) cornerRadius:self.cornerRadius - 1.0] CGPath]];
     [borderLayer setLineWidth:1.0];
@@ -93,6 +88,7 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
                       forKeyPath:@"avatar"
                          context:&EVAvatarViewContext];
     _avatarOwner = avatarOwner;
+//    self.imageURL = _avatarOwner.avatarURL;
     self.imageView.image = _avatarOwner.avatar;
     [_avatarOwner addObserver:self
                    forKeyPath:@"avatar"
@@ -111,21 +107,11 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
 - (void)setImageURL:(NSURL *)imageURL {
     _imageURL = imageURL;
     
-    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    indicator.autoresizingMask = EV_AUTORESIZE_TO_CENTER;
-    indicator.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
-    [self addSubview:indicator];
-    [indicator startAnimating];
-    
     [[EVCIA sharedInstance] loadImageFromURL:imageURL
+                                        size:self.size
                                      success:^(UIImage *image) {
-                                         [indicator stopAnimating];
-                                         [indicator removeFromSuperview];
                                          self.imageView.image = image;
-                                     } failure:^(NSError *error) {
-                                         [indicator stopAnimating];
-                                         [indicator removeFromSuperview];
-                                     }];
+                                     } failure:nil];
 }
 
 - (void)setImage:(UIImage *)image {
@@ -154,6 +140,21 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
 - (void)setHighlighted:(BOOL)highlighted {
     _highlighted = highlighted;
     [self.border setHidden:!highlighted];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    [self setHighlighted:YES];
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+    [self setHighlighted:NO];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    [super touchesCancelled:touches withEvent:event];
+    [self setHighlighted:NO];
 }
 
 @end

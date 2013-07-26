@@ -8,6 +8,8 @@
 
 #import "EVObject.h"
 
+#define EV_USER_DEFAULT_AVATAR_HEIGHT 80
+
 /*
  
  EVAvatarOwning - protocol that defines needed properties for avatar data
@@ -58,15 +60,21 @@
 + (void)setMe:(EVUser *)user;
 + (void)meWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure reload:(BOOL)reload;
 + (void)saveMeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
++ (void)updateMeWithFacebookToken:(NSString *)token
+                       facebookID:(NSString *)facebookID
+                          success:(void (^)(void))success
+                          failure:(void (^)(NSError *error))failure;
 
-+ (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure;
++ (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success
+                    failure:(void (^)(NSError *error))failure;
 + (void)newsfeedStartingAtPage:(int)pageNumber
                        success:(void (^)(NSArray *newsfeed))success
                        failure:(void (^)(NSError *error))failure;
 + (void)historyStartingAtPage:(int)pageNumber
                       success:(void (^)(NSArray *history))success
                       failure:(void (^)(NSError *error))failure;
-
++ (void)pendingWithSuccess:(void (^)(NSArray *pending))success
+                   failure:(void (^)(NSError *error))failure;
 
 + (void)loadUser:(EVUser *)user withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 

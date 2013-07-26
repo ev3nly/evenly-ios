@@ -31,7 +31,7 @@
             }];
             self.displayedFriendList = self.fullFriendList;
             [self.tableView reloadData];
-        }];
+        } failure:nil];
     }
     return self;
 }

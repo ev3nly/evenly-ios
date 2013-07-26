@@ -21,6 +21,8 @@
 + (UIImage *)navBarBackground;
 + (UIImage *)navBarBackButton;
 + (UIImage *)navBarCancelButton;
++ (UIImage *)navBarNotificationBackground;
++ (UIImage *)navBarNotificationBackgroundRed;
 
 #pragma mark - Button Backgrounds
 + (UIImage *)blueButtonBackground;
@@ -100,5 +102,10 @@
 + (UIImage *)settingsPasscodeIcon;
 + (UIImage *)settingsFacebookIcon;
 + (UIImage *)settingsLogoutIcon;
+
+#pragma mark - Rewards
++ (UIImage *)rewardsGreenCardImage;
++ (UIImage *)rewardsGrayCardImage;
++ (UIImage *)rewardsBlueCardImage;
 
 @end

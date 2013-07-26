@@ -41,6 +41,7 @@ static EVFacebookManager *_sharedManager;
        FBSessionState state, NSError *error) {
          switch (state) {
              case FBSessionStateOpen:
+                 [self sharedManager].tokenData = session.accessTokenData;
                  completion();
                  break;
              case FBSessionStateClosed:
@@ -50,13 +51,16 @@ static EVFacebookManager *_sharedManager;
              default:
                  break;
          }
-         [self sharedManager].tokenData = session.accessTokenData;
          if (error) {
              [[[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
              [self fbResync];
              [NSThread sleepForTimeInterval:0.5];
          }
      }];
+}
+
++ (void)closeAndClearSession {
+    [[FBSession activeSession] closeAndClearTokenInformation];
 }
 
 + (void)fbResync {
@@ -74,19 +78,19 @@ static EVFacebookManager *_sharedManager;
 
 #pragma mark - Specifics
 
-+ (void)loadMeWithCompletion:(void (^)(NSDictionary *userDict))completion {
++ (void)loadMeWithCompletion:(void (^)(NSDictionary *userDict))completion failure:(void (^)(NSError *error))failure {
     [self performRequest:^{
-        [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error) {
+        [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *fbError) {
             [self sharedManager].facebookID = user[@"id"];
-            if (!error)
+            if (!fbError)
                 completion(user);
             else
-                DLog(@"error: %@", error);
+                failure(fbError);
         }];
     }];
 }
 
-+ (void)loadFriendsWithCompletion:(void (^)(NSArray *friends))completion {
++ (void)loadFriendsWithCompletion:(void (^)(NSArray *friends))completion failure:(void (^)(NSError *error))failure {
     [self performRequest:^{
         [[FBRequest requestForMyFriends] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
             if (!error) {
@@ -94,7 +98,7 @@ static EVFacebookManager *_sharedManager;
                 completion(friends);
             }
             else
-                DLog(@"error: %@", error);
+                failure(error);
         }];
     }];
 }

@@ -78,6 +78,9 @@
     [self.paymentOptionCell.payPartialButton addTarget:self
                                                 action:@selector(payPartialButtonPress:)
                                       forControlEvents:UIControlEventTouchUpInside];
+    [self.paymentOptionCell.declineButton addTarget:self
+                                             action:@selector(declineButtonPress:)
+                                   forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)addTargetsToOptionButtons {
@@ -91,12 +94,17 @@
 - (void)payInFullButtonPress:(id)sender {
     self.navigationItem.leftBarButtonItem.enabled = NO;
     self.navigationItem.rightBarButtonItem.enabled = NO;
+    self.paymentOptionCell.payInFullButton.enabled = NO;
+    self.paymentOptionCell.payPartialButton.enabled = NO;
+    self.paymentOptionCell.declineButton.enabled = NO;
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"PAYING..."];
     [self.groupRequest makePaymentOfAmount:self.record.amountOwed
                                  forRecord:self.record
                                withSuccess:^(EVPayment *payment) {
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-                                   [[EVCIA sharedInstance] reloadAllExchangesWithCompletion:NULL];
+                                   [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
+
+                                   }];
                                    [[EVStatusBarManager sharedManager] setPostSuccess:^{
                                        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
                                    }];
@@ -104,6 +112,9 @@
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
                                    self.navigationItem.leftBarButtonItem.enabled = YES;
                                    self.navigationItem.rightBarButtonItem.enabled = YES;
+                                   self.paymentOptionCell.payInFullButton.enabled = YES;
+                                   self.paymentOptionCell.payPartialButton.enabled = YES;
+                                   self.paymentOptionCell.declineButton.enabled = YES;
                                }];
 }
 
@@ -111,6 +122,31 @@
     EVPartialPaymentViewController *viewController = [[EVPartialPaymentViewController alloc] initWithRecord:self.record];
     viewController.delegate = self;
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (void)declineButtonPress:(id)sender {
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    self.paymentOptionCell.payInFullButton.enabled = NO;
+    self.paymentOptionCell.payPartialButton.enabled = NO;
+    self.paymentOptionCell.declineButton.enabled = NO;
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"DECLINING..."];
+    [self.groupRequest deleteRecord:self.record
+                        withSuccess:^{
+                            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+                            [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
+                            }];
+                            [[EVStatusBarManager sharedManager] setPostSuccess:^{
+                                [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+                            }];
+                        } failure:^(NSError *error) {
+                            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                            self.navigationItem.leftBarButtonItem.enabled = YES;
+                            self.navigationItem.rightBarButtonItem.enabled = YES;
+                            self.paymentOptionCell.payInFullButton.enabled = YES;
+                            self.paymentOptionCell.payPartialButton.enabled = YES;
+                            self.paymentOptionCell.declineButton.enabled = YES;
+                        }];
 }
 
 - (void)paymentOptionButtonPress:(UIButton *)button {

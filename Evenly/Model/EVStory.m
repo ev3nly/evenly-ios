@@ -29,6 +29,19 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     return @"stories";
 }
 
++ (EVStory *)storyFromObject:(EVObject *)object {
+    if ([object isKindOfClass:[EVRequest class]]) {
+        return [self storyFromPendingExchange:(EVExchange *)object];
+    } else if ([object isKindOfClass:[EVPayment class]]) {
+        return [self storyFromCompletedExchange:(EVExchange *)object];
+    } else if ([object isKindOfClass:[EVWithdrawal class]]) {
+        return [self storyFromWithdrawal:(EVWithdrawal *)object];
+    } else if ([object isKindOfClass:[EVGroupRequest class]]) {
+        return [self storyFromGroupRequest:(EVGroupRequest *)object];
+    }
+    return nil;
+}
+
 + (EVStory *)storyFromPendingExchange:(EVExchange *)exchange {
     NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
     
@@ -67,6 +80,8 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypeCompletedTransactionDetail;
     story.isPrivate = [exchange.visibility isEqualToString:[EVStringUtility stringForPrivacySetting:EVPrivacySettingPrivate]];
+    story.source = exchange;
+    story.createdAt = [NSDate date];
     return story;
 }
 
@@ -109,7 +124,7 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     return nil;
 }
 
-- (void)setProperties:(NSDictionary *)properties {
+- (void)setProperties:(NSDictionary *)properties {    
     [super setProperties:properties];
 
     // Easy things first
@@ -174,6 +189,12 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
         self.fakeLikeCount = [properties[@"likes_count"] intValue];
     else
         self.fakeLikeCount = -1;
+    
+    // Source Object
+    if (properties[@"source_type"] && properties[@"source_id"]) {
+        self.source = @{ @"type" : properties[@"source_type"],
+                         @"id" : properties[@"source_id"] };
+    }
     
     self.sourceType = EVStorySourceTypeNormal;
     if (properties[@"source_type"]) {

@@ -10,6 +10,7 @@
 #import "EVInviteContactCell.h"
 #import "ABContactsHelper.h"
 #import <AddressBook/AddressBook.h>
+#import "EVInvite.h"
 
 @interface EVInviteContactsViewController ()
 
@@ -19,16 +20,11 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        self.fullFriendList = [[ABContactsHelper contactsMinusDuplicates] sortedArrayUsingComparator:^NSComparisonResult(ABContact *obj1, ABContact *obj2) {
+        self.fullFriendList = [[ABContactsHelper contactsWithEmail] sortedArrayUsingComparator:^NSComparisonResult(ABContact *obj1, ABContact *obj2) {
             NSComparisonResult result = [obj1.firstname.lowercaseString compare:obj2.firstname.lowercaseString];
             if (result == NSOrderedSame)
                 result = [obj1.lastname.lowercaseString compare:obj2.lastname.lowercaseString];
             return result;
-        }];
-        self.fullFriendList = [self.fullFriendList filter:^BOOL(ABContact *contact) {
-            if (EV_IS_EMPTY_STRING(contact.firstname) && EV_IS_EMPTY_STRING(contact.lastname))
-                return NO;
-            return ([contact.phoneArray count] > 0);
         }];
         self.displayedFriendList = self.fullFriendList;
     }
@@ -43,11 +39,27 @@
 
 #pragma mark - Invite
 
-- (void)inviteFriends {
-    NSLog(@"TELL SERVER TO INVITE PHONE NUMBAS WHEN THE CALL EXISTS");
-}
 
+- (void)inviteFriends {
+    [self.view findAndResignFirstResponder];
+    
+    NSMutableArray *emails = [NSMutableArray array];
+    for (ABContact *contact in self.selectedFriends) {
+        [emails addObject:[[contact emailArray] objectAtIndex:0]];
+    }
+    
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING INVITES..."];
+    [EVInvite createWithEmails:emails
+                       success:^(EVObject *object) {
+                           [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+                           self.selectedFriends = [NSArray array];
+                           [self.tableView reloadData];
+                       } failure:^(NSError *error) {
+                           [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                       }];
+}
 #pragma mark - TableView DataSource/Delegate
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVInviteContactCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"contactInviteCell"];
@@ -56,7 +68,8 @@
     ABContact *contact = [self.displayedFriendList objectAtIndex:indexPath.row];    
 
     [cell setName:[EVStringUtility displayNameForContact:contact]
-   profilePicture:[EVImageUtility imageForContact:contact]];
+        profilePicture:[EVImageUtility imageForContact:contact]];
+    [cell.emailLabel setText:[[contact emailArray] objectAtIndex:0]];
     cell.identifier = contact;
     cell.handleSelection = ^(ABContact *friend) {
         if (![self.selectedFriends containsObject:friend])

@@ -121,6 +121,30 @@
                       completion:completion];
 }
 
+- (void)bounceAnimationToFrame:(CGRect)targetFrame duration:(float)duration delay:(float)delay completion:(void (^)(void))completion {
+    [self bounceAnimationToFrame:targetFrame
+                 initialDuration:duration
+                           delay:delay
+                 durationDamping:BOUNCE_OVERSHOOT_DURATION_PERCENT
+                 distanceDamping:BOUNCE_OVERSHOOT_DISTANCE_PERCENT
+                      completion:completion];
+}
+
+- (void)bounceAnimationToFrame:(CGRect)targetFrame
+               initialDuration:(float)duration
+                         delay:(float)delay
+               durationDamping:(float)durationDamping
+               distanceDamping:(float)distanceDamping
+                    completion:(void (^)(void))completion {
+    EV_DISPATCH_AFTER(delay, ^{
+        [self bounceAnimationToFrame:targetFrame
+                     initialDuration:duration
+                     durationDamping:durationDamping
+                     distanceDamping:distanceDamping
+                          completion:completion];
+    });
+}
+
 - (void)bounceAnimationToFrame:(CGRect)targetFrame
                initialDuration:(float)duration
                durationDamping:(float)durationDamping
@@ -157,7 +181,9 @@
                          self.frame = overshootFrame;
                      } completion:^(BOOL finished) {
                          [self bounceAnimationToFrame:targetFrame
-                                             duration:(duration * durationDamping)
+                                      initialDuration:(duration * durationDamping)
+                                      durationDamping:durationDamping
+                                      distanceDamping:distanceDamping
                                            completion:^{
                                                if (completion)
                                                    completion();

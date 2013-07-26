@@ -129,11 +129,12 @@
     
     [RACAble(self.user.avatar) subscribeNext:^(UIImage *image) {
         self.photo = image;
+        self.photoNameEmailCell.photo = self.photo;
     }];
     
     NSArray *textFieldArray = @[self.photoNameEmailCell.nameField.rac_textSignal,
-                                self.phoneNumberCell.textField.rac_textSignal,
                                 self.photoNameEmailCell.emailField.rac_textSignal,
+                                self.phoneNumberCell.textField.rac_textSignal,
                                 self.passwordCell.textField.rac_textSignal,
                                 RACAble(self.tosAgreementButton.checked)];
     
@@ -146,9 +147,7 @@
                                                            isValid = NO;
                                                        else if (EV_IS_EMPTY_STRING(phoneNumber))
                                                            isValid = NO;
-                                                       else if (EV_IS_EMPTY_STRING(password) || password.length < 8)
-                                                           isValid = NO;
-                                                       else if (![agreementBool boolValue])
+                                                       else if (EV_IS_EMPTY_STRING(password))
                                                            isValid = NO;
                                                        return @(isValid);
                                                    }];
@@ -165,11 +164,11 @@
 #pragma mark - TOS/Privacy Policy
 
 - (NSURL *)tosUrl {
-    return [NSURL URLWithString:@"http://ev3nly.github.io/#/terms"];
+    return [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Terms and Conditions.html")];
 }
 
 - (NSURL *)privacyPolicyUrl {
-    return [NSURL URLWithString:@"http://ev3nly.github.io/#/privacy"];
+    return [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Privacy Policy.html")];
 }
 
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {    
@@ -188,17 +187,23 @@
 }
 
 - (void)saveButtonTapped {
+    if (self.passwordCell.textField.text.length < 8 || !self.tosAgreementButton.checked) {
+        [self informUserFormNotFinished];
+        return;
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{ @"name" : self.photoNameEmailCell.nameField.text,
                                    @"email" : self.photoNameEmailCell.emailField.text,
                                    @"phone_number" : self.phoneNumberCell.textField.text,
                                    @"password" : self.passwordCell.textField.text,
                                    @"password_confirmation" : self.passwordCell.textField.text,
                                    @"facebook_id" : [EVFacebookManager sharedManager].facebookID,
-                                   @"facebook_token" : [NSString stringWithFormat:@"%@", [EVFacebookManager sharedManager].tokenData]}];
+                                   @"facebook_token" : [EVFacebookManager sharedManager].tokenData.accessToken }];
     if (self.photo)
         [params setObject:self.photo forKey:@"avatar"];
     
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CREATING ACCOUNT..."];
+    self.saveButton.enabled = NO;
     
     [EVUser createWithParams:params success:^(EVObject *object) {
         [EVSession createWithEmail:params[@"email"] password:params[@"password"] success:^{
@@ -224,6 +229,13 @@
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
         DLog(@"Error creating user: %@", error);
     }];
+}
+
+- (void)informUserFormNotFinished {
+    NSString *message = @"You must agree to the Terms of Service and Privacy Policy.";
+    if (self.passwordCell.textField.text.length < 8)
+        message = @"Your password must be at least 8 characters.";
+    [[UIAlertView alertViewWithTitle:@"Whoops!" message:message cancelButtonTitle:@"OK"] show];
 }
 
 #pragma mark - Image Picker

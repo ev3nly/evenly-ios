@@ -227,11 +227,11 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSString *)requestDescriptionPlaceholder {
-    return @"Lunch, dinner, taxi, or anything else";
+    return @"What'd you share?\n(e.g. gas, rent or anything else)";
 }
 
 + (NSString *)groupRequestTitlePlaceholder {
-    return @"BBQ, Sunday Dinner, or anything else";
+    return @"What'd you share?";
 }
 
 + (NSString *)groupRequestDescriptionPlaceholder {
@@ -291,7 +291,7 @@ static NSDateFormatter *_detailDateFormatter;
 #pragma mark - Contact Methods
 
 + (NSString *)supportEmail {
-    return @"support@paywithivy.com";
+    return @"support@evenly.com";
 }
 
 + (NSString *)supportEmailSubjectLine {
@@ -299,11 +299,11 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSString *)feedbackEmail {
-    return @"feedback@paywithivy.com";
+    return @"feedback@evenly.com";
 }
 
 + (NSString *)generalEmail {
-    return @"info@paywithivy.com";
+    return @"info@evenly.com";
 }
 
 + (NSString *)supportTwitterHandle {
@@ -324,9 +324,13 @@ static NSDateFormatter *_detailDateFormatter;
 #pragma mark - File Naming
 
 + (NSString *)cachePathFromURL:(NSURL *)url {
+    return [self cachePathFromURL:url size:CGSizeZero];
+}
+
++ (NSString *)cachePathFromURL:(NSURL *)url size:(CGSize)size {
     NSString *hashedURL = EV_STRING_FROM_INT([url hash]);
     NSString *cachePath = EV_CACHE_PATH(hashedURL);
-    return cachePath;
+    return [NSString stringWithFormat:@"%@-%f-%f", cachePath, size.width, size.height];
 }
 
 #pragma mark - Amounts

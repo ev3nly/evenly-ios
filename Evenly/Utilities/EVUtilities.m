@@ -7,6 +7,7 @@
 //
 
 #import "EVFundingSource.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @implementation EVUtilities
 
@@ -24,6 +25,10 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
+}
+
++ (void)buzz {
+    AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
 }
 
 + (EVAppDelegate *)appDelegate {
@@ -48,6 +53,10 @@
     else
         dbid = [dictionary valueForKey:@"id"];
     return dbid;
+}
+
++ (BOOL)deviceHasTallScreen {
+    return ([UIApplication sharedApplication].keyWindow.bounds.size.height > 480.0);
 }
 
 @end

@@ -8,11 +8,14 @@
 
 #import "EVHistoryViewController.h"
 #import "EVHistoryCell.h"
-#import "EVActivity.h"
 #import "EVExchange.h"
 #import "EVWithdrawal.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "EVLoadingIndicator.h"
+#import "EVStory.h"
+
+#import "EVHistoryPaymentViewController.h"
+#import "EVHistoryDepositViewController.h"
 
 #define CELL_HEIGHT 60
 
@@ -43,6 +46,7 @@ static NSDateFormatter *_dateFormatter = nil;
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.title = @"History";
         self.pageNumber = 1;
+        self.exchanges = [[EVCIA sharedInstance] history];
     }
     return self;
 }
@@ -52,16 +56,12 @@ static NSDateFormatter *_dateFormatter = nil;
     [super viewDidLoad];
     
     [self loadTableView];
+    [self reloadHistory];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    self.exchanges = [[EVCIA sharedInstance] history];
+- (void)reloadHistory {
     if ([self.exchanges count] == 0)
         self.tableView.loading = YES;
-
     [[EVCIA sharedInstance] reloadHistoryWithCompletion:^(NSArray *history) {
         self.tableView.loading = NO;
         self.exchanges = history;
@@ -166,6 +166,15 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    EVObject *historyItem = (EVObject *)[self.exchanges objectAtIndex:indexPath.row];
+    UIViewController *controller = nil;
+    if ([historyItem isKindOfClass:[EVPayment class]]) {
+        controller = [[EVHistoryPaymentViewController alloc] initWithPayment:(EVPayment *)historyItem];
+    } else {
+        controller = [[EVHistoryDepositViewController alloc] initWithWithdrawal:(EVWithdrawal *)historyItem];
+    }
+    [self.navigationController pushViewController:controller animated:YES];
     
     //load transaction detail controller
 }

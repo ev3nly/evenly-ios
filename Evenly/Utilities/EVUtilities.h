@@ -37,11 +37,15 @@
 
 + (void)showAlertForError:(NSError *)error;
 + (void)registerForPushNotifications;
++ (void)buzz;
 
 + (EVAppDelegate *)appDelegate;
 
 + (EVFundingSource *)activeFundingSourceFromArray:(NSArray *)array;
 
 + (NSString *)dbidFromDictionary:(NSDictionary *)dictionary;
+
++ (BOOL)deviceHasTallScreen;
+
 
 @end

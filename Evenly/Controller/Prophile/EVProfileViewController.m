@@ -7,7 +7,7 @@
 //
 
 #import "EVProfileViewController.h"
-#import "EVTransactionDetailViewController.h"
+#import "EVStoryDetailViewController.h"
 #import "EVEditProfileViewController.h"
 #import "EVProfileCell.h"
 #import "EVNoActivityCell.h"
@@ -22,6 +22,8 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 
 @interface EVProfileViewController ()
+
+@property (nonatomic, strong) EVProfileCell *profileCell;
 
 @end
 
@@ -43,6 +45,7 @@
     [super viewDidLoad];
     
     [self loadTableView];
+    [self loadProfileCell];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -91,6 +94,27 @@
             [profileController.tableView.pullToRefreshView stopAnimating];
         }];
     }];
+}
+
+- (void)loadProfileCell {
+    self.profileCell = [[EVProfileCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"profileCell"];
+    self.profileCell.user = self.user;
+    self.profileCell.parent = self;
+    self.profileCell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    EVContact *contact = [EVContact new];
+    contact.email = self.user.email;
+    contact.name = self.user.name;
+    
+    __weak EVProfileViewController *weakSelf = self;
+    if (![self.user.dbid isEqualToString:[EVCIA me].dbid]) {
+        self.profileCell.handleChargeUser = ^{
+            [weakSelf requestFromContact:weakSelf.user];
+        };
+        self.profileCell.handlePayUser = ^{
+            [weakSelf payContact:weakSelf.user];
+        };
+    }
 }
 
 #pragma mark - Gesture Handling
@@ -148,25 +172,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVGroupedTableViewCell *cell;
     if (indexPath.row == 0) {
-        EVProfileCell *profileCell = [tableView dequeueReusableCellWithIdentifier:@"profileCell" forIndexPath:indexPath];
-        profileCell.user = self.user;
-        profileCell.parent = self;
-        profileCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        EVContact *contact = [EVContact new];
-        contact.email = self.user.email;
-        contact.name = self.user.name;
-        
-        if (![self.user.dbid isEqualToString:[EVCIA me].dbid]) {
-            profileCell.handleChargeUser = ^{
-                [self requestFromContact:self.user];
-            };
-            profileCell.handlePayUser = ^{
-                [self payContact:self.user];
-            };
-        }
-        
-        cell = profileCell;
+        cell = self.profileCell;
     } else if (![self hasExchanges] && !self.tableView.isLoading) {
         EVNoActivityCell *noActivityCell = [tableView dequeueReusableCellWithIdentifier:@"noActivityCell"];
         noActivityCell.userIsSelf = [self.user.dbid isEqualToString:[EVCIA me].dbid];
@@ -186,7 +192,7 @@
     
     if (indexPath.row == 0 || ![self hasExchanges])
         return;
-    EVTransactionDetailViewController *detailController = [[EVTransactionDetailViewController alloc] initWithStory:[self.timeline objectAtIndex:indexPath.row-1]];
+    EVStoryDetailViewController *detailController = [[EVStoryDetailViewController alloc] initWithStory:[self.timeline objectAtIndex:indexPath.row-1]];
     [self.navigationController pushViewController:detailController animated:YES];
 }
 

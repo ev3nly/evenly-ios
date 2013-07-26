@@ -15,8 +15,6 @@
 #import "EVUser.h"
 #import "EVCIA.h"
 
-#import "EVActivity.h"
-
 #import "EVSerializer.h"
 
 static BOOL _handling418;
@@ -73,9 +71,9 @@ withOriginalSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObje
             break;
         default:
 			[[[UIAlertView alloc] initWithTitle:error.message message:error.errorMessages delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] show];
-            originalFailure(operation, error);
             break;
     }
+    originalFailure(operation, error);
 }
 
 + (void)handle401:(EVError *)e401

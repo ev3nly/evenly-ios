@@ -127,4 +127,12 @@
                         ((double)arc4random() / ARC4RANDOM_MAX));
 }
 
+#pragma mark - Rewards
+
++ (UIColor *)colorForRewardsSliderColor:(EVRewardsSliderColor)colorFlag {
+    NSArray *colors = @[ [EVColor blueColor], [EVColor lightColor], [EVColor lightGreenColor] ];
+    return [colors objectAtIndex:colorFlag];
+}
+
+
 @end

@@ -40,6 +40,24 @@
     return [UIImage imageNamed:@"close_noshadow"];
 }
 
++ (UIImage *)navBarNotificationBackground {
+    CGSize imageSize = [UIImage imageNamed:@"pending-number-container"].size;
+    return [[UIImage imageNamed:@"pending-number-container"] resizableImageWithCapInsets:UIEdgeInsetsMake(imageSize.height/2,
+                                                                                                          imageSize.width/2,
+                                                                                                          imageSize.height/2,
+                                                                                                          imageSize.width/2)];
+}
+
++ (UIImage *)navBarNotificationBackgroundRed {
+    CGSize imageSize = [UIImage imageNamed:@"pending-number-container-red"].size;
+    return [[EVImageUtility overlayImage:[UIImage imageNamed:@"pending-number-container-red"]
+                               withColor:[EVColor lightRedColor]
+                              identifier:@"redNotificationBackground"] resizableImageWithCapInsets:UIEdgeInsetsMake(imageSize.height/2,
+                                                                                                                    imageSize.width/2,
+                                                                                                                    imageSize.height/2,
+                                                                                                                    imageSize.width/2)];
+}
+
 #pragma mark - Buttons
 
 + (UIImage *)blueButtonBackground {
@@ -292,6 +310,22 @@
 + (UIImage *)settingsLogoutIcon {
     return [UIImage imageNamed:@"Settings_logout_arrow"];
 }
+
+#pragma mark - Rewards
+
++ (UIImage *)rewardsGreenCardImage {
+    return [UIImage imageNamed:@"green_card"];
+}
+
++ (UIImage *)rewardsGrayCardImage {
+    return [UIImage imageNamed:@"gray_card"];
+}
+
++ (UIImage *)rewardsBlueCardImage {
+    return [UIImage imageNamed:@"blue_card"];   
+}
+
+
 
 
 @end
