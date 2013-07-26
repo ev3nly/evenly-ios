@@ -469,11 +469,10 @@ NSString *const EVCIAUpdatedBankAccountsNotification = @"EVCIAUpdatedBankAccount
                                                                       userInfo:@{ @"cards" : fundingSources }];
                 });
             }
-        });
-
-        EV_PERFORM_ON_MAIN_QUEUE(^{
-            if (success)
-                success();
+            EV_PERFORM_ON_MAIN_QUEUE(^{
+                if (success)
+                    success();
+            });
         });
     } failure:^(NSError *error) {
         EV_PERFORM_ON_MAIN_QUEUE(^{
