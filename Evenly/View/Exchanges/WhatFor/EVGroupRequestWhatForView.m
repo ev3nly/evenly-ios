@@ -11,6 +11,7 @@
 #define LEFT_RIGHT_BUFFER 10
 #define LABEL_FIELD_BUFFER 6
 #define LINE_HEIGHT 40
+#define TITLE_FIELD_HEIGHT 20
 #define Y_BUFFER 10
 #define X_BUFFER 8
 
@@ -24,20 +25,11 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
-        [self loadNameLabel];
         [self loadNameField];
         [self loadDivider];
         [self loadDescriptionField];
     }
     return self;
-}
-- (void)loadNameLabel
-{
-    UILabel *nameLabel = [self configuredLabel];
-    nameLabel.text = TITLE_TEXT;
-    nameLabel.frame = [self nameLabelFrame];
-    self.nameLabel = nameLabel;
-    [self addSubview:nameLabel];
 }
 
 - (void)loadDivider
@@ -80,15 +72,6 @@
 
 #pragma mark - Convenience Constructors
 
-- (UILabel *)configuredLabel {
-    UILabel *label = [UILabel new];
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = EV_RGB_COLOR(40, 40, 40);
-    label.font = [EVFont darkExchangeFormFont];
-    return label;
-}
-
-
 - (EVTextField *)configuredTextField {
     EVTextField *textField = [EVTextField new];
     textField.backgroundColor = [UIColor clearColor];
@@ -100,30 +83,14 @@
 
 #pragma mark - Frame Defines
 
-- (CGRect)nameLabelFrame {
-    UILabel *label = [self configuredLabel];
-    CGSize labelSize = [TITLE_TEXT sizeWithFont:label.font
-                           constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT)
-                               lineBreakMode:label.lineBreakMode];
-    CGFloat y = (self.whatForHeader ?
-                 CGRectGetMaxY(self.whatForHeader.frame) + Y_BUFFER :
-                 LINE_HEIGHT/2 - labelSize.height/2);
-    return CGRectMake(LEFT_RIGHT_BUFFER,
-                      y,
-                      labelSize.width,
-                      labelSize.height);
-}
-
 - (CGRect)nameFieldFrame {
-    float xOrigin = CGRectGetMaxX([self nameLabelFrame]) + X_BUFFER;
-    CGSize labelSize = [self nameLabelFrame].size;
     CGFloat y = (self.whatForHeader ?
                  CGRectGetMaxY(self.whatForHeader.frame) + Y_BUFFER :
-                 LINE_HEIGHT/2 - labelSize.height/2);
-    return CGRectMake(xOrigin,
+                 LINE_HEIGHT/2 - TITLE_FIELD_HEIGHT/2);
+    return CGRectMake(X_BUFFER,
                       y,
-                      self.bounds.size.width - LEFT_RIGHT_BUFFER - xOrigin,
-                      labelSize.height);
+                      self.bounds.size.width - X_BUFFER*2,
+                      TITLE_FIELD_HEIGHT);
 }
 
 - (CGRect)dividerFrame {
@@ -151,7 +118,6 @@
 #pragma mark - Layout
 
 - (void)layoutSubviews {
-    self.nameLabel.frame = [self nameLabelFrame];
     self.nameField.frame = [self nameFieldFrame];
     self.divider.frame = [self dividerFrame];
     self.descriptionField.frame = [self descriptionFieldFrame];
