@@ -59,7 +59,6 @@
     if (![[EVCIA sharedInstance] session])
     {
         [self.masterViewController showOnboardingControllerWithCompletion:nil animated:NO];
-//        [self.masterViewController showLoginViewControllerWithCompletion:NULL];
     }
     else
     {
@@ -67,7 +66,9 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedInNotification object:nil];
     }
     
-    
+    if ([launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        [self handleRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]];
+    }
     return YES;
 }
 
@@ -168,16 +169,20 @@
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+    DLog(@"Did register for remote notifications");
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     [currentInstallation setObject:[[EVCIA me] dbid] forKey:@"user_id"];
-    if ([[currentInstallation channels] count] < 2)
-    {
-        [currentInstallation addUniqueObject:@"all" forKey:@"channels"];
-        [currentInstallation addUniqueObject:[NSString stringWithFormat:@"user_%@", [[EVCIA me] dbid]]
-                                      forKey:@"channels"];
-    }
+    [currentInstallation addUniqueObject:@"all" forKey:@"channels"];
+#ifdef DEBUG
+    [currentInstallation addUniqueObject:@"evenly" forKey:@"channels"];
+#endif
+    NSString *channelName = [NSString stringWithFormat:@"user_%@", [[EVCIA me] dbid]];
+    if ([[EVNetworkManager sharedInstance] serverSelection] != EVServerSelectionProduction)
+        channelName = [channelName stringByAppendingString:@"_DEV"];
+    [currentInstallation addUniqueObject:channelName
+                                  forKey:@"channels"];
     [currentInstallation saveInBackground];
 
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
@@ -186,6 +191,12 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 
 - (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [self handleRemoteNotification:userInfo];
+}
+
+- (void)handleRemoteNotification:(NSDictionary *)userInfo {
+    DLog(@"Remote notification: %@", userInfo);
     [PFPush handlePush:userInfo];
+    
 }
 @end

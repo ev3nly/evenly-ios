@@ -345,6 +345,7 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
                 updated = YES;
                 [self.internalCache setObject:outgoing forKey:EVPendingReceivedExchangesKey];
             }
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[outgoing count]];
             EV_PERFORM_ON_MAIN_QUEUE(^{
                 if (completion)
                     completion(pending);
