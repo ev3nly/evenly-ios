@@ -448,30 +448,38 @@ NSString *const EVCIAUpdatedBankAccountsNotification = @"EVCIAUpdatedBankAccount
                 withSuccess:(void(^)(void))success
                     failure:(void(^)(NSError *))failure {
     [fundingSource destroyWithSuccess:^{
-        
-        NSMutableArray *fundingSources;
-        if ([fundingSource isKindOfClass:[EVBankAccount class]]) {
-            fundingSources = [NSMutableArray arrayWithArray:[self bankAccounts]];
-            [fundingSources removeObject:fundingSource];
-            [self.internalCache setObject:fundingSources forKey:@"bank_accounts"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedBankAccountsNotification
-                                                                object:self
-                                                              userInfo:@{ @"accounts" : fundingSources }];
-            
-        } else if ([fundingSource isKindOfClass:[EVCreditCard class]]) {
-            fundingSources = [NSMutableArray arrayWithArray:[self creditCards]];
-            [fundingSources removeObject:fundingSource];
-            [self.internalCache setObject:fundingSources forKey:@"credit_cards"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
-                                                                object:self
-                                                              userInfo:@{ @"cards" : fundingSources }];
-        }
-        
-        if (success)
-            success();
+        EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+            NSMutableArray *fundingSources;
+            if ([fundingSource isKindOfClass:[EVBankAccount class]]) {
+                fundingSources = [NSMutableArray arrayWithArray:[self bankAccounts]];
+                [fundingSources removeObject:fundingSource];
+                [self.internalCache setObject:fundingSources forKey:@"bank_accounts"];
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedBankAccountsNotification
+                                                                        object:self
+                                                                      userInfo:@{ @"accounts" : fundingSources }];
+                });
+            } else if ([fundingSource isKindOfClass:[EVCreditCard class]]) {
+                fundingSources = [NSMutableArray arrayWithArray:[self creditCards]];
+                [fundingSources removeObject:fundingSource];
+                [self.internalCache setObject:fundingSources forKey:@"credit_cards"];
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedCreditCardsNotification
+                                                                        object:self
+                                                                      userInfo:@{ @"cards" : fundingSources }];
+                });
+            }
+        });
+
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success();
+        });
     } failure:^(NSError *error) {
-        if (failure)
-            failure(error);
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (failure)
+                failure(error);
+        });
     }];
 }
 
