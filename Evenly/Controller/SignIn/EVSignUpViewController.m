@@ -129,6 +129,7 @@
     
     [RACAble(self.user.avatar) subscribeNext:^(UIImage *image) {
         self.photo = image;
+        self.photoNameEmailCell.photo = self.photo;
     }];
     
     NSArray *textFieldArray = @[self.photoNameEmailCell.nameField.rac_textSignal,
