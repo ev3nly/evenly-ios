@@ -49,6 +49,11 @@
     [self loadTableView];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+}
+
 - (void)loadTableView {
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
@@ -67,6 +72,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == EVSettingsSectionMain) {
+        if ([[EVCIA me] facebookConnected])
+            return EVSettingsMainRowCOUNT - 1;
         return EVSettingsMainRowCOUNT;
     } else if (section == EVSettingsSectionLegal) {
         return EVSettingsLegalRowCOUNT;
@@ -81,10 +88,11 @@
     
     if (indexPath.section == EVSettingsSectionMain)
     {
-        switch (indexPath.row) {
+        NSInteger realIndex = ([[EVCIA me] facebookConnected] ? indexPath.row + 1 : indexPath.row);
+        switch (realIndex) {
             case EVSettingsMainRowFacebook:
                 cell.iconView.image = [EVImages settingsFacebookIcon];
-                cell.label.text = ([EVFacebookManager isConnected] ? @"Disconnect Facebook" : @"Connect Facebook");
+                cell.label.text = @"Connect Facebook";
                 break;
             case EVSettingsMainRowNotifications:
                 cell.iconView.image = [EVImages settingsNotificationsIcon];
@@ -126,7 +134,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == EVSettingsSectionMain)
     {
-        switch (indexPath.row) {
+        NSInteger realIndex = ([[EVCIA me] facebookConnected] ? indexPath.row + 1 : indexPath.row);
+        switch (realIndex) {
             case EVSettingsMainRowFacebook:
                 [self toggleFacebook];
                 break;
@@ -171,19 +180,10 @@
 - (void)toggleFacebook {
     EVStatusBarManager *statusManager = [EVStatusBarManager sharedManager];
     [statusManager setStatus:EVStatusBarStatusInProgress text:@"UPDATING..."];
-    if ([EVFacebookManager isConnected])
-    {
-        [EVFacebookManager closeAndClearSession];
-        [self updateWithToken:nil
-                   facebookID:nil];
-    }
-    else
-    {
-        [EVFacebookManager loadMeWithCompletion:^(NSDictionary *userDict){
-            [self updateWithToken:[EVFacebookManager sharedManager].tokenData.accessToken
-                       facebookID:[EVFacebookManager sharedManager].facebookID];
-        } failure:nil];
-    }
+    [EVFacebookManager loadMeWithCompletion:^(NSDictionary *userDict){
+        [self updateWithToken:[EVFacebookManager sharedManager].tokenData.accessToken
+                   facebookID:[EVFacebookManager sharedManager].facebookID];        
+    } failure:nil];
 }
 
 - (void)updateWithToken:(NSString *)token facebookID:(NSString *)facebookID {
@@ -191,11 +191,12 @@
     [EVUser updateMeWithFacebookToken:token
                            facebookID:facebookID
                               success:^{
+        [[EVCIA me] setFacebookConnected:YES];
         [statusManager setStatus:EVStatusBarStatusSuccess];
         [statusManager setDuringSuccess:^{
             [self.tableView beginUpdates];
-            [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVSettingsMainRowFacebook inSection:EVSettingsSectionMain] ]
-                                  withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:EVSettingsSectionMain]
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
             [self.tableView endUpdates];
         }];
     } failure:^(NSError *error) {
