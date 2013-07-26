@@ -103,7 +103,7 @@
 #pragma mark - PIN Handling
 
 - (void)userEnteredPIN:(NSString *)pin {
-    if ([[EVPINUtility sharedUtility] isValidPIN:pin])
+    if ([[EVPINUtility sharedUtility] validatePIN:pin])
         [self handleCorrectPin];
     else
         [self handleIncorrectPin];

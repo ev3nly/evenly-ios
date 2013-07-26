@@ -8,6 +8,12 @@
 
 #import "EVEnterPINViewController.h"
 
+typedef enum {
+    EVEnterPINStateEnterOld,
+    EVEnterPINStateEnterNew,
+    EVEnterPINStateConfirmNew
+} EVEnterPINState;
+
 @interface EVSetPINViewController : EVEnterPINViewController
 
 @end
