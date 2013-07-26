@@ -10,7 +10,7 @@
 #import "EVPlaceholderTextView.h"
 
 #define LINE_HEIGHT 40
-#define LEFT_RIGHT_BUFFER 10
+#define LEFT_RIGHT_BUFFER 5
 
 #define FOR_LABEL_TEXT @"for"
 #define FOR_LABEL_ADJUSTMENT 8
@@ -19,7 +19,6 @@
 
 @property (nonatomic, strong) UILabel *forLabel;
 
-- (void)loadForLabel;
 - (void)loadDescriptionField;
 
 @end
@@ -30,19 +29,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self loadForLabel];
         [self loadDescriptionField];
     }
     return self;
-}
-
-- (void)loadForLabel
-{
-    UILabel *forLabel = [self configuredLabel];
-    forLabel.text = FOR_LABEL_TEXT;
-    forLabel.frame = [self forLabelFrame];
-    self.forLabel = forLabel;
-    [self addSubview:forLabel];
 }
 
 - (void)loadDescriptionField
@@ -54,14 +43,6 @@
     self.descriptionField.font = [EVFont lightExchangeFormFont];
     self.descriptionField.delegate = self;
     [self addSubview:self.descriptionField];
-}
-
-- (UILabel *)configuredLabel {
-    UILabel *label = [UILabel new];
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = EV_RGB_COLOR(40, 40, 40);
-    label.font = [EVFont darkExchangeFormFont];
-    return label;
 }
 
 - (BOOL)isFirstResponder {
@@ -78,24 +59,12 @@
 
 #pragma mark - Layout
 
-
-- (CGRect)forLabelFrame {
-    UILabel *label = [self configuredLabel];
-    CGSize labelSize = [FOR_LABEL_TEXT sizeWithFont:label.font constrainedToSize:CGSizeMake(self.bounds.size.width, LINE_HEIGHT) lineBreakMode:label.lineBreakMode];
-    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) + FOR_LABEL_ADJUSTMENT : LINE_HEIGHT + (LINE_HEIGHT/2 - labelSize.height/2));
+- (CGRect)descriptionFieldFrame {
+    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) : LINE_HEIGHT + 2);
     return CGRectMake(LEFT_RIGHT_BUFFER,
                       y,
-                      labelSize.width,
-                      labelSize.height);
-}
-
-- (CGRect)descriptionFieldFrame {
-    float xOrigin = CGRectGetMaxX([self forLabelFrame]);
-    CGFloat y = (self.whatForHeader ? CGRectGetMaxY(self.whatForHeader.frame) : LINE_HEIGHT + 2);
-    return CGRectMake(xOrigin,
-                      y,
-                      self.bounds.size.width - LEFT_RIGHT_BUFFER - xOrigin,
-                      self.bounds.size.height - [self forLabelFrame].origin.y);
+                      self.bounds.size.width - LEFT_RIGHT_BUFFER*2,
+                      self.bounds.size.height);
 }
 
 - (void)setWhatForHeader:(EVExchangeWhatForHeader *)whatForHeader {
@@ -106,13 +75,13 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.forLabel.frame = [self forLabelFrame];
     self.descriptionField.frame = [self descriptionFieldFrame];
 }
 
 - (void)flashNoDescriptionMessage {
-    CGRect frame = [self forLabelFrame];
+    CGRect frame = [self descriptionFieldFrame];
     frame.size.width = CGRectGetMaxX([self descriptionFieldFrame]);
+    frame.size.height = 32.0;
     [self flashMessage:@"Oops. Please add a brief description."
                inFrame:frame
           withDuration:1.0];

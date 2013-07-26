@@ -37,6 +37,7 @@
 
 + (void)showAlertForError:(NSError *)error;
 + (void)registerForPushNotifications;
++ (void)buzz;
 
 + (EVAppDelegate *)appDelegate;
 
@@ -45,5 +46,6 @@
 + (NSString *)dbidFromDictionary:(NSDictionary *)dictionary;
 
 + (BOOL)deviceHasTallScreen;
+
 
 @end

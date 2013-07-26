@@ -7,6 +7,7 @@
 //
 
 #import "EVFundingSource.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @implementation EVUtilities
 
@@ -24,6 +25,10 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge |
      UIRemoteNotificationTypeAlert |
      UIRemoteNotificationTypeSound];
+}
+
++ (void)buzz {
+    AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
 }
 
 + (EVAppDelegate *)appDelegate {
