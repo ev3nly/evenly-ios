@@ -75,6 +75,8 @@ static EVUser *_me;
     }
     
     self.confirmed = [[properties valueForKey:@"confirmed"] boolValue];
+    if ([properties valueForKey:@"facebook_connected"] && ![[properties valueForKey:@"facebook_connected"] isEqual:[NSNull null]])
+        self.facebookConnected = [[properties valueForKey:@"facebook_connected"] boolValue];    
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -89,6 +91,7 @@ static EVUser *_me;
     setValueForKeyIfNonNil(self.password, @"password_confirmation");
     setValueForKeyIfNonNil(@(self.isConfirmed), @"confirmed");
     setValueForKeyIfNonNil(self.currentPassword, @"current_password");
+    setValueForKeyIfNonNil(@(self.facebookConnected), @"facebook_connected");
     
     return [NSDictionary dictionaryWithDictionary:mutableDictionary];
 }
