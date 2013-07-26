@@ -91,14 +91,11 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
         [EVSession signOutWithSuccess:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedOutNotification object:nil];
-            [[EVNavigationManager sharedManager].masterViewController showLoginViewControllerWithCompletion:^{
+            [[EVNavigationManager sharedManager].masterViewController showOnboardingControllerWithCompletion:^{
                 [[EVNavigationManager sharedManager].masterViewController setCenterPanel:[[EVNavigationManager sharedManager] homeViewController]];
-            }
-                                                                    animated:YES
-                                                       authenticationSuccess:^{
-                                                       } ];
+            } animated:YES];
         } failure:^(NSError *error) {
-            DLog(@"Error: %@", error);
+            DLog(@"SIGN OUT? Error: %@", error);
         }];
     }];
 }

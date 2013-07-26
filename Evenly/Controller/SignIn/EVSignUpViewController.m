@@ -129,11 +129,12 @@
     
     [RACAble(self.user.avatar) subscribeNext:^(UIImage *image) {
         self.photo = image;
+        self.photoNameEmailCell.photo = self.photo;
     }];
     
     NSArray *textFieldArray = @[self.photoNameEmailCell.nameField.rac_textSignal,
-                                self.phoneNumberCell.textField.rac_textSignal,
                                 self.photoNameEmailCell.emailField.rac_textSignal,
+                                self.phoneNumberCell.textField.rac_textSignal,
                                 self.passwordCell.textField.rac_textSignal,
                                 RACAble(self.tosAgreementButton.checked)];
     
@@ -146,9 +147,7 @@
                                                            isValid = NO;
                                                        else if (EV_IS_EMPTY_STRING(phoneNumber))
                                                            isValid = NO;
-                                                       else if (EV_IS_EMPTY_STRING(password) || password.length < 8)
-                                                           isValid = NO;
-                                                       else if (![agreementBool boolValue])
+                                                       else if (EV_IS_EMPTY_STRING(password))
                                                            isValid = NO;
                                                        return @(isValid);
                                                    }];
@@ -188,6 +187,11 @@
 }
 
 - (void)saveButtonTapped {
+    if (self.passwordCell.textField.text.length < 8 || !self.tosAgreementButton.checked) {
+        [self informUserFormNotFinished];
+        return;
+    }
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{ @"name" : self.photoNameEmailCell.nameField.text,
                                    @"email" : self.photoNameEmailCell.emailField.text,
                                    @"phone_number" : self.phoneNumberCell.textField.text,
@@ -225,6 +229,13 @@
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
         DLog(@"Error creating user: %@", error);
     }];
+}
+
+- (void)informUserFormNotFinished {
+    NSString *message = @"You must agree to the Terms of Service and Privacy Policy.";
+    if (self.passwordCell.textField.text.length < 8)
+        message = @"Your password must be at least 8 characters.";
+    [[UIAlertView alertViewWithTitle:@"Whoops!" message:message cancelButtonTitle:@"OK"] show];
 }
 
 #pragma mark - Image Picker

@@ -197,9 +197,10 @@ static NSDateFormatter *_dateFormatter = nil;
         else {
             result = responseObject;
         }
-        if (success)
-            success(result);
-        
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success(result);
+        });
     };
     
     AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
@@ -222,9 +223,10 @@ static NSDateFormatter *_dateFormatter = nil;
         EVObject *object = nil;
         if ([responseObject isKindOfClass:[NSDictionary class]])
             object = [[[self class] alloc] initWithDictionary:responseObject];
-        if (success)
-            success(object);
-    
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success(object);
+        });
     };
     NSData *bodyData = [request HTTPBody];
     NSString *bodyString = [NSString stringWithCString:[bodyData bytes] encoding:NSUTF8StringEncoding];
@@ -259,7 +261,10 @@ static NSDateFormatter *_dateFormatter = nil;
     
     NSMutableURLRequest *request = [[self class] requestWithMethod:@"PUT" path:self.dbid parameters:[self dictionaryRepresentation]];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        success();
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success();
+        });
     };
     
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
@@ -276,9 +281,10 @@ static NSDateFormatter *_dateFormatter = nil;
     
     NSMutableURLRequest *request = [[self class] requestWithMethod:@"DELETE" path:self.dbid parameters:nil];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        success();
-        
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success();
+        });
     };
     
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest: request
@@ -301,7 +307,10 @@ static NSDateFormatter *_dateFormatter = nil;
     
     NSMutableURLRequest *request = [[self class] requestWithMethod:method path:path parameters:parameters];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        success();
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success();
+        });
     };
     
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request

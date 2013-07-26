@@ -53,23 +53,25 @@ static EVStatusBarManager *_sharedManager = nil;
 - (void)setStatus:(EVStatusBarStatus)status text:(NSString *)text {
     if (status == EVStatusBarStatusNone)
         return; //manager sets this
-    EVStatusBarManagerActionBlock action = [self actionForStatus:status text:text];
-    
-    if (status == EVStatusBarStatusInProgress) {
-        [self.actionStack addObject:action];
-        if ([self currentStatus] == EVStatusBarStatusNone)
-            [self runStackAction];
-    } else {
-        if ([self currentStatus] == EVStatusBarStatusInProgress) {
-            if (![self emptyStack])
-                [self.actionStack removeObjectAtIndex:0];
+    EV_PERFORM_ON_MAIN_QUEUE(^{
+        EVStatusBarManagerActionBlock action = [self actionForStatus:status text:text];
+        
+        if (status == EVStatusBarStatusInProgress) {
             [self.actionStack addObject:action];
-            [self runStackAction];
+            if ([self currentStatus] == EVStatusBarStatusNone)
+                [self runStackAction];
         } else {
-            if (![self emptyStack])
-                [self.actionStack removeObjectAtIndex:0];
+            if ([self currentStatus] == EVStatusBarStatusInProgress) {
+                if (![self emptyStack])
+                    [self.actionStack removeObjectAtIndex:0];
+                [self.actionStack addObject:action];
+                [self runStackAction];
+            } else {
+                if (![self emptyStack])
+                    [self.actionStack removeObjectAtIndex:0];
+            }
         }
-    }
+    });
 }
 
 - (EVStatusBarManagerActionBlock)actionForStatus:(EVStatusBarStatus)status text:(NSString *)text {
