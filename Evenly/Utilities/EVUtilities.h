@@ -13,6 +13,7 @@
 #import "EVStringUtility.h"
 #import "EVImageUtility.h"
 #import "EVAnalyticsUtility.h"
+#import "EVParseUtility.h"
 #import "EVAppDelegate.h"
 #import "EVStatusBarManager.h"
 

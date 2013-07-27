@@ -56,6 +56,7 @@
 @property (nonatomic, strong) NSArray *connections;
 @property (nonatomic, strong) NSString *currentPassword;
 @property (nonatomic) BOOL facebookConnected;
+@property (nonatomic, strong) NSArray *roles;
 
 + (EVUser *)me;
 + (void)setMe:(EVUser *)user;
