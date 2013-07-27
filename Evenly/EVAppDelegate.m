@@ -30,6 +30,7 @@
 #import "EVSetPINViewController.h"
 
 #import <FacebookSDK/FacebookSDK.h>
+#import <Parse/Parse.h>
 
 #define EV_APP_ENTERED_BACKGROUND_DATE_KEY @"EVAppEnteredBackgroundDate"
 #define EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY 30
@@ -58,7 +59,6 @@
     if (![[EVCIA sharedInstance] session])
     {
         [self.masterViewController showOnboardingControllerWithCompletion:nil animated:NO];
-//        [self.masterViewController showLoginViewControllerWithCompletion:NULL];
     }
     else
     {
@@ -66,15 +66,17 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedInNotification object:nil];
     }
     
-    
+    if ([launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
+        [self handleRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]];
+    }
     return YES;
 }
 
 - (void)registerWithServices {
     [Crashlytics startWithAPIKey:@"57feb0d7e994889c02aae5608c93b9891426fff9"];
     [NewRelicAgent startWithApplicationToken:@"AA4424ba31b14b47817d4f97239eb1accee8d301fc"];
-    //    [Parse setApplicationId:@"O1LVB8cEUNOYvAjjWjKSKzgx3CkEt4jDykr5H8ah"
-    //                  clientKey:@"IylwifyGsv729Cg6HuiIsHkQBUvdrLttQIQTPlFV"];
+    [Parse setApplicationId:@"O1LVB8cEUNOYvAjjWjKSKzgx3CkEt4jDykr5H8ah"
+                  clientKey:@"IylwifyGsv729Cg6HuiIsHkQBUvdrLttQIQTPlFV"];
     
 #ifdef DEBUG //Germ
     [Mixpanel sharedInstanceWithToken:@"1d7eede1da7d22f6623a22c694f2a97f"];
@@ -97,6 +99,7 @@
     
     // Load user's settings from server.
     [[EVSettingsManager sharedManager] loadSettingsFromServer];
+    
 }
 
 - (void)setUpAppearance {
@@ -135,7 +138,9 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     [FBSession.activeSession handleDidBecomeActive];
-    
+    [EVAnalyticsUtility trackEvent:EVAnalyticsOpenedApp];
+    [EVUtilities registerForPushNotifications];
+
     NSDate *dateAppEnteredBackground = [[NSUserDefaults standardUserDefaults] objectForKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
     if (dateAppEnteredBackground && fabs([dateAppEnteredBackground timeIntervalSinceNow]) > EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY) {
         EV_DISPATCH_AFTER(0.5, ^{
@@ -161,4 +166,26 @@
     return [FBSession.activeSession handleOpenURL:url];
 }
 
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    DLog(@"Did register for remote notifications");
+    [EVParseUtility registerChannelsWithDeviceTokenData:deviceToken];
+    if (deviceToken)
+    {
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel.people addPushDeviceToken:deviceToken];
+    }
+}
+
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [self handleRemoteNotification:userInfo];
+}
+
+- (void)handleRemoteNotification:(NSDictionary *)userInfo {
+    DLog(@"Remote notification: %@", userInfo);
+    [PFPush handlePush:userInfo];
+    
+}
 @end

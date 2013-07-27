@@ -76,7 +76,9 @@ static EVUser *_me;
     
     self.confirmed = [[properties valueForKey:@"confirmed"] boolValue];
     if ([properties valueForKey:@"facebook_connected"] && ![[properties valueForKey:@"facebook_connected"] isEqual:[NSNull null]])
-        self.facebookConnected = [[properties valueForKey:@"facebook_connected"] boolValue];    
+        self.facebookConnected = [[properties valueForKey:@"facebook_connected"] boolValue];
+    
+    self.roles = [properties valueForKey:@"roles"];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
