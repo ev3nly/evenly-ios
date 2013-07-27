@@ -54,5 +54,14 @@
     }
 }
 
++ (void)unregisterChannels {
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    NSArray *subscribedChannels = [NSArray arrayWithArray:[currentInstallation channels]];
+    subscribedChannels = [subscribedChannels filter:^BOOL(id object) {
+        return [(NSString *)object hasSuffix:@"all"];
+    }];
+    [currentInstallation setChannels:subscribedChannels];
+    [currentInstallation saveInBackground];
+}
 
 @end

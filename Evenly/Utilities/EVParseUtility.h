@@ -12,5 +12,6 @@
 
 + (void)registerChannels;
 + (void)registerChannelsWithDeviceTokenData:(NSData *)deviceToken;
++ (void)unregisterChannels;
 
 @end
