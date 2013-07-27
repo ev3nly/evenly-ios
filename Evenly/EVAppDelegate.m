@@ -171,8 +171,11 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
     DLog(@"Did register for remote notifications");
     [EVParseUtility registerChannelsWithDeviceTokenData:deviceToken];
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    [mixpanel.people addPushDeviceToken:deviceToken];
+    if (deviceToken)
+    {
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel.people addPushDeviceToken:deviceToken];
+    }
 }
 
 - (void)application:(UIApplication *)application

@@ -200,7 +200,8 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         
     	[mixpanel.people identify:me.dbid];
         [mixpanel.people set:@"$name"       to:me.name];
-        [mixpanel.people set:@"$email"      to:me.email];
+        if (me.email)
+            [mixpanel.people set:@"$email"      to:me.email];
         [mixpanel.people set:@"$created"    to:me.createdAt];
         [mixpanel.people set:@"$last_login" to:[NSDate date]];
         [mixpanel.people set:@"iOS App True Version"    to:EV_APP_VERSION];
