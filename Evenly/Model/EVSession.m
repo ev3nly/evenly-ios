@@ -84,6 +84,7 @@ static EVSession *_sharedSession = nil;
         success();
     
     [EVAnalyticsUtility trackEvent:EVAnalyticsSignedOut];
+    [EVParseUtility unregisterChannels];
 }
 
 - (void)destroyWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure
