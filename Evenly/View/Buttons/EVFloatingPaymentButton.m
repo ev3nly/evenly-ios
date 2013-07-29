@@ -25,7 +25,7 @@
         [self setBackgroundImage:[UIImage imageNamed:@"Action_PaymentActive"] forState:UIControlStateHighlighted];
         
         [self.arrowImageView setImage:[UIImage imageNamed:@"FeedActionRightArrow"]];
-        [self.label setText:@"PAYMENT"];
+        [self.label setText:@"PAY"];
         
         [self setNeedsLayout];
     }

@@ -525,6 +525,7 @@
 		D0C30AFE177217A3005606E8 /* EVPendingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AFD177217A3005606E8 /* EVPendingDetailViewController.m */; };
 		D0C30B0117721927005606E8 /* EVPendingDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30B0017721927005606E8 /* EVPendingDetailCell.m */; };
 		D0C48EA3176FB2EB00F60193 /* EVHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */; };
+		D0CBDC2D17A71FC600E09D39 /* EVTippingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBDC2C17A71FC600E09D39 /* EVTippingViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1302,6 +1303,8 @@
 		D0C30B0017721927005606E8 /* EVPendingDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPendingDetailCell.m; sourceTree = "<group>"; };
 		D0C48EA1176FB2EB00F60193 /* EVHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHistoryViewController.h; sourceTree = "<group>"; };
 		D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHistoryViewController.m; sourceTree = "<group>"; };
+		D0CBDC2B17A71FC600E09D39 /* EVTippingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTippingViewController.h; sourceTree = "<group>"; };
+		D0CBDC2C17A71FC600E09D39 /* EVTippingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTippingViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2574,6 +2577,8 @@
 				9C5044161770E5880090D865 /* EVRequestViewController.m */,
 				9C9017E01782144E00FCD32A /* EVAutocompleteTableViewController.h */,
 				9C9017E11782144E00FCD32A /* EVAutocompleteTableViewController.m */,
+				D0CBDC2B17A71FC600E09D39 /* EVTippingViewController.h */,
+				D0CBDC2C17A71FC600E09D39 /* EVTippingViewController.m */,
 			);
 			path = Exchange;
 			sourceTree = "<group>";
@@ -3597,6 +3602,7 @@
 				9C163F3A17A09F3A00A3A3A0 /* EVHistoryDepositViewController.m in Sources */,
 				9C9C7C9717A1E3080095FB54 /* EVRewardsCardAmountView.m in Sources */,
 				9CFD9DA917A33D1000DE8190 /* EVParseUtility.m in Sources */,
+				D0CBDC2D17A71FC600E09D39 /* EVTippingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

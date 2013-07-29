@@ -14,6 +14,7 @@
 #import "EVFloatingPaymentButton.h"
 #import "EVPaymentViewController.h"
 #import "EVRequestViewController.h"
+#import "EVTippingViewController.h"
 #import "EVStoryDetailViewController.h"
 #import "EVNavigationManager.h"
 
@@ -300,7 +301,8 @@
 #pragma mark - Button Actions
 
 - (void)requestButtonPress:(id)sender {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVTippingViewController alloc] init]];
+//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
