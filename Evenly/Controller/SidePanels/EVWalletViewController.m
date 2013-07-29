@@ -24,6 +24,8 @@
 #import "EVPendingGroupViewController.h"
 #import "EVGroupRequestDashboardViewController.h"
 
+#import "UIScrollView+SVPullToRefresh.h"
+
 #define EV_WALLET_ROW_HEIGHT 44.0
 
 @interface EVWalletViewController ()
@@ -97,6 +99,15 @@
     [self.tableView registerClass:[EVNoPendingExchangesCell class] forCellReuseIdentifier:@"noPendingCell"];
     
     [self.view addSubview:self.tableView];
+    
+    __block EVWalletViewController *walletController = self;
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
+            [walletController.tableView.pullToRefreshView stopAnimating];
+        }];
+        [[EVCIA sharedInstance] reloadCreditCardsWithCompletion:NULL];
+        [[EVCIA sharedInstance] reloadBankAccountsWithCompletion:NULL];
+    }];
 }
 
 - (void)loadWalletFooter {
