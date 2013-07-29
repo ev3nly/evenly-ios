@@ -47,7 +47,7 @@
     self.nameLabel.textColor = [UIColor blackColor];
     self.nameLabel.backgroundColor = [UIColor clearColor];
     self.nameLabel.adjustsLetterSpacingToFitWidth = YES;
-    self.nameLabel.adjustsFontSizeToFitWidth = YES;
+    self.nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [self.contentView addSubview:self.nameLabel];
 }
 

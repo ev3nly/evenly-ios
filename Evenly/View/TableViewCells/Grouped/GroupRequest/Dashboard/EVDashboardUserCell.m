@@ -118,6 +118,12 @@
     paidStampFrame.origin.y = (int)((self.contentView.frame.size.height - paidStampFrame.size.height) / 2.0);
     self.paidStamp.frame = paidStampFrame;
     [self.contentView addSubview:self.paidStamp];
+    
+    CGFloat maxX = CGRectGetMinX(self.paidStamp.frame) - SMALL_GAP;
+    [self.nameLabel setFrame:CGRectMake(GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+                                        0,
+                                        maxX - GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+                                        self.contentView.frame.size.height)];
 }
 
 - (void)layoutNoTierLabel {
@@ -131,6 +137,12 @@
     noTierFrame.origin.y = (int)((self.contentView.frame.size.height - noTierFrame.size.height) / 2.0);
     self.noTierLabel.frame = noTierFrame;
     [self.contentView addSubview:self.noTierLabel];
+    
+    CGFloat maxX = CGRectGetMinX(self.noTierLabel.frame) - SMALL_GAP;
+    [self.nameLabel setFrame:CGRectMake(GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+                                        0,
+                                        maxX - GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+                                        self.contentView.frame.size.height)];
 }
 
 - (void)layoutLabels {
