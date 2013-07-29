@@ -31,7 +31,6 @@
 - (void)dealloc {
     [self.swipeGestureRecognizer removeTarget:nil action:NULL];
     self.swipeGestureRecognizer = nil;
-    [self.navigationController.view removeGestureRecognizers];
 }
 
 - (void)viewDidLoad
@@ -43,7 +42,7 @@
     if (self.navigationController.viewControllers.count > 1 && self.navigationController.viewControllers.lastObject == self)
     {
         [self loadBackButton];
-        [self.navigationController.view addGestureRecognizer:self.swipeGestureRecognizer];
+        [self.view addGestureRecognizer:self.swipeGestureRecognizer];
     }
     
     self.view.backgroundColor = [EVColor creamColor];
