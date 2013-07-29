@@ -13,49 +13,49 @@
 #pragma mark - Default Brand Colors
 
 + (UIColor *)creamColor {
-    return EV_RGB_COLOR(0.9765, 0.9686, 0.9647);
+    EV_RETURN_STATIC_RGB_COLOR(0.9765, 0.9686, 0.9647);
 }
 
 + (UIColor *)lightGreenColor {
-    return EV_RGB_COLOR(8, 192, 173 );
+    EV_RETURN_STATIC_RGB_COLOR(8, 192, 173 );
 }
 
 + (UIColor *)lightRedColor {
-    return EV_RGB_COLOR(255, 105, 80);
+    EV_RETURN_STATIC_RGB_COLOR(255, 105, 80);
 }
 
 + (UIColor *)darkColor {
-    return EV_RGB_COLOR(36, 45, 50);
+    EV_RETURN_STATIC_RGB_COLOR(36, 45, 50);
 }
 
 + (UIColor *)lightColor {
-    return EV_RGB_COLOR(249, 247, 246);
+    EV_RETURN_STATIC_RGB_COLOR(249, 247, 246);
 }
 
 + (UIColor *)blueColor {
-    return EV_RGB_COLOR(0, 127, 216);
+    EV_RETURN_STATIC_RGB_COLOR(0, 127, 216);
 }
 
 #pragma mark - Side Panels
 
 + (UIColor *)sidePanelBackgroundColor {
-    return EV_RGB_COLOR(250, 250, 250);
+    EV_RETURN_STATIC_RGB_COLOR(250, 250, 250);
 }
 
 + (UIColor *)sidePanelHeaderBackgroundColor {
-    return EV_RGB_COLOR(222, 222, 221);
+    EV_RETURN_STATIC_RGB_COLOR(222, 222, 221);
 }
 
 + (UIColor *)sidePanelSelectedColor {
-    return EV_RGB_COLOR(230, 230, 230);
+    EV_RETURN_STATIC_RGB_COLOR(230, 230, 230);
 }
 
 + (UIColor *)sidePanelStripeColor {
-    return EV_RGB_COLOR(215, 215, 215);
+    EV_RETURN_STATIC_RGB_COLOR(215, 215, 215);
 }
 
 + (UIColor *)sidePanelTextColor {
-    return EV_RGB_COLOR(75, 75, 75);
+    EV_RETURN_STATIC_RGB_COLOR(75, 75, 75);
 }
 
 + (UIColor *)sidePanelIconColor {
@@ -65,57 +65,57 @@
 #pragma mark - Newsfeed
 
 + (UIColor *)newsfeedStripeColor {
-    return EV_RGB_COLOR(0.9020, 0.8941, 0.8902);
+    EV_RETURN_STATIC_RGB_COLOR(0.9020, 0.8941, 0.8902);
 }
 
 + (UIColor *)newsfeedNounColor {
-    return EV_RGB_COLOR(0.1569, 0.1529, 0.1490);
+    EV_RETURN_STATIC_RGB_COLOR(0.1569, 0.1529, 0.1490);
 }
 
 + (UIColor *)newsfeedTextColor {
-    return EV_RGB_COLOR(0.6, 0.5882, 0.5804);
+    EV_RETURN_STATIC_RGB_COLOR(0.6, 0.5882, 0.5804);
 }
 
 + (UIColor *)newsfeedButtonLabelColor {
-    return EV_RGB_COLOR(0.5686, 0.5647, 0.5569);
+    EV_RETURN_STATIC_RGB_COLOR(0.5686, 0.5647, 0.5569);
 }
 
 + (UIColor *)newsfeedButtonHighlightColor {
-    return EV_RGB_COLOR(0.9725, 0.9725, 0.9725);
+    EV_RETURN_STATIC_RGB_COLOR(0.9725, 0.9725, 0.9725);
 }
 
 #pragma mark - Text
 
 + (UIColor *)darkLabelColor {
-    return EV_RGB_COLOR(0x28, 0x27, 0x26);
+    EV_RETURN_STATIC_RGB_COLOR(0x28, 0x27, 0x26);
 }
 
 + (UIColor *)lightLabelColor {
-    return EV_RGB_COLOR(160, 160, 160);
+    EV_RETURN_STATIC_RGB_COLOR(160, 160, 160);
 }
 
 + (UIColor *)placeholderColor {
-    return EV_RGB_COLOR(0xd0, 0xce, 0xce);
+    EV_RETURN_STATIC_RGB_COLOR(0xd0, 0xce, 0xce);
 }
 
 + (UIColor *)inputTextColor {
-    return EV_RGB_COLOR(0x99, 0x96, 0x94);    
+    EV_RETURN_STATIC_RGB_COLOR(0x99, 0x96, 0x94);    
 }
 
 #pragma mark - Request Switch
 
 + (UIColor *)requestGrayBackground {
-    return EV_RGB_COLOR(0.9451, 0.9451, 0.9451);
+    EV_RETURN_STATIC_RGB_COLOR(0.9451, 0.9451, 0.9451);
 }
 
 + (UIColor *)highlightedTextColor {
-    return EV_RGB_COLOR(0.4, 0.4, 0.4);
+    EV_RETURN_STATIC_RGB_COLOR(0.4, 0.4, 0.4);
 }
 
 #pragma mark - Progress Bar
 
 + (UIColor *)progressBarDisabledColor {
-    return EV_RGB_COLOR(0.9843, 0.9765, 0.9804);
+    EV_RETURN_STATIC_RGB_COLOR(0.9843, 0.9765, 0.9804);
 }
 
 #pragma mark - Debugging
