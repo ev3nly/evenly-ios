@@ -27,6 +27,7 @@
 #import "UIScrollView+SVPullToRefresh.h"
 
 #define EV_WALLET_ROW_HEIGHT 44.0
+#define PULL_TO_REFRESH_OFFSET CGPointMake(EV_RIGHT_OVERHANG_MARGIN/2, -5)
 
 @interface EVWalletViewController ()
 
@@ -108,6 +109,7 @@
         [[EVCIA sharedInstance] reloadCreditCardsWithCompletion:NULL];
         [[EVCIA sharedInstance] reloadBankAccountsWithCompletion:NULL];
     }];
+    self.tableView.pullToRefreshViewOffset = PULL_TO_REFRESH_OFFSET;
 }
 
 - (void)loadWalletFooter {

@@ -11,7 +11,7 @@
 #define LOGO_MARGIN 5.0
 #define IMAGE_WIDTH 20
 #define IMAGE_HEIGHT 21
-#define LOGO_X_OFFSET (-32)
+#define LOGO_X_OFFSET (-EV_RIGHT_OVERHANG_MARGIN/2)
 
 @implementation EVMainMenuFooter
 

@@ -64,7 +64,7 @@ static char UIScrollViewPullToRefreshView;
 
 @implementation UIScrollView (SVPullToRefresh)
 
-@dynamic pullToRefreshView, showsPullToRefresh;
+@dynamic pullToRefreshView, showsPullToRefresh, pullToRefreshViewOffset;
 
 - (void)addPullToRefreshWithActionHandler:(void (^)(void))actionHandler {
     
@@ -119,6 +119,15 @@ static char UIScrollViewPullToRefreshView;
 
 - (BOOL)showsPullToRefresh {
     return !self.pullToRefreshView.hidden;
+}
+
+- (void)setPullToRefreshViewOffset:(CGPoint)pullToRefreshViewOffset {
+    self.pullToRefreshView.frame = CGRectMake(0, -SVPullToRefreshViewHeight + REFRESH_VIEW_Y_OFFSET, self.bounds.size.width, SVPullToRefreshViewHeight);
+    self.pullToRefreshView.refreshViewOffset = pullToRefreshViewOffset;
+}
+
+- (CGPoint)pullToRefreshViewOffset {
+    return self.pullToRefreshView.refreshViewOffset;
 }
 
 @end
@@ -464,6 +473,15 @@ static char UIScrollViewPullToRefreshView;
 - (void)setDateFormatter:(NSDateFormatter *)newDateFormatter {
 	dateFormatter = newDateFormatter;
     self.dateLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Last Updated: %@",), self.lastUpdatedDate?[newDateFormatter stringFromDate:self.lastUpdatedDate]:NSLocalizedString(@"Never",)];
+}
+
+- (void)setRefreshViewOffset:(CGPoint)refreshViewOffset {
+    _refreshViewOffset = refreshViewOffset;
+    
+    CGRect refreshFrame = self.frame;
+    refreshFrame.origin.x += refreshViewOffset.x;
+    refreshFrame.origin.y += refreshViewOffset.y;
+    self.frame = refreshFrame;
 }
 
 #pragma mark -

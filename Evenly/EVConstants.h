@@ -44,7 +44,7 @@ typedef enum {
 
 #pragma mark - Master View Controller
 
-#define EV_RIGHT_OVERHANG_MARGIN 45.0
+#define EV_RIGHT_OVERHANG_MARGIN 44.0
 
 #pragma mark - Animation
 
