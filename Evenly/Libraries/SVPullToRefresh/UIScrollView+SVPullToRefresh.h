@@ -20,6 +20,7 @@
 
 @property (nonatomic, strong, readonly) SVPullToRefreshView *pullToRefreshView;
 @property (nonatomic, assign) BOOL showsPullToRefresh;
+@property (nonatomic, assign) CGPoint pullToRefreshViewOffset;
 
 @end
 
@@ -40,6 +41,7 @@ typedef NSUInteger SVPullToRefreshState;
 @property (nonatomic, strong, readonly) UILabel *titleLabel;
 @property (nonatomic, strong, readonly) UILabel *subtitleLabel;
 @property (nonatomic, readwrite) UIActivityIndicatorViewStyle activityIndicatorViewStyle;
+@property (nonatomic, assign) CGPoint refreshViewOffset;
 
 @property (nonatomic, readonly) SVPullToRefreshState state;
 
