@@ -168,6 +168,11 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     [self.likeButton setSelected:story.liked];
     [self.likeButton setIsPrivate:story.isPrivate];
     [self.likeButton setTitle:[story likeButtonString]];
+    
+    if (story.transactionType == EVStoryTransactionTypeIncoming || story.transactionType == EVStoryTransactionTypePendingOutgoing)
+        self.incomeIcon.transform = CGAffineTransformMakeRotation(-M_PI);
+    else
+        self.incomeIcon.transform = CGAffineTransformIdentity;
 }
 
 #pragma mark - Utility
