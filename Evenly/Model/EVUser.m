@@ -180,7 +180,6 @@ static EVUser *_me;
                 EVStory *story = [[EVStory alloc] init];
                 [story setProperties:dict];
                 [array addObject:story];
-                NSLog(@"dict: %@", dict);
             }
             EV_PERFORM_ON_MAIN_QUEUE(^{
                 if (success)
