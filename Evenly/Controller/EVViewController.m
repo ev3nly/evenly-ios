@@ -29,6 +29,8 @@
 }
 
 - (void)dealloc {
+    [self.swipeGestureRecognizer removeTarget:nil action:NULL];
+    self.swipeGestureRecognizer = nil;
     [self.navigationController.view removeGestureRecognizers];
 }
 

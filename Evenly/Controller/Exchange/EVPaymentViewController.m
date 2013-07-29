@@ -68,7 +68,13 @@
     [self setVisibilityForExchange:self.payment];
     
     [self.payment saveWithSuccess:^{
-        [[EVCIA me] setBalance:[[[EVCIA me] balance] decimalNumberBySubtracting:self.payment.amount]];
+        
+        // Don't allow the balance to fall below 0.  If a payment amount is > available balance, it gets
+        // paid via credit card, leaving the balance unaffected.
+        NSDecimalNumber *newBalance = [[[EVCIA me] balance] decimalNumberBySubtracting:self.payment.amount];
+        if ([newBalance compare:[NSDecimalNumber zero]] != NSOrderedAscending) {
+            [[EVCIA me] setBalance:newBalance];
+        }
         [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
         
