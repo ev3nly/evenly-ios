@@ -24,6 +24,7 @@
 #import "EVHTTPClient.h"
 #import "EVAppErrorHandler.h"
 #import "EVKeyboardTracker.h"
+#import "EVPushManager.h"
 #import "EVPINUtility.h"
 
 #import "EVSignInViewController.h"
@@ -50,6 +51,12 @@
     self.masterViewController.leftPanel = [[EVNavigationManager sharedManager] mainMenuViewController];
     self.masterViewController.centerPanel = [[EVNavigationManager sharedManager] homeViewController];
     self.masterViewController.rightPanel = [[EVNavigationManager sharedManager] walletViewController];
+    
+    // REMOVE LATER
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fakePush)];
+    [tapRecognizer setNumberOfTapsRequired:5];
+    [self.masterViewController.view addGestureRecognizer:tapRecognizer];
+    
     
     self.window.rootViewController = self.masterViewController;
     self.window.backgroundColor = [UIColor blackColor];
@@ -156,6 +163,11 @@
     }
 }
 
+- (void)fakePush {
+    NSDictionary *dictionary = @{ @"type" : @"Charge", @"id" : @"864" };
+    EVObject *object = [[EVPushManager sharedManager] objectFromPushDictionary:dictionary];
+}
+
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
@@ -186,6 +198,6 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
 - (void)handleRemoteNotification:(NSDictionary *)userInfo {
     DLog(@"Remote notification: %@", userInfo);
     [PFPush handlePush:userInfo];
-    
+    EVObject *object = [[EVPushManager sharedManager] objectFromPushDictionary:userInfo[@"meta"]];
 }
 @end

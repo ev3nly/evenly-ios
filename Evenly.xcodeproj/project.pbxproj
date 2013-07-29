@@ -221,6 +221,7 @@
 		9C6CE674178F399000657D58 /* small_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE66C178F399000657D58 /* small_logo@2x.png */; };
 		9C6CE675178F399000657D58 /* small_smile.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE66D178F399000657D58 /* small_smile.png */; };
 		9C6CE676178F399000657D58 /* small_smile@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C6CE66E178F399000657D58 /* small_smile@2x.png */; };
+		9C732A3F17A72FFC000D210C /* EVPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C732A3E17A72FFC000D210C /* EVPushManager.m */; };
 		9C778DE017679AA70053F9D6 /* EVNavigationBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C778DDF17679AA70053F9D6 /* EVNavigationBarButton.m */; };
 		9C778DE517679ADA0053F9D6 /* Btn_Header_Active.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C778DE117679ADA0053F9D6 /* Btn_Header_Active.png */; };
 		9C778DE617679ADA0053F9D6 /* Btn_Header_Active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C778DE217679ADA0053F9D6 /* Btn_Header_Active@2x.png */; };
@@ -883,6 +884,8 @@
 		9C6CE66C178F399000657D58 /* small_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small_logo@2x.png"; sourceTree = "<group>"; };
 		9C6CE66D178F399000657D58 /* small_smile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small_smile.png; sourceTree = "<group>"; };
 		9C6CE66E178F399000657D58 /* small_smile@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small_smile@2x.png"; sourceTree = "<group>"; };
+		9C732A3D17A72FFC000D210C /* EVPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPushManager.h; sourceTree = "<group>"; };
+		9C732A3E17A72FFC000D210C /* EVPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPushManager.m; sourceTree = "<group>"; };
 		9C778DDE17679AA70053F9D6 /* EVNavigationBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNavigationBarButton.h; sourceTree = "<group>"; };
 		9C778DDF17679AA70053F9D6 /* EVNavigationBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNavigationBarButton.m; sourceTree = "<group>"; };
 		9C778DE117679ADA0053F9D6 /* Btn_Header_Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Btn_Header_Active.png; sourceTree = "<group>"; };
@@ -1494,6 +1497,8 @@
 				D093B9B117757C0E0036BDBD /* EVStatusBarManager.m */,
 				D099B395178BF2CB00C067EC /* EVFacebookManager.h */,
 				D099B396178BF2CB00C067EC /* EVFacebookManager.m */,
+				9C732A3D17A72FFC000D210C /* EVPushManager.h */,
+				9C732A3E17A72FFC000D210C /* EVPushManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -3597,6 +3602,7 @@
 				9C163F3A17A09F3A00A3A3A0 /* EVHistoryDepositViewController.m in Sources */,
 				9C9C7C9717A1E3080095FB54 /* EVRewardsCardAmountView.m in Sources */,
 				9CFD9DA917A33D1000DE8190 /* EVParseUtility.m in Sources */,
+				9C732A3F17A72FFC000D210C /* EVPushManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3726,8 +3732,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3743,8 +3749,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3753,8 +3759,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3770,8 +3776,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

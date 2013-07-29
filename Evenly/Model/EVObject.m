@@ -131,6 +131,11 @@ static NSDateFormatter *_dateFormatter = nil;
     if (cachedObject)
     {
         self = cachedObject;
+        [self reloadWithSuccess:^(id object) {
+            DLog(@"I am me!  Self: %@  Object: %@", self, object);            
+        } failure:^(NSError *error) {
+            DLog(@"error: %@", error);
+        }];
     }
     else
     {
@@ -138,7 +143,7 @@ static NSDateFormatter *_dateFormatter = nil;
         if (self) {
             _dbid = dbid;
             [self reloadWithSuccess:^(id object) {
-                
+                DLog(@"I am me!  Self: %@  Object: %@", self, object);
             } failure:^(NSError *error) {
                 DLog(@"error: %@", error);
             }];
