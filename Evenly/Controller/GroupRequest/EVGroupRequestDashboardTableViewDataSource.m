@@ -162,11 +162,7 @@
         {
             EVDashboardUserCell *userCell = [tableView dequeueReusableCellWithIdentifier:@"userCell" forIndexPath:indexPath];
             EVGroupRequestRecord *record = [self.displayedRecords objectAtIndex:(indexPath.row - EVDashboardPermanentRowCOUNT)];
-            /**
-             * BE MY BABYMAMA, BE A MILLIONAIRE
-             */
-            [userCell.nameLabel setText:@"Joseph H. Betherontonson"];
-//            [userCell.nameLabel setText:record.user.name];
+            [userCell.nameLabel setText:record.user.name];
             [userCell.avatarView setAvatarOwner:record.user];
             [userCell.tierLabel setText:record.tier.name];
             if (record.tier == nil) {
