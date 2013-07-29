@@ -129,6 +129,7 @@
                           if (weakSelf.delegate) {
                               [weakSelf.delegate inviteViewController:weakSelf sentInvitesTo:records];
                           }
+                          [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification object:nil];
                           [[EVStatusBarManager sharedManager] setPostSuccess:^{
                               [weakSelf.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
                           }];
