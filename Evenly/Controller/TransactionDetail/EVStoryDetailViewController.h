@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVViewController.h"
+#import "EVModalViewController.h"
 #import "EVTransactionDetailCell.h"
 
 @class EVStory;
 
-@interface EVStoryDetailViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, EVTransactionDetailCellDelegate>
+@interface EVStoryDetailViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, EVTransactionDetailCellDelegate, EVReloadable>
 
 @property (nonatomic, strong) EVStory *story;
 @property (nonatomic, strong) UITableView *tableView;
