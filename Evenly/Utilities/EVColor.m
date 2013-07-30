@@ -81,7 +81,7 @@
 }
 
 + (UIColor *)newsfeedButtonHighlightColor {
-    EV_RETURN_STATIC_RGB_COLOR(244, 244, 244);
+    EV_RETURN_STATIC_RGB_COLOR(246, 246, 246);
 }
 
 #pragma mark - Text
