@@ -98,6 +98,7 @@
     [self.saveButton addTarget:self action:@selector(saveButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.saveButton setTitle:@"SAVE" forState:UIControlStateNormal];
     [self.saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.saveButton setTitleEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 0)];
     self.saveButton.titleLabel.font = [EVFont defaultButtonFont];
     self.saveButton.frame = [self pinButtonFrame];
     [self.footerView addSubview:self.saveButton];

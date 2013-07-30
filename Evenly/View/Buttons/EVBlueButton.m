@@ -20,7 +20,8 @@
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.titleLabel setFont:[EVFont blackFontOfSize:15]];
-        [self.titleLabel setShadowOffset:CGSizeMake(0, 1)];
+        [self setTitleEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 0)];
+//        [self.titleLabel setShadowOffset:CGSizeMake(0, 1)];
     }
     return self;
 }
