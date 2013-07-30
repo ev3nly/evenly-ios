@@ -31,14 +31,21 @@ static EVPushManager *_sharedManager;
 }
 
 - (EVObject *)objectFromPushDictionary:(NSDictionary *)pushDictionary {
-    EVObject *object = [EVSerializer serializeType:pushDictionary[@"type"]
-                                              dbid:pushDictionary[@"id"]];
+    
+    NSString *type = pushDictionary[@"type"];
+    id dbid = pushDictionary[@"id"];
+    if ([dbid isKindOfClass:[NSNumber class]]) {
+        dbid = [dbid stringValue];
+    }
+    EVObject *object = [EVSerializer serializeType:type
+                                              dbid:dbid];
     DLog(@"Object: %@  Loading? %@", object, (object.loading ? @"YES" : @"NO"));
     return object;
 }
 
 - (EVViewController<EVReloadable> *)viewControllerFromPushDictionary:(NSDictionary *)pushDictionary {
     self.pushObject = [self objectFromPushDictionary:pushDictionary];
+    self.pushObject.loading = YES;
     NSString *className = NSStringFromClass([self.pushObject class]);
     EVViewController<EVReloadable> *viewController = nil;
     if ([className isEqualToString:@"EVRequest"]) {

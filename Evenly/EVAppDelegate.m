@@ -52,12 +52,6 @@
     self.masterViewController.centerPanel = [[EVNavigationManager sharedManager] homeViewController];
     self.masterViewController.rightPanel = [[EVNavigationManager sharedManager] walletViewController];
     
-    // REMOVE LATER
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fakePush)];
-    [tapRecognizer setNumberOfTapsRequired:5];
-    [self.masterViewController.view addGestureRecognizer:tapRecognizer];
-    
-    
     self.window.rootViewController = self.masterViewController;
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
@@ -163,15 +157,6 @@
     }
 }
 
-- (void)fakePush {
-//    NSDictionary *dictionary = @{ @"type" : @"Payment", @"id" : @"865" };
-    NSDictionary *dictionary = @{ @"type" : @"Withdrawal", @"id" : @"993" };
-    EVViewController *viewController = [[EVPushManager sharedManager] viewControllerFromPushDictionary:dictionary];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
-    [self.masterViewController presentViewController:navController animated:YES completion:NULL];
-//    EVObject *object = [[EVPushManager sharedManager] objectFromPushDictionary:dictionary];
-}
-
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
@@ -202,6 +187,21 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo {
 - (void)handleRemoteNotification:(NSDictionary *)userInfo {
     DLog(@"Remote notification: %@", userInfo);
     [PFPush handlePush:userInfo];
-    EVObject *object = [[EVPushManager sharedManager] objectFromPushDictionary:userInfo[@"meta"]];
+    EVViewController *viewController = [[EVPushManager sharedManager] viewControllerFromPushDictionary:userInfo[@"meta"]];
+    UINavigationController *pushNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    DLog(@"IS PIN SET? %@", ([[EVPINUtility sharedUtility] pinIsSet] ? @"YES" : @"NO"));
+    
+    void (^completionBlock)(void) = nil;
+    if ([[EVPINUtility sharedUtility] pinIsSet])
+    {
+        EVEnterPINViewController *pinViewController = [[EVEnterPINViewController alloc] init];
+        pinViewController.canDismissManually = NO;
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinViewController];
+        completionBlock = ^{
+            [pushNavController presentViewController:navController animated:NO completion:nil];
+        };
+    }
+    
+    [self.masterViewController presentViewController:pushNavController animated:YES completion:completionBlock];
 }
 @end
