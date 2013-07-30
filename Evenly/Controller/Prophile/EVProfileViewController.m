@@ -44,6 +44,8 @@
 {
     [super viewDidLoad];
     
+    if ([self userIsMe])
+        [self loadWalletBarButtonItem];
     [self loadTableView];
     [self loadProfileCell];
 }
@@ -107,7 +109,7 @@
     contact.name = self.user.name;
     
     __weak EVProfileViewController *weakSelf = self;
-    if (![self.user.dbid isEqualToString:[EVCIA me].dbid]) {
+    if (![self userIsMe]) {
         self.profileCell.handleChargeUser = ^{
             [weakSelf requestFromContact:weakSelf.user];
         };
@@ -200,6 +202,10 @@
 
 - (BOOL)hasExchanges {
     return (self.timeline && [self.timeline count] != 0);
+}
+
+- (BOOL)userIsMe {
+    return [self.user.dbid isEqualToString:[EVCIA me].dbid];
 }
 
 #pragma mark - Frames

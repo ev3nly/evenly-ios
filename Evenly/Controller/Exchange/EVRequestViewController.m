@@ -181,8 +181,8 @@
     NSMutableArray *right = [NSMutableArray array];
     UIButton *button;
     
-    // Left buttons    
-    button = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
+    // Left buttons
+    button = [self defaultCancelButton];
     [button addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [left addObject:button];
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];

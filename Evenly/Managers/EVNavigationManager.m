@@ -11,7 +11,7 @@
 #import "ReactiveCocoa.h"
 
 #define NAV_BAR_BADGE_TAG 9237
-#define BADGE_VIEW_OFFSET -0.5
+#define BADGE_VIEW_OFFSET 0.5
 
 static EVNavigationManager *_sharedManager;
 
