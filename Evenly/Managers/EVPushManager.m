@@ -11,9 +11,11 @@
 
 #import "EVRequest.h"
 #import "EVPayment.h"
+#import "EVGroupRequest.h"
 
 #import "EVPendingDetailViewController.h"
 #import "EVHistoryPaymentViewController.h"
+#import "EVPendingGroupViewController.h"
 
 @implementation EVPushManager
 
@@ -37,12 +39,15 @@ static EVPushManager *_sharedManager;
 - (EVViewController<EVReloadable> *)viewControllerFromPushDictionary:(NSDictionary *)pushDictionary {
     self.pushObject = [self objectFromPushDictionary:pushDictionary];
     NSString *className = NSStringFromClass([self.pushObject class]);
+    EVViewController<EVReloadable> *viewController = nil;
     if ([className isEqualToString:@"EVRequest"]) {
-        return [self pendingViewControllerWithRequest:(EVRequest *)self.pushObject];
+        viewController = [self pendingViewControllerWithRequest:(EVRequest *)self.pushObject];
     } else if ([className isEqualToString:@"EVPayment"]) {
-        return [self paymentViewControllerWithPayment:(EVPayment *)self.pushObject];
+        viewController = [self paymentViewControllerWithPayment:(EVPayment *)self.pushObject];
+    } else if ([className isEqualToString:@"EVGroupRequest"]) {
+        viewController = [self pendingGroupViewControllerWithGroupRequest:(EVGroupRequest *)self.pushObject];
     }
-    return nil;
+    return viewController;
 }
 
 - (EVPendingDetailViewController *)pendingViewControllerWithRequest:(EVRequest *)request {
@@ -58,6 +63,16 @@ static EVPushManager *_sharedManager;
 - (EVHistoryPaymentViewController *)paymentViewControllerWithPayment:(EVPayment *)payment {
     EVHistoryPaymentViewController *controller = [[EVHistoryPaymentViewController alloc] initWithPayment:payment];
     controller.canDismissManually = YES;
+    [RACAble(self.pushObject.loading) subscribeNext:^(NSNumber *loadingNumber) {
+        if ([loadingNumber boolValue] == NO) {
+            [controller reload];
+        }
+    }];
+    return controller;
+}
+
+- (EVPendingGroupViewController *)pendingGroupViewControllerWithGroupRequest:(EVGroupRequest *)groupRequest {
+    EVPendingGroupViewController *controller = [[EVPendingGroupViewController alloc] initWithGroupRequest:groupRequest];
     [RACAble(self.pushObject.loading) subscribeNext:^(NSNumber *loadingNumber) {
         if ([loadingNumber boolValue] == NO) {
             [controller reload];
