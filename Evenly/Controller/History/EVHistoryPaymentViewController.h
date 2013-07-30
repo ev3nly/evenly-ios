@@ -18,7 +18,7 @@ typedef enum {
     EVHistoryPaymentRowCOUNT
 } EVHistoryPaymentRow;
 
-@interface EVHistoryPaymentViewController : EVHistoryItemViewController
+@interface EVHistoryPaymentViewController : EVHistoryItemViewController<EVReloadable>
 
 - (id)initWithPayment:(EVPayment *)payment;
 

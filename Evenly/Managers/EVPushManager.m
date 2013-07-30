@@ -8,8 +8,12 @@
 
 #import "EVPushManager.h"
 #import "EVSerializer.h"
-#import "EVPendingDetailViewController.h"
+
 #import "EVRequest.h"
+#import "EVPayment.h"
+
+#import "EVPendingDetailViewController.h"
+#import "EVHistoryPaymentViewController.h"
 
 @implementation EVPushManager
 
@@ -35,12 +39,25 @@ static EVPushManager *_sharedManager;
     NSString *className = NSStringFromClass([self.pushObject class]);
     if ([className isEqualToString:@"EVRequest"]) {
         return [self pendingViewControllerWithRequest:(EVRequest *)self.pushObject];
+    } else if ([className isEqualToString:@"EVPayment"]) {
+        return [self paymentViewControllerWithPayment:(EVPayment *)self.pushObject];
     }
     return nil;
 }
 
 - (EVPendingDetailViewController *)pendingViewControllerWithRequest:(EVRequest *)request {
     EVPendingDetailViewController *controller = [[EVPendingDetailViewController alloc] initWithExchange:request];
+    [RACAble(self.pushObject.loading) subscribeNext:^(NSNumber *loadingNumber) {
+        if ([loadingNumber boolValue] == NO) {
+            [controller reload];
+        }
+    }];
+    return controller;
+}
+
+- (EVHistoryPaymentViewController *)paymentViewControllerWithPayment:(EVPayment *)payment {
+    EVHistoryPaymentViewController *controller = [[EVHistoryPaymentViewController alloc] initWithPayment:payment];
+    controller.canDismissManually = YES;
     [RACAble(self.pushObject.loading) subscribeNext:^(NSNumber *loadingNumber) {
         if ([loadingNumber boolValue] == NO) {
             [controller reload];
