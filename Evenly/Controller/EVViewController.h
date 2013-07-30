@@ -19,5 +19,6 @@
 - (void)backButtonPress:(id)sender;
 
 - (UIButton *)defaultCancelButton;
+- (void)loadWalletBarButtonItem;
 
 @end

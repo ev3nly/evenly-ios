@@ -46,6 +46,7 @@
 {
     [super viewDidLoad];
     
+    [self loadWalletBarButtonItem];
     [self loadTableView];
 }
 
