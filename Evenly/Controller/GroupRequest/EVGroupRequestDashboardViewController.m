@@ -84,7 +84,7 @@ typedef enum {
 - (void)loadRightBarButton {
     UIImage *image = [UIImage imageNamed:@"More"];
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + 20.0, image.size.height)];
-    [button setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+    [button setImageEdgeInsets:EV_VIEW_CONTROLLER_BAR_BUTTON_IMAGE_INSET];
     [button setImage:image forState:UIControlStateNormal];
     [button setShowsTouchWhenHighlighted:YES];
     [button setAdjustsImageWhenHighlighted:NO];

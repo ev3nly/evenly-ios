@@ -17,7 +17,7 @@
 
 #import "EVSession.h"
 
-#define LOGO_BUFFER (([UIApplication sharedApplication].keyWindow.bounds.size.height > 480) ? 30 : 14)
+#define LOGO_BUFFER (([UIApplication sharedApplication].keyWindow.bounds.size.height > 480) ? 30 : 10)
 #define FORM_LABEL_BUFFER 14
 #define FORM_VIEW_TAG 9372
 
