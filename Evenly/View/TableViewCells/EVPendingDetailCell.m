@@ -98,6 +98,15 @@
 #pragma mark - Setters
 
 - (void)setStory:(EVStory *)story {
+    [self.rejectButton removeFromSuperview];
+    [self.confirmButton removeFromSuperview];
+    [self.cancelButton removeFromSuperview];
+    [self.remindButton removeFromSuperview];
+    self.rejectButton = nil;
+    self.confirmButton = nil;
+    self.cancelButton = nil;
+    self.remindButton = nil;
+    
     [super setStory:story];
 //    [self switchAvatars];
     [self configureButtonsForStoryType:story.transactionType];

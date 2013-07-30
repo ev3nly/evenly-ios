@@ -24,6 +24,7 @@
 #import "EVHTTPClient.h"
 #import "EVAppErrorHandler.h"
 #import "EVKeyboardTracker.h"
+#import "EVPushManager.h"
 #import "EVPINUtility.h"
 
 #import "EVSignInViewController.h"
@@ -178,14 +179,31 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     }
 }
 
-- (void)application:(UIApplication *)application
-didReceiveRemoteNotification:(NSDictionary *)userInfo {
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self handleRemoteNotification:userInfo];
 }
 
 - (void)handleRemoteNotification:(NSDictionary *)userInfo {
     DLog(@"Remote notification: %@", userInfo);
     [PFPush handlePush:userInfo];
-    
+    EVViewController *viewController = [[EVPushManager sharedManager] viewControllerFromPushDictionary:userInfo[@"meta"]];
+    if (viewController)
+    {
+        UINavigationController *pushNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
+        DLog(@"IS PIN SET? %@", ([[EVPINUtility sharedUtility] pinIsSet] ? @"YES" : @"NO"));
+        
+        void (^completionBlock)(void) = nil;
+        if ([[EVPINUtility sharedUtility] pinIsSet])
+        {
+            EVEnterPINViewController *pinViewController = [[EVEnterPINViewController alloc] init];
+            pinViewController.canDismissManually = NO;
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinViewController];
+            completionBlock = ^{
+                [pushNavController presentViewController:navController animated:NO completion:nil];
+            };
+        }
+        
+        [self.masterViewController presentViewController:pushNavController animated:YES completion:completionBlock];
+    }
 }
 @end

@@ -77,4 +77,16 @@ static NSDictionary *_classMapping = nil;
     return [[class alloc] initWithDictionary:dictionary];
 }
 
++ (EVObject *)serializeType:(NSString *)type dbid:(NSString *)dbid
+{
+    if (EV_IS_EMPTY_STRING(type) || EV_IS_EMPTY_STRING(dbid))
+        return nil;
+    
+    Class class = [self classMapping][type];
+    if (!class)
+        return nil;
+    
+    return [[class alloc] initWithID:dbid];
+}
+
 @end
