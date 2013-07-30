@@ -47,6 +47,7 @@
 {
     [super viewDidLoad];
     
+    [self loadWalletBarButtonItem];
     [self loadTableView];
     [self loadFooterView];
     [self loadTextFieldBackground];

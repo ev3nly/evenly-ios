@@ -49,7 +49,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
         [self loadStoryLabel];
         [self loadIncomeIcon];
         
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.selectionStyle = UITableViewCellSelectionStyleGray;
     }
     return self;
 }

@@ -328,8 +328,6 @@
 		9CB7FB66178CD70200827B5B /* EVRewardsFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7FB65178CD70200827B5B /* EVRewardsFooterView.m */; };
 		9CB7FB69178CE87800827B5B /* EVRewardsSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7FB68178CE87800827B5B /* EVRewardsSwitchView.m */; };
 		9CB7FB6C178CF1C600827B5B /* EVRewardsSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7FB6B178CF1C600827B5B /* EVRewardsSlider.m */; };
-		9CBCAE211778C0150039AB39 /* More.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CBCAE1F1778C0150039AB39 /* More.png */; };
-		9CBCAE221778C0150039AB39 /* More@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CBCAE201778C0150039AB39 /* More@2x.png */; };
 		9CCA900A175E6C90003462DC /* UIViewController+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */; };
 		9CCA900D175E82D7003462DC /* EVCIA.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA900C175E82D7003462DC /* EVCIA.m */; };
 		9CCA9013175EA8E9003462DC /* EVMainMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9010175EA8E9003462DC /* EVMainMenuViewController.m */; };
@@ -525,6 +523,8 @@
 		D0C30AFE177217A3005606E8 /* EVPendingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AFD177217A3005606E8 /* EVPendingDetailViewController.m */; };
 		D0C30B0117721927005606E8 /* EVPendingDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30B0017721927005606E8 /* EVPendingDetailCell.m */; };
 		D0C48EA3176FB2EB00F60193 /* EVHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */; };
+		D0CBDC3017A7382200E09D39 /* More.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC2E17A7382200E09D39 /* More.png */; };
+		D0CBDC3117A7382200E09D39 /* More@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC2F17A7382200E09D39 /* More@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1027,8 +1027,6 @@
 		9CB7FB68178CE87800827B5B /* EVRewardsSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardsSwitchView.m; sourceTree = "<group>"; };
 		9CB7FB6A178CF1C600827B5B /* EVRewardsSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardsSlider.h; sourceTree = "<group>"; };
 		9CB7FB6B178CF1C600827B5B /* EVRewardsSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardsSlider.m; sourceTree = "<group>"; };
-		9CBCAE1F1778C0150039AB39 /* More.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = More.png; sourceTree = "<group>"; };
-		9CBCAE201778C0150039AB39 /* More@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "More@2x.png"; sourceTree = "<group>"; };
 		9CCA9008175E6C90003462DC /* UIViewController+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+EVAdditions.h"; sourceTree = "<group>"; };
 		9CCA9009175E6C90003462DC /* UIViewController+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+EVAdditions.m"; sourceTree = "<group>"; };
 		9CCA900B175E82D7003462DC /* EVCIA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EVCIA.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -1302,6 +1300,8 @@
 		D0C30B0017721927005606E8 /* EVPendingDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPendingDetailCell.m; sourceTree = "<group>"; };
 		D0C48EA1176FB2EB00F60193 /* EVHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVHistoryViewController.h; sourceTree = "<group>"; };
 		D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHistoryViewController.m; sourceTree = "<group>"; };
+		D0CBDC2E17A7382200E09D39 /* More.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = More.png; sourceTree = "<group>"; };
+		D0CBDC2F17A7382200E09D39 /* More@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "More@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2372,8 +2372,8 @@
 				9CB2857C1761521E009B26BB /* Hamburger@2x.png */,
 				9CB2857D1761521E009B26BB /* Header.png */,
 				9CB2857E1761521E009B26BB /* Header@2x.png */,
-				9CBCAE1F1778C0150039AB39 /* More.png */,
-				9CBCAE201778C0150039AB39 /* More@2x.png */,
+				D0CBDC2E17A7382200E09D39 /* More.png */,
+				D0CBDC2F17A7382200E09D39 /* More@2x.png */,
 				9CB2857F1761521E009B26BB /* Wallet.png */,
 				9CB285801761521E009B26BB /* Wallet@2x.png */,
 				D0A0BB73179E472F002C0EA0 /* pending-number-container.png */,
@@ -3104,7 +3104,6 @@
 				9C2DD091176928A500EAA3D1 /* Settings_notification_globe.png in Resources */,
 				9C2DD092176928A500EAA3D1 /* Settings_notification_globe@2x.png in Resources */,
 				9C2DD093176928A500EAA3D1 /* Settings_passcode_key.png in Resources */,
-				9CBCAE211778C0150039AB39 /* More.png in Resources */,
 				9C2DD094176928A500EAA3D1 /* Settings_passcode_key@2x.png in Resources */,
 				9C2DD09B176928BE00EAA3D1 /* Close.png in Resources */,
 				9C2DD09C176928BE00EAA3D1 /* Close@2x.png in Resources */,
@@ -3114,7 +3113,6 @@
 				9C54289A176FD6470028F141 /* Request-header-hole.png in Resources */,
 				D06DFAF71769473A00A06564 /* Privacy-Check@2x.png in Resources */,
 				9C542886176FA0F60028F141 /* Request-Group-Dark@2x.png in Resources */,
-				9CBCAE221778C0150039AB39 /* More@2x.png in Resources */,
 				9C58DC52176BAFE80057C019 /* toggle_handle.png in Resources */,
 				9C58DC53176BAFE80057C019 /* toggle_handle@2x.png in Resources */,
 				9C58DC54176BAFE80057C019 /* toggle_off_bg.png in Resources */,
@@ -3246,6 +3244,8 @@
 				9C9C7C9217A1DB660095FB54 /* gray_card@2x.png in Resources */,
 				9C9C7C9317A1DB660095FB54 /* green_card.png in Resources */,
 				9C9C7C9417A1DB660095FB54 /* green_card@2x.png in Resources */,
+				D0CBDC3017A7382200E09D39 /* More.png in Resources */,
+				D0CBDC3117A7382200E09D39 /* More@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

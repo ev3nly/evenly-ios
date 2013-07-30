@@ -83,4 +83,26 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (UIButton *)defaultCancelButton {
+    UIImage *closeImage = [EVImages navBarCancelButton];
+    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, closeImage.size.width + 20.0, closeImage.size.height)];
+    [cancelButton setImage:closeImage forState:UIControlStateNormal];
+    [cancelButton setImageEdgeInsets:EV_VIEW_CONTROLLER_BAR_BUTTON_IMAGE_INSET];
+    cancelButton.adjustsImageWhenHighlighted = NO;
+    cancelButton.showsTouchWhenHighlighted = YES;
+    return cancelButton;
+}
+
+- (void)loadWalletBarButtonItem {
+    UIImage *image = [UIImage imageNamed:@"Wallet"];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + 14, image.size.height)];
+    [button setImage:image forState:UIControlStateNormal];
+    [button addTarget:self.masterViewController action:@selector(toggleRightPanel:) forControlEvents:UIControlEventTouchUpInside];
+    button.adjustsImageWhenHighlighted = NO;
+    button.showsTouchWhenHighlighted = YES;
+    [button setImageEdgeInsets:UIEdgeInsetsMake(1, 0, -1, 0)];
+    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = barButtonItem;
+}
+
 @end
