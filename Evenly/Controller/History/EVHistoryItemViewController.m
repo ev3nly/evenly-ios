@@ -14,7 +14,9 @@
 #define LABEL_HEIGHT 40.0
 #define BUTTON_HEIGHT 35.0
 
-@interface EVHistoryItemViewController ()
+@interface EVHistoryItemViewController () {
+    BOOL _loading;
+}
 
 @end
 
@@ -24,7 +26,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        
+        self.canDismissManually = NO;
     }
     return self;
 }
@@ -87,6 +89,24 @@
 
 - (NSString *)emailSubjectLine {
     return @""; // abstract
+}
+
+
+#pragma mark - EVReloadable
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+    [self.tableView setLoading:_loading];
+}
+
+- (BOOL)isLoading {
+    return _loading;
+}
+
+- (void)reload {
+    [self.tableView reloadData];
+    [self.tableView setLoading:NO];
+    [self.tableView setTableFooterView:self.footerView];
 }
 
 #pragma mark - TableView DataSource/Delegate

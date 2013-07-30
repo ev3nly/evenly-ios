@@ -11,7 +11,7 @@
 
 #import "EVPartialPaymentViewController.h"
 
-@interface EVPendingGroupViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, EVPartialPaymentViewControllerDelegate>
+@interface EVPendingGroupViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, EVPartialPaymentViewControllerDelegate, EVReloadable>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) EVGroupRequest *groupRequest;

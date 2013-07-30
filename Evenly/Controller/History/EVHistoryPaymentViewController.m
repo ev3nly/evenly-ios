@@ -8,9 +8,7 @@
 
 #import "EVHistoryPaymentViewController.h"
 
-
-@interface EVHistoryPaymentViewController ()
-
+@interface EVHistoryPaymentViewController () 
 @property (nonatomic, strong) EVPayment *payment;
 
 @end
@@ -24,6 +22,12 @@
         self.title = @"Payment Details";
     }
     return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self.tableView setLoading:self.payment.loading];
+    [self.tableView setTableFooterView:(self.payment.loading ? nil : self.footerView)];
 }
 
 - (NSString *)fieldTextForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -96,6 +100,8 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.payment.loading)
+        return 0;
     return EVHistoryPaymentRowCOUNT;
 }
 

@@ -15,12 +15,12 @@
 #import "EVGroupRequestRecord.h"
 #import "EVGroupRequestTier.h"
 
-@interface EVPendingGroupViewController ()
+@interface EVPendingGroupViewController () {
+    BOOL _loading;
+}
 
 @property (nonatomic, strong) EVGroupRequestPendingPaymentOptionCell *paymentOptionCell;
 @property (nonatomic, weak) EVGroupRequestRecord *record;
-
-- (void)reload;
 
 @end
 
@@ -34,6 +34,17 @@
         self.title = @"Group Request";
     }
     return self;
+}
+
+#pragma mark - EVReloadable
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+    [self.tableView setLoading:_loading];
+}
+
+- (BOOL)isLoading {
+    return _loading;
 }
 
 - (void)viewDidLoad
@@ -55,6 +66,8 @@
     [self.tableView registerClass:[EVDashboardTitleCell class] forCellReuseIdentifier:@"detailCell"];
     [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
+    
+    [self.tableView setLoading:self.groupRequest.loading];
 }
 
 - (void)loadPaymentOptionCell {
@@ -179,6 +192,8 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.groupRequest.loading)
+        return 0;
     return 3;
 }
 
@@ -220,6 +235,8 @@
 }
 
 - (void)reload {
+    [self.tableView setLoading:NO];
+    self.record = [self.groupRequest myRecord];
     [self.paymentOptionCell setRecord:self.record];
     if ([self.record numberOfPayments] > 0) {
         self.paymentOptionCell.headerLabel.text = nil;

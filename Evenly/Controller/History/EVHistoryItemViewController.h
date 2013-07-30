@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVViewController.h"
+#import "EVModalViewController.h"
 #import "EVGrayButton.h"
 #import "EVHistoryItemCell.h"
 #import "EVHistoryItemUserCell.h"
 #import <MessageUI/MessageUI.h>
 
-@interface EVHistoryItemViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
+@interface EVHistoryItemViewController : EVModalViewController<UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, EVReloadable>
 
 @property (nonatomic, strong) UITableView *tableView;
 
