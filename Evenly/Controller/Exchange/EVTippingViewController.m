@@ -62,21 +62,6 @@
     self.rightButtons = [NSArray arrayWithArray:right];
 }
 
-- (void)loadContentViews {
-//    self.initialView = [[EVPaymentWhoView alloc] initWithFrame:[self.view bounds]];
-//    self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-//    
-//    self.howMuchView = [[EVExchangeHowMuchView alloc] initWithFrame:[self.view bounds]];
-//    self.howMuchView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-//    
-//    self.whatForView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];
-//    self.whatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-//    [self.whatForView addSubview:self.privacySelector];
-//    
-//    [self.view addSubview:self.initialView];
-//    [self.viewStack addObject:self.initialView];
-//    [self.view bringSubviewToFront:self.privacySelector];
-}
 
 - (UIBarButtonItem *)cancelButton {
     UIImage *closeImage = [EVImages navBarCancelButton];

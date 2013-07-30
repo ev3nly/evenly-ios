@@ -6,11 +6,11 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVExchangeViewController.h"
+#import "EVPaymentViewController.h"
 
 @class EVExchangeHowMuchView, EVExchangeWhatForView;
 
-@interface EVTippingViewController : EVExchangeViewController
+@interface EVTippingViewController : EVPaymentViewController
 
 @property (nonatomic, strong) EVExchangeHowMuchView *howMuchView;
 @property (nonatomic, strong) EVExchangeWhatForView *whatForView;
