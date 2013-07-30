@@ -179,6 +179,10 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     }
 }
 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [self handleRemoteNotification:userInfo];
+}
+
 - (void)handleRemoteNotification:(NSDictionary *)userInfo {
     DLog(@"Remote notification: %@", userInfo);
     [PFPush handlePush:userInfo];
