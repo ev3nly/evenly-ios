@@ -9,7 +9,7 @@
 #import "EVModalViewController.h"
 #import "EVExchange.h"
 
-@interface EVPendingDetailViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate>
+@interface EVPendingDetailViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, EVReloadable>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) EVExchange *exchange;

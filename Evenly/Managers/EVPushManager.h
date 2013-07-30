@@ -7,11 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "EVViewController.h"
 
 @interface EVPushManager : NSObject
+
+@property (nonatomic, strong) EVObject *pushObject;
 
 + (EVPushManager *)sharedManager;
 
 - (EVObject *)objectFromPushDictionary:(NSDictionary *)pushDictionary;
+- (EVViewController<EVReloadable> *)viewControllerFromPushDictionary:(NSDictionary *)pushDictionary;
 
 @end

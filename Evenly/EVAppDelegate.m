@@ -165,7 +165,10 @@
 
 - (void)fakePush {
     NSDictionary *dictionary = @{ @"type" : @"Charge", @"id" : @"864" };
-    EVObject *object = [[EVPushManager sharedManager] objectFromPushDictionary:dictionary];
+    EVViewController *viewController = [[EVPushManager sharedManager] viewControllerFromPushDictionary:dictionary];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    [self.masterViewController presentViewController:navController animated:YES completion:NULL];
+//    EVObject *object = [[EVPushManager sharedManager] objectFromPushDictionary:dictionary];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

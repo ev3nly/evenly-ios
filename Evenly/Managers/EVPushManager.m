@@ -8,6 +8,8 @@
 
 #import "EVPushManager.h"
 #import "EVSerializer.h"
+#import "EVPendingDetailViewController.h"
+#import "EVRequest.h"
 
 @implementation EVPushManager
 
@@ -28,5 +30,23 @@ static EVPushManager *_sharedManager;
     return object;
 }
 
+- (EVViewController<EVReloadable> *)viewControllerFromPushDictionary:(NSDictionary *)pushDictionary {
+    self.pushObject = [self objectFromPushDictionary:pushDictionary];
+    NSString *className = NSStringFromClass([self.pushObject class]);
+    if ([className isEqualToString:@"EVRequest"]) {
+        return [self pendingViewControllerWithRequest:(EVRequest *)self.pushObject];
+    }
+    return nil;
+}
+
+- (EVPendingDetailViewController *)pendingViewControllerWithRequest:(EVRequest *)request {
+    EVPendingDetailViewController *controller = [[EVPendingDetailViewController alloc] initWithExchange:request];
+    [RACAble(self.pushObject.loading) subscribeNext:^(NSNumber *loadingNumber) {
+        if ([loadingNumber boolValue] == NO) {
+            [controller reload];
+        }
+    }];
+    return controller;
+}
 
 @end

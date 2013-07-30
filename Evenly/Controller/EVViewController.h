@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol EVReloadable <NSObject>
+
+@property (nonatomic, getter = isLoading) BOOL loading;
+- (void)reload;
+
+@end
+
 @interface EVViewController : UIViewController
 
 @property (nonatomic, readonly) UILabel *titleLabel;

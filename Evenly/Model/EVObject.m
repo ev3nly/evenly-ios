@@ -128,17 +128,17 @@ static NSDateFormatter *_dateFormatter = nil;
 - (id)initWithID:(NSString *)dbid {
     id cachedObject = [[EVCIA sharedInstance] cachedObjectWithClassName:NSStringFromClass([self class])
                                                                    dbid:dbid];
-    if (cachedObject)
-    {
-        self = cachedObject;
-        [self reloadWithSuccess:^(id object) {
-            DLog(@"I am me!  Self: %@  Object: %@", self, object);            
-        } failure:^(NSError *error) {
-            DLog(@"error: %@", error);
-        }];
-    }
-    else
-    {
+//    if (cachedObject)
+//    {
+//        self = cachedObject;
+//        [self reloadWithSuccess:^(id object) {
+//            DLog(@"I am me!  Self: %@  Object: %@", self, object);            
+//        } failure:^(NSError *error) {
+//            DLog(@"error: %@", error);
+//        }];
+//    }
+//    else
+//    {
         self = [super init];
         if (self) {
             _dbid = dbid;
@@ -148,7 +148,7 @@ static NSDateFormatter *_dateFormatter = nil;
                 DLog(@"error: %@", error);
             }];
         }
-    }
+//    }
     return self;
 }
 
