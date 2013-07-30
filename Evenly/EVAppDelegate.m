@@ -179,29 +179,27 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     }
 }
 
-- (void)application:(UIApplication *)application
-didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [self handleRemoteNotification:userInfo];
-}
-
 - (void)handleRemoteNotification:(NSDictionary *)userInfo {
     DLog(@"Remote notification: %@", userInfo);
     [PFPush handlePush:userInfo];
     EVViewController *viewController = [[EVPushManager sharedManager] viewControllerFromPushDictionary:userInfo[@"meta"]];
-    UINavigationController *pushNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
-    DLog(@"IS PIN SET? %@", ([[EVPINUtility sharedUtility] pinIsSet] ? @"YES" : @"NO"));
-    
-    void (^completionBlock)(void) = nil;
-    if ([[EVPINUtility sharedUtility] pinIsSet])
+    if (viewController)
     {
-        EVEnterPINViewController *pinViewController = [[EVEnterPINViewController alloc] init];
-        pinViewController.canDismissManually = NO;
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinViewController];
-        completionBlock = ^{
-            [pushNavController presentViewController:navController animated:NO completion:nil];
-        };
+        UINavigationController *pushNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
+        DLog(@"IS PIN SET? %@", ([[EVPINUtility sharedUtility] pinIsSet] ? @"YES" : @"NO"));
+        
+        void (^completionBlock)(void) = nil;
+        if ([[EVPINUtility sharedUtility] pinIsSet])
+        {
+            EVEnterPINViewController *pinViewController = [[EVEnterPINViewController alloc] init];
+            pinViewController.canDismissManually = NO;
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinViewController];
+            completionBlock = ^{
+                [pushNavController presentViewController:navController animated:NO completion:nil];
+            };
+        }
+        
+        [self.masterViewController presentViewController:pushNavController animated:YES completion:completionBlock];
     }
-    
-    [self.masterViewController presentViewController:pushNavController animated:YES completion:completionBlock];
 }
 @end
