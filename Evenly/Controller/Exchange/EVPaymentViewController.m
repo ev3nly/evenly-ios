@@ -115,7 +115,7 @@
     UIButton *button;
     
     // Left buttons
-    button = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
+    button = [self defaultCancelButton];
     [button addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [left addObject:button];
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];

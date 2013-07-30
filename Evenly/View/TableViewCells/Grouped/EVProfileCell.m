@@ -102,6 +102,7 @@
     [self.profileButton addTarget:self.parent action:@selector(editProfileButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.profileButton setTitle:@"EDIT PROFILE" forState:UIControlStateNormal];
     [self.profileButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
+    [self.profileButton setTitleEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 0)];
     self.profileButton.titleLabel.font = [EVFont blackFontOfSize:14];
     [self addSubview:self.profileButton];
     

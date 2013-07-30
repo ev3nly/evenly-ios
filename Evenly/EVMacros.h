@@ -77,6 +77,13 @@
 ////////////////////////////////////////////////
 #define EV_RGB_COLOR(r, g, b) [UIColor colorWithRed:(r <= 1.0 ? r : r / 255.0f) green:(g <= 1.0 ? g : g / 255.0f) blue:(b <= 1.0 ? b : b / 255.0f) alpha:1.0f]
 #define EV_RGB_ALPHA_COLOR(r, g, b, a) [UIColor colorWithRed:(r <= 1.0 ? r : r / 255.0f) green:(g <= 1.0 ? g : g / 255.0f) blue:(b <= 1.0 ? b : b / 255.0f) alpha:(a <= 1.0 ? a : (a / 255.0f))]
+#define EV_RETURN_STATIC_RGB_COLOR(r, g, b) \
+    static UIColor *color; \
+    static dispatch_once_t onceToken; \
+    dispatch_once(&onceToken, ^{ \
+        color = EV_RGB_COLOR(r, g, b); \
+    }); \
+    return color; \
 
 ////////////////////////////////////////////////
 // Geometry

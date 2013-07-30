@@ -95,6 +95,9 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     setValueForKeyIfNonNil(@"User", @"owner_type")
     setValueForKeyIfNonNil([EVCIA me].dbid, @"owner_id")
     
+    if (![groupRequest.from.dbid isEqualToString:[EVCIA me].dbid])
+        [mutableDictionary setValue:[EVCIA me] forKey:@"target"];
+    
     EVStory *story = [EVStory new];
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypePendingTransactionDetail;

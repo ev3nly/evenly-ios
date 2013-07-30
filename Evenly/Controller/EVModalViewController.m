@@ -30,13 +30,8 @@
 }
 
 - (void)loadCancelButton {
-    UIImage *closeImage = [EVImages navBarCancelButton];
-    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, closeImage.size.width + 20.0, closeImage.size.height)];
-    [cancelButton setImage:closeImage forState:UIControlStateNormal];
+    UIButton *cancelButton = [self defaultCancelButton];
     [cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [cancelButton setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
-    cancelButton.adjustsImageWhenHighlighted = NO;
-    cancelButton.showsTouchWhenHighlighted = YES;
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:cancelButton]];
 }
 

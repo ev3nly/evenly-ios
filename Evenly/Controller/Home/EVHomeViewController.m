@@ -61,7 +61,7 @@
     
     self.view.backgroundColor = [UIColor underPageBackgroundColor];
     [self loadBalanceLabel];
-    [self loadRightBarButtonItem];
+    [self loadWalletBarButtonItem];
     [self loadTableView];
     [self loadFloatingView];
     [self configurePullToRefresh];
@@ -85,17 +85,6 @@
     [RACAble(self.cia.me.balance) subscribeNext:^(NSDecimalNumber *balance) {
         [self setTitle:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
     }];
-}
-
-- (void)loadRightBarButtonItem {
-    UIImage *image = [UIImage imageNamed:@"Wallet"];
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + 14, image.size.height)];
-    [button setImage:image forState:UIControlStateNormal];
-    [button addTarget:self.masterViewController action:@selector(toggleRightPanel:) forControlEvents:UIControlEventTouchUpInside];
-    button.adjustsImageWhenHighlighted = NO;
-    button.showsTouchWhenHighlighted = YES;
-    UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-    self.navigationItem.rightBarButtonItem = barButtonItem;
 }
 
 - (void)loadTableView {
