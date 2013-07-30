@@ -12,7 +12,7 @@
 #import "EVHistoryItemUserCell.h"
 #import <MessageUI/MessageUI.h>
 
-@interface EVHistoryItemViewController : EVModalViewController<UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
+@interface EVHistoryItemViewController : EVModalViewController<UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, EVReloadable>
 
 @property (nonatomic, strong) UITableView *tableView;
 

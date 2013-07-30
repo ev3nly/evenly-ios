@@ -8,10 +8,7 @@
 
 #import "EVHistoryPaymentViewController.h"
 
-@interface EVHistoryPaymentViewController () {
-    BOOL _loading;
-}
-
+@interface EVHistoryPaymentViewController () 
 @property (nonatomic, strong) EVPayment *payment;
 
 @end
@@ -32,24 +29,6 @@
     [self.tableView setLoading:self.payment.loading];
     [self.tableView setTableFooterView:(self.payment.loading ? nil : self.footerView)];
 }
-
-#pragma mark - EVReloadable
-
-- (void)setLoading:(BOOL)loading {
-    _loading = loading;
-    [self.tableView setLoading:_loading];
-}
-
-- (BOOL)isLoading {
-    return _loading;
-}
-
-- (void)reload {
-    [self.tableView reloadData];
-    [self.tableView setLoading:NO];
-    [self.tableView setTableFooterView:self.footerView];
-}
-
 
 - (NSString *)fieldTextForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *fieldText = nil;

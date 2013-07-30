@@ -16,6 +16,7 @@
 #import "EVPendingDetailViewController.h"
 #import "EVHistoryPaymentViewController.h"
 #import "EVPendingGroupViewController.h"
+#import "EVHistoryDepositViewController.h"
 
 @implementation EVPushManager
 
@@ -46,6 +47,8 @@ static EVPushManager *_sharedManager;
         viewController = [self paymentViewControllerWithPayment:(EVPayment *)self.pushObject];
     } else if ([className isEqualToString:@"EVGroupRequest"]) {
         viewController = [self pendingGroupViewControllerWithGroupRequest:(EVGroupRequest *)self.pushObject];
+    } else if ([className isEqualToString:@"EVWithdrawal"]) {
+        viewController = [self depositViewControllerWithDeposit:(EVWithdrawal *)self.pushObject];
     }
     return viewController;
 }
@@ -73,6 +76,17 @@ static EVPushManager *_sharedManager;
 
 - (EVPendingGroupViewController *)pendingGroupViewControllerWithGroupRequest:(EVGroupRequest *)groupRequest {
     EVPendingGroupViewController *controller = [[EVPendingGroupViewController alloc] initWithGroupRequest:groupRequest];
+    [RACAble(self.pushObject.loading) subscribeNext:^(NSNumber *loadingNumber) {
+        if ([loadingNumber boolValue] == NO) {
+            [controller reload];
+        }
+    }];
+    return controller;
+}
+
+- (EVHistoryDepositViewController *)depositViewControllerWithDeposit:(EVWithdrawal *)withdrawal {
+    EVHistoryDepositViewController *controller = [[EVHistoryDepositViewController alloc] initWithWithdrawal:withdrawal];
+    controller.canDismissManually = YES;
     [RACAble(self.pushObject.loading) subscribeNext:^(NSNumber *loadingNumber) {
         if ([loadingNumber boolValue] == NO) {
             [controller reload];

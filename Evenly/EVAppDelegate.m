@@ -165,7 +165,7 @@
 
 - (void)fakePush {
 //    NSDictionary *dictionary = @{ @"type" : @"Payment", @"id" : @"865" };
-    NSDictionary *dictionary = @{ @"type" : @"GroupCharge", @"id" : @"66" };
+    NSDictionary *dictionary = @{ @"type" : @"Withdrawal", @"id" : @"993" };
     EVViewController *viewController = [[EVPushManager sharedManager] viewControllerFromPushDictionary:dictionary];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:viewController];
     [self.masterViewController presentViewController:navController animated:YES completion:NULL];
