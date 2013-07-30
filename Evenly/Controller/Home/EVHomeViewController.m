@@ -93,6 +93,7 @@
     [button addTarget:self.masterViewController action:@selector(toggleRightPanel:) forControlEvents:UIControlEventTouchUpInside];
     button.adjustsImageWhenHighlighted = NO;
     button.showsTouchWhenHighlighted = YES;
+    [button setImageEdgeInsets:UIEdgeInsetsMake(1, 0, -1, 0)];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = barButtonItem;
 }
