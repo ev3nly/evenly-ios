@@ -13,6 +13,7 @@
 #import "EVRewardsSwitchView.h"
 #import "EVRewardsSlider.h"
 #import "EVRewardsFooterView.h"
+#import "EVRewardsAfterView.h"
 
 #import "EVHomeViewController.h"
 #import "EVFacebookManager.h"
@@ -26,6 +27,7 @@
 @property (nonatomic, strong) EVRewardsSwitchView *switchView;
 @property (nonatomic, strong) NSArray *sliders;
 @property (nonatomic, strong) EVRewardsFooterView *footerView;
+@property (nonatomic, strong) EVRewardsAfterView *afterView;
 
 @property (nonatomic, strong) EVRewardsSlider *chosenSlider;
 
@@ -80,6 +82,8 @@
 - (void)loadHeaderView {
     self.headerView = [[EVRewardsHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 96)];
     [self.view addSubview:self.headerView];
+    
+    self.afterView = [EVRewardsAfterView afterView];
 }
 
 - (void)loadSwitchView {
@@ -214,7 +218,19 @@
 
 - (void)updateInterface {
     [self updateSliders];
-    [self changeNavButton];    
+    NSString *topPhrase, *bottomPhrase = nil;
+    if (![self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
+        topPhrase = [NSString stringWithFormat:@"Nice! You've earned $%@!", [self.reward.selectedAmount stringValue]];
+    } else {
+        topPhrase = @"Better luck next time!";
+    }
+    bottomPhrase = @"Curious?  Swipe to reveal the other rewards.";
+    self.afterView.headerLabel.text = topPhrase;
+    self.afterView.otherOptionsLabel.text = bottomPhrase;
+    
+    [self.view addSubview:self.afterView];
+
+    [self changeNavButton];
 }
 
 - (void)updateSliders {
