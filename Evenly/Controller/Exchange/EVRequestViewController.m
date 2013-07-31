@@ -107,6 +107,7 @@
 }
 
 - (void)sendExchangeToServer {
+    self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REQUEST..."];
     
     if (!self.isGroupRequest)
@@ -147,14 +148,14 @@
                                      [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
                                      [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
                                      
-                                     /*  
+                                     /*
                                       // No stories (yet) for group requests
                                       
-                                     EVStory *story = [EVStory storyFromGroupRequest:self.groupRequest];
-                                     story.publishedAt = [NSDate date];
-                                     story.source = createdRequest;
-                                     [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
-                                     */
+                                      EVStory *story = [EVStory storyFromGroupRequest:self.groupRequest];
+                                      story.publishedAt = [NSDate date];
+                                      story.source = createdRequest;
+                                      [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
+                                      */
                                      [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                                          __block UIViewController *presenter = self.presentingViewController;
                                          [self.presentingViewController dismissViewControllerAnimated:YES
@@ -186,21 +187,21 @@
     [button addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [left addObject:button];
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
-
+    
     button = [EVBackButton button];
     [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [left addObject:button];
-
+    
     button = [EVBackButton button];
     [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [left addObject:button];
-
+    
     // Right buttons
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
     [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [right addObject:button];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
-
+    
     button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
     [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [right addObject:button];
@@ -225,7 +226,7 @@
     self.groupHowMuchView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     self.singleWhatForView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];
-    self.singleWhatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;    
+    self.singleWhatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     self.groupWhatForView = [[EVGroupRequestWhatForView alloc] initWithFrame:[self.view bounds]];
     self.groupWhatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
@@ -240,7 +241,7 @@
 }
 
 - (void)setUpReactions {
-
+    
     // Handle the first screen: if it's a group request, and if not, if it has at least one recipient.
     RAC(self.isGroupRequest) = RACAble(self.initialView.requestSwitch.on);
     
