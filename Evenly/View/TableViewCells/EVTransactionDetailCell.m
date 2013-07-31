@@ -73,6 +73,9 @@
 
     self.avatarView.avatarOwner = story.subject;
     self.rightAvatarView.avatarOwner = story.target;
+    
+    self.avatarView.userInteractionEnabled = [((EVObject *)story.subject).dbid intValue] >= 0;
+    self.rightAvatarView.userInteractionEnabled = [((EVObject *)story.target).dbid intValue] >= 0;
 }
 
 #pragma mark - Frames
