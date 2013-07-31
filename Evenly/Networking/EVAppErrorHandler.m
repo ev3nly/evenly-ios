@@ -112,19 +112,21 @@ withOriginalSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObje
   originalSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))originalSuccess
   originalFailure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))originalFailure {
     
-//    [[EVAppDelegate masterViewController] showKillswitchWithTitle:e418.userInfo[@"title"]
-//                                                          message:e418.userInfo[@"description"]
-//                                                        urlString:e418.userInfo[@"url"]];
+    EVMasterViewController *masterViewController = [(EVAppDelegate *)[UIApplication sharedApplication].delegate masterViewController];
     
-//    [NSTimer scheduledTimerWithTimeInterval:5.0 block:^{
-//        
-//        NSLog(@"checking to see if killswitch has been disabled");
-//        [EVUser meWithSuccess:^{
-//            [[EVAppDelegate masterViewController] dismissKillswitch];
-//            _handling418 = NO;
-//        } failure:nil reload:YES];
-//        
-//    } repeats:NO];
+    [masterViewController showKillswitchWithTitle:e418.userInfo[@"title"]
+                                          message:e418.userInfo[@"description"]
+                                        urlString:e418.userInfo[@"url"]];
+    
+    [NSTimer scheduledTimerWithTimeInterval:5.0 block:^{
+        
+        NSLog(@"checking to see if killswitch has been disabled");
+        [EVUser meWithSuccess:^{
+            [masterViewController dismissKillswitch];
+            _handling418 = NO;
+        } failure:nil reload:YES];
+        
+    } repeats:NO];
     
     _handling418 = YES;
 }
