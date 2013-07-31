@@ -13,12 +13,14 @@
 #import "EVPayment.h"
 #import "EVGroupRequest.h"
 #import "EVStory.h"
+#import "EVUser.h"
 
 #import "EVPendingDetailViewController.h"
 #import "EVHistoryPaymentViewController.h"
 #import "EVPendingGroupViewController.h"
 #import "EVHistoryDepositViewController.h"
 #import "EVStoryDetailViewController.h"
+#import "EVProfileViewController.h"
 
 @implementation EVPushManager
 
@@ -60,6 +62,8 @@ static EVPushManager *_sharedManager;
         viewController = [self depositViewControllerWithDeposit:(EVWithdrawal *)self.pushObject];
     } else if ([className isEqualToString:@"EVStory"]) {
         viewController = [self storyViewControllerWithStory:(EVStory *)self.pushObject];
+    } else if ([className isEqualToString:@"EVUser"]) {
+        viewController = [self profileViewControllerWithUser:(EVUser *)self.pushObject];
     }
     return viewController;
 }
@@ -108,6 +112,17 @@ static EVPushManager *_sharedManager;
 
 - (EVStoryDetailViewController *)storyViewControllerWithStory:(EVStory *)story {
     EVStoryDetailViewController *controller = [[EVStoryDetailViewController alloc] initWithStory:story];
+    controller.canDismissManually = YES;
+    [RACAble(self.pushObject.loading) subscribeNext:^(NSNumber *loadingNumber) {
+        if ([loadingNumber boolValue] == NO) {
+            [controller reload];
+        }
+    }];
+    return controller;
+}
+
+- (EVProfileViewController *)profileViewControllerWithUser:(EVUser *)user {
+    EVProfileViewController *controller = [[EVProfileViewController alloc] initWithUser:user];
     controller.canDismissManually = YES;
     [RACAble(self.pushObject.loading) subscribeNext:^(NSNumber *loadingNumber) {
         if ([loadingNumber boolValue] == NO) {
