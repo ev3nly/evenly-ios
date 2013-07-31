@@ -13,6 +13,4 @@
 @property (nonatomic, strong) UILabel *headerLabel;
 @property (nonatomic, strong) UILabel *otherOptionsLabel;
 
-+ (id)afterView;
-
 @end

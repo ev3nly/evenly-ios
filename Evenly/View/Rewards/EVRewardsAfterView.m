@@ -16,10 +16,6 @@
 
 @implementation EVRewardsAfterView
 
-+ (id)afterView {
-    return [[self alloc] initWithFrame:CGRectMake(95, 0, 225, 96)];
-}
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];

@@ -18,6 +18,11 @@
 #import "EVHomeViewController.h"
 #import "EVFacebookManager.h"
 
+#define AFTER_VIEW_X_ORIGIN 95
+#define AFTER_VIEW_Y_ORIGIN 0
+#define AFTER_VIEW_WIDTH 225
+#define AFTER_VIEW_HEIGHT 96
+
 @interface EVRewardsGameViewController ()
 
 @property (nonatomic, strong) EVReward *reward;
@@ -83,7 +88,14 @@
     self.headerView = [[EVRewardsHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 96)];
     [self.view addSubview:self.headerView];
     
-    self.afterView = [EVRewardsAfterView afterView];
+    self.afterView = [[EVRewardsAfterView alloc] initWithFrame:[self afterViewFrame]];
+}
+
+- (CGRect)afterViewFrame {
+    return CGRectMake(AFTER_VIEW_X_ORIGIN,
+                      AFTER_VIEW_Y_ORIGIN,
+                      AFTER_VIEW_WIDTH,
+                      AFTER_VIEW_HEIGHT);
 }
 
 - (void)loadSwitchView {
