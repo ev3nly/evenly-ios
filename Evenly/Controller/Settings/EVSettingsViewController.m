@@ -212,6 +212,7 @@
 
 - (void)showPasscodeController {
     EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
+    pinController.needsToEnterOldPIN = YES;
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
     [self.navigationController presentViewController:navController animated:YES completion:nil];
 }

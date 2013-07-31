@@ -16,4 +16,6 @@ typedef enum {
 
 @interface EVSetPINViewController : EVEnterPINViewController
 
+@property (nonatomic, assign) BOOL needsToEnterOldPIN;
+
 @end

@@ -18,4 +18,6 @@
 
 - (BOOL)containsString:(NSString *)string;
 
+- (int)intValue;
+
 @end

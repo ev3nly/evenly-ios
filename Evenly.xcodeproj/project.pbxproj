@@ -336,6 +336,7 @@
 		9CCA9017175EA8FC003462DC /* EVSidePanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9016175EA8FC003462DC /* EVSidePanelViewController.m */; };
 		9CCA901A175EBCCC003462DC /* EVAppErrorHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA9019175EBCCC003462DC /* EVAppErrorHandler.m */; };
 		9CCA901D175EBD47003462DC /* EVMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCA901C175EBD47003462DC /* EVMasterViewController.m */; };
+		9CCE2A1717A87E51006A3644 /* EVRewardsAfterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CCE2A1617A87E51006A3644 /* EVRewardsAfterView.m */; };
 		9CD306A5176287E400D23852 /* EVWalletStamp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306A4176287E400D23852 /* EVWalletStamp.m */; };
 		9CD306A817628E7E00D23852 /* EVWalletItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306A717628E7E00D23852 /* EVWalletItemCell.m */; };
 		9CD306AB1762970300D23852 /* EVStoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD306AA1762970300D23852 /* EVStoryCell.m */; };
@@ -1044,6 +1045,8 @@
 		9CCA9019175EBCCC003462DC /* EVAppErrorHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAppErrorHandler.m; sourceTree = "<group>"; };
 		9CCA901B175EBD47003462DC /* EVMasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMasterViewController.h; sourceTree = "<group>"; };
 		9CCA901C175EBD47003462DC /* EVMasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMasterViewController.m; sourceTree = "<group>"; };
+		9CCE2A1517A87E51006A3644 /* EVRewardsAfterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardsAfterView.h; sourceTree = "<group>"; };
+		9CCE2A1617A87E51006A3644 /* EVRewardsAfterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardsAfterView.m; sourceTree = "<group>"; };
 		9CD306A3176287E400D23852 /* EVWalletStamp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletStamp.h; sourceTree = "<group>"; };
 		9CD306A4176287E400D23852 /* EVWalletStamp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletStamp.m; sourceTree = "<group>"; };
 		9CD306A617628E7E00D23852 /* EVWalletItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletItemCell.h; sourceTree = "<group>"; };
@@ -2517,6 +2520,8 @@
 				9CB7FB65178CD70200827B5B /* EVRewardsFooterView.m */,
 				9C9C7C9517A1E3080095FB54 /* EVRewardsCardAmountView.h */,
 				9C9C7C9617A1E3080095FB54 /* EVRewardsCardAmountView.m */,
+				9CCE2A1517A87E51006A3644 /* EVRewardsAfterView.h */,
+				9CCE2A1617A87E51006A3644 /* EVRewardsAfterView.m */,
 			);
 			path = Rewards;
 			sourceTree = "<group>";
@@ -3603,6 +3608,7 @@
 				9C9C7C9717A1E3080095FB54 /* EVRewardsCardAmountView.m in Sources */,
 				9CFD9DA917A33D1000DE8190 /* EVParseUtility.m in Sources */,
 				9C732A3F17A72FFC000D210C /* EVPushManager.m in Sources */,
+				9CCE2A1717A87E51006A3644 /* EVRewardsAfterView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3677,7 +3683,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3693,7 +3699,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0F3CAE62-0513-4307-8298-712AEC20BD79";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 			};
@@ -3711,7 +3717,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3721,7 +3727,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0F3CAE62-0513-4307-8298-712AEC20BD79";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -3732,8 +3738,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ivy Payments, Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3749,8 +3755,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
+				PROVISIONING_PROFILE = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3759,8 +3765,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ivy Payments, Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3776,8 +3782,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
+				PROVISIONING_PROFILE = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "71B7A8BF-8F3D-465F-9682-C09372859EF3";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
