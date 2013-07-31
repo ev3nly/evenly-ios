@@ -232,7 +232,7 @@
     [self updateSliders];
     NSString *topPhrase, *bottomPhrase = nil;
     if (![self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
-        topPhrase = [NSString stringWithFormat:@"Nice! You've earned $%@!", [EVStringUtility amountStringForAmount:self.reward.selectedAmount]];
+        topPhrase = [NSString stringWithFormat:@"Nice! You've earned %@!", [EVStringUtility amountStringForAmount:self.reward.selectedAmount]];
     } else {
         topPhrase = @"Better luck next time!";
     }
