@@ -17,7 +17,7 @@
 }
 
 + (UIColor *)lightGreenColor {
-    EV_RETURN_STATIC_RGB_COLOR(8, 192, 173 );
+    EV_RETURN_STATIC_RGB_COLOR(8, 192, 173);
 }
 
 + (UIColor *)lightRedColor {

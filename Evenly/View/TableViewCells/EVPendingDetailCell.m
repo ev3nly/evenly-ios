@@ -36,6 +36,8 @@
     return (superHeight + dateHeight + PENDING_DATE_BOTTOM_SECTION_BUFFER + differenceInBottomSectionHeight);
 }
 
+#pragma mark - Lifecycle
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
@@ -45,6 +47,17 @@
     }
     return self;
 }
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.rejectButton.frame = [self rejectButtonFrame];
+    self.confirmButton.frame = [self confirmButtonFrame];
+    self.cancelButton.frame = [self rejectButtonFrame];
+    self.remindButton.frame = [self confirmButtonFrame];
+}
+
+#pragma mark - View Loading
 
 - (void)loadRejectButton {
     self.rejectButton = [UIButton new];
@@ -98,6 +111,15 @@
 #pragma mark - Setters
 
 - (void)setStory:(EVStory *)story {
+    [self.rejectButton removeFromSuperview];
+    [self.confirmButton removeFromSuperview];
+    [self.cancelButton removeFromSuperview];
+    [self.remindButton removeFromSuperview];
+    self.rejectButton = nil;
+    self.confirmButton = nil;
+    self.cancelButton = nil;
+    self.remindButton = nil;
+    
     [super setStory:story];
 //    [self switchAvatars];
     [self configureButtonsForStoryType:story.transactionType];

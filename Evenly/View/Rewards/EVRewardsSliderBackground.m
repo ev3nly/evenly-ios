@@ -59,7 +59,7 @@
         [self.rewardCard setCenter:CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0)];
         [self.rewardCard setTransform:CGAffineTransformMakeScale(0.01, 0.01)];
         [self addSubview:self.rewardCard];
-        [UIView animateWithDuration:0.2
+        [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION
                          animations:^{
                              [self setBackgroundColor:[UIColor whiteColor]];
                              [self stopAnimating];

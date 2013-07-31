@@ -25,6 +25,11 @@
     return self;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self.tableView setLoading:self.withdrawal.loading];
+    [self.tableView setTableFooterView:(self.withdrawal.loading ? nil : self.footerView)];
+}
 
 - (NSString *)fieldTextForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *fieldText = nil;
@@ -71,6 +76,8 @@
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.withdrawal.loading)
+        return 0;
     return EVHistoryDepositRowCOUNT;
 }
 

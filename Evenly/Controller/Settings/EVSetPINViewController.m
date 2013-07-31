@@ -30,8 +30,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.title = @"Set Passcode";
-        if (![[EVPINUtility sharedUtility] pinIsSet])
-            self.currentState = EVEnterPINStateEnterNew;
+        self.currentState = EVEnterPINStateEnterNew;
     }
     return self;
 }
@@ -117,6 +116,13 @@
             self.pinView = newView;
         }];
     });
+}
+
+- (void)setNeedsToEnterOldPIN:(BOOL)needsToEnterOldPIN {
+    _needsToEnterOldPIN = needsToEnterOldPIN;
+    
+    self.currentState = needsToEnterOldPIN ? EVEnterPINStateEnterOld : EVEnterPINStateEnterNew;
+    self.instructionsLabel.text = [self enterPinPrompt];
 }
 
 - (NSString *)enterPinPrompt {

@@ -13,5 +13,6 @@
 @interface EVSerializer : NSObject
 
 + (EVObject *)serializeDictionary:(NSDictionary *)dictionary;
++ (EVObject *)serializeType:(NSString *)type dbid:(NSString *)dbid;
 
 @end

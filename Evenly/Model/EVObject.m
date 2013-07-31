@@ -19,6 +19,9 @@
 
 @synthesize originalDictionary = _originalDictionary;
 
+
+#pragma mark - Class Methods
+
 + (NSString *)controllerName {
     return nil; // abstract
 }
@@ -122,6 +125,33 @@ static NSDateFormatter *_dateFormatter = nil;
     return self;
 }
 
+- (id)initWithID:(NSString *)dbid {
+    id cachedObject = [[EVCIA sharedInstance] cachedObjectWithClassName:NSStringFromClass([self class])
+                                                                   dbid:dbid];
+    if (cachedObject)
+    {
+        self = cachedObject;
+        [self reloadWithSuccess:^(id object) {
+
+        } failure:^(NSError *error) {
+            DLog(@"error: %@", error);
+        }];
+    }
+    else
+    {
+        self = [super init];
+        if (self) {
+            _dbid = dbid;
+            [self reloadWithSuccess:^(id object) {
+
+            } failure:^(NSError *error) {
+                DLog(@"error: %@", error);
+            }];
+        }
+    }
+    return self;
+}
+
 - (void)setProperties:(NSDictionary *)properties {
     if ([[properties valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
         _dbid = [[properties valueForKey:@"id"] stringValue];
@@ -206,6 +236,32 @@ static NSDateFormatter *_dateFormatter = nil;
     AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
                                                                       success:successBlock
                                                                       failure:[self standardFailureBlockWithFailure:failure]];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
+- (void)reloadWithSuccess:(void (^)(id object))success failure:(void (^)(NSError *error))failure {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self reloadWithSuccess:success failure:failure];
+    });
+    
+    NSMutableURLRequest *request = [[self class] requestWithMethod:@"GET"
+                                                              path:self.dbid
+                                                        parameters:nil];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        EVObject *object = nil;
+        if ([responseObject isKindOfClass:[NSDictionary class]])
+            object = [[[self class] alloc] initWithDictionary:responseObject];
+        [self setProperties:[object originalDictionary]];
+        [[EVCIA sharedInstance] cacheObject:object];
+        self.loading = NO;
+        if (success)
+            success(object);
+    };
+    
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                      success:successBlock
+                                                                      failure:[[self class] standardFailureBlockWithFailure:failure]];
+    self.loading = YES;
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 

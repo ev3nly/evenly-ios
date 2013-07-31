@@ -15,11 +15,15 @@
 #import "EVNavigationManager.h"
 #import "MBProgressHUD.h"
 
-@interface EVPendingDetailViewController ()
+@interface EVPendingDetailViewController () {
+    BOOL _loading;
+}
 
 @end
 
 @implementation EVPendingDetailViewController
+
+@dynamic loading;
 
 #pragma mark - Lifecycle
 
@@ -36,6 +40,8 @@
     [super viewDidLoad];
     
     [self loadTableView];
+    if (self.exchange.isLoading)
+        [self.tableView setLoading:YES];
 }
 
 - (void)loadTableView {
@@ -49,6 +55,24 @@
     self.tableView.backgroundView = nil;
     [self.tableView registerClass:[EVPendingDetailCell class] forCellReuseIdentifier:@"pendingDetailCell"];
     [self.view addSubview:self.tableView];
+    
+    [self.tableView setLoading:[self.exchange isLoading]];
+}
+
+#pragma mark - EVReloadable
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+    [self.tableView setLoading:_loading];
+}
+
+- (BOOL)isLoading {
+    return _loading;
+}
+
+- (void)reload {
+    [self.tableView reloadData];
+    [self.tableView setLoading:NO];
 }
 
 #pragma mark - Take Action
@@ -156,6 +180,8 @@
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.exchange.loading)
+        return 0;
     return 1;
 }
 
