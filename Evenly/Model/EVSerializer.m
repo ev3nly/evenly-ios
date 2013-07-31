@@ -22,6 +22,7 @@
 #import "EVWithdrawal.h"
 #import "EVNotificationSetting.h"
 #import "EVConnection.h"
+#import "EVStory.h"
 
 static NSDictionary *_classMapping = nil;
 
@@ -51,7 +52,8 @@ static NSDictionary *_classMapping = nil;
           @"Balanced::Card":        [EVCreditCard class],
           @"Balanced::BankAccount": [EVBankAccount class],
           @"NotificationSetting":   [EVNotificationSetting class],
-          @"Connection":            [EVConnection class]
+          @"Connection":            [EVConnection class],
+          @"Story":                 [EVStory class]
         };
     }
     return _classMapping;

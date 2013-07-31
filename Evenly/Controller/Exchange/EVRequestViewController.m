@@ -99,6 +99,7 @@
 #pragma mark - Basic Interface
 
 - (void)sendExchangeToServer {
+    self.navigationController.navigationBar.backgroundColor = [UIColor clearColor];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING REQUEST..."];
     
     if (self.isGroupRequest)

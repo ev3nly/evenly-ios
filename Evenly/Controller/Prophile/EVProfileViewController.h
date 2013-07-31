@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVViewController.h"
+#import "EVModalViewController.h"
 #import "EVUser.h"
 
-@interface EVProfileViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
+@interface EVProfileViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, EVReloadable>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) EVUser *user;
