@@ -37,9 +37,8 @@
     self = [super initWithBaseURL:url];
     if (self) {
         self.parameterEncoding = AFJSONParameterEncoding;
-        
-        [self setDefaultHeader:@"Ios-Version" value:EV_APP_VERSION];
-        [self setDefaultHeader:@"Ios-Build" value:EV_APP_BUILD];
+        NSString *headerValue = [NSString stringWithFormat:@"iOS-v%@b%@", EV_APP_VERSION, EV_APP_BUILD];
+        [self setDefaultHeader:@"Client-Version" value:headerValue];
 #ifndef DEBUG
 #ifdef _AFNETWORKING_PIN_SSL_CERTIFICATES_
         [self setDefaultSSLPinningMode:AFSSLPinningModePublicKey];
