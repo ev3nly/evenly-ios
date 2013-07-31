@@ -28,41 +28,6 @@
 
 #pragma mark - View Loading
 
-- (void)loadNavigationButtons {
-    NSMutableArray *left = [NSMutableArray array];
-    NSMutableArray *right = [NSMutableArray array];
-    UIButton *button;
-    
-    // Left buttons
-    [self.navigationItem setLeftBarButtonItem:[self cancelButton] animated:NO];
-    
-    button = [EVBackButton button];
-    [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [left addObject:button];
-    
-    button = [EVBackButton button];
-    [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [left addObject:button];
-    
-    // Right buttons
-    button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
-    [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [right addObject:button];
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
-    
-    button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
-    [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [right addObject:button];
-    
-    button = [[EVNavigationBarButton alloc] initWithTitle:@"Tip"];
-    [button addTarget:self action:@selector(actionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [right addObject:button];
-    
-    self.leftButtons = [NSArray arrayWithArray:left];
-    self.rightButtons = [NSArray arrayWithArray:right];
-}
-
-
 - (UIBarButtonItem *)cancelButton {
     UIImage *closeImage = [EVImages navBarCancelButton];
     UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, closeImage.size.width + 20.0, closeImage.size.height)];
@@ -208,6 +173,10 @@
         return NO;
     }
     return YES;
+}
+
+- (NSString *)actionButtonText {
+    return @"Tipping";
 }
 
 @end

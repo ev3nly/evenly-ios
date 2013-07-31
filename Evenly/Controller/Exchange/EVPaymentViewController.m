@@ -30,36 +30,32 @@
     return self;
 }
 
-#pragma mark - Basic Interface
+#pragma mark - View Loading
 
-- (void)advancePhase {
-    if (self.phase == EVExchangePhaseWho)
-    {
-        if (![self shouldAdvanceToHowMuch])
-            return;
-        
-        self.payment = [[EVPayment alloc] init];
-        EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
-        self.payment.to = recipient;
-        [self.howMuchView.titleLabel setText:[NSString stringWithFormat:@"Pay %@...", [recipient name]]];
-        [self pushView:self.howMuchView animated:YES];
-        
-        self.phase = EVExchangePhaseHowMuch;
-    }
-    else if (self.phase == EVExchangePhaseHowMuch)
-    {
-        if (![self shouldAdvanceToWhatFor])
-            return;
-        
-        self.payment.amount = [EVStringUtility amountFromAmountString:self.howMuchView.amountField.text];
-        EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader paymentHeaderForPerson:self.payment.to amount:self.payment.amount];
-        self.whatForView.whatForHeader = header;
-        [self pushView:self.whatForView animated:YES];
-        
-        self.phase = EVExchangePhaseWhatFor;
-    }
-    [self setUpNavBar];
+- (void)loadContentViews {
+    self.initialView = [[EVPaymentWhoView alloc] initWithFrame:[self.view bounds]];
+    self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    
+    self.howMuchView = [[EVExchangeHowMuchView alloc] initWithFrame:[self.view bounds]];
+    self.howMuchView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    
+    self.whatForView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];
+    self.whatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    [self.whatForView addSubview:self.privacySelector];
+    
+    [self.view addSubview:self.initialView];
+    [self.viewStack addObject:self.initialView];
+    [self.view bringSubviewToFront:self.privacySelector];
 }
+
+- (void)setUpReactions {
+    [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
+        if ([hasRecipients integerValue] == 1)
+            [self advancePhase];
+    }];
+}
+
+#pragma mark - Basic Interface
 
 - (void)sendExchangeToServer {
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
@@ -68,7 +64,6 @@
     [self setVisibilityForExchange:self.payment];
     
     [self.payment saveWithSuccess:^{
-        
         // Don't allow the balance to fall below 0.  If a payment amount is > available balance, it gets
         // paid via credit card, leaving the balance unaffected.
         NSDecimalNumber *newBalance = [[[EVCIA me] balance] decimalNumberBySubtracting:self.payment.amount];
@@ -84,8 +79,7 @@
         
         void (^completion)(void) = NULL;
         
-        if (self.payment.reward)
-        {
+        if (self.payment.reward) {
             EVRewardsGameViewController *rewardsViewController = [[EVRewardsGameViewController alloc] initWithReward:self.payment.reward];
             [self unloadPageControlAnimated:YES];
             completion = ^{
@@ -106,85 +100,21 @@
     }];
 }
 
-#pragma mark - View Loading
+#pragma mark - Advancing
 
-- (void)loadNavigationButtons {
-    
-    NSMutableArray *left = [NSMutableArray array];
-    NSMutableArray *right = [NSMutableArray array];
-    UIButton *button;
-    
-    // Left buttons
-    button = [self defaultCancelButton];
-    [button addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [left addObject:button];
-    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
-    
-    button = [EVBackButton button];
-    [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [left addObject:button];
-    
-    button = [EVBackButton button];
-    [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [left addObject:button];
-    
-    // Right buttons
-    button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
-    [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [right addObject:button];
-    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
-    
-    button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
-    [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [right addObject:button];
-    
-    button = [[EVNavigationBarButton alloc] initWithTitle:@"Pay"];
-    [button addTarget:self action:@selector(actionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [right addObject:button];
-    
-    self.leftButtons = [NSArray arrayWithArray:left];
-    self.rightButtons = [NSArray arrayWithArray:right];
+- (void)advanceToHowMuch {
+    self.payment = [[EVPayment alloc] init];
+    EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
+    self.payment.to = recipient;
+    [self.howMuchView.titleLabel setText:[NSString stringWithFormat:@"Pay %@...", [recipient name]]];
+    [self pushView:self.howMuchView animated:YES];
 }
 
-- (void)loadContentViews {
-    self.initialView = [[EVPaymentWhoView alloc] initWithFrame:[self.view bounds]];
-    self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-    
-    self.howMuchView = [[EVExchangeHowMuchView alloc] initWithFrame:[self.view bounds]];
-    self.howMuchView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-    
-    self.whatForView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];
-    self.whatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-    [self.whatForView addSubview:self.privacySelector];
-
-    [self.view addSubview:self.initialView];
-    [self.viewStack addObject:self.initialView];
-    [self.view bringSubviewToFront:self.privacySelector];
-}
-
-- (void)setUpReactions {
-    // FIRST SCREEN:
-    [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
-        if ([hasRecipients integerValue] == 1)
-            [self advancePhase];
-    }];
-}
-
-- (void)nextButtonPress:(id)sender {
-    if (self.phase == EVExchangePhaseWho)
-    {
-        NSString *toFieldContents = self.initialView.toField.textField.text;
-        if ([[EVValidator sharedValidator] stringIsValidEmail:toFieldContents]) {
-            [self.initialView addTokenFromField:self.initialView.toField];
-            [self.autocompleteTableViewController handleFieldInput:nil];
-        } else {
-            [self advancePhase];
-        }
-    }
-    else
-    {
-        [super nextButtonPress:sender];
-    }
+- (void)advanceToWhatFor {
+    self.payment.amount = [EVStringUtility amountFromAmountString:self.howMuchView.amountField.text];
+    EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader paymentHeaderForPerson:self.payment.to amount:self.payment.amount];
+    self.whatForView.whatForHeader = header;
+    [self pushView:self.whatForView animated:YES];    
 }
 
 #pragma mark - Validation
@@ -217,6 +147,12 @@
         return NO;
     }
     return YES;
+}
+
+#pragma mark - Utility
+
+- (NSString *)actionButtonText {
+    return @"Pay";
 }
 
 @end
