@@ -67,4 +67,9 @@
     return [self rangeOfString:string].location != NSNotFound;
 }
 
+- (int)intValue {
+    NSDecimalNumber *decimalNumber = [NSDecimalNumber decimalNumberWithString:self];
+    return [decimalNumber intValue];
+}
+
 @end
