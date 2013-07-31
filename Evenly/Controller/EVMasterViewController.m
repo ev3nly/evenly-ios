@@ -14,6 +14,9 @@
 
 @interface EVMasterViewController ()
 
+@property (nonatomic, strong) NSURL *killswitchURL;
+@property (nonatomic, strong) UIAlertView *killswitchAlertView;
+
 @end
 
 @implementation EVMasterViewController
@@ -84,6 +87,39 @@
             DLog(@"Error: %@", error);
         }];
     }];
+}
+
+#pragma mark - Killswitch
+- (void)showKillswitchWithTitle:(NSString *)title message:(NSString *)message urlString:(NSString *)urlString {
+    if (!self.killswitchAlertView)
+    {
+        NSString *buttonString = nil;
+        if (urlString) {
+            self.killswitchURL = [NSURL URLWithString:urlString];
+            buttonString = @"OK";
+        }
+        
+        self.killswitchAlertView = [[UIAlertView alloc] initWithTitle:title
+                                                              message:message
+                                                             delegate:self
+                                                    cancelButtonTitle:buttonString
+                                                    otherButtonTitles:nil];
+        [self.killswitchAlertView show];
+    }
+}
+
+- (void)dismissKillswitch {
+    [self.killswitchAlertView dismissWithClickedButtonIndex:0 animated:YES];
+    self.killswitchAlertView = nil;
+    self.killswitchURL = nil;
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (self.killswitchURL) {
+        [[UIApplication sharedApplication] openURL:self.killswitchURL];
+        self.killswitchAlertView = nil;
+        self.killswitchURL = nil;
+    }
 }
 
 @end

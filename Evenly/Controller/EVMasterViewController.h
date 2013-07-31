@@ -8,7 +8,7 @@
 
 #import "JASidePanelController.h"
 
-@interface EVMasterViewController : JASidePanelController
+@interface EVMasterViewController : JASidePanelController <UIAlertViewDelegate>
 
 #pragma mark - Onboarding
 
@@ -24,5 +24,9 @@
 
 #pragma mark - PIN Controller
 - (void)showPINViewControllerAnimated:(BOOL)animated;
+
+#pragma mark - Killswitch
+- (void)showKillswitchWithTitle:(NSString *)title message:(NSString *)message urlString:(NSString *)urlString;
+- (void)dismissKillswitch;
 
 @end
