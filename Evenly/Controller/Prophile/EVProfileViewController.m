@@ -21,7 +21,10 @@
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 
-@interface EVProfileViewController ()
+@interface EVProfileViewController () {
+    BOOL _loading;
+}
+
 
 @property (nonatomic, strong) EVProfileCell *profileCell;
 
@@ -36,6 +39,7 @@
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.title = @"Profile";
         self.user = user;
+        self.canDismissManually = NO;
     }
     return self;
 }
@@ -48,6 +52,7 @@
         [self loadWalletBarButtonItem];
     [self loadTableView];
     [self loadProfileCell];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -96,6 +101,8 @@
             [profileController.tableView.pullToRefreshView stopAnimating];
         }];
     }];
+    
+    [self.tableView setLoading:self.user.loading];
 }
 
 - (void)loadProfileCell {
@@ -158,6 +165,9 @@
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.user.loading)
+        return 0;
+    
     if (![self hasExchanges] && !self.tableView.isLoading)
         return 2;
     return (1 + [self.timeline count]);
@@ -216,4 +226,21 @@
     return tableFrame;
 }
 
+
+#pragma mark - EVReloadable
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+    [self.tableView setLoading:_loading];
+}
+
+- (BOOL)isLoading {
+    return _loading;
+}
+
+- (void)reload {
+    [self loadProfileCell];
+    [self.tableView reloadData];
+    [self.tableView setLoading:NO];
+}
 @end

@@ -10,7 +10,9 @@
 #import "EVProfileViewController.h"
 #import "EVStory.h"
 
-@interface EVStoryDetailViewController ()
+@interface EVStoryDetailViewController () {
+    BOOL _loading;
+}
 
 @end
 
@@ -22,6 +24,7 @@
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.story = story;
         self.title = @"Transaction";
+        self.canDismissManually = NO;
     }
     return self;
 }
@@ -44,6 +47,8 @@
     self.tableView.backgroundView = nil;
     [self.tableView registerClass:[EVTransactionDetailCell class] forCellReuseIdentifier:@"detailCell"];
     [self.view addSubview:self.tableView];
+    
+    [self.tableView setLoading:self.story.loading];
 }
 
 #pragma mark - Button Handling
@@ -58,6 +63,9 @@
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.story.loading) {
+        return 0;
+    }
     return 1;
 }
 
@@ -75,6 +83,22 @@
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - EVReloadable
+
+- (void)setLoading:(BOOL)loading {
+    _loading = loading;
+    [self.tableView setLoading:_loading];
+}
+
+- (BOOL)isLoading {
+    return _loading;
+}
+
+- (void)reload {
+    [self.tableView reloadData];
+    [self.tableView setLoading:NO];
 }
 
 @end
