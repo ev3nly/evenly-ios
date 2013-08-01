@@ -24,12 +24,4 @@
 @property (nonatomic, strong) EVRequest *request;
 @property (nonatomic, strong) EVGroupRequest *groupRequest;
 
-@property (nonatomic, strong) EVRequestWhoView *initialView;
-
-@property (nonatomic, strong) EVExchangeHowMuchView *singleHowMuchView;
-@property (nonatomic, strong) EVGroupRequestHowMuchView *groupHowMuchView;
-
-@property (nonatomic, strong) EVExchangeWhatForView *singleWhatForView;
-@property (nonatomic, strong) EVGroupRequestWhatForView *groupWhatForView;
-
 @end

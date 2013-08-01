@@ -114,6 +114,32 @@
     return [UIImage imageNamed:@"Privacy-Check"];
 }
 
+#pragma mark - Sharing
+
++ (UIImage *)shareEvenlyActive {
+    return [UIImage imageNamed:@"evenly_active"];
+}
+
++ (UIImage *)shareEvenlyInactive {
+    return [UIImage imageNamed:@"evenly_inactive"];
+}
+
++ (UIImage *)shareFacebookActive {
+    return [UIImage imageNamed:@"facebook_active"];
+}
+
++ (UIImage *)shareFacebookInactive {
+    return [UIImage imageNamed:@"facebook_inactive"];
+}
+
++ (UIImage *)shareTwitterActive {
+    return [UIImage imageNamed:@"twitter_active"];
+}
+
++ (UIImage *)shareTwitterInactive {
+    return [UIImage imageNamed:@"twitter_inactive"];
+}
+
 #pragma mark - Income Icons
 
 + (UIImage *)incomeIcon {

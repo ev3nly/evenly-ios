@@ -40,6 +40,7 @@
     x = EV_FLOATING_PAYMENT_BUTTON_TEXT_MARGIN;
     width = self.label.frame.size.width;
     height = self.label.frame.size.height;
+    x = (self.bounds.size.width - EV_FLOATING_PAYMENT_BUTTON_ARROW_MARGIN - self.arrowImageView.image.size.width)/2 - width/2;
     y = (int)((self.frame.size.height - height) / 2.0) - EV_FLOATING_PAYMENT_BUTTON_DROP_SHADOW_OFFSET;
     self.label.frame = CGRectMake(x, y, width, height);
 

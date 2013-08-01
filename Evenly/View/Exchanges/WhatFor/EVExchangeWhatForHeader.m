@@ -15,7 +15,8 @@
 
 typedef enum {
     EVExchangeWhatForTypePayment,
-    EVExchangeWhatForTypeRequest
+    EVExchangeWhatForTypeRequest,
+    EVExchangeWhatForTypeTip
 } EVExchangeWhatForType;
 
 @interface EVExchangeWhatForHeader ()
@@ -45,6 +46,10 @@ typedef enum {
     return [[self alloc] initWithWhatForType:EVExchangeWhatForTypeRequest people:people amounts:amounts];
 }
 
++ (id)tipHeaderForPerson:(EVObject <EVExchangeable>*)person {
+    return [[self alloc] initWithWhatForType:EVExchangeWhatForTypeTip people:@[ person ] amounts:nil];
+}
+
 - (id)initWithWhatForType:(EVExchangeWhatForType)type people:(NSArray *)people amounts:(NSArray *)amounts {
     self = [self initWithFrame:DEFAULT_FRAME];
     if (self) {
@@ -70,8 +75,10 @@ typedef enum {
     NSString *text;
     if (self.type == EVExchangeWhatForTypePayment)
         text = @"Pay";
-    else {
+    else if (self.type == EVExchangeWhatForTypeRequest) {
         text = (self.people.count == 1 ? @"owes me" : @"owe me");
+    } else if (self.type == EVExchangeWhatForTypeTip) {
+        text = @"Tip";
     }
     
     self.verbLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -87,6 +94,8 @@ typedef enum {
     NSString *text = (self.amounts.count == 1 ?
                       [EVStringUtility amountStringForAmount:[self.amounts lastObject]] :
                       [NSString stringWithFormat:@"%d amounts", self.amounts.count]);
+    if (self.type == EVExchangeWhatForTypeTip)
+        text = @"";
     
     self.amountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.amountLabel.backgroundColor = [UIColor clearColor];
@@ -113,7 +122,7 @@ typedef enum {
     [self.avatarToken layoutSubviews];
     
     CGFloat maxX = 0.0;
-    if (self.type == EVExchangeWhatForTypePayment)
+    if (self.type == EVExchangeWhatForTypePayment || self.type == EVExchangeWhatForTypeTip)
     {
         self.verbLabel.frame = CGRectMake(X_MARGIN,
                                           (self.frame.size.height - self.verbLabel.frame.size.height) / 2.0,
