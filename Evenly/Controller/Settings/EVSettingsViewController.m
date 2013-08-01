@@ -65,6 +65,26 @@
     self.tableView.backgroundView = nil;
     [self.tableView registerClass:[EVSettingsCell class] forCellReuseIdentifier:@"settingsCell"];
     [self.view addSubview:self.tableView];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [EVFont defaultFontOfSize:13];
+    label.textColor = [EVColor lightLabelColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    
+#ifdef DEBUG
+    label.text = [NSString stringWithFormat:@"iOS-v%@b%@", EV_APP_VERSION, EV_APP_BUILD];
+#else
+    label.text = [NSString stringWithFormat:@"v%@", EV_APP_VERSION];
+#endif
+    
+    [label sizeToFit];
+    
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 25.0)];
+    [label setCenter:CGPointMake(view.frame.size.width / 2, view.frame.size.height / 2)];
+    [view addSubview:label];
+    
+    self.tableView.tableFooterView = view;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
