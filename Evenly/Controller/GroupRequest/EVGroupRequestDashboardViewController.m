@@ -227,29 +227,36 @@ typedef enum {
 #pragma mark - EVGroupRequestRecordViewControllerDelegate
 
 - (void)viewController:(EVGroupRequestRecordViewController *)viewController updatedRecord:(EVGroupRequestRecord *)record {
-    NSInteger index = [self.groupRequest.records indexOfObject:record];
-    [self.tableView beginUpdates];
-    [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVDashboardPermanentRowCOUNT + index inSection:0] ]
-                          withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView endUpdates];
+    EV_PERFORM_ON_MAIN_QUEUE(^{
+        NSInteger index = [self.groupRequest.records indexOfObject:record];
+        [self.tableView beginUpdates];
+        [self.tableView reloadRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:EVDashboardPermanentRowCOUNT + index inSection:0] ]
+                              withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView endUpdates];
+    });
 }
 
 - (void)viewController:(EVGroupRequestRecordViewController *)viewController deletedRecord:(EVGroupRequestRecord *)record {
-    [self.dataSource setGroupRequest:self.groupRequest];
-    [self.tableView reloadData];
+    EV_PERFORM_ON_MAIN_QUEUE(^{
+        [self.dataSource setGroupRequest:self.groupRequest];
+        [self.tableView reloadData];
+    });
 }
 #pragma mark - EVGroupRequestEditViewControllerDelegate
 
 - (void)editViewControllerMadeChanges:(EVGroupRequestEditViewController *)editViewController {
-    self.title = self.groupRequest.title;
-    [self.tableView reloadData];
+    EV_PERFORM_ON_MAIN_QUEUE(^{
+        [self.tableView reloadData];
+    });
 }
 
 #pragma mark - EVGroupRequestInviteViewControllerDelegate
 
 - (void)inviteViewController:(EVGroupRequestInviteViewController *)controller sentInvitesTo:(NSArray *)invitees {
-    [self.dataSource setGroupRequest:self.groupRequest];
-    [self.tableView reloadData];
+    EV_PERFORM_ON_MAIN_QUEUE(^{
+        [self.dataSource setGroupRequest:self.groupRequest];
+        [self.tableView reloadData];
+    });
 }
 
 @end
