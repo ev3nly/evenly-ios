@@ -15,5 +15,6 @@
 + (id)paymentHeaderForPerson:(EVObject <EVExchangeable>*)person amount:(NSDecimalNumber *)amount;
 + (id)requestHeaderForPerson:(EVObject <EVExchangeable>*)person amount:(NSDecimalNumber *)amount;
 + (id)groupRequestHeaderForPeople:(NSArray *)people amounts:(NSArray *)amounts;
++ (id)tipHeaderForPerson:(EVObject <EVExchangeable>*)person;
 
 @end

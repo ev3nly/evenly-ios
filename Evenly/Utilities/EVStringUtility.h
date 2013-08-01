@@ -38,6 +38,7 @@
 + (NSString *)requestDescriptionPlaceholder;
 + (NSString *)groupRequestTitlePlaceholder;
 + (NSString *)groupRequestDescriptionPlaceholder;
++ (NSString *)tipDescriptionPlaceholder;
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber;
 

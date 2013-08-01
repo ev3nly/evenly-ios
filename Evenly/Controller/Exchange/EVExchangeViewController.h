@@ -7,12 +7,9 @@
 //
 
 #import "EVPushPopViewController.h"
-
-#import "EVAutocompleteTableViewController.h" 
-
+#import "EVAutocompleteTableViewController.h"
 #import "EVPageControl.h"
 #import "EVPrivacySelectorToggle.h"
-
 #import "EVExchangeWhoView.h"
 
 typedef enum {
@@ -24,56 +21,42 @@ typedef enum {
 @interface EVExchangeViewController : EVPushPopViewController <EVAutocompleteTableViewControllerDelegate>
 
 @property (nonatomic) EVExchangePhase phase;
-@property (nonatomic, strong) NSArray *leftButtons;
-@property (nonatomic, strong) NSArray *rightButtons;
 
 @property (nonatomic, strong) EVPageControl *pageControl;
-
 @property (nonatomic, strong) EVAutocompleteTableViewController *autocompleteTableViewController;
 @property (nonatomic, strong) EVExchangeWhoView *initialView;
-
 @property (nonatomic, strong) EVPrivacySelectorToggle *privacySelector;
 
 #pragma mark - Basic Interface
-
 - (void)addContact:(id)contact;
-- (void)advancePhase;
 - (void)sendExchangeToServer;
 
 #pragma mark - View Loading
-
-- (void)loadNavigationButtons;
-
 - (void)loadPageControl;
+- (void)loadContentViews;
+- (void)setUpReactions;
 - (void)unloadPageControlAnimated:(BOOL)animated;
 
-- (void)loadPrivacySelector;
-- (CGRect)privacySelectorFrame;
-- (void)loadContentViews;
-- (void)loadAutocomplete;
-- (void)setUpReactions;
-
 #pragma mark - Nav Bar Buttons
-
 - (void)setUpNavBar;
 - (UIButton *)leftButtonForPhase:(EVExchangePhase)phase;
 - (UIButton *)rightButtonForPhase:(EVExchangePhase)phase;
 
 #pragma mark - Button Actions
-
-- (void)cancelButtonPress:(id)sender;
-- (void)backButtonPress:(id)sender;
 - (void)nextButtonPress:(id)sender;
-- (void)actionButtonPress:(id)sender;
+
+#pragma mark - Advancing
+- (void)advancePhase;
+- (void)advanceToHowMuch;
+- (void)advanceToWhatFor;
 
 #pragma mark - Validation
-
 - (BOOL)shouldAdvanceToHowMuch;
 - (BOOL)shouldAdvanceToWhatFor;
 - (BOOL)shouldPerformAction;
 
 #pragma mark - Utility
-
 - (void)setVisibilityForExchange:(EVExchange *)exchange;
+- (NSString *)actionButtonText;
 
 @end

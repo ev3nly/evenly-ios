@@ -42,7 +42,7 @@
 - (void)popViewAnimated:(BOOL)animated {
     if ([self.viewStack count] <= 1)
         return;
-    
+     
     UIView *currentView = [self.viewStack lastObject];
     UIView *previousView = [self.viewStack objectAtIndex:[self.viewStack count] - 2];
     [previousView setOrigin:CGPointMake(-previousView.frame.size.width, previousView.frame.origin.y)];

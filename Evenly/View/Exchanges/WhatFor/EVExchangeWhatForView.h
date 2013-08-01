@@ -11,8 +11,11 @@
 #import "EVTextField.h"
 #import "EVExchangeWhatForHeader.h"
 
+@class EVTip;
+
 @interface EVExchangeWhatForView : EVExchangeView <UITextViewDelegate>
 
+@property (nonatomic, strong) EVTip *tip;
 @property (nonatomic, strong) EVExchangeWhatForHeader *whatForHeader;
 
 @property (nonatomic, strong) UITextView *descriptionField;

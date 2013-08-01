@@ -41,6 +41,14 @@
 + (UIImage *)dropdownArrow;
 + (UIImage *)checkIcon;
 
+#pragma mark - Sharing
++ (UIImage *)shareEvenlyActive;
++ (UIImage *)shareEvenlyInactive;
++ (UIImage *)shareFacebookActive;
++ (UIImage *)shareFacebookInactive;
++ (UIImage *)shareTwitterActive;
++ (UIImage *)shareTwitterInactive;
+
 #pragma mark - Income Icons
 + (UIImage *)incomeIcon;
 + (UIImage *)pendingIncomeIcon;
