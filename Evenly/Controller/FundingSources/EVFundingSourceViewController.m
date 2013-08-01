@@ -54,6 +54,8 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVFundingSourceCell class] forCellReuseIdentifier:@"fundingSourceCell"];
     [self.tableView registerClass:[EVNoFundingSourcesCell class] forCellReuseIdentifier:@"noFundingSourcesCell"];
+    self.tableView.allowsSelectionDuringEditing = YES;
+    
     [self.view addSubview:self.tableView];
 }
 
@@ -115,6 +117,7 @@
         [noFundingSourcesCell setUpWithIllustration:[self noFundingSourcesImage]
                                                     text:[self noFundingSourcesAddedString]];
         noFundingSourcesCell.position = EVGroupedTableViewCellPositionSingle;
+        noFundingSourcesCell.selectionStyle = UITableViewCellSelectionStyleNone;
         return noFundingSourcesCell;
     }
     
@@ -196,6 +199,10 @@
         indexPath.row == 0) {
         return nil;
     }
+    
+    if (tableView.editing && indexPath.section == EVFundingSourceSectionSources)
+        return nil;
+    
     return indexPath;
 }
 
