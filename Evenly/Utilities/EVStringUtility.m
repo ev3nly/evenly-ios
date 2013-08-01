@@ -139,7 +139,8 @@ static NSDateFormatter *_shortDateFormatter;
     NSMutableArray *components = [NSMutableArray arrayWithArray:[value componentsSeparatedByString:@" "]];
     if ([components count] > 1) {
         NSString *lastName = [components lastObject];
-        lastName = [lastName substringToIndex:1];
+        if ([lastName length] > 0)
+            lastName = [lastName substringToIndex:1];
         [components replaceObjectAtIndex:[components count] - 1 withObject:lastName];
         value = [components componentsJoinedByString:@" "];
     }
