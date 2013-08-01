@@ -8,11 +8,12 @@
 
 #import "EVPaymentViewController.h"
 
-@class EVExchangeHowMuchView, EVExchangeWhatForView;
+@class EVTip, EVChooseTipView, EVExchangeWhatForView;
 
 @interface EVTippingViewController : EVPaymentViewController
 
-@property (nonatomic, strong) EVExchangeHowMuchView *howMuchView;
+@property (nonatomic, strong) EVTip *tip;
+@property (nonatomic, strong) EVChooseTipView *chooseTipView;
 @property (nonatomic, strong) EVExchangeWhatForView *whatForView;
 
 @end

@@ -238,6 +238,10 @@ static NSDateFormatter *_detailDateFormatter;
    return @"Add any additional details.";
 }
 
++ (NSString *)tipDescriptionPlaceholder {
+    return @"Add a personal note...";
+}
+
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber {
     if (phoneNumber.length == 11)
         phoneNumber = [phoneNumber substringFromIndex:1];

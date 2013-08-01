@@ -7,11 +7,14 @@
 //
 
 #import "EVTippingViewController.h"
-#import "EVExchangeHowMuchView.h"
+#import "EVChooseTipView.h"
 #import "EVExchangeWhatForView.h"
 #import "EVNavigationBarButton.h"
 #import "EVBackButton.h"
 #import "EVValidator.h"
+#import "EVTip.h"
+#import "EVSharingSelectorView.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface EVTippingViewController ()
 
@@ -26,60 +29,61 @@
     return self;
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    if (!self.chooseTipView.layer.animationKeys)
+        self.chooseTipView.frame = self.view.bounds;
+}
 #pragma mark - View Loading
 
-- (UIBarButtonItem *)cancelButton {
-    UIImage *closeImage = [EVImages navBarCancelButton];
-    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, closeImage.size.width + 20.0, closeImage.size.height)];
-    [cancelButton setImage:closeImage forState:UIControlStateNormal];
-    [cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [cancelButton setImageEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
-    cancelButton.adjustsImageWhenHighlighted = NO;
-    cancelButton.showsTouchWhenHighlighted = YES;
-    return [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
+- (NSArray *)fakeTips {
+    NSMutableArray *tips = [NSMutableArray array];
+    for (int i = 0; i < 9; i++) {
+        EVTip *tip = [EVTip new];
+        tip.image = [UIImage imageNamed:@"Bearhug"];
+        tip.title = @"Bearhug";
+        tip.amount = [NSDecimalNumber decimalNumberWithString:@"0.05"];
+        [tips addObject:tip];
+    }
+    return [NSArray arrayWithArray:tips];
+}
+
+- (void)loadContentViews {
+    self.initialView = [[EVPaymentWhoView alloc] initWithFrame:[self.view bounds]];
+    self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    
+    self.chooseTipView = [[EVChooseTipView alloc] initWithFrame:self.view.bounds];;
+    self.chooseTipView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    self.chooseTipView.tips = [self fakeTips];
+    
+    self.whatForView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];
+    self.whatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    [self.whatForView addSubview:self.privacySelector];
+    
+    [self.view addSubview:self.initialView];
+    [self.viewStack addObject:self.initialView];
+    [self.view bringSubviewToFront:self.privacySelector];
+}
+
+- (void)loadPrivacySelector {
+    self.privacySelector = [[EVSharingSelectorView alloc] initWithFrame:[self privacySelectorFrame]];
 }
 
 - (void)setUpReactions {
-    [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *hasRecipients) {
-        if ([hasRecipients integerValue] == 1)
+    [super setUpReactions];
+    
+    [RACAble(self.chooseTipView.selectedTip) subscribeNext:^(EVTip *tip) {
+        if (tip)
             [self advancePhase];
     }];
 }
 
 #pragma mark - Basic Interface
 
-- (void)advancePhase {
-//    if (self.phase == EVExchangePhaseWho)
-//    {
-//        if (![self shouldAdvanceToHowMuch])
-//            return;
-//        
-//        self.payment = [[EVPayment alloc] init];
-//        EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
-//        self.payment.to = recipient;
-//        [self.howMuchView.titleLabel setText:[NSString stringWithFormat:@"Pay %@...", [recipient name]]];
-//        [self pushView:self.howMuchView animated:YES];
-//        
-//        self.phase = EVExchangePhaseHowMuch;
-//    }
-//    else if (self.phase == EVExchangePhaseHowMuch)
-//    {
-//        if (![self shouldAdvanceToWhatFor])
-//            return;
-//        
-//        self.payment.amount = [EVStringUtility amountFromAmountString:self.howMuchView.amountField.text];
-//        EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader paymentHeaderForPerson:self.payment.to amount:self.payment.amount];
-//        self.whatForView.whatForHeader = header;
-//        [self pushView:self.whatForView animated:YES];
-//        
-//        self.phase = EVExchangePhaseWhatFor;
-//    }
-//    [self setUpNavBar];
-}
-
 - (void)sendExchangeToServer {
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
-    
+//    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
+//    
 //    self.payment.memo = self.whatForView.descriptionField.text;
 //    [self setVisibilityForExchange:self.payment];
 //    
@@ -122,61 +126,45 @@
 //    }];
 }
 
-#pragma mark - View Loading
-
-
-
-- (void)nextButtonPress:(id)sender {
-    if (self.phase == EVExchangePhaseWho)
-    {
-        NSString *toFieldContents = self.initialView.toField.textField.text;
-        if ([[EVValidator sharedValidator] stringIsValidEmail:toFieldContents]) {
-            [self.initialView addTokenFromField:self.initialView.toField];
-            [self.autocompleteTableViewController handleFieldInput:nil];
-        } else {
-            [self advancePhase];
-        }
-    }
-    else
-    {
-        [super nextButtonPress:sender];
-    }
+- (void)advanceToHowMuch {
+    self.tip = [EVTip new];
+    EVObject<EVExchangeable> *recipient = [[self.initialView recipients] lastObject];
+    self.tip.to = recipient;
+    [self pushView:self.chooseTipView animated:YES];
 }
 
+- (void)advanceToWhatFor {
+    EVTip *selectedTip = self.chooseTipView.selectedTip;
+    self.tip.image = selectedTip.image;
+    self.tip.title = selectedTip.title;
+    self.tip.amount = selectedTip.amount;
+    EVExchangeWhatForHeader *header = [EVExchangeWhatForHeader tipHeaderForPerson:self.tip.to];
+    self.whatForView.whatForHeader = header;
+    self.whatForView.tip = self.tip;
+    [self pushView:self.whatForView animated:YES];
+}
 #pragma mark - Validation
 
-- (BOOL)shouldAdvanceToHowMuch {
-    if (self.initialView.recipientCount == 0) {
-        [self.initialView flashMessage:@"You've got to tell us who you want to pay!"
-                               inFrame:self.initialView.toFieldFrame
-                          withDuration:2.0];
-        return NO;
-    }
-    return YES;
-}
-
 - (BOOL)shouldAdvanceToWhatFor {
-    float amount = [[EVStringUtility amountFromAmountString:self.howMuchView.amountField.text] floatValue];
-    BOOL okay = (amount >= EV_MINIMUM_EXCHANGE_AMOUNT);
-    if (!okay)
-    {
-        [self.howMuchView.bigAmountView flashMinimumAmountLabel];
-        return NO;
-    }
-    return YES;
+    return (self.chooseTipView.selectedTip != nil);
 }
 
 - (BOOL)shouldPerformAction {
-    if (EV_IS_EMPTY_STRING(self.whatForView.descriptionField.text))
-    {
-        [self.whatForView flashNoDescriptionMessage];
-        return NO;
-    }
-    return YES;
+    return NO;
 }
 
+#pragma mark - Utility
+
 - (NSString *)actionButtonText {
-    return @"Tipping";
+    return @"Tip";
+}
+
+- (CGRect)privacySelectorFrame {    
+    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVSharingSelectorView lineHeight];
+    return CGRectMake(0,
+                      yOrigin,
+                      self.view.bounds.size.width,
+                      [EVSharingSelectorView lineHeight] * [EVSharingSelectorView numberOfLines]);
 }
 
 @end
