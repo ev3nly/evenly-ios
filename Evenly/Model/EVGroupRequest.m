@@ -206,6 +206,11 @@
     if ([tmpTiers indexOfObject:tier] == NSNotFound) {
         [tmpTiers addObject:newTier];
     } else {
+        // Replace the old tier with the new one in any records that have references to it.
+        for (EVGroupRequestRecord *record in self.records) {
+            if (record.tier == tier)
+                record.tier = newTier;
+        }
         [tmpTiers replaceObjectAtIndex:[tmpTiers indexOfObject:tier] withObject:newTier];
     }
     self.tiers = (NSArray *)tmpTiers;
