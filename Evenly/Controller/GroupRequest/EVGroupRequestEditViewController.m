@@ -276,13 +276,14 @@
         }
         
         // Skip any cells that don't need saving.
-        if (cell.tier &&
-            [cell.tier.price isEqualToNumber:amount] &&
-            [cell.tier.name isEqualToString:cell.optionNameField.text])
+        if (cell.tier)
         {
-            continue;
-        }
-        
+            NSString *tierName = cell.tier.name;
+            NSString *fieldText = cell.optionNameField.text;
+            if ([tierName isEqualToString:fieldText] ||
+                (EV_IS_EMPTY_STRING(tierName) && EV_IS_EMPTY_STRING(fieldText)))
+                continue;
+        }        
         [self.blockQueue addObject:[self blockOperationForCell:cell]];
     }
     
@@ -313,8 +314,6 @@
 - (NSBlockOperation *)blockOperationForCell:(EVGroupRequestEditAmountCell *)cell {    
     
     return [NSBlockOperation blockOperationWithBlock:^{
-        
-        DLog(@"Block for cell %@", cell);
         EVGroupRequestTier *tier = nil;
         if (!cell.tier)
         {
@@ -335,15 +334,14 @@
 
 - (NSBlockOperation *)finalBlockOperation {
     return [NSBlockOperation blockOperationWithBlock:^{
-        DLog(@"Final block");
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
         [[EVStatusBarManager sharedManager] setPostSuccess:^{
             [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
          }];
+
         if (self.delegate) {
             [self.delegate editViewControllerMadeChanges:self];
         }
-
     }];
 }
 
