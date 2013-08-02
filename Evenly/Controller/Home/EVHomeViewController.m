@@ -103,17 +103,6 @@
     [self configurePullToRefresh];
     [self configureInfiniteScrolling];
     [self.newsfeedDataSource setTableView:self.tableView];
-
-    [RACAble(self.tableView.loading) subscribeNext:^(NSNumber *loading) {
-        if (!self.tableView.loading) {
-            EV_DISPATCH_AFTER(0.5, ^{
-                EV_PERFORM_ON_MAIN_QUEUE(^{
-                    [self updateTableViewContentInset];
-                });
-            });
-        }
-    }];
-    
     [self.newsfeedDataSource loadNewestStories];
 }
 

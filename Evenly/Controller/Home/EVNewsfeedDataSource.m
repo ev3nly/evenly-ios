@@ -64,6 +64,19 @@
 }
 
 - (void)mergeNewStories:(NSArray *)newStories {
+    if ([newStories count] == 0)
+        return;
+    
+    EVStory *firstOldStory = [self.newsfeed objectAtIndex:0];
+    int i = 0;
+    do {
+        EVStory *firstNewStory = [newStories objectAtIndex:0];
+        if ([[firstNewStory createdAt] compare:[firstOldStory createdAt]] == NSOrderedAscending)
+            break;
+        i++;
+    } while (i < [newStories count]);
+    
+    
     self.newsfeed = [NSMutableArray arrayWithArray:newStories];
 }
 
