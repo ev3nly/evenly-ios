@@ -120,7 +120,7 @@
     #ifdef DEBUG
     #	define DRaise(exception) [exception raise]
     #else
-    #	define DRaise()
+    #	define DRaise(...)
     #endif
 #endif
 
