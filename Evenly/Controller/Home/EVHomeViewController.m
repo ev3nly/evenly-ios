@@ -317,6 +317,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVStoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storyCell" forIndexPath:indexPath];
+    cell.imageView.image = nil;
     EVStory *story = [self.newsfeed objectAtIndex:indexPath.section];
     cell.story = story;
     return cell;
