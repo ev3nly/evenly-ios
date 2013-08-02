@@ -89,7 +89,7 @@ static EVCIA *_sharedInstance;
 }
 
 - (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure {
-    EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         UIImage *cachedImage = [self imageForURL:url size:size];
         if (cachedImage) {
             if (success) {
@@ -158,21 +158,23 @@ static EVCIA *_sharedInstance;
 - (void)setImage:(UIImage *)image forURL:(NSURL *)url withSize:(CGSize)size {
     EV_PERFORM_ON_BACKGROUND_QUEUE(^{
         NSString *cachePath = [EVStringUtility cachePathFromURL:url size:size];
-        if (!image) // remove image from memory and disk caches
-        {
-            [self.imageCache removeObjectForKey:cachePath];
-            NSError *error;
-            [[NSFileManager defaultManager] removeItemAtPath:cachePath
-                                                       error:&error];
-            if (error)
-                DLog(@"Error: %@", error);
-            return;
-        }
-        else // store in memory and disk caches
-        {
-            [self.imageCache setObject:image forKey:cachePath];
-            [UIImagePNGRepresentation(image) writeToFile:cachePath
-                                                     atomically:YES];
+        @synchronized (cachePath) {
+            if (!image) // remove image from memory and disk caches
+            {
+                [self.imageCache removeObjectForKey:cachePath];
+                NSError *error;
+                [[NSFileManager defaultManager] removeItemAtPath:cachePath
+                                                           error:&error];
+                if (error)
+                    DLog(@"Error: %@", error);
+                return;
+            }
+            else // store in memory and disk caches
+            {
+                [self.imageCache setObject:image forKey:cachePath];
+                [UIImagePNGRepresentation(image) writeToFile:cachePath
+                                                  atomically:YES];
+            }
         }
     });
 }

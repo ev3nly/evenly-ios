@@ -451,7 +451,8 @@ static EVUser *_me;
 }
 
 - (void)evictAvatarFromCache {
-    [[EVCIA sharedInstance] setImage:nil forURL:self.avatarURL];
+    CGSize defaultAvatarSize = CGSizeMake(EV_USER_DEFAULT_AVATAR_HEIGHT*2, EV_USER_DEFAULT_AVATAR_HEIGHT*2);
+    [[EVCIA sharedInstance] setImage:nil forURL:self.avatarURL withSize:defaultAvatarSize];
 }
 
 #pragma mark - Timeline

@@ -29,7 +29,7 @@
 {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.title = @"Edit Profile";
-        self.user = user;
+        self.user = [EVCIA me];
         [self notificationRegistration];
         self.canDismissManually = NO;
     }
@@ -154,10 +154,10 @@
     EVEditPhotoCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"editPhotoCell"];
     if (self.updatedImage)
         cell.avatarView.image = self.updatedImage;
-    else if (self.user.updatedAvatar)
-        cell.avatarView.image = self.user.updatedAvatar;
+    else if ([EVCIA me].updatedAvatar)
+        cell.avatarView.image = [EVCIA me].updatedAvatar;
     else
-        cell.avatarView.avatarOwner = self.user;
+        cell.avatarView.avatarOwner = [EVCIA me];
 
     if ([cell.gestureRecognizers count] == 0)
         [cell.avatarView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(photoTapped)]];
@@ -168,14 +168,14 @@
     EVEditLabelCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"editLabelCell" forIndexPath:indexPath];
     
     if (indexPath.row == EVEditProfileCellRowName) {
-        [cell setTitle:@"Name" placeholder:self.user.name];
+        [cell setTitle:@"Name" placeholder:[EVCIA me].name];
         cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
         cell.handleTextChange = ^(NSString *text) {
             if (!EV_IS_EMPTY_STRING(text))
                 [EVCIA me].name = text;
         };
     } else if (indexPath.row == EVEditProfileCellRowEmail) {
-        [cell setTitle:@"Email" placeholder:self.user.email];
+        [cell setTitle:@"Email" placeholder:[EVCIA me].email];
         cell.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         cell.textField.autocorrectionType = UITextAutocorrectionTypeNo;
         cell.textField.keyboardType = UIKeyboardTypeEmailAddress;
@@ -184,7 +184,7 @@
                 [EVCIA me].email = text;
         };
     } else if (indexPath.row == EVEditProfileCellRowPhoneNumber) {
-        [cell setTitle:@"Phone Number" placeholder:[EVStringUtility addHyphensToPhoneNumber:self.user.phoneNumber]];
+        [cell setTitle:@"Phone Number" placeholder:[EVStringUtility addHyphensToPhoneNumber:[EVCIA me].phoneNumber]];
         cell.textField.keyboardType = UIKeyboardTypeNumberPad;
         cell.handleTextChange = ^(NSString *text) {
             if (!EV_IS_EMPTY_STRING(text))

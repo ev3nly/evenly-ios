@@ -27,6 +27,7 @@
 - (UIImage *)imageForURL:(NSURL *)url;
 - (UIImage *)imageForURL:(NSURL *)url size:(CGSize)size;
 - (void)setImage:(UIImage *)image forURL:(NSURL *)url;
+- (void)setImage:(UIImage *)image forURL:(NSURL *)url withSize:(CGSize)size;
 
 #pragma mark - Data Caching
 
