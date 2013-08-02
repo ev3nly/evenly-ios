@@ -10,6 +10,7 @@
 
 #import "EVExchange.h"
 #import "EVGroupRequest.h"
+#import "EVWalletNotification.h"
 
 #define EV_PENDING_EXCHANGE_CELL_MARGIN 10.0
 #define EV_PENDING_EXCHANGE_CELL_Y_MARGIN 5.0
@@ -105,8 +106,10 @@
 - (void)configureForInteraction:(EVObject *)object {
     if ([object isKindOfClass:[EVExchange class]]) {
         [self configureForExchange:(EVExchange *)object];
-    } else {
+    } else if ([object isKindOfClass:[EVGroupRequest class]]) {
         [self configureForGroupRequest:(EVGroupRequest *)object];
+    } else if ([object isKindOfClass:[EVWalletNotification class]]) {
+        [self configureForWalletNotification:(EVWalletNotification *)object];
     }
 }
 
@@ -151,6 +154,14 @@
     [self.exchangeContainer removeFromSuperview];
     [self.groupRequestLabel setText:[EVStringUtility stringForGroupRequest:groupRequest]];
     
+    [self.groupRequestContainer setFrame:[self containerFrame]];
+    [self.containerView addSubview:self.groupRequestContainer];
+}
+
+- (void)configureForWalletNotification:(EVWalletNotification *)walletNotification {
+    [self.exchangeContainer removeFromSuperview];
+    [self.groupRequestLabel setText:walletNotification.headline];
+
     [self.groupRequestContainer setFrame:[self containerFrame]];
     [self.containerView addSubview:self.groupRequestContainer];
 }

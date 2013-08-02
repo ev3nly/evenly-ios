@@ -12,6 +12,7 @@
 #import "EVBankAccount.h"
 #import "EVConnection.h"
 #import "EVExchange.h"
+#import "EVWalletNotification.h"
 #import <Mixpanel/Mixpanel.h>
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
@@ -321,7 +322,12 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
     NSArray *sent = [[self pendingSentExchanges] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         return [[obj2 createdAt] compare:[obj1 createdAt]];
     }];
-    return [received arrayByAddingObjectsFromArray:sent];
+    NSArray *everything = [received arrayByAddingObjectsFromArray:sent];
+    
+    if (![self me].confirmed) {
+        everything = [@[ [EVWalletNotification unconfirmedNotification] ] arrayByAddingObjectsFromArray:everything];
+    }
+    return everything;
 }
 
 - (NSArray *)pendingReceivedExchanges {
@@ -331,7 +337,6 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
 - (void)reloadPendingExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
     [EVUser pendingWithSuccess:^(NSArray *pending) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            BOOL updated = NO;
             NSArray *incoming = [pending filter:^BOOL(id object) {
                 return [object isIncoming];
             }];
@@ -343,11 +348,9 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
             NSArray *oldOutgoing = [self.internalCache objectForKey:EVPendingReceivedExchangesKey];
             @try {
                 if (!oldIncoming || ![oldIncoming isEqualToArray:incoming]) {
-                    updated = YES;
                     [self.internalCache setObject:incoming forKey:EVPendingSentExchangesKey];
                 }
                 if (!oldOutgoing || ![oldOutgoing isEqualToArray:outgoing]) {
-                    updated = YES;
                     [self.internalCache setObject:outgoing forKey:EVPendingReceivedExchangesKey];
                 }
             }
@@ -358,15 +361,13 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
                 oldIncoming = nil;
                 oldOutgoing = nil;
             }
-            
             [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[outgoing count]];
             EV_PERFORM_ON_MAIN_QUEUE(^{
                 if (completion)
                     completion(pending);
-                if (updated)
-                    [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
-                                                                        object:self
-                                                                      userInfo:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
+                                                                    object:self
+                                                                  userInfo:nil];
             });
         });
     } failure:^(NSError *error) {
