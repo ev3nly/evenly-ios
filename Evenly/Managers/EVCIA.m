@@ -12,6 +12,7 @@
 #import "EVBankAccount.h"
 #import "EVConnection.h"
 #import "EVExchange.h"
+#import "EVWalletNotification.h"
 #import <Mixpanel/Mixpanel.h>
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
@@ -319,7 +320,12 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
     NSArray *sent = [[self pendingSentExchanges] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         return [[obj2 createdAt] compare:[obj1 createdAt]];
     }];
-    return [received arrayByAddingObjectsFromArray:sent];
+    NSArray *everything = [received arrayByAddingObjectsFromArray:sent];
+    
+    if (![self me].confirmed) {
+        everything = [@[ [EVWalletNotification unconfirmedNotification] ] arrayByAddingObjectsFromArray:everything];
+    }
+    return everything;
 }
 
 - (NSArray *)pendingReceivedExchanges {
