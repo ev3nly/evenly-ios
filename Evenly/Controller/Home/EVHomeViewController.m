@@ -62,13 +62,11 @@
     self.view.backgroundColor = [UIColor underPageBackgroundColor];
     [self loadBalanceLabel];
     [self loadWalletBarButtonItem];
+    
     [self loadTableView];
     [self loadFloatingView];
     [self configurePullToRefresh];
-        
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignIn:) name:EVSessionSignedInNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSignOut:) name:EVSessionSignedOutNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(storyWasCreatedLocally:) name:EVStoryLocallyCreatedNotification object:nil];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardRedeemed:) name:EVRewardRedeemedNotification object:nil];
 }
 
@@ -88,8 +86,10 @@
 }
 
 - (void)loadTableView {
+    self.newsfeedDataSource = [[EVNewsfeedDataSource alloc] init];
+
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    self.tableView.dataSource = self;
+    self.tableView.dataSource = self.newsfeedDataSource;
     self.tableView.delegate = self;
     self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     self.tableView.separatorColor = [UIColor clearColor];
@@ -99,29 +99,22 @@
     self.tableView.loadingIndicatorYOffset = TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET;
     [self.tableView registerClass:[EVStoryCell class] forCellReuseIdentifier:@"storyCell"];
     [self.view addSubview:self.tableView];
-    
-    EVLoadingIndicator *customLoadingIndicator = [[EVLoadingIndicator alloc] initWithFrame:CGRectZero];
-    [customLoadingIndicator sizeToFit];
-    __weak EVHomeViewController *weakSelf = self;
-    [self.tableView addInfiniteScrollingWithActionHandler:^{
-        weakSelf.pageNumber++;
-        [weakSelf.tableView.infiniteScrollingView startAnimating];
-        [customLoadingIndicator startAnimating];
-        [EVUser newsfeedStartingAtPage:weakSelf.pageNumber
-                              success:^(NSArray *history) {
-                                  weakSelf.newsfeed = [weakSelf.newsfeed arrayByAddingObjectsFromArray:history];
-                                  [weakSelf.tableView reloadData];
-                                  [weakSelf.tableView.infiniteScrollingView stopAnimating];
-                                  [customLoadingIndicator stopAnimating];
-                              } failure:^(NSError *error) {
-                                  DLog(@"error: %@", error);
-                                  weakSelf.pageNumber--;
-                                  [weakSelf.tableView.infiniteScrollingView stopAnimating];
-                                  [customLoadingIndicator stopAnimating];
-                              }];
+
+    [self configurePullToRefresh];
+    [self configureInfiniteScrolling];
+    [self.newsfeedDataSource setTableView:self.tableView];
+
+    [RACAble(self.tableView.loading) subscribeNext:^(NSNumber *loading) {
+        if (!self.tableView.loading) {
+            EV_DISPATCH_AFTER(0.5, ^{
+                EV_PERFORM_ON_MAIN_QUEUE(^{
+                    [self updateTableViewContentInset];
+                });
+            });
+        }
     }];
-    [self.tableView.infiniteScrollingView setCustomView:customLoadingIndicator
-                                               forState:SVInfiniteScrollingStateLoading];
+    
+    [self.newsfeedDataSource loadNewestStories];
 }
 
 - (void)loadFloatingView {
@@ -150,6 +143,7 @@
     [self updateTableViewContentInset];
 }
 
+
 - (void)updateTableViewContentInset {
     self.tableView.contentInset = UIEdgeInsetsMake(0,
                                                    0,
@@ -157,12 +151,21 @@
                                                    0);
 }
 
+
 - (void)configurePullToRefresh {
-    __block EVHomeViewController *homeController = self;
-    
+    __weak EVHomeViewController *weakSelf = self;
     [self.tableView addPullToRefreshWithActionHandler:^{
-        [homeController reloadNewsFeed];
+        [weakSelf.newsfeedDataSource loadNewestStories];
     }];
+}
+
+- (void)configureInfiniteScrolling {
+    __weak EVHomeViewController *weakSelf = self;
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [weakSelf.newsfeedDataSource loadNextPage];
+    }];
+    [self.tableView.infiniteScrollingView setCustomView:self.newsfeedDataSource.loadingIndicator
+                                               forState:SVInfiniteScrollingStateLoading];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -171,93 +174,15 @@
     [self reloadNewsFeed];
 }
 
-- (void)didSignIn:(NSNotification *)notification {
-    [self reloadNewsFeed];
-}
-
-- (void)didSignOut:(NSNotification *)notification {
-    self.newsfeed = [NSArray array];
-    [self.tableView reloadData];
-}
 
 - (void)reloadNewsFeed {
-    if ([self.newsfeed count] == 0) {
-        self.tableView.loading = YES;
-        [self.tableView setShowsInfiniteScrolling:NO];
-    }
 
-    [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
-        self.newsfeed = newsfeed;
-        
-        [self compareLocalStories];        
-        
-        [self.tableView reloadData];
-        [self.tableView.pullToRefreshView stopAnimating];
-        self.tableView.loading = NO;
-        [self.tableView setShowsInfiniteScrolling:YES];
-        EV_DISPATCH_AFTER(0.5, ^{
-            [self updateTableViewContentInset];
-        });
-    } failure:^(NSError *error) {
-        [self.tableView.pullToRefreshView stopAnimating];
-        self.tableView.loading = NO;
-        [self.tableView setShowsInfiniteScrolling:YES];
-        EV_DISPATCH_AFTER(0.5, ^{
-            [self updateTableViewContentInset];
-        });
-    }];
 }
 
-- (void)compareLocalStories {
-    if ([self.locallyCreatedStories count] == 0)
-        return;
-    
-    EVStory *mostRecentLocalStory = [self.locallyCreatedStories objectAtIndex:0];
-    EVStory *mostRecentRemoteStory = [self.newsfeed objectAtIndex:0];
-    
-    // Remote story is older than local story
-    if ([mostRecentRemoteStory.createdAt compare:mostRecentLocalStory.createdAt] == NSOrderedAscending) {
-        self.newsfeed = [self.locallyCreatedStories arrayByAddingObjectsFromArray:self.newsfeed];
-        return;
-    } else {
-        NSArray *localStories = [NSArray arrayWithArray:self.locallyCreatedStories];
-        for (EVStory *localStory in localStories) {
-            DLog(@"Local story: %@", localStory);
-            for (EVStory *remoteStory in self.newsfeed) {
-                DLog(@"Remote story: %@", remoteStory);
-                // Jump ship if we've passed the local story chronologically.
-                if ([remoteStory.createdAt compare:localStory.createdAt] == NSOrderedAscending)
-                    break;
-                
-                NSDictionary *remoteSource = [remoteStory source];
-                NSString *remoteType = remoteSource[@"type"];
-                if ([remoteType isEqualToString:@"Charge"])
-                    remoteType = @"Request";
-                
-                NSString *remoteSourceClass = [NSString stringWithFormat:@"EV%@", remoteType];
-                NSString *localSourceClass = NSStringFromClass([localStory.source class]);
-                
-                NSString *remoteID = [remoteSource[@"id"] stringValue];
-                NSString *localID = [localStory.source dbid];
-                if ([remoteSourceClass isEqual:localSourceClass] && [remoteID isEqual:localID]) {
-                    DLog(@"They match!");
-                    [self.locallyCreatedStories removeObject:localStory];
-                    break;
-                }
-            }
-        }
-    }
-    
-    if ([self.locallyCreatedStories count] > 0) {
-        self.newsfeed = [self.locallyCreatedStories arrayByAddingObjectsFromArray:self.newsfeed];
-    }
-}
+
 
 - (void)storyWasCreatedLocally:(NSNotification *)notification {
-    EVStory *story = [[notification userInfo] objectForKey:@"story"];
-    [self.locallyCreatedStories insertObject:story atIndex:0];
-    
-    self.newsfeed = [self.locallyCreatedStories arrayByAddingObjectsFromArray:self.newsfeed];
+
 }
 
 - (void)rewardRedeemed:(NSNotification *)notification {
@@ -300,34 +225,17 @@
     [self presentViewController:navController animated:YES completion:NULL];    
 }
 
-#pragma mark - UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    NSInteger count = [self.newsfeed count];
-    return count;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
-}
+#pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [EVStoryCell cellHeightForStory:[self.newsfeed objectAtIndex:indexPath.section]];
+    return [EVStoryCell cellHeightForStory:[self.newsfeedDataSource.newsfeed objectAtIndex:indexPath.section]];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVStoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"storyCell" forIndexPath:indexPath];
-    EVStory *story = [self.newsfeed objectAtIndex:indexPath.section];
-    cell.story = story;
-    return cell;
-}
-
-#pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    EVStory *story = [self.newsfeed objectAtIndex:indexPath.section];
+    EVStory *story = [self.newsfeedDataSource.newsfeed objectAtIndex:indexPath.section];
     [self.navigationController pushViewController:[[EVStoryDetailViewController alloc] initWithStory:story] animated:YES];
 }
 
