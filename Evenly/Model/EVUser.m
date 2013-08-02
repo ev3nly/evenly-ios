@@ -342,6 +342,29 @@ static EVUser *_me;
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
++ (void)sendConfirmationEmailWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self sendConfirmationEmailWithSuccess:success failure:failure];
+    });
+    
+    NSMutableURLRequest *request = [EVMe requestWithMethod:@"POST" path:@"send-confirmation" parameters:nil];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success();
+        });
+    };
+    
+    AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
+                                                                      success:successBlock
+                                                                      failure:^(AFHTTPRequestOperation *operation, NSError *error)  {
+                                                                          if (failure)
+                                                                              failure(error);
+                                                                      }];
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+    
+}
+
 - (void)saveWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     [super saveWithSuccess:^{
         

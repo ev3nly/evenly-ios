@@ -123,12 +123,6 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     return story;
 }
 
-+ (EVStory *)storyFromWalletNotification:(EVWalletNotification *)walletNotification {
-    EVStory *story = [EVStory new];
-    story.displayType = EVStoryDisplayTypePendingTransactionDetail;
-    
-}
-
 + (NSString *)verbFromExchange:(EVExchange *)exchange isPending:(BOOL)isPending {
     return nil;
 }
@@ -316,10 +310,6 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     return attrString;
 }
 
-- (NSAttributedString *)attributedStringForWalletNotificationSourceType {
-    
-}
-
 - (NSAttributedString *)attributedStringForNormalSourceType {
     CGFloat fontSize = 15;
     NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
@@ -380,8 +370,6 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
         return [self attributedStringForGettingStartedSourceType];
     if (self.sourceType == EVStorySourceTypeUser)
         return [self attributedStringForUserSourceType];
-    if (self.sourceType == EVStorySourceTypeWalletNotification)
-        return [self attributedStringForWalletNotificationSourceType];
     return [self attributedStringForNormalSourceType];
 }
 

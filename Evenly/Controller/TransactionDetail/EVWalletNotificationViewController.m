@@ -45,7 +45,12 @@
 
 
 - (void)sendConfirmationEmail:(id)sender {
-    // TODO:
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"RESENDING..."];
+    [EVUser sendConfirmationEmailWithSuccess:^{
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+    } failure:^(NSError *error) {
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+    }];
 }
 
 #pragma mark - TableView DataSource/Delegate
