@@ -300,6 +300,8 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
 }
 
 - (EVObject *)cachedObjectWithClassName:(NSString *)className dbid:(NSString *)dbid {
+    if (EV_IS_EMPTY_STRING(className) || EV_IS_EMPTY_STRING(dbid))
+        return nil;
     return [self.internalCache objectForKey:[self cacheStringFromClassName:className dbid:dbid]];
 }
 
@@ -328,7 +330,7 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
 
 - (void)reloadPendingExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
     [EVUser pendingWithSuccess:^(NSArray *pending) {
-        EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             BOOL updated = NO;
             NSArray *incoming = [pending filter:^BOOL(id object) {
                 return [object isIncoming];
@@ -338,16 +340,25 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
             }];
             
             NSArray *oldIncoming = [self.internalCache objectForKey:EVPendingSentExchangesKey];
-            if (!oldIncoming || ![oldIncoming isEqualToArray:incoming]) {
-                updated = YES;
-                [self.internalCache setObject:incoming forKey:EVPendingSentExchangesKey];
+            NSArray *oldOutgoing = [self.internalCache objectForKey:EVPendingReceivedExchangesKey];
+            @try {
+                if (!oldIncoming || ![oldIncoming isEqualToArray:incoming]) {
+                    updated = YES;
+                    [self.internalCache setObject:incoming forKey:EVPendingSentExchangesKey];
+                }
+                if (!oldOutgoing || ![oldOutgoing isEqualToArray:outgoing]) {
+                    updated = YES;
+                    [self.internalCache setObject:outgoing forKey:EVPendingReceivedExchangesKey];
+                }
+            }
+            @catch (NSException *exception) {
+                DRaise(exception);
+                [self.internalCache removeObjectForKey:EVPendingSentExchangesKey];
+                [self.internalCache removeObjectForKey:EVPendingReceivedExchangesKey];
+                oldIncoming = nil;
+                oldOutgoing = nil;
             }
             
-            NSArray *oldOutgoing = [self.internalCache objectForKey:EVPendingReceivedExchangesKey];
-            if (!oldOutgoing || ![oldOutgoing isEqualToArray:outgoing]) {
-                updated = YES;
-                [self.internalCache setObject:outgoing forKey:EVPendingReceivedExchangesKey];
-            }
             [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[outgoing count]];
             EV_PERFORM_ON_MAIN_QUEUE(^{
                 if (completion)

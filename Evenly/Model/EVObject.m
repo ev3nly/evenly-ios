@@ -153,12 +153,24 @@ static NSDateFormatter *_dateFormatter = nil;
 }
 
 - (void)setProperties:(NSDictionary *)properties {
-    if ([[properties valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
-        _dbid = [[properties valueForKey:@"id"] stringValue];
-    else
-        _dbid = [properties valueForKey:@"id"];
-    if (![properties[@"created_at"] isKindOfClass:[NSNull class]])
-        self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+    @try {
+        if ([[properties valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
+            _dbid = [[properties valueForKey:@"id"] stringValue];
+        else
+            _dbid = [properties valueForKey:@"id"];
+    }
+    @catch (NSException *exception) {
+        DRaise(exception);
+        _dbid = @"-1";
+    }
+    @try {
+        if (![properties[@"created_at"] isKindOfClass:[NSNull class]])
+            self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+    }
+    @catch (NSException *exception) {
+        DRaise(exception);
+        self.createdAt = [NSDate date];
+    }
 }
 
 - (NSDictionary *)dictionaryRepresentation {
