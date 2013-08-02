@@ -114,6 +114,17 @@
 #endif
 
 ////////////////////////////////////////////////
+// Exception Raising
+////////////////////////////////////////////////
+#ifndef DRaise
+    #ifdef DEBUG
+    #	define DRaise(exception) [exception raise]
+    #else
+    #	define DRaise(...)
+    #endif
+#endif
+
+////////////////////////////////////////////////
 // Main Bundle Shortcuts
 ////////////////////////////////////////////////
 #define EV_APP_VERSION [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleShortVersionString"]
