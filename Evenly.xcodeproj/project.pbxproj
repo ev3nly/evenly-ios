@@ -97,6 +97,11 @@
 		9C2684CD1766851700AEA624 /* Action_Request@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2684C51766851400AEA624 /* Action_Request@2x.png */; };
 		9C2684CE1766851700AEA624 /* Action_RequestActive.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2684C61766851500AEA624 /* Action_RequestActive.png */; };
 		9C2684CF1766851700AEA624 /* Action_RequestActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2684C71766851600AEA624 /* Action_RequestActive@2x.png */; };
+		9C28E89B17AC4BB50061E841 /* EVWalletNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C28E89A17AC4BB50061E841 /* EVWalletNotification.m */; };
+		9C28E89E17AC4E8B0061E841 /* evenly_lock_confirmation@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C28E89C17AC4E8B0061E841 /* evenly_lock_confirmation@2x.png */; };
+		9C28E89F17AC4E8B0061E841 /* evenly_lock_confirmation.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C28E89D17AC4E8B0061E841 /* evenly_lock_confirmation.png */; };
+		9C28E8A217AC50220061E841 /* EVWalletNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C28E8A117AC50220061E841 /* EVWalletNotificationViewController.m */; };
+		9C28E8A517AC53A80061E841 /* EVWalletNotificationDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C28E8A417AC53A80061E841 /* EVWalletNotificationDetailCell.m */; };
 		9C2DD0781769050700EAA3D1 /* Privacy-Dropdown.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD0701769050700EAA3D1 /* Privacy-Dropdown.png */; };
 		9C2DD0791769050700EAA3D1 /* Privacy-Dropdown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD0711769050700EAA3D1 /* Privacy-Dropdown@2x.png */; };
 		9C2DD07A1769050700EAA3D1 /* Privacy-Friends.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C2DD0721769050700EAA3D1 /* Privacy-Friends.png */; };
@@ -731,6 +736,14 @@
 		9C2684C51766851400AEA624 /* Action_Request@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Action_Request@2x.png"; sourceTree = "<group>"; };
 		9C2684C61766851500AEA624 /* Action_RequestActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Action_RequestActive.png; sourceTree = "<group>"; };
 		9C2684C71766851600AEA624 /* Action_RequestActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Action_RequestActive@2x.png"; sourceTree = "<group>"; };
+		9C28E89917AC4BB50061E841 /* EVWalletNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletNotification.h; sourceTree = "<group>"; };
+		9C28E89A17AC4BB50061E841 /* EVWalletNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletNotification.m; sourceTree = "<group>"; };
+		9C28E89C17AC4E8B0061E841 /* evenly_lock_confirmation@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evenly_lock_confirmation@2x.png"; sourceTree = "<group>"; };
+		9C28E89D17AC4E8B0061E841 /* evenly_lock_confirmation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_lock_confirmation.png; sourceTree = "<group>"; };
+		9C28E8A017AC50220061E841 /* EVWalletNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletNotificationViewController.h; sourceTree = "<group>"; };
+		9C28E8A117AC50220061E841 /* EVWalletNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletNotificationViewController.m; sourceTree = "<group>"; };
+		9C28E8A317AC53A80061E841 /* EVWalletNotificationDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVWalletNotificationDetailCell.h; sourceTree = "<group>"; };
+		9C28E8A417AC53A80061E841 /* EVWalletNotificationDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVWalletNotificationDetailCell.m; sourceTree = "<group>"; };
 		9C2DD0701769050700EAA3D1 /* Privacy-Dropdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Privacy-Dropdown.png"; sourceTree = "<group>"; };
 		9C2DD0711769050700EAA3D1 /* Privacy-Dropdown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Privacy-Dropdown@2x.png"; sourceTree = "<group>"; };
 		9C2DD0721769050700EAA3D1 /* Privacy-Friends.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Privacy-Friends.png"; sourceTree = "<group>"; };
@@ -1734,6 +1747,8 @@
 				9C1F481E175691B600B26A1B /* EVWithdrawal.m */,
 				D0CBDC7F17AA03EE00E09D39 /* EVTip.h */,
 				D0CBDC8017AA03EF00E09D39 /* EVTip.m */,
+				9C28E89917AC4BB50061E841 /* EVWalletNotification.h */,
+				9C28E89A17AC4BB50061E841 /* EVWalletNotification.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1916,6 +1931,8 @@
 				9C35B6F617618A4400084FA7 /* WalletArrow@2x.png */,
 				9CA8170B178DEEDD000F0417 /* WalletArrow_blue@2x.png */,
 				9CA8170C178DEEDD000F0417 /* WalletArrow_blue.png */,
+				9C28E89C17AC4E8B0061E841 /* evenly_lock_confirmation@2x.png */,
+				9C28E89D17AC4E8B0061E841 /* evenly_lock_confirmation.png */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -2533,6 +2550,8 @@
 				9C863C9317729797003ADB49 /* EVGroupRequestAmountCell.m */,
 				D0C30AFF17721927005606E8 /* EVPendingDetailCell.h */,
 				D0C30B0017721927005606E8 /* EVPendingDetailCell.m */,
+				9C28E8A317AC53A80061E841 /* EVWalletNotificationDetailCell.h */,
+				9C28E8A417AC53A80061E841 /* EVWalletNotificationDetailCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -2952,6 +2971,8 @@
 				9CAC4472177F672E00CA27C5 /* EVPendingGroupViewController.m */,
 				9CAC447E177FA07000CA27C5 /* EVPartialPaymentViewController.h */,
 				9CAC447F177FA07000CA27C5 /* EVPartialPaymentViewController.m */,
+				9C28E8A017AC50220061E841 /* EVWalletNotificationViewController.h */,
+				9C28E8A117AC50220061E841 /* EVWalletNotificationViewController.m */,
 			);
 			path = TransactionDetail;
 			sourceTree = "<group>";
@@ -3349,6 +3370,8 @@
 				D0CBDC9A17AA4A8000E09D39 /* twitter_active@2x.png in Resources */,
 				D0CBDC9B17AA4A8000E09D39 /* twitter_inactive.png in Resources */,
 				D0CBDC9C17AA4A8000E09D39 /* twitter_inactive@2x.png in Resources */,
+				9C28E89E17AC4E8B0061E841 /* evenly_lock_confirmation@2x.png in Resources */,
+				9C28E89F17AC4E8B0061E841 /* evenly_lock_confirmation.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3707,6 +3730,9 @@
 				D0CBDC7B17A9DA0C00E09D39 /* EVChooseTipCell.m in Sources */,
 				D0CBDC8117AA03F000E09D39 /* EVTip.m in Sources */,
 				D0CBDC8417AA490400E09D39 /* EVSharingSelectorView.m in Sources */,
+				9C28E89B17AC4BB50061E841 /* EVWalletNotification.m in Sources */,
+				9C28E8A217AC50220061E841 /* EVWalletNotificationViewController.m in Sources */,
+				9C28E8A517AC53A80061E841 /* EVWalletNotificationDetailCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

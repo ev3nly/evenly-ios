@@ -12,12 +12,14 @@ extern NSString *const EVStoryLocallyCreatedNotification;
 
 @class EVExchange;
 @class EVGroupRequest;
+@class EVWalletNotification;
 
 typedef enum {
     EVStorySourceTypeNormal,
     EVStorySourceTypeUser,
     EVStorySourceTypeHint,
-    EVStorySourceTypeGettingStarted
+    EVStorySourceTypeGettingStarted,
+    EVStorySourceTypeWalletNotification
 } EVStorySourceType;
 
 typedef enum {
