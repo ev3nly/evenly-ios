@@ -177,9 +177,9 @@
 
 - (id)contactAtIndexPath:(NSIndexPath *)indexPath {
     id contact = nil;
-    if (indexPath.section == EVAutocompleteSectionConnections)
+    if (indexPath.section == EVAutocompleteSectionConnections && [self.filteredConnections count] > indexPath.row)
         contact = [self.filteredConnections objectAtIndex:indexPath.row];
-    else
+    else if ([self.addressBookSuggestions count] > indexPath.row)
         contact = [self.addressBookSuggestions objectAtIndex:indexPath.row];
     return contact;
 }
