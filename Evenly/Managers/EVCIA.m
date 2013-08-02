@@ -89,7 +89,7 @@ static EVCIA *_sharedInstance;
 }
 
 - (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure {
-    EV_PERFORM_ON_BACKGROUND_QUEUE(^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         UIImage *cachedImage = [self imageForURL:url size:size];
         if (cachedImage) {
             if (success) {
@@ -172,7 +172,7 @@ static EVCIA *_sharedInstance;
         {
             [self.imageCache setObject:image forKey:cachePath];
             [UIImagePNGRepresentation(image) writeToFile:cachePath
-                                                     atomically:YES];
+                                              atomically:YES];
         }
     });
 }
