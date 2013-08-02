@@ -158,23 +158,21 @@ static EVCIA *_sharedInstance;
 - (void)setImage:(UIImage *)image forURL:(NSURL *)url withSize:(CGSize)size {
     EV_PERFORM_ON_BACKGROUND_QUEUE(^{
         NSString *cachePath = [EVStringUtility cachePathFromURL:url size:size];
-        @synchronized (cachePath) {
-            if (!image) // remove image from memory and disk caches
-            {
-                [self.imageCache removeObjectForKey:cachePath];
-                NSError *error;
-                [[NSFileManager defaultManager] removeItemAtPath:cachePath
-                                                           error:&error];
-                if (error)
-                    DLog(@"Error: %@", error);
-                return;
-            }
-            else // store in memory and disk caches
-            {
-                [self.imageCache setObject:image forKey:cachePath];
-                [UIImagePNGRepresentation(image) writeToFile:cachePath
-                                                  atomically:YES];
-            }
+        if (!image) // remove image from memory and disk caches
+        {
+            [self.imageCache removeObjectForKey:cachePath];
+            NSError *error;
+            [[NSFileManager defaultManager] removeItemAtPath:cachePath
+                                                       error:&error];
+            if (error)
+                DLog(@"Error: %@", error);
+            return;
+        }
+        else // store in memory and disk caches
+        {
+            [self.imageCache setObject:image forKey:cachePath];
+            [UIImagePNGRepresentation(image) writeToFile:cachePath
+                                              atomically:YES];
         }
     });
 }
