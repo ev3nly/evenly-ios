@@ -501,7 +501,7 @@
                   forRecord:(EVGroupRequestRecord *)record
                 withSuccess:(void (^)(EVPayment *payment))success
                     failure:(void (^)(NSError *error))failure {
-    if (!amount)
+    if (!amount || ![amount respondsToSelector:@selector(stringValue)])
         return;
     NSDictionary *params = @{ @"amount" : [amount stringValue] };
     NSString *path = [NSString stringWithFormat:@"%@/records/%@/payments", self.dbid, record.dbid];

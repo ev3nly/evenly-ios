@@ -352,7 +352,7 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
                 }
             }
             @catch (NSException *exception) {
-                DLog(@"EXCEPTION WHILE RELOADING PENDING: %@", exception);
+                DRaise(exception);
                 [self.internalCache removeObjectForKey:EVPendingSentExchangesKey];
                 [self.internalCache removeObjectForKey:EVPendingReceivedExchangesKey];
                 oldIncoming = nil;

@@ -160,7 +160,7 @@ static NSDateFormatter *_dateFormatter = nil;
             _dbid = [properties valueForKey:@"id"];
     }
     @catch (NSException *exception) {
-        DLog(@"DBID invalid: %@", exception);
+        DRaise(exception);
         _dbid = @"-1";
     }
     @try {
@@ -168,7 +168,7 @@ static NSDateFormatter *_dateFormatter = nil;
             self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
     }
     @catch (NSException *exception) {
-        DLog(@"created_at invalid: %@", exception);
+        DRaise(exception);
         self.createdAt = [NSDate date];
     }
 }
