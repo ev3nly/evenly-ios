@@ -88,11 +88,12 @@
 
 static NSDateFormatter *_dateFormatter = nil;
 + (NSDateFormatter *)dateFormatter {
-    if (_dateFormatter == nil) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         _dateFormatter = [[NSDateFormatter alloc] init];
         _dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
         _dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
-    }
+    });
     return _dateFormatter;
 }
 

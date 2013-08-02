@@ -335,7 +335,6 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
 - (void)reloadPendingExchangesWithCompletion:(void (^)(NSArray *exchanges))completion {
     [EVUser pendingWithSuccess:^(NSArray *pending) {
         EV_PERFORM_ON_BACKGROUND_QUEUE(^{
-            BOOL updated = NO;
             NSArray *incoming = [pending filter:^BOOL(id object) {
                 return [object isIncoming];
             }];
@@ -345,23 +344,21 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
             
             NSArray *oldIncoming = [self.internalCache objectForKey:EVPendingSentExchangesKey];
             if (!oldIncoming || ![oldIncoming isEqualToArray:incoming]) {
-                updated = YES;
                 [self.internalCache setObject:incoming forKey:EVPendingSentExchangesKey];
             }
             
             NSArray *oldOutgoing = [self.internalCache objectForKey:EVPendingReceivedExchangesKey];
             if (!oldOutgoing || ![oldOutgoing isEqualToArray:outgoing]) {
-                updated = YES;
                 [self.internalCache setObject:outgoing forKey:EVPendingReceivedExchangesKey];
             }
+
             [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[outgoing count]];
             EV_PERFORM_ON_MAIN_QUEUE(^{
                 if (completion)
                     completion(pending);
-                if (updated)
-                    [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
-                                                                        object:self
-                                                                      userInfo:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedExchangesNotification
+                                                                    object:self
+                                                                  userInfo:nil];
             });
         });
     } failure:^(NSError *error) {
