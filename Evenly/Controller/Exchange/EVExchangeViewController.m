@@ -10,22 +10,36 @@
 #import "EVExchange.h"
 #import "EVGroupRequest.h"
 #import "ABContactsHelper.h"
+#import "EVBackButton.h"
+#import "EVNavigationBarButton.h"
+#import "EVValidator.h"
 
 #define TITLE_PAGE_CONTROL_Y_OFFSET 5.0
 
 @interface EVExchangeViewController ()
 
+@property (nonatomic, strong) NSArray *leftButtons;
+@property (nonatomic, strong) NSArray *rightButtons;
+
 @end
 
 @implementation EVExchangeViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+#pragma mark - Lifecycle
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.phase = EVExchangePhaseWho;
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(tokenAddedByReturnPress:)
+                                                     name:EVExchangeWhoViewAddedTokenFromReturnPressNotification
+                                                   object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)loadView {
@@ -33,28 +47,16 @@
     
     [self loadNavigationButtons];
     [self loadPageControl];
-    
     [self loadPrivacySelector];
     [self loadContentViews];
     [self loadAutocomplete];
-    
     [self setUpReactions];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(tokenAddedByReturnPress:)
-                                                 name:EVExchangeWhoViewAddedTokenFromReturnPressNotification
-                                               object:nil];
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
-    [self.pageControl setCenter:CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0,
-                                            self.titleLabel.frame.size.height + 5.0)];
+    self.pageControl.center = [self pageControlCenter];
     self.privacySelector.frame = [self privacySelectorFrame];
 }
 
@@ -63,32 +65,11 @@
     [self.initialView becomeFirstResponder];
 }
 
-#pragma mark - Basic Interface
-
-- (void)addContact:(id)contact {
-    if ([contact isKindOfClass:[ABContact class]]) {
-        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
-		EVContact *toContact = [[EVContact alloc] init];
-		toContact.email = emailAddress;
-        toContact.name = [contact compositeName];
-        contact = toContact;
-    }
-    [self.initialView addContact:contact];
-}
-
-- (void)advancePhase {
-    // abstract
-}
-
-- (void)sendExchangeToServer {
-    // abstract
-}
-
-#pragma mark - View Loading
-
+#pragma mark - Loading
 
 - (void)loadNavigationButtons {
-    // abstract
+    self.leftButtons = [self leftNavBarButtons];
+    self.rightButtons = [self rightNavBarButtons];
 }
 
 - (void)loadPageControl {
@@ -105,41 +86,13 @@
     [self.navigationItem.titleView setFrame:rect];
 }
 
-- (void)unloadPageControlAnimated:(BOOL)animated {
-    [self.pageControl removeFromSuperview];
-    self.pageControl = nil;
-    [UIView animateWithDuration:(animated ? EV_DEFAULT_ANIMATION_DURATION : 0.0) animations:^{
-        [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:0
-                                                                      forBarMetrics:UIBarMetricsDefault];
-    } completion:^(BOOL finished) {
-        
-    }];
-}
-
-
 - (void)loadPrivacySelector {
     _privacySelector = [[EVPrivacySelectorToggle alloc] initWithFrame:[self privacySelectorFrame]];
-}
-
-- (CGRect)privacySelectorFrame {
-    BOOL shouldShowPrivacySelector = NO;
-    for (EVObject<EVExchangeable> *recipient in [self.initialView recipients]) {
-        if (recipient.dbid)
-            shouldShowPrivacySelector = YES;
-    }
-    self.privacySelector.hidden = !shouldShowPrivacySelector;
-    
-    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorToggle lineHeight];// - self.navigationController.navigationBar.bounds.size.height;
-    return CGRectMake(0,
-                      yOrigin,
-                      self.view.bounds.size.width,
-                      [EVPrivacySelectorToggle lineHeight] * [EVPrivacySelectorToggle numberOfLines]);
 }
 
 - (void)loadContentViews {
     // abstract
 }
-
 
 - (void)loadAutocomplete {
     self.autocompleteTableViewController = [[EVAutocompleteTableViewController alloc] initWithStyle:UITableViewStylePlain];
@@ -153,7 +106,73 @@
     // abstract
 }
 
+- (void)unloadPageControlAnimated:(BOOL)animated {
+    [self.pageControl removeFromSuperview];
+    self.pageControl = nil;
+    [UIView animateWithDuration:(animated ? EV_DEFAULT_ANIMATION_DURATION : 0.0) animations:^{
+        [self.navigationController.navigationBar setTitleVerticalPositionAdjustment:0
+                                                                      forBarMetrics:UIBarMetricsDefault];
+    } completion:nil];
+}
+
+#pragma mark - Basic Interface
+
+- (void)addContact:(id)contact {
+    if ([contact isKindOfClass:[ABContact class]]) {
+        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
+		EVContact *toContact = [[EVContact alloc] init];
+		toContact.email = emailAddress;
+        toContact.name = [contact compositeName];
+        contact = toContact;
+    }
+    [self.initialView addContact:contact];
+}
+
+- (void)sendExchangeToServer {
+    // abstract
+}
+
 #pragma mark - Nav Bar Buttons
+
+- (NSArray *)leftNavBarButtons {
+    NSMutableArray *leftButtons = [NSMutableArray array];
+    UIButton *button;
+    
+    button = [self defaultCancelButton];
+    [button addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [leftButtons addObject:button];
+    [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
+    
+    button = [EVBackButton button];
+    [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [leftButtons addObject:button];
+    
+    button = [EVBackButton button];
+    [button addTarget:self action:@selector(backButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [leftButtons addObject:button];
+    
+    return leftButtons;
+}
+
+- (NSArray *)rightNavBarButtons {
+    NSMutableArray *rightButtons = [NSMutableArray array];
+    UIButton *button;
+    
+    button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
+    [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [rightButtons addObject:button];
+    [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:button] animated:NO];
+    
+    button = [[EVNavigationBarButton alloc] initWithTitle:@"Next"];
+    [button addTarget:self action:@selector(nextButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [rightButtons addObject:button];
+    
+    button = [[EVNavigationBarButton alloc] initWithTitle:[self actionButtonText]];
+    [button addTarget:self action:@selector(actionButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [rightButtons addObject:button];
+
+    return rightButtons;
+}
 
 - (void)setUpNavBar {
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:[self leftButtonForPhase:self.phase]] animated:YES];
@@ -182,7 +201,17 @@
 }
 
 - (void)nextButtonPress:(id)sender {
-    [self advancePhase];
+    if (self.phase == EVExchangePhaseWho) {
+        NSString *toFieldContents = self.initialView.toField.textField.text;
+        if ([[EVValidator sharedValidator] stringIsValidEmail:toFieldContents]) {
+            [self.initialView addTokenFromField:self.initialView.toField];
+            [self.autocompleteTableViewController handleFieldInput:nil];
+        } else {
+            [self advancePhase];
+        }
+    } else {
+        [self advancePhase];
+    }
 }
 
 - (void)actionButtonPress:(id)sender {
@@ -192,6 +221,26 @@
     [sender setEnabled:NO];
     self.navigationItem.leftBarButtonItem = nil;
     [self sendExchangeToServer];
+}
+
+#pragma mark - Advancing
+
+- (void)advancePhase {
+    if (self.phase == EVExchangePhaseWho && [self shouldAdvanceToHowMuch]) {
+        [self advanceToHowMuch];
+        self.phase = EVExchangePhaseHowMuch;
+    } else if (self.phase == EVExchangePhaseHowMuch && [self shouldAdvanceToWhatFor]) {
+        [self advanceToWhatFor];
+        self.phase = EVExchangePhaseWhatFor;
+    }
+    [self setUpNavBar];
+}
+
+- (void)advanceToHowMuch {
+    //abstract
+}
+- (void)advanceToWhatFor {
+    //abstract
 }
 
 #pragma mark - Validation 
@@ -225,6 +274,32 @@
     if (!exchange.to.dbid && exchange.to.email)
         privacySetting = EVPrivacySettingPrivate;
     exchange.visibility = [EVStringUtility stringForPrivacySetting:privacySetting];
+}
+
+- (NSString *)actionButtonText {
+    return nil; //abstract
+}
+
+#pragma mark - Frames
+
+- (CGPoint)pageControlCenter {
+    return CGPointMake(self.navigationController.navigationBar.frame.size.width / 2.0,
+                       self.titleLabel.frame.size.height + 5.0);
+}
+
+- (CGRect)privacySelectorFrame {
+    BOOL shouldShowPrivacySelector = NO;
+    for (EVObject<EVExchangeable> *recipient in [self.initialView recipients]) {
+        if (recipient.dbid)
+            shouldShowPrivacySelector = YES;
+    }
+    self.privacySelector.hidden = !shouldShowPrivacySelector;
+    
+    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorToggle lineHeight];
+    return CGRectMake(0,
+                      yOrigin,
+                      self.view.bounds.size.width,
+                      [EVPrivacySelectorToggle lineHeight] * [EVPrivacySelectorToggle numberOfLines]);
 }
 
 @end

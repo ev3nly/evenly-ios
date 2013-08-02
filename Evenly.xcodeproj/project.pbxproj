@@ -527,6 +527,24 @@
 		D0C48EA3176FB2EB00F60193 /* EVHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */; };
 		D0CBDC3017A7382200E09D39 /* More.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC2E17A7382200E09D39 /* More.png */; };
 		D0CBDC3117A7382200E09D39 /* More@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC2F17A7382200E09D39 /* More@2x.png */; };
+		D0CBDC4417A7548400E09D39 /* EVTippingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBDC4317A7548400E09D39 /* EVTippingViewController.m */; };
+		D0CBDC7817A9D36000E09D39 /* EVChooseTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBDC7717A9D36000E09D39 /* EVChooseTipView.m */; };
+		D0CBDC7B17A9DA0C00E09D39 /* EVChooseTipCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBDC7A17A9DA0B00E09D39 /* EVChooseTipCell.m */; };
+		D0CBDC7E17A9FD3000E09D39 /* Bearhug.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC7D17A9FD3000E09D39 /* Bearhug.png */; };
+		D0CBDC8117AA03F000E09D39 /* EVTip.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBDC8017AA03EF00E09D39 /* EVTip.m */; };
+		D0CBDC8417AA490400E09D39 /* EVSharingSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CBDC8317AA490400E09D39 /* EVSharingSelectorView.m */; };
+		D0CBDC9117AA4A8000E09D39 /* evenly_active.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8517AA4A8000E09D39 /* evenly_active.png */; };
+		D0CBDC9217AA4A8000E09D39 /* evenly_active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8617AA4A8000E09D39 /* evenly_active@2x.png */; };
+		D0CBDC9317AA4A8000E09D39 /* evenly_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8717AA4A8000E09D39 /* evenly_inactive.png */; };
+		D0CBDC9417AA4A8000E09D39 /* evenly_inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8817AA4A8000E09D39 /* evenly_inactive@2x.png */; };
+		D0CBDC9517AA4A8000E09D39 /* facebook_active.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8917AA4A8000E09D39 /* facebook_active.png */; };
+		D0CBDC9617AA4A8000E09D39 /* facebook_active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8A17AA4A8000E09D39 /* facebook_active@2x.png */; };
+		D0CBDC9717AA4A8000E09D39 /* facebook_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8B17AA4A8000E09D39 /* facebook_inactive.png */; };
+		D0CBDC9817AA4A8000E09D39 /* facebook_inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8C17AA4A8000E09D39 /* facebook_inactive@2x.png */; };
+		D0CBDC9917AA4A8000E09D39 /* twitter_active.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8D17AA4A8000E09D39 /* twitter_active.png */; };
+		D0CBDC9A17AA4A8000E09D39 /* twitter_active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8E17AA4A8000E09D39 /* twitter_active@2x.png */; };
+		D0CBDC9B17AA4A8000E09D39 /* twitter_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8F17AA4A8000E09D39 /* twitter_inactive.png */; };
+		D0CBDC9C17AA4A8000E09D39 /* twitter_inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC9017AA4A8000E09D39 /* twitter_inactive@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1308,6 +1326,29 @@
 		D0C48EA2176FB2EB00F60193 /* EVHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVHistoryViewController.m; sourceTree = "<group>"; };
 		D0CBDC2E17A7382200E09D39 /* More.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = More.png; sourceTree = "<group>"; };
 		D0CBDC2F17A7382200E09D39 /* More@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "More@2x.png"; sourceTree = "<group>"; };
+		D0CBDC4217A7548400E09D39 /* EVTippingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTippingViewController.h; sourceTree = "<group>"; };
+		D0CBDC4317A7548400E09D39 /* EVTippingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTippingViewController.m; sourceTree = "<group>"; };
+		D0CBDC7617A9D36000E09D39 /* EVChooseTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVChooseTipView.h; sourceTree = "<group>"; };
+		D0CBDC7717A9D36000E09D39 /* EVChooseTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVChooseTipView.m; sourceTree = "<group>"; };
+		D0CBDC7917A9DA0B00E09D39 /* EVChooseTipCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVChooseTipCell.h; sourceTree = "<group>"; };
+		D0CBDC7A17A9DA0B00E09D39 /* EVChooseTipCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVChooseTipCell.m; sourceTree = "<group>"; };
+		D0CBDC7D17A9FD3000E09D39 /* Bearhug.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bearhug.png; sourceTree = "<group>"; };
+		D0CBDC7F17AA03EE00E09D39 /* EVTip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTip.h; sourceTree = "<group>"; };
+		D0CBDC8017AA03EF00E09D39 /* EVTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVTip.m; sourceTree = "<group>"; };
+		D0CBDC8217AA490300E09D39 /* EVSharingSelectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSharingSelectorView.h; sourceTree = "<group>"; };
+		D0CBDC8317AA490400E09D39 /* EVSharingSelectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSharingSelectorView.m; sourceTree = "<group>"; };
+		D0CBDC8517AA4A8000E09D39 /* evenly_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_active.png; sourceTree = "<group>"; };
+		D0CBDC8617AA4A8000E09D39 /* evenly_active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evenly_active@2x.png"; sourceTree = "<group>"; };
+		D0CBDC8717AA4A8000E09D39 /* evenly_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_inactive.png; sourceTree = "<group>"; };
+		D0CBDC8817AA4A8000E09D39 /* evenly_inactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evenly_inactive@2x.png"; sourceTree = "<group>"; };
+		D0CBDC8917AA4A8000E09D39 /* facebook_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook_active.png; sourceTree = "<group>"; };
+		D0CBDC8A17AA4A8000E09D39 /* facebook_active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook_active@2x.png"; sourceTree = "<group>"; };
+		D0CBDC8B17AA4A8000E09D39 /* facebook_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = facebook_inactive.png; sourceTree = "<group>"; };
+		D0CBDC8C17AA4A8000E09D39 /* facebook_inactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "facebook_inactive@2x.png"; sourceTree = "<group>"; };
+		D0CBDC8D17AA4A8000E09D39 /* twitter_active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter_active.png; sourceTree = "<group>"; };
+		D0CBDC8E17AA4A8000E09D39 /* twitter_active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitter_active@2x.png"; sourceTree = "<group>"; };
+		D0CBDC8F17AA4A8000E09D39 /* twitter_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter_inactive.png; sourceTree = "<group>"; };
+		D0CBDC9017AA4A8000E09D39 /* twitter_inactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitter_inactive@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1519,6 +1560,8 @@
 				9C1606421788D5AE00852684 /* EVPrivacySelectorView.m */,
 				D027586217989B10004F6F0A /* EVPrivacySelectorToggle.h */,
 				D027586317989B11004F6F0A /* EVPrivacySelectorToggle.m */,
+				D0CBDC8217AA490300E09D39 /* EVSharingSelectorView.h */,
+				D0CBDC8317AA490400E09D39 /* EVSharingSelectorView.m */,
 			);
 			path = PrivacySelector;
 			sourceTree = "<group>";
@@ -1689,6 +1732,8 @@
 				D02CAB0E1761483500323025 /* EVValidator.m */,
 				9C1F481D175691B600B26A1B /* EVWithdrawal.h */,
 				9C1F481E175691B600B26A1B /* EVWithdrawal.m */,
+				D0CBDC7F17AA03EE00E09D39 /* EVTip.h */,
+				D0CBDC8017AA03EF00E09D39 /* EVTip.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1737,6 +1782,18 @@
 				9C2DD0771769050700EAA3D1 /* Privacy-Lock@2x.png */,
 				D06DFAF41769473A00A06564 /* Privacy-Check.png */,
 				D06DFAF51769473A00A06564 /* Privacy-Check@2x.png */,
+				D0CBDC8517AA4A8000E09D39 /* evenly_active.png */,
+				D0CBDC8617AA4A8000E09D39 /* evenly_active@2x.png */,
+				D0CBDC8717AA4A8000E09D39 /* evenly_inactive.png */,
+				D0CBDC8817AA4A8000E09D39 /* evenly_inactive@2x.png */,
+				D0CBDC8917AA4A8000E09D39 /* facebook_active.png */,
+				D0CBDC8A17AA4A8000E09D39 /* facebook_active@2x.png */,
+				D0CBDC8B17AA4A8000E09D39 /* facebook_inactive.png */,
+				D0CBDC8C17AA4A8000E09D39 /* facebook_inactive@2x.png */,
+				D0CBDC8D17AA4A8000E09D39 /* twitter_active.png */,
+				D0CBDC8E17AA4A8000E09D39 /* twitter_active@2x.png */,
+				D0CBDC8F17AA4A8000E09D39 /* twitter_inactive.png */,
+				D0CBDC9017AA4A8000E09D39 /* twitter_inactive@2x.png */,
 			);
 			path = Privacy;
 			sourceTree = "<group>";
@@ -2329,6 +2386,7 @@
 				D0770B38177519A40002B572 /* SignUp */,
 				D093B99F17757AE70036BDBD /* StatusBar */,
 				9C58DC4B176BAFE80057C019 /* Switches */,
+				D0CBDC7C17A9FD3000E09D39 /* Tipping */,
 				9CB285811761521E009B26BB /* Tombstone */,
 				9C35B6F417618A4400084FA7 /* Wallet */,
 			);
@@ -2582,6 +2640,8 @@
 				9C1606221788D24B00852684 /* EVPaymentViewController.m */,
 				9C5044151770E5880090D865 /* EVRequestViewController.h */,
 				9C5044161770E5880090D865 /* EVRequestViewController.m */,
+				D0CBDC4217A7548400E09D39 /* EVTippingViewController.h */,
+				D0CBDC4317A7548400E09D39 /* EVTippingViewController.m */,
 				9C9017E01782144E00FCD32A /* EVAutocompleteTableViewController.h */,
 				9C9017E11782144E00FCD32A /* EVAutocompleteTableViewController.m */,
 			);
@@ -2766,6 +2826,7 @@
 				9C1606581788D6A300852684 /* EVExchangeBigAmountView.m */,
 				9C1606641788D6FE00852684 /* Who */,
 				9C16065A1788D6FE00852684 /* HowMuch */,
+				D0CBDC7517A9D08A00E09D39 /* Tipping */,
 				9C16065F1788D6FE00852684 /* WhatFor */,
 				9C16063A1788D5AE00852684 /* PrivacySelector */,
 			);
@@ -2908,6 +2969,25 @@
 				9C163F3917A09F3A00A3A3A0 /* EVHistoryDepositViewController.m */,
 			);
 			path = History;
+			sourceTree = "<group>";
+		};
+		D0CBDC7517A9D08A00E09D39 /* Tipping */ = {
+			isa = PBXGroup;
+			children = (
+				D0CBDC7617A9D36000E09D39 /* EVChooseTipView.h */,
+				D0CBDC7717A9D36000E09D39 /* EVChooseTipView.m */,
+				D0CBDC7917A9DA0B00E09D39 /* EVChooseTipCell.h */,
+				D0CBDC7A17A9DA0B00E09D39 /* EVChooseTipCell.m */,
+			);
+			path = Tipping;
+			sourceTree = "<group>";
+		};
+		D0CBDC7C17A9FD3000E09D39 /* Tipping */ = {
+			isa = PBXGroup;
+			children = (
+				D0CBDC7D17A9FD3000E09D39 /* Bearhug.png */,
+			);
+			path = Tipping;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3256,6 +3336,19 @@
 				9C9C7C9417A1DB660095FB54 /* green_card@2x.png in Resources */,
 				D0CBDC3017A7382200E09D39 /* More.png in Resources */,
 				D0CBDC3117A7382200E09D39 /* More@2x.png in Resources */,
+				D0CBDC7E17A9FD3000E09D39 /* Bearhug.png in Resources */,
+				D0CBDC9117AA4A8000E09D39 /* evenly_active.png in Resources */,
+				D0CBDC9217AA4A8000E09D39 /* evenly_active@2x.png in Resources */,
+				D0CBDC9317AA4A8000E09D39 /* evenly_inactive.png in Resources */,
+				D0CBDC9417AA4A8000E09D39 /* evenly_inactive@2x.png in Resources */,
+				D0CBDC9517AA4A8000E09D39 /* facebook_active.png in Resources */,
+				D0CBDC9617AA4A8000E09D39 /* facebook_active@2x.png in Resources */,
+				D0CBDC9717AA4A8000E09D39 /* facebook_inactive.png in Resources */,
+				D0CBDC9817AA4A8000E09D39 /* facebook_inactive@2x.png in Resources */,
+				D0CBDC9917AA4A8000E09D39 /* twitter_active.png in Resources */,
+				D0CBDC9A17AA4A8000E09D39 /* twitter_active@2x.png in Resources */,
+				D0CBDC9B17AA4A8000E09D39 /* twitter_inactive.png in Resources */,
+				D0CBDC9C17AA4A8000E09D39 /* twitter_inactive@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3609,6 +3702,11 @@
 				9CFD9DA917A33D1000DE8190 /* EVParseUtility.m in Sources */,
 				9C732A3F17A72FFC000D210C /* EVPushManager.m in Sources */,
 				9CCE2A1717A87E51006A3644 /* EVRewardsAfterView.m in Sources */,
+				D0CBDC4417A7548400E09D39 /* EVTippingViewController.m in Sources */,
+				D0CBDC7817A9D36000E09D39 /* EVChooseTipView.m in Sources */,
+				D0CBDC7B17A9DA0C00E09D39 /* EVChooseTipCell.m in Sources */,
+				D0CBDC8117AA03F000E09D39 /* EVTip.m in Sources */,
+				D0CBDC8417AA490400E09D39 /* EVSharingSelectorView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3717,7 +3815,6 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3727,7 +3824,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "0F3CAE62-0513-4307-8298-712AEC20BD79";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -3739,7 +3835,6 @@
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3756,7 +3851,6 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3766,7 +3860,6 @@
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3783,7 +3876,6 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

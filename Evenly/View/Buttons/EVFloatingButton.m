@@ -21,6 +21,7 @@
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = [UIColor whiteColor];
         self.label.font = [EVFont blackFontOfSize:13];
+        self.label.textAlignment = NSTextAlignmentCenter;
         [self addSubview:self.label];
     }
     return self;
