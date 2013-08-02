@@ -300,6 +300,8 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
 }
 
 - (EVObject *)cachedObjectWithClassName:(NSString *)className dbid:(NSString *)dbid {
+    if (EV_IS_EMPTY_STRING(className) || EV_IS_EMPTY_STRING(dbid))
+        return nil;
     return [self.internalCache objectForKey:[self cacheStringFromClassName:className dbid:dbid]];
 }
 
