@@ -134,13 +134,13 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     self.verb = properties[@"verb"];
     self.isPrivate = [properties[@"visibility"] isEqualToString:@"private"];
     self.storyDescription = properties[@"description"];
-    if (![properties[@"published_at"] isKindOfClass:[NSNull class]]) {
+    if (properties[@"published_at"] && ![properties[@"published_at"] isKindOfClass:[NSNull class]]) {
         if ([properties[@"published_at"] isKindOfClass:[NSString class]])
             self.publishedAt = [[[self class] dateFormatter] dateFromString:properties[@"published_at"]];
         else
             self.publishedAt = properties[@"published_at"];
     }
-    if (properties[@"amount"] != [NSNull null]) {
+    if (properties[@"amount"] && properties[@"amount"] != [NSNull null]) {
         if ([properties[@"amount"] isKindOfClass:[NSDecimalNumber class]])
             self.amount = properties[@"amount"];
         else
