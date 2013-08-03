@@ -186,7 +186,10 @@
 
 - (BOOL)hasPendingReceivedExchanges {
     BOOL hasReceived = [[[EVCIA sharedInstance] pendingReceivedExchanges] count] > 0;
-    BOOL hasNotification = [[self.pendingExchanges objectAtIndex:0] isKindOfClass:[EVWalletNotification class]];
+    BOOL hasNotification = NO;
+    if ([self.pendingExchanges count]) {
+        hasNotification = [[self.pendingExchanges objectAtIndex:0] isKindOfClass:[EVWalletNotification class]];
+    }
     return hasReceived || hasNotification;
 }
 
