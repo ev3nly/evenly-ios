@@ -18,6 +18,9 @@
 
 + (BOOL)isConnected;
 + (void)openSessionWithCompletion:(void (^)(void))completion;
++ (BOOL)hasPublishPermissions;
++ (void)requestPublishPermissionsWithCompletion:(void (^)(void))completion;
+
 + (void)closeAndClearSession;
 
 + (void)loadMeWithCompletion:(void (^)(NSDictionary *userDict))completion failure:(void (^)(NSError *error))failure;
