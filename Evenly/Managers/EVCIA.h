@@ -20,8 +20,10 @@
 
 #pragma mark - Image Loading
 
-- (void)loadImageFromURL:(NSURL *)url success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure;
-- (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure;
+typedef void(^EVCIAImageLoadedSuccessBlock)(UIImage *image);
+
+- (void)loadImageFromURL:(NSURL *)url success:(EVCIAImageLoadedSuccessBlock)success failure:(void (^)(NSError *error))failure;
+- (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(EVCIAImageLoadedSuccessBlock)success failure:(void (^)(NSError *error))failure;
 
 @property (nonatomic, strong) NSCache *imageCache;
 - (UIImage *)imageForURL:(NSURL *)url;
