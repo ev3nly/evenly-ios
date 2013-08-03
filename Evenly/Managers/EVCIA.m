@@ -353,7 +353,7 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
     }];
     NSArray *everything = [received arrayByAddingObjectsFromArray:sent];
     
-    if (![self me].confirmed) {
+    if ([self.me isUnconfirmed]) {
         everything = [@[ [EVWalletNotification unconfirmedNotification] ] arrayByAddingObjectsFromArray:everything];
     }
     return everything;
