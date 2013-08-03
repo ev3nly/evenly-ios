@@ -29,7 +29,7 @@ static EVCIA *_sharedInstance;
 @property (nonatomic, strong) EVUser *cachedUser;
 @property (nonatomic, readwrite) BOOL loadingCreditCards;
 @property (nonatomic, readwrite) BOOL loadingBankAccounts;
-@property (strong) NSMutableDictionary *imageLoadingSuccessBlocks;
+@property (strong) NSMutableDictionary *imageLoadingSuccessBlocks; //to prevent duplicate image request from being fired off
 
 @end
 
@@ -93,6 +93,8 @@ static EVCIA *_sharedInstance;
 
 - (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(EVCIAImageLoadedSuccessBlock)success failure:(void (^)(NSError *error))failure {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        //check for previously cached image and return if one exists
         UIImage *cachedImage = [self imageForURL:url size:size];
         if (cachedImage) {
             if (success) {
@@ -103,6 +105,7 @@ static EVCIA *_sharedInstance;
             return;
         }
         
+        //if there's already a request for this url, add the success block to the queue and return
         NSString *cachePath = [EVStringUtility cachePathFromURL:url size:size];
         if (self.imageLoadingSuccessBlocks[cachePath]) {
             NSMutableArray *array = self.imageLoadingSuccessBlocks[cachePath];
@@ -111,6 +114,7 @@ static EVCIA *_sharedInstance;
             return;
         } else {
             if (success) {
+                //if there isn't a queue for this url yet, make one and continue
                 NSMutableArray *array = [NSMutableArray arrayWithObject:success];
                 [self.imageLoadingSuccessBlocks setObject:array forKey:cachePath];
             }
@@ -130,12 +134,14 @@ static EVCIA *_sharedInstance;
                                                                                                                     forURL:url
                                                                                                                   withSize:size];
 
+                                                                                          //run all the success blocks
                                                                                           if (self.imageLoadingSuccessBlocks[cachePath]) {
                                                                                               NSArray *successArray = [NSArray arrayWithArray:self.imageLoadingSuccessBlocks[cachePath]];
                                                                                               EV_PERFORM_ON_MAIN_QUEUE(^{
                                                                                                   for (EVCIAImageLoadedSuccessBlock successBlock in successArray) {
                                                                                                       successBlock(resizedImage);
                                                                                                   }
+                                                                                                  //clear all the blocks for this url
                                                                                                   [self.imageLoadingSuccessBlocks removeObjectForKey:cachePath];
                                                                                               });
                                                                                           }
@@ -143,6 +149,7 @@ static EVCIA *_sharedInstance;
                                                                                   } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                                                                                       if (failure)
                                                                                           failure(error);
+                                                                                      //clear all the blocks, so the user could resend if need be
                                                                                       [self.imageLoadingSuccessBlocks removeObjectForKey:cachePath];
                                                                                   }];
         [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
