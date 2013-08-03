@@ -3860,7 +3860,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ivy Payments, Inc.";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3876,7 +3877,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3885,7 +3887,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ivy Payments, Inc.";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3901,7 +3904,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
