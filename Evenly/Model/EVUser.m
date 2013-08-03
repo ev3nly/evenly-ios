@@ -74,7 +74,10 @@ static EVUser *_me;
         self.connections = array;
     }
     
-    self.confirmed = [[properties valueForKey:@"confirmed"] boolValue];
+    if ([properties valueForKey:@"confirmed"]) {
+        self.unconfirmed = ![[properties valueForKey:@"confirmed"] boolValue];
+    }
+    
     if ([properties valueForKey:@"facebook_connected"] && ![[properties valueForKey:@"facebook_connected"] isEqual:[NSNull null]])
         self.facebookConnected = [[properties valueForKey:@"facebook_connected"] boolValue];
     
@@ -91,7 +94,7 @@ static EVUser *_me;
     setValueForKeyIfNonNil([self.balance stringValue], @"balance");
     setValueForKeyIfNonNil(self.password, @"password");
     setValueForKeyIfNonNil(self.password, @"password_confirmation");
-    setValueForKeyIfNonNil(@(self.isConfirmed), @"confirmed");
+    setValueForKeyIfNonNil(@(!self.unconfirmed), @"confirmed");
     setValueForKeyIfNonNil(self.currentPassword, @"current_password");
     setValueForKeyIfNonNil(@(self.facebookConnected), @"facebook_connected");
     
@@ -525,7 +528,7 @@ static EVUser *_me;
         self.balance = [NSDecimalNumber decimalNumberWithString:[aDecoder decodeObjectForKey:@"EVUser_balance"]
                                                          locale:[NSLocale systemLocale]];
         self.avatarURL = [NSURL URLWithString:[aDecoder decodeObjectForKey:@"EVUser_avatarURL"]];
-        self.confirmed = [aDecoder decodeBoolForKey:@"EVUser_confirmed"];
+        self.unconfirmed = [aDecoder decodeBoolForKey:@"EVUser_unconfirmed"];
         [self loadAvatar];
     }
     return self;
@@ -542,7 +545,7 @@ static EVUser *_me;
     [aCoder encodeObject:self.password forKey:@"EVUser_password"];
     [aCoder encodeObject:[self.balance descriptionWithLocale:[NSLocale systemLocale]] forKey:@"EVUser_balance"];
     [aCoder encodeObject:[self.avatarURL absoluteString] forKey:@"EVUser_avatarURL"];
-    [aCoder encodeBool:self.confirmed forKey:@"EVUser_confirmed"];
+    [aCoder encodeBool:self.unconfirmed forKey:@"EVUser_unconfirmed"];
 }
 
 - (void)setPrivacySetting:(EVPrivacySetting)privacySetting {
