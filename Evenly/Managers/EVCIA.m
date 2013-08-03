@@ -87,7 +87,7 @@ static EVCIA *_sharedInstance;
 
 #pragma mark - Image Loading
 
-- (void)loadImageFromURL:(NSURL *)url success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure {
+- (void)loadImageFromURL:(NSURL *)url success:(EVCIAImageLoadedSuccessBlock)success failure:(void (^)(NSError *error))failure {
     [self loadImageFromURL:url size:CGSizeZero success:success failure:failure];
 }
 
