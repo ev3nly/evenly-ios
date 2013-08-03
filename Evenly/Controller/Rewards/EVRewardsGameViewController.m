@@ -210,6 +210,7 @@
     return ^{
             NSMutableDictionary<FBGraphObject> *action = [FBGraphObject graphObject];
             action[@"reward"] = [NSString stringWithFormat:@"https://paywithivy.com/facebook/reward?amount=%@", [EVStringUtility amountStringForAmount:self.reward.selectedAmount]];
+            
             [FBRequestConnection startForPostWithGraphPath:@"me/evenlyapp:win"
                                                graphObject:action completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                                                    DLog(@"Result: %@", result);
@@ -219,10 +220,14 @@
 }
 
 - (void)share {
-    if ([EVFacebookManager isConnected]) {
-        [self shareBlock]();
+    if (![EVFacebookManager isConnected]) {
+        [EVFacebookManager openSessionWithCompletion:^{
+            [EVFacebookManager requestPublishPermissionsWithCompletion:[self shareBlock]];
+        }];
+    } else if (![EVFacebookManager hasPublishPermissions]) {
+        [EVFacebookManager requestPublishPermissionsWithCompletion:[self shareBlock]];
     } else {
-        [EVFacebookManager openSessionWithCompletion:[self shareBlock]];
+        [self shareBlock]();
     }
 }
 
