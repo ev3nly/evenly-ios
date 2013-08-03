@@ -59,6 +59,22 @@ static EVFacebookManager *_sharedManager;
      }];
 }
 
++ (BOOL)hasPublishPermissions {
+    return [FBSession.activeSession.permissions containsObject:@"publish_actions"];
+}
+
+
++ (void)requestPublishPermissionsWithCompletion:(void (^)(void))completion {
+    [FBSession.activeSession requestNewPublishPermissions:@[ @"publish_actions" ]
+                                          defaultAudience:FBSessionDefaultAudienceEveryone
+                                        completionHandler:^(FBSession *session, NSError *error) {
+                                            if (!error) {
+                                                if (completion)
+                                                    completion();
+                                            }
+                                        }];
+}
+
 + (void)closeAndClearSession {
     [[FBSession activeSession] closeAndClearTokenInformation];
 }
