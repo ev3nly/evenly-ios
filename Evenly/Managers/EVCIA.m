@@ -129,7 +129,7 @@ static EVCIA *_sharedInstance;
                                                                                           [[EVCIA sharedInstance] setImage:resizedImage
                                                                                                                     forURL:url
                                                                                                                   withSize:size];
-                                                                                          NSLog(@"set image: %@, %f-%f", url, size.width, size.height);
+
                                                                                           if (self.imageLoadingSuccessBlocks[cachePath]) {
                                                                                               NSArray *successArray = [NSArray arrayWithArray:self.imageLoadingSuccessBlocks[cachePath]];
                                                                                               EV_PERFORM_ON_MAIN_QUEUE(^{
