@@ -29,6 +29,7 @@ static EVCIA *_sharedInstance;
 @property (nonatomic, strong) EVUser *cachedUser;
 @property (nonatomic, readwrite) BOOL loadingCreditCards;
 @property (nonatomic, readwrite) BOOL loadingBankAccounts;
+@property (strong) NSMutableDictionary *imageLoadingSuccessBlocks; //to prevent duplicate image request from being fired off
 
 @end
 
@@ -47,6 +48,7 @@ static EVCIA *_sharedInstance;
     if (self) {
         self.imageCache = [[NSCache alloc] init];
         self.internalCache = [[NSMutableDictionary alloc] init];
+        self.imageLoadingSuccessBlocks = [NSMutableDictionary new];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didSignIn:)
@@ -85,12 +87,14 @@ static EVCIA *_sharedInstance;
 
 #pragma mark - Image Loading
 
-- (void)loadImageFromURL:(NSURL *)url success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure {
+- (void)loadImageFromURL:(NSURL *)url success:(EVCIAImageLoadedSuccessBlock)success failure:(void (^)(NSError *error))failure {
     [self loadImageFromURL:url size:CGSizeZero success:success failure:failure];
 }
 
-- (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure {
+- (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(EVCIAImageLoadedSuccessBlock)success failure:(void (^)(NSError *error))failure {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        
+        //check for previously cached image and return if one exists
         UIImage *cachedImage = [self imageForURL:url size:size];
         if (cachedImage) {
             if (success) {
@@ -100,6 +104,22 @@ static EVCIA *_sharedInstance;
             }
             return;
         }
+        
+        //if there's already a request for this url, add the success block to the queue and return
+        NSString *cachePath = [EVStringUtility cachePathFromURL:url size:size];
+        if (self.imageLoadingSuccessBlocks[cachePath]) {
+            NSMutableArray *array = self.imageLoadingSuccessBlocks[cachePath];
+            if (success)
+                [array addObject:success];
+            return;
+        } else {
+            if (success) {
+                //if there isn't a queue for this url yet, make one and continue
+                NSMutableArray *array = [NSMutableArray arrayWithObject:success];
+                [self.imageLoadingSuccessBlocks setObject:array forKey:cachePath];
+            }
+        }
+        
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
         AFImageRequestOperation *imageRequestOperation;
         imageRequestOperation = [AFImageRequestOperation imageRequestOperationWithRequest:request
@@ -113,15 +133,24 @@ static EVCIA *_sharedInstance;
                                                                                           [[EVCIA sharedInstance] setImage:resizedImage
                                                                                                                     forURL:url
                                                                                                                   withSize:size];
-                                                                                          if (success) {
+
+                                                                                          //run all the success blocks
+                                                                                          if (self.imageLoadingSuccessBlocks[cachePath]) {
+                                                                                              NSArray *successArray = [NSArray arrayWithArray:self.imageLoadingSuccessBlocks[cachePath]];
                                                                                               EV_PERFORM_ON_MAIN_QUEUE(^{
-                                                                                                  success(resizedImage);
+                                                                                                  for (EVCIAImageLoadedSuccessBlock successBlock in successArray) {
+                                                                                                      successBlock(resizedImage);
+                                                                                                  }
+                                                                                                  //clear all the blocks for this url
+                                                                                                  [self.imageLoadingSuccessBlocks removeObjectForKey:cachePath];
                                                                                               });
                                                                                           }
                                                                                       });
                                                                                   } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
                                                                                       if (failure)
                                                                                           failure(error);
+                                                                                      //clear all the blocks, so the user could resend if need be
+                                                                                      [self.imageLoadingSuccessBlocks removeObjectForKey:cachePath];
                                                                                   }];
         [[EVNetworkManager sharedInstance] enqueueRequest:imageRequestOperation];
     });
@@ -465,7 +494,7 @@ NSString *const EVCIAUpdatedBankAccountsNotification = @"EVCIAUpdatedBankAccount
     [EVBankAccount allWithSuccess:^(id result){
         self.loadingBankAccounts = NO;
         NSArray *oldAccounts = [self bankAccounts];
-        if (![oldAccounts isEqualToArray:result])
+        if (![oldAccounts isEqualToArray:result] && result)
         {
             [self.internalCache setObject:result forKey:@"bank_accounts"];
             EV_PERFORM_ON_MAIN_QUEUE(^{
