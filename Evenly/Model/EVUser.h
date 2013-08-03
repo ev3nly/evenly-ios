@@ -51,7 +51,7 @@
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSDecimalNumber *balance;
 @property (nonatomic, strong) UIImage *updatedAvatar;
-@property (nonatomic, getter = isConfirmed) BOOL confirmed;
+@property (nonatomic, getter = isUnconfirmed) BOOL unconfirmed;
 @property (nonatomic, assign) EVPrivacySetting privacySetting;
 @property (nonatomic, strong) NSArray *connections;
 @property (nonatomic, strong) NSString *currentPassword;
