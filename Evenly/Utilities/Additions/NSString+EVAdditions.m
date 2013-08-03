@@ -68,6 +68,8 @@
 }
 
 - (int)intValue {
+    if (!self)
+        NSLog(@"really nil now");
     NSDecimalNumber *decimalNumber = [NSDecimalNumber decimalNumberWithString:self];
     return [decimalNumber intValue];
 }

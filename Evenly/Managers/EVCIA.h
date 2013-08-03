@@ -23,6 +23,8 @@
 - (void)loadImageFromURL:(NSURL *)url success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure;
 - (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure;
 
+typedef void(^EVCIAImageLoadedSuccessBlock)(UIImage *image);
+
 @property (nonatomic, strong) NSCache *imageCache;
 - (UIImage *)imageForURL:(NSURL *)url;
 - (UIImage *)imageForURL:(NSURL *)url size:(CGSize)size;
