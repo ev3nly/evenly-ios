@@ -105,17 +105,24 @@
     __weak EVHomeViewController *weakSelf = self;
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         weakSelf.pageNumber++;
+        DLog(@"Page number: %d", weakSelf.pageNumber);
         [weakSelf.tableView.infiniteScrollingView startAnimating];
         [customLoadingIndicator startAnimating];
         [EVUser newsfeedStartingAtPage:weakSelf.pageNumber
                               success:^(NSArray *history) {
+                                  if ([history count] == 0) {
+                                      weakSelf.pageNumber--;
+                                      DLog(@"No entries, reverted page number to %d", weakSelf.pageNumber);
+                                  }
                                   weakSelf.newsfeed = [weakSelf.newsfeed arrayByAddingObjectsFromArray:history];
                                   [weakSelf.tableView reloadData];
                                   [weakSelf.tableView.infiniteScrollingView stopAnimating];
                                   [customLoadingIndicator stopAnimating];
+                                  
                               } failure:^(NSError *error) {
                                   DLog(@"error: %@", error);
                                   weakSelf.pageNumber--;
+                                  DLog(@"Error, reverted page number to %d", weakSelf.pageNumber);
                                   [weakSelf.tableView.infiniteScrollingView stopAnimating];
                                   [customLoadingIndicator stopAnimating];
                               }];
