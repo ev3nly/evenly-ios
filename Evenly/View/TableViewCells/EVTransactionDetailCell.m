@@ -59,11 +59,13 @@
 #pragma mark - Gesture Handling
 
 - (void)leftAvatarTapped {
-    [self.delegate avatarTappedForUser:self.story.subject];
+    if ([self.story.subject isKindOfClass:[EVUser class]])
+        [self.delegate avatarTappedForUser:self.story.subject];
 }
 
 - (void)rightAvatarTapped {
-    [self.delegate avatarTappedForUser:self.story.target];
+    if ([self.story.target isKindOfClass:[EVUser class]])
+        [self.delegate avatarTappedForUser:self.story.target];
 }
 
 #pragma mark - Setters

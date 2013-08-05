@@ -192,7 +192,8 @@
     if (indexPath.section == EVAutocompleteSectionConnections)
     {
         EVAutocompletePhotoCell *photoCell = [tableView dequeueReusableCellWithIdentifier:@"photoCell" forIndexPath:indexPath];
-        [photoCell.avatarView setAvatarOwner:(NSObject<EVAvatarOwning> *)contact];
+        if ([contact conformsToProtocol:@protocol(EVAvatarOwning)])
+            [photoCell.avatarView setAvatarOwner:(NSObject<EVAvatarOwning> *)contact];
         [photoCell.label setText:[contact name]];
         cell = photoCell;
     }
