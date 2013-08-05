@@ -236,6 +236,7 @@
 		9C81862B1782499000038B00 /* x_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C8186271782499000038B00 /* x_button.png */; };
 		9C81862C1782499000038B00 /* x_button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C8186281782499000038B00 /* x_button@2x.png */; };
 		9C81862F178249EF00038B00 /* EVInstructionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C81862E178249EF00038B00 /* EVInstructionView.m */; };
+		9C82657B17B02BC3000A190E /* NSDate+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C82657A17B02BC3000A190E /* NSDate+EVAdditions.m */; };
 		9C863C7417727D86003ADB49 /* EVSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C7317727D86003ADB49 /* EVSegmentedControl.m */; };
 		9C863C8E17729702003ADB49 /* EVFundingSourceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C8717729702003ADB49 /* EVFundingSourceCell.m */; };
 		9C863C8F17729702003ADB49 /* EVGroupedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C863C8917729702003ADB49 /* EVGroupedTableViewCell.m */; };
@@ -931,6 +932,8 @@
 		9C8186281782499000038B00 /* x_button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "x_button@2x.png"; sourceTree = "<group>"; };
 		9C81862D178249EF00038B00 /* EVInstructionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInstructionView.h; sourceTree = "<group>"; };
 		9C81862E178249EF00038B00 /* EVInstructionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInstructionView.m; sourceTree = "<group>"; };
+		9C82657917B02BC3000A190E /* NSDate+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+EVAdditions.h"; sourceTree = "<group>"; };
+		9C82657A17B02BC3000A190E /* NSDate+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+EVAdditions.m"; sourceTree = "<group>"; };
 		9C863C7217727D86003ADB49 /* EVSegmentedControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSegmentedControl.h; sourceTree = "<group>"; };
 		9C863C7317727D86003ADB49 /* EVSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSegmentedControl.m; sourceTree = "<group>"; };
 		9C863C8617729702003ADB49 /* EVFundingSourceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVFundingSourceCell.h; sourceTree = "<group>"; };
@@ -1677,6 +1680,8 @@
 				9C1F47D21756914B00B26A1B /* NSString+EVAdditions.m */,
 				9C1F47D31756914B00B26A1B /* NSTimer+Blocks.h */,
 				9C1F47D41756914B00B26A1B /* NSTimer+Blocks.m */,
+				9C82657917B02BC3000A190E /* NSDate+EVAdditions.h */,
+				9C82657A17B02BC3000A190E /* NSDate+EVAdditions.m */,
 				9C1F47D51756914B00B26A1B /* UIView+EVAdditions.h */,
 				9C1F47D61756914B00B26A1B /* UIView+EVAdditions.m */,
 				9C1F47D71756914B00B26A1B /* UITableView+EVAdditions.h */,
@@ -3733,6 +3738,7 @@
 				9C28E89B17AC4BB50061E841 /* EVWalletNotification.m in Sources */,
 				9C28E8A217AC50220061E841 /* EVWalletNotificationViewController.m in Sources */,
 				9C28E8A517AC53A80061E841 /* EVWalletNotificationDetailCell.m in Sources */,
+				9C82657B17B02BC3000A190E /* NSDate+EVAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3860,8 +3866,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ivy Payments, Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3877,8 +3883,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
+				PROVISIONING_PROFILE = "709B4314-A5F5-4E6A-86C1-C71B38E0CE9D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "709B4314-A5F5-4E6A-86C1-C71B38E0CE9D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3887,8 +3893,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ivy Payments, Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3904,8 +3910,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
+				PROVISIONING_PROFILE = "709B4314-A5F5-4E6A-86C1-C71B38E0CE9D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "709B4314-A5F5-4E6A-86C1-C71B38E0CE9D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
