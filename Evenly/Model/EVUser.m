@@ -420,8 +420,8 @@ static EVUser *_me;
 
 
 - (void)updateWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
-    if (self == _me) {
-        EVMe *me = [[EVMe alloc] initWithDictionary:[_me dictionaryRepresentation]];
+    if (self == [EVCIA me]) {
+        EVMe *me = [[EVMe alloc] initWithDictionary:[[EVCIA me] dictionaryRepresentation]];
         if (self.updatedAvatar)
         {
             [me evictAvatarFromCache];
@@ -429,7 +429,11 @@ static EVUser *_me;
         }
         else
         {
-            [me updateWithSuccess:success failure:failure];
+            [me updateWithSuccess:^{
+                [[EVCIA sharedInstance] cacheMe];
+                if (success)
+                    success();
+            } failure:failure];
         }
     } else {
         [super updateWithSuccess:success failure:failure];
@@ -460,6 +464,7 @@ static EVUser *_me;
     
     request = [[self class] multipartFormRequestWithMethod:method path:path parameters:parameters constructingBodyWithBlock:formBlock];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        [[EVCIA sharedInstance] cacheMe];
         EV_PERFORM_ON_MAIN_QUEUE(^{
             if (success)
                 success();

@@ -131,7 +131,7 @@
 - (void)editProfileButtonTapped {
     EVEditProfileViewController *editController = [[EVEditProfileViewController alloc] initWithUser:self.user];
     editController.handleSave = ^(EVUser *user) {
-        self.user = user;
+        self.user = [EVCIA me];
         [self.tableView reloadData];
     };
     [self.navigationController pushViewController:editController animated:YES];
