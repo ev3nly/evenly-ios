@@ -44,9 +44,15 @@ static EVUser *_me;
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     
-    self.name = [properties valueForKey:@"name"];
-    self.email = [properties valueForKey:@"email"];
-    self.phoneNumber = [properties valueForKey:@"phone_number"];
+    if ([properties valueForKey:@"name"])
+        self.name = [properties valueForKey:@"name"];
+    
+    if ([properties valueForKey:@"email"])
+        self.email = [properties valueForKey:@"email"];
+    
+    if ([properties valueForKey:@"phone_number"])
+        self.phoneNumber = [properties valueForKey:@"phone_number"];
+    
     if (properties[@"balance"])
     {
         if ([properties[@"balance"] isKindOfClass:[NSDecimalNumber class]])
@@ -58,7 +64,9 @@ static EVUser *_me;
         if (!self.balance)
             self.balance = [NSDecimalNumber decimalNumberWithString:@"0.00"];
     }
-    self.password = [properties valueForKey:@"password"];
+    
+    if ([properties valueForKey:@"password"])
+        self.password = [properties valueForKey:@"password"];
     
     if (properties[@"avatar_url"] && ![properties[@"avatar_url"] isKindOfClass:[NSNull class]]) {
         self.avatarURL = [NSURL URLWithString:properties[@"avatar_url"]];
@@ -81,7 +89,8 @@ static EVUser *_me;
     if ([properties valueForKey:@"facebook_connected"] && ![[properties valueForKey:@"facebook_connected"] isEqual:[NSNull null]])
         self.facebookConnected = [[properties valueForKey:@"facebook_connected"] boolValue];
     
-    self.roles = [properties valueForKey:@"roles"];
+    if ([properties valueForKey:@"roles"])
+        self.roles = [properties valueForKey:@"roles"];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
