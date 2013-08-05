@@ -45,6 +45,10 @@ NSString *const EVRewardRedeemedNotification = @"EVRewardRedeemedNotification";
         [mutableDictionary setValue:@(self.selectedOptionIndex) forKey:@"selected_option_index"];
     
     [mutableDictionary setValue:@(self.willShare) forKey:@"will_share"];
+    
+    if (self.facebookStoryID)
+        [mutableDictionary setValue:self.facebookStoryID forKey:@"facebook_story_id"];
+    
     return (NSDictionary *)mutableDictionary;
 }
 

@@ -19,6 +19,8 @@ extern NSString *const EVRewardRedeemedNotification;
 
 @property (nonatomic, readonly) NSDecimalNumber *selectedAmount;
 
+@property (nonatomic, strong) NSString *facebookStoryID;
+
 - (void)redeemWithSuccess:(void (^)(EVReward *reward))success failure:(void (^)(NSError *error))failure;
 
 @end
