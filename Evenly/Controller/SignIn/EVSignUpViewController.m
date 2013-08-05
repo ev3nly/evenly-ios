@@ -62,6 +62,7 @@
     
     [self loadCells];
     [self configureReactions];
+    self.saveButton.enabled = YES;
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)];
     tapRecognizer.delegate = self;
     tapRecognizer.cancelsTouchesInView = NO;
@@ -126,33 +127,11 @@
 }
 
 - (void)configureReactions {
-    
     [RACAble(self.user.avatar) subscribeNext:^(UIImage *image) {
         self.photo = image;
         self.photoNameEmailCell.photo = self.photo;
     }];
-    
-    NSArray *textFieldArray = @[self.photoNameEmailCell.nameField.rac_textSignal,
-                                self.photoNameEmailCell.emailField.rac_textSignal,
-                                self.phoneNumberCell.textField.rac_textSignal,
-                                self.passwordCell.textField.rac_textSignal,
-                                RACAble(self.tosAgreementButton.checked)];
-    
-    RACSignal *validFormSignal = [RACSignal combineLatest:textFieldArray
-                                                   reduce:^(NSString *name, NSString *email, NSString *phoneNumber, NSString *password, NSNumber *agreementBool) {
-                                                       BOOL isValid = YES;
-                                                       if (EV_IS_EMPTY_STRING(name))
-                                                           isValid = NO;
-                                                       else if (EV_IS_EMPTY_STRING(email))
-                                                           isValid = NO;
-                                                       else if (EV_IS_EMPTY_STRING(phoneNumber))
-                                                           isValid = NO;
-                                                       else if (EV_IS_EMPTY_STRING(password))
-                                                           isValid = NO;
-                                                       return @(isValid);
-                                                   }];
-    RAC(self.saveButton.enabled) = validFormSignal;
-    
+        
     [self.phoneNumberCell.textField.rac_textSignal subscribeNext:^(NSString *text) {
         text = [EVStringUtility addHyphensToPhoneNumber:text];
         self.phoneNumberCell.textField.text = text;
@@ -187,7 +166,7 @@
 }
 
 - (void)saveButtonTapped {
-    if (self.passwordCell.textField.text.length < 8 || !self.tosAgreementButton.checked) {
+    if (![self formFinished]) {
         [self informUserFormNotFinished];
         return;
     }
@@ -203,7 +182,6 @@
         [params setObject:self.photo forKey:@"avatar"];
     
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CREATING ACCOUNT..."];
-    self.saveButton.enabled = NO;
     
     [EVUser createWithParams:params success:^(EVObject *object) {
         [EVSession createWithEmail:params[@"email"] password:params[@"password"] success:^{
@@ -232,10 +210,37 @@
 }
 
 - (void)informUserFormNotFinished {
-    NSString *message = @"You must agree to the Terms of Service and Privacy Policy.";
-    if (self.passwordCell.textField.text.length < 8)
-        message = @"Your password must be at least 8 characters.";
-    [[UIAlertView alertViewWithTitle:@"Whoops!" message:message cancelButtonTitle:@"OK"] show];
+    [[UIAlertView alertViewWithTitle:@"Whoops!" message:[self formNotFinishedMessage] cancelButtonTitle:@"OK"] show];
+}
+
+- (BOOL)formFinished {
+    if (EV_IS_EMPTY_STRING(self.photoNameEmailCell.nameField.text))
+        return NO;
+    else if (EV_IS_EMPTY_STRING(self.photoNameEmailCell.emailField.text))
+        return NO;
+    else if (EV_IS_EMPTY_STRING(self.phoneNumberCell.textField.text))
+        return NO;
+    else if (EV_IS_EMPTY_STRING(self.passwordCell.textField.text) || self.passwordCell.textField.text.length < 8)
+        return NO;
+    else if (!self.tosAgreementButton.checked)
+        return NO;
+    return YES;
+}
+
+- (NSString *)formNotFinishedMessage {
+    if (EV_IS_EMPTY_STRING(self.photoNameEmailCell.nameField.text))
+        return @"You must enter your name.";
+    else if (EV_IS_EMPTY_STRING(self.photoNameEmailCell.emailField.text))
+        return @"You must enter your email";
+    else if (EV_IS_EMPTY_STRING(self.phoneNumberCell.textField.text))
+        return @"You must enter your phone number";
+    else if (EV_IS_EMPTY_STRING(self.passwordCell.textField.text))
+        return @"You must enter your password";
+    else if (self.passwordCell.textField.text.length < 8)
+        return @"Your password must be at least 8 characters";
+    else if (!self.tosAgreementButton.checked)
+        return @"You must accept the Terms of Service";
+    return @"";
 }
 
 #pragma mark - Image Picker
