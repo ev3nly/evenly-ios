@@ -216,14 +216,23 @@
 
 - (void (^)(void))shareBlock {
     return ^{
-            NSMutableDictionary<FBGraphObject> *action = [FBGraphObject graphObject];
-            action[@"reward"] = [NSString stringWithFormat:@"https://paywithivy.com/facebook/reward?amount=%@", [EVStringUtility amountStringForAmount:self.reward.selectedAmount]];
-            
-            [FBRequestConnection startForPostWithGraphPath:@"me/evenlyapp:win"
-                                               graphObject:action completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                                                   DLog(@"Result: %@", result);
-                                                   DLog(@"Error? %@", error);
-                                               }];
+        NSMutableDictionary<FBGraphObject> *action = [FBGraphObject graphObject];
+        NSString *amountWithoutDollarSign = [[EVStringUtility amountStringForAmount:self.reward.selectedAmount] stringByReplacingOccurrencesOfString:@"$" withString:@""];
+        
+        action[@"reward"] = [NSString stringWithFormat:@"https://paywithivy.com/facebook/reward?amount=%@", amountWithoutDollarSign];
+        [FBRequestConnection startForPostWithGraphPath:@"me/evenlyapp:win"
+                                           graphObject:action completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                               DLog(@"Result: %@", result);
+                                               DLog(@"Error? %@", error);
+//                                               if (result && [result valueForKey:@"id"]) {
+//                                                   [self.reward setFacebookStoryID:[result valueForKey:@"id"]];
+//                                                   [self.reward updateWithSuccess:^{
+//                                                       DLog(@"Updated reward with FB story id");
+//                                                   } failure:^(NSError *error) {
+//                                                       DLog(@"Failed to update: %@", error);
+//                                                   }];
+//                                               }
+                                           }];
     };
 }
 

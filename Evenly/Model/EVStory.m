@@ -16,6 +16,7 @@
 #import "EVConnection.h"
 
 NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotification";
+NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
 
 @interface EVStory ()
 

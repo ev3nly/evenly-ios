@@ -23,6 +23,7 @@
 #import "NSDictionary+EVAdditions.h"
 #import "NSString+EVAdditions.h"
 #import "NSTimer+Blocks.h"
+#import "NSDate+EVAdditions.h"
 #import "UIView+EVAdditions.h"
 #import "UITableView+EVAdditions.h"
 #import "UIViewController+EVAdditions.h"
