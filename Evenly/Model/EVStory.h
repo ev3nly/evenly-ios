@@ -9,6 +9,7 @@
 #import "EVObject.h"
 
 extern NSString *const EVStoryLocallyCreatedNotification;
+extern NSTimeInterval const EVStoryLocalMaxLifespan;
 
 @class EVExchange;
 @class EVGroupRequest;
