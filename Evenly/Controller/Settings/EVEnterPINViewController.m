@@ -62,7 +62,7 @@
 - (void)loadSignOutBarButton {
     EVNavigationBarButton *signOutButton = [[EVNavigationBarButton alloc] initWithTitle:@"Logout"];
     [signOutButton addTarget:self action:@selector(signOutButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:signOutButton];}
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:signOutButton];}
 
 - (void)loadLogo {
     self.logo = [[UIImageView alloc] initWithImage:[EVImages securityLogoGray]];
@@ -88,16 +88,22 @@
 #pragma mark - Sign Out
 
 - (void)signOutButtonTapped {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-        [EVSession signOutWithSuccess:^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedOutNotification object:nil];
-            [[EVNavigationManager sharedManager].masterViewController showOnboardingControllerWithCompletion:^{
-                [[EVNavigationManager sharedManager].masterViewController setCenterPanel:[[EVNavigationManager sharedManager] homeViewController]];
-            } animated:YES];
-        } failure:^(NSError *error) {
-            DLog(@"SIGN OUT? Error: %@", error);
-        }];
-    }];
+    [[UIAlertView alertViewWithTitle:@"Logout"
+                             message:@"Are you sure you want to log out?"
+                   cancelButtonTitle:@"No"
+                   otherButtonTitles:@[@"Yes"]
+                           onDismiss:^(int buttonIndex) {
+                               [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+                                   [EVSession signOutWithSuccess:^{
+                                       [[NSNotificationCenter defaultCenter] postNotificationName:EVSessionSignedOutNotification object:nil];
+                                       [[EVNavigationManager sharedManager].masterViewController showOnboardingControllerWithCompletion:^{
+                                           [[EVNavigationManager sharedManager].masterViewController setCenterPanel:[[EVNavigationManager sharedManager] homeViewController]];
+                                       } animated:YES];
+                                   } failure:^(NSError *error) {
+                                       DLog(@"SIGN OUT? Error: %@", error);
+                                   }];
+                               }];
+                           } onCancel:nil] show];
 }
 
 #pragma mark - PIN Handling

@@ -34,7 +34,7 @@
 #import <Parse/Parse.h>
 
 #define EV_APP_ENTERED_BACKGROUND_DATE_KEY @"EVAppEnteredBackgroundDate"
-#define EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY 30
+#define EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY 60
 
 @implementation EVAppDelegate
 
