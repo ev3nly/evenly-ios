@@ -13,6 +13,7 @@
 #import "EVRequest.h"
 #import "EVWithdrawal.h"
 #import "EVGroupRequest.h"
+#import "EVConnection.h"
 
 NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotification";
 
@@ -154,6 +155,8 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
         NSDictionary *subject = properties[@"subject"];
         NSString *subjectClass = [NSString stringWithFormat:@"EV%@", subject[@"class"]];
         self.subject = [[NSClassFromString(subjectClass) alloc] initWithDictionary:subject];
+        if ([self.subject isKindOfClass:[EVConnection class]])
+            self.subject = ((EVConnection *)self.subject).user;
     }
     
     // Target
@@ -165,6 +168,8 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
             NSDictionary *target = properties[@"target"];
             NSString *targetClass = [NSString stringWithFormat:@"EV%@", target[@"class"]];
             self.target = [[NSClassFromString(targetClass) alloc] initWithDictionary:target];
+            if ([self.target isKindOfClass:[EVConnection class]])
+                self.target = ((EVConnection *)self.target).user;
         }
     }
     
