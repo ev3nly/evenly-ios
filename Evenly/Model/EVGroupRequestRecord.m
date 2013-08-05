@@ -45,7 +45,8 @@
     self.numberOfPayments = [properties[@"number_of_payments"] intValue];
     
     if (properties[@"user"] && properties[@"user"] != [NSNull null]) {
-        if ([[properties[@"user"][@"id"] stringValue] isEqualToString:[EVCIA me].dbid])
+        id userID = properties[@"user"][@"id"];
+        if (userID && [userID respondsToSelector:@selector(stringValue)] && [[userID stringValue] isEqualToString:[EVCIA me].dbid])
             self.user = [EVCIA me];
         else
             self.user = (EVObject<EVExchangeable> *)[EVSerializer serializeDictionary:properties[@"user"]];
