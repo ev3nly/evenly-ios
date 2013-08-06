@@ -52,7 +52,18 @@ static EVFacebookManager *_sharedManager;
                  break;
          }
          if (error) {
-             [[[UIAlertView alloc] initWithTitle:@"Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+             NSString *title = nil, *message = nil;
+             if ([error code] == FBErrorLoginFailedOrCancelled) {
+                 title = @"Facebook Login Required";
+                 message  = @"You must login with Facebook to use Evenly.";
+             } else if ([error fberrorShouldNotifyUser]) {
+                 title = @"Error";
+                 message = error.fberrorUserMessage;
+             } else {
+                 title = @"Error";
+                 message = error.localizedDescription;
+             }
+             [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
              [self fbResync];
              [NSThread sleepForTimeInterval:0.5];
          }
