@@ -325,6 +325,8 @@
 		9CB285C01761521E009B26BB /* Transfer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB285931761521E009B26BB /* Transfer@2x.png */; };
 		9CB285C3176157ED009B26BB /* EVStory.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB285C2176157ED009B26BB /* EVStory.m */; };
 		9CB285C8176164EC009B26BB /* EVMainMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB285C7176164EC009B26BB /* EVMainMenuCell.m */; };
+		9CB756A117B0AB3200638AE6 /* EVThrobber.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB756A017B0AB3200638AE6 /* EVThrobber.m */; };
+		9CB756A417B0AB5700638AE6 /* EVThrobberSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB756A317B0AB5700638AE6 /* EVThrobberSegment.m */; };
 		9CB7FB4E178CA3BD00827B5B /* EVReward.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7FB4D178CA3BD00827B5B /* EVReward.m */; };
 		9CB7FB52178CD38900827B5B /* EVRewardsGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB7FB51178CD38900827B5B /* EVRewardsGameViewController.m */; };
 		9CB7FB5A178CD44200827B5B /* reward_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB7FB54178CD44200827B5B /* reward_arrow.png */; };
@@ -1049,6 +1051,10 @@
 		9CB285C2176157ED009B26BB /* EVStory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStory.m; sourceTree = "<group>"; };
 		9CB285C6176164EC009B26BB /* EVMainMenuCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVMainMenuCell.h; sourceTree = "<group>"; };
 		9CB285C7176164EC009B26BB /* EVMainMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVMainMenuCell.m; sourceTree = "<group>"; };
+		9CB7569F17B0AB3200638AE6 /* EVThrobber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVThrobber.h; sourceTree = "<group>"; };
+		9CB756A017B0AB3200638AE6 /* EVThrobber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVThrobber.m; sourceTree = "<group>"; };
+		9CB756A217B0AB5700638AE6 /* EVThrobberSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVThrobberSegment.h; sourceTree = "<group>"; };
+		9CB756A317B0AB5700638AE6 /* EVThrobberSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVThrobberSegment.m; sourceTree = "<group>"; };
 		9CB7FB4C178CA3BD00827B5B /* EVReward.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVReward.h; sourceTree = "<group>"; };
 		9CB7FB4D178CA3BD00827B5B /* EVReward.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVReward.m; sourceTree = "<group>"; };
 		9CB7FB50178CD38900827B5B /* EVRewardsGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardsGameViewController.h; sourceTree = "<group>"; };
@@ -2948,6 +2954,10 @@
 			children = (
 				D099B3C4178CBF7200C067EC /* EVLoadingIndicator.h */,
 				D099B3C5178CBF7200C067EC /* EVLoadingIndicator.m */,
+				9CB7569F17B0AB3200638AE6 /* EVThrobber.h */,
+				9CB756A017B0AB3200638AE6 /* EVThrobber.m */,
+				9CB756A217B0AB5700638AE6 /* EVThrobberSegment.h */,
+				9CB756A317B0AB5700638AE6 /* EVThrobberSegment.m */,
 			);
 			path = Loading;
 			sourceTree = "<group>";
@@ -3739,6 +3749,8 @@
 				9C28E8A217AC50220061E841 /* EVWalletNotificationViewController.m in Sources */,
 				9C28E8A517AC53A80061E841 /* EVWalletNotificationDetailCell.m in Sources */,
 				9C82657B17B02BC3000A190E /* NSDate+EVAdditions.m in Sources */,
+				9CB756A117B0AB3200638AE6 /* EVThrobber.m in Sources */,
+				9CB756A417B0AB5700638AE6 /* EVThrobberSegment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
