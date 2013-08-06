@@ -11,13 +11,15 @@
 #import "EVRewardCardBack.h"
 #import "EVRewardCardFace.h"
 
-@interface EVRewardCard : UIView
+@interface EVRewardCard : UIControl
 
 @property (nonatomic, strong) EVRewardCardBack *back;
 @property (nonatomic, strong) EVRewardCardFace *face;
 
 @property (nonatomic, strong) UIColor *color;
 @property (nonatomic) BOOL animationEnabled;
+
+@property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 
 - (id)initWithFrame:(CGRect)frame text:(NSString *)text color:(UIColor *)color;
 

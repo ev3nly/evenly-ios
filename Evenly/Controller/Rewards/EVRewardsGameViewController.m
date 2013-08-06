@@ -11,7 +11,12 @@
 #import "EVSwitch.h"
 #import "EVHomeViewController.h"
 #import "EVFacebookManager.h"
+
+#import "EVRewardHeaderView.h"
 #import "EVRewardCard.h"
+
+#define HEADER_HEIGHT 50.0
+#define TOP_LABEL_HEIGHT 45.0
 
 #define AFTER_VIEW_X_ORIGIN 95
 #define AFTER_VIEW_Y_ORIGIN 0
@@ -21,11 +26,20 @@
 @interface EVRewardsGameViewController ()
 
 @property (nonatomic, strong) EVReward *reward;
+
+@property (nonatomic, strong) EVRewardHeaderView *headerView;
 @property (nonatomic, strong) EVSwitch *shareSwitch;
+
+@property (nonatomic, strong) UILabel *topLabel;
+
+@property (nonatomic, strong) UIView *footerView;
 
 @property (nonatomic, strong) NSArray *cards;
 
+- (void)loadHeader;
+- (void)loadTopLabel;
 - (void)loadCards;
+- (void)loadFooter;
 
 @end
 
@@ -65,24 +79,50 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.exclusiveTouch = YES;
     
+    [self loadHeader];
+    [self loadTopLabel];
     [self loadCards];
+}
+
+- (void)loadHeader {
+    self.headerView = [[EVRewardHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT)];
+    
+    self.shareSwitch = [[EVSwitch alloc] init];
+    [self.shareSwitch addTarget:self action:@selector(shareSwitchChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.headerView setShareSwitch:self.shareSwitch];
+    [self.view addSubview:self.headerView];
+}
+
+- (void)loadTopLabel {
+    self.topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,
+                                                              CGRectGetMaxY(self.headerView.frame),
+                                                              self.view.frame.size.width,
+                                                              TOP_LABEL_HEIGHT)];
+    self.topLabel.contentMode = UIViewContentModeCenter;
+    self.topLabel.font = [EVFont bookFontOfSize:15];
+    self.topLabel.textColor = [EVColor mediumLabelColor];
+    self.topLabel.backgroundColor = [UIColor clearColor];
+    self.topLabel.text = @"Flip to select your reward. Choose wisely!";
+    self.topLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.topLabel];
 }
 
 - (void)loadCards {
     NSArray *colors = @[ [EVColor blueColor], [EVColor lightGreenColor], [EVColor darkColor], [EVColor lightRedColor] ];
     NSMutableArray *cardsArray = [NSMutableArray array];
-    CGFloat height = 95.0;
+    CGFloat height = 80.0;
     CGFloat spacing = 20.0;
     CGFloat xOrigin = 65.0;
     CGFloat width = 190.0;
     
     for (int i = 0; i < 3 /* MIN([self.reward.options count], [colors count]) */; i++) {
         EVRewardCard *card = [[EVRewardCard alloc] initWithFrame:CGRectMake(xOrigin,
-                                                                            spacing + i*height + i*spacing,
+                                                                            CGRectGetMaxY(self.topLabel.frame) + i*height + i*spacing,
                                                                             width,
                                                                             height)
                                                             text:EV_STRING_FROM_INT(i+1)
                                                            color:[colors objectAtIndex:i]];
+        [card addTarget:self action:@selector(cardTapped:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:card];
     }
     self.cards = [NSArray arrayWithArray:cardsArray];    
@@ -106,6 +146,10 @@
                                                             object:self
                                                           userInfo:@{ @"reward" : self.reward }];
     }
+}
+
+- (void)cardTapped:(EVRewardCard *)card {
+    DLog(@"Card tapped");
 }
 
 - (void)shareSwitchChanged:(EVSwitch *)sender {

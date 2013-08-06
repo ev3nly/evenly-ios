@@ -133,6 +133,7 @@
 		9C2EB32B17B1AE5D004E690C /* EVRewardCardBack.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EB32A17B1AE5D004E690C /* EVRewardCardBack.m */; };
 		9C2EB32E17B1AE63004E690C /* EVRewardCardFace.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EB32D17B1AE63004E690C /* EVRewardCardFace.m */; };
 		9C2EB33117B1AEFD004E690C /* EVRewardCardBackDot.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EB33017B1AEFD004E690C /* EVRewardCardBackDot.m */; };
+		9C2EB33417B1B67D004E690C /* EVRewardHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EB33317B1B67D004E690C /* EVRewardHeaderView.m */; };
 		9C2FCEF817592062003F13BC /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C2FCEF717592062003F13BC /* Crashlytics.framework */; };
 		9C3242121777978E004A358F /* EVProgressBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C32421117779789004A358F /* EVProgressBar.m */; };
 		9C32421517779809004A358F /* EVGroupRequestProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C32421417779809004A358F /* EVGroupRequestProgressView.m */; };
@@ -788,6 +789,8 @@
 		9C2EB32D17B1AE63004E690C /* EVRewardCardFace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardCardFace.m; sourceTree = "<group>"; };
 		9C2EB32F17B1AEFD004E690C /* EVRewardCardBackDot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardCardBackDot.h; sourceTree = "<group>"; };
 		9C2EB33017B1AEFD004E690C /* EVRewardCardBackDot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardCardBackDot.m; sourceTree = "<group>"; };
+		9C2EB33217B1B67D004E690C /* EVRewardHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardHeaderView.h; sourceTree = "<group>"; };
+		9C2EB33317B1B67D004E690C /* EVRewardHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardHeaderView.m; sourceTree = "<group>"; };
 		9C2FCEF717592062003F13BC /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Frameworks/Crashlytics.framework; sourceTree = "<group>"; };
 		9C32421017779789004A358F /* EVProgressBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVProgressBar.h; sourceTree = "<group>"; };
 		9C32421117779789004A358F /* EVProgressBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVProgressBar.m; sourceTree = "<group>"; };
@@ -2592,6 +2595,8 @@
 		9CB7FB60178CD6C700827B5B /* Rewards */ = {
 			isa = PBXGroup;
 			children = (
+				9C2EB33217B1B67D004E690C /* EVRewardHeaderView.h */,
+				9C2EB33317B1B67D004E690C /* EVRewardHeaderView.m */,
 				9C2EB32317B1AD9C004E690C /* EVRewardCard.h */,
 				9C2EB32417B1AD9C004E690C /* EVRewardCard.m */,
 				9C2EB32C17B1AE63004E690C /* EVRewardCardFace.h */,
@@ -3739,6 +3744,7 @@
 				9C2EB32B17B1AE5D004E690C /* EVRewardCardBack.m in Sources */,
 				9C2EB32E17B1AE63004E690C /* EVRewardCardFace.m in Sources */,
 				9C2EB33117B1AEFD004E690C /* EVRewardCardBackDot.m in Sources */,
+				9C2EB33417B1B67D004E690C /* EVRewardHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

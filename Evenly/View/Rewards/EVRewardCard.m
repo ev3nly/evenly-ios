@@ -15,6 +15,9 @@
     if (self) {
         self.back = [[EVRewardCardBack alloc] initWithFrame:self.bounds text:text color:color];
         [self addSubview:self.back];
+        
+        self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
+        [self addGestureRecognizer:self.tapRecognizer];
     }
     return self;
 }
@@ -28,8 +31,13 @@
     return self;
 }
 
+- (void)tapRecognized:(id)sender {
+    [self flip];
+}
+
 - (void)flip {
-    
+    [self sendActionsForControlEvents:UIControlEventTouchUpInside];
+
 }
 
 - (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated {
