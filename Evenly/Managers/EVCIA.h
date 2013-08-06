@@ -36,6 +36,7 @@ typedef void(^EVCIAImageLoadedSuccessBlock)(UIImage *image);
 - (void)cacheNewSession;
 @property (nonatomic, strong) EVUser *me;
 @property (nonatomic, strong) EVSession *session;
+- (void)clearCache;
 
 extern NSString *const EVCIAUpdatedMeNotification;
 

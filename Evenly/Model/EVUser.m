@@ -28,8 +28,6 @@
 
 /* END EVMe */
 
-static EVUser *_me;
-
 @interface EVUser ()
 
 @property (nonatomic, strong) UIImage *avatar;
@@ -118,30 +116,16 @@ static EVUser *_me;
     return [NSString stringWithFormat:@"<0x%x> User %@: %@ (balance: %@)", (int)self, self.dbid, self.name, [self.balance description]];
 }
 
-+ (EVUser *)me {
-    return _me;
-}
-
-+ (void)setMe:(EVUser *)user {
-    _me = user;
-}
-
 + (void)meWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure reload:(BOOL)reload {
-    if (reload || _me == nil) {
+    if (reload || [EVCIA me] == nil) {
         [EVMe allWithSuccess:^(id result){
             //setting properties on existing me because ReactiveCocoa depends on this.
             //this might not be the right call, in the long term.
-            if (_me) {
-                [_me setProperties:[result originalDictionary]];
-            } else {
-                _me = [[EVMe alloc] initWithDictionary:[result originalDictionary]];
-            }
-            
             if ([[EVCIA sharedInstance] me]) {
                 [[[EVCIA sharedInstance] me] setProperties:[result originalDictionary]];
                 [[EVCIA sharedInstance] cacheMe];
             } else
-                [[EVCIA sharedInstance] setMe:_me];
+                [[EVCIA sharedInstance] setMe:[[EVMe alloc] initWithDictionary:[result originalDictionary]]];
             
             if (success) {
                 EV_PERFORM_ON_MAIN_QUEUE(^{
@@ -160,11 +144,6 @@ static EVUser *_me;
         if (success)
             success();
     }
-}
-
-+ (void)saveMeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
-	EVMe *me = [[EVMe alloc] initWithDictionary:[EVUser me].dictionaryRepresentation];
-	[me updateWithSuccess:success failure:failure];
 }
 
 + (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure {
@@ -375,16 +354,6 @@ static EVUser *_me;
                                                                       }];
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
     
-}
-
-- (void)saveWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
-    [super saveWithSuccess:^{
-        
-        if (success)
-            success();
-        _me = self;
-        
-    } failure:failure];
 }
 
 + (void)updateMeWithFacebookToken:(NSString *)token

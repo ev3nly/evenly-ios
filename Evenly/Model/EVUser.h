@@ -58,10 +58,7 @@
 @property (nonatomic) BOOL facebookConnected;
 @property (nonatomic, strong) NSArray *roles;
 
-+ (EVUser *)me;
-+ (void)setMe:(EVUser *)user;
 + (void)meWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure reload:(BOOL)reload;
-+ (void)saveMeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 + (void)updateMeWithFacebookToken:(NSString *)token
                        facebookID:(NSString *)facebookID
                           success:(void (^)(void))success

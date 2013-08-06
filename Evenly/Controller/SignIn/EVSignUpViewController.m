@@ -211,7 +211,7 @@
             EVUser *me = [[EVUser alloc] initWithDictionary:[EVSession sharedSession].originalDictionary[@"user"]];
             me.password = params[@"password"];
             me.updatedAvatar = self.photo;
-            [EVUser setMe:me];
+            [[EVCIA sharedInstance] setMe:me];
             
             [EVUtilities registerForPushNotifications];
             
