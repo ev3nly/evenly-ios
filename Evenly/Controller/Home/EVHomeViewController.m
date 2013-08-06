@@ -25,6 +25,7 @@
 #import "EVLoadingIndicator.h"
 
 #define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -20
+#define TABLE_VIEW_INFINITE_SCROLLING_INSET 60
 
 @interface EVHomeViewController ()
 
@@ -97,6 +98,7 @@
     self.tableView.backgroundColor = [EVColor creamColor];
     self.tableView.backgroundView = nil;
     self.tableView.loadingIndicatorYOffset = TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET;
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, TABLE_VIEW_INFINITE_SCROLLING_INSET, 0);
     [self.tableView registerClass:[EVStoryCell class] forCellReuseIdentifier:@"storyCell"];
     [self.view addSubview:self.tableView];
 
@@ -134,10 +136,11 @@
 
 
 - (void)updateTableViewContentInset {
-    self.tableView.contentInset = UIEdgeInsetsMake(0,
-                                                   0,
-                                                   self.floatingView.frame.size.height + self.tableView.infiniteScrollingView.frame.size.height,
-                                                   0);
+    UIEdgeInsets insets = UIEdgeInsetsMake(0,
+                                           0,
+                                           self.floatingView.frame.size.height + self.tableView.infiniteScrollingView.frame.size.height,
+                                           0);
+    self.tableView.contentInset = insets;
 }
 
 
@@ -153,6 +156,7 @@
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [weakSelf.newsfeedDataSource loadNextPage];
     }];
+    
     [self.tableView.infiniteScrollingView setCustomView:self.newsfeedDataSource.loadingIndicator
                                                forState:SVInfiniteScrollingStateLoading];
 }
