@@ -22,6 +22,7 @@
                 return;
         }
         
+        [self willChangeValueForKey:@"loading"];
         EVLoadingIndicator *indicator = [EVLoadingIndicator new];
         indicator.tag = LOADING_INDICATOR_TAG;
         indicator.autoresizingMask = EV_AUTORESIZE_TO_CENTER;
@@ -32,12 +33,15 @@
                                      indicator.bounds.size.width,
                                      indicator.bounds.size.height);
         [indicator startAnimating];
+        [self didChangeValueForKey:@"loading"];
     }
     else {
         for (UIView *subview in self.subviews) {
             if (subview.tag == LOADING_INDICATOR_TAG) {
+                [self willChangeValueForKey:@"loading"];
                 EVLoadingIndicator *indicator = (EVLoadingIndicator *)subview;
                 [indicator removeFromSuperview];
+                [self didChangeValueForKey:@"loading"];
             }
         }
     }

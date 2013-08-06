@@ -7,10 +7,13 @@
 //
 
 #import "EVViewController.h"
+#import "EVNewsfeedDataSource.h"
 
 @class EVFloatingButton;
 
 @interface EVHomeViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (nonatomic, strong) EVNewsfeedDataSource *newsfeedDataSource;
 
 @property (nonatomic, strong) UIView *floatingView;
 @property (nonatomic, strong) EVFloatingButton *requestButton;
