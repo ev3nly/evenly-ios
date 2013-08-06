@@ -168,8 +168,6 @@
 
 }
 
-
-
 - (void)storyWasCreatedLocally:(NSNotification *)notification {
 
 }
@@ -219,7 +217,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [EVStoryCell cellHeightForStory:[self.newsfeedDataSource.newsfeed objectAtIndex:indexPath.section]];
 }
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

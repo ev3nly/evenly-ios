@@ -51,17 +51,14 @@
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSDecimalNumber *balance;
 @property (nonatomic, strong) UIImage *updatedAvatar;
-@property (nonatomic, getter = isConfirmed) BOOL confirmed;
+@property (nonatomic, getter = isUnconfirmed) BOOL unconfirmed;
 @property (nonatomic, assign) EVPrivacySetting privacySetting;
 @property (nonatomic, strong) NSArray *connections;
 @property (nonatomic, strong) NSString *currentPassword;
 @property (nonatomic) BOOL facebookConnected;
 @property (nonatomic, strong) NSArray *roles;
 
-+ (EVUser *)me;
-+ (void)setMe:(EVUser *)user;
 + (void)meWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure reload:(BOOL)reload;
-+ (void)saveMeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 + (void)updateMeWithFacebookToken:(NSString *)token
                        facebookID:(NSString *)facebookID
                           success:(void (^)(void))success
@@ -81,6 +78,7 @@
 + (void)loadUser:(EVUser *)user withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 
 + (void)resetPasswordForEmail:(NSString *)email withSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
++ (void)sendConfirmationEmailWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 
 - (void)loadAvatar;
 - (void)evictAvatarFromCache;

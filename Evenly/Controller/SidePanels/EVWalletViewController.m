@@ -15,6 +15,7 @@
 #import "EVBankAccount.h"
 #import "EVExchange.h"
 #import "EVGroupRequest.h"
+#import "EVWalletNotification.h"
 
 #import "EVDepositViewController.h"
 #import "EVCardsViewController.h"
@@ -23,6 +24,7 @@
 #import "EVPendingDetailViewController.h"
 #import "EVPendingGroupViewController.h"
 #import "EVGroupRequestDashboardViewController.h"
+#import "EVWalletNotificationViewController.h"
 
 #import "UIScrollView+SVPullToRefresh.h"
 
@@ -183,7 +185,12 @@
 }
 
 - (BOOL)hasPendingReceivedExchanges {
-    return [[[EVCIA sharedInstance] pendingReceivedExchanges] count] > 0;
+    BOOL hasReceived = [[[EVCIA sharedInstance] pendingReceivedExchanges] count] > 0;
+    BOOL hasNotification = NO;
+    if ([self.pendingExchanges count]) {
+        hasNotification = [[self.pendingExchanges objectAtIndex:0] isKindOfClass:[EVWalletNotification class]];
+    }
+    return hasReceived || hasNotification;
 }
 
 #pragma mark - UITableViewDataSource
@@ -376,6 +383,10 @@
                 controller = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:groupRequest];
             else
                 controller = [[EVPendingGroupViewController alloc] initWithGroupRequest:groupRequest];
+        }
+        else if ([interaction isKindOfClass:[EVWalletNotification class]])
+        {
+            controller = [[EVWalletNotificationViewController alloc] initWithWalletNotification:(EVWalletNotification *)interaction];
         }
         NSAssert1(controller != nil, @"Controller to be presented was nil!  The object we were making the controller for was %@", interaction);
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];

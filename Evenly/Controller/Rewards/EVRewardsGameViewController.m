@@ -104,6 +104,7 @@
     [self.view addSubview:self.stripe];
     
     self.switchView = [[EVRewardsSwitchView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.stripe.frame), self.view.frame.size.width, 60)];
+    [self.switchView.shareSwitch setOn:[EVFacebookManager hasPublishPermissions]];
     [self.switchView.shareSwitch addTarget:self action:@selector(shareSwitchChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:self.switchView];
     
@@ -179,6 +180,13 @@
 
 - (void)shareSwitchChanged:(EVSwitch *)sender {
     self.reward.willShare = self.switchView.shareSwitch.isOn;
+    if ([sender isOn]) {
+        [EVFacebookManager openSessionWithCompletion:^{
+            [EVFacebookManager requestPublishPermissionsWithCompletion:^{
+                DLog(@"Received publish permissions");
+            }];
+        }];
+    }
 }
 
 - (void)optionSelected:(EVRewardsSlider *)slider {
@@ -208,21 +216,35 @@
 
 - (void (^)(void))shareBlock {
     return ^{
-            NSMutableDictionary<FBGraphObject> *action = [FBGraphObject graphObject];
-            action[@"reward"] = [NSString stringWithFormat:@"https://paywithivy.com/facebook/reward?amount=%@", [EVStringUtility amountStringForAmount:self.reward.selectedAmount]];
-            [FBRequestConnection startForPostWithGraphPath:@"me/evenlyapp:win"
-                                               graphObject:action completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-                                                   DLog(@"Result: %@", result);
-                                                   DLog(@"Error? %@", error);
-                                               }];
+        NSMutableDictionary<FBGraphObject> *action = [FBGraphObject graphObject];
+        NSString *amountWithoutDollarSign = [[EVStringUtility amountStringForAmount:self.reward.selectedAmount] stringByReplacingOccurrencesOfString:@"$" withString:@""];
+        
+        action[@"reward"] = [NSString stringWithFormat:@"https://paywithivy.com/facebook/reward?amount=%@", amountWithoutDollarSign];
+        [FBRequestConnection startForPostWithGraphPath:@"me/evenlyapp:win"
+                                           graphObject:action completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+                                               DLog(@"Result: %@", result);
+                                               DLog(@"Error? %@", error);
+//                                               if (result && [result valueForKey:@"id"]) {
+//                                                   [self.reward setFacebookStoryID:[result valueForKey:@"id"]];
+//                                                   [self.reward updateWithSuccess:^{
+//                                                       DLog(@"Updated reward with FB story id");
+//                                                   } failure:^(NSError *error) {
+//                                                       DLog(@"Failed to update: %@", error);
+//                                                   }];
+//                                               }
+                                           }];
     };
 }
 
 - (void)share {
-    if ([EVFacebookManager isConnected]) {
-        [self shareBlock]();
+    if (![EVFacebookManager isConnected]) {
+        [EVFacebookManager openSessionWithCompletion:^{
+            [EVFacebookManager requestPublishPermissionsWithCompletion:[self shareBlock]];
+        }];
+    } else if (![EVFacebookManager hasPublishPermissions]) {
+        [EVFacebookManager requestPublishPermissionsWithCompletion:[self shareBlock]];
     } else {
-        [EVFacebookManager openSessionWithCompletion:[self shareBlock]];
+        [self shareBlock]();
     }
 }
 
@@ -241,7 +263,6 @@
     self.afterView.otherOptionsLabel.text = bottomPhrase;
     
     [self.view addSubview:self.afterView];
-
     [self changeNavButton];
 }
 

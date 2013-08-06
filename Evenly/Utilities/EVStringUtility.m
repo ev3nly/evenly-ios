@@ -224,7 +224,7 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSString *)toFieldPlaceholder {
-    return @"Name, email, phone number";
+    return @"Name or email";
 }
 
 + (NSString *)requestDescriptionPlaceholder {

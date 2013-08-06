@@ -20,19 +20,23 @@
 
 #pragma mark - Image Loading
 
-- (void)loadImageFromURL:(NSURL *)url success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure;
-- (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(void (^)(UIImage *image))success failure:(void (^)(NSError *error))failure;
+typedef void(^EVCIAImageLoadedSuccessBlock)(UIImage *image);
+
+- (void)loadImageFromURL:(NSURL *)url success:(EVCIAImageLoadedSuccessBlock)success failure:(void (^)(NSError *error))failure;
+- (void)loadImageFromURL:(NSURL *)url size:(CGSize)size success:(EVCIAImageLoadedSuccessBlock)success failure:(void (^)(NSError *error))failure;
 
 @property (nonatomic, strong) NSCache *imageCache;
 - (UIImage *)imageForURL:(NSURL *)url;
 - (UIImage *)imageForURL:(NSURL *)url size:(CGSize)size;
 - (void)setImage:(UIImage *)image forURL:(NSURL *)url;
+- (void)setImage:(UIImage *)image forURL:(NSURL *)url withSize:(CGSize)size;
 
 #pragma mark - Data Caching
 
 - (void)cacheNewSession;
 @property (nonatomic, strong) EVUser *me;
 @property (nonatomic, strong) EVSession *session;
+- (void)clearCache;
 
 extern NSString *const EVCIAUpdatedMeNotification;
 

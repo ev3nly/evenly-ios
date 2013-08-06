@@ -76,8 +76,7 @@ static EVSession *_sharedSession = nil;
 + (void)signOutWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     [[EVCIA sharedInstance] setSession:nil];
     [[EVCIA sharedInstance] setMe:nil];
-    
-    [EVUser setMe:nil];
+    [[EVCIA sharedInstance] clearCache];
     [EVSession setSharedSession:nil];
 
     if (success)

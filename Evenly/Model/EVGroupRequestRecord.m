@@ -43,13 +43,19 @@
     
     self.completed = [properties[@"completed"] boolValue];
     self.numberOfPayments = [properties[@"number_of_payments"] intValue];
-    if ([[properties[@"user"][@"id"] stringValue] isEqualToString:[EVCIA me].dbid])
-        self.user = [EVCIA me];
-    else
-        self.user = (EVObject<EVExchangeable> *)[EVSerializer serializeDictionary:properties[@"user"]];
-    self.amountPaid = [NSDecimalNumber decimalNumberWithString:properties[@"amount_paid"]];
+    
+    if (properties[@"user"] && properties[@"user"] != [NSNull null]) {
+        id userID = properties[@"user"][@"id"];
+        if (userID && [userID respondsToSelector:@selector(stringValue)] && [[userID stringValue] isEqualToString:[EVCIA me].dbid])
+            self.user = [EVCIA me];
+        else
+            self.user = (EVObject<EVExchangeable> *)[EVSerializer serializeDictionary:properties[@"user"]];
+    }
 
-    if (properties[@"tier_id"] != [NSNull null]) {
+    if (properties[@"amount_paid"])
+        self.amountPaid = [NSDecimalNumber decimalNumberWithString:properties[@"amount_paid"]];
+
+    if (properties[@"tier_id"] && properties[@"tier_id"] != [NSNull null]) {
         self.tier = [self.groupRequest tierWithID:[properties[@"tier_id"] stringValue]];
     }
     

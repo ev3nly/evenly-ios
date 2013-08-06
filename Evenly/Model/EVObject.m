@@ -88,11 +88,12 @@
 
 static NSDateFormatter *_dateFormatter = nil;
 + (NSDateFormatter *)dateFormatter {
-    if (_dateFormatter == nil) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         _dateFormatter = [[NSDateFormatter alloc] init];
         _dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
         _dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
-    }
+    });
     return _dateFormatter;
 }
 
@@ -153,12 +154,24 @@ static NSDateFormatter *_dateFormatter = nil;
 }
 
 - (void)setProperties:(NSDictionary *)properties {
-    if ([[properties valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
-        _dbid = [[properties valueForKey:@"id"] stringValue];
-    else
-        _dbid = [properties valueForKey:@"id"];
-    if (![properties[@"created_at"] isKindOfClass:[NSNull class]])
-        self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+    @try {
+        if ([[properties valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
+            _dbid = [[properties valueForKey:@"id"] stringValue];
+        else
+            _dbid = [properties valueForKey:@"id"];
+    }
+    @catch (NSException *exception) {
+        DRaise(exception);
+        _dbid = @"-1";
+    }
+    @try {
+        if (![properties[@"created_at"] isKindOfClass:[NSNull class]])
+            self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+    }
+    @catch (NSException *exception) {
+        DRaise(exception);
+        self.createdAt = [NSDate date];
+    }
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -268,7 +281,7 @@ static NSDateFormatter *_dateFormatter = nil;
 - (void)saveWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     
     if (self.dbid) {
-        
+        [self updateWithSuccess:success failure:failure];
     } else {        
         [[self class] createWithParams:[self dictionaryRepresentation] success:^(EVObject *object) {
             

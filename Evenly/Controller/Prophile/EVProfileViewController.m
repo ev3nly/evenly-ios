@@ -131,7 +131,7 @@
 - (void)editProfileButtonTapped {
     EVEditProfileViewController *editController = [[EVEditProfileViewController alloc] initWithUser:self.user];
     editController.handleSave = ^(EVUser *user) {
-        self.user = user;
+        self.user = [EVCIA me];
         [self.tableView reloadData];
     };
     [self.navigationController pushViewController:editController animated:YES];
@@ -184,6 +184,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVGroupedTableViewCell *cell;
     if (indexPath.row == 0) {
+        self.profileCell.user = self.user;
         cell = self.profileCell;
     } else if (![self hasExchanges] && !self.tableView.isLoading) {
         EVNoActivityCell *noActivityCell = [tableView dequeueReusableCellWithIdentifier:@"noActivityCell"];

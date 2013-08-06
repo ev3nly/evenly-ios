@@ -13,8 +13,10 @@
 #import "EVRequest.h"
 #import "EVWithdrawal.h"
 #import "EVGroupRequest.h"
+#import "EVConnection.h"
 
 NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotification";
+NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
 
 @interface EVStory ()
 
@@ -127,20 +129,31 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     return nil;
 }
 
-- (void)setProperties:(NSDictionary *)properties {    
+- (NSString *)stringFromValue:(id)value {
+    NSString *string = nil;
+    if (value) {
+        if ([value respondsToSelector:@selector(stringValue)])
+            string = [value stringValue];
+        else if ([value isKindOfClass:[NSString class]])
+            string = value;
+    }
+    return string;
+}
+
+- (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
 
     // Easy things first
     self.verb = properties[@"verb"];
     self.isPrivate = [properties[@"visibility"] isEqualToString:@"private"];
     self.storyDescription = properties[@"description"];
-    if (![properties[@"published_at"] isKindOfClass:[NSNull class]]) {
+    if (properties[@"published_at"] && ![properties[@"published_at"] isKindOfClass:[NSNull class]]) {
         if ([properties[@"published_at"] isKindOfClass:[NSString class]])
             self.publishedAt = [[[self class] dateFormatter] dateFromString:properties[@"published_at"]];
         else
             self.publishedAt = properties[@"published_at"];
     }
-    if (properties[@"amount"] != [NSNull null]) {
+    if (properties[@"amount"] && properties[@"amount"] != [NSNull null]) {
         if ([properties[@"amount"] isKindOfClass:[NSDecimalNumber class]])
             self.amount = properties[@"amount"];
         else
@@ -153,7 +166,15 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
     else {
         NSDictionary *subject = properties[@"subject"];
         NSString *subjectClass = [NSString stringWithFormat:@"EV%@", subject[@"class"]];
-        self.subject = [[NSClassFromString(subjectClass) alloc] initWithDictionary:subject];
+        NSString *dbid = [self stringFromValue:subject[@"id"]];
+
+        // Explicitly check for a cached object, so we don't accidentally overwrite our cached
+        // data with stale data from the story in initWithDictionary:.
+        self.subject = [[EVCIA sharedInstance] cachedObjectWithClassName:subjectClass dbid:dbid];
+        if (!self.subject)
+            self.subject = [[NSClassFromString(subjectClass) alloc] initWithDictionary:subject];
+        if ([self.subject isKindOfClass:[EVConnection class]])
+            self.subject = ((EVConnection *)self.subject).user;
     }
     
     // Target
@@ -164,7 +185,15 @@ NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotif
         else {
             NSDictionary *target = properties[@"target"];
             NSString *targetClass = [NSString stringWithFormat:@"EV%@", target[@"class"]];
-            self.target = [[NSClassFromString(targetClass) alloc] initWithDictionary:target];
+            NSString *dbid = [self stringFromValue:target[@"id"]];
+            
+            // Explicitly check for a cached object, so we don't accidentally overwrite our cached
+            // data with stale data from the story in initWithDictionary:.
+            self.target = [[EVCIA sharedInstance] cachedObjectWithClassName:targetClass dbid:dbid];
+            if (!self.target)
+                self.target = [[NSClassFromString(targetClass) alloc] initWithDictionary:target];
+            if ([self.target isKindOfClass:[EVConnection class]])
+                self.target = ((EVConnection *)self.target).user;
         }
     }
     
