@@ -44,7 +44,6 @@
     return [super tableView:tableView numberOfRowsInSection:section];
 }
 
-
 #pragma mark - Abstract Implementations
 
 - (NSArray *)fundingSources {

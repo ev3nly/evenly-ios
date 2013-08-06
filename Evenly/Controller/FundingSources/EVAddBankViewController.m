@@ -67,6 +67,7 @@
     self.tableView.dataSource = self;
     self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     self.tableView.backgroundView = nil;
+    [self.tableView addReassuringMessage];
     [self.view addSubview:self.tableView];
 }
 

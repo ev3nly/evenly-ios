@@ -27,7 +27,7 @@
         self.label = [[UILabel alloc] initWithFrame:CGRectZero];
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = EV_RGB_COLOR(0.6314, 0.6157, 0.6118);
-        self.label.font = [EVFont defaultFontOfSize:13];
+        self.label.font = [EVFont boldFontOfSize:12];
         self.label.numberOfLines = 0;
         self.label.lineBreakMode = NSLineBreakByWordWrapping;
         [self addSubview:self.label];
@@ -45,9 +45,9 @@
     
     self.iconView.frame = CGRectMake(EV_PRIVACY_NOTICE_MARGIN, EV_PRIVACY_NOTICE_MARGIN, self.iconView.image.size.width, self.iconView.image.size.height);
     self.label.frame = CGRectMake(CGRectGetMaxX(self.iconView.frame) + EV_PRIVACY_NOTICE_MARGIN,
-                                  EV_PRIVACY_NOTICE_MARGIN,
+                                  0,
                                   self.frame.size.width - CGRectGetMaxX(self.iconView.frame) - 2*EV_PRIVACY_NOTICE_MARGIN,
-                                  self.frame.size.height - 2*EV_PRIVACY_NOTICE_MARGIN);
+                                  self.frame.size.height);
     
     [super layoutSubviews];
 }
