@@ -108,7 +108,7 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
     _imageURL = imageURL;
     
     [[EVCIA sharedInstance] loadImageFromURL:imageURL
-                                        size:CGSizeMake(self.size.width*[UIScreen mainScreen].scale, [UIScreen mainScreen].scale)
+                                        size:CGSizeMake(self.size.width*[UIScreen mainScreen].scale, self.size.height*[UIScreen mainScreen].scale)
                                      success:^(UIImage *image) {
                                          if (imageURL == _imageURL)
                                              self.imageView.image = image;
