@@ -25,7 +25,8 @@
 @implementation EVThrobber
 
 - (id)initWithThrobberStyle:(EVThrobberStyle)style {
-    CGFloat width = (DEFAULT_NUMBER_OF_SEGMENTS * DEFAULT_SEGMENT_WIDTH) + (DEFAULT_SEGMENT_SPACING * (DEFAULT_NUMBER_OF_SEGMENTS-1));
+    CGFloat width = (DEFAULT_NUMBER_OF_SEGMENTS * DEFAULT_SEGMENT_WIDTH) +
+                    (DEFAULT_SEGMENT_SPACING * (DEFAULT_NUMBER_OF_SEGMENTS-1));
     CGFloat height = DEFAULT_HEIGHT;
     self = [self initWithFrame:CGRectMake(0, 0, width, height)];
     if (self) {
@@ -70,9 +71,19 @@
 - (UIColor *)segmentColor {
     UIColor *color = nil;
     if (self.style == EVThrobberStyleLight) {
-        color = EV_RGB_ALPHA_COLOR(70, 78, 82, 0.43);
+        color = EV_RGB_ALPHA_COLOR(255, 255, 255, 0.3);
     } else {
         color = EV_RGB_ALPHA_COLOR(24, 30, 32, 0.43);
+    }
+    return color;
+}
+
+- (UIColor *)segmentHighlightedColor {
+    UIColor *color = nil;
+    if (self.style == EVThrobberStyleLight) {
+        color = EV_RGB_ALPHA_COLOR(255, 255, 255, 0.6);
+    } else {
+        color = EV_RGB_ALPHA_COLOR(24, 30, 32, 0.6);
     }
     return color;
 }
@@ -89,15 +100,34 @@
         [segment setFrame:CGRectMake(xOrigin, 0, segmentWidth, self.frame.size.height)];
         xOrigin += segmentWidth + segmentSpacing;
         [segment setColor:[self segmentColor]];
+        [segment setHighlightedColor:[self segmentHighlightedColor]];
     }
 }
 
 - (void)startAnimating {
-    
+    if (!_animating) {
+        _animating = YES;
+        int i = 0;
+        NSTimeInterval timeInterval = 0.1;
+        for (EVThrobberSegment *segment in self.segments) {
+            [segment setHidden:NO];
+            EV_DISPATCH_AFTER(timeInterval*i++, ^{
+                [segment startAnimating];
+            });
+        }
+    }
 }
 
 - (void)stopAnimating {
-    
+    if (_animating) {
+        _animating = NO;
+        [self.segments makeObjectsPerformSelector:@selector(stopAnimating)];
+        if (self.hidesWhenStopped) {
+            for (EVThrobberSegment *segment in self.segments) {
+                [segment setHidden:YES];
+            }
+        }
+    }
 }
 
 /*
