@@ -68,7 +68,7 @@
     }
     
     if ([launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
-        [self handleRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]];
+        [self handleRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey] requirePIN:YES];
     }
     return YES;
 }
@@ -179,21 +179,19 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [self handleRemoteNotification:userInfo];
+    [self handleRemoteNotification:userInfo requirePIN:NO];
 }
 
-- (void)handleRemoteNotification:(NSDictionary *)userInfo {
+- (void)handleRemoteNotification:(NSDictionary *)userInfo requirePIN:(BOOL)requirePIN {
     DLog(@"Remote notification: %@", userInfo);
     [PFPush handlePush:userInfo];
     EVViewController *viewController = [[EVPushManager sharedManager] viewControllerFromPushDictionary:userInfo[@"meta"]];
     if (viewController)
     {
         UINavigationController *pushNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
-        DLog(@"IS PIN SET? %@", ([[EVPINUtility sharedUtility] pinIsSet] ? @"YES" : @"NO"));
         
         void (^completionBlock)(void) = nil;
-        if ([[EVPINUtility sharedUtility] pinIsSet])
-        {
+        if (requirePIN && [[EVPINUtility sharedUtility] pinIsSet]) {
             EVEnterPINViewController *pinViewController = [[EVEnterPINViewController alloc] init];
             pinViewController.canDismissManually = NO;
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinViewController];

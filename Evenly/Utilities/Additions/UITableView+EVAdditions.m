@@ -8,8 +8,13 @@
 
 #import "UITableView+EVAdditions.h"
 #import "EVLoadingIndicator.h"
+#import "EVPrivacyNotice.h"
 
 #define LOADING_INDICATOR_TAG 2947
+
+#define MESSAGE_TOP_MARGIN 10.0
+#define MESSAGE_SIDE_MARGIN 10.0
+#define MESSAGE_HEIGHT 44.0
 
 @implementation UITableView (EVAdditions)
 
@@ -22,6 +27,7 @@
                 return;
         }
         
+        [self willChangeValueForKey:@"loading"];
         EVLoadingIndicator *indicator = [EVLoadingIndicator new];
         indicator.tag = LOADING_INDICATOR_TAG;
         indicator.autoresizingMask = EV_AUTORESIZE_TO_CENTER;
@@ -32,12 +38,15 @@
                                      indicator.bounds.size.width,
                                      indicator.bounds.size.height);
         [indicator startAnimating];
+        [self didChangeValueForKey:@"loading"];
     }
     else {
         for (UIView *subview in self.subviews) {
             if (subview.tag == LOADING_INDICATOR_TAG) {
+                [self willChangeValueForKey:@"loading"];
                 EVLoadingIndicator *indicator = (EVLoadingIndicator *)subview;
                 [indicator removeFromSuperview];
+                [self didChangeValueForKey:@"loading"];
             }
         }
     }
@@ -75,6 +84,19 @@ static char _loadingIndicatorYOffset;
         else
             return EVGroupedTableViewCellPositionCenter;
     }
+}
+
+- (void)addReassuringMessage {
+    self.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0,
+                                                                    0,
+                                                                    self.bounds.size.width,
+                                                                    MESSAGE_HEIGHT + MESSAGE_TOP_MARGIN)];
+    EVPrivacyNotice *privacyNotice = [[EVPrivacyNotice alloc] initWithFrame:CGRectMake(MESSAGE_SIDE_MARGIN,
+                                                                                       MESSAGE_TOP_MARGIN,
+                                                                                       self.bounds.size.width - 2*MESSAGE_SIDE_MARGIN,
+                                                                                       MESSAGE_HEIGHT)];
+    privacyNotice.label.text = @"Evenly uses bank-level, 256-bit encryption to protect your information.";
+    [self.tableFooterView addSubview:privacyNotice];
 }
 
 @end

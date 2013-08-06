@@ -158,6 +158,7 @@
 		9C3917351773CEBB002949C3 /* EVGroupRequestDashboardTableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3917341773CE81002949C3 /* EVGroupRequestDashboardTableViewDataSource.m */; };
 		9C39173C1773DEAE002949C3 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C39173A1773DEAE002949C3 /* Arrow.png */; };
 		9C39173D1773DEAE002949C3 /* Arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C39173B1773DEAE002949C3 /* Arrow@2x.png */; };
+		9C3B362B17AB2D4B00874402 /* EVNewsfeedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3B362A17AB2D4B00874402 /* EVNewsfeedDataSource.m */; };
 		9C5044171770E5B10090D865 /* EVRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5044161770E5880090D865 /* EVRequestViewController.m */; };
 		9C5044271770EC990090D865 /* EVPushPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5044261770EC7A0090D865 /* EVPushPopViewController.m */; };
 		9C50442D1770FC250090D865 /* EVBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50442C1770FC050090D865 /* EVBackButton.m */; };
@@ -823,6 +824,8 @@
 		9C3917341773CE81002949C3 /* EVGroupRequestDashboardTableViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestDashboardTableViewDataSource.m; sourceTree = "<group>"; };
 		9C39173A1773DEAE002949C3 /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
 		9C39173B1773DEAE002949C3 /* Arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arrow@2x.png"; sourceTree = "<group>"; };
+		9C3B362917AB2D4B00874402 /* EVNewsfeedDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNewsfeedDataSource.h; sourceTree = "<group>"; };
+		9C3B362A17AB2D4B00874402 /* EVNewsfeedDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNewsfeedDataSource.m; sourceTree = "<group>"; };
 		9C5044151770E5880090D865 /* EVRequestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVRequestViewController.h; sourceTree = "<group>"; };
 		9C5044161770E5880090D865 /* EVRequestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVRequestViewController.m; sourceTree = "<group>"; };
 		9C5044251770EC7A0090D865 /* EVPushPopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVPushPopViewController.h; sourceTree = "<group>"; };
@@ -1503,6 +1506,8 @@
 			children = (
 				9C0EC753175D7CFC003B93E2 /* EVHomeViewController.h */,
 				9C0EC754175D7CFC003B93E2 /* EVHomeViewController.m */,
+				9C3B362917AB2D4B00874402 /* EVNewsfeedDataSource.h */,
+				9C3B362A17AB2D4B00874402 /* EVNewsfeedDataSource.m */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -3745,6 +3750,7 @@
 				D0CBDC7B17A9DA0C00E09D39 /* EVChooseTipCell.m in Sources */,
 				D0CBDC8117AA03F000E09D39 /* EVTip.m in Sources */,
 				D0CBDC8417AA490400E09D39 /* EVSharingSelectorView.m in Sources */,
+				9C3B362B17AB2D4B00874402 /* EVNewsfeedDataSource.m in Sources */,
 				9C28E89B17AC4BB50061E841 /* EVWalletNotification.m in Sources */,
 				9C28E8A217AC50220061E841 /* EVWalletNotificationViewController.m in Sources */,
 				9C28E8A517AC53A80061E841 /* EVWalletNotificationDetailCell.m in Sources */,
@@ -3825,8 +3831,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ivy Payments, Inc.";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3841,8 +3847,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -3859,6 +3865,7 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3868,6 +3875,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

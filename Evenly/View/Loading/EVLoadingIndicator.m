@@ -84,4 +84,8 @@
                       self.logoView.bounds.size.height);
 }
 
+- (CGSize)sizeThatFits:(CGSize)size {
+    return self.logoView.image.size;
+}
+
 @end
