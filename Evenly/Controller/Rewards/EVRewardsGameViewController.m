@@ -11,6 +11,7 @@
 #import "EVSwitch.h"
 #import "EVHomeViewController.h"
 #import "EVFacebookManager.h"
+#import "EVRewardCard.h"
 
 #define AFTER_VIEW_X_ORIGIN 95
 #define AFTER_VIEW_Y_ORIGIN 0
@@ -21,6 +22,10 @@
 
 @property (nonatomic, strong) EVReward *reward;
 @property (nonatomic, strong) EVSwitch *shareSwitch;
+
+@property (nonatomic, strong) NSArray *cards;
+
+- (void)loadCards;
 
 @end
 
@@ -59,6 +64,28 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.exclusiveTouch = YES;
+    
+    [self loadCards];
+}
+
+- (void)loadCards {
+    NSArray *colors = @[ [EVColor blueColor], [EVColor lightGreenColor], [EVColor darkColor], [EVColor lightRedColor] ];
+    NSMutableArray *cardsArray = [NSMutableArray array];
+    CGFloat height = 95.0;
+    CGFloat spacing = 20.0;
+    CGFloat xOrigin = 65.0;
+    CGFloat width = 190.0;
+    
+    for (int i = 0; i < 3 /* MIN([self.reward.options count], [colors count]) */; i++) {
+        EVRewardCard *card = [[EVRewardCard alloc] initWithFrame:CGRectMake(xOrigin,
+                                                                            spacing + i*height + i*spacing,
+                                                                            width,
+                                                                            height)
+                                                            text:EV_STRING_FROM_INT(i+1)
+                                                           color:[colors objectAtIndex:i]];
+        [self.view addSubview:card];
+    }
+    self.cards = [NSArray arrayWithArray:cardsArray];    
 }
 
 - (void)viewDidAppear:(BOOL)animated {

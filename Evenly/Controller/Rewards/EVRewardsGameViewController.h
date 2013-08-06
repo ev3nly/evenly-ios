@@ -17,5 +17,6 @@
 @property (nonatomic, strong) EVNavigationBarButton *doneButton;
 
 - (id)initWithReward:(EVReward *)reward;
+- (void)didSelectOptionAtIndex:(NSInteger)index;
 
 @end
