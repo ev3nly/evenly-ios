@@ -281,7 +281,7 @@ static NSDateFormatter *_dateFormatter = nil;
 - (void)saveWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     
     if (self.dbid) {
-        
+        [self updateWithSuccess:success failure:failure];
     } else {        
         [[self class] createWithParams:[self dictionaryRepresentation] success:^(EVObject *object) {
             

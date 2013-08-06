@@ -129,7 +129,18 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     return nil;
 }
 
-- (void)setProperties:(NSDictionary *)properties {    
+- (NSString *)stringFromValue:(id)value {
+    NSString *string = nil;
+    if (value) {
+        if ([value respondsToSelector:@selector(stringValue)])
+            string = [value stringValue];
+        else if ([value isKindOfClass:[NSString class]])
+            string = value;
+    }
+    return string;
+}
+
+- (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
 
     // Easy things first
@@ -155,7 +166,13 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     else {
         NSDictionary *subject = properties[@"subject"];
         NSString *subjectClass = [NSString stringWithFormat:@"EV%@", subject[@"class"]];
-        self.subject = [[NSClassFromString(subjectClass) alloc] initWithDictionary:subject];
+        NSString *dbid = [self stringFromValue:subject[@"id"]];
+
+        // Explicitly check for a cached object, so we don't accidentally overwrite our cached
+        // data with stale data from the story in initWithDictionary:.
+        self.subject = [[EVCIA sharedInstance] cachedObjectWithClassName:subjectClass dbid:dbid];
+        if (!self.subject)
+            self.subject = [[NSClassFromString(subjectClass) alloc] initWithDictionary:subject];
         if ([self.subject isKindOfClass:[EVConnection class]])
             self.subject = ((EVConnection *)self.subject).user;
     }
@@ -168,7 +185,13 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
         else {
             NSDictionary *target = properties[@"target"];
             NSString *targetClass = [NSString stringWithFormat:@"EV%@", target[@"class"]];
-            self.target = [[NSClassFromString(targetClass) alloc] initWithDictionary:target];
+            NSString *dbid = [self stringFromValue:target[@"id"]];
+            
+            // Explicitly check for a cached object, so we don't accidentally overwrite our cached
+            // data with stale data from the story in initWithDictionary:.
+            self.target = [[EVCIA sharedInstance] cachedObjectWithClassName:targetClass dbid:dbid];
+            if (!self.target)
+                self.target = [[NSClassFromString(targetClass) alloc] initWithDictionary:target];
             if ([self.target isKindOfClass:[EVConnection class]])
                 self.target = ((EVConnection *)self.target).user;
         }

@@ -28,8 +28,6 @@
 
 /* END EVMe */
 
-static EVUser *_me;
-
 @interface EVUser ()
 
 @property (nonatomic, strong) UIImage *avatar;
@@ -44,9 +42,15 @@ static EVUser *_me;
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     
-    self.name = [properties valueForKey:@"name"];
-    self.email = [properties valueForKey:@"email"];
-    self.phoneNumber = [properties valueForKey:@"phone_number"];
+    if ([properties valueForKey:@"name"])
+        self.name = [properties valueForKey:@"name"];
+    
+    if ([properties valueForKey:@"email"])
+        self.email = [properties valueForKey:@"email"];
+    
+    if ([properties valueForKey:@"phone_number"])
+        self.phoneNumber = [properties valueForKey:@"phone_number"];
+    
     if (properties[@"balance"])
     {
         if ([properties[@"balance"] isKindOfClass:[NSDecimalNumber class]])
@@ -58,7 +62,9 @@ static EVUser *_me;
         if (!self.balance)
             self.balance = [NSDecimalNumber decimalNumberWithString:@"0.00"];
     }
-    self.password = [properties valueForKey:@"password"];
+    
+    if ([properties valueForKey:@"password"])
+        self.password = [properties valueForKey:@"password"];
     
     if (properties[@"avatar_url"] && ![properties[@"avatar_url"] isKindOfClass:[NSNull class]]) {
         self.avatarURL = [NSURL URLWithString:properties[@"avatar_url"]];
@@ -81,7 +87,8 @@ static EVUser *_me;
     if ([properties valueForKey:@"facebook_connected"] && ![[properties valueForKey:@"facebook_connected"] isEqual:[NSNull null]])
         self.facebookConnected = [[properties valueForKey:@"facebook_connected"] boolValue];
     
-    self.roles = [properties valueForKey:@"roles"];
+    if ([properties valueForKey:@"roles"])
+        self.roles = [properties valueForKey:@"roles"];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -109,30 +116,16 @@ static EVUser *_me;
     return [NSString stringWithFormat:@"<0x%x> User %@: %@ (balance: %@)", (int)self, self.dbid, self.name, [self.balance description]];
 }
 
-+ (EVUser *)me {
-    return _me;
-}
-
-+ (void)setMe:(EVUser *)user {
-    _me = user;
-}
-
 + (void)meWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure reload:(BOOL)reload {
-    if (reload || _me == nil) {
+    if (reload || [EVCIA me] == nil) {
         [EVMe allWithSuccess:^(id result){
             //setting properties on existing me because ReactiveCocoa depends on this.
             //this might not be the right call, in the long term.
-            if (_me) {
-                [_me setProperties:[result originalDictionary]];
-            } else {
-                _me = [[EVMe alloc] initWithDictionary:[result originalDictionary]];
-            }
-            
             if ([[EVCIA sharedInstance] me]) {
                 [[[EVCIA sharedInstance] me] setProperties:[result originalDictionary]];
                 [[EVCIA sharedInstance] cacheMe];
             } else
-                [[EVCIA sharedInstance] setMe:_me];
+                [[EVCIA sharedInstance] setMe:[[EVMe alloc] initWithDictionary:[result originalDictionary]]];
             
             if (success) {
                 EV_PERFORM_ON_MAIN_QUEUE(^{
@@ -151,11 +144,6 @@ static EVUser *_me;
         if (success)
             success();
     }
-}
-
-+ (void)saveMeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
-	EVMe *me = [[EVMe alloc] initWithDictionary:[EVUser me].dictionaryRepresentation];
-	[me updateWithSuccess:success failure:failure];
 }
 
 + (void)newsfeedWithSuccess:(void (^)(NSArray *newsfeed))success failure:(void (^)(NSError *error))failure {
@@ -368,16 +356,6 @@ static EVUser *_me;
     
 }
 
-- (void)saveWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
-    [super saveWithSuccess:^{
-        
-        if (success)
-            success();
-        _me = self;
-        
-    } failure:failure];
-}
-
 + (void)updateMeWithFacebookToken:(NSString *)token
                        facebookID:(NSString *)facebookID
                           success:(void (^)(void))success
@@ -411,8 +389,8 @@ static EVUser *_me;
 
 
 - (void)updateWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
-    if (self == _me) {
-        EVMe *me = [[EVMe alloc] initWithDictionary:[_me dictionaryRepresentation]];
+    if (self == [EVCIA me]) {
+        EVMe *me = [[EVMe alloc] initWithDictionary:[[EVCIA me] dictionaryRepresentation]];
         if (self.updatedAvatar)
         {
             [me evictAvatarFromCache];
@@ -420,7 +398,11 @@ static EVUser *_me;
         }
         else
         {
-            [me updateWithSuccess:success failure:failure];
+            [me updateWithSuccess:^{
+                [[EVCIA sharedInstance] cacheMe];
+                if (success)
+                    success();
+            } failure:failure];
         }
     } else {
         [super updateWithSuccess:success failure:failure];
@@ -451,6 +433,7 @@ static EVUser *_me;
     
     request = [[self class] multipartFormRequestWithMethod:method path:path parameters:parameters constructingBodyWithBlock:formBlock];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        [[EVCIA sharedInstance] cacheMe];
         EV_PERFORM_ON_MAIN_QUEUE(^{
             if (success)
                 success();

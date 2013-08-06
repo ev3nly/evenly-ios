@@ -91,7 +91,6 @@
     [EVHTTPClient setErrorHandlerClass:[EVAppErrorHandler class]];
     
     // Load user and session from cache.
-    [EVUser setMe:[[EVCIA sharedInstance] me]];
     [EVSession setSharedSession:[[EVCIA sharedInstance] session]];
     
     [EVCIA reloadMe];
