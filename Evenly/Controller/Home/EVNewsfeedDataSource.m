@@ -29,7 +29,7 @@
         EVLoadingIndicator *customLoadingIndicator = [[EVLoadingIndicator alloc] initWithFrame:CGRectZero];
         [customLoadingIndicator sizeToFit];
         self.loadingIndicator = customLoadingIndicator;
-        
+        self.locallyCreatedStories = [NSMutableArray array];
         self.pageNumber = 1;
     }
     return self;
@@ -46,8 +46,9 @@
     }
     
     [EVUser newsfeedWithSuccess:^(NSArray *newsfeed) {
-        [self mergeNewStories:newsfeed];
+        self.newsfeed = [NSMutableArray arrayWithArray:newsfeed];
         [self compareLocalStories];
+        self.pageNumber = 1;
         EV_PERFORM_ON_MAIN_QUEUE(^{
             [self.tableView reloadData];
             [self.tableView.pullToRefreshView stopAnimating];
@@ -61,23 +62,6 @@
             [self.tableView setShowsInfiniteScrolling:YES];
         });
     }];
-}
-
-- (void)mergeNewStories:(NSArray *)newStories {
-    if ([newStories count] == 0)
-        return;
-    
-    EVStory *firstOldStory = [self.newsfeed objectAtIndex:0];
-    int i = 0;
-    do {
-        EVStory *firstNewStory = [newStories objectAtIndex:0];
-        if ([[firstNewStory createdAt] compare:[firstOldStory createdAt]] == NSOrderedAscending)
-            break;
-        i++;
-    } while (i < [newStories count]);
-    
-    
-    self.newsfeed = [NSMutableArray arrayWithArray:newStories];
 }
 
 - (void)loadNextPage {
@@ -137,6 +121,7 @@
     [self.locallyCreatedStories insertObject:story atIndex:0];
     
     self.newsfeed = [NSMutableArray arrayWithArray:[self.locallyCreatedStories arrayByAddingObjectsFromArray:self.newsfeed]];
+    [self.tableView reloadData];
 }
 
 

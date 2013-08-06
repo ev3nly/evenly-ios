@@ -164,16 +164,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
-    [self reloadNewsFeed];
-}
-
-
-- (void)reloadNewsFeed {
-
-}
-
-- (void)storyWasCreatedLocally:(NSNotification *)notification {
-
 }
 
 - (void)rewardRedeemed:(NSNotification *)notification {
