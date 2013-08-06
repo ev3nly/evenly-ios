@@ -86,6 +86,10 @@
     [self.loadingIndicator startAnimating];
     [EVUser newsfeedStartingAtPage:self.pageNumber
                            success:^(NSArray *history) {
+                               if ([history count] == 0) {
+                                   self.pageNumber--;
+                                   DLog(@"No entries, reverted page number to %d", self.pageNumber);
+                               }
                                [self.newsfeed addObjectsFromArray:history];
                                [self.tableView reloadData];
                                [self.tableView.infiniteScrollingView stopAnimating];
@@ -93,6 +97,7 @@
                            } failure:^(NSError *error) {
                                DLog(@"error: %@", error);
                                self.pageNumber--;
+                               DLog(@"Error, reverted page number to %d", self.pageNumber);
                                [self.tableView.infiniteScrollingView stopAnimating];
                                [self.loadingIndicator stopAnimating];
                            }];
@@ -107,35 +112,19 @@
     
     // Remote story is older than local story
     if ([mostRecentRemoteStory.createdAt compare:mostRecentLocalStory.createdAt] == NSOrderedAscending) {
-        self.newsfeed = [NSMutableArray arrayWithArray:[self.locallyCreatedStories arrayByAddingObjectsFromArray:self.newsfeed]];
-        return;
-    } else {
-        NSArray *localStories = [NSArray arrayWithArray:self.locallyCreatedStories];
-        for (EVStory *localStory in localStories) {
-            DLog(@"Local story: %@", localStory);
-            for (EVStory *remoteStory in self.newsfeed) {
-                DLog(@"Remote story: %@", remoteStory);
-                // Jump ship if we've passed the local story chronologically.
-                if ([remoteStory.createdAt compare:localStory.createdAt] == NSOrderedAscending)
-                    break;
-                
-                NSDictionary *remoteSource = [remoteStory source];
-                NSString *remoteType = remoteSource[@"type"];
-                if ([remoteType isEqualToString:@"Charge"])
-                    remoteType = @"Request";
-                
-                NSString *remoteSourceClass = [NSString stringWithFormat:@"EV%@", remoteType];
-                NSString *localSourceClass = NSStringFromClass([localStory.source class]);
-                
-                NSString *remoteID = [remoteSource[@"id"] stringValue];
-                NSString *localID = [localStory.source dbid];
-                if ([remoteSourceClass isEqual:localSourceClass] && [remoteID isEqual:localID]) {
-                    DLog(@"They match!");
-                    [self.locallyCreatedStories removeObject:localStory];
-                    break;
-                }
+        
+        // Remove stories older than an hour.
+        NSArray *locals = [NSArray arrayWithArray:self.locallyCreatedStories];
+        NSDate *anHourAgo = [NSDate dateWithTimeIntervalSinceNow:(-EVStoryLocalMaxLifespan)];
+        for (EVStory *localStory in locals) {
+            if ([[localStory createdAt] isEarlierThan:anHourAgo]) {
+                [self.locallyCreatedStories removeObject:localStory];
             }
         }
+    }
+    // Remote story is newer than most recent local story
+    else {
+        [self.locallyCreatedStories removeAllObjects];
     }
     
     if ([self.locallyCreatedStories count] > 0) {
