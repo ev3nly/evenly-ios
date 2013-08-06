@@ -14,6 +14,7 @@
 
 #import "EVRewardHeaderView.h"
 #import "EVRewardCard.h"
+#import "TTTAttributedLabel.h"
 
 #define HEADER_HEIGHT 50.0
 #define TOP_LABEL_HEIGHT 45.0
@@ -32,7 +33,7 @@
 
 @property (nonatomic, strong) UILabel *topLabel;
 
-@property (nonatomic, strong) UIView *footerView;
+@property (nonatomic, strong) TTTAttributedLabel *footerLabel;
 
 @property (nonatomic, strong) NSArray *cards;
 
@@ -82,6 +83,7 @@
     [self loadHeader];
     [self loadTopLabel];
     [self loadCards];
+    [self loadFooter];
 }
 
 - (void)loadHeader {
@@ -126,6 +128,15 @@
         [self.view addSubview:card];
     }
     self.cards = [NSArray arrayWithArray:cardsArray];    
+}
+
+- (void)loadFooter {
+    self.footerLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 15, self.view.frame.size.width, 15)];
+    self.footerLabel.font = [EVFont defaultFontOfSize:10];
+    self.footerLabel.backgroundColor = [UIColor clearColor];
+    self.footerLabel.textColor = [EVColor lightLabelColor];
+    NSString *text = @"By playing, you agree to Evenly's terms of service";
+    NSRange range = [text rangeOfString:@"terms of service"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
