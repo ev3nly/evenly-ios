@@ -9,9 +9,14 @@
 #import "EVAddCardViewController.h"
 #import "EVCreditCard.h"
 #import "EVNavigationBarButton.h"
+#import "EVPrivacyNotice.h"
 
 #define PK_VIEW_MARGIN 15
 #define PK_VIEW_HEIGHT 55
+
+#define MESSAGE_TOP_MARGIN 15
+#define MESSAGE_SIDE_MARGIN 15
+#define MESSAGE_HEIGHT 44.0
 
 @interface EVAddCardViewController ()
 
@@ -50,7 +55,18 @@
     self.cardView.delegate = self;
     [self.view addSubview:self.cardView];
 
+    [self loadReassuringMessage];
     [self loadSaveButton];
+}
+
+- (void)loadReassuringMessage {
+    EVPrivacyNotice *privacyNotice = [[EVPrivacyNotice alloc] initWithFrame:CGRectMake(MESSAGE_SIDE_MARGIN,
+                                                                                       CGRectGetMaxY(self.cardView.frame) + MESSAGE_TOP_MARGIN,
+                                                                                       self.view.bounds.size.width - 2*MESSAGE_SIDE_MARGIN,
+                                                                                       MESSAGE_HEIGHT)];
+    privacyNotice.label.text = @"Evenly uses bank-level, 256-bit encryption to protect your information.";
+    [self.view addSubview:privacyNotice];
+
 }
 
 - (void)loadSaveButton {

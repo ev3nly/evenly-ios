@@ -12,6 +12,7 @@
 @interface EVFundingSourceViewController ()
 
 @property (nonatomic, strong) EVNoFundingSourcesCell *noFundingSourcesCell;
+
 @end
 
 @implementation EVFundingSourceViewController
@@ -29,20 +30,23 @@
 {
     [super viewDidLoad];
     [self loadTableView];
-    
+
     // Make sure the edit button is big enough to accommodate "Done"
     self.editButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
     [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
     [self.editButton addTarget:self action:@selector(editButtonPress:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)updateEditButton {
-    if ([self.fundingSources count] > 0) {
-        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:self.editButton]];
-    } else {
-        [self.navigationItem setRightBarButtonItem:nil];
-    }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.tableView beginUpdates];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
+    
+    [self updateEditButton];
 }
+
+#pragma mark - View Loading
 
 - (void)loadTableView {
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -55,23 +59,18 @@
     [self.tableView registerClass:[EVFundingSourceCell class] forCellReuseIdentifier:@"fundingSourceCell"];
     [self.tableView registerClass:[EVNoFundingSourcesCell class] forCellReuseIdentifier:@"noFundingSourcesCell"];
     self.tableView.allowsSelectionDuringEditing = YES;
-    
+    [self.tableView addReassuringMessage];
     [self.view addSubview:self.tableView];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.tableView beginUpdates];
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.tableView endUpdates];
-    
-    [self updateEditButton];
-}
+#pragma mark - Edit Button
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)updateEditButton {
+    if ([self.fundingSources count] > 0) {
+        [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:self.editButton]];
+    } else {
+        [self.navigationItem setRightBarButtonItem:nil];
+    }
 }
 
 - (void)editButtonPress:(id)sender {

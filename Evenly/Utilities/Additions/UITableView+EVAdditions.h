@@ -15,5 +15,6 @@
 @property (nonatomic, assign) float loadingIndicatorYOffset;
 
 - (EVGroupedTableViewCellPosition)cellPositionForIndexPath:(NSIndexPath *)indexPath;
+- (void)addReassuringMessage;
 
 @end
