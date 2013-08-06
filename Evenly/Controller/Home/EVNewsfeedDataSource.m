@@ -49,12 +49,10 @@
         self.newsfeed = [NSMutableArray arrayWithArray:newsfeed];
         [self compareLocalStories];
         self.pageNumber = 1;
-        EV_PERFORM_ON_MAIN_QUEUE(^{
-            [self.tableView reloadData];
-            [self.tableView.pullToRefreshView stopAnimating];
-            self.tableView.loading = NO;
-            [self.tableView setShowsInfiniteScrolling:YES];
-        });
+        [self.tableView reloadData];
+        [self.tableView.pullToRefreshView stopAnimating];
+        self.tableView.loading = NO;
+        [self.tableView setShowsInfiniteScrolling:YES];
     } failure:^(NSError *error) {
         EV_PERFORM_ON_MAIN_QUEUE(^{
             [self.tableView.pullToRefreshView stopAnimating];
