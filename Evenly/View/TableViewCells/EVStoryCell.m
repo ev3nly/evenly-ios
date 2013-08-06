@@ -203,10 +203,10 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
         return @"Getting Started";
     else if (self.story.sourceType == EVStorySourceTypeHint)
         return @"Hint";
-    else if (self.story.publishedAt)
+    else if (self.story.dbid && self.story.publishedAt)
         return [[[self class] timeIntervalFormatter] stringForTimeIntervalFromDate:[NSDate date]
                                                                             toDate:self.story.publishedAt];
-    return @":)";
+    return @"Example";
 }
 
 #pragma mark - Frames
