@@ -7,14 +7,17 @@
 //
 
 #import "EVRewardsGameViewController.h"
+#import "EVHomeViewController.h"
+#import "EVWebViewController.h"
+
 #import "EVNavigationBarButton.h"
 #import "EVSwitch.h"
-#import "EVHomeViewController.h"
 #import "EVFacebookManager.h"
 
 #import "EVRewardHeaderView.h"
 #import "EVRewardCard.h"
-#import "TTTAttributedLabel.h"
+
+#define NAVIGATION_BAR_OFFSET 44.0
 
 #define HEADER_HEIGHT 50.0
 #define TOP_LABEL_HEIGHT 45.0
@@ -82,8 +85,8 @@
     
     [self loadHeader];
     [self loadTopLabel];
-    [self loadCards];
     [self loadFooter];
+    [self loadCards];
 }
 
 - (void)loadHeader {
@@ -112,12 +115,24 @@
 - (void)loadCards {
     NSArray *colors = @[ [EVColor blueColor], [EVColor lightGreenColor], [EVColor darkColor], [EVColor lightRedColor] ];
     NSMutableArray *cardsArray = [NSMutableArray array];
-    CGFloat height = 80.0;
-    CGFloat spacing = 20.0;
-    CGFloat xOrigin = 65.0;
-    CGFloat width = 190.0;
+
+    int count;
+    if (self.reward)
+        count = MIN([self.reward.options count], [colors count]);
+    else
+        count = 3;
     
-    for (int i = 0; i < 3 /* MIN([self.reward.options count], [colors count]) */; i++) {
+    CGFloat spacing = 20.0;
+    
+    CGFloat availableHeight = CGRectGetMinY(self.footerLabel.frame) - CGRectGetMaxY(self.topLabel.frame) - NAVIGATION_BAR_OFFSET;
+    availableHeight -= count * spacing;
+    CGFloat height = availableHeight / count;
+    CGFloat width = MAX(190.0, height * 2.0);
+    CGFloat xOrigin = (self.view.frame.size.width - width) / 2.0;
+    
+
+    
+    for (int i = 0; i < count; i++) {
         EVRewardCard *card = [[EVRewardCard alloc] initWithFrame:CGRectMake(xOrigin,
                                                                             CGRectGetMaxY(self.topLabel.frame) + i*height + i*spacing,
                                                                             width,
@@ -131,12 +146,22 @@
 }
 
 - (void)loadFooter {
-    self.footerLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 15, self.view.frame.size.width, 15)];
-    self.footerLabel.font = [EVFont defaultFontOfSize:10];
+    self.footerLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 20, self.view.frame.size.width, 15)];
+    self.footerLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    self.footerLabel.font = [EVFont bookFontOfSize:10];
     self.footerLabel.backgroundColor = [UIColor clearColor];
     self.footerLabel.textColor = [EVColor lightLabelColor];
+    self.footerLabel.textAlignment = NSTextAlignmentCenter;
+    self.footerLabel.linkAttributes = @{ NSForegroundColorAttributeName : [EVColor lightLabelColor],
+                                         NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle) };
+    self.footerLabel.activeLinkAttributes = @{ NSForegroundColorAttributeName : [EVColor blueColor],
+                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle) };
     NSString *text = @"By playing, you agree to Evenly's terms of service";
     NSRange range = [text rangeOfString:@"terms of service"];
+    [self.footerLabel setText:text];
+    [self.footerLabel addLinkToURL:[EVUtilities tosURL] withRange:range];
+    [self.footerLabel setDelegate:self];
+    [self.view addSubview:self.footerLabel];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -232,5 +257,15 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];
 }
+
+#pragma mark - TTTAttributedLabelDelegate
+
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    EVWebViewController *controller = [[EVWebViewController alloc] initWithURL:url];
+    controller.title = [url isEqual:[EVUtilities tosURL]] ? @"Terms of Service" : @"Privacy Policy";
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
 
 @end
