@@ -167,6 +167,8 @@
 }
 
 - (void)rewardRedeemed:(NSNotification *)notification {
+    
+    /*
     EVReward *reward = [[notification userInfo] objectForKey:@"reward"];
     UILabel *label = [[notification userInfo] objectForKey:@"label"];
     label.adjustsFontSizeToFitWidth = YES;
@@ -191,6 +193,7 @@
                              [self setTitle:newTitle];
                          }];
     }];
+     */
 }
 
 #pragma mark - Button Actions

@@ -8,13 +8,7 @@
 
 #import "EVRewardsGameViewController.h"
 #import "EVNavigationBarButton.h"
-
-#import "EVRewardsHeaderView.h"
-#import "EVRewardsSwitchView.h"
-#import "EVRewardsSlider.h"
-#import "EVRewardsFooterView.h"
-#import "EVRewardsAfterView.h"
-
+#import "EVSwitch.h"
 #import "EVHomeViewController.h"
 #import "EVFacebookManager.h"
 
@@ -26,20 +20,7 @@
 @interface EVRewardsGameViewController ()
 
 @property (nonatomic, strong) EVReward *reward;
-
-@property (nonatomic, strong) EVRewardsHeaderView *headerView;
-@property (nonatomic, strong) UIView *stripe;
-@property (nonatomic, strong) EVRewardsSwitchView *switchView;
-@property (nonatomic, strong) NSArray *sliders;
-@property (nonatomic, strong) EVRewardsFooterView *footerView;
-@property (nonatomic, strong) EVRewardsAfterView *afterView;
-
-@property (nonatomic, strong) EVRewardsSlider *chosenSlider;
-
-- (void)loadHeaderView;
-- (void)loadSwitchView;
-- (void)loadSliders;
-- (void)loadFooterView;
+@property (nonatomic, strong) EVSwitch *shareSwitch;
 
 @end
 
@@ -78,87 +59,10 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.exclusiveTouch = YES;
-    [self loadHeaderView];
-    [self loadSwitchView];
-    [self loadSliders];
-    [self loadFooterView];
-}
-
-- (void)loadHeaderView {
-    self.headerView = [[EVRewardsHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 96)];
-    [self.view addSubview:self.headerView];
-    
-    self.afterView = [[EVRewardsAfterView alloc] initWithFrame:[self afterViewFrame]];
-}
-
-- (CGRect)afterViewFrame {
-    return CGRectMake(AFTER_VIEW_X_ORIGIN,
-                      AFTER_VIEW_Y_ORIGIN,
-                      AFTER_VIEW_WIDTH,
-                      AFTER_VIEW_HEIGHT);
-}
-
-- (void)loadSwitchView {
-    self.stripe = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headerView.frame), self.view.frame.size.width, 1)];
-    self.stripe.backgroundColor = [EVColor newsfeedStripeColor];
-    [self.view addSubview:self.stripe];
-    
-    self.switchView = [[EVRewardsSwitchView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.stripe.frame), self.view.frame.size.width, 60)];
-    [self.switchView.shareSwitch setOn:[EVFacebookManager hasPublishPermissions]];
-    [self.switchView.shareSwitch addTarget:self action:@selector(shareSwitchChanged:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:self.switchView];
-    
-    self.reward.willShare = self.switchView.shareSwitch.isOn;
-}
-
-- (void)loadSliders {
-    CGFloat height = 72;
-    
-    NSArray *words = @[ @"Blue", @"Gray", @"Green" ];
-    
-    NSMutableArray *slidersArray = [NSMutableArray array];
-    for (int i = 0; i < 3 /* [self.reward.options count] */; i++) {
-        EVRewardsSlider *slider = [[EVRewardsSlider alloc] initWithFrame:CGRectMake(0,
-                                                                                    CGRectGetMaxY(self.switchView.frame) + i*height,
-                                                                                    self.view.frame.size.width,
-                                                                                    height)
-                                   sliderColor:(EVRewardsSliderColor)i];
-        [slider.label setText:[words objectAtIndex:i]];
-        [slider addTarget:self action:@selector(optionSelected:) forControlEvents:UIControlEventValueChanged];
-        [self.view addSubview:slider];
-        [slidersArray addObject:slider];
-        slider.hidden = YES;
-    }
-    self.sliders = [NSArray arrayWithArray:slidersArray];
-}
-
-- (void)loadFooterView {
-    self.footerView = [[EVRewardsFooterView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY([[self.sliders lastObject] frame]), self.view.frame.size.width,  self.view.frame.size.height - CGRectGetMaxY([[self.sliders lastObject] frame]))];
-    self.footerView.backgroundColor = [UIColor whiteColor];
-    self.footerView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:self.footerView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSTimeInterval interval = 0.1;
-    int i = 0;
-    for (EVRewardsSlider *slider in self.sliders) {
-        slider.hidden = NO;
-        EV_DISPATCH_AFTER(interval * (i++ *2), ^{
-            EV_PERFORM_ON_MAIN_QUEUE(^{
-                [slider makeAnAppearanceWithDuration:EV_DEFAULT_ANIMATION_DURATION completion:^{
-                }];
-            });
-        });
-    }
-
-    
-    EV_DISPATCH_AFTER(interval * (++i * 2), ^{
-        EV_PERFORM_ON_MAIN_QUEUE(^{
-            [self.sliders makeObjectsPerformSelector:@selector(pulse)];
-        });
-    });
 }
 
 #pragma mark - Button Actions
@@ -173,13 +77,12 @@
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardRedeemedNotification
                                                             object:self
-                                                          userInfo:@{ @"reward" : self.reward,
-                                                                       @"label" : self.chosenSlider.backgroundView.rewardCard.label }];
+                                                          userInfo:@{ @"reward" : self.reward }];
     }
 }
 
 - (void)shareSwitchChanged:(EVSwitch *)sender {
-    self.reward.willShare = self.switchView.shareSwitch.isOn;
+    self.reward.willShare = self.shareSwitch.isOn;
     if ([sender isOn]) {
         [EVFacebookManager openSessionWithCompletion:^{
             [EVFacebookManager requestPublishPermissionsWithCompletion:^{
@@ -189,24 +92,13 @@
     }
 }
 
-- (void)optionSelected:(EVRewardsSlider *)slider {
-    if (self.reward.selectedOptionIndex != NSNotFound) {
-        return;
-    }
-    
-    self.chosenSlider = slider;
-    
-    for (EVRewardsSlider *slider in self.sliders) {
-        slider.enabled = NO;
-    }
-    
-    int index = [self.sliders indexOfObject:slider];
+- (void)didSelectOptionAtIndex:(NSInteger)index {
     self.reward.selectedOptionIndex = index;
-    self.reward.willShare = self.switchView.shareSwitch.isOn;
+    self.reward.willShare = self.shareSwitch.isOn;
     [self.reward redeemWithSuccess:^(EVReward *reward) {
         self.reward = reward;
         [self updateInterface];
-        if (self.switchView.shareSwitch.on && ![self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
+        if (self.shareSwitch.on && ![self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
             [self share];
         }
     } failure:^(NSError *error) {
@@ -248,35 +140,8 @@
     }
 }
 
-#pragma mark - Managing Sliders
-
 - (void)updateInterface {
-    [self updateSliders];
-    NSString *topPhrase, *bottomPhrase = nil;
-    if (![self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
-        topPhrase = [NSString stringWithFormat:@"Nice! You've earned %@!", [EVStringUtility amountStringForAmount:self.reward.selectedAmount]];
-    } else {
-        topPhrase = @"Better luck next time!";
-    }
-    bottomPhrase = @"Curious?  Swipe to reveal the other rewards.";
-    self.afterView.headerLabel.text = topPhrase;
-    self.afterView.otherOptionsLabel.text = bottomPhrase;
     
-    [self.view addSubview:self.afterView];
-    [self changeNavButton];
-}
-
-- (void)updateSliders {
-    EVRewardsSlider *slider;
-    NSDecimalNumber *amount;
-    for (int i = 0; i < self.reward.options.count; i++) {
-        slider = [self.sliders objectAtIndex:i];
-        amount = [self.reward.options objectAtIndex:i];
-        [slider.backgroundView stopAnimating];
-        slider.animationEnabled = NO;
-        slider.enabled = YES;
-        [slider setRewardAmount:amount animated:(i == self.reward.selectedOptionIndex)];
-    }
 }
 
 - (void)changeNavButton {
