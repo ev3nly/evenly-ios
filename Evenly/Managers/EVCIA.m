@@ -251,7 +251,6 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
     //retrieve user from session call, cache user
     NSDictionary *originalDictionary = [EVSession sharedSession].originalDictionary[@"user"];
     EVUser *me = [[EVUser alloc] initWithDictionary:originalDictionary];
-    [EVUser setMe:me];
     [self setMe:me];
     
     [EVUtilities registerForPushNotifications];
@@ -283,6 +282,13 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
                                                   forKey:EVCachedUserKey];
     }
     
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)clearCache {
+    [self.internalCache removeAllObjects];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:EVCachedUserKey];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:EVCachedAuthenticationTokenKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
