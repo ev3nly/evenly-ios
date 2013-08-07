@@ -9,6 +9,8 @@
 #import "EVRewardCardFace.h"
 
 #define LOGO_PADDING 10.0
+#define LABEL_MARGIN 5.0
+#define AMOUNT_LABEL_Y_MARGIN 2.0
 
 @interface EVRewardCardFace ()
 
@@ -41,6 +43,8 @@
         [self loadStripes];
         [self loadAmountLabel];
         [self loadMessageLabel];
+        
+        self.autoresizesSubviews = YES;
     }
     return self;
 }
@@ -72,23 +76,26 @@
 }
 
 - (void)loadAmountLabel {
-    self.amountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, CGRectGetMinY(self.logo.frame) - LOGO_PADDING)];
+    self.amountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, AMOUNT_LABEL_Y_MARGIN, self.frame.size.width, CGRectGetMinY(self.logo.frame) - LOGO_PADDING)];
     self.amountLabel.font = [EVFont blackFontOfSize:16];
     self.amountLabel.backgroundColor = [UIColor clearColor];
     self.amountLabel.textColor = [UIColor whiteColor];
     self.amountLabel.textAlignment = NSTextAlignmentCenter;
+    self.amountLabel.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     [self.contentContainer addSubview:self.amountLabel];
 }
 
 - (void)loadMessageLabel {
-    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,
+    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(LABEL_MARGIN,
                                                                   CGRectGetMaxY(self.logo.frame) + LOGO_PADDING,
-                                                                  self.frame.size.width,
+                                                                  self.frame.size.width - 2*LABEL_MARGIN,
                                                                   self.frame.size.height - LOGO_PADDING - CGRectGetMaxY(self.logo.frame))];
     self.messageLabel.backgroundColor = [UIColor clearColor];
     self.messageLabel.textColor = [UIColor whiteColor];
     self.messageLabel.font = [EVFont bookFontOfSize:12];
     self.messageLabel.textAlignment = NSTextAlignmentCenter;
+    self.messageLabel.autoresizingMask = EV_AUTORESIZE_TO_FIT | UIViewAutoresizingFlexibleTopMargin;
+    self.messageLabel.adjustsFontSizeToFitWidth = YES;
     [self.contentContainer addSubview:self.messageLabel];
 }
 
@@ -112,7 +119,7 @@
         if ([rewardAmount isEqual:[NSDecimalNumber zero]]) {
             messageText = @"So close! Better luck next time.";
         } else {
-            messageText = [NSString stringWithFormat:@"Congratulations! You've won %@", amountString];
+            messageText = [NSString stringWithFormat:@"Nice! You've won %@", amountString];
         }
     }
     else

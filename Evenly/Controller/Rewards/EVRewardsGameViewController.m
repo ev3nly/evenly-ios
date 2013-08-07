@@ -87,15 +87,15 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.exclusiveTouch = YES;
     
-//    // TESTING ONLY
-//    if (!self.reward)
-//    {
-//        self.reward = [[EVReward alloc] init];
-//        self.reward.selectedOptionIndex = NSNotFound;
-//        self.reward.options = @[ [NSDecimalNumber decimalNumberWithString:@"2.00"],
-//                                 [NSDecimalNumber decimalNumberWithString:@"10.00"],
-//                                 [NSDecimalNumber decimalNumberWithString:@"0.00"]];
-//    }
+    // TESTING ONLY
+    if (!self.reward)
+    {
+        self.reward = [[EVReward alloc] init];
+        self.reward.selectedOptionIndex = NSNotFound;
+        self.reward.options = @[ [NSDecimalNumber decimalNumberWithString:@"2.00"],
+                                 [NSDecimalNumber decimalNumberWithString:@"10.00"],
+                                 [NSDecimalNumber decimalNumberWithString:@"0.00"]];
+    }
     
     [self loadHeader];
     [self loadBalanceView];
@@ -149,7 +149,7 @@
     CGFloat availableHeight = CGRectGetMinY(self.footerLabel.frame) - CGRectGetMaxY(self.topLabel.frame) - NAVIGATION_BAR_OFFSET;
     availableHeight -= count * spacing;
     CGFloat height = availableHeight / count;
-    CGFloat width = MAX(190.0, height * 2.0);
+    CGFloat width = MIN(190.0, height * 2.0);
     CGFloat xOrigin = (self.view.frame.size.width - width) / 2.0;
     
     for (int i = 0; i < count; i++) {
@@ -219,11 +219,14 @@
 - (void)didSelectOptionAtIndex:(NSInteger)index {
     
     self.reward.selectedOptionIndex = index;
-    
-//    EV_DISPATCH_AFTER(2.0, ^{
-//        [self updateInterface];
-//    });
-//    return;
+
+    if (self.reward.dbid == nil)
+    {
+        EV_DISPATCH_AFTER(2.0, ^{
+            [self updateInterface];
+        });
+        return;
+    }
     
     self.reward.willShare = self.shareSwitch.isOn;
     [self.reward redeemWithSuccess:^(EVReward *reward) {
