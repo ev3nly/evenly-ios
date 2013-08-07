@@ -83,6 +83,13 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.exclusiveTouch = YES;
     
+    // TESTING ONLY
+    self.reward = [[EVReward alloc] init];
+    self.reward.selectedOptionIndex = NSNotFound;
+    self.reward.options = @[ [NSDecimalNumber decimalNumberWithString:@"2.00"],
+                             [NSDecimalNumber decimalNumberWithString:@"10.00"],
+                             [NSDecimalNumber decimalNumberWithString:@"0.00"]];
+    
     [self loadHeader];
     [self loadTopLabel];
     [self loadFooter];
@@ -130,8 +137,6 @@
     CGFloat width = MAX(190.0, height * 2.0);
     CGFloat xOrigin = (self.view.frame.size.width - width) / 2.0;
     
-
-    
     for (int i = 0; i < count; i++) {
         EVRewardCard *card = [[EVRewardCard alloc] initWithFrame:CGRectMake(xOrigin,
                                                                             CGRectGetMaxY(self.topLabel.frame) + i*height + i*spacing,
@@ -141,6 +146,7 @@
                                                            color:[colors objectAtIndex:i]];
         [card addTarget:self action:@selector(cardTapped:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:card];
+        [cardsArray addObject:card];
     }
     self.cards = [NSArray arrayWithArray:cardsArray];    
 }
@@ -186,6 +192,8 @@
 
 - (void)cardTapped:(EVRewardCard *)card {
     DLog(@"Card tapped");
+    if (self.reward.selectedOptionIndex == NSNotFound)
+        [self didSelectOptionAtIndex:[self.cards indexOfObject:card]];
 }
 
 - (void)shareSwitchChanged:(EVSwitch *)sender {
@@ -200,6 +208,13 @@
 }
 
 - (void)didSelectOptionAtIndex:(NSInteger)index {
+    self.reward.selectedOptionIndex = index;
+    EV_DISPATCH_AFTER(2.0, ^{
+        [self updateInterface];
+    });
+    return;
+    
+    
     self.reward.selectedOptionIndex = index;
     self.reward.willShare = self.shareSwitch.isOn;
     [self.reward redeemWithSuccess:^(EVReward *reward) {
@@ -248,7 +263,19 @@
 }
 
 - (void)updateInterface {
+    [self updateCards];
     
+}
+
+- (void)updateCards {
+    EVRewardCard *card;
+    NSDecimalNumber *amount;
+    for (int i = 0; i < self.reward.options.count; i++) {
+        card = [self.cards objectAtIndex:i];
+        amount = [self.reward.options objectAtIndex:i];
+        [card setAnimationEnabled:NO];
+        [card setRewardAmount:amount animated:(i == self.reward.selectedOptionIndex)];
+    }
 }
 
 - (void)changeNavButton {
