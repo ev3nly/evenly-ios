@@ -38,6 +38,7 @@
 @property (nonatomic, strong) EVRewardBalanceView *balanceView;
 
 @property (nonatomic, strong) UILabel *topLabel;
+@property (nonatomic, strong) UILabel *curiousLabel;
 
 @property (nonatomic, strong) TTTAttributedLabel *footerLabel;
 
@@ -45,7 +46,7 @@
 
 - (void)loadHeader;
 - (void)loadBalanceView;
-- (void)loadTopLabel;
+- (void)loadTopLabels;
 - (void)loadCards;
 - (void)loadFooter;
 
@@ -99,7 +100,7 @@
     
     [self loadHeader];
     [self loadBalanceView];
-    [self loadTopLabel];
+    [self loadTopLabels];
     [self loadFooter];
     [self loadCards];
 }
@@ -120,7 +121,7 @@
     self.balanceView = [[EVRewardBalanceView alloc] initWithFrame:CGRectMake(0, -HEADER_HEIGHT, self.view.frame.size.width, HEADER_HEIGHT)];
 }
 
-- (void)loadTopLabel {
+- (void)loadTopLabels {
     self.topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,
                                                               CGRectGetMaxY(self.headerView.frame),
                                                               self.view.frame.size.width,
@@ -132,6 +133,17 @@
     self.topLabel.text = @"Flip to select your reward. Choose wisely!";
     self.topLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.topLabel];
+    
+    self.curiousLabel = [[UILabel alloc] initWithFrame:CGRectMake(-self.view.frame.size.width,
+                                                              CGRectGetMaxY(self.headerView.frame),
+                                                              self.view.frame.size.width,
+                                                              TOP_LABEL_HEIGHT)];
+    self.curiousLabel.contentMode = UIViewContentModeCenter;
+    self.curiousLabel.font = [EVFont bookFontOfSize:15];
+    self.curiousLabel.textColor = [EVColor mediumLabelColor];
+    self.curiousLabel.backgroundColor = [UIColor clearColor];
+    self.curiousLabel.text = @"Curious? Flip to reveal the other rewards.";
+    self.curiousLabel.textAlignment = NSTextAlignmentCenter;
 }
 
 - (void)loadCards {
@@ -275,11 +287,10 @@
     }
 }
 
+#pragma mark - UI Updates
+
 - (void)updateInterface {
     [self updateCards];
-    
-    self.topLabel.text = @"Curious? Flip to reveal the other rewards.";
-    
     [self changeNavButton];
 }
 
@@ -294,7 +305,7 @@
         void (^completion)(void) = NULL;
         if (animated)
             completion = ^{     EV_DISPATCH_AFTER(1.0, ^{
-                    [self animateAmountLabel];
+                    [self flipBalanceView];
                 });
             };
         [card setRewardAmount:amount
@@ -303,51 +314,54 @@
     }
 }
 
-- (void)animateAmountLabel {
+- (void)changeNavButton {
+    self.navigationItem.leftBarButtonItem = nil;
+    [self.cancelButton removeFromSuperview];
     
-    void (^animateAmountBlock)(void) = NULL;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];
+}
 
-    if (![[self.reward selectedAmount] isEqual:[NSDecimalNumber zero]])
-    {
-        animateAmountBlock = ^{
-            EVRewardCard *card = [self.cards objectAtIndex:self.reward.selectedOptionIndex];
-            UILabel *faceLabel = card.face.amountLabel;
-            CGPoint faceLabelCenter = [self.view convertPoint:faceLabel.center fromView:card.face];
-            
-            CGSize textSize = [faceLabel.text sizeWithFont:faceLabel.font];
-            UILabel *newLabel = [[UILabel alloc] initWithFrame:(CGRect){CGPointZero, textSize}];
-            newLabel.center = faceLabelCenter;
-            newLabel.font = faceLabel.font;
-            newLabel.backgroundColor = [UIColor clearColor];
-            newLabel.textColor = [EVColor mediumLabelColor];
-            newLabel.text = faceLabel.text;
-            [UIView animateWithDuration:1.0
-                             animations:^{
-                                 [self.view addSubview:newLabel];
-                                 CGRect destinationRect = [self.view convertRect:self.balanceView.balanceLabel.frame fromView:self.balanceView];
-                                 destinationRect.origin.x = CGRectGetMaxX(destinationRect) - newLabel.frame.size.width;
-                                 destinationRect.size.width = newLabel.frame.size.width;
-                                 [newLabel setFrame:destinationRect];
-                             }
-                             completion:^(BOOL finished) {
-                                 [newLabel removeFromSuperview];
-                                 [self updateBalance];
-                                 [self pulseUnselectedCards];
-                             }];
-        };
-    }
-    
+#pragma mark - Animations
+
+- (void)flipBalanceView {
     self.balanceView.frame = CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT);
     [UIView transitionFromView:self.headerView
                         toView:self.balanceView
                       duration:0.5
                        options:UIViewAnimationOptionTransitionFlipFromBottom
                     completion:^(BOOL finished) {
-                        if (animateAmountBlock)
-                            animateAmountBlock();
+                        if (![[self.reward selectedAmount] isEqual:[NSDecimalNumber zero]])
+                            [self animateAmountLabel];
                     }];
+}
 
-
+- (void)animateAmountLabel {
+    EVRewardCard *card = [self.cards objectAtIndex:self.reward.selectedOptionIndex];
+    UILabel *faceLabel = card.face.amountLabel;
+    CGPoint faceLabelCenter = [self.view convertPoint:faceLabel.center fromView:card.face];
+    
+    CGSize textSize = [faceLabel.text sizeWithFont:faceLabel.font];
+    UILabel *newLabel = [[UILabel alloc] initWithFrame:(CGRect){CGPointZero, textSize}];
+    newLabel.center = faceLabelCenter;
+    newLabel.font = faceLabel.font;
+    newLabel.backgroundColor = [UIColor clearColor];
+    newLabel.textColor = [EVColor mediumLabelColor];
+    newLabel.text = faceLabel.text;
+    [UIView animateWithDuration:1.0
+                     animations:^{
+                         [self.view addSubview:newLabel];
+                         CGRect destinationRect = [self.view convertRect:self.balanceView.balanceLabel.frame fromView:self.balanceView];
+                         destinationRect.origin.x = CGRectGetMaxX(destinationRect) - newLabel.frame.size.width;
+                         destinationRect.size.width = newLabel.frame.size.width;
+                         [newLabel setFrame:destinationRect];
+                     }
+                     completion:^(BOOL finished) {
+                         [newLabel removeFromSuperview];
+                         [self updateBalance];
+                         EV_DISPATCH_AFTER(0.5, ^{
+                             [self switchTopLabel];
+                         });
+                     }];
 }
 
 - (void)updateBalance {
@@ -358,6 +372,28 @@
     [[[EVCIA sharedInstance] me] setBalance:newBalance];
 }
 
+- (void)switchTopLabel {
+    self.curiousLabel.frame = CGRectMake(-self.view.frame.size.width,
+                                         CGRectGetMaxY(self.headerView.frame),
+                                         self.view.frame.size.width,
+                                         TOP_LABEL_HEIGHT);
+    [self.view addSubview:self.curiousLabel];
+    [UIView animateWithDuration:1.0f
+                     animations:^{
+                         self.curiousLabel.frame = CGRectMake(0,
+                                                              CGRectGetMaxY(self.headerView.frame),
+                                                              self.view.frame.size.width,
+                                                              TOP_LABEL_HEIGHT);
+                         self.topLabel.frame = CGRectMake(self.view.frame.size.width,
+                                                          CGRectGetMaxY(self.headerView.frame),
+                                                          self.view.frame.size.width,
+                                                          TOP_LABEL_HEIGHT);
+                     } completion:^(BOOL finished) {
+                         [self.topLabel removeFromSuperview];
+                         [self pulseUnselectedCards];
+                     }];
+}
+
 - (void)pulseUnselectedCards {
     EVRewardCard *card;
     for (int i = 0; i < self.reward.options.count; i++) {
@@ -365,13 +401,6 @@
         if (i != self.reward.selectedOptionIndex)
             [card pulse];
     }
-}
-
-- (void)changeNavButton {
-    self.navigationItem.leftBarButtonItem = nil;
-    [self.cancelButton removeFromSuperview];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];
 }
 
 #pragma mark - TTTAttributedLabelDelegate
