@@ -24,6 +24,7 @@
 #define TOP_LABEL_HEIGHT 45.0
 
 #define CARD_SPACING 20.0
+#define MAX_CARD_WIDTH 190.0
 
 @interface EVRewardsGameViewController ()
 
@@ -84,17 +85,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.exclusiveTouch = YES;
-    
-    // TESTING ONLY
-    if (!self.reward)
-    {
-        self.reward = [[EVReward alloc] init];
-        self.reward.selectedOptionIndex = NSNotFound;
-        self.reward.options = @[ [NSDecimalNumber decimalNumberWithString:@"2.00"],
-                                 [NSDecimalNumber decimalNumberWithString:@"10.00"],
-                                 [NSDecimalNumber decimalNumberWithString:@"0.00"]];
-    }
-    
+
     [self loadHeader];
     [self loadBalanceView];
     [self loadTopLabels];
@@ -158,7 +149,7 @@
     CGFloat availableHeight = CGRectGetMinY(self.footerLabel.frame) - CGRectGetMaxY(self.topLabel.frame) - NAVIGATION_BAR_OFFSET;
     availableHeight -= count * spacing;
     CGFloat height = availableHeight / count;
-    CGFloat width = MIN(190.0, height * 2.0);
+    CGFloat width = MIN(MAX_CARD_WIDTH, height * 2.0);
     
     for (int i = 0; i < count; i++) {
         EVRewardCard *card = [[EVRewardCard alloc] initWithFrame:CGRectMake(0, 0, width, height)
@@ -224,7 +215,6 @@
 }
 
 - (void)didSelectOptionAtIndex:(NSInteger)index {
-    
     self.reward.selectedOptionIndex = index;
     [self flipBalanceView];
     [UIView animateWithDuration:0.5
@@ -238,14 +228,6 @@
         [card setUserInteractionEnabled:NO];
     }
 
-    if (self.reward.dbid == nil)
-    {
-        EV_DISPATCH_AFTER(2.0, ^{
-            [self updateInterface];
-        });
-        return;
-    }
-    
     self.reward.willShare = self.shareSwitch.isOn;
     [self.reward redeemWithSuccess:^(EVReward *reward) {
         self.reward = reward;
@@ -342,7 +324,7 @@
     CGFloat availableHeight = CGRectGetMinY(self.footerLabel.frame) - CGRectGetMaxY(self.topLabel.frame);
     availableHeight -= count * CARD_SPACING;
     CGFloat height = availableHeight / count;
-    CGFloat width = MIN(190.0, height * 2.0);
+    CGFloat width = MIN(MAX_CARD_WIDTH, height * 2.0);
     return CGSizeMake(width, height);
 }
 
