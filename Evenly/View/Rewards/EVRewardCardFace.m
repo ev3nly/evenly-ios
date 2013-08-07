@@ -102,7 +102,7 @@
     [self.throbber stopAnimating];
 }
 
-- (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated {
+- (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated completion:(void (^)(void))completion {
     _rewardAmount = rewardAmount;
     NSString *amountString = [EVStringUtility amountStringForAmount:_rewardAmount];
     [self.amountLabel setText:amountString];
@@ -125,7 +125,13 @@
     [UIView animateWithDuration:(animated ? EV_DEFAULT_ANIMATION_DURATION : 0.0)
                      animations:^{
                          self.contentContainer.alpha = 1.0;
-                     }];
+                    
+                     }
+                     completion:^(BOOL finished) {
+                         if (completion)
+                             completion();
+                     }
+     ];
 }
 
 @end

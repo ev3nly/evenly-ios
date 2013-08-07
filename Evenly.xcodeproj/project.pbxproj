@@ -283,6 +283,7 @@
 		9C9DC5C117B1C44D002B7236 /* no_rewards_sadface.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C9DC5BD17B1C44D002B7236 /* no_rewards_sadface.png */; };
 		9C9DC5C217B1C44D002B7236 /* white_logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C9DC5BE17B1C44D002B7236 /* white_logo@2x.png */; };
 		9C9DC5C317B1C44D002B7236 /* white_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C9DC5BF17B1C44D002B7236 /* white_logo.png */; };
+		9C9DC5C617B1CED9002B7236 /* EVRewardBalanceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C9DC5C517B1CED9002B7236 /* EVRewardBalanceView.m */; };
 		9CA81700178DE0E9000F0417 /* history.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CA816FF178DE0E9000F0417 /* history.png */; };
 		9CA81702178DE0EF000F0417 /* history@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CA81701178DE0EF000F0417 /* history@2x.png */; };
 		9CA8170D178DEEDD000F0417 /* WalletArrow_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CA8170B178DEEDD000F0417 /* WalletArrow_blue@2x.png */; };
@@ -1000,6 +1001,8 @@
 		9C9DC5BD17B1C44D002B7236 /* no_rewards_sadface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = no_rewards_sadface.png; sourceTree = "<group>"; };
 		9C9DC5BE17B1C44D002B7236 /* white_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "white_logo@2x.png"; sourceTree = "<group>"; };
 		9C9DC5BF17B1C44D002B7236 /* white_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white_logo.png; sourceTree = "<group>"; };
+		9C9DC5C417B1CED9002B7236 /* EVRewardBalanceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardBalanceView.h; sourceTree = "<group>"; };
+		9C9DC5C517B1CED9002B7236 /* EVRewardBalanceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardBalanceView.m; sourceTree = "<group>"; };
 		9CA816FF178DE0E9000F0417 /* history.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = history.png; sourceTree = "<group>"; };
 		9CA81701178DE0EF000F0417 /* history@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "history@2x.png"; sourceTree = "<group>"; };
 		9CA8170B178DEEDD000F0417 /* WalletArrow_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "WalletArrow_blue@2x.png"; sourceTree = "<group>"; };
@@ -2579,6 +2582,8 @@
 			children = (
 				9C2EB33217B1B67D004E690C /* EVRewardHeaderView.h */,
 				9C2EB33317B1B67D004E690C /* EVRewardHeaderView.m */,
+				9C9DC5C417B1CED9002B7236 /* EVRewardBalanceView.h */,
+				9C9DC5C517B1CED9002B7236 /* EVRewardBalanceView.m */,
 				9C2EB32317B1AD9C004E690C /* EVRewardCard.h */,
 				9C2EB32417B1AD9C004E690C /* EVRewardCard.m */,
 				9C2EB32C17B1AE63004E690C /* EVRewardCardFace.h */,
@@ -3721,6 +3726,7 @@
 				9C2EB32E17B1AE63004E690C /* EVRewardCardFace.m in Sources */,
 				9C2EB33117B1AEFD004E690C /* EVRewardCardBackDot.m in Sources */,
 				9C2EB33417B1B67D004E690C /* EVRewardHeaderView.m in Sources */,
+				9C9DC5C617B1CED9002B7236 /* EVRewardBalanceView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3850,8 +3856,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ivy Payments, Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3867,8 +3873,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
+				PROVISIONING_PROFILE = "709B4314-A5F5-4E6A-86C1-C71B38E0CE9D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "709B4314-A5F5-4E6A-86C1-C71B38E0CE9D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3877,7 +3883,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivy Payments, Inc.";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (F38FYQSSKX)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ivy Payments, Inc.";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3894,7 +3900,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
+				PROVISIONING_PROFILE = "709B4314-A5F5-4E6A-86C1-C71B38E0CE9D";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A149DE6B-0C52-4D4C-A259-C841DBBB33B6";
 				WRAPPER_EXTENSION = app;
 			};
@@ -3904,6 +3910,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Evenly.app/Evenly";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
@@ -3912,6 +3920,8 @@
 				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
 				INFOPLIST_FILE = "EvenlyTests/EvenlyTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -3921,6 +3931,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Evenly.app/Evenly";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
@@ -3929,6 +3940,7 @@
 				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
 				INFOPLIST_FILE = "EvenlyTests/EvenlyTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};

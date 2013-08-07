@@ -15,6 +15,7 @@
 #import "EVFacebookManager.h"
 
 #import "EVRewardHeaderView.h"
+#import "EVRewardBalanceView.h"
 #import "EVRewardCard.h"
 
 #define NAVIGATION_BAR_OFFSET 44.0
@@ -34,6 +35,8 @@
 @property (nonatomic, strong) EVRewardHeaderView *headerView;
 @property (nonatomic, strong) EVSwitch *shareSwitch;
 
+@property (nonatomic, strong) EVRewardBalanceView *balanceView;
+
 @property (nonatomic, strong) UILabel *topLabel;
 
 @property (nonatomic, strong) TTTAttributedLabel *footerLabel;
@@ -41,6 +44,7 @@
 @property (nonatomic, strong) NSArray *cards;
 
 - (void)loadHeader;
+- (void)loadBalanceView;
 - (void)loadTopLabel;
 - (void)loadCards;
 - (void)loadFooter;
@@ -74,6 +78,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
     
     self.swipeGestureRecognizer.enabled = NO; // Disable back swiping.
     
@@ -91,18 +96,27 @@
                              [NSDecimalNumber decimalNumberWithString:@"0.00"]];
     
     [self loadHeader];
+    [self loadBalanceView];
     [self loadTopLabel];
     [self loadFooter];
     [self loadCards];
 }
 
 - (void)loadHeader {
+    UIView *headerContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT)];
+    [self.view addSubview:headerContainer];
+    
     self.headerView = [[EVRewardHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT)];
     
     self.shareSwitch = [[EVSwitch alloc] init];
     [self.shareSwitch addTarget:self action:@selector(shareSwitchChanged:) forControlEvents:UIControlEventValueChanged];
     [self.headerView setShareSwitch:self.shareSwitch];
-    [self.view addSubview:self.headerView];
+    [headerContainer addSubview:self.headerView];
+}
+
+- (void)loadBalanceView {
+    self.balanceView = [[EVRewardBalanceView alloc] initWithFrame:CGRectMake(0, -HEADER_HEIGHT, self.view.frame.size.width, HEADER_HEIGHT)];
+    [self.view addSubview:self.balanceView];
 }
 
 - (void)loadTopLabel {
@@ -181,13 +195,7 @@
 }
 
 - (void)doneButtonPress:(id)sender {
-    if ([self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-    } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardRedeemedNotification
-                                                            object:self
-                                                          userInfo:@{ @"reward" : self.reward }];
-    }
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }
 
 - (void)cardTapped:(EVRewardCard *)card {
@@ -265,6 +273,9 @@
 - (void)updateInterface {
     [self updateCards];
     
+    self.topLabel.text = @"Curious? Flip to reveal the other rewards.";
+    
+    [self changeNavButton];
 }
 
 - (void)updateCards {
@@ -274,8 +285,68 @@
         card = [self.cards objectAtIndex:i];
         amount = [self.reward.options objectAtIndex:i];
         [card setAnimationEnabled:NO];
-        [card setRewardAmount:amount animated:(i == self.reward.selectedOptionIndex)];
+        BOOL animated = (i == self.reward.selectedOptionIndex);
+        void (^completion)(void) = NULL;
+        if (animated)
+            completion = ^{     EV_DISPATCH_AFTER(1.0, ^{
+                    [self animateAmountLabel];
+                });
+            };
+        [card setRewardAmount:amount
+                     animated:animated
+                   completion:completion];
     }
+}
+
+- (void)animateAmountLabel {
+    
+    void (^animateAmountBlock)(void) = NULL;
+
+    if (![[self.reward selectedAmount] isEqual:[NSDecimalNumber zero]])
+    {
+        animateAmountBlock = ^{
+            EVRewardCard *card = [self.cards objectAtIndex:self.reward.selectedOptionIndex];
+            UILabel *faceLabel = card.face.amountLabel;
+            CGPoint faceLabelCenter = [self.view convertPoint:faceLabel.center fromView:card.face];
+            
+            CGSize textSize = [faceLabel.text sizeWithFont:faceLabel.font];
+            UILabel *newLabel = [[UILabel alloc] initWithFrame:(CGRect){CGPointZero, textSize}];
+            newLabel.center = faceLabelCenter;
+            newLabel.font = faceLabel.font;
+            newLabel.backgroundColor = [UIColor clearColor];
+            newLabel.textColor = [EVColor mediumLabelColor];
+            newLabel.text = faceLabel.text;
+            [UIView animateWithDuration:1.0
+                             animations:^{
+                                 [self.view addSubview:newLabel];
+                                 CGRect destinationRect = [self.view convertRect:self.balanceView.balanceLabel.frame fromView:self.balanceView];
+                                 destinationRect.origin.x = CGRectGetMaxX(destinationRect) - newLabel.frame.size.width;
+                                 destinationRect.size.width = newLabel.frame.size.width;
+                                 [newLabel setFrame:destinationRect];
+                             }
+                             completion:^(BOOL finished) {
+                                 [newLabel removeFromSuperview];
+                                 NSDecimalNumber *myBalance = [[EVCIA me] balance];
+                                 NSDecimalNumber *rewardAmount = self.reward.selectedAmount;
+                                 NSDecimalNumber *newBalance = [myBalance decimalNumberByAdding:rewardAmount];
+                                 [self.balanceView.balanceLabel setText:[EVStringUtility amountStringForAmount:newBalance]];
+                                 [[[EVCIA sharedInstance] me] setBalance:newBalance];
+                             }];
+        };
+    }
+    
+    [self.balanceView removeFromSuperview];
+    self.balanceView.frame = CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT);
+    [UIView transitionFromView:self.headerView
+                        toView:self.balanceView
+                      duration:0.5
+                       options:UIViewAnimationOptionTransitionFlipFromBottom
+                    completion:^(BOOL finished) {
+                        if (animateAmountBlock)
+                            animateAmountBlock();
+                    }];
+
+
 }
 
 - (void)changeNavButton {

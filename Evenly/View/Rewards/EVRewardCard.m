@@ -57,8 +57,8 @@
     [self sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated {
-    [self.face setRewardAmount:rewardAmount animated:animated];
+- (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated completion:(void (^)(void))completion {
+    [self.face setRewardAmount:rewardAmount animated:animated completion:completion];
 }
 
 @end
