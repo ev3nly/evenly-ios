@@ -109,6 +109,7 @@ static EVCIA *_sharedInstance;
         
         //if there's already a request for this url, add the success block to the queue and return
         NSString *cachePath = [EVStringUtility cachePathFromURL:url size:size];
+//        self.imageLoadingSuccessBlocks[cachePath] = nil;
         if (self.imageLoadingSuccessBlocks[cachePath]) {
             NSMutableArray *array = self.imageLoadingSuccessBlocks[cachePath];
             if (success)
