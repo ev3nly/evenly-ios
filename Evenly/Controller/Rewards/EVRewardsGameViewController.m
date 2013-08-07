@@ -378,7 +378,7 @@
                                          self.view.frame.size.width,
                                          TOP_LABEL_HEIGHT);
     [self.view addSubview:self.curiousLabel];
-    [UIView animateWithDuration:1.0f
+    [UIView animateWithDuration:0.5f
                      animations:^{
                          self.curiousLabel.frame = CGRectMake(0,
                                                               CGRectGetMaxY(self.headerView.frame),
@@ -390,7 +390,9 @@
                                                           TOP_LABEL_HEIGHT);
                      } completion:^(BOOL finished) {
                          [self.topLabel removeFromSuperview];
-                         [self pulseUnselectedCards];
+                         EV_DISPATCH_AFTER(EV_DEFAULT_ANIMATION_DURATION, ^{
+                             [self pulseUnselectedCards];
+                         });
                      }];
 }
 
