@@ -20,6 +20,7 @@
 @property (nonatomic) BOOL animationEnabled;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
+@property (nonatomic, readonly) NSString *text;
 
 - (id)initWithFrame:(CGRect)frame text:(NSString *)text color:(UIColor *)color;
 

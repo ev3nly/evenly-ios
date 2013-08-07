@@ -62,4 +62,12 @@
     return self;
 }
 
+- (void)setText:(NSString *)text {
+    self.label.text = text;
+}
+
+- (NSString *)text {
+    return self.label.text;
+}
+
 @end

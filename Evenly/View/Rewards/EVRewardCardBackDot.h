@@ -10,6 +10,8 @@
 
 @interface EVRewardCardBackDot : UIView
 
+@property (nonatomic, strong) NSString *text;
+
 - (id)initWithText:(NSString *)text color:(UIColor *)color;
 
 @end

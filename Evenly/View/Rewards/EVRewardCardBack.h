@@ -12,6 +12,7 @@
 @interface EVRewardCardBack : UIView
 
 @property (nonatomic, strong) EVRewardCardBackDot *dot;
+@property (nonatomic, strong) NSString *text;
 
 - (id)initWithFrame:(CGRect)frame text:(NSString *)text color:(UIColor *)color;
 

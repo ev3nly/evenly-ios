@@ -14,7 +14,7 @@
 
 @interface EVRewardsGameViewController : EVViewController <TTTAttributedLabelDelegate>
 
-@property (nonatomic, strong) EVNavigationBarButton *cancelButton;
+@property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) EVNavigationBarButton *doneButton;
 
 - (id)initWithReward:(EVReward *)reward;

@@ -23,10 +23,7 @@
 #define HEADER_HEIGHT 50.0
 #define TOP_LABEL_HEIGHT 45.0
 
-#define AFTER_VIEW_X_ORIGIN 95
-#define AFTER_VIEW_Y_ORIGIN 0
-#define AFTER_VIEW_WIDTH 225
-#define AFTER_VIEW_HEIGHT 96
+#define CARD_SPACING 20.0
 
 @interface EVRewardsGameViewController ()
 
@@ -67,7 +64,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Evenly Rewards";
-        self.cancelButton = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
+        self.cancelButton = [self defaultCancelButton];
         [self.cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         
         self.doneButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
@@ -162,17 +159,12 @@
     availableHeight -= count * spacing;
     CGFloat height = availableHeight / count;
     CGFloat width = MIN(190.0, height * 2.0);
-    CGFloat xOrigin = (self.view.frame.size.width - width) / 2.0;
     
     for (int i = 0; i < count; i++) {
-        EVRewardCard *card = [[EVRewardCard alloc] initWithFrame:CGRectMake(xOrigin,
-                                                                            CGRectGetMaxY(self.topLabel.frame) + i*height + i*spacing,
-                                                                            width,
-                                                                            height)
+        EVRewardCard *card = [[EVRewardCard alloc] initWithFrame:CGRectMake(0, 0, width, height)
                                                             text:EV_STRING_FROM_INT(i+1)
                                                            color:[colors objectAtIndex:i]];
         [card addTarget:self action:@selector(cardTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:card];
         [cardsArray addObject:card];
     }
     self.cards = [NSArray arrayWithArray:cardsArray];    
@@ -199,6 +191,9 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    EV_DISPATCH_AFTER(0.1, ^{
+        [self dealCards];
+    });
 }
 
 #pragma mark - Button Actions
@@ -231,6 +226,17 @@
 - (void)didSelectOptionAtIndex:(NSInteger)index {
     
     self.reward.selectedOptionIndex = index;
+    [self flipBalanceView];
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.cancelButton.alpha = 0.0;
+                     } completion:^(BOOL finished) {
+                         self.navigationItem.leftBarButtonItem = nil;
+                         [self.cancelButton removeFromSuperview];
+                     }];
+    for (EVRewardCard *card in self.cards) {
+        [card setUserInteractionEnabled:NO];
+    }
 
     if (self.reward.dbid == nil)
     {
@@ -290,6 +296,9 @@
 #pragma mark - UI Updates
 
 - (void)updateInterface {
+    for (EVRewardCard *card in self.cards) {
+        [card setUserInteractionEnabled:YES];
+    }
     [self updateCards];
     [self changeNavButton];
 }
@@ -305,8 +314,9 @@
         void (^completion)(void) = NULL;
         if (animated)
             completion = ^{     EV_DISPATCH_AFTER(1.0, ^{
-                    [self flipBalanceView];
-                });
+                if (![[self.reward selectedAmount] isEqual:[NSDecimalNumber zero]])
+                    [self animateAmountLabel];
+            });
             };
         [card setRewardAmount:amount
                      animated:animated
@@ -315,13 +325,71 @@
 }
 
 - (void)changeNavButton {
-    self.navigationItem.leftBarButtonItem = nil;
-    [self.cancelButton removeFromSuperview];
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];
+    self.doneButton.alpha = 0.0;
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.doneButton.alpha = 1.0;
+                     } completion:^(BOOL finished) {
+
+                     }];
 }
 
 #pragma mark - Animations
+
+- (CGSize)cardSize {
+    int count = self.cards.count;
+    CGFloat availableHeight = CGRectGetMinY(self.footerLabel.frame) - CGRectGetMaxY(self.topLabel.frame);
+    availableHeight -= count * CARD_SPACING;
+    CGFloat height = availableHeight / count;
+    CGFloat width = MIN(190.0, height * 2.0);
+    return CGSizeMake(width, height);
+}
+
+- (CGPoint)cardOffscreenCenter {
+    CGSize size = [self cardSize];
+    CGFloat xOrigin = -size.width;
+    CGFloat yOrigin = (self.view.frame.size.height - size.height) / 2.0;
+    return CGPointMake(xOrigin + size.width / 2.0, yOrigin + size.height / 2.0);
+}
+
+- (CGRect)cardFrameForIndex:(NSInteger)i {
+    
+    CGFloat spacing = 20.0;
+    CGSize size = [self cardSize];
+    CGFloat width = size.width;
+    CGFloat height = size.height;
+    CGFloat xOrigin = (self.view.frame.size.width - width) / 2.0;
+    CGRect frame = CGRectMake(xOrigin,
+                              CGRectGetMaxY(self.topLabel.frame) + i*height + i*spacing,
+                              width,
+                              height);
+    return frame;    
+}
+
+- (void)dealCards {
+    NSTimeInterval spacing = 0.18;
+    NSTimeInterval duration = EV_DEFAULT_ANIMATION_DURATION;
+    int i = 0;
+    for (EVRewardCard *card in self.cards) {
+        [card setSize:[self cardSize]];
+        [card setCenter:[self cardOffscreenCenter]];
+        [card setTransform:CGAffineTransformMakeRotation(M_PI / 2.0)];
+        [self.view addSubview:card];
+        EV_DISPATCH_AFTER(i*spacing, ^{
+            [UIView animateWithDuration:duration
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseOut
+                             animations:^{
+                                 CGRect frame = [self cardFrameForIndex:i];
+                                 CGPoint center = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
+                                 [card setCenter:center];
+                                 [card setTransform:CGAffineTransformIdentity];
+                             } completion:NULL];
+        });
+        i++;
+    }
+}
 
 - (void)flipBalanceView {
     self.balanceView.frame = CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT);
@@ -330,8 +398,7 @@
                       duration:0.5
                        options:UIViewAnimationOptionTransitionFlipFromBottom
                     completion:^(BOOL finished) {
-                        if (![[self.reward selectedAmount] isEqual:[NSDecimalNumber zero]])
-                            [self animateAmountLabel];
+
                     }];
 }
 
@@ -358,7 +425,7 @@
                      completion:^(BOOL finished) {
                          [newLabel removeFromSuperview];
                          [self updateBalance];
-                         EV_DISPATCH_AFTER(0.5, ^{
+                         EV_DISPATCH_AFTER(0.8, ^{
                              [self switchTopLabel];
                          });
                      }];

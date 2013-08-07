@@ -13,12 +13,17 @@
 - (id)initWithFrame:(CGRect)frame text:(NSString *)text color:(UIColor *)color {
     self = [self initWithFrame:frame];
     if (self) {
+        _text = text;
         self.animationEnabled = YES;
         
+        self.autoresizesSubviews = YES;
+        
         self.back = [[EVRewardCardBack alloc] initWithFrame:self.bounds text:text color:color];
+        self.back.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         [self addSubview:self.back];
         
         self.face = [[EVRewardCardFace alloc] initWithFrame:self.bounds color:color];
+        self.face.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         
         self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized:)];
         [self addGestureRecognizer:self.tapRecognizer];
@@ -26,7 +31,7 @@
     return self;
 }
 
-- (void)tapRecognized:(id)sender {
+- (void)tapRecognized:(UITapGestureRecognizer *)recognizer {
     if (self.animationEnabled)
         [self.face startAnimating];
     [self flip];

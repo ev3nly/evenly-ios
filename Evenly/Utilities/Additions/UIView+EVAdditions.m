@@ -109,8 +109,9 @@
     [self.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
 }
 
-#define BOUNCE_OVERSHOOT_DISTANCE_PERCENT 0.2
 #define BOUNCE_OVERSHOOT_DURATION_PERCENT 0.65
+#define BOUNCE_OVERSHOOT_DISTANCE_PERCENT 0.2
+
 #define BOUNCE_MINIMUM_CHANGE 10
 
 - (void)bounceAnimationToFrame:(CGRect)targetFrame duration:(float)duration completion:(void (^)(void))completion {
