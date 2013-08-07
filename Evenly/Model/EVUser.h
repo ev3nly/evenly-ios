@@ -9,6 +9,7 @@
 #import "EVObject.h"
 
 #define EV_USER_DEFAULT_AVATAR_HEIGHT 80
+#define EV_USER_TAKEN_AVATAR_BOUNDING_SIZE CGSizeMake(200, 200) 
 
 /*
  

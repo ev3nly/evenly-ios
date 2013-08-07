@@ -327,14 +327,7 @@
 #pragma mark - Button Handling
 
 - (void)facebookButtonTapped {
-    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [indicator sizeToFit];
-    indicator.center = CGPointMake(self.facebookButton.center.x, self.facebookButton.center.y + FACEBOOK_BUTTON_LOADING_Y_OFFSET);
-    [self.facebookButton.superview addSubview:indicator];
-    [indicator startAnimating];
-
     [EVFacebookManager loadMeWithCompletion:^(NSDictionary *userDict) {
-        [indicator removeFromSuperview];
         NSString *avatarUrlString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?width=176&height=176", [userDict objectForKey:@"id"]];
         EVUser *newUser = [EVUser new];
         newUser.name = [userDict objectForKey:@"name"];
@@ -353,7 +346,6 @@
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
         [self presentViewController:navController animated:YES completion:nil];
     } failure:^(NSError *error) {
-        [indicator removeFromSuperview];
         [[UIAlertView alertViewWithTitle:@"Error"
                                   message:@"Sorry! We couldn't connect with Facebook right now. Please make sure you're using the right username and password and try again!"
                         cancelButtonTitle:@"OK"] show];

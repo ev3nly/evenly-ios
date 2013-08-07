@@ -29,45 +29,49 @@ static EVFacebookManager *_sharedManager;
 + (void)performRequest:(void (^)(void))request {
     if ([self isConnected])
         request();
-    else
+    else {
         [self openSessionWithCompletion:request];
+    }
 }
 
 + (void)openSessionWithCompletion:(void (^)(void))completion {
-    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
-                                       allowLoginUI:YES
-                                  completionHandler:
-     ^(FBSession *session,
-       FBSessionState state, NSError *error) {
-         switch (state) {
-             case FBSessionStateOpen:
-                 [self sharedManager].tokenData = session.accessTokenData;
-                 completion();
-                 break;
-             case FBSessionStateClosed:
-             case FBSessionStateClosedLoginFailed:
-                 [FBSession.activeSession closeAndClearTokenInformation];
-                 break;
-             default:
-                 break;
-         }
-         if (error) {
-             NSString *title = nil, *message = nil;
-             if ([error code] == FBErrorLoginFailedOrCancelled) {
-                 title = @"Facebook Login Required";
-                 message  = @"You must login with Facebook to use Evenly.";
-             } else if ([error fberrorShouldNotifyUser]) {
-                 title = @"Error";
-                 message = error.fberrorUserMessage;
-             } else {
-                 title = @"Error";
-                 message = error.localizedDescription;
-             }
-             [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-             [self fbResync];
-             [NSThread sleepForTimeInterval:0.5];
-         }
-     }];
+    //This method is deprecated, but using it is the only way I could find to force
+    //Facebook to use its in-app authentication instead of the native dialog tied to
+    //the Facebook info in settings.  The latter is buggy on Facebook's end, which is
+    //why most apps don't use it.
+    [FBSession openActiveSessionWithPermissions:@[@"basic_info", @"email"]
+                                   allowLoginUI:YES
+                              completionHandler:^(FBSession *session,
+                                                  FBSessionState state, NSError *error) {
+                                  switch (state) {
+                                      case FBSessionStateOpen:
+                                          [self sharedManager].tokenData = session.accessTokenData;
+                                          completion();
+                                          break;
+                                      case FBSessionStateClosed:
+                                      case FBSessionStateClosedLoginFailed:
+                                          [FBSession.activeSession closeAndClearTokenInformation];
+                                          break;
+                                      default:
+                                          break;
+                                  }
+                                  if (error) {
+                                      NSString *title = nil, *message = nil;
+                                      if ([error code] == FBErrorLoginFailedOrCancelled) {
+                                          title = @"Facebook Login Required";
+                                          message  = @"You must login with Facebook to use Evenly.";
+                                      } else if ([error fberrorShouldNotifyUser]) {
+                                          title = @"Error";
+                                          message = error.fberrorUserMessage;
+                                      } else {
+                                          title = @"Error";
+                                          message = error.localizedDescription;
+                                      }
+                                      [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                                      [self fbResync];
+                                      [NSThread sleepForTimeInterval:0.5];
+                                  }
+                              }];
 }
 
 + (BOOL)hasPublishPermissions {
