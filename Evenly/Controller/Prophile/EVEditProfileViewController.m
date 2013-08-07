@@ -256,7 +256,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {    
     UIImage *pickedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     pickedImage = [EVImageUtility orientedImageFromImage:pickedImage];
-    self.updatedImage = pickedImage;
+    self.updatedImage = [EVImageUtility resizeImage:pickedImage toSize:[EVImageUtility sizeForImage:pickedImage withInnerBoundingSize:EV_USER_TAKEN_AVATAR_BOUNDING_SIZE]];
     [EVCIA me].updatedAvatar = pickedImage;
     [self.tableView reloadData];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
