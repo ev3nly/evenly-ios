@@ -78,7 +78,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
     
     self.swipeGestureRecognizer.enabled = NO; // Disable back swiping.
     
@@ -87,13 +86,6 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.exclusiveTouch = YES;
-    
-    // TESTING ONLY
-    self.reward = [[EVReward alloc] init];
-    self.reward.selectedOptionIndex = NSNotFound;
-    self.reward.options = @[ [NSDecimalNumber decimalNumberWithString:@"2.00"],
-                             [NSDecimalNumber decimalNumberWithString:@"10.00"],
-                             [NSDecimalNumber decimalNumberWithString:@"0.00"]];
     
     [self loadHeader];
     [self loadBalanceView];
@@ -116,7 +108,6 @@
 
 - (void)loadBalanceView {
     self.balanceView = [[EVRewardBalanceView alloc] initWithFrame:CGRectMake(0, -HEADER_HEIGHT, self.view.frame.size.width, HEADER_HEIGHT)];
-    [self.view addSubview:self.balanceView];
 }
 
 - (void)loadTopLabel {
@@ -217,13 +208,6 @@
 
 - (void)didSelectOptionAtIndex:(NSInteger)index {
     self.reward.selectedOptionIndex = index;
-    EV_DISPATCH_AFTER(2.0, ^{
-        [self updateInterface];
-    });
-    return;
-    
-    
-    self.reward.selectedOptionIndex = index;
     self.reward.willShare = self.shareSwitch.isOn;
     [self.reward redeemWithSuccess:^(EVReward *reward) {
         self.reward = reward;
@@ -242,6 +226,7 @@
         NSString *amountWithoutDollarSign = [[EVStringUtility amountStringForAmount:self.reward.selectedAmount] stringByReplacingOccurrencesOfString:@"$" withString:@""];
         
         action[@"reward"] = [NSString stringWithFormat:@"https://paywithivy.com/facebook/reward?amount=%@", amountWithoutDollarSign];
+        action[@"fb:explicitly_shared"] = @"true";
         [FBRequestConnection startForPostWithGraphPath:@"me/evenlyapp:win"
                                            graphObject:action completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                                                DLog(@"Result: %@", result);
@@ -335,7 +320,6 @@
         };
     }
     
-    [self.balanceView removeFromSuperview];
     self.balanceView.frame = CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT);
     [UIView transitionFromView:self.headerView
                         toView:self.balanceView
