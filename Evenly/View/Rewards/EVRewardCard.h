@@ -23,6 +23,7 @@
 
 - (id)initWithFrame:(CGRect)frame text:(NSString *)text color:(UIColor *)color;
 
+- (void)pulse;
 - (void)flip;
 - (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated completion:(void (^)(void))completion;
 

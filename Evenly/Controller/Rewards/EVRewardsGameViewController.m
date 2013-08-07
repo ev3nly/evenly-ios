@@ -87,6 +87,16 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.exclusiveTouch = YES;
     
+//    // TESTING ONLY
+//    if (!self.reward)
+//    {
+//        self.reward = [[EVReward alloc] init];
+//        self.reward.selectedOptionIndex = NSNotFound;
+//        self.reward.options = @[ [NSDecimalNumber decimalNumberWithString:@"2.00"],
+//                                 [NSDecimalNumber decimalNumberWithString:@"10.00"],
+//                                 [NSDecimalNumber decimalNumberWithString:@"0.00"]];
+//    }
+    
     [self loadHeader];
     [self loadBalanceView];
     [self loadTopLabel];
@@ -207,7 +217,14 @@
 }
 
 - (void)didSelectOptionAtIndex:(NSInteger)index {
+    
     self.reward.selectedOptionIndex = index;
+    
+//    EV_DISPATCH_AFTER(2.0, ^{
+//        [self updateInterface];
+//    });
+//    return;
+    
     self.reward.willShare = self.shareSwitch.isOn;
     [self.reward redeemWithSuccess:^(EVReward *reward) {
         self.reward = reward;
@@ -311,11 +328,8 @@
                              }
                              completion:^(BOOL finished) {
                                  [newLabel removeFromSuperview];
-                                 NSDecimalNumber *myBalance = [[EVCIA me] balance];
-                                 NSDecimalNumber *rewardAmount = self.reward.selectedAmount;
-                                 NSDecimalNumber *newBalance = [myBalance decimalNumberByAdding:rewardAmount];
-                                 [self.balanceView.balanceLabel setText:[EVStringUtility amountStringForAmount:newBalance]];
-                                 [[[EVCIA sharedInstance] me] setBalance:newBalance];
+                                 [self updateBalance];
+                                 [self pulseUnselectedCards];
                              }];
         };
     }
@@ -331,6 +345,23 @@
                     }];
 
 
+}
+
+- (void)updateBalance {
+    NSDecimalNumber *myBalance = [[EVCIA me] balance];
+    NSDecimalNumber *rewardAmount = self.reward.selectedAmount;
+    NSDecimalNumber *newBalance = [myBalance decimalNumberByAdding:rewardAmount];
+    [self.balanceView.balanceLabel setText:[EVStringUtility amountStringForAmount:newBalance]];
+    [[[EVCIA sharedInstance] me] setBalance:newBalance];
+}
+
+- (void)pulseUnselectedCards {
+    EVRewardCard *card;
+    for (int i = 0; i < self.reward.options.count; i++) {
+        card = [self.cards objectAtIndex:i];
+        if (i != self.reward.selectedOptionIndex)
+            [card pulse];
+    }
 }
 
 - (void)changeNavButton {

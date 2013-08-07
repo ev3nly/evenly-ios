@@ -57,6 +57,18 @@
     [self sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)pulse {
+    [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION
+                     animations:^{
+                         self.back.transform = CGAffineTransformMakeScale(1.15, 1.15);
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION
+                                          animations:^{
+                                              self.back.transform = CGAffineTransformIdentity;
+                                          } completion:NULL];
+                     }];
+}
+
 - (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated completion:(void (^)(void))completion {
     [self.face setRewardAmount:rewardAmount animated:animated completion:completion];
 }

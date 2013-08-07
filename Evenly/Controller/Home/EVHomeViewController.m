@@ -167,7 +167,8 @@
 #pragma mark - Button Actions
 
 - (void)requestButtonPress:(id)sender {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
+//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRewardsGameViewController alloc] init]];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
