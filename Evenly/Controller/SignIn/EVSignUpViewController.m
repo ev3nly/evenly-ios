@@ -248,7 +248,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *pickedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
     pickedImage = [EVImageUtility orientedImageFromImage:pickedImage];
-    self.photo = pickedImage;
+    self.photo = [EVImageUtility resizeImage:pickedImage toSize:[EVImageUtility sizeForImage:pickedImage withInnerBoundingSize:EV_USER_TAKEN_AVATAR_BOUNDING_SIZE]];
     self.photoNameEmailCell.photo = pickedImage;
     [self.tableView reloadData];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];

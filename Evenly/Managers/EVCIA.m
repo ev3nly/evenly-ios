@@ -13,6 +13,7 @@
 #import "EVConnection.h"
 #import "EVExchange.h"
 #import "EVWalletNotification.h"
+#import "EVFacebookManager.h"
 #import <Mixpanel/Mixpanel.h>
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
@@ -83,6 +84,7 @@ static EVCIA *_sharedInstance;
 
 - (void)didSignOut:(NSNotification *)notification {
     [self.internalCache removeAllObjects];
+    [EVFacebookManager closeAndClearSession];
 }
 
 #pragma mark - Image Loading

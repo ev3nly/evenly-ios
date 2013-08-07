@@ -30,8 +30,6 @@ static EVFacebookManager *_sharedManager;
     if ([self isConnected])
         request();
     else {
-//        [FBSession.activeSession closeAndClearTokenInformation];
-//        [self fbResync];
         [self openSessionWithCompletion:request];
     }
 }
