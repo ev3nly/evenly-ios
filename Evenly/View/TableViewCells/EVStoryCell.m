@@ -203,10 +203,18 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
         return @"Getting Started";
     else if (self.story.sourceType == EVStorySourceTypeHint)
         return @"Hint";
-    else if (self.story.dbid && self.story.publishedAt)
+    else if ([self shouldDisplayDateString])
         return [[[self class] timeIntervalFormatter] stringForTimeIntervalFromDate:[NSDate date]
                                                                             toDate:self.story.publishedAt];
     return @"Example";
+}
+
+- (BOOL)shouldDisplayDateString {
+    if (!self.story.publishedAt)
+        return NO;
+    if (self.story.displayType == EVStoryDisplayTypePendingTransactionDetail)
+        return YES;
+    return (self.story.dbid != nil);
 }
 
 #pragma mark - Frames
