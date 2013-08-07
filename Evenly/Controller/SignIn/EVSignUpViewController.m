@@ -128,8 +128,7 @@
 
 - (void)configureReactions {
     [RACAble(self.user.avatar) subscribeNext:^(UIImage *image) {
-        self.photo = image;
-        self.photoNameEmailCell.photo = self.photo;
+        self.photoNameEmailCell.photo = image;
     }];
         
     [self.phoneNumberCell.textField.rac_textSignal subscribeNext:^(NSString *text) {
