@@ -26,4 +26,7 @@
 
 - (NSString *)emailSubjectLine;
 
+- (NSString *)fieldTextForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (NSString *)valueTextForRowAtIndexPath:(NSIndexPath *)indexPath;
+
 @end

@@ -81,16 +81,4 @@
     return EVHistoryDepositRowCOUNT;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [EVHistoryItemCell heightForValueText:[self valueTextForRowAtIndexPath:indexPath]];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {    
-    EVHistoryItemCell *historyCell = [tableView dequeueReusableCellWithIdentifier:@"EVHistoryItemCell" forIndexPath:indexPath];
-    [historyCell.fieldLabel setText:[self fieldTextForRowAtIndexPath:indexPath]];
-    [historyCell.valueLabel setText:[self valueTextForRowAtIndexPath:indexPath]];
-    [historyCell setPosition:[tableView cellPositionForIndexPath:indexPath]];
-    return historyCell;
-}
-
 @end
