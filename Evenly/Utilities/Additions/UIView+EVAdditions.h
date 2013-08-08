@@ -49,6 +49,7 @@
 - (void)zoomBounceWithDuration:(float)duration completion:(void (^)(void))completion;
 - (void)shrinkBounceWithDuration:(float)duration completion:(void (^)(void))completion;
 - (void)pulseFromAlpha:(float)fromAlpha toAlpha:(float)toAlpha duration:(float)duration;
+- (void)pulseToScale:(float)scale duration:(float)duration;
 
 @property (nonatomic, strong) NSDictionary *userInfo;
 

@@ -109,11 +109,29 @@
     self.balanceView = [[EVRewardBalanceView alloc] initWithFrame:CGRectMake(0, -HEADER_HEIGHT, self.view.frame.size.width, HEADER_HEIGHT)];
 }
 
+- (CGRect)topLabelOffScreenLeftFrame {
+    return CGRectMake(-self.view.frame.size.width,
+                      CGRectGetMaxY(self.headerView.frame),
+                      self.view.frame.size.width,
+                      TOP_LABEL_HEIGHT);
+}
+
+- (CGRect)topLabelFrame {
+    return CGRectMake(0,
+                      CGRectGetMaxY(self.headerView.frame),
+                      self.view.frame.size.width,
+                      TOP_LABEL_HEIGHT);
+}
+
+- (CGRect)topLabelOffScreenRightFrame {
+    return CGRectMake(self.view.frame.size.width,
+                      CGRectGetMaxY(self.headerView.frame),
+                      self.view.frame.size.width,
+                      TOP_LABEL_HEIGHT);
+}
+
 - (void)loadTopLabels {
-    self.topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,
-                                                              CGRectGetMaxY(self.headerView.frame),
-                                                              self.view.frame.size.width,
-                                                              TOP_LABEL_HEIGHT)];
+    self.topLabel = [[UILabel alloc] initWithFrame:[self topLabelFrame]];
     self.topLabel.contentMode = UIViewContentModeCenter;
     self.topLabel.font = [EVFont bookFontOfSize:15];
     self.topLabel.textColor = [EVColor mediumLabelColor];
@@ -122,10 +140,7 @@
     self.topLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.topLabel];
     
-    self.curiousLabel = [[UILabel alloc] initWithFrame:CGRectMake(-self.view.frame.size.width,
-                                                              CGRectGetMaxY(self.headerView.frame),
-                                                              self.view.frame.size.width,
-                                                              TOP_LABEL_HEIGHT)];
+    self.curiousLabel = [[UILabel alloc] initWithFrame:[self topLabelOffScreenLeftFrame]];
     self.curiousLabel.contentMode = UIViewContentModeCenter;
     self.curiousLabel.font = [EVFont bookFontOfSize:15];
     self.curiousLabel.textColor = [EVColor mediumLabelColor];
@@ -278,9 +293,6 @@
 #pragma mark - UI Updates
 
 - (void)updateInterface {
-    for (EVRewardCard *card in self.cards) {
-        [card setUserInteractionEnabled:YES];
-    }
     [self updateCards];
     [self changeNavButton];
 }
@@ -290,15 +302,18 @@
     NSDecimalNumber *amount;
     for (int i = 0; i < self.reward.options.count; i++) {
         card = [self.cards objectAtIndex:i];
-        amount = [self.reward.options objectAtIndex:i];
+        [card setUserInteractionEnabled:NO];
         [card setAnimationEnabled:NO];
+
+        amount = [self.reward.options objectAtIndex:i];
         BOOL animated = (i == self.reward.selectedOptionIndex);
         void (^completion)(void) = NULL;
         if (animated)
-            completion = ^{     EV_DISPATCH_AFTER(1.0, ^{
-                if (![[self.reward selectedAmount] isEqual:[NSDecimalNumber zero]])
-                    [self animateAmountLabel];
-            });
+            completion = ^{
+                EV_DISPATCH_AFTER(1.0, ^{
+                    if (![[self.reward selectedAmount] isEqual:[NSDecimalNumber zero]])
+                        [self animateAmountLabel];
+                });
             };
         [card setRewardAmount:amount
                      animated:animated
@@ -386,16 +401,16 @@
 
 - (void)animateAmountLabel {
     EVRewardCard *card = [self.cards objectAtIndex:self.reward.selectedOptionIndex];
-    UILabel *faceLabel = card.face.amountLabel;
-    CGPoint faceLabelCenter = [self.view convertPoint:faceLabel.center fromView:card.face];
     
-    CGSize textSize = [faceLabel.text sizeWithFont:faceLabel.font];
-    UILabel *newLabel = [[UILabel alloc] initWithFrame:(CGRect){CGPointZero, textSize}];
-    newLabel.center = faceLabelCenter;
-    newLabel.font = faceLabel.font;
-    newLabel.backgroundColor = [UIColor clearColor];
+    UILabel *faceLabel = card.face.amountLabel;
+    UILabel *newLabel = [faceLabel roughCopy];
     newLabel.textColor = [EVColor mediumLabelColor];
-    newLabel.text = faceLabel.text;
+    
+    CGPoint faceLabelCenter = [self.view convertPoint:faceLabel.center fromView:card.face];
+    CGSize textSize = [faceLabel.text sizeWithFont:faceLabel.font];
+    [newLabel setSize:textSize];
+    newLabel.center = faceLabelCenter;
+    
     [UIView animateWithDuration:1.0
                      animations:^{
                          [self.view addSubview:newLabel];
@@ -422,21 +437,12 @@
 }
 
 - (void)switchTopLabel {
-    self.curiousLabel.frame = CGRectMake(-self.view.frame.size.width,
-                                         CGRectGetMaxY(self.headerView.frame),
-                                         self.view.frame.size.width,
-                                         TOP_LABEL_HEIGHT);
+    self.curiousLabel.frame = [self topLabelOffScreenLeftFrame];
     [self.view addSubview:self.curiousLabel];
     [UIView animateWithDuration:0.5f
                      animations:^{
-                         self.curiousLabel.frame = CGRectMake(0,
-                                                              CGRectGetMaxY(self.headerView.frame),
-                                                              self.view.frame.size.width,
-                                                              TOP_LABEL_HEIGHT);
-                         self.topLabel.frame = CGRectMake(self.view.frame.size.width,
-                                                          CGRectGetMaxY(self.headerView.frame),
-                                                          self.view.frame.size.width,
-                                                          TOP_LABEL_HEIGHT);
+                         self.curiousLabel.frame = [self topLabelFrame];
+                         self.topLabel.frame = [self topLabelOffScreenRightFrame];
                      } completion:^(BOOL finished) {
                          [self.topLabel removeFromSuperview];
                          EV_DISPATCH_AFTER(EV_DEFAULT_ANIMATION_DURATION, ^{

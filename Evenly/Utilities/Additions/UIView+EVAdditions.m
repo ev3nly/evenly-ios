@@ -250,6 +250,18 @@
                      } completion:nil];
 }
 
+- (void)pulseToScale:(float)scale duration:(float)duration {
+    [UIView animateWithDuration:duration
+                     animations:^{
+                         self.transform = CGAffineTransformMakeScale(scale, scale);
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:duration
+                                          animations:^{
+                                              self.transform = CGAffineTransformIdentity;
+                                          } completion:NULL];
+                     }];
+}
+
 static char UIViewUserInfoKey;
 
 - (void)setUserInfo:(NSDictionary *)userInfo {
