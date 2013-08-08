@@ -10,10 +10,22 @@
 
 NSString *const EVRewardRedeemedNotification = @"EVRewardRedeemedNotification";
 
+static EVReward *_rewardsExhaustedSentinel;
+
 @implementation EVReward
 
 + (NSString *)controllerName {
     return @"rewards";
+}
+
++ (instancetype)rewardsExhaustedSentinel {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _rewardsExhaustedSentinel = [[EVReward alloc] init];
+        _rewardsExhaustedSentinel.dbid = @"-1";
+        _rewardsExhaustedSentinel.options = @[ @"exhausted" ];
+    });
+    return _rewardsExhaustedSentinel;
 }
 
 - (void)setProperties:(NSDictionary *)properties {
@@ -25,7 +37,7 @@ NSString *const EVRewardRedeemedNotification = @"EVRewardRedeemedNotification";
             [array addObject:obj];
         else if ([obj isKindOfClass:[NSString class]])
             [array addObject:[NSDecimalNumber decimalNumberWithString:obj]];
-        else
+        else if ([obj respondsToSelector:@selector(stringValue)])
             [array addObject:[NSDecimalNumber decimalNumberWithString:[obj stringValue]]];
     }
     self.options = [NSArray arrayWithArray:array];

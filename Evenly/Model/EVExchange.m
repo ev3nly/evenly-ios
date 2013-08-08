@@ -39,6 +39,11 @@
             self.reward = [[EVReward alloc] initWithDictionary:properties[@"reward"]];
         }
     }
+    else if (properties[@"rewards_exhausted"])
+    {
+        self.reward = [EVReward rewardsExhaustedSentinel];
+    }
+
     self.visibility = (properties[@"visibility"]) ? properties[@"visibility"] : [EVStringUtility stringForPrivacySetting:[EVCIA me].privacySetting];
 }
 
