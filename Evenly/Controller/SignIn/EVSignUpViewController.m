@@ -115,8 +115,8 @@
     self.tosAgreementButton = [[EVCheckmarkLinkButton alloc] initWithText:@"I agree to the terms of service and privacy policy"];
     self.tosAgreementButton.frame = [self tosAgreementButtonFrame];
     [self.tosAgreementButton setLinkDelegate:self];
-    [self.tosAgreementButton linkToUrl:[self tosUrl] forText:@"terms of service"];
-    [self.tosAgreementButton linkToUrl:[self privacyPolicyUrl] forText:@"privacy policy"];
+    [self.tosAgreementButton linkToUrl:[EVUtilities tosURL] forText:@"terms of service"];
+    [self.tosAgreementButton linkToUrl:[EVUtilities privacyPolicyURL] forText:@"privacy policy"];
     [self.footerView addSubview:self.tosAgreementButton];
 }
 
@@ -141,17 +141,9 @@
 
 #pragma mark - TOS/Privacy Policy
 
-- (NSURL *)tosUrl {
-    return [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Terms and Conditions.html")];
-}
-
-- (NSURL *)privacyPolicyUrl {
-    return [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Privacy Policy.html")];
-}
-
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {    
     EVWebViewController *controller = [[EVWebViewController alloc] initWithURL:url];
-    controller.title = [url isEqual:[self tosUrl]] ? @"Terms of Service" : @"Privacy Policy";
+    controller.title = [url isEqual:[EVUtilities tosURL]] ? @"Terms of Service" : @"Privacy Policy";
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navController animated:YES completion:nil];
 }

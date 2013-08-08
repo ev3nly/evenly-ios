@@ -49,5 +49,7 @@
 
 + (BOOL)deviceHasTallScreen;
 
++ (NSURL *)tosURL;
++ (NSURL *)privacyPolicyURL;
 
 @end

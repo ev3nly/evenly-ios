@@ -176,12 +176,12 @@
         NSString *title = nil;
         if (indexPath.row == EVSettingsLegalRowTermsAndConditions)
         {
-            fileURL = [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Terms and Conditions.html")];
+            fileURL = [EVUtilities tosURL];
             title = @"Terms and Conditions";
         }
         else if (indexPath.row == EVSettingsLegalRowPrivacyPolicy)
         {
-            fileURL = [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Privacy Policy.html")];
+            fileURL = [EVUtilities privacyPolicyURL];
             title = @"Privacy Policy";
         }
         EVWebViewController *webViewController = [[EVWebViewController alloc] initWithURL:fileURL];

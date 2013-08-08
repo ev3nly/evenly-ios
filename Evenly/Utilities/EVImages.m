@@ -339,19 +339,13 @@
 
 #pragma mark - Rewards
 
-+ (UIImage *)rewardsGreenCardImage {
-    return [UIImage imageNamed:@"green_card"];
++ (UIImage *)rewardCardLogo {
+    return [UIImage imageNamed:@"white_logo"];
 }
 
-+ (UIImage *)rewardsGrayCardImage {
-    return [UIImage imageNamed:@"gray_card"];
++ (UIImage *)noRewardsSadFace {
+    return [UIImage imageNamed:@"no_rewards_sadface"];
 }
-
-+ (UIImage *)rewardsBlueCardImage {
-    return [UIImage imageNamed:@"blue_card"];   
-}
-
-
 
 
 @end

@@ -67,8 +67,6 @@
     [self loadTableView];
     [self loadFloatingView];
     [self configurePullToRefresh];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardRedeemed:) name:EVRewardRedeemedNotification object:nil];
 }
 
 - (void)dealloc {
@@ -166,37 +164,9 @@
     [self.tableView reloadData];
 }
 
-- (void)rewardRedeemed:(NSNotification *)notification {
-    EVReward *reward = [[notification userInfo] objectForKey:@"reward"];
-    UILabel *label = [[notification userInfo] objectForKey:@"label"];
-    label.adjustsFontSizeToFitWidth = YES;
-    label.textColor = [EVColor darkColor];
-
-    UIView *slider = [[label superview] superview];
-    label.frame = slider.frame;
-    [self.view addSubview:label];
-    
-    [self dismissViewControllerAnimated:YES completion:^{
-        [UIView animateWithDuration:0.5
-                         animations:^{
-                             CGRect destinationFrame = [self.view convertRect:self.titleLabel.frame fromView:self.titleLabel.superview];
-                             [label setCenter:CGPointMake(CGRectGetMidX(destinationFrame), CGRectGetMidY(destinationFrame))];
-                         } completion:^(BOOL finished) {
-                             [label removeFromSuperview];
-                             NSDecimalNumber *myBalance = [[EVCIA me] balance];
-                             NSDecimalNumber *rewardAmount = reward.selectedAmount;
-                             NSDecimalNumber *newBalance = [myBalance decimalNumberByAdding:rewardAmount];
-                             [[[EVCIA sharedInstance] me] setBalance:newBalance];
-                             NSString *newTitle = [EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance];
-                             [self setTitle:newTitle];
-                         }];
-    }];
-}
-
 #pragma mark - Button Actions
 
 - (void)requestButtonPress:(id)sender {
-//    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVTippingViewController alloc] init]];
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
     [self presentViewController:navController animated:YES completion:NULL];
 }
