@@ -208,7 +208,9 @@
             NSMutableArray *array = [NSMutableArray array];
             for (NSDictionary *dict in responseObject)
             {
-                [array addObject:[EVSerializer serializeDictionary:dict]];
+                id obj = [EVSerializer serializeDictionary:dict];
+                if (obj)
+                    [array addObject:obj];
             }
             EV_PERFORM_ON_MAIN_QUEUE(^{
                 if (success)
