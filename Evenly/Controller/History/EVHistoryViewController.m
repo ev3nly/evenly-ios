@@ -10,12 +10,14 @@
 #import "EVHistoryCell.h"
 #import "EVExchange.h"
 #import "EVWithdrawal.h"
+#import "EVReward.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "EVLoadingIndicator.h"
 #import "EVStory.h"
 
 #import "EVHistoryPaymentViewController.h"
 #import "EVHistoryDepositViewController.h"
+#import "EVHistoryRewardViewController.h"
 
 #define CELL_HEIGHT 60
 
@@ -134,6 +136,9 @@ static NSDateFormatter *_dateFormatter = nil;
         NSString *otherPerson = exchangeable.name ? exchangeable.name : exchangeable.email;
         subtitle = [NSString stringWithFormat:@"%@ • %@", otherPerson, exchange.memo];
     }
+    else if ([historyItem isKindOfClass:[EVReward class]]) {
+        subtitle = @"Reward";
+    }
 
     return [EVHistoryCell heightGivenSubtitle:subtitle];
 }
@@ -158,6 +163,11 @@ static NSDateFormatter *_dateFormatter = nil;
         if (exchange.to)
             amount = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"-%@", [amount stringValue]]];
     }
+    else if ([historyItem isKindOfClass:[EVReward class]]) {
+        EVReward *reward = (EVReward *)historyItem;
+        subtitle = @"Reward";
+        amount = [reward selectedAmount];
+    }
     [cell setTitle:[self displayStringForDate:historyItem.createdAt] subtitle:subtitle amount:amount];
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
 
@@ -171,12 +181,13 @@ static NSDateFormatter *_dateFormatter = nil;
     UIViewController *controller = nil;
     if ([historyItem isKindOfClass:[EVPayment class]]) {
         controller = [[EVHistoryPaymentViewController alloc] initWithPayment:(EVPayment *)historyItem];
-    } else {
+    } else if ([historyItem isKindOfClass:[EVWithdrawal class]]) {
         controller = [[EVHistoryDepositViewController alloc] initWithWithdrawal:(EVWithdrawal *)historyItem];
+    } else if ([historyItem isKindOfClass:[EVReward class]]) {
+        controller = [[EVHistoryRewardViewController alloc] initWithReward:(EVReward *)historyItem];
     }
-    [self.navigationController pushViewController:controller animated:YES];
-    
-    //load transaction detail controller
+    if (controller)
+        [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - Frames

@@ -53,7 +53,8 @@ static NSDictionary *_classMapping = nil;
           @"Balanced::BankAccount": [EVBankAccount class],
           @"NotificationSetting":   [EVNotificationSetting class],
           @"Connection":            [EVConnection class],
-          @"Story":                 [EVStory class]
+          @"Story":                 [EVStory class],
+          @"Reward":                [EVReward class]
         };
     }
     return _classMapping;
