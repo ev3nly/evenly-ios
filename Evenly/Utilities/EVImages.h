@@ -112,8 +112,8 @@
 + (UIImage *)settingsLogoutIcon;
 
 #pragma mark - Rewards
-+ (UIImage *)rewardsGreenCardImage;
-+ (UIImage *)rewardsGrayCardImage;
-+ (UIImage *)rewardsBlueCardImage;
+
++ (UIImage *)rewardCardLogo;
++ (UIImage *)noRewardsSadFace;
 
 @end

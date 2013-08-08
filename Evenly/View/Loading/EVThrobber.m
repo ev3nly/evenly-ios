@@ -63,6 +63,8 @@
         EVThrobberSegment *segment = [[EVThrobberSegment alloc] initWithFrame:CGRectZero];
         [self addSubview:segment];
         [self.segments addObject:segment];
+        if (self.hidesWhenStopped)
+            [segment setHidden:YES];
     }
     
     [self setNeedsLayout];
