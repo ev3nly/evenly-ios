@@ -10,6 +10,8 @@
 #import "EVNavigationBarButton.h"
 #import "EVExchangeBigAmountView.h"
 #import "EVGroupRequest.h"
+#import "EVRewardsGameViewController.h"
+#import "EVPayment.h"
 
 #define TOP_MARGIN 6
 #define LEFT_RIGHT_MARGIN 10.0
@@ -115,17 +117,29 @@
     [self.record.groupRequest makePaymentOfAmount:amount
                                         forRecord:self.record
                                       withSuccess:^(EVPayment *payment) {
-                                        if (self.delegate)
-                                            [self.delegate viewController:self madePartialPayment:payment];
+                                          if (self.delegate)
+                                              [self.delegate viewController:self madePartialPayment:payment];
                                           [[EVStatusBarManager sharedManager] setPostSuccess:^{
-                                              [self.navigationController popViewControllerAnimated:YES];
+                                              if (payment.reward) {
+                                                  [self showGameForReward:(EVReward *)[payment reward]];
+                                              } else {
+                                                  [self.navigationController popViewControllerAnimated:YES];
+                                              }
                                           }];
-                                           [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+                                          [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
                                       } failure:^(NSError *error) {
                                           [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
                                           self.navigationItem.leftBarButtonItem.enabled = YES;
                                           self.navigationItem.rightBarButtonItem.enabled = YES;
                                       }];
+}
+
+- (void)showGameForReward:(EVReward *)reward {
+    EVRewardsGameViewController *rewardsViewController = [[EVRewardsGameViewController alloc] initWithReward:reward];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:rewardsViewController];
+    [self.navigationController presentViewController:navController animated:YES completion:^{
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
 }
 
 @end
