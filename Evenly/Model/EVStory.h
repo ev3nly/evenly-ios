@@ -20,7 +20,8 @@ typedef enum {
     EVStorySourceTypeUser,
     EVStorySourceTypeHint,
     EVStorySourceTypeGettingStarted,
-    EVStorySourceTypeWalletNotification
+    EVStorySourceTypeWalletNotification,
+    EVStorySourceTypeReward
 } EVStorySourceType;
 
 typedef enum {
