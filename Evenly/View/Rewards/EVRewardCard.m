@@ -63,15 +63,7 @@
 }
 
 - (void)pulse {
-    [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION
-                     animations:^{
-                         self.back.transform = CGAffineTransformMakeScale(1.15, 1.15);
-                     } completion:^(BOOL finished) {
-                         [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION
-                                          animations:^{
-                                              self.back.transform = CGAffineTransformIdentity;
-                                          } completion:NULL];
-                     }];
+    [self.back pulseToScale:1.15 duration:EV_DEFAULT_ANIMATION_DURATION];
 }
 
 - (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated completion:(void (^)(void))completion {
