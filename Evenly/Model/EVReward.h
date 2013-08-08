@@ -21,6 +21,8 @@ extern NSString *const EVRewardRedeemedNotification;
 
 @property (nonatomic, strong) NSString *facebookStoryID;
 
++ (instancetype)rewardsExhaustedSentinel;
+
 - (void)redeemWithSuccess:(void (^)(EVReward *reward))success failure:(void (^)(NSError *error))failure;
 
 @end
