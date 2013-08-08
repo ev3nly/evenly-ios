@@ -17,6 +17,7 @@
 #import "EVRewardHeaderView.h"
 #import "EVRewardBalanceView.h"
 #import "EVRewardCard.h"
+#import "EVRewardsExhaustedView.h"
 
 #define NAVIGATION_BAR_OFFSET 44.0
 
@@ -41,6 +42,8 @@
 @property (nonatomic, strong) TTTAttributedLabel *footerLabel;
 
 @property (nonatomic, strong) NSArray *cards;
+
+@property (nonatomic, strong) EVRewardsExhaustedView *rewardsExhaustedView;
 
 - (void)loadHeader;
 - (void)loadBalanceView;
@@ -85,12 +88,17 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.exclusiveTouch = YES;
-
+    
     [self loadHeader];
     [self loadBalanceView];
     [self loadTopLabels];
     [self loadFooter];
     [self loadCards];
+    if (self.reward == [EVReward rewardsExhaustedSentinel])
+    {
+        [self loadRewardsExhaustedView];
+    }
+    
 }
 
 - (void)loadHeader {
@@ -180,11 +188,20 @@
     [self.view addSubview:self.footerLabel];
 }
 
+- (void)loadRewardsExhaustedView {
+    self.rewardsExhaustedView = [[EVRewardsExhaustedView alloc] initWithFrame:self.view.bounds];
+    self.rewardsExhaustedView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    [self.view addSubview:self.rewardsExhaustedView];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    EV_DISPATCH_AFTER(0.1, ^{
-        [self dealCards];
-    });
+    if (!self.rewardsExhaustedView)
+    {
+        EV_DISPATCH_AFTER(0.1, ^{
+            [self dealCards];
+        });
+    }
 }
 
 #pragma mark - Button Actions
