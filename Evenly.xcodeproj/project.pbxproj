@@ -351,6 +351,7 @@
 		9CD473D31790CD9F00E60E37 /* arrowbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473D11790CD9F00E60E37 /* arrowbutton.png */; };
 		9CD473D41790CD9F00E60E37 /* arrowbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD473D21790CD9F00E60E37 /* arrowbutton@2x.png */; };
 		9CD473D71790CE6700E60E37 /* EVExpansionArrowButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD473D61790CE6700E60E37 /* EVExpansionArrowButton.m */; };
+		9CD8B8A817B31C7500055883 /* EVRewardsExhaustedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CD8B8A717B31C7500055883 /* EVRewardsExhaustedView.m */; };
 		9CE05EF1175942610095CCFC /* JASidePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EEE175942610095CCFC /* JASidePanelController.m */; };
 		9CE05EF2175942610095CCFC /* UIViewController+JASidePanel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CE05EF0175942610095CCFC /* UIViewController+JASidePanel.m */; };
 		9CE3EFFC179786580040AADA /* Lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CE3EFFA179786580040AADA /* Lock@2x.png */; };
@@ -1093,6 +1094,8 @@
 		9CD473D21790CD9F00E60E37 /* arrowbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrowbutton@2x.png"; sourceTree = "<group>"; };
 		9CD473D51790CE6700E60E37 /* EVExpansionArrowButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExpansionArrowButton.h; sourceTree = "<group>"; };
 		9CD473D61790CE6700E60E37 /* EVExpansionArrowButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExpansionArrowButton.m; sourceTree = "<group>"; };
+		9CD8B8A617B31C7500055883 /* EVRewardsExhaustedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVRewardsExhaustedView.h; sourceTree = "<group>"; };
+		9CD8B8A717B31C7500055883 /* EVRewardsExhaustedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVRewardsExhaustedView.m; sourceTree = "<group>"; };
 		9CE05EED175942610095CCFC /* JASidePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JASidePanelController.h; sourceTree = "<group>"; };
 		9CE05EEE175942610095CCFC /* JASidePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JASidePanelController.m; sourceTree = "<group>"; };
 		9CE05EEF175942610095CCFC /* UIViewController+JASidePanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+JASidePanel.h"; sourceTree = "<group>"; };
@@ -2592,6 +2595,8 @@
 				9C2EB32A17B1AE5D004E690C /* EVRewardCardBack.m */,
 				9C2EB32F17B1AEFD004E690C /* EVRewardCardBackDot.h */,
 				9C2EB33017B1AEFD004E690C /* EVRewardCardBackDot.m */,
+				9CD8B8A617B31C7500055883 /* EVRewardsExhaustedView.h */,
+				9CD8B8A717B31C7500055883 /* EVRewardsExhaustedView.m */,
 			);
 			path = Rewards;
 			sourceTree = "<group>";
@@ -3727,6 +3732,7 @@
 				9C2EB33117B1AEFD004E690C /* EVRewardCardBackDot.m in Sources */,
 				9C2EB33417B1B67D004E690C /* EVRewardHeaderView.m in Sources */,
 				9C9DC5C617B1CED9002B7236 /* EVRewardBalanceView.m in Sources */,
+				9CD8B8A817B31C7500055883 /* EVRewardsExhaustedView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

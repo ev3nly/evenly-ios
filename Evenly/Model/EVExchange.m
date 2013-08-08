@@ -31,7 +31,10 @@
             self.from = (EVObject<EVExchangeable> *)fromObject;
     }
     
-    if (properties[@"reward"]) {
+    if ([properties[@"rewards_exhausted"] boolValue]) {
+        self.reward = [EVReward rewardsExhaustedSentinel];
+    }
+    else if (properties[@"reward"]) {
         id reward = properties[@"reward"];
         if (reward == [NSNull null]) {
             self.reward = nil;
@@ -39,6 +42,7 @@
             self.reward = [[EVReward alloc] initWithDictionary:properties[@"reward"]];
         }
     }
+
     self.visibility = (properties[@"visibility"]) ? properties[@"visibility"] : [EVStringUtility stringForPrivacySetting:[EVCIA me].privacySetting];
 }
 
