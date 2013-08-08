@@ -194,8 +194,10 @@
         EVAutocompletePhotoCell *photoCell = [tableView dequeueReusableCellWithIdentifier:@"photoCell" forIndexPath:indexPath];
         if ([contact conformsToProtocol:@protocol(EVAvatarOwning)])
             [photoCell.avatarView setAvatarOwner:(NSObject<EVAvatarOwning> *)contact];
-        if ([contact respondsToSelector:@selector(name)])
+        
+        if ([contact respondsToSelector:@selector(name)]) {
             [photoCell.label setText:[contact name]];
+        }
         else if ([contact isKindOfClass:[ABContact class]]) {
             ABContact *abContact = contact;
             photoCell.label.text = [NSString stringWithFormat:@"%@ %@", abContact.firstname, abContact.lastname];

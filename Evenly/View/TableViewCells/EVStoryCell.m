@@ -30,9 +30,11 @@
 @implementation EVStoryCell
 
 + (CGFloat)cellHeightForStory:(EVStory *)story {
-    float labelHeight = [story.attributedString boundingRectWithSize:CGSizeMake(EV_STORY_CELL_LABEL_WIDTH, 100000)
-                                                             options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
-                                                             context:NULL].size.height;
+    float labelHeight = 0;
+    if (story.attributedString)
+        labelHeight = [story.attributedString boundingRectWithSize:CGSizeMake(EV_STORY_CELL_LABEL_WIDTH, 100000)
+                                                           options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                                           context:NULL].size.height;
     float heightDueToLabel = EV_STORY_CELL_BACKGROUND_MARGIN + TEXT_BUFFER + labelHeight + TEXT_BUFFER/2 + EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
     float minimumHeight = EV_STORY_CELL_BACKGROUND_MARGIN + TEXT_BUFFER + AVATAR_LENGTH + EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
     return fmaxf(heightDueToLabel, minimumHeight);
@@ -228,7 +230,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 - (CGRect)storyLabelFrame {
     float labelHeight = EV_STORY_CELL_LABEL_HEIGHT;
-    if (self.story)
+    if (self.story && self.story.attributedString)
         labelHeight = [self.story.attributedString boundingRectWithSize:CGSizeMake(EV_STORY_CELL_LABEL_WIDTH-LABEL_ATTRIBUTED_STRING_SIDE_BUFFER, 100000)
                                                                 options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                                                 context:NULL].size.height;
