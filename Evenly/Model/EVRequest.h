@@ -7,10 +7,11 @@
 //
 
 #import "EVExchange.h"
+@class EVPayment;
 
 @interface EVRequest : EVExchange
 
-- (void)completeWithSuccess:(void (^)(void))success
+- (void)completeWithSuccess:(void (^)(EVPayment *payment))success
                     failure:(void (^)(NSError *error))failure;
 
 - (void)denyWithSuccess:(void (^)(void))success

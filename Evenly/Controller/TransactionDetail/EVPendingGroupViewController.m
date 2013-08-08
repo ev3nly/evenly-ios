@@ -11,9 +11,11 @@
 #import "EVGroupedTableViewCell.h"
 #import "EVDashboardTitleCell.h"
 #import "EVGroupRequestPendingPaymentOptionCell.h"
+#import "EVRewardsGameViewController.h"
 
 #import "EVGroupRequestRecord.h"
 #import "EVGroupRequestTier.h"
+#import "EVPayment.h"
 
 @interface EVPendingGroupViewController () {
     BOOL _loading;
@@ -119,7 +121,10 @@
 
                                    }];
                                    [[EVStatusBarManager sharedManager] setPostSuccess:^{
-                                       [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+                                       if (payment.reward)
+                                           [self showGameForReward:payment.reward];
+                                       else
+                                           [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
                                    }];
                                } failure:^(NSError *error) {
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
@@ -188,6 +193,10 @@
                                }];
 }
 
+- (void)showGameForReward:(EVReward *)reward {
+    EVRewardsGameViewController *rewardsViewController = [[EVRewardsGameViewController alloc] initWithReward:reward];
+    [self.navigationController pushViewController:rewardsViewController animated:YES];
+}
 
 #pragma mark - UITableViewDataSource
 
