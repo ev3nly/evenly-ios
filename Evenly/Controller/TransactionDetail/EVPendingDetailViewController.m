@@ -14,6 +14,7 @@
 #import "EVWalletViewController.h"
 #import "EVNavigationManager.h"
 #import "MBProgressHUD.h"
+#import "EVRewardsGameViewController.h"
 
 @interface EVPendingDetailViewController () {
     BOOL _loading;
@@ -82,7 +83,7 @@
     
     if ([self.exchange isKindOfClass:[EVRequest class]]) {
         EVRequest *request = (EVRequest *)self.exchange;
-        [request completeWithSuccess:^{
+        [request completeWithSuccess:^(EVPayment *payment){
 
             // Don't allow the balance to fall below 0.  If a payment amount is > available balance, it gets
             // paid via credit card, leaving the balance unaffected.
@@ -101,11 +102,14 @@
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                    [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
-                        
-                    }];
-                }];
+                [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:NULL];
+                if (payment.reward)
+                {
+                    EVRewardsGameViewController *rewardsViewController = [[EVRewardsGameViewController alloc] initWithReward:payment.reward];
+                    [self.navigationController pushViewController:rewardsViewController animated:YES];
+                } else {
+                    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+                }
             };
         } failure:^(NSError *error) {
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
