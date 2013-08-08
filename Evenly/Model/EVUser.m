@@ -206,9 +206,10 @@
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         EV_PERFORM_ON_BACKGROUND_QUEUE(^{
             NSMutableArray *array = [NSMutableArray array];
-            for (NSDictionary *dict in responseObject)
-            {
-                [array addObject:[EVSerializer serializeDictionary:dict]];
+            for (NSDictionary *dict in responseObject) {
+                id serializedObject = [EVSerializer serializeDictionary:dict];
+                if (serializedObject)
+                    [array addObject:serializedObject];
             }
             EV_PERFORM_ON_MAIN_QUEUE(^{
                 if (success)
