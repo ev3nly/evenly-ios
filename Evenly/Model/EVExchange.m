@@ -31,7 +31,7 @@
             self.from = (EVObject<EVExchangeable> *)fromObject;
     }
     
-    if (properties[@"rewards_exhausted"]) {
+    if ([properties[@"rewards_exhausted"] boolValue]) {
         self.reward = [EVReward rewardsExhaustedSentinel];
     }
     else if (properties[@"reward"]) {
