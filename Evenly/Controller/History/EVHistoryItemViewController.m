@@ -111,16 +111,28 @@
 
 #pragma mark - TableView DataSource/Delegate
 
+- (NSString *)fieldTextForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return nil; // abstract
+}
+
+- (NSString *)valueTextForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return nil; // abstract
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 0; // abstract
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 0.0f; // abstract
+    return [EVHistoryItemCell heightForValueText:[self valueTextForRowAtIndexPath:indexPath]];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return nil; // abstract
+    EVHistoryItemCell *historyCell = [tableView dequeueReusableCellWithIdentifier:@"EVHistoryItemCell" forIndexPath:indexPath];
+    [historyCell.fieldLabel setText:[self fieldTextForRowAtIndexPath:indexPath]];
+    [historyCell.valueLabel setText:[self valueTextForRowAtIndexPath:indexPath]];
+    [historyCell setPosition:[tableView cellPositionForIndexPath:indexPath]];
+    return historyCell;
 }
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
