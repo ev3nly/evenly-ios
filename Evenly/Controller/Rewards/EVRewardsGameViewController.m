@@ -302,7 +302,7 @@
     NSDecimalNumber *amount;
     for (int i = 0; i < self.reward.options.count; i++) {
         card = [self.cards objectAtIndex:i];
-        [card setUserInteractionEnabled:NO];
+        [card setUserInteractionEnabled:YES];
         [card setAnimationEnabled:NO];
 
         amount = [self.reward.options objectAtIndex:i];
@@ -313,6 +313,9 @@
                 EV_DISPATCH_AFTER(1.0, ^{
                     if (![[self.reward selectedAmount] isEqual:[NSDecimalNumber zero]])
                         [self animateAmountLabel];
+                    else {
+                        [self switchTopLabel];
+                    }
                 });
             };
         [card setRewardAmount:amount
