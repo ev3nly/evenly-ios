@@ -25,7 +25,7 @@
 + (CGFloat)cellHeightForStory:(EVStory *)story;
 + (TTTTimeIntervalFormatter *)timeIntervalFormatter;
 
-@property (nonatomic, weak) EVStory *story;
+@property (nonatomic, strong) EVStory *story;
 @property (nonatomic, strong) EVAvatarView *avatarView;
 @property (nonatomic, strong) UILabel *storyLabel;
 @property (nonatomic, strong) UILabel *dateLabel;

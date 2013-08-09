@@ -28,10 +28,6 @@
         [self.payInFullButton setTitle:PAY_IN_FULL_TEXT forState:UIControlStateNormal];
         [self.contentView addSubview:self.payInFullButton];
         
-        self.payPartialButton = [[EVGrayButton alloc] initWithFrame:CGRectZero];
-        [self.payPartialButton setTitle:PAY_PARTIAL_TEXT forState:UIControlStateNormal];
-        [self.contentView addSubview:self.payPartialButton];
-        
         self.declineButton = [[EVGrayButton alloc] initWithFrame:CGRectZero];
         [self.declineButton setTitle:DECLINE_TEXT forState:UIControlStateNormal];
         [self.contentView addSubview:self.declineButton];
@@ -49,7 +45,6 @@
     }
     
     [self.payInFullButton setEnabled:(record.tier != nil)];
-    [self.payPartialButton setEnabled:(record.tier != nil)];
     if ([record numberOfPayments] > 0) {
         [self.declineButton removeFromSuperview];
     } else {
@@ -68,16 +63,12 @@
     
     [self.payInFullButton setFrame:CGRectMake(LEFT_RIGHT_MARGIN, previousY, self.contentView.frame.size.width - 2*LEFT_RIGHT_MARGIN, BUTTON_HEIGHT)];
     previousY += BUTTON_HEIGHT + TOP_BOTTOM_MARGIN;
-    [self.payPartialButton setFrame:CGRectMake(LEFT_RIGHT_MARGIN, previousY, self.contentView.frame.size.width - 2*LEFT_RIGHT_MARGIN, BUTTON_HEIGHT)];
-    previousY += BUTTON_HEIGHT + TOP_BOTTOM_MARGIN;
     [self.declineButton setFrame:CGRectMake(LEFT_RIGHT_MARGIN, previousY, self.contentView.frame.size.width - 2*LEFT_RIGHT_MARGIN, BUTTON_HEIGHT)];
 }
 
 - (CGFloat)heightForRecord:(EVGroupRequestRecord *)record {
     CGFloat superHeight = [super heightForRecord:record];
     int buttonCount = 2;
-    if ([record numberOfPayments] == 0)
-        buttonCount = 3;
     return superHeight + buttonCount*BUTTON_HEIGHT + buttonCount*TOP_BOTTOM_MARGIN;
 }
 

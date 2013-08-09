@@ -90,9 +90,6 @@
     [self.paymentOptionCell.payInFullButton addTarget:self
                                                action:@selector(payInFullButtonPress:)
                                      forControlEvents:UIControlEventTouchUpInside];
-    [self.paymentOptionCell.payPartialButton addTarget:self
-                                                action:@selector(payPartialButtonPress:)
-                                      forControlEvents:UIControlEventTouchUpInside];
     [self.paymentOptionCell.declineButton addTarget:self
                                              action:@selector(declineButtonPress:)
                                    forControlEvents:UIControlEventTouchUpInside];
@@ -110,7 +107,6 @@
     self.navigationItem.leftBarButtonItem.enabled = NO;
     self.navigationItem.rightBarButtonItem.enabled = NO;
     self.paymentOptionCell.payInFullButton.enabled = NO;
-    self.paymentOptionCell.payPartialButton.enabled = NO;
     self.paymentOptionCell.declineButton.enabled = NO;
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"PAYING..."];
     [self.groupRequest makePaymentOfAmount:self.record.amountOwed
@@ -131,22 +127,14 @@
                                    self.navigationItem.leftBarButtonItem.enabled = YES;
                                    self.navigationItem.rightBarButtonItem.enabled = YES;
                                    self.paymentOptionCell.payInFullButton.enabled = YES;
-                                   self.paymentOptionCell.payPartialButton.enabled = YES;
                                    self.paymentOptionCell.declineButton.enabled = YES;
                                }];
-}
-
-- (void)payPartialButtonPress:(id)sender {
-    EVPartialPaymentViewController *viewController = [[EVPartialPaymentViewController alloc] initWithRecord:self.record];
-    viewController.delegate = self;
-    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)declineButtonPress:(id)sender {
     self.navigationItem.leftBarButtonItem.enabled = NO;
     self.navigationItem.rightBarButtonItem.enabled = NO;
     self.paymentOptionCell.payInFullButton.enabled = NO;
-    self.paymentOptionCell.payPartialButton.enabled = NO;
     self.paymentOptionCell.declineButton.enabled = NO;
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"DECLINING..."];
     [self.groupRequest deleteRecord:self.record
