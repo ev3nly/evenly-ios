@@ -31,6 +31,10 @@
     return self;
 }
 
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"recipientCount"];
+}
+
 #pragma mark - View Loading
 
 - (CGRect)upperStripeFrame {
