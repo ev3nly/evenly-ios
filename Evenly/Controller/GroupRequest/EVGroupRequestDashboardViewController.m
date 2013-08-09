@@ -20,7 +20,7 @@
 #import "EVGroupRequestInviteViewController.h"
 
 typedef enum {
-    EVGroupRequestActionEdit,
+//    EVGroupRequestActionEdit,
     EVGroupRequestActionInvite,
     EVGroupRequestActionCloseRequest
 } EVGroupRequestAction;
@@ -117,7 +117,10 @@ typedef enum {
                                                              delegate:self
                                                     cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
-                                                    otherButtonTitles:@"Payment Options", @"Invite", @"Close Request", nil];
+                                                    otherButtonTitles:
+//                                  @"Payment Options",
+                                  @"Invite",
+                                  @"Close Request", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -186,13 +189,13 @@ typedef enum {
                                               otherButtonTitles:@"Yes", nil];
         [alert show];
     }
-    else if (buttonIndex == EVGroupRequestActionEdit)
-    {
-        EVGroupRequestEditViewController *editViewController = [[EVGroupRequestEditViewController alloc] initWithGroupRequest:self.groupRequest];
-        editViewController.delegate = self;
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
-        [self presentViewController:navController animated:YES completion:NULL];
-    }
+//    else if (buttonIndex == EVGroupRequestActionEdit)
+//    {
+//        EVGroupRequestEditViewController *editViewController = [[EVGroupRequestEditViewController alloc] initWithGroupRequest:self.groupRequest];
+//        editViewController.delegate = self;
+//        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
+//        [self presentViewController:navController animated:YES completion:NULL];
+//    }
     else if (buttonIndex == EVGroupRequestActionInvite)
     {
         [self showInviteViewController];
