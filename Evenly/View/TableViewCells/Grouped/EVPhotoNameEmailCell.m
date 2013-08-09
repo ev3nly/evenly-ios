@@ -157,7 +157,7 @@
 - (CGRect)horizontalStripeFrame {
     return CGRectMake(CGRectGetMaxX(self.verticalStripe.frame),
                       self.bounds.size.height/2 - STRIPE_WIDTH,
-                      self.nameField.frame.size.width,
+                      self.nameField.frame.size.width + SIDE_MARGIN,
                       STRIPE_WIDTH);
 }
 
