@@ -164,10 +164,9 @@
 {
     NSInteger count = 0;
     if (section == EVAutocompleteSectionConnections)
-        count = MIN(self.filteredConnections.count, EV_AUTOCOMPLETE_MAX_CONNECTIONS_SHOWN);
+        count = self.filteredConnections.count;
     else
         count = self.addressBookSuggestions.count;
-    DLog(@"%d rows in section %d", count, section);
     return count;
 }
 
