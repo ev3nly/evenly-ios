@@ -191,15 +191,17 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (self.groupRequest.loading)
         return 0;
-    return 3;
+    return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        return [EVGroupRequestPendingHeaderCell cellHeightForStory:[EVStory storyFromGroupRequest:self.groupRequest]];
-    } else if (indexPath.row == 1) {
-        return [EVDashboardTitleCell heightWithTitle:self.groupRequest.title memo:self.groupRequest.memo];
-    } else {
+        return [EVGroupRequestPendingHeaderCell cellHeightForStory:[EVStory storyFromGroupRequest:self.groupRequest] memo:self.groupRequest.memo];
+    }
+//    else if (indexPath.row == 1) {
+//        return [EVDashboardTitleCell heightWithTitle:self.groupRequest.title memo:self.groupRequest.memo];
+//    }
+    else {
         return [self.paymentOptionCell heightForRecord:[self.groupRequest myRecord]];
     }
     return 44.0; // not reached
@@ -211,15 +213,18 @@
         EVGroupRequestPendingHeaderCell *headerCell = [tableView dequeueReusableCellWithIdentifier:@"transactionCell" forIndexPath:indexPath];
         EVStory *story = [EVStory storyFromGroupRequest:self.groupRequest];
         [headerCell setStory:story];
+        [headerCell.memoLabel setText:self.groupRequest.memo];
         cell = headerCell;
-    } else if (indexPath.row == 1) {
-        EVDashboardTitleCell *detailCell = [tableView dequeueReusableCellWithIdentifier:@"detailCell" forIndexPath:indexPath];
-        detailCell.position = EVGroupedTableViewCellPositionCenter;
-        [detailCell.titleLabel setText:self.groupRequest.title];
-        [detailCell.memoLabel setText:self.groupRequest.memo];
-        detailCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell = detailCell;
-    } else if (indexPath.row == 2) {
+    }
+//    else if (indexPath.row == 1) {
+//        EVDashboardTitleCell *detailCell = [tableView dequeueReusableCellWithIdentifier:@"detailCell" forIndexPath:indexPath];
+//        detailCell.position = EVGroupedTableViewCellPositionCenter;
+//        [detailCell.titleLabel setText:self.groupRequest.title];
+//        [detailCell.memoLabel setText:self.groupRequest.memo];
+//        detailCell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        cell = detailCell;
+//    }
+    else if (indexPath.row == 1) {
         cell = self.paymentOptionCell;
     }
     return cell;

@@ -9,7 +9,19 @@
 #import "EVGroupRequestPendingHeaderCell.h"
 #define PENDING_STORY_DATE_BUFFER 6
 
+#define MEMO_LABEL_FONT [EVFont defaultFontOfSize:15]
+#define MEMO_LABEL_WIDTH 198.0
+
 @implementation EVGroupRequestPendingHeaderCell
+
++ (CGFloat)cellHeightForStory:(EVStory *)story memo:(NSString *)memo {
+    CGFloat height = [self cellHeightForStory:story];
+    CGSize memoSize = [memo sizeWithFont:MEMO_LABEL_FONT
+                       constrainedToSize:CGSizeMake(MEMO_LABEL_WIDTH, FLT_MAX)
+                           lineBreakMode:NSLineBreakByWordWrapping];
+    height += memoSize.height + PENDING_STORY_DATE_BUFFER;
+    return height;    
+}
 
 + (CGFloat)cellHeightForStory:(EVStory *)story {
     float superHeight = [EVTransactionDetailCell cellHeightForStory:story];
@@ -24,6 +36,16 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+
+        self.memoLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.memoLabel.font = MEMO_LABEL_FONT;
+        self.memoLabel.backgroundColor = [UIColor clearColor];
+        self.memoLabel.textColor = [EVColor lightLabelColor];
+        self.memoLabel.textAlignment = NSTextAlignmentCenter;
+        self.memoLabel.numberOfLines = 0;
+        self.memoLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        [self.contentView addSubview:self.memoLabel];
+        
         self.position = EVGroupedTableViewCellPositionTop;
         [self.likeButton removeFromSuperview];
         [self switchAvatars];
@@ -38,6 +60,13 @@
     self.rightAvatarView.avatarOwner = leftAvatar;
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.memoLabel.frame = [self memoLabelFrame];
+    self.dateLabel.frame = [self dateLabelFrame];
+}
+
 - (CGRect)verticalRuleFrame {
     return CGRectZero;
 }
@@ -46,12 +75,22 @@
     return CGRectZero;
 }
 
+- (CGRect)memoLabelFrame {
+    CGSize labelSize = [self.memoLabel.text sizeWithFont:self.memoLabel.font
+                                       constrainedToSize:CGSizeMake(MEMO_LABEL_WIDTH, 100000)
+                                           lineBreakMode:self.memoLabel.lineBreakMode];
+    return CGRectMake(CGRectGetMidX(self.contentView.bounds) - labelSize.width/2,
+                      CGRectGetMaxY(self.storyLabel.frame) + PENDING_STORY_DATE_BUFFER,
+                      labelSize.width,
+                      labelSize.height);
+}
+
 - (CGRect)dateLabelFrame {
     CGSize labelSize = [self.dateLabel.text sizeWithFont:self.dateLabel.font
                                        constrainedToSize:CGSizeMake(self.bounds.size.width, 100000)
                                            lineBreakMode:self.dateLabel.lineBreakMode];
     return CGRectMake(CGRectGetMidX(self.contentView.bounds) - labelSize.width/2,
-                      CGRectGetMaxY(self.storyLabel.frame) + PENDING_STORY_DATE_BUFFER,
+                      CGRectGetMaxY(self.memoLabel.frame) + PENDING_STORY_DATE_BUFFER,
                       labelSize.width,
                       labelSize.height);
 }
