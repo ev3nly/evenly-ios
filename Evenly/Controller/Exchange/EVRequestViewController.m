@@ -74,26 +74,6 @@
 - (void)setUpReactions {
     // Handle the first screen: if it's a group request, and if not, if it has at least one recipient.
     RAC(self.isGroupRequest) = RACAble(self.initialView.requestSwitch.on);
-    
-    [RACAble(self.isGroupRequest) subscribeNext:^(NSNumber *isGroupRequest) {
-        UIButton *button = [self rightButtonForPhase:EVExchangePhaseWho];
-        if (self.isGroupRequest) {
-            NSString *title = (self.initialView.recipientCount ? @"Next" : @"Skip");
-            [button setTitle:title forState:UIControlStateNormal];
-        } else {
-            [button setTitle:@"Next" forState:UIControlStateNormal];
-        }
-    }];
-    
-    [RACAble(self.initialView.recipientCount) subscribeNext:^(NSNumber *countNumber) {
-        int count = [countNumber intValue];
-        UIButton *button = [self rightButtonForPhase:EVExchangePhaseWho];
-        if (count == 0 && self.isGroupRequest) {
-            [button setTitle:@"Skip" forState:UIControlStateNormal];
-        } else {
-            [button setTitle:@"Next" forState:UIControlStateNormal];
-        }
-    }];
 }
 
 #pragma mark - Basic Interface
@@ -221,13 +201,11 @@
 #pragma mark - Validation
 
 - (BOOL)shouldAdvanceToHowMuch {
-    if (![self isGroupRequest]) {
-        if (self.initialView.recipientCount == 0) {
-            [self.initialView flashMessage:@"Oops. Add a person or choose \"Group.\"  Thanks!"
-                                   inFrame:self.initialView.toFieldFrame
-                              withDuration:2.0];
-            return NO;
-        }
+    if (self.initialView.recipientCount == 0) {
+        [self.initialView flashMessage:@"Oops. Add a person before advancing. Thanks!"
+                               inFrame:self.initialView.toFieldFrame
+                          withDuration:2.0];
+        return NO;
     }
     return YES;
 }
