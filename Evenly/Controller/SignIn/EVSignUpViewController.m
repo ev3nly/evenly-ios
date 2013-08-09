@@ -198,6 +198,7 @@
                     self.authenticationSuccess();
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
             };
+            [[EVCIA sharedInstance] cacheNewSession];
         } failure:^(NSError *error) {
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
             DLog(@"Error logging in: %@", error);
