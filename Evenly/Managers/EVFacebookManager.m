@@ -59,15 +59,11 @@ static EVFacebookManager *_sharedManager;
                                       NSString *title = nil, *message = nil;
                                       if ([error code] == FBErrorLoginFailedOrCancelled) {
                                           title = @"Facebook Login Required";
-                                          message  = @"You must login with Facebook to use Evenly.";
-                                      } else if ([error fberrorShouldNotifyUser]) {
-                                          title = @"Error";
-                                          message = error.fberrorUserMessage;
-                                      } else {
-                                          title = @"Error";
-                                          message = error.localizedDescription;
+                                          message = @"You must login with Facebook to use Evenly.";
+                                          [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
                                       }
-                                      [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+                                      //These errors stack, so only display the above, or users will see 3 in a row
+                                      
                                       [self fbResync];
                                       [NSThread sleepForTimeInterval:0.5];
                                   }

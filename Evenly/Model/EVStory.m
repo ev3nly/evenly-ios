@@ -330,6 +330,8 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     NSAttributedString *subject, *verb, *description = nil;
     
     NSString *subjectName = [[self.subject dbid] isEqualToString:[EVCIA me].dbid] ? @"You" : [self.subject name];
+    if (!subjectName)
+        subjectName = @"";
     subject = [[NSAttributedString alloc] initWithString:subjectName
                                               attributes:nounAttributes];
     verb = [[NSAttributedString alloc] initWithString:@"joined"

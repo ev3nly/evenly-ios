@@ -16,7 +16,9 @@
 @implementation EVTransactionDetailCell
 
 + (CGFloat)cellHeightForStory:(EVStory *)story {
-    float labelHeight = [story.attributedString boundingRectWithSize:CGSizeMake(AVATAR_LENGTH*2 + AVATAR_SIDE_BUFFER*2, 100000)
+    float labelHeight = 0;
+    if (story.attributedString)
+        labelHeight = [story.attributedString boundingRectWithSize:CGSizeMake(AVATAR_LENGTH*2 + AVATAR_SIDE_BUFFER*2, 100000)
                                                                      options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                                                      context:NULL].size.height;
     return EV_STORY_CELL_BACKGROUND_MARGIN + AVATAR_TOP_BUFFER + AVATAR_LENGTH + TEXT_BUFFER + labelHeight + TEXT_BUFFER + EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
@@ -106,7 +108,9 @@
 - (CGRect)storyLabelFrame {
     float yOrigin = CGRectGetMaxY(self.avatarView.frame) + TEXT_BUFFER;
     float maxWidth = (AVATAR_LENGTH*2 + AVATAR_SIDE_BUFFER*2);
-    float labelHeight = [self.storyLabel.attributedText boundingRectWithSize:CGSizeMake(maxWidth, 100000)
+    float labelHeight = 0;
+    if (self.story.attributedString)
+        labelHeight = [self.storyLabel.attributedText boundingRectWithSize:CGSizeMake(maxWidth, 100000)
                                                                      options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                                                      context:NULL].size.height;
     float xOrigin = CGRectGetMidX(self.contentView.bounds) - maxWidth/2;

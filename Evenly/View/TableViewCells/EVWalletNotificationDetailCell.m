@@ -47,7 +47,9 @@
     
     float yOrigin = CGRectGetMaxY(self.avatarView.frame) + TEXT_BUFFER;
     float maxWidth = self.contentView.frame.size.width - 2*TEXT_BUFFER;
-    float labelHeight = [self.storyLabel.attributedText boundingRectWithSize:CGSizeMake(maxWidth, 100000)
+    float labelHeight = 0;
+    if (self.storyLabel.attributedText)
+        labelHeight = [self.storyLabel.attributedText boundingRectWithSize:CGSizeMake(maxWidth, 100000)
                                                                      options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                                                      context:NULL].size.height;
     float xOrigin = CGRectGetMidX(self.contentView.bounds) - maxWidth/2;
