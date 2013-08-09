@@ -110,6 +110,7 @@
     self.shareSwitch = [[EVSwitch alloc] init];
     [self.shareSwitch addTarget:self action:@selector(shareSwitchChanged:) forControlEvents:UIControlEventValueChanged];
     [self.headerView setShareSwitch:self.shareSwitch];
+    [self.shareSwitch setOn:[[EVCIA me] rewardSharingSetting]];
     [headerContainer addSubview:self.headerView];
 }
 
@@ -237,12 +238,9 @@
 
 - (void)shareSwitchChanged:(EVSwitch *)sender {
     self.reward.willShare = self.shareSwitch.isOn;
+    [[EVCIA me] setRewardSharingSetting:self.shareSwitch.isOn];
     if ([sender isOn]) {
-        [EVFacebookManager openSessionWithCompletion:^{
-            [EVFacebookManager requestPublishPermissionsWithCompletion:^{
-                DLog(@"Received publish permissions");
-            }];
-        }];
+        [self acquirePublishPermissionsWithCompletion:NULL];
     }
 }
 
@@ -296,14 +294,27 @@
 }
 
 - (void)share {
+    [self acquirePublishPermissionsWithCompletion:[self shareBlock]];
+}
+
+- (void)acquirePublishPermissionsWithCompletion:(void (^)(void))completion {
     if (![EVFacebookManager isConnected]) {
         [EVFacebookManager openSessionWithCompletion:^{
-            [EVFacebookManager requestPublishPermissionsWithCompletion:[self shareBlock]];
+            [EVFacebookManager requestPublishPermissionsWithCompletion:^{
+                DLog(@"Received publish permissions");
+                if (completion)
+                    completion();
+            }];
         }];
     } else if (![EVFacebookManager hasPublishPermissions]) {
-        [EVFacebookManager requestPublishPermissionsWithCompletion:[self shareBlock]];
+        [EVFacebookManager requestPublishPermissionsWithCompletion:^{
+            DLog(@"Received publish permissions");
+            if (completion)
+                completion();
+        }];
     } else {
-        [self shareBlock]();
+        if (completion)
+            completion();
     }
 }
 
