@@ -206,10 +206,11 @@
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         EV_PERFORM_ON_BACKGROUND_QUEUE(^{
             NSMutableArray *array = [NSMutableArray array];
-            for (NSDictionary *dict in responseObject) {
-                id serializedObject = [EVSerializer serializeDictionary:dict];
-                if (serializedObject)
-                    [array addObject:serializedObject];
+            for (NSDictionary *dict in responseObject)
+            {
+                id obj = [EVSerializer serializeDictionary:dict];
+                if (obj)
+                    [array addObject:obj];
             }
             EV_PERFORM_ON_MAIN_QUEUE(^{
                 if (success)
@@ -534,6 +535,7 @@
 
 - (void)setPrivacySetting:(EVPrivacySetting)privacySetting {
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:privacySetting] forKey:@"privacySetting"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (EVPrivacySetting)privacySetting {
@@ -541,6 +543,15 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"privacySetting"])
         setting = [[NSUserDefaults standardUserDefaults] objectForKey:@"privacySetting"];
     return [setting intValue];
+}
+
+- (void)setRewardSharingSetting:(BOOL)rewardSharingSetting {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:rewardSharingSetting] forKey:@"rewardSharingSetting"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)rewardSharingSetting {
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:@"rewardSharingSetting"] boolValue];
 }
 
 @end

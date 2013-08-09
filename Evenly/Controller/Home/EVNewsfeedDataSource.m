@@ -128,7 +128,7 @@
 }
 
 - (void)didSignOut:(NSNotification *)notification {
-    self.newsfeed = [NSArray array];
+    self.newsfeed = [NSMutableArray array];
     [self.tableView reloadData];
 }
 

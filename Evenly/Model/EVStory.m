@@ -60,6 +60,7 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypePendingTransactionDetail;
     story.isPrivate = [exchange.visibility isEqualToString:[EVStringUtility stringForPrivacySetting:EVPrivacySettingPrivate]];
+    story.publishedAt = [NSDate date];
     return story;
 }
 
@@ -84,6 +85,7 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     story.isPrivate = [exchange.visibility isEqualToString:[EVStringUtility stringForPrivacySetting:EVPrivacySettingPrivate]];
     story.source = exchange;
     story.createdAt = [NSDate date];
+    story.publishedAt = [NSDate date];
     return story;
 }
 
@@ -103,6 +105,7 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     EVStory *story = [EVStory new];
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypePendingTransactionDetail;
+    story.publishedAt = [NSDate date];
     return story;
 }
 
@@ -122,6 +125,7 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     EVStory *story = [EVStory new];
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypeCompletedTransactionDetail;
+    story.publishedAt = [NSDate date];
     return story;
 }
 
@@ -237,6 +241,8 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
             self.sourceType = EVStorySourceTypeHint;
         else if ([sourceType isEqualToString:@"GettingStarted"])
             self.sourceType = EVStorySourceTypeGettingStarted;
+        else if ([sourceType isEqualToString:@"Reward"])
+            self.sourceType = EVStorySourceTypeReward;
     }
     
     self.imageURL = [NSURL URLWithString:properties[@"image_url"]];
@@ -263,6 +269,8 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
                 self.transactionType = EVStoryTransactionTypePendingIncoming;
             } else if ([self.verb isEqualToString:@"withdrew"]) {
                 self.transactionType = EVStoryTransactionTypeWithdrawal;
+            } else if ([self.verb isEqualToString:@"won"]) {
+                self.transactionType = EVStoryTransactionTypeIncoming;
             }
         }
         else
@@ -341,6 +349,36 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     return attrString;
 }
 
+- (NSAttributedString *)attributedStringForRewardSourceType {
+    CGFloat fontSize = 15;
+    NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
+                                      NSForegroundColorAttributeName : [EVColor newsfeedNounColor] };
+    NSDictionary *copyAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:fontSize],
+                                      NSForegroundColorAttributeName : [EVColor newsfeedTextColor] };
+    
+    NSAttributedString *subject, *verb, *description, *exclamationPoint = nil;
+    
+    NSString *subjectName = [[self.subject dbid] isEqualToString:[EVCIA me].dbid] ? @"You" : [self.subject name];
+    subject = [[NSAttributedString alloc] initWithString:subjectName
+                                              attributes:nounAttributes];
+    verb = [[NSAttributedString alloc] initWithString:@"won"
+                                           attributes:copyAttributes];
+    description = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount] attributes:nounAttributes];
+    
+    exclamationPoint = [[NSAttributedString alloc] initWithString:@"!" attributes:copyAttributes];
+    
+    NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" " attributes:nounAttributes];
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:subject];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:verb];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:description];
+    [attrString appendAttributedString:exclamationPoint];
+    
+    return attrString;
+}
+
 - (NSAttributedString *)attributedStringForNormalSourceType {
     CGFloat fontSize = 15;
     NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
@@ -401,6 +439,8 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
         return [self attributedStringForGettingStartedSourceType];
     if (self.sourceType == EVStorySourceTypeUser)
         return [self attributedStringForUserSourceType];
+    if (self.sourceType == EVStorySourceTypeReward)
+        return [self attributedStringForRewardSourceType];
     return [self attributedStringForNormalSourceType];
 }
 

@@ -59,4 +59,12 @@
     return ([UIApplication sharedApplication].keyWindow.bounds.size.height > 480.0);
 }
 
++ (NSURL *)tosURL {
+    return [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Terms and Conditions.html")];
+}
+
++ (NSURL *)privacyPolicyURL {
+    return [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Privacy Policy.html")];
+}
+
 @end

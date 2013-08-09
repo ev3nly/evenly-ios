@@ -94,6 +94,10 @@
     EV_RETURN_STATIC_RGB_COLOR(160, 160, 160);
 }
 
++ (UIColor *)mediumLabelColor {
+    EV_RETURN_STATIC_RGB_COLOR(115, 115, 115);
+}
+
 + (UIColor *)placeholderColor {
     EV_RETURN_STATIC_RGB_COLOR(0xd0, 0xce, 0xce);
 }

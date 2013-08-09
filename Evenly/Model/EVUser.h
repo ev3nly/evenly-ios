@@ -54,6 +54,7 @@
 @property (nonatomic, strong) UIImage *updatedAvatar;
 @property (nonatomic, getter = isUnconfirmed) BOOL unconfirmed;
 @property (nonatomic, assign) EVPrivacySetting privacySetting;
+@property (nonatomic, assign) BOOL rewardSharingSetting;
 @property (nonatomic, strong) NSArray *connections;
 @property (nonatomic, strong) NSString *currentPassword;
 @property (nonatomic) BOOL facebookConnected;

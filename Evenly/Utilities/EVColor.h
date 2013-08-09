@@ -40,6 +40,7 @@
 
 + (UIColor *)darkLabelColor;
 + (UIColor *)lightLabelColor;
++ (UIColor *)mediumLabelColor;
 + (UIColor *)placeholderColor;
 + (UIColor *)inputTextColor;
 

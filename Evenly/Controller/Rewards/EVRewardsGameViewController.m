@@ -7,39 +7,49 @@
 //
 
 #import "EVRewardsGameViewController.h"
-#import "EVNavigationBarButton.h"
-
-#import "EVRewardsHeaderView.h"
-#import "EVRewardsSwitchView.h"
-#import "EVRewardsSlider.h"
-#import "EVRewardsFooterView.h"
-#import "EVRewardsAfterView.h"
-
 #import "EVHomeViewController.h"
+#import "EVWebViewController.h"
+
+#import "EVNavigationBarButton.h"
+#import "EVSwitch.h"
 #import "EVFacebookManager.h"
 
-#define AFTER_VIEW_X_ORIGIN 95
-#define AFTER_VIEW_Y_ORIGIN 0
-#define AFTER_VIEW_WIDTH 225
-#define AFTER_VIEW_HEIGHT 96
+#import "EVRewardHeaderView.h"
+#import "EVRewardBalanceView.h"
+#import "EVRewardCard.h"
+#import "EVRewardsExhaustedView.h"
+
+#define NAVIGATION_BAR_OFFSET 44.0
+
+#define HEADER_HEIGHT 50.0
+#define TOP_LABEL_HEIGHT 45.0
+
+#define CARD_SPACING 20.0
+#define MAX_CARD_WIDTH 190.0
 
 @interface EVRewardsGameViewController ()
 
 @property (nonatomic, strong) EVReward *reward;
 
-@property (nonatomic, strong) EVRewardsHeaderView *headerView;
-@property (nonatomic, strong) UIView *stripe;
-@property (nonatomic, strong) EVRewardsSwitchView *switchView;
-@property (nonatomic, strong) NSArray *sliders;
-@property (nonatomic, strong) EVRewardsFooterView *footerView;
-@property (nonatomic, strong) EVRewardsAfterView *afterView;
+@property (nonatomic, strong) EVRewardHeaderView *headerView;
+@property (nonatomic, strong) EVSwitch *shareSwitch;
 
-@property (nonatomic, strong) EVRewardsSlider *chosenSlider;
+@property (nonatomic, strong) EVRewardBalanceView *balanceView;
 
-- (void)loadHeaderView;
-- (void)loadSwitchView;
-- (void)loadSliders;
-- (void)loadFooterView;
+@property (nonatomic, strong) UILabel *topLabel;
+@property (nonatomic, strong) UILabel *curiousLabel;
+
+@property (nonatomic, strong) TTTAttributedLabel *footerLabel;
+
+@property (nonatomic, strong) NSArray *cards;
+
+@property (nonatomic, strong) EVRewardsExhaustedView *rewardsExhaustedView;
+
+- (void)loadHeader;
+- (void)loadBalanceView;
+- (void)loadTopLabels;
+- (void)loadCards;
+- (void)loadFooter;
 
 @end
 
@@ -58,7 +68,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Evenly Rewards";
-        self.cancelButton = [[EVNavigationBarButton alloc] initWithTitle:@"Cancel"];
+        self.cancelButton = [self defaultCancelButton];
         [self.cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         
         self.doneButton = [[EVNavigationBarButton alloc] initWithTitle:@"Done"];
@@ -78,87 +88,136 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.exclusiveTouch = YES;
-    [self loadHeaderView];
-    [self loadSwitchView];
-    [self loadSliders];
-    [self loadFooterView];
-}
-
-- (void)loadHeaderView {
-    self.headerView = [[EVRewardsHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 96)];
-    [self.view addSubview:self.headerView];
     
-    self.afterView = [[EVRewardsAfterView alloc] initWithFrame:[self afterViewFrame]];
-}
-
-- (CGRect)afterViewFrame {
-    return CGRectMake(AFTER_VIEW_X_ORIGIN,
-                      AFTER_VIEW_Y_ORIGIN,
-                      AFTER_VIEW_WIDTH,
-                      AFTER_VIEW_HEIGHT);
-}
-
-- (void)loadSwitchView {
-    self.stripe = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headerView.frame), self.view.frame.size.width, 1)];
-    self.stripe.backgroundColor = [EVColor newsfeedStripeColor];
-    [self.view addSubview:self.stripe];
-    
-    self.switchView = [[EVRewardsSwitchView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.stripe.frame), self.view.frame.size.width, 60)];
-    [self.switchView.shareSwitch setOn:[EVFacebookManager hasPublishPermissions]];
-    [self.switchView.shareSwitch addTarget:self action:@selector(shareSwitchChanged:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:self.switchView];
-    
-    self.reward.willShare = self.switchView.shareSwitch.isOn;
-}
-
-- (void)loadSliders {
-    CGFloat height = 72;
-    
-    NSArray *words = @[ @"Blue", @"Gray", @"Green" ];
-    
-    NSMutableArray *slidersArray = [NSMutableArray array];
-    for (int i = 0; i < 3 /* [self.reward.options count] */; i++) {
-        EVRewardsSlider *slider = [[EVRewardsSlider alloc] initWithFrame:CGRectMake(0,
-                                                                                    CGRectGetMaxY(self.switchView.frame) + i*height,
-                                                                                    self.view.frame.size.width,
-                                                                                    height)
-                                   sliderColor:(EVRewardsSliderColor)i];
-        [slider.label setText:[words objectAtIndex:i]];
-        [slider addTarget:self action:@selector(optionSelected:) forControlEvents:UIControlEventValueChanged];
-        [self.view addSubview:slider];
-        [slidersArray addObject:slider];
-        slider.hidden = YES;
+    [self loadHeader];
+    [self loadBalanceView];
+    [self loadTopLabels];
+    [self loadFooter];
+    [self loadCards];
+    if (self.reward == [EVReward rewardsExhaustedSentinel])
+    {
+        [self loadRewardsExhaustedView];
     }
-    self.sliders = [NSArray arrayWithArray:slidersArray];
+    
 }
 
-- (void)loadFooterView {
-    self.footerView = [[EVRewardsFooterView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY([[self.sliders lastObject] frame]), self.view.frame.size.width,  self.view.frame.size.height - CGRectGetMaxY([[self.sliders lastObject] frame]))];
-    self.footerView.backgroundColor = [UIColor whiteColor];
-    self.footerView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-    [self.view addSubview:self.footerView];
+- (void)loadHeader {
+    UIView *headerContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT)];
+    [self.view addSubview:headerContainer];
+    
+    self.headerView = [[EVRewardHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT)];
+    
+    self.shareSwitch = [[EVSwitch alloc] init];
+    [self.shareSwitch addTarget:self action:@selector(shareSwitchChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.headerView setShareSwitch:self.shareSwitch];
+    [self.shareSwitch setOn:[[EVCIA me] rewardSharingSetting]];
+    [headerContainer addSubview:self.headerView];
+}
+
+- (void)loadBalanceView {
+    self.balanceView = [[EVRewardBalanceView alloc] initWithFrame:CGRectMake(0, -HEADER_HEIGHT, self.view.frame.size.width, HEADER_HEIGHT)];
+}
+
+- (CGRect)topLabelOffScreenLeftFrame {
+    return CGRectMake(-self.view.frame.size.width,
+                      CGRectGetMaxY(self.headerView.frame),
+                      self.view.frame.size.width,
+                      TOP_LABEL_HEIGHT);
+}
+
+- (CGRect)topLabelFrame {
+    return CGRectMake(0,
+                      CGRectGetMaxY(self.headerView.frame),
+                      self.view.frame.size.width,
+                      TOP_LABEL_HEIGHT);
+}
+
+- (CGRect)topLabelOffScreenRightFrame {
+    return CGRectMake(self.view.frame.size.width,
+                      CGRectGetMaxY(self.headerView.frame),
+                      self.view.frame.size.width,
+                      TOP_LABEL_HEIGHT);
+}
+
+- (void)loadTopLabels {
+    self.topLabel = [[UILabel alloc] initWithFrame:[self topLabelFrame]];
+    self.topLabel.contentMode = UIViewContentModeCenter;
+    self.topLabel.font = [EVFont bookFontOfSize:15];
+    self.topLabel.textColor = [EVColor mediumLabelColor];
+    self.topLabel.backgroundColor = [UIColor clearColor];
+    self.topLabel.text = @"Flip to select your reward. Choose wisely!";
+    self.topLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.topLabel];
+    
+    self.curiousLabel = [[UILabel alloc] initWithFrame:[self topLabelOffScreenLeftFrame]];
+    self.curiousLabel.contentMode = UIViewContentModeCenter;
+    self.curiousLabel.font = [EVFont bookFontOfSize:15];
+    self.curiousLabel.textColor = [EVColor mediumLabelColor];
+    self.curiousLabel.backgroundColor = [UIColor clearColor];
+    self.curiousLabel.text = @"Curious? Flip to reveal the other rewards.";
+    self.curiousLabel.textAlignment = NSTextAlignmentCenter;
+}
+
+- (void)loadCards {
+    NSArray *colors = @[ [EVColor blueColor], [EVColor lightGreenColor], [EVColor darkColor], [EVColor lightRedColor] ];
+    NSMutableArray *cardsArray = [NSMutableArray array];
+
+    int count;
+    if (self.reward)
+        count = MIN([self.reward.options count], [colors count]);
+    else
+        count = 3;
+    
+    CGFloat spacing = 20.0;
+    
+    CGFloat availableHeight = CGRectGetMinY(self.footerLabel.frame) - CGRectGetMaxY(self.topLabel.frame) - NAVIGATION_BAR_OFFSET;
+    availableHeight -= count * spacing;
+    CGFloat height = availableHeight / count;
+    CGFloat width = MIN(MAX_CARD_WIDTH, height * 2.0);
+    
+    for (int i = 0; i < count; i++) {
+        EVRewardCard *card = [[EVRewardCard alloc] initWithFrame:CGRectMake(0, 0, width, height)
+                                                            text:EV_STRING_FROM_INT(i+1)
+                                                           color:[colors objectAtIndex:i]];
+        [card addTarget:self action:@selector(cardTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [cardsArray addObject:card];
+    }
+    self.cards = [NSArray arrayWithArray:cardsArray];    
+}
+
+- (void)loadFooter {
+    self.footerLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 20, self.view.frame.size.width, 15)];
+    self.footerLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    self.footerLabel.font = [EVFont bookFontOfSize:10];
+    self.footerLabel.backgroundColor = [UIColor clearColor];
+    self.footerLabel.textColor = [EVColor lightLabelColor];
+    self.footerLabel.textAlignment = NSTextAlignmentCenter;
+    self.footerLabel.linkAttributes = @{ NSForegroundColorAttributeName : [EVColor lightLabelColor],
+                                         NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle) };
+    self.footerLabel.activeLinkAttributes = @{ NSForegroundColorAttributeName : [EVColor blueColor],
+                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle) };
+    NSString *text = @"By playing, you agree to Evenly's terms of service";
+    NSRange range = [text rangeOfString:@"terms of service"];
+    [self.footerLabel setText:text];
+    [self.footerLabel addLinkToURL:[EVUtilities tosURL] withRange:range];
+    [self.footerLabel setDelegate:self];
+    [self.view addSubview:self.footerLabel];
+}
+
+- (void)loadRewardsExhaustedView {
+    self.rewardsExhaustedView = [[EVRewardsExhaustedView alloc] initWithFrame:self.view.bounds];
+    self.rewardsExhaustedView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    [self.view addSubview:self.rewardsExhaustedView];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSTimeInterval interval = 0.1;
-    int i = 0;
-    for (EVRewardsSlider *slider in self.sliders) {
-        slider.hidden = NO;
-        EV_DISPATCH_AFTER(interval * (i++ *2), ^{
-            EV_PERFORM_ON_MAIN_QUEUE(^{
-                [slider makeAnAppearanceWithDuration:EV_DEFAULT_ANIMATION_DURATION completion:^{
-                }];
-            });
+    if (!self.rewardsExhaustedView)
+    {
+        EV_DISPATCH_AFTER(0.1, ^{
+            [self dealCards];
         });
     }
-
-    
-    EV_DISPATCH_AFTER(interval * (++i * 2), ^{
-        EV_PERFORM_ON_MAIN_QUEUE(^{
-            [self.sliders makeObjectsPerformSelector:@selector(pulse)];
-        });
-    });
 }
 
 #pragma mark - Button Actions
@@ -168,45 +227,42 @@
 }
 
 - (void)doneButtonPress:(id)sender {
-    if ([self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
-        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-    } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:EVRewardRedeemedNotification
-                                                            object:self
-                                                          userInfo:@{ @"reward" : self.reward,
-                                                                       @"label" : self.chosenSlider.backgroundView.rewardCard.label }];
-    }
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)cardTapped:(EVRewardCard *)card {
+    DLog(@"Card tapped");
+    if (self.reward.selectedOptionIndex == NSNotFound)
+        [self didSelectOptionAtIndex:[self.cards indexOfObject:card]];
 }
 
 - (void)shareSwitchChanged:(EVSwitch *)sender {
-    self.reward.willShare = self.switchView.shareSwitch.isOn;
+    self.reward.willShare = self.shareSwitch.isOn;
+    [[EVCIA me] setRewardSharingSetting:self.shareSwitch.isOn];
     if ([sender isOn]) {
-        [EVFacebookManager openSessionWithCompletion:^{
-            [EVFacebookManager requestPublishPermissionsWithCompletion:^{
-                DLog(@"Received publish permissions");
-            }];
-        }];
+        [self acquirePublishPermissionsWithCompletion:NULL];
     }
 }
 
-- (void)optionSelected:(EVRewardsSlider *)slider {
-    if (self.reward.selectedOptionIndex != NSNotFound) {
-        return;
-    }
-    
-    self.chosenSlider = slider;
-    
-    for (EVRewardsSlider *slider in self.sliders) {
-        slider.enabled = NO;
-    }
-    
-    int index = [self.sliders indexOfObject:slider];
+- (void)didSelectOptionAtIndex:(NSInteger)index {
     self.reward.selectedOptionIndex = index;
-    self.reward.willShare = self.switchView.shareSwitch.isOn;
+    [self flipBalanceView];
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.cancelButton.alpha = 0.0;
+                     } completion:^(BOOL finished) {
+                         self.navigationItem.leftBarButtonItem = nil;
+                         [self.cancelButton removeFromSuperview];
+                     }];
+    for (EVRewardCard *card in self.cards) {
+        [card setUserInteractionEnabled:NO];
+    }
+
+    self.reward.willShare = self.shareSwitch.isOn;
     [self.reward redeemWithSuccess:^(EVReward *reward) {
         self.reward = reward;
         [self updateInterface];
-        if (self.switchView.shareSwitch.on && ![self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
+        if (self.shareSwitch.on && ![self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
             [self share];
         }
     } failure:^(NSError *error) {
@@ -220,6 +276,7 @@
         NSString *amountWithoutDollarSign = [[EVStringUtility amountStringForAmount:self.reward.selectedAmount] stringByReplacingOccurrencesOfString:@"$" withString:@""];
         
         action[@"reward"] = [NSString stringWithFormat:@"https://paywithivy.com/facebook/reward?amount=%@", amountWithoutDollarSign];
+        action[@"fb:explicitly_shared"] = @"true";
         [FBRequestConnection startForPostWithGraphPath:@"me/evenlyapp:win"
                                            graphObject:action completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                                                DLog(@"Result: %@", result);
@@ -237,53 +294,211 @@
 }
 
 - (void)share {
+    [self acquirePublishPermissionsWithCompletion:[self shareBlock]];
+}
+
+- (void)acquirePublishPermissionsWithCompletion:(void (^)(void))completion {
     if (![EVFacebookManager isConnected]) {
         [EVFacebookManager openSessionWithCompletion:^{
-            [EVFacebookManager requestPublishPermissionsWithCompletion:[self shareBlock]];
+            [EVFacebookManager requestPublishPermissionsWithCompletion:^{
+                DLog(@"Received publish permissions");
+                if (completion)
+                    completion();
+            }];
         }];
     } else if (![EVFacebookManager hasPublishPermissions]) {
-        [EVFacebookManager requestPublishPermissionsWithCompletion:[self shareBlock]];
+        [EVFacebookManager requestPublishPermissionsWithCompletion:^{
+            DLog(@"Received publish permissions");
+            if (completion)
+                completion();
+        }];
     } else {
-        [self shareBlock]();
+        if (completion)
+            completion();
     }
 }
 
-#pragma mark - Managing Sliders
+#pragma mark - UI Updates
 
 - (void)updateInterface {
-    [self updateSliders];
-    NSString *topPhrase, *bottomPhrase = nil;
-    if (![self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
-        topPhrase = [NSString stringWithFormat:@"Nice! You've earned %@!", [EVStringUtility amountStringForAmount:self.reward.selectedAmount]];
-    } else {
-        topPhrase = @"Better luck next time!";
-    }
-    bottomPhrase = @"Curious?  Swipe to reveal the other rewards.";
-    self.afterView.headerLabel.text = topPhrase;
-    self.afterView.otherOptionsLabel.text = bottomPhrase;
-    
-    [self.view addSubview:self.afterView];
+    [self updateCards];
     [self changeNavButton];
 }
 
-- (void)updateSliders {
-    EVRewardsSlider *slider;
+- (void)updateCards {
+    EVRewardCard *card;
     NSDecimalNumber *amount;
     for (int i = 0; i < self.reward.options.count; i++) {
-        slider = [self.sliders objectAtIndex:i];
+        card = [self.cards objectAtIndex:i];
+        [card setUserInteractionEnabled:YES];
+        [card setAnimationEnabled:NO];
+
         amount = [self.reward.options objectAtIndex:i];
-        [slider.backgroundView stopAnimating];
-        slider.animationEnabled = NO;
-        slider.enabled = YES;
-        [slider setRewardAmount:amount animated:(i == self.reward.selectedOptionIndex)];
+        BOOL animated = (i == self.reward.selectedOptionIndex);
+        void (^completion)(void) = NULL;
+        if (animated)
+            completion = ^{
+                EV_DISPATCH_AFTER(1.0, ^{
+                    if (![[self.reward selectedAmount] isEqual:[NSDecimalNumber zero]])
+                        [self animateAmountLabel];
+                    else {
+                        [self switchTopLabel];
+                    }
+                });
+            };
+        [card setRewardAmount:amount
+                     animated:animated
+                   completion:completion];
     }
 }
 
 - (void)changeNavButton {
-    self.navigationItem.leftBarButtonItem = nil;
-    [self.cancelButton removeFromSuperview];
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.doneButton];
+    self.doneButton.alpha = 0.0;
+    [UIView animateWithDuration:0.5
+                     animations:^{
+                         self.doneButton.alpha = 1.0;
+                     } completion:^(BOOL finished) {
+
+                     }];
 }
+
+#pragma mark - Animations
+
+- (CGSize)cardSize {
+    int count = self.cards.count;
+    CGFloat availableHeight = CGRectGetMinY(self.footerLabel.frame) - CGRectGetMaxY(self.topLabel.frame);
+    availableHeight -= count * CARD_SPACING;
+    CGFloat height = availableHeight / count;
+    CGFloat width = MIN(MAX_CARD_WIDTH, height * 2.0);
+    return CGSizeMake(width, height);
+}
+
+- (CGPoint)cardOffscreenCenter {
+    CGSize size = [self cardSize];
+    CGFloat xOrigin = -size.width;
+    CGFloat yOrigin = (self.view.frame.size.height - size.height) / 2.0;
+    return CGPointMake(xOrigin + size.width / 2.0, yOrigin + size.height / 2.0);
+}
+
+- (CGRect)cardFrameForIndex:(NSInteger)i {
+    
+    CGFloat spacing = 20.0;
+    CGSize size = [self cardSize];
+    CGFloat width = size.width;
+    CGFloat height = size.height;
+    CGFloat xOrigin = (self.view.frame.size.width - width) / 2.0;
+    CGRect frame = CGRectMake(xOrigin,
+                              CGRectGetMaxY(self.topLabel.frame) + i*height + i*spacing,
+                              width,
+                              height);
+    return frame;    
+}
+
+- (void)dealCards {
+    NSTimeInterval spacing = 0.18;
+    NSTimeInterval duration = EV_DEFAULT_ANIMATION_DURATION;
+    int i = 0;
+    for (EVRewardCard *card in self.cards) {
+        [card setSize:[self cardSize]];
+        [card setCenter:[self cardOffscreenCenter]];
+        [card setTransform:CGAffineTransformMakeRotation(M_PI / 2.0)];
+        [self.view addSubview:card];
+        EV_DISPATCH_AFTER(i*spacing, ^{
+            [UIView animateWithDuration:duration
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseOut
+                             animations:^{
+                                 CGRect frame = [self cardFrameForIndex:i];
+                                 CGPoint center = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
+                                 [card setCenter:center];
+                                 [card setTransform:CGAffineTransformIdentity];
+                             } completion:NULL];
+        });
+        i++;
+    }
+}
+
+- (void)flipBalanceView {
+    self.balanceView.frame = CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT);
+    [UIView transitionFromView:self.headerView
+                        toView:self.balanceView
+                      duration:0.5
+                       options:UIViewAnimationOptionTransitionFlipFromBottom
+                    completion:^(BOOL finished) {
+
+                    }];
+}
+
+- (void)animateAmountLabel {
+    EVRewardCard *card = [self.cards objectAtIndex:self.reward.selectedOptionIndex];
+    
+    UILabel *faceLabel = card.face.amountLabel;
+    UILabel *newLabel = [faceLabel roughCopy];
+    newLabel.textColor = [EVColor mediumLabelColor];
+    
+    CGPoint faceLabelCenter = [self.view convertPoint:faceLabel.center fromView:card.face];
+    CGSize textSize = [faceLabel.text sizeWithFont:faceLabel.font];
+    [newLabel setSize:textSize];
+    newLabel.center = faceLabelCenter;
+    
+    [UIView animateWithDuration:1.0
+                     animations:^{
+                         [self.view addSubview:newLabel];
+                         CGRect destinationRect = [self.view convertRect:self.balanceView.balanceLabel.frame fromView:self.balanceView];
+                         destinationRect.origin.x = CGRectGetMaxX(destinationRect) - newLabel.frame.size.width;
+                         destinationRect.size.width = newLabel.frame.size.width;
+                         [newLabel setFrame:destinationRect];
+                     }
+                     completion:^(BOOL finished) {
+                         [newLabel removeFromSuperview];
+                         [self updateBalance];
+                         EV_DISPATCH_AFTER(0.8, ^{
+                             [self switchTopLabel];
+                         });
+                     }];
+}
+
+- (void)updateBalance {
+    NSDecimalNumber *myBalance = [[EVCIA me] balance];
+    NSDecimalNumber *rewardAmount = self.reward.selectedAmount;
+    NSDecimalNumber *newBalance = [myBalance decimalNumberByAdding:rewardAmount];
+    [self.balanceView.balanceLabel setText:[EVStringUtility amountStringForAmount:newBalance]];
+    [[[EVCIA sharedInstance] me] setBalance:newBalance];
+}
+
+- (void)switchTopLabel {
+    self.curiousLabel.frame = [self topLabelOffScreenLeftFrame];
+    [self.view addSubview:self.curiousLabel];
+    [UIView animateWithDuration:0.5f
+                     animations:^{
+                         self.curiousLabel.frame = [self topLabelFrame];
+                         self.topLabel.frame = [self topLabelOffScreenRightFrame];
+                     } completion:^(BOOL finished) {
+                         [self.topLabel removeFromSuperview];
+                         EV_DISPATCH_AFTER(EV_DEFAULT_ANIMATION_DURATION, ^{
+                             [self pulseUnselectedCards];
+                         });
+                     }];
+}
+
+- (void)pulseUnselectedCards {
+    EVRewardCard *card;
+    for (int i = 0; i < self.reward.options.count; i++) {
+        card = [self.cards objectAtIndex:i];
+        if (i != self.reward.selectedOptionIndex)
+            [card pulse];
+    }
+}
+
+#pragma mark - TTTAttributedLabelDelegate
+
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    EVWebViewController *controller = [[EVWebViewController alloc] initWithURL:url];
+    controller.title = [url isEqual:[EVUtilities tosURL]] ? @"Terms of Service" : @"Privacy Policy";
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
 
 @end
