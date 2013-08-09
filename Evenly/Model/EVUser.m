@@ -535,6 +535,7 @@
 
 - (void)setPrivacySetting:(EVPrivacySetting)privacySetting {
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:privacySetting] forKey:@"privacySetting"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (EVPrivacySetting)privacySetting {
@@ -542,6 +543,15 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"privacySetting"])
         setting = [[NSUserDefaults standardUserDefaults] objectForKey:@"privacySetting"];
     return [setting intValue];
+}
+
+- (void)setRewardSharingSetting:(BOOL)rewardSharingSetting {
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:rewardSharingSetting] forKey:@"rewardSharingSetting"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)rewardSharingSetting {
+    return [[[NSUserDefaults standardUserDefaults] objectForKey:@"rewardSharingSetting"] boolValue];
 }
 
 @end
