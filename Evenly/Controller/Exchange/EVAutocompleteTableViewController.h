@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#define EV_AUTOCOMPLETE_MAX_CONNECTIONS_SHOWN 5
-
 typedef enum {
     EVAutocompleteSectionConnections,
     EVAutocompleteSectionAddressBook
