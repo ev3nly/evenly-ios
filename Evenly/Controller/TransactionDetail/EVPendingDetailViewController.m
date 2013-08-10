@@ -31,7 +31,7 @@
 - (id)initWithExchange:(EVExchange *)exchange {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.exchange = exchange;
-        self.title = @"Transaction";
+        self.title = @"Request";
     }
     return self;
 }

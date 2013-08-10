@@ -14,6 +14,7 @@
 #import "EVGroupRequestPaymentOptionButton.h"
 
 #define TOP_MARGIN 10.0
+#define HEADER_LABEL_HEIGHT_WITH_PADDING 40.0
 
 @implementation EVGroupRequestPaymentOptionCell
 
@@ -27,7 +28,6 @@
         [self.headerLabel setFont:[EVFont blackFontOfSize:14]];
         [self.contentView addSubview:self.headerLabel];
         
-        
         self.optionButtons = [NSMutableArray array];
         
         self.position = EVGroupedTableViewCellPositionCenter;
@@ -39,20 +39,23 @@
     [self.optionButtons makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [self.optionButtons removeAllObjects];
     
-    if (record.numberOfPayments > 0)
+    if ([record.groupRequest.tiers count] > 1)
     {
-        EVGroupRequestPaymentOptionButton *button = [EVGroupRequestPaymentOptionButton buttonForTier:record.tier];
-        [button setEnabled:NO];
-        [button setSelected:YES];
-        [self.contentView addSubview:button];
-        [self.optionButtons addObject:button];
-    } else {
-        for (EVGroupRequestTier *tier in record.groupRequest.tiers) {
-            EVGroupRequestPaymentOptionButton *button = [EVGroupRequestPaymentOptionButton buttonForTier:tier];
+        if (record.numberOfPayments > 0)
+        {
+            EVGroupRequestPaymentOptionButton *button = [EVGroupRequestPaymentOptionButton buttonForTier:record.tier];
+            [button setEnabled:NO];
+            [button setSelected:YES];
             [self.contentView addSubview:button];
             [self.optionButtons addObject:button];
-            [button setSelected:(record.tier == tier)];
-            [button setEnabled:YES];
+        } else {
+            for (EVGroupRequestTier *tier in record.groupRequest.tiers) {
+                EVGroupRequestPaymentOptionButton *button = [EVGroupRequestPaymentOptionButton buttonForTier:tier];
+                [self.contentView addSubview:button];
+                [self.optionButtons addObject:button];
+                [button setSelected:(record.tier == tier)];
+                [button setEnabled:YES];
+            }
         }
     }
     
@@ -80,23 +83,12 @@
 
 - (CGFloat)heightForRecord:(EVGroupRequestRecord *)record {
     [self layoutSubviews];
-    CGFloat height = 0.0;
-    height += (record.numberOfPayments > 0 ? TOP_MARGIN : 2*TOP_MARGIN);
+    CGFloat height = HEADER_LABEL_HEIGHT_WITH_PADDING; // CGRectGetMaxY(self.headerLabel.frame) + TOP_MARGIN;
     for (EVGroupRequestPaymentOptionButton *button in self.optionButtons) {
         height += button.frame.size.height + TOP_MARGIN;
     }
-    height += 2*TOP_MARGIN;
     DLog(@"Height for %@: %.1f", record, height);
     return height;
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end
