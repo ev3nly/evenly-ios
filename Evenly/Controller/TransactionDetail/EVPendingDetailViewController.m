@@ -196,6 +196,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVPendingDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"pendingDetailCell" forIndexPath:indexPath];
     cell.story = [EVStory storyFromPendingExchange:self.exchange];
+    NSString *amountString = [EVStringUtility amountStringForAmount:self.exchange.amount];
+    [cell.confirmButton setTitle:[NSString stringWithFormat:@"PAY %@", amountString] forState:UIControlStateNormal];
     return cell;
 }
 
