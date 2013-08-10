@@ -36,7 +36,7 @@
         self.boostLabel.backgroundColor = [UIColor clearColor];
         self.boostLabel.textColor = [EVColor mediumLabelColor];
         self.boostLabel.font = [EVFont boldFontOfSize:12];
-        self.boostLabel.text = @"Boost your reward,";
+        self.boostLabel.text = @"Double your money,";
         [self addSubview:self.boostLabel];
         
         self.shareLabel = [[UILabel alloc] initWithFrame:CGRectMake(X_MARGIN, CGRectGetMaxY(self.boostLabel.frame), LABEL_WIDTH, self.frame.size.height / 2.0 - 2*Y_MARGIN)];
