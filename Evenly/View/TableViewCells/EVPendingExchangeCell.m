@@ -10,6 +10,8 @@
 
 #import "EVExchange.h"
 #import "EVGroupRequest.h"
+#import "EVGroupRequestRecord.h"
+#import "EVGroupRequestTier.h"
 #import "EVWalletNotification.h"
 
 #define EV_PENDING_EXCHANGE_CELL_MARGIN 10.0
@@ -151,11 +153,54 @@
 }
 
 - (void)configureForGroupRequest:(EVGroupRequest *)groupRequest {
-    [self.exchangeContainer removeFromSuperview];
-    [self.groupRequestLabel setText:[EVStringUtility stringForGroupRequest:groupRequest]];
+    [self.groupRequestContainer removeFromSuperview];
     
-    [self.groupRequestContainer setFrame:[self containerFrame]];
-    [self.containerView addSubview:self.groupRequestContainer];
+    [self.exchangeContainer setFrame:[self containerFrame]];
+    NSAttributedString *descriptionString = [EVStringUtility attributedStringForGroupRequest:groupRequest];
+    NSString *amountString = nil;
+    if (groupRequest.tiers.count == 1)
+        amountString = [EVStringUtility amountStringForAmount:[[[groupRequest tiers] objectAtIndex:0] price]];
+    else if ([groupRequest myRecord] && [[groupRequest myRecord] tier])
+        amountString = [EVStringUtility amountStringForAmount:[[[groupRequest myRecord] tier] price]];
+    else
+        amountString = @"TBD";
+
+    NSString *dateString = [[EVStringUtility shortDateFormatter] stringFromDate:groupRequest.createdAt];
+    
+    self.amountLabel.text = amountString;
+    [self.amountLabel sizeToFit];
+    CGFloat yMidpoint = self.exchangeContainer.frame.size.height / 2.0;
+    
+    [self.amountLabel setFrame:CGRectMake(self.exchangeContainer.frame.size.width - self.amountLabel.frame.size.width,
+                                          yMidpoint - self.amountLabel.frame.size.height,
+                                          self.amountLabel.frame.size.width,
+                                          self.amountLabel.frame.size.height)];
+    self.amountLabel.textColor = (groupRequest.from == nil) ? [EVColor lightGreenColor] : [EVColor lightRedColor];
+    
+    [self.descriptionLabel setAttributedText:descriptionString];
+    [self.descriptionLabel setFrame:CGRectMake(0,
+                                               yMidpoint - self.amountLabel.frame.size.height,
+                                               CGRectGetMinX(self.amountLabel.frame) - MIN_LABEL_SPACING,
+                                               self.amountLabel.frame.size.height)];
+    [self.descriptionLabel setAdjustsFontSizeToFitWidth:YES];
+    [self.descriptionLabel setAdjustsLetterSpacingToFitWidth:YES];
+    [self.descriptionLabel setNumberOfLines:1];
+    [self.descriptionLabel setLineBreakMode:NSLineBreakByTruncatingTail];
+    
+    [self.dateLabel setText:dateString];
+    [self.dateLabel sizeToFit];
+    [self.dateLabel setFrame:CGRectMake(0,
+                                        CGRectGetMaxY(self.descriptionLabel.frame),
+                                        self.dateLabel.frame.size.width,
+                                        self.dateLabel.frame.size.height)];
+    [self.containerView addSubview:self.exchangeContainer];
+    
+    
+//    [self.exchangeContainer removeFromSuperview];
+//    [self.groupRequestLabel setText:[EVStringUtility stringForGroupRequest:groupRequest]];
+//    
+//    [self.groupRequestContainer setFrame:[self containerFrame]];
+//    [self.containerView addSubview:self.groupRequestContainer];
 }
 
 - (void)configureForWalletNotification:(EVWalletNotification *)walletNotification {
