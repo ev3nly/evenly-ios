@@ -194,13 +194,6 @@
                                         self.dateLabel.frame.size.width,
                                         self.dateLabel.frame.size.height)];
     [self.containerView addSubview:self.exchangeContainer];
-    
-    
-//    [self.exchangeContainer removeFromSuperview];
-//    [self.groupRequestLabel setText:[EVStringUtility stringForGroupRequest:groupRequest]];
-//    
-//    [self.groupRequestContainer setFrame:[self containerFrame]];
-//    [self.containerView addSubview:self.groupRequestContainer];
 }
 
 - (void)configureForWalletNotification:(EVWalletNotification *)walletNotification {
