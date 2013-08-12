@@ -181,8 +181,7 @@
             else {
                 userCell.paidStamp = nil;
                 userCell.noTierLabel = nil;
-                [userCell.owesAmountLabel setText:(record.tier ? [EVStringUtility amountStringForAmount:record.tier.price] : @"--")];
-                [userCell.paidAmountLabel setText:[EVStringUtility amountStringForAmount:record.amountPaid]];
+                [userCell.amountLabel setText:(record.tier ? [EVStringUtility amountStringForAmount:record.tier.price] : @"--")];
             }
             
             if (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section])
