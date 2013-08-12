@@ -207,6 +207,12 @@
                           withDuration:2.0];
         return NO;
     }
+    else if ([self isGroupRequest] && [self.initialView recipientCount] <= 1) {
+        [self.initialView flashMessage:@"Oops. Add another person to your group. Thanks!"
+                               inFrame:self.initialView.toFieldFrame
+                          withDuration:2.0];
+        return NO;
+    }
     return YES;
 }
 
