@@ -74,6 +74,14 @@
 - (void)setUpReactions {
     // Handle the first screen: if it's a group request, and if not, if it has at least one recipient.
     RAC(self.isGroupRequest) = RACAble(self.initialView.requestSwitch.on);
+    
+    [RACAble(self.isGroupRequest) subscribeNext:^(NSNumber *isGroupRequest) {
+        if (self.isGroupRequest) {
+            [self.initialView.toField.textField setPlaceholder:[EVStringUtility groupToFieldPlaceholder]];
+        } else {
+            [self.initialView.toField.textField setPlaceholder:[EVStringUtility toFieldPlaceholder]];
+        }
+    }];
 }
 
 #pragma mark - Basic Interface

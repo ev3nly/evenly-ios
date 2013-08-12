@@ -115,14 +115,14 @@
     self.multipleAmountsView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, self.frame.size.width - 40, 40.0)];
-    label.font = [EVFont defaultFontOfSize:15];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, self.frame.size.width - 40, 20)];
+    label.font = [EVFont defaultFontOfSize:14];
     label.textColor = [EVColor lightLabelColor];
     label.backgroundColor = [UIColor clearColor];
-    label.text = @"Pick which friends owe you which amount using the buttons above.";
+    label.text = @"Please assign your friends a payment amount.";
     label.textAlignment = NSTextAlignmentCenter;
-    label.numberOfLines = 0;
-    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.numberOfLines = 1;
+    label.adjustsLetterSpacingToFitWidth = YES;
     self.footerLabel = label;
     UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 45.0)];
     [containerView addSubview:label];

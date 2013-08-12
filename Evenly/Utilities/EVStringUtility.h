@@ -36,6 +36,7 @@
 + (NSString *)detailStringFromDate:(NSDate *)date;
 
 + (NSString *)toFieldPlaceholder;
++ (NSString *)groupToFieldPlaceholder;
 + (NSString *)requestDescriptionPlaceholder;
 + (NSString *)groupRequestTitlePlaceholder;
 + (NSString *)groupRequestDescriptionPlaceholder;

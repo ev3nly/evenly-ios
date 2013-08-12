@@ -255,6 +255,10 @@ static NSDateFormatter *_detailDateFormatter;
     return @"Name or email";
 }
 
++ (NSString *)groupToFieldPlaceholder {
+    return @"Add at least 2 friends";
+}
+
 + (NSString *)requestDescriptionPlaceholder {
     return @"What'd you share?\n(e.g. gas, rent or anything else)";
 }
