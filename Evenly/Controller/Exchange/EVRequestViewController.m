@@ -227,6 +227,12 @@
                                        withDuration:1.0f];
                 return NO;
             }
+            else if ([self.groupHowMuchView hasUnassignedMembers]) {
+                [self.groupHowMuchView flashMessage:@"You need to assign amounts to\nall your friends before proceeding."
+                                            inFrame:self.groupHowMuchView.headerLabel.frame
+                                       withDuration:2.0f];
+                return NO;
+            }
         }
         
         if ([self.groupHowMuchView hasTierBelowMinimum]) {

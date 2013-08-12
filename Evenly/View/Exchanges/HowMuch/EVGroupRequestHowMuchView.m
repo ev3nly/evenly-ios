@@ -119,7 +119,7 @@
     label.font = [EVFont defaultFontOfSize:15];
     label.textColor = [EVColor lightLabelColor];
     label.backgroundColor = [UIColor clearColor];
-    label.text = @"You can set friends now or do it later. We're flexible. :)";
+    label.text = @"Pick which friends owe you which amount using the buttons above.";
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 0;
     label.lineBreakMode = NSLineBreakByWordWrapping;
@@ -404,6 +404,13 @@
         float amount = [[EVStringUtility amountFromAmountString:self.singleAmountView.bigAmountView.amountField.text] floatValue];
         return (amount < EV_MINIMUM_DEPOSIT_AMOUNT);
     }
+}
+
+- (BOOL)hasUnassignedMembers {
+    if (![self showingMultipleOptions])
+        return NO;
+    
+    return [self.tierAssignmentManager hasUnassignedMembers];
 }
 
 
