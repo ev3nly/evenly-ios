@@ -21,7 +21,7 @@
 
 typedef enum {
 //    EVGroupRequestActionEdit,
-    EVGroupRequestActionInvite,
+//    EVGroupRequestActionInvite,
     EVGroupRequestActionCloseRequest
 } EVGroupRequestAction;
 
@@ -119,7 +119,7 @@ typedef enum {
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:
 //                                  @"Payment Options",
-                                  @"Invite",
+//                                  @"Invite",
                                   @"Close Request", nil];
     [actionSheet showInView:self.view];
 }
@@ -196,10 +196,10 @@ typedef enum {
 //        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:editViewController];
 //        [self presentViewController:navController animated:YES completion:NULL];
 //    }
-    else if (buttonIndex == EVGroupRequestActionInvite)
-    {
-        [self showInviteViewController];
-    }
+//    else if (buttonIndex == EVGroupRequestActionInvite)
+//    {
+//        [self showInviteViewController];
+//    }
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
