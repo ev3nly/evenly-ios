@@ -11,7 +11,7 @@
 typedef enum {
     EVDashboardPermanentRowTitle,
     EVDashboardPermanentRowProgress,
-    EVDashboardPermanentRowSegmentedControl,
+//    EVDashboardPermanentRowSegmentedControl,
     EVDashboardPermanentRowCOUNT
 } EVDashboardPermanentRow;
 

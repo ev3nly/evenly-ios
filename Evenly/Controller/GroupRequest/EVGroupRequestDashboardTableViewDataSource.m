@@ -43,7 +43,7 @@
     if (self) {
         self.groupRequest = groupRequest;
         
-        [self loadSegmentedControl];
+//        [self loadSegmentedControl];
         [self loadProgressView];
         [self loadInviteButton];
         [self loadRemindAllButton];
@@ -141,14 +141,14 @@
             [cell.contentView addSubview:self.remindAllButton];
         }
     }
-    else if (indexPath.row == EVDashboardPermanentRowSegmentedControl)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-        [cell setPosition:EVGroupedTableViewCellPositionCenter];
-        [self.segmentedControl setFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, SEGMENTED_CONTROL_HEIGHT)];
-        [cell.contentView addSubview:self.segmentedControl];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+//    else if (indexPath.row == EVDashboardPermanentRowSegmentedControl)
+//    {
+//        cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+//        [cell setPosition:EVGroupedTableViewCellPositionCenter];
+//        [self.segmentedControl setFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, SEGMENTED_CONTROL_HEIGHT)];
+//        [cell.contentView addSubview:self.segmentedControl];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    }
     else
     {
         if ([self noOneHasJoined])
@@ -212,9 +212,9 @@
             if (![self noOneHasJoined])
                 height += self.remindAllButton.frame.size.height + GENERAL_Y_PADDING;
             break;
-        case EVDashboardPermanentRowSegmentedControl:
-            height = SEGMENTED_CONTROL_HEIGHT;
-            break;
+//        case EVDashboardPermanentRowSegmentedControl:
+//            height = SEGMENTED_CONTROL_HEIGHT;
+//            break;
         case EVDashboardPermanentRowCOUNT:
             if ([self noOneHasJoined])
                 height = NO_ONE_JOINED_ROW_HEIGHT;
