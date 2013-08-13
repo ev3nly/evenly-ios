@@ -52,7 +52,7 @@ typedef enum {
         self.dataSource = [[EVGroupRequestDashboardTableViewDataSource alloc] initWithGroupRequest:self.groupRequest];
         [self.dataSource.inviteButton addTarget:self action:@selector(inviteButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         [self.dataSource.remindAllButton addTarget:self action:@selector(remindAllButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-        self.title = @"Group Request";
+        self.title = self.groupRequest.title;
     }
     return self;
 }
