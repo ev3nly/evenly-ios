@@ -24,6 +24,7 @@
 @interface EVHistoryViewController ()
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UILabel *noHistoryLabel;
 @property (nonatomic) int pageNumber;
 
 - (void)loadTableView;
@@ -68,7 +69,26 @@ static NSDateFormatter *_dateFormatter = nil;
         self.tableView.loading = NO;
         self.exchanges = history;
         [self.tableView reloadData];
+        
+        if ([history count] == 0)
+            [self loadNoHistoryLabel];
+        else if (self.noHistoryLabel) {
+            [self.noHistoryLabel removeFromSuperview];
+            self.noHistoryLabel = nil;
+        }
     }];
+}
+
+- (void)loadNoHistoryLabel {
+    self.noHistoryLabel = [UILabel new];
+    self.noHistoryLabel.backgroundColor = [UIColor clearColor];
+    self.noHistoryLabel.text = @"You haven't made any transactions yet!";
+    self.noHistoryLabel.textAlignment = NSTextAlignmentCenter;
+    self.noHistoryLabel.textColor = [EVColor lightLabelColor];
+    self.noHistoryLabel.font = [EVFont defaultFontOfSize:15];
+    [self.noHistoryLabel sizeToFit];
+    self.noHistoryLabel.center = self.tableView.center;
+    [self.tableView addSubview:self.noHistoryLabel];
 }
 
 #pragma mark - View Loading
