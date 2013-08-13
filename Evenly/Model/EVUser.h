@@ -102,5 +102,6 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *information;
 @property (nonatomic, strong) NSString *email;
+@property (nonatomic, strong) NSString *phoneNumber;
 
 @end

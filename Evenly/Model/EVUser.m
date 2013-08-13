@@ -582,6 +582,14 @@
     self.information = email;
 }
 
+- (NSString *)phoneNumber {
+    return self.information;
+}
+
+- (void)setPhoneNumber:(NSString *)phoneNumber {
+    self.information = phoneNumber;
+}
+
 - (BOOL)isEqual:(id)object {
     if (![object isKindOfClass:[self class]])
         return NO;

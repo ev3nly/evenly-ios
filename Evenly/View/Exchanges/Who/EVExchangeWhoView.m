@@ -174,9 +174,12 @@ NSString *const EVExchangeWhoViewAddedTokenFromReturnPressNotification = @"EVExc
 
 - (void)addTokenFromField:(JSTokenField *)tokenField {
     NSString *text = tokenField.textField.text;
-    if ([text isEmail]) {
+    if ([text isEmail] || [text isPhoneNumber]) {
         EVContact *contact = [EVContact new];
-        [contact setEmail:text];
+        if ([text isEmail])
+            [contact setEmail:text];
+        else
+            [contact setPhoneNumber:text];
         [contact setName:text];
         [self addContact:contact];
         tokenField.textField.text = nil;
