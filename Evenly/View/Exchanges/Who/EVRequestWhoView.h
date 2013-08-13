@@ -10,7 +10,7 @@
 #import "EVExchangeWhoView.h"
 #import "EVRequestSwitch.h"
 
-@interface EVRequestWhoView : EVExchangeWhoView <EVSwitchDelegate>
+@interface EVRequestWhoView : EVExchangeWhoView
 
 @property (nonatomic, strong) EVRequestSwitch *requestSwitch;
 @property (nonatomic) BOOL didForceSwitchToGroup;

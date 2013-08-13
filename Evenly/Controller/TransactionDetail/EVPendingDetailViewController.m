@@ -31,7 +31,7 @@
 - (id)initWithExchange:(EVExchange *)exchange {
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.exchange = exchange;
-        self.title = @"Transaction";
+        self.title = @"Request";
     }
     return self;
 }
@@ -196,6 +196,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVPendingDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"pendingDetailCell" forIndexPath:indexPath];
     cell.story = [EVStory storyFromPendingExchange:self.exchange];
+    NSString *amountString = [EVStringUtility amountStringForAmount:self.exchange.amount];
+    [cell.confirmButton setTitle:[NSString stringWithFormat:@"PAY %@", amountString] forState:UIControlStateNormal];
     return cell;
 }
 

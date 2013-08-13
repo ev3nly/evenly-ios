@@ -29,6 +29,7 @@
 + (NSDictionary *)subjectVerbAndObjectForExchange:(EVExchange *)exchange;
 
 + (NSAttributedString *)attributedStringForPendingExchange:(EVExchange *)exchange;
++ (NSAttributedString *)attributedStringForGroupRequest:(EVGroupRequest *)groupRequest;
 
 + (NSDateFormatter *)detailDateFormatter;
 + (NSString *)nameForDetailField:(EVExchangeDetailField)field;

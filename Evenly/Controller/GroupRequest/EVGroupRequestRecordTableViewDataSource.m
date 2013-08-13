@@ -18,13 +18,11 @@
 #define BUTTON_WIDTH 276.0
 #define BUTTON_HEIGHT 44.0
 
-#define BUTTON_ROW_HEIGHT ((44.0*3) + (BUTTON_Y_MARGIN*2) + (BUTTON_SPACING*2))
-#define BUTTON_ROW_HEIGHT_WITHOUT_CANCEL ((44.0*2) + (BUTTON_Y_MARGIN*2) + (BUTTON_SPACING*1))
+#define BUTTON_ROW_HEIGHT ((44.0*2) + (BUTTON_Y_MARGIN*2) + (BUTTON_SPACING*1))
 
 @interface EVGroupRequestRecordTableViewDataSource ()
 
 - (void)loadRemindButton;
-- (void)loadMarkAsCompletedButton;
 - (void)loadCancelButton;
 
 @end
@@ -40,8 +38,7 @@
         [self.paymentOptionCell setRecord:record];
 
         [self loadRemindButton];
-        [self loadMarkAsCompletedButton];
-        [self loadCancelButton];        
+        [self loadCancelButton];
     }
     return self;
 }
@@ -82,7 +79,8 @@
 
 - (void)loadCancelButton {
     self.cancelButton = [[EVGrayButton alloc] initWithFrame:CGRectMake(BUTTON_X_MARGIN,
-                                                                       CGRectGetMaxY(self.markAsCompletedButton.frame) + BUTTON_SPACING,
+                                                                       CGRectGetMaxY(self.remindButton.frame) + BUTTON_SPACING,
+
                                                                        BUTTON_WIDTH,
                                                                        BUTTON_HEIGHT)];
     [self.cancelButton setTitle:@"CANCEL REQUEST" forState:UIControlStateNormal];
@@ -120,10 +118,7 @@
             if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
                 return [self.paymentOptionCell heightForRecord:self.record];
             else if (indexPath.row == EVGroupRequestRecordRowButtons) {
-                if (self.record.numberOfPayments == 0)
-                    return BUTTON_ROW_HEIGHT;
-                else
-                    return BUTTON_ROW_HEIGHT_WITHOUT_CANCEL;
+                return BUTTON_ROW_HEIGHT;
             }
         }
     }
