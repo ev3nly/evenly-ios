@@ -17,6 +17,13 @@
 
 #define Y_SPACING 10.0
 
+#define INFO_LABEL_X_MARGIN 20
+#define INFO_LABEL_Y_MARGIN 5
+#define INFO_LABEL_HEIGHT 20
+
+#define MULTI_ADD_OPTION_X_MARGIN 20
+#define MULTI_ADD_OPTION_WIDTH 280
+
 @interface EVGroupRequestHowMuchView ()
 
 @property (nonatomic, strong) UIView *multiAddOptionButtonContainer;
@@ -115,16 +122,19 @@
     self.multipleAmountsView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, self.frame.size.width - 40, 20)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(INFO_LABEL_X_MARGIN,
+                                                               INFO_LABEL_Y_MARGIN,
+                                                               self.frame.size.width - 2*INFO_LABEL_X_MARGIN,
+                                                               INFO_LABEL_HEIGHT)];
     label.font = [EVFont defaultFontOfSize:14];
     label.textColor = [EVColor lightLabelColor];
     label.backgroundColor = [UIColor clearColor];
-    label.text = @"Please assign your friends a payment amount.";
+    label.text = [EVStringUtility multiAmountInfoMessage];
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 1;
     label.adjustsLetterSpacingToFitWidth = YES;
     self.footerLabel = label;
-    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 45.0)];
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, INFO_LABEL_HEIGHT)];
     [containerView addSubview:label];
     self.multipleAmountsView.tableFooterView = containerView;
     self.footerView = containerView;
@@ -153,9 +163,9 @@
     self.multiAddOptionButtonContainer.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.multiAddOptionButtonContainer];
     
-    self.multiAddOptionButton = [[EVGrayButton alloc] initWithFrame:CGRectMake(20,
+    self.multiAddOptionButton = [[EVGrayButton alloc] initWithFrame:CGRectMake(MULTI_ADD_OPTION_X_MARGIN,
                                                                                Y_SPACING,
-                                                                               280.0,
+                                                                               MULTI_ADD_OPTION_WIDTH,
                                                                                ADD_OPTION_BUTTON_HEIGHT)];
     [self.multiAddOptionButton setTitle:[EVStringUtility addAdditionalOptionButtonTitle] forState:UIControlStateNormal];
     [self.multiAddOptionButton addTarget:self action:@selector(addOptionButtonPress:) forControlEvents:UIControlEventTouchUpInside];

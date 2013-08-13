@@ -210,13 +210,13 @@
 
 - (BOOL)shouldAdvanceToHowMuch {
     if (self.initialView.recipientCount == 0) {
-        [self.initialView flashMessage:@"Oops. Add a person before advancing. Thanks!"
+        [self.initialView flashMessage:[EVStringUtility noRecipientsErrorMessage]
                                inFrame:self.initialView.toFieldFrame
                           withDuration:2.0];
         return NO;
     }
     else if ([self isGroupRequest] && [self.initialView recipientCount] <= 1) {
-        [self.initialView flashMessage:@"Oops. Add another person to your group. Thanks!"
+        [self.initialView flashMessage:[EVStringUtility notEnoughRecipientsErrorMessage]
                                inFrame:self.initialView.toFieldFrame
                           withDuration:2.0];
         return NO;
@@ -230,13 +230,13 @@
         if ([self.groupHowMuchView showingMultipleOptions])
         {
             if ([self.groupHowMuchView isMissingAmount]) {
-                [self.groupHowMuchView flashMessage:@"You're missing at least one amount."
+                [self.groupHowMuchView flashMessage:[EVStringUtility missingAmountErrorMessage]
                                             inFrame:self.groupHowMuchView.headerLabel.frame
                                        withDuration:1.0f];
                 return NO;
             }
             else if ([self.groupHowMuchView hasUnassignedMembers]) {
-                [self.groupHowMuchView flashMessage:@"You need to assign amounts to\nall your friends before proceeding."
+                [self.groupHowMuchView flashMessage:[EVStringUtility assignFriendsErrorMessage]
                                             inFrame:self.groupHowMuchView.headerLabel.frame
                                        withDuration:2.0f];
                 return NO;
@@ -244,7 +244,7 @@
         }
         
         if ([self.groupHowMuchView hasTierBelowMinimum]) {
-            [self.groupHowMuchView flashMessage:@"You have to request at least $0.50."
+            [self.groupHowMuchView flashMessage:[EVStringUtility minimumRequestErrorMessage]
                                         inFrame:self.groupHowMuchView.headerLabel.frame
                                    withDuration:1.0f];
             return NO;

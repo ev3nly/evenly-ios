@@ -12,6 +12,9 @@
 #define TITLE_LABEL_HEIGHT 25
 #define TITLE_LABEL_FONT [EVFont blackFontOfSize:16]
 
+#define FLASH_MESSAGE_X_INSET 5
+#define FLASH_MESSAGE_Y_INSET 3
+
 @implementation EVExchangeView
 
 - (id)initWithFrame:(CGRect)frame
@@ -45,7 +48,7 @@
     UIView *view = [[UIView alloc] initWithFrame:frame];
     view.backgroundColor = [UIColor whiteColor];
     view.alpha = 0.0f;
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectInset(view.bounds, 5, 3)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectInset(view.bounds, FLASH_MESSAGE_X_INSET, FLASH_MESSAGE_Y_INSET)];
     label.backgroundColor = [UIColor whiteColor];
     label.textColor = [EVColor lightRedColor];
     label.textAlignment = NSTextAlignmentCenter;

@@ -90,6 +90,12 @@
 
 #pragma mark - Request
 
++ (NSString *)noRecipientsErrorMessage;
++ (NSString *)notEnoughRecipientsErrorMessage;
++ (NSString *)missingAmountErrorMessage;
++ (NSString *)assignFriendsErrorMessage;
++ (NSString *)minimumRequestErrorMessage;
++ (NSString *)multiAmountInfoMessage;
 + (NSString *)addAdditionalOptionButtonTitle;
 
 #pragma mark - Password Reset
