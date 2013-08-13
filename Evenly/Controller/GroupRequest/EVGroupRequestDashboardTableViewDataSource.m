@@ -106,7 +106,6 @@
     if (indexPath.row == EVDashboardPermanentRowTitle)
     {
         EVDashboardTitleCell *titleCell = [tableView dequeueReusableCellWithIdentifier:@"titleCell" forIndexPath:indexPath];
-        [titleCell.titleLabel setText:self.groupRequest.title];
         [titleCell.memoLabel setText:self.groupRequest.memo];
         titleCell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell = titleCell;
@@ -188,7 +187,7 @@
     CGFloat height = 0.0f;
     switch (indexPath.row) {
         case EVDashboardPermanentRowTitle:
-            height = [EVDashboardTitleCell heightWithTitle:self.groupRequest.title memo:self.groupRequest.memo];
+            height = [EVDashboardTitleCell heightWithMemo:self.groupRequest.memo];
             break;
         case EVDashboardPermanentRowProgress:
             height = [EVGroupRequestProgressView height] + 2*GENERAL_Y_PADDING;
