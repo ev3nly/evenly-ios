@@ -60,6 +60,7 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypePendingTransactionDetail;
     story.isPrivate = [exchange.visibility isEqualToString:[EVStringUtility stringForPrivacySetting:EVPrivacySettingPrivate]];
+    story.createdAt = exchange.createdAt ?: [NSDate date];
     story.publishedAt = exchange.createdAt ?: [NSDate date];
     return story;
 }
