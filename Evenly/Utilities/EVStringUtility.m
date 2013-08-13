@@ -255,6 +255,10 @@ static NSDateFormatter *_detailDateFormatter;
     return @"Name or email";
 }
 
++ (NSString *)groupToFieldPlaceholder {
+    return @"Add at least 2 friends";
+}
+
 + (NSString *)requestDescriptionPlaceholder {
     return @"What'd you share?\n(e.g. gas, rent or anything else)";
 }
@@ -425,6 +429,30 @@ static NSDateFormatter *_detailDateFormatter;
 
 + (NSString *)addAdditionalOptionButtonTitle {
     return @"ADD ANOTHER PAYMENT OPTION";
+}
+
++ (NSString *)noRecipientsErrorMessage {
+    return @"Oops. Add a person before advancing. Thanks!";
+}
+
++ (NSString *)notEnoughRecipientsErrorMessage {
+    return @"Oops. Add another person to your group. Thanks!";
+}
+
++ (NSString *)missingAmountErrorMessage {
+    return @"You're missing at least one amount.";
+}
+
++ (NSString *)assignFriendsErrorMessage {
+    return @"You need to assign amounts to\nall your friends before proceeding.";
+}
+
++ (NSString *)minimumRequestErrorMessage {
+    return @"You have to request at least $0.50.";
+}
+
++ (NSString *)multiAmountInfoMessage {
+    return @"Please assign your friends a payment amount.";
 }
 
 #pragma mark - Password Reset

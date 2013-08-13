@@ -32,6 +32,12 @@
     return self;
 }
 
+- (BOOL)hasUnassignedMembers {
+    NSSet *allMembers = [NSSet setWithArray:[self.groupRequest initialMembers]];
+    NSSet *assignedMembers = [NSSet setWithArray:[self.tierMemberships flatten]];
+    return ![allMembers isEqualToSet:assignedMembers];
+}
+
 #pragma mark - EVGroupRequestTierAssignmentViewDataSource
 
 - (NSArray *)fullMembershipForTierAssignmentView:(EVGroupRequestTierAssignmentView *)view {

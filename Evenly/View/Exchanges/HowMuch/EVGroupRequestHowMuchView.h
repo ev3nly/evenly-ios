@@ -40,6 +40,7 @@
 
 @property (nonatomic, readonly) BOOL isMissingAmount;
 @property (nonatomic, readonly) BOOL hasTierBelowMinimum;
+@property (nonatomic, readonly) BOOL hasUnassignedMembers;
 
 - (void)setShowingMultipleOptions:(BOOL)showing animated:(BOOL)animated completion:(void (^)(void))completion;
 
