@@ -84,7 +84,9 @@
 
 - (void)setUpReactions {
     [RACAble(self.groupRequest.records) subscribeNext:^(NSArray *records) {
-        [self.tableView reloadData];
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            [self.tableView reloadData];
+        });
     }];
 }
 

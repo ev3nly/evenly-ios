@@ -82,6 +82,9 @@
 }
 
 - (CGFloat)heightForRecord:(EVGroupRequestRecord *)record {
+    if (self.optionButtons.count == 0)
+        return 0.0;
+
     [self layoutSubviews];
     CGFloat height = HEADER_LABEL_HEIGHT_WITH_PADDING;
     for (EVGroupRequestPaymentOptionButton *button in self.optionButtons) {

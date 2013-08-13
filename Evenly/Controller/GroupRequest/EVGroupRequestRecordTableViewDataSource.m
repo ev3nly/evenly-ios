@@ -9,6 +9,7 @@
 #import "EVGroupRequestRecordTableViewDataSource.h"
 #import "EVGroupRequestUserCell.h"
 #import "EVGroupRequestCompletedCell.h"
+#import "EVGroupRequest.h"
 
 #define USER_ROW_HEIGHT 64.0
 
@@ -156,7 +157,10 @@
             {
                 if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
                 {
-                    self.paymentOptionCell.headerLabel.text = @"Set a Payment Option";
+                    if (self.record.numberOfPayments == 0 && [self.record.groupRequest.tiers count] > 1)
+                        self.paymentOptionCell.headerLabel.text = @"Set a Payment Option";
+                    else
+                        self.paymentOptionCell.headerLabel.text = nil;
                     cell = self.paymentOptionCell;
                 }
                 else if (indexPath.row == EVGroupRequestRecordRowButtons)
@@ -173,7 +177,7 @@
                 }
                 else if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
                 {
-                    if (self.record.numberOfPayments == 0)
+                    if (self.record.numberOfPayments == 0 && [self.record.groupRequest.tiers count] > 1)
                         self.paymentOptionCell.headerLabel.text = @"Change Payment Option";
                     else
                         self.paymentOptionCell.headerLabel.text = nil;
