@@ -22,14 +22,12 @@
 #define GENERAL_X_MARGIN 10.0
 #define GENERAL_CONTENT_WIDTH 275.0
 #define REMIND_ALL_BUTTON_HEIGHT 44.0
-#define SEGMENTED_CONTROL_HEIGHT 40.0
 #define NO_ONE_JOINED_ROW_HEIGHT 190.0
 #define USER_ROW_HEIGHT 64.0
 
 
 @interface EVGroupRequestDashboardTableViewDataSource ()
 
-- (void)loadSegmentedControl;
 - (void)loadProgressView;
 - (void)loadInviteButton;
 - (void)loadRemindAllButton;
@@ -43,7 +41,6 @@
     if (self) {
         self.groupRequest = groupRequest;
         
-        [self loadSegmentedControl];
         [self loadProgressView];
         [self loadInviteButton];
         [self loadRemindAllButton];
@@ -57,11 +54,6 @@
 - (void)setGroupRequest:(EVGroupRequest *)groupRequest {
     _groupRequest = groupRequest;
     self.displayedRecords = self.groupRequest.records;
-}
-
-- (void)loadSegmentedControl {
-    self.segmentedControl = [[EVDashboardSegmentedControl alloc] initWithItems:@[ @"All", @"Paying", @"Paid" ]];
-    [self.segmentedControl addTarget:self action:@selector(segmentedControlChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)loadProgressView {
@@ -141,14 +133,6 @@
             [cell.contentView addSubview:self.remindAllButton];
         }
     }
-    else if (indexPath.row == EVDashboardPermanentRowSegmentedControl)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-        [cell setPosition:EVGroupedTableViewCellPositionCenter];
-        [self.segmentedControl setFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, SEGMENTED_CONTROL_HEIGHT)];
-        [cell.contentView addSubview:self.segmentedControl];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
     else
     {
         if ([self noOneHasJoined])
@@ -181,8 +165,7 @@
             else {
                 userCell.paidStamp = nil;
                 userCell.noTierLabel = nil;
-                [userCell.owesAmountLabel setText:(record.tier ? [EVStringUtility amountStringForAmount:record.tier.price] : @"--")];
-                [userCell.paidAmountLabel setText:[EVStringUtility amountStringForAmount:record.amountPaid]];
+                [userCell.amountLabel setText:(record.tier ? [EVStringUtility amountStringForAmount:record.tier.price] : @"--")];
             }
             
             if (indexPath.row == [self tableView:tableView numberOfRowsInSection:indexPath.section])
@@ -212,9 +195,6 @@
             if (![self noOneHasJoined])
                 height += self.remindAllButton.frame.size.height + GENERAL_Y_PADDING;
             break;
-        case EVDashboardPermanentRowSegmentedControl:
-            height = SEGMENTED_CONTROL_HEIGHT;
-            break;
         case EVDashboardPermanentRowCOUNT:
             if ([self noOneHasJoined])
                 height = NO_ONE_JOINED_ROW_HEIGHT;
@@ -243,23 +223,6 @@
         [self.progressView.progressBar setProgress:[self.groupRequest progress] animated:YES];
     }
 
-}
-
-- (void)segmentedControlChanged:(EVSegmentedControl *)segmentedControl {
-    switch (segmentedControl.selectedSegmentIndex) {
-        case EVDashboardSegmentAll:
-            self.displayedRecords = self.groupRequest.records;
-            break;
-        case EVDashboardSegmentPaying:
-            self.displayedRecords = [self.groupRequest.records filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"completed == FALSE"]];
-            break;
-        case EVDashboardSegmentPaid:
-            self.displayedRecords = [self.groupRequest.records filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"completed == TRUE"]];
-            break;
-        default:
-            break;
-    }
-    [self.tableView reloadData];
 }
 
 @end

@@ -20,7 +20,6 @@
 #import "EVGroupRequestInviteViewController.h"
 
 typedef enum {
-    EVGroupRequestActionInvite,
     EVGroupRequestActionCloseRequest
 } EVGroupRequestAction;
 
@@ -186,10 +185,6 @@ typedef enum {
                                               cancelButtonTitle:@"No"
                                               otherButtonTitles:@"Yes", nil];
         [alert show];
-    }
-    else if (buttonIndex == EVGroupRequestActionInvite)
-    {
-        [self showInviteViewController];
     }
 }
 

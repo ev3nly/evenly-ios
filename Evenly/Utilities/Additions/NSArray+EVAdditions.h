@@ -14,6 +14,7 @@
 - (NSArray *)arrayByRemovingObject:(id)object;
 - (NSArray *)map:(id (^)(id object))block;
 - (NSArray *)filter:(BOOL (^)(id object))block;
+- (NSArray *)flatten;
 
 /** Returns a random object from the receiver, or nil if the receiver is empty. */
 - (id)randomObject;

@@ -15,9 +15,6 @@
 
 @interface EVDashboardUserCell ()
 
-- (void)loadOwesLabels;
-- (void)loadPaidLabels;
-
 @end
 
 @implementation EVDashboardUserCell
@@ -37,8 +34,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        [self loadOwesLabels];
-        [self loadPaidLabels];
+        [self loadAmountLabel];
         
         self.accessoryView = [[UIImageView alloc] initWithImage:[EVImages dashboardDisclosureArrow]];
 
@@ -46,36 +42,12 @@
     return self;
 }
 
-- (void)loadOwesLabels {
-    self.owesLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.owesLabel.text = @"Owes";
-    self.owesLabel.font = [EVFont boldFontOfSize:GROUP_REQUEST_USER_CELL_SMALL_FONT_SIZE];
-    self.owesLabel.textColor = [EVColor lightLabelColor];
-    self.owesLabel.backgroundColor = [UIColor clearColor];
-    [self.owesLabel sizeToFit];
-    [self.contentView addSubview:self.owesLabel];
-
-    self.owesAmountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.owesAmountLabel.font = [EVFont defaultFontOfSize:GROUP_REQUEST_USER_CELL_SMALL_FONT_SIZE];
-    self.owesAmountLabel.backgroundColor = [UIColor clearColor];
-    self.owesAmountLabel.textColor = [EVColor lightRedColor];
-    [self.contentView addSubview:self.owesAmountLabel];
-}
-
-- (void)loadPaidLabels {
-    self.paidLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.paidLabel.text = @"Paid";
-    self.paidLabel.font = [EVFont boldFontOfSize:GROUP_REQUEST_USER_CELL_SMALL_FONT_SIZE];
-    self.paidLabel.textColor = [EVColor lightLabelColor];
-    self.paidLabel.backgroundColor = [UIColor clearColor];
-    [self.paidLabel sizeToFit];
-    [self.contentView addSubview:self.paidLabel];
-    
-    self.paidAmountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    self.paidAmountLabel.font = [EVFont defaultFontOfSize:GROUP_REQUEST_USER_CELL_SMALL_FONT_SIZE];
-    self.paidAmountLabel.backgroundColor = [UIColor clearColor];
-    self.paidAmountLabel.textColor = [EVColor lightGreenColor];
-    [self.contentView addSubview:self.paidAmountLabel];
+- (void)loadAmountLabel {
+    self.amountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.amountLabel.font = [EVFont boldFontOfSize:15];
+    self.amountLabel.textColor = [EVColor lightGreenColor];
+    self.amountLabel.backgroundColor = [UIColor clearColor];
+    [self.contentView addSubview:self.amountLabel];
 }
 
 - (void)setPaidStamp:(EVWalletStamp *)paidStamp {
@@ -108,10 +80,7 @@
 }
 
 - (void)layoutStamp {
-    self.owesLabel.hidden = YES;
-    self.paidLabel.hidden = YES;
-    self.owesAmountLabel.hidden = YES;
-    self.paidAmountLabel.hidden = YES;
+    self.amountLabel.hidden = YES;
 
     CGRect paidStampFrame = self.paidStamp.frame;
     paidStampFrame.origin.x = self.contentView.frame.size.width - paidStampFrame.size.width - STAMP_RIGHT_MARGIN;
@@ -127,10 +96,7 @@
 }
 
 - (void)layoutNoTierLabel {
-    self.owesLabel.hidden = YES;
-    self.paidLabel.hidden = YES;
-    self.owesAmountLabel.hidden = YES;
-    self.paidAmountLabel.hidden = YES;
+    self.amountLabel.hidden = YES;
     
     CGRect noTierFrame = self.noTierLabel.frame;
     noTierFrame.origin.x = AMOUNT_LABELS_MAX_X - noTierFrame.size.width;
@@ -146,31 +112,14 @@
 }
 
 - (void)layoutLabels {
-    self.owesLabel.hidden = NO;
-    self.paidLabel.hidden = NO;
-    self.owesAmountLabel.hidden = NO;
-    self.paidAmountLabel.hidden = NO;
+    self.amountLabel.hidden = NO;
+    [self.amountLabel sizeToFit];
     
-    [self.owesAmountLabel sizeToFit];
-    [self.paidAmountLabel sizeToFit];
-    
-    CGFloat totalHeight = self.owesAmountLabel.frame.size.height + self.paidAmountLabel.frame.size.height;
+    CGFloat totalHeight = self.amountLabel.frame.size.height;
     CGFloat yOrigin = (self.contentView.frame.size.height - totalHeight) / 2.0;
-    [self.owesAmountLabel setOrigin:CGPointMake(AMOUNT_LABELS_MAX_X - self.owesAmountLabel.frame.size.width,
-                                                yOrigin)];
-    [self.paidAmountLabel setOrigin:CGPointMake(AMOUNT_LABELS_MAX_X - self.paidAmountLabel.frame.size.width,
-                                                CGRectGetMaxY(self.owesAmountLabel.frame))];
+    [self.amountLabel setOrigin:CGPointMake(AMOUNT_LABELS_MAX_X - self.amountLabel.frame.size.width, yOrigin)];
     
-    CGFloat maxAmountWidth = MAX(self.owesAmountLabel.frame.size.width, self.paidAmountLabel.frame.size.width);
-    CGFloat maxLabelWidth = MAX(self.owesLabel.frame.size.width,  self.paidLabel.frame.size.width);
-    CGFloat xOrigin = AMOUNT_LABELS_MAX_X - maxAmountWidth - SMALL_GAP - maxLabelWidth;
-    
-    totalHeight = self.owesLabel.frame.size.height + self.paidLabel.frame.size.height;
-    yOrigin = (self.contentView.frame.size.height - totalHeight) / 2.0;
-    [self.owesLabel setOrigin:CGPointMake(xOrigin, yOrigin)];
-    [self.paidLabel setOrigin:CGPointMake(xOrigin, CGRectGetMaxY(self.owesLabel.frame))];
-    
-    CGFloat maxX = xOrigin - SMALL_GAP;
+    CGFloat maxX = CGRectGetMinX(self.amountLabel.frame) - SMALL_GAP;
     
     if (!EV_IS_EMPTY_STRING(self.tierLabel.text))
     {
