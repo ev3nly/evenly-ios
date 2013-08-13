@@ -38,6 +38,10 @@ NSString *const EVExchangeWhoViewAddedTokenFromReturnPressNotification = @"EVExc
     return self;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)addContact:(EVObject<EVExchangeable> *)contact {
     if (![[self recipients] containsObject:contact])
     {

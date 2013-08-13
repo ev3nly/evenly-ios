@@ -10,7 +10,7 @@
 #import "EVGroupRequestPendingHeaderCell.h"
 #import "EVGroupedTableViewCell.h"
 #import "EVDashboardTitleCell.h"
-#import "EVGroupRequestPendingPaymentOptionCell.h"
+#import "EVGroupRequestPendingPaymentCell.h"
 #import "EVRewardsGameViewController.h"
 
 #import "EVGroupRequestRecord.h"
@@ -21,7 +21,8 @@
     BOOL _loading;
 }
 
-@property (nonatomic, strong) EVGroupRequestPendingPaymentOptionCell *paymentOptionCell;
+@property (nonatomic, strong) EVGroupRequestPaymentOptionCell *paymentOptionCell;
+@property (nonatomic, strong) EVGroupRequestPendingPaymentCell *payRejectCell;
 @property (nonatomic, weak) EVGroupRequestRecord *record;
 
 @end
@@ -33,7 +34,7 @@
     if (self) {
         self.groupRequest = request;
         self.record = [self.groupRequest myRecord];
-        self.title = @"Group Request";
+        self.title = @"Request";
     }
     return self;
 }
@@ -54,6 +55,7 @@
     [super viewDidLoad];
     
     [self loadPaymentOptionCell];
+    [self loadPayRejectCell];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
@@ -65,35 +67,39 @@
     self.tableView.backgroundView = nil;
     
     [self.tableView registerClass:[EVGroupRequestPendingHeaderCell class] forCellReuseIdentifier:@"transactionCell"];
-    [self.tableView registerClass:[EVDashboardTitleCell class] forCellReuseIdentifier:@"detailCell"];
     [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
     
     [self.tableView setLoading:self.groupRequest.loading];
 }
 
+
 - (void)loadPaymentOptionCell {
     
-    self.paymentOptionCell = [[EVGroupRequestPendingPaymentOptionCell alloc] initWithStyle:UITableViewCellStyleDefault
+    self.paymentOptionCell = [[EVGroupRequestPaymentOptionCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                                            reuseIdentifier:@"paymentOptionCell"];
     self.paymentOptionCell.selectionStyle = UITableViewCellSelectionStyleNone;
     [self.paymentOptionCell setRecord:self.record];
-    [self.paymentOptionCell setPosition:EVGroupedTableViewCellPositionBottom];
-    if ([self.record numberOfPayments] > 0) {
+    [self.paymentOptionCell setPosition:EVGroupedTableViewCellPositionCenter];
+    if ([self.record numberOfPayments] > 0 || [self.record.groupRequest.tiers count] <= 1) {
         self.paymentOptionCell.headerLabel.text = nil;
     } else {
         self.paymentOptionCell.headerLabel.text = @"Select A Payment Option";
     }
     
     [self addTargetsToOptionButtons];
-    
-    [self.paymentOptionCell.payInFullButton addTarget:self
+
+}
+
+- (void)loadPayRejectCell {
+    self.payRejectCell = [[EVGroupRequestPendingPaymentCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                       reuseIdentifier:@"payRejectCell"];
+    [self.payRejectCell setPosition:EVGroupedTableViewCellPositionBottom];
+    [self.payRejectCell setRecord:self.record];
+    [self.payRejectCell.payInFullButton addTarget:self
                                                action:@selector(payInFullButtonPress:)
                                      forControlEvents:UIControlEventTouchUpInside];
-    [self.paymentOptionCell.payPartialButton addTarget:self
-                                                action:@selector(payPartialButtonPress:)
-                                      forControlEvents:UIControlEventTouchUpInside];
-    [self.paymentOptionCell.declineButton addTarget:self
+    [self.payRejectCell.declineButton addTarget:self
                                              action:@selector(declineButtonPress:)
                                    forControlEvents:UIControlEventTouchUpInside];
 }
@@ -109,9 +115,8 @@
 - (void)payInFullButtonPress:(id)sender {
     self.navigationItem.leftBarButtonItem.enabled = NO;
     self.navigationItem.rightBarButtonItem.enabled = NO;
-    self.paymentOptionCell.payInFullButton.enabled = NO;
-    self.paymentOptionCell.payPartialButton.enabled = NO;
-    self.paymentOptionCell.declineButton.enabled = NO;
+    self.payRejectCell.payInFullButton.enabled = NO;
+    self.payRejectCell.declineButton.enabled = NO;
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"PAYING..."];
     [self.groupRequest makePaymentOfAmount:self.record.amountOwed
                                  forRecord:self.record
@@ -130,24 +135,16 @@
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
                                    self.navigationItem.leftBarButtonItem.enabled = YES;
                                    self.navigationItem.rightBarButtonItem.enabled = YES;
-                                   self.paymentOptionCell.payInFullButton.enabled = YES;
-                                   self.paymentOptionCell.payPartialButton.enabled = YES;
-                                   self.paymentOptionCell.declineButton.enabled = YES;
+                                   self.payRejectCell.payInFullButton.enabled = YES;
+                                   self.payRejectCell.declineButton.enabled = YES;
                                }];
-}
-
-- (void)payPartialButtonPress:(id)sender {
-    EVPartialPaymentViewController *viewController = [[EVPartialPaymentViewController alloc] initWithRecord:self.record];
-    viewController.delegate = self;
-    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 - (void)declineButtonPress:(id)sender {
     self.navigationItem.leftBarButtonItem.enabled = NO;
     self.navigationItem.rightBarButtonItem.enabled = NO;
-    self.paymentOptionCell.payInFullButton.enabled = NO;
-    self.paymentOptionCell.payPartialButton.enabled = NO;
-    self.paymentOptionCell.declineButton.enabled = NO;
+    self.payRejectCell.payInFullButton.enabled = NO;
+    self.payRejectCell.declineButton.enabled = NO;
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"DECLINING..."];
     [self.groupRequest deleteRecord:self.record
                         withSuccess:^{
@@ -161,9 +158,9 @@
                             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
                             self.navigationItem.leftBarButtonItem.enabled = YES;
                             self.navigationItem.rightBarButtonItem.enabled = YES;
-                            self.paymentOptionCell.payInFullButton.enabled = YES;
-                            self.paymentOptionCell.payPartialButton.enabled = YES;
-                            self.paymentOptionCell.declineButton.enabled = YES;
+                            self.payRejectCell.payInFullButton.enabled = YES;
+                            self.payRejectCell.payPartialButton.enabled = YES;
+                            self.payRejectCell.declineButton.enabled = YES;
                         }];
 }
 
@@ -184,6 +181,7 @@
                                    self.record = record;
                                    [self.paymentOptionCell setRecord:record];
                                    [self addTargetsToOptionButtons];
+                                   [self.payRejectCell setRecord:record];
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
                                } failure:^(NSError *error) {
                                    DLog(@"Failed to update record: %@", error);
@@ -208,11 +206,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        return [EVGroupRequestPendingHeaderCell cellHeightForStory:[EVStory storyFromGroupRequest:self.groupRequest]];
-    } else if (indexPath.row == 1) {
-        return [EVDashboardTitleCell heightWithTitle:self.groupRequest.title memo:self.groupRequest.memo];
-    } else {
+        return [EVGroupRequestPendingHeaderCell cellHeightForStory:[EVStory storyFromGroupRequest:self.groupRequest] memo:self.groupRequest.memo];
+    }
+    else if (indexPath.row == 1) {
+        if ([self.groupRequest.tiers count] <= 1)
+            return 0.0;
         return [self.paymentOptionCell heightForRecord:[self.groupRequest myRecord]];
+    } else {
+        return [self.payRejectCell heightForRecord:[self.groupRequest myRecord]];
     }
     return 44.0; // not reached
 }
@@ -223,16 +224,14 @@
         EVGroupRequestPendingHeaderCell *headerCell = [tableView dequeueReusableCellWithIdentifier:@"transactionCell" forIndexPath:indexPath];
         EVStory *story = [EVStory storyFromGroupRequest:self.groupRequest];
         [headerCell setStory:story];
+        [headerCell.memoLabel setText:self.groupRequest.memo];
         cell = headerCell;
-    } else if (indexPath.row == 1) {
-        EVDashboardTitleCell *detailCell = [tableView dequeueReusableCellWithIdentifier:@"detailCell" forIndexPath:indexPath];
-        detailCell.position = EVGroupedTableViewCellPositionCenter;
-        [detailCell.titleLabel setText:self.groupRequest.title];
-        [detailCell.memoLabel setText:self.groupRequest.memo];
-        detailCell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell = detailCell;
-    } else if (indexPath.row == 2) {
+    }
+    else if (indexPath.row == 1) {
         cell = self.paymentOptionCell;
+    }
+    else if (indexPath.row == 2) {
+        cell = self.payRejectCell;
     }
     return cell;
 }
@@ -247,7 +246,8 @@
     [self.tableView setLoading:NO];
     self.record = [self.groupRequest myRecord];
     [self.paymentOptionCell setRecord:self.record];
-    if ([self.record numberOfPayments] > 0) {
+    [self.payRejectCell setRecord:self.record];
+    if ([self.record numberOfPayments] > 0 || [self.record.groupRequest.tiers count] <= 1) {
         self.paymentOptionCell.headerLabel.text = nil;
     } else {
         self.paymentOptionCell.headerLabel.text = @"Select A Payment Option";

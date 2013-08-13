@@ -10,4 +10,8 @@
 
 @interface EVGroupRequestPendingHeaderCell : EVTransactionDetailCell
 
+@property (nonatomic, strong) UILabel *memoLabel;
+
++ (CGFloat)cellHeightForStory:(EVStory *)story memo:(NSString *)memo;
+
 @end

@@ -31,6 +31,10 @@
     return self;
 }
 
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"recipientCount"];
+}
+
 #pragma mark - View Loading
 
 - (CGRect)upperStripeFrame {
@@ -46,7 +50,6 @@
     [self addSubview:self.requestSwitchBackground];
     
     self.requestSwitch = [[EVRequestSwitch alloc] initWithFrame:[self requestSwitchFrame]];
-    self.requestSwitch.delegate = self;
     [self.requestSwitchBackground addSubview:self.requestSwitch];
     
     [self.upperStripe setFrame:[self upperStripeFrame]];
@@ -65,14 +68,6 @@
 
 - (CGRect)requestSwitchFrame {
     return CGRectMake(10, 7, 300, 35);
-}
-
-- (void)switchControl:(EVSwitch *)switchControl willChangeStateTo:(BOOL)onOff animationDuration:(NSTimeInterval)duration {
-    if (onOff == YES && self.recipientCount == 0) {
-        EVInstructionView *instructionView = [[EVInstructionView alloc] initWithText:[EVStringUtility groupRequestCreationInstructions]];
-        [instructionView setShowingLogo:YES];
-        [instructionView flashInView:self forDuration:2.5];
-    }    
 }
 
 - (void)setUpReactions {

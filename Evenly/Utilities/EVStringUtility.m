@@ -135,20 +135,47 @@ static NSDateFormatter *_shortDateFormatter;
         key = @"subject";
     }
     value = mutableDict[key];
-    
-    NSMutableArray *components = [NSMutableArray arrayWithArray:[value componentsSeparatedByString:@" "]];
+    mutableDict[key] = [self firstNameAndInitialFromString:value];
+    return [NSDictionary dictionaryWithDictionary:mutableDict];
+}
+
++ (NSString *)firstNameAndInitialFromString:(NSString *)string {
+    NSString *outString = string;
+    NSMutableArray *components = [NSMutableArray arrayWithArray:[string componentsSeparatedByString:@" "]];
     if ([components count] > 1) {
         NSString *lastName = [components lastObject];
         if ([lastName length] > 0)
             lastName = [lastName substringToIndex:1];
         [components replaceObjectAtIndex:[components count] - 1 withObject:lastName];
-        value = [components componentsJoinedByString:@" "];
+        outString = [components componentsJoinedByString:@" "];
     }
-    mutableDict[key] = value;
-    return [NSDictionary dictionaryWithDictionary:mutableDict];
+    return outString;
 }
 
 #pragma mark - Group Requests
+
++ (NSAttributedString *)attributedStringForGroupRequest:(EVGroupRequest *)groupRequest {
+    NSDictionary *components = [self subjectVerbAndObjectForGroupRequest:groupRequest];
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@""];
+    
+    NSDictionary *boldAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:14],
+                                      NSForegroundColorAttributeName : [EVColor darkColor] };
+    NSDictionary *regularAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:14],
+                                         NSForegroundColorAttributeName : [EVColor darkColor] };
+    
+    NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" " attributes:regularAttributes];
+    
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:components[@"subject"]
+                                                                       attributes:[components[@"subject"] isEqualToString:@"You"] ? regularAttributes : boldAttributes]];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:components[@"verb"]
+                                                                       attributes:regularAttributes]];
+    [attrString appendAttributedString:space];
+    [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:components[@"object"]
+                                                                       attributes:[components[@"object"] isEqualToString:@"You"] ? regularAttributes : boldAttributes]];
+    return attrString;
+}
 
 + (NSString *)stringForGroupRequest:(EVGroupRequest *)groupRequest {
     NSDictionary *components = [self subjectVerbAndObjectForGroupRequest:groupRequest];
@@ -171,7 +198,8 @@ static NSDateFormatter *_shortDateFormatter;
         verb = ([groupRequest.records count] == 1 ? @"owes" : @"owe");
     } else {
         subject = @"You";
-        object = groupRequest.from.name;
+        object = [self firstNameAndInitialFromString:groupRequest.from.name];
+        
         verb = @"owe";
     }
     return @{ @"subject" : subject, @"verb" : verb, @"object" : object };

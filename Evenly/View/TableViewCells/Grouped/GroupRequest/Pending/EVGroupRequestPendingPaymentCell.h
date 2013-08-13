@@ -8,11 +8,15 @@
 
 #import "EVGroupRequestPaymentOptionCell.h"
 #import "EVGrayButton.h"
+#import "EVBlueButton.h"
 
-@interface EVGroupRequestPendingPaymentOptionCell : EVGroupRequestPaymentOptionCell
+@interface EVGroupRequestPendingPaymentCell : EVGroupedTableViewCell
 
-@property (nonatomic, strong) EVGrayButton *payInFullButton;
+@property (nonatomic, strong) EVBlueButton *payInFullButton;
 @property (nonatomic, strong) EVGrayButton *payPartialButton;
 @property (nonatomic, strong) EVGrayButton *declineButton;
+
+- (void)setRecord:(EVGroupRequestRecord *)record;
+- (CGFloat)heightForRecord:(EVGroupRequestRecord *)record;
 
 @end

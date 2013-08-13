@@ -60,7 +60,7 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypePendingTransactionDetail;
     story.isPrivate = [exchange.visibility isEqualToString:[EVStringUtility stringForPrivacySetting:EVPrivacySettingPrivate]];
-    story.publishedAt = [NSDate date];
+    story.publishedAt = exchange.createdAt ?: [NSDate date];
     return story;
 }
 
@@ -84,8 +84,8 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     story.displayType = EVStoryDisplayTypeCompletedTransactionDetail;
     story.isPrivate = [exchange.visibility isEqualToString:[EVStringUtility stringForPrivacySetting:EVPrivacySettingPrivate]];
     story.source = exchange;
-    story.createdAt = [NSDate date];
-    story.publishedAt = [NSDate date];
+    story.createdAt = exchange.createdAt ?: [NSDate date];
+    story.publishedAt = exchange.createdAt ?: [NSDate date];
     return story;
 }
 
@@ -105,7 +105,7 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     EVStory *story = [EVStory new];
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypePendingTransactionDetail;
-    story.publishedAt = [NSDate date];
+    story.publishedAt = groupRequest.createdAt ?: [NSDate date];
     return story;
 }
 
@@ -125,7 +125,7 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     EVStory *story = [EVStory new];
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypeCompletedTransactionDetail;
-    story.publishedAt = [NSDate date];
+    story.publishedAt = withdrawal.createdAt ?: [NSDate date];
     return story;
 }
 

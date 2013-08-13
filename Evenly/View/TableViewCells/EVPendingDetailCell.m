@@ -16,11 +16,6 @@
 
 @interface EVPendingDetailCell ()
 
-@property (nonatomic, strong) UIButton *rejectButton;
-@property (nonatomic, strong) UIButton *confirmButton;
-@property (nonatomic, strong) UIButton *cancelButton;
-@property (nonatomic, strong) UIButton *remindButton;
-
 @end
 
 @implementation EVPendingDetailCell

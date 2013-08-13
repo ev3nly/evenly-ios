@@ -14,4 +14,9 @@
 
 @property (nonatomic, weak) EVPendingDetailViewController *parent;
 
+@property (nonatomic, strong) UIButton *rejectButton;
+@property (nonatomic, strong) UIButton *confirmButton;
+@property (nonatomic, strong) UIButton *cancelButton;
+@property (nonatomic, strong) UIButton *remindButton;
+
 @end

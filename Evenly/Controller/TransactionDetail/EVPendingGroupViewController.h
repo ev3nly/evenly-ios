@@ -19,6 +19,5 @@
 - (id)initWithGroupRequest:(EVGroupRequest *)request;
 
 - (void)payInFullButtonPress:(id)sender;
-- (void)payPartialButtonPress:(id)sender;
 
 @end
