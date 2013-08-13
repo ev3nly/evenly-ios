@@ -14,7 +14,7 @@
 #define X_MARGIN 15.0
 #define Y_MARGIN 5.0
 #define BOOST_LABEL_Y_ORIGIN 12.0
-#define LABEL_WIDTH 110.0
+#define LABEL_WIDTH 130.0
 
 @property (nonatomic, strong) UILabel *boostLabel;
 @property (nonatomic, strong) UILabel *shareLabel;
