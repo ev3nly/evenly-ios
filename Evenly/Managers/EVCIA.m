@@ -222,7 +222,6 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedMeNotification object:nil];
         
         EVUser *me = [[self sharedInstance] me];
-        DLog(@"Got me: %@", [[self sharedInstance] me]);
         [[self sharedInstance] reloadPendingExchangesWithCompletion:NULL];
         [[self sharedInstance] reloadHistoryWithCompletion:NULL];
         
