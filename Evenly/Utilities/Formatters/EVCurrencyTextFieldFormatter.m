@@ -34,8 +34,12 @@
     // Prevent deletion when no amount exists.
     if (self.amountBackingStore.length == 0 && range.length > 0)
         return NO;
-    
+        
     // Update the amount backing store by adding or deleting from the end.
+    NSString *newBackingStore = [self.amountBackingStore stringByReplacingCharactersInRange:NSMakeRange(self.amountBackingStore.length - range.length, range.length) withString:string];
+    if ([newBackingStore length] > 8)
+        return NO;
+    
     self.amountBackingStore = [self.amountBackingStore stringByReplacingCharactersInRange:NSMakeRange(self.amountBackingStore.length - range.length, range.length) withString:string];
     NSString *stringToShow = nil;
     

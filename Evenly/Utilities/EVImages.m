@@ -224,6 +224,10 @@
     return [UIImage imageNamed:@"onboard-card3"];
 }
 
++ (UIImage *)onboardCard4 {
+    return [UIImage imageNamed:@"onboard-card4"];
+}
+
 + (UIImage *)bigIcon {
     return [UIImage imageNamed:@"ob_icon_no_lip"];
 }

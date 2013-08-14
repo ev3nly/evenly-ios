@@ -76,6 +76,7 @@
 + (UIImage *)onboardCard1;
 + (UIImage *)onboardCard2;
 + (UIImage *)onboardCard3;
++ (UIImage *)onboardCard4;
 + (UIImage *)bigIcon;
 + (UIImage *)facebookButton;
 + (UIImage *)facebookButtonPress;

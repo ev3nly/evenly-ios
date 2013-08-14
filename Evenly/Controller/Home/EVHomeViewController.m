@@ -146,6 +146,7 @@
     __weak EVHomeViewController *weakSelf = self;
     [self.tableView addPullToRefreshWithActionHandler:^{
         [weakSelf.newsfeedDataSource loadNewestStories];
+        [EVCIA reloadMe];
     }];
 }
 
