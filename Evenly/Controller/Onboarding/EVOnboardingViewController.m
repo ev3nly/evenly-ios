@@ -173,11 +173,11 @@
     return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointZero shouldScale:YES];
 }
 
-- (UIView *)thirdOnboardView {
-    NSString *title = @"Collect money, effortlessly";
-    NSString *description = @"Stop hassling friends. Send a request and we'll remind your friends until they pay you back.";
-    UIImage *image = [EVImages onboardCard2];
-    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointMake(0, 2) shouldScale:YES];
+- (UIView *)thirdOnboardView {    NSString *title = @"Win Cash Rewards";
+    NSString *description = @"After every payment, you can play the Evenly Rewards game and win up to $10 in cash back.";
+    UIImage *image = [EVImages onboardCard4];
+    float bottomBuffer = [EVUtilities deviceHasTallScreen] ? PICTURE_BOTTOM_BUFFER : SMALL_SCREEN_REWARDS_PICTURE_BOTTOM_BUFFER;
+    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointMake(0, bottomBuffer) shouldScale:NO];
 }
 
 - (UIView *)fourthOnboardView {
@@ -188,11 +188,10 @@
 }
 
 - (UIView *)fifthOnboardView {
-    NSString *title = @"Win Cash Rewards";
-    NSString *description = @"After every payment, you can play the Evenly Rewards game and win up to $10 in cash back.";
-    UIImage *image = [EVImages onboardCard4];
-    float bottomBuffer = [EVUtilities deviceHasTallScreen] ? PICTURE_BOTTOM_BUFFER : SMALL_SCREEN_REWARDS_PICTURE_BOTTOM_BUFFER;
-    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointMake(0, bottomBuffer) shouldScale:NO];
+    NSString *title = @"Collect money, effortlessly";
+    NSString *description = @"Stop hassling friends. Send a request and we'll remind your friends until they pay you back.";
+    UIImage *image = [EVImages onboardCard2];
+    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointMake(0, 2) shouldScale:YES];
 }
 
 - (UIView *)sixthOnboardView {

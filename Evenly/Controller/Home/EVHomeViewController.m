@@ -24,6 +24,8 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "EVLoadingIndicator.h"
 
+#import "EVGettingStartedViewController.h"
+
 #define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -20
 #define TABLE_VIEW_INFINITE_SCROLLING_INSET 60
 
@@ -67,6 +69,13 @@
     [self loadTableView];
     [self loadFloatingView];
     [self configurePullToRefresh];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVGettingStartedViewController new]];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 - (void)dealloc {

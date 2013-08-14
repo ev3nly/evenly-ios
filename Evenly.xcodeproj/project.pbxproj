@@ -442,6 +442,8 @@
 		D031C3FF1788D146008AC614 /* EVInviteContactCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D031C3FE1788D146008AC614 /* EVInviteContactCell.m */; };
 		D03569E117BAF79200E0776E /* onboard-card4.png in Resources */ = {isa = PBXBuildFile; fileRef = D03569DF17BAF79100E0776E /* onboard-card4.png */; };
 		D03569E217BAF79200E0776E /* onboard-card4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D03569E017BAF79200E0776E /* onboard-card4@2x.png */; };
+		D03569E517BB4C9100E0776E /* EVGettingStartedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03569E417BB4C9100E0776E /* EVGettingStartedViewController.m */; };
+		D03569E817BB50A800E0776E /* EVGettingStartedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D03569E717BB50A800E0776E /* EVGettingStartedCell.m */; };
 		D03A33731783C01A007F4B0B /* EVInviteFacebookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D03A33721783C01A007F4B0B /* EVInviteFacebookViewController.m */; };
 		D03A337E1783FE71007F4B0B /* evenly_profilePic1.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A33781783FE71007F4B0B /* evenly_profilePic1.png */; };
 		D03A337F1783FE71007F4B0B /* evenly_profilePic2.png in Resources */ = {isa = PBXBuildFile; fileRef = D03A33791783FE71007F4B0B /* evenly_profilePic2.png */; };
@@ -1228,6 +1230,10 @@
 		D031C3FE1788D146008AC614 /* EVInviteContactCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteContactCell.m; sourceTree = "<group>"; };
 		D03569DF17BAF79100E0776E /* onboard-card4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-card4.png"; sourceTree = "<group>"; };
 		D03569E017BAF79200E0776E /* onboard-card4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "onboard-card4@2x.png"; sourceTree = "<group>"; };
+		D03569E317BB4C9100E0776E /* EVGettingStartedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGettingStartedViewController.h; sourceTree = "<group>"; };
+		D03569E417BB4C9100E0776E /* EVGettingStartedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGettingStartedViewController.m; sourceTree = "<group>"; };
+		D03569E617BB50A800E0776E /* EVGettingStartedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVGettingStartedCell.h; sourceTree = "<group>"; };
+		D03569E717BB50A800E0776E /* EVGettingStartedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVGettingStartedCell.m; sourceTree = "<group>"; };
 		D03A33711783C019007F4B0B /* EVInviteFacebookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteFacebookViewController.h; sourceTree = "<group>"; };
 		D03A33721783C01A007F4B0B /* EVInviteFacebookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteFacebookViewController.m; sourceTree = "<group>"; };
 		D03A33781783FE71007F4B0B /* evenly_profilePic1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = evenly_profilePic1.png; sourceTree = "<group>"; };
@@ -2195,6 +2201,8 @@
 				9C06824E1798AFC10015BAF5 /* EVCheckingSavingsCell.m */,
 				9C340BBA179E1E2C00714169 /* EVSettingsCell.h */,
 				9C340BBB179E1E2C00714169 /* EVSettingsCell.m */,
+				D03569E617BB50A800E0776E /* EVGettingStartedCell.h */,
+				D03569E717BB50A800E0776E /* EVGettingStartedCell.m */,
 			);
 			path = Grouped;
 			sourceTree = "<group>";
@@ -2892,6 +2900,8 @@
 			children = (
 				D078F0141777D21B00499EB8 /* EVOnboardingViewController.h */,
 				D078F0151777D21B00499EB8 /* EVOnboardingViewController.m */,
+				D03569E317BB4C9100E0776E /* EVGettingStartedViewController.h */,
+				D03569E417BB4C9100E0776E /* EVGettingStartedViewController.m */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -3747,6 +3757,8 @@
 				9C9DC5C617B1CED9002B7236 /* EVRewardBalanceView.m in Sources */,
 				9CD8B8A817B31C7500055883 /* EVRewardsExhaustedView.m in Sources */,
 				9C8DEF1417B43A060093E8F2 /* EVHistoryRewardViewController.m in Sources */,
+				D03569E517BB4C9100E0776E /* EVGettingStartedViewController.m in Sources */,
+				D03569E817BB50A800E0776E /* EVGettingStartedCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
