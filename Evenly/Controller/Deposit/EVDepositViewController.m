@@ -151,10 +151,6 @@
 
 }
 
-- (void)tappedShit {
-    NSLog(@"tapped yo");
-}
-
 - (void)loadDepositButton {
     self.depositButton = [[EVBlueButton alloc] initWithFrame:CGRectMake(EV_DEPOSIT_MARGIN,
                                                                         CGRectGetMaxY(self.cellContainer.frame) + EV_DEPOSIT_MARGIN,

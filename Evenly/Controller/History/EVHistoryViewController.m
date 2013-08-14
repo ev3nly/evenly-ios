@@ -70,7 +70,7 @@ static NSDateFormatter *_dateFormatter = nil;
         self.exchanges = history;
         [self.tableView reloadData];
         
-        if ([history count] == 0)
+        if ([history count] == 0 && !self.noHistoryLabel)
             [self loadNoHistoryLabel];
         else if (self.noHistoryLabel) {
             [self.noHistoryLabel removeFromSuperview];
