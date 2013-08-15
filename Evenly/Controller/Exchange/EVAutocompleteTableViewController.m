@@ -121,11 +121,11 @@
     EV_PERFORM_ON_BACKGROUND_QUEUE(^{
         if (!EV_IS_EMPTY_STRING(text)) {
             [self filterConnectionsWithText:text];
-            self.addressBookSuggestions = [ABContactsHelper contactsWithEmailMatchingName:text];
+            self.addressBookSuggestions = [ABContactsHelper autocompletableContactsMatchingName:text];
         }
         else {
             self.filteredConnections = [EVCIA myConnections];
-            self.addressBookSuggestions = [ABContactsHelper contactsWithEmail];
+            self.addressBookSuggestions = [ABContactsHelper autocompletableContacts];
         }
         EV_PERFORM_ON_MAIN_QUEUE(^{
             [self.tableView reloadData];
@@ -206,8 +206,9 @@
     else
     {
         EVAutocompleteEmailCell *emailCell = [tableView dequeueReusableCellWithIdentifier:@"emailCell" forIndexPath:indexPath];
-        emailCell.nameLabel.text = [contact compositeName];
-        emailCell.emailLabel.text = [[contact emailArray] objectAtIndex:0];
+        ABContact *abContact = contact;
+        emailCell.nameLabel.text = [abContact compositeName];
+        emailCell.emailLabel.text = [abContact evenlyContactString];
         cell = emailCell;
     }
     return cell;

@@ -51,6 +51,7 @@
     
     setValueForKeyIfNonNil(self.to.dbid, @"id");
     setValueForKeyIfNonNil(self.to.email, @"email");
+    setValueForKeyIfNonNil(self.to.phoneNumber, @"phone_number");
     
     return @{
         @"amount":          [self.amount stringValue],

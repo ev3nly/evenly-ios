@@ -10,6 +10,9 @@
 
 @interface ABContact (EVAdditions)
 
+- (NSString *)evenlyContactString;
+
+- (BOOL)hasPhoneNumber;
 - (NSString *)mobileNumber;
 - (NSString *)iPhoneNumber;
 
