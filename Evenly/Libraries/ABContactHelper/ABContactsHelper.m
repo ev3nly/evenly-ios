@@ -173,19 +173,4 @@
 	return [groups filteredArrayUsingPredicate:pred];
 }
 
-#pragma mark - Joe's Additions
-
-+ (NSArray *)contactsWithEmail {
-    NSArray *contacts = [[ABContactsHelper contacts] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[(ABContact *)evaluatedObject emailArray] count] > 0;
-    }]];
-    return contacts;
-}
-
-+ (NSArray *)contactsWithEmailMatchingName:(NSString *)name {
-    NSPredicate *pred;
-    NSArray *contacts = [self contactsWithEmail];
-	pred = [NSPredicate predicateWithFormat:@"firstname BEGINSWITH[cd] %@ OR lastname BEGINSWITH[cd] %@ OR compositeName BEGINSWITH[cd] %@", name, name, name];
-	return [contacts filteredArrayUsingPredicate:pred];
-}
 @end

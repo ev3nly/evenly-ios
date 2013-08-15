@@ -43,6 +43,7 @@
 + (NSString *)tipDescriptionPlaceholder;
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber;
++ (NSString *)strippedPhoneNumber:(NSString *)phoneNumber;
 
 + (NSString *)stringForPrivacySetting:(EVPrivacySetting)privacySetting;
 

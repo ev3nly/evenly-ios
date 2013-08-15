@@ -30,6 +30,8 @@
 #import "UIColor+EVAdditions.h"
 #import "UILabel+EVAdditions.h"
 #import "UIAlertView+MKBlockAdditions.h"
+#import "ABContactsHelper+EVAdditions.h"
+#import "ABContact+EVAdditions.h"
 
 #import "MBProgressHUD.h"
 

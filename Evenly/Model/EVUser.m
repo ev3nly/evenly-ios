@@ -562,34 +562,35 @@
 
 @synthesize avatar;
 @synthesize avatarURL;
+@synthesize name;
+@synthesize email;
+@synthesize phoneNumber;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
         self.name = [dictionary valueForKey:@"name"];
-        self.information = [dictionary valueForKey:@"information"];
+        NSString *information = [dictionary valueForKey:@"information"];
+        if ([information isPhoneNumber])
+            self.phoneNumber = information;
+        else if ([information isEmail])
+            self.email = information;
     }
     return self;
 }
 
 #pragma mark - Properties
 
-- (NSString *)email {
-    return self.information;
-}
-
-- (void)setEmail:(NSString *)email {
-    self.information = email;
-}
-
 - (BOOL)isEqual:(id)object {
     if (![object isKindOfClass:[self class]])
         return NO;
-    return (EV_OBJECTS_EQUAL_OR_NIL(self.name, [object name]) && EV_OBJECTS_EQUAL_OR_NIL(self.information, [object information]));
+    return (EV_OBJECTS_EQUAL_OR_NIL(self.name, [object name]) &&
+            EV_OBJECTS_EQUAL_OR_NIL(self.email, [object email]) &&
+            EV_OBJECTS_EQUAL_OR_NIL(self.phoneNumber, [object phoneNumber]));
 }
 
 - (NSUInteger)hash {
-    return [self.name hash] + 7*[self.information hash];
+    return [self.name hash] + 7*[self.email hash] + 13*[self.phoneNumber hash];
 }
 
 @end
