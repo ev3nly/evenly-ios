@@ -11,14 +11,15 @@
 @implementation ABContactsHelper (EVAdditions)
 
 + (NSArray *)autocompletableContacts {
-    NSArray *contacts = [[ABContactsHelper contacts] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        ABContact *contact = (ABContact *)evaluatedObject;
+    
+    NSArray *contacts = [[ABContactsHelper contacts] filter:^BOOL(id object) {
+        ABContact *contact = (ABContact *)object;
         if ([[contact phoneLabels] containsObject:(NSString *)kABPersonPhoneIPhoneLabel] ||
             [[contact phoneLabels] containsObject:(NSString *)kABPersonPhoneMobileLabel]) {
             return YES;
         }
         return [[contact emailArray] count] > 0;
-    }]];
+    }];
     return contacts;
 }
 
@@ -30,9 +31,9 @@
 }
 
 + (NSArray *)contactsWithEmail {
-    NSArray *contacts = [[ABContactsHelper contacts] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[(ABContact *)evaluatedObject emailArray] count] > 0;
-    }]];
+    NSArray *contacts = [[ABContactsHelper contacts] filter:^BOOL(id object) {
+        return [[(ABContact *)object emailArray] count] > 0;
+    }];
     return contacts;
 }
 
