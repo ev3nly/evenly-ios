@@ -32,6 +32,7 @@
 
 #import <FacebookSDK/FacebookSDK.h>
 #import <Parse/Parse.h>
+#import "ABContactsHelper.h"
 
 #define EV_APP_ENTERED_BACKGROUND_DATE_KEY @"EVAppEnteredBackgroundDate"
 #define EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY 60
@@ -70,6 +71,10 @@
     if ([launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [self handleRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey] requirePIN:YES];
     }
+    
+    [ABContactsHelper autocompletableContacts];
+    DLog(@"Mobile label: %@  iPhone label: %@", kABPersonPhoneMobileLabel, kABPersonPhoneIPhoneLabel);
+    
     return YES;
 }
 
