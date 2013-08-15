@@ -287,6 +287,11 @@ static NSDateFormatter *_detailDateFormatter;
     return phoneNumber;
 }
 
++ (NSString *)strippedPhoneNumber:(NSString *)phoneNumber {
+    NSArray *components = [phoneNumber componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    return [components componentsJoinedByString:@""];
+}
+
 #pragma mark - Contacts
 
 + (NSString *)displayNameForContact:(ABContact *)contact {
