@@ -33,7 +33,7 @@
     if (self) {
         self.cellHeight = 45.0;
         self.filteredConnections = [EVCIA myConnections];
-        self.addressBookSuggestions = [ABContactsHelper contactsWithEmail];
+        self.addressBookSuggestions = [ABContactsHelper autocompletableContacts];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didUpdateMe:)
                                                      name:EVCIAUpdatedMeNotification
