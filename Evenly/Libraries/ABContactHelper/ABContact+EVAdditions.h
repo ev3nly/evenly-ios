@@ -15,6 +15,9 @@
 - (BOOL)hasPhoneNumber;
 - (NSString *)mobileNumber;
 - (NSString *)iPhoneNumber;
-
+- (NSString *)mainNumber;
+- (NSString *)workNumber;
+- (NSString *)homeNumber;
+- (NSString *)otherNumber;
 
 @end

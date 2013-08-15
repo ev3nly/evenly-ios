@@ -289,7 +289,10 @@ static NSDateFormatter *_detailDateFormatter;
 
 + (NSString *)strippedPhoneNumber:(NSString *)phoneNumber {
     NSArray *components = [phoneNumber componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
-    return [components componentsJoinedByString:@""];
+    NSString *newNumber = [components componentsJoinedByString:@""];
+    if (newNumber.length == 11)
+        newNumber = [newNumber substringFromIndex:1];
+    return newNumber;
 }
 
 #pragma mark - Contacts
