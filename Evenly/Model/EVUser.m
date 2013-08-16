@@ -87,10 +87,8 @@
     if ([properties valueForKey:@"facebook_connected"] && ![[properties valueForKey:@"facebook_connected"] isEqual:[NSNull null]])
         self.facebookConnected = [[properties valueForKey:@"facebook_connected"] boolValue];
     
-    if ([properties valueForKey:@"roles"]) {
+    if ([properties valueForKey:@"roles"])
         self.roles = [properties valueForKey:@"roles"];
-        NSLog(@"roles: %@", self.roles);
-    }
 }
 
 - (NSDictionary *)dictionaryRepresentation {

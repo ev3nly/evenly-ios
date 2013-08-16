@@ -33,7 +33,6 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
 @property (nonatomic, strong) UIView *header;
 @property (nonatomic, strong) UIView *footer;
 @property (nonatomic, strong) UILabel *headerTitle;
-@property (nonatomic, strong) UILabel *headerSubtitle;
 @property (nonatomic, strong) UIButton *footerButton;
 
 @end
@@ -62,7 +61,6 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
     self.header.frame = [self headerFrame];
     self.footer.frame = [self footerFrame];
     self.headerTitle.frame = [self headerTitleFrame];
-    self.headerSubtitle.frame = [self headerSubtitleFrame];
     self.footerButton.frame = [self footerButtonFrame];
 }
 
@@ -107,7 +105,6 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
     self.header = [[UIView alloc] initWithFrame:[self headerFrame]];
     
     [self loadHeaderTitle];
-//    [self loadHeaderSubtitle];
     
     self.tableView.tableHeaderView = self.header;
 }
@@ -126,11 +123,6 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
     self.headerTitle.textColor = [EVColor darkLabelColor];
     self.headerTitle.font = [EVFont boldFontOfSize:17];
     [self.header addSubview:self.headerTitle];
-}
-
-- (void)loadHeaderSubtitle {
-    self.headerSubtitle = [UILabel new];
-    [self.header addSubview:self.headerSubtitle];
 }
 
 - (void)loadFooterButton {
@@ -423,13 +415,6 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
     CGRect centerFrame = EVRectCenterFrameInFrame(self.headerTitle.frame, self.header.bounds);
     centerFrame.origin.y += GS_TABLE_VIEW_MARGIN/2;
     return centerFrame;
-}
-
-- (CGRect)headerSubtitleFrame {
-    return CGRectMake(0,
-                      0,
-                      0,
-                      0);
 }
 
 - (CGRect)footerButtonFrame {

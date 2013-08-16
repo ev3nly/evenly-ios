@@ -15,6 +15,8 @@
 #define GS_TABLE_VIEW_MARGIN 10
 #define GS_TEXT_SIDE_BUFFER 10
 
+#define GS_CELL_HEIGHT 54
+
 @interface EVGettingStartedCell ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -26,7 +28,7 @@
 @implementation EVGettingStartedCell
 
 + (float)cellHeight {
-    return 54;
+    return GS_CELL_HEIGHT;
 }
 
 #pragma mark - Lifecycle
