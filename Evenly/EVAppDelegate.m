@@ -26,6 +26,7 @@
 #import "EVKeyboardTracker.h"
 #import "EVPushManager.h"
 #import "EVPINUtility.h"
+#import "EVSettingsManager.h"
 
 #import "EVSignInViewController.h"
 #import "EVSetPINViewController.h"
@@ -34,7 +35,6 @@
 #import <Parse/Parse.h>
 #import "ABContactsHelper.h"
 
-#define EV_APP_ENTERED_BACKGROUND_DATE_KEY @"EVAppEnteredBackgroundDate"
 #define EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY 60
 
 @implementation EVAppDelegate
@@ -118,7 +118,9 @@
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]
-                                              forKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
+                                              forKey:EVDateAppEnteredBackgroundKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
@@ -129,7 +131,11 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]
-                                              forKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
+                                              forKey:EVDateAppEnteredBackgroundKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if ([[EVPINUtility sharedUtility] pinIsSet])
+        [[self masterViewController] showPINViewControllerAnimated:NO];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -146,19 +152,10 @@
     [EVAnalyticsUtility trackEvent:EVAnalyticsOpenedApp];
     [EVUtilities registerForPushNotifications];
 
-    NSDate *dateAppEnteredBackground = [[NSUserDefaults standardUserDefaults] objectForKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
-    if (dateAppEnteredBackground && fabs([dateAppEnteredBackground timeIntervalSinceNow]) > EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY) {
-        EV_DISPATCH_AFTER(0.5, ^{
-            if ([[EVPINUtility sharedUtility] pinIsSet])
-                [[self masterViewController] showPINViewControllerAnimated:YES];
-            else {
-                EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
-                pinController.canDismissManually = NO;
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
-                [self.masterViewController presentViewController:navController animated:YES completion:nil];
-            }
-        });
-    }
+//    EV_DISPATCH_AFTER(0.5, ^{
+//        if ([[EVPINUtility sharedUtility] pinIsSet])
+//            [[self masterViewController] showPINViewControllerAnimated:YES];
+//    });
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

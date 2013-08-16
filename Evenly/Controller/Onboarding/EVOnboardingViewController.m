@@ -341,10 +341,7 @@
         [newUser loadAvatar];
         
         EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
-                pinController.canDismissManually = NO;
-                
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{                
                 EVGettingStartedViewController *controller = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeAll];
                 UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
                 [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];

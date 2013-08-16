@@ -487,4 +487,10 @@ static NSDateFormatter *_detailDateFormatter;
     return @"No Evenly activity yet. Tap above and show them how it's done.";
 }
 
+#pragma mark - PIN
+
++ (NSString *)wouldYouLikeToSetPINPrompt {
+    return @"Would you like to set a PIN to protect your Evenly wallet? You can always set it later in settings.";
+}
+
 @end

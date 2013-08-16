@@ -555,6 +555,7 @@
 		D0CBDC9A17AA4A8000E09D39 /* twitter_active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8E17AA4A8000E09D39 /* twitter_active@2x.png */; };
 		D0CBDC9B17AA4A8000E09D39 /* twitter_inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC8F17AA4A8000E09D39 /* twitter_inactive.png */; };
 		D0CBDC9C17AA4A8000E09D39 /* twitter_inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0CBDC9017AA4A8000E09D39 /* twitter_inactive@2x.png */; };
+		D0E6C07817BED5CE00E8EFD5 /* EVPINSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E6C07717BED5CE00E8EFD5 /* EVPINSettingsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1381,6 +1382,8 @@
 		D0CBDC8E17AA4A8000E09D39 /* twitter_active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitter_active@2x.png"; sourceTree = "<group>"; };
 		D0CBDC8F17AA4A8000E09D39 /* twitter_inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter_inactive.png; sourceTree = "<group>"; };
 		D0CBDC9017AA4A8000E09D39 /* twitter_inactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitter_inactive@2x.png"; sourceTree = "<group>"; };
+		D0E6C07617BED5CE00E8EFD5 /* EVPINSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPINSettingsViewController.h; sourceTree = "<group>"; };
+		D0E6C07717BED5CE00E8EFD5 /* EVPINSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPINSettingsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1558,6 +1561,8 @@
 				D0930049177AAA8C009F1881 /* EVSetPINViewController.m */,
 				D0930056177C0518009F1881 /* EVEnterPINViewController.h */,
 				D0930057177C0518009F1881 /* EVEnterPINViewController.m */,
+				D0E6C07617BED5CE00E8EFD5 /* EVPINSettingsViewController.h */,
+				D0E6C07717BED5CE00E8EFD5 /* EVPINSettingsViewController.m */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3771,6 +3776,7 @@
 				9C106A4D17BC642800742BB9 /* ABContact+EVAdditions.m in Sources */,
 				D03569E517BB4C9100E0776E /* EVGettingStartedViewController.m in Sources */,
 				D03569E817BB50A800E0776E /* EVGettingStartedCell.m in Sources */,
+				D0E6C07817BED5CE00E8EFD5 /* EVPINSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

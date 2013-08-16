@@ -17,12 +17,14 @@
 #import "EVTippingViewController.h"
 #import "EVStoryDetailViewController.h"
 #import "EVNavigationManager.h"
+#import "EVSetPINViewController.h"
 
 #import "EVRewardsGameViewController.h"
 
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "EVLoadingIndicator.h"
+#import "EVSettingsManager.h"
 
 #import "EVGettingStartedViewController.h"
 
@@ -69,6 +71,13 @@
     [self loadTableView];
     [self loadFloatingView];
     [self configurePullToRefresh];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+//    if ([self userHasNotSeenPINAlert])
+//        [self showPINAlert];
 }
 
 - (void)dealloc {
@@ -212,6 +221,31 @@
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - PIN Setting
+
+- (BOOL)userHasNotSeenPINAlert {
+    return ([[NSUserDefaults standardUserDefaults] boolForKey:EVHasSeenPINAlertKey] != YES);
+}
+
+- (void)showPINAlert {
+    NSDate *dateAppEnteredBackground = [[NSUserDefaults standardUserDefaults] objectForKey:EVDateAppEnteredBackgroundKey];
+    if (dateAppEnteredBackground) {
+        [[UIAlertView alertViewWithTitle:nil
+                                 message:[EVStringUtility wouldYouLikeToSetPINPrompt]
+                       cancelButtonTitle:@"Not now" otherButtonTitles:@[@"Yes"]
+                               onDismiss:^(int buttonIndex) {
+                                   [self showSetPINController];
+                               } onCancel:nil] show];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVHasSeenPINAlertKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)showSetPINController {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVSetPINViewController new]];
+    [self.masterViewController presentViewController:navController animated:YES completion:nil];
 }
 
 @end
