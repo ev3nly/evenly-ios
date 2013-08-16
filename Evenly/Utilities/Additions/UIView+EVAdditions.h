@@ -20,6 +20,9 @@
 /** Convenience method to bring a view to the front of its hierarchy. */
 - (void)comeToFront;
 
+CG_EXTERN CGRect EVRectCenterFrameInFrame(CGRect frameToCenter, CGRect baseFrame);
+- (CGRect)centeredFrameForFrame:(CGRect)frameToCenter inFrame:(CGRect)baseFrame;
+
 /** The view controller whose view contains this view. */
 - (UIViewController *)viewController DEPRECATED_ATTRIBUTE;
 

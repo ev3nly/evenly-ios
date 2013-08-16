@@ -39,6 +39,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Invite";
+        self.canDismissManually = NO;
     }
     return self;
 }

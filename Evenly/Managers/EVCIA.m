@@ -218,6 +218,10 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
 }
 
 + (void)reloadMe {
+    [self reloadMeWithCompletion:nil];
+}
+
++ (void)reloadMeWithCompletion:(void (^)(void))completion {
     [EVUser meWithSuccess:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedMeNotification object:nil];
         
@@ -240,11 +244,13 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         
         [EVParseUtility registerChannels];
         
+        if (completion)
+            completion();
+        
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];
 }
-
 
 - (void)cacheNewSession {
     //retrieve user from session call, cache user
@@ -358,7 +364,7 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
     }];
     NSArray *everything = [received arrayByAddingObjectsFromArray:sent];
     
-    if ([self.me isUnconfirmed]) {
+    if (self.me.needsGettingStartedHelp) {
         everything = [@[ [EVWalletNotification unconfirmedNotification] ] arrayByAddingObjectsFromArray:everything];
     }
     return everything;

@@ -69,6 +69,12 @@ withOriginalSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObje
         case 503: // Service Unavailable
             [[[UIAlertView alloc] initWithTitle:[EVStringUtility appName] message:[EVStringUtility serverMaintenanceError] delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] show];
             break;
+        case 500: {
+            NSString *errorTitle = EV_IS_EMPTY_STRING(error.message) ? @"Server Error" : error.message;
+            NSString *errorMessage = EV_IS_EMPTY_STRING(error.errorMessages) ? @"Please wait and try again." : error.errorMessages;
+            [[[UIAlertView alloc] initWithTitle:errorTitle message:errorMessage delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] show];
+        }
+            break;
         default:
 			[[[UIAlertView alloc] initWithTitle:error.message message:error.errorMessages delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil] show];
             break;

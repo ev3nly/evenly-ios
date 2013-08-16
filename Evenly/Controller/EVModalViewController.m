@@ -35,10 +35,6 @@
     [self.navigationItem setLeftBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:cancelButton]];
 }
 
-- (void)cancelButtonPress:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-}
-
 - (void)setCanDismissManually:(BOOL)canDismissManually {
     _canDismissManually = canDismissManually;
     

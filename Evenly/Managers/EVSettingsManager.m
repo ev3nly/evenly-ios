@@ -10,6 +10,8 @@
 #import "EVNotificationSetting.h"
 
 NSString *const EVHasSeenGroupRequestDashboardAlertKey = @"EVHasSeenGroupRequestDashboardAlertKey";
+NSString *const EVHasSeenPINAlertKey = @"EVHasSeenPINAlertKey";
+NSString *const EVDateAppEnteredBackgroundKey = @"EVAppEnteredBackgroundDate";
 
 static EVSettingsManager *_sharedManager;
 

@@ -25,6 +25,8 @@
 #import "EVPendingGroupViewController.h"
 #import "EVGroupRequestDashboardViewController.h"
 #import "EVWalletNotificationViewController.h"
+#import "EVGettingStartedViewController.h"
+#import "EVPaymentViewController.h"
 
 #import "UIScrollView+SVPullToRefresh.h"
 
@@ -374,7 +376,17 @@
         if ([interaction isKindOfClass:[EVExchange class]])
         {
             controller = [[EVPendingDetailViewController alloc] initWithExchange:(EVExchange *)interaction];
-            
+
+            if (!((EVExchange *)interaction).to) {
+                if ([EVCIA me].needsPaymentHelp) {
+                    ((EVViewController *)controller).shouldDismissGrandparent = YES;
+                    EVGettingStartedViewController *gettingStartedController = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypePayment];
+                    gettingStartedController.controllerToShow = (EVViewController *)controller;
+                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
+                    [self presentViewController:navController animated:YES completion:NULL];
+                    return;
+                }
+            }
         }
         else if ([interaction isKindOfClass:[EVGroupRequest class]])
         {
@@ -386,7 +398,7 @@
         }
         else if ([interaction isKindOfClass:[EVWalletNotification class]])
         {
-            controller = [[EVWalletNotificationViewController alloc] initWithWalletNotification:(EVWalletNotification *)interaction];
+            controller = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeAll];
         }
         NSAssert1(controller != nil, @"Controller to be presented was nil!  The object we were making the controller for was %@", interaction);
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
@@ -412,8 +424,17 @@
 }
 
 - (void)depositButtonPress:(id)sender {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
-    [self presentViewController:navController animated:YES completion:NULL];
+    
+    if ([EVCIA me].needsDepositHelp) {
+        EVGettingStartedViewController *gettingStartedController = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeDeposit];
+        gettingStartedController.controllerToShow = [EVDepositViewController new];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
+        [self presentViewController:navController animated:YES completion:NULL];
+    }
+    else {
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
+        [self presentViewController:navController animated:YES completion:NULL];
+    }
 }
 
 #pragma mark - EVSidePanelViewController Overrides

@@ -25,7 +25,8 @@ static NSDateFormatter *_dateFormatter = nil;
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     
-    self.bankName = [properties valueForKey:@"bank_name"];
+    if ([properties valueForKey:@"bank_name"] != [NSNull null])
+        self.bankName = [properties valueForKey:@"bank_name"];
     self.type = [properties valueForKey:@"type"];
     self.routingNumber = [properties valueForKey:@"routing_number"];
     self.accountNumber = [properties valueForKey:@"account_number"];

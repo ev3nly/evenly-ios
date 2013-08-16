@@ -49,11 +49,11 @@
 @implementation EVUnconfirmedWalletNotification
 
 - (NSString *)headline {
-    return @"Please confirm your Evenly account";
+    return @"Finish setting up your Evenly account";
 }
 
 - (NSString *)bodyText {
-    return [NSString stringWithFormat:@"We've sent a confirmation email to %@.  Please click the link within that email to verify your address.", [[EVCIA me] email]];
+    return [NSString stringWithFormat:@"Follow these steps, and you'll be ready to go in no time!"];
 }
 
 - (UIImage *)avatar {

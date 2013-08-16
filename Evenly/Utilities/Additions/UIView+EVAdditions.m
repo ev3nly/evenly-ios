@@ -37,6 +37,22 @@
     [self.superview bringSubviewToFront:self];
 }
 
+CG_EXTERN CGRect EVRectCenterFrameInFrame(CGRect frameToCenter, CGRect baseFrame) {
+    CGRect centeredFrame = CGRectMake(CGRectGetMidX(baseFrame) - frameToCenter.size.width/2,
+                                      CGRectGetMidY(baseFrame) - frameToCenter.size.height/2,
+                                      frameToCenter.size.width,
+                                      frameToCenter.size.height);
+    return CGRectIntegral(centeredFrame);
+}
+
+- (CGRect)centeredFrameForFrame:(CGRect)frameToCenter inFrame:(CGRect)baseFrame {
+    CGRect centeredFrame = CGRectMake(CGRectGetMidX(baseFrame) - frameToCenter.size.width/2,
+                                    CGRectGetMidY(baseFrame) - frameToCenter.size.height/2,
+                                    frameToCenter.size.width,
+                                    frameToCenter.size.height);
+    return CGRectIntegral(centeredFrame);
+}
+
 - (UIViewController *)viewController {
 	for (UIView *next = [self superview]; next; next = next.superview) {
 		UIResponder *nextResponder = [next nextResponder];

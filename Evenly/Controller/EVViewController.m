@@ -105,4 +105,11 @@
     self.navigationItem.rightBarButtonItem = barButtonItem;
 }
 
+- (void)cancelButtonPress:(id)sender {
+    if (self.shouldDismissGrandparent)
+        [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    else
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
 @end
