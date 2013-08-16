@@ -28,7 +28,7 @@
 }
 
 - (BOOL)hasPhoneNumber {
-    return !![self iPhoneNumber] || !![self mobileNumber];
+    return [[self phoneArray] count] > 0;
 }
 
 - (NSString *)iPhoneNumber {
