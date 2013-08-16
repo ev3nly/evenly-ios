@@ -125,6 +125,7 @@
                                    [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:^(NSArray *exchanges) {
 
                                    }];
+                                   [EVCIA reloadMe];
                                    [[EVStatusBarManager sharedManager] setPostSuccess:^{
                                        if (payment.reward)
                                            [self showGameForReward:payment.reward];
