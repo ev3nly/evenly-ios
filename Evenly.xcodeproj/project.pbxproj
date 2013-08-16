@@ -295,6 +295,7 @@
 		9CAC447A177F7E7200CA27C5 /* EVGroupRequestPendingHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CAC4479177F7E7200CA27C5 /* EVGroupRequestPendingHeaderCell.m */; };
 		9CAC447D177F97EC00CA27C5 /* EVGroupRequestPendingPaymentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CAC447C177F97E400CA27C5 /* EVGroupRequestPendingPaymentCell.m */; };
 		9CAC4480177FA07000CA27C5 /* EVPartialPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CAC447F177FA07000CA27C5 /* EVPartialPaymentViewController.m */; };
+		9CB08C0517BEB8CB005F575C /* EVAutocompleteSearchOnServerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9CB08C0417BEB8CB005F575C /* EVAutocompleteSearchOnServerCell.m */; };
 		9CB285961761521E009B26BB /* FeedActionLeftArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB285661761521E009B26BB /* FeedActionLeftArrow.png */; };
 		9CB285971761521E009B26BB /* FeedActionLeftArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB285671761521E009B26BB /* FeedActionLeftArrow@2x.png */; };
 		9CB285981761521E009B26BB /* FeedActionRightArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CB285681761521E009B26BB /* FeedActionRightArrow.png */; };
@@ -1030,6 +1031,8 @@
 		9CAC447C177F97E400CA27C5 /* EVGroupRequestPendingPaymentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestPendingPaymentCell.m; sourceTree = "<group>"; };
 		9CAC447E177FA07000CA27C5 /* EVPartialPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPartialPaymentViewController.h; sourceTree = "<group>"; };
 		9CAC447F177FA07000CA27C5 /* EVPartialPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPartialPaymentViewController.m; sourceTree = "<group>"; };
+		9CB08C0317BEB8CB005F575C /* EVAutocompleteSearchOnServerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAutocompleteSearchOnServerCell.h; sourceTree = "<group>"; };
+		9CB08C0417BEB8CB005F575C /* EVAutocompleteSearchOnServerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAutocompleteSearchOnServerCell.m; sourceTree = "<group>"; };
 		9CB285661761521E009B26BB /* FeedActionLeftArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FeedActionLeftArrow.png; sourceTree = "<group>"; };
 		9CB285671761521E009B26BB /* FeedActionLeftArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FeedActionLeftArrow@2x.png"; sourceTree = "<group>"; };
 		9CB285681761521E009B26BB /* FeedActionRightArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FeedActionRightArrow.png; sourceTree = "<group>"; };
@@ -2271,6 +2274,8 @@
 				9C9017E517821A5D00FCD32A /* EVAutocompletePhotoCell.m */,
 				9C9017E617821A6400FCD32A /* EVAutocompleteEmailCell.h */,
 				9C9017E717821A6400FCD32A /* EVAutocompleteEmailCell.m */,
+				9CB08C0317BEB8CB005F575C /* EVAutocompleteSearchOnServerCell.h */,
+				9CB08C0417BEB8CB005F575C /* EVAutocompleteSearchOnServerCell.m */,
 				9C81862017823E9F00038B00 /* EVAutocompleteCell.h */,
 				9C81862117823E9F00038B00 /* EVAutocompleteCell.m */,
 			);
@@ -3774,6 +3779,7 @@
 				9C8DEF1417B43A060093E8F2 /* EVHistoryRewardViewController.m in Sources */,
 				9C106A4A17BC640E00742BB9 /* ABContactsHelper+EVAdditions.m in Sources */,
 				9C106A4D17BC642800742BB9 /* ABContact+EVAdditions.m in Sources */,
+				9CB08C0517BEB8CB005F575C /* EVAutocompleteSearchOnServerCell.m in Sources */,
 				D03569E517BB4C9100E0776E /* EVGettingStartedViewController.m in Sources */,
 				D03569E817BB50A800E0776E /* EVGettingStartedCell.m in Sources */,
 				D0E6C07817BED5CE00E8EFD5 /* EVPINSettingsViewController.m in Sources */,
