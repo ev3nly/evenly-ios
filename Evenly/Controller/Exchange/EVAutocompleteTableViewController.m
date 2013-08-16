@@ -14,6 +14,11 @@
 #import "EVAutocompleteEmailCell.h"
 #import "EVAutocompleteSearchOnServerCell.h"
 
+#define LABEL_HEIGHT 15
+#define HEADER_HEIGHT 25
+#define X_MARGIN 10
+#define Y_MARGIN 5
+
 @interface EVAutocompleteTableViewController ()
 
 @property (nonatomic, strong) UIView *evenlyFriendsHeaderView;
@@ -82,13 +87,13 @@
     UIView *headerView;
     UIView *bottomStripe;
     
-    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(10, 5, self.tableView.frame.size.width - 20, 15)];
+    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(X_MARGIN, Y_MARGIN, self.tableView.frame.size.width - 2*X_MARGIN, LABEL_HEIGHT)];
     spreadLabel.backgroundColor = [UIColor clearColor];
     spreadLabel.textColor = [EVColor lightLabelColor];
     spreadLabel.font = [EVFont blackFontOfSize:11];
     spreadLabel.characterSpacing = 2.0;
     
-    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, HEADER_HEIGHT)];
     headerView.backgroundColor = [EVColor requestGrayBackground];
     [headerView addSubview:spreadLabel];
     
@@ -100,13 +105,13 @@
     self.evenlyFriendsHeaderLabel.text = @"EVENLY FRIENDS";
     self.evenlyFriendsHeaderView = headerView;
     
-    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(10, 5, self.tableView.frame.size.width - 20, 15)];
+    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(X_MARGIN, Y_MARGIN, self.tableView.frame.size.width - 2*X_MARGIN, LABEL_HEIGHT)];
     spreadLabel.backgroundColor = [UIColor clearColor];
     spreadLabel.textColor = [EVColor lightLabelColor];
     spreadLabel.font = [EVFont blackFontOfSize:11];
     spreadLabel.characterSpacing = 2.0;
     
-    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, HEADER_HEIGHT)];
     headerView.backgroundColor = [EVColor requestGrayBackground];
     [headerView addSubview:spreadLabel];
     
@@ -118,13 +123,13 @@
     self.contactsLabel.text = @"CONTACTS";
     self.contactsHeaderView = headerView;
     
-    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(10, 5, self.tableView.frame.size.width - 20, 15)];
+    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(X_MARGIN, Y_MARGIN, self.tableView.frame.size.width - 20, LABEL_HEIGHT)];
     spreadLabel.backgroundColor = [UIColor clearColor];
     spreadLabel.textColor = [EVColor lightLabelColor];
     spreadLabel.font = [EVFont blackFontOfSize:11];
     spreadLabel.characterSpacing = 2.0;
     
-    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, HEADER_HEIGHT)];
     headerView.backgroundColor = [EVColor requestGrayBackground];
     [headerView addSubview:spreadLabel];
     
@@ -323,7 +328,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == EVAutocompleteSectionConnections && self.filteredConnections.count == 0)
         return 0.0;
-    return 25.0;
+    return HEADER_HEIGHT;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
