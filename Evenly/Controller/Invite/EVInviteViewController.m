@@ -104,13 +104,6 @@
     self.textField.keyboardType = UIKeyboardTypeNumberPad;
     self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     [self.textFieldBackground addSubview:self.textField];
-    
-    [self.textField.rac_textSignal subscribeNext:^(NSString *text) {
-        text = [EVStringUtility addHyphensToPhoneNumber:text];
-        self.textField.text = text;
-        if (text.length == 12)
-            [self.textField resignFirstResponder];
-    }];
 }
 
 - (void)loadInviteByTextButton {
@@ -126,6 +119,13 @@
 }
 
 - (void)configureReactions {
+    [self.textField.rac_textSignal subscribeNext:^(NSString *text) {
+        text = [EVStringUtility addHyphensToPhoneNumber:text];
+        self.textField.text = text;
+        if (text.length == 12)
+            [self.textField resignFirstResponder];
+    }];
+
     RAC(self.inviteByTextButton.enabled) = [RACSignal combineLatest:@[self.textField.rac_textSignal]
                                                             reduce:^(NSString *text) {
                                                                 return @([text isPhoneNumber]);
