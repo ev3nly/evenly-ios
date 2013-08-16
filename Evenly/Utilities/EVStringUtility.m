@@ -252,7 +252,7 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSString *)toFieldPlaceholder {
-    return @"Name or email";
+    return @"Name, email, or phone number";
 }
 
 + (NSString *)groupToFieldPlaceholder {
