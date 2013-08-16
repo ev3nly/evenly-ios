@@ -3,7 +3,7 @@ platform :ios, '6.0'
 
 pod 'MBProgressHUD', '~> 0.6'
 pod 'AFNetworking', '~> 1.0'
-pod 'Mixpanel', '~> 1.1.1'
+pod 'Mixpanel', '~> 2.0.0'
 pod 'NewRelicAgent', '~> 1.309.0'
 # pod 'Stripe', :git => 'https://github.com/stripe/stripe-ios.git'
 pod 'PaymentKit', :git => 'https://github.com/stripe/PaymentKit.git'
