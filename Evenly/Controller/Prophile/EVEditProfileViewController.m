@@ -92,16 +92,6 @@
 }
 
 - (void)loadPinButton {
-    self.saveButton = [UIButton new];
-    [self.saveButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
-    [self.saveButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
-    [self.saveButton addTarget:self action:@selector(saveButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.saveButton setTitle:@"SAVE" forState:UIControlStateNormal];
-    [self.saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.saveButton setTitleEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 0)];
-    self.saveButton.titleLabel.font = [EVFont defaultButtonFont];
-    self.saveButton.frame = [self pinButtonFrame];
-    [self.footerView addSubview:self.saveButton];
 }
 
 - (void)notificationRegistration {
@@ -221,20 +211,16 @@
     [self.navigationController pushViewController:changePasswordController animated:YES];
 }
 
-- (void)saveButtonTapped {
-    self.saveButton.enabled = NO;
+- (void)backButtonPress:(id)sender {
     [self.view findAndResignFirstResponder];
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress];
-
     [[EVCIA me] updateWithSuccess:^{
-        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-        [EVStatusBarManager sharedManager].duringSuccess = ^(void){ [self.navigationController popViewControllerAnimated:YES]; };
         if (self.handleSave)
             self.handleSave([EVCIA me]);
     } failure:^(NSError *error) {
         DLog(@"failed to save user: %@", error);
-        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
     }];
+    
+    [super backButtonPress:sender];
 }
 
 #pragma mark - Image Picker
@@ -343,13 +329,6 @@
 - (CGRect)changePasswordButtonFrame {
     return CGRectMake(BUTTON_BUFFER,
                       BUTTON_BUFFER/2,
-                      self.view.bounds.size.width - BUTTON_BUFFER*2,
-                      [EVImages blueButtonBackground].size.height);
-}
-
-- (CGRect)pinButtonFrame {
-    return CGRectMake(BUTTON_BUFFER,
-                      CGRectGetMaxY(self.changePasswordButton.frame) + BUTTON_BUFFER*2,
                       self.view.bounds.size.width - BUTTON_BUFFER*2,
                       [EVImages blueButtonBackground].size.height);
 }

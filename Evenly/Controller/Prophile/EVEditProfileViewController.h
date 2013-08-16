@@ -25,7 +25,6 @@ typedef enum {
 
 @property (nonatomic, strong) UIImage *updatedImage;
 @property (nonatomic, strong) UIView *footerView;
-@property (nonatomic, strong) UIButton *saveButton;
 
 @property (nonatomic, strong) void(^handleSave)(EVUser *user);
 
