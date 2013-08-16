@@ -152,10 +152,10 @@
     [EVAnalyticsUtility trackEvent:EVAnalyticsOpenedApp];
     [EVUtilities registerForPushNotifications];
 
-//    EV_DISPATCH_AFTER(0.5, ^{
-//        if ([[EVPINUtility sharedUtility] pinIsSet])
-//            [[self masterViewController] showPINViewControllerAnimated:YES];
-//    });
+    EV_DISPATCH_AFTER(0.5, ^{
+        if ([self userHasNotSeenPINAlert])
+            [self showPINAlert];
+    });
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -206,4 +206,30 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
         [self.masterViewController presentViewController:pushNavController animated:YES completion:completionBlock];
     }
 }
+
+#pragma mark - PIN Setting
+
+- (BOOL)userHasNotSeenPINAlert {
+    return ([[NSUserDefaults standardUserDefaults] boolForKey:EVHasSeenPINAlertKey] != YES);
+}
+
+- (void)showPINAlert {
+    NSDate *dateAppEnteredBackground = [[NSUserDefaults standardUserDefaults] objectForKey:EVDateAppEnteredBackgroundKey];
+    if (dateAppEnteredBackground && ![[EVPINUtility sharedUtility] pinIsSet]) {
+        [[UIAlertView alertViewWithTitle:nil
+                                 message:[EVStringUtility wouldYouLikeToSetPINPrompt]
+                       cancelButtonTitle:@"Not now" otherButtonTitles:@[@"Yes"]
+                               onDismiss:^(int buttonIndex) {
+                                   [self showSetPINController];
+                               } onCancel:nil] show];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVHasSeenPINAlertKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)showSetPINController {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVSetPINViewController new]];
+    [self.masterViewController presentViewController:navController animated:YES completion:nil];
+}
+
 @end
