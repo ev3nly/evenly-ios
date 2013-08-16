@@ -84,10 +84,12 @@
             [self unloadPageControlAnimated:YES];
             completion = ^{
                 [self.navigationController pushViewController:rewardsViewController animated:YES];
+                [EVCIA reloadMe];
             };
         } else {
             completion = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+                [EVCIA reloadMe];
             };
         }
         [EVStatusBarManager sharedManager].duringSuccess = completion;

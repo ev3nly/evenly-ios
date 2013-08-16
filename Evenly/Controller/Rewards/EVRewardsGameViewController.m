@@ -228,6 +228,7 @@
 
 - (void)doneButtonPress:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    [EVCIA reloadMe];
 }
 
 - (void)cardTapped:(EVRewardCard *)card {
