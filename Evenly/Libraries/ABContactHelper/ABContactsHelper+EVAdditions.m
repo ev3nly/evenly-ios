@@ -14,11 +14,9 @@
     
     NSArray *contacts = [[ABContactsHelper contacts] filter:^BOOL(id object) {
         ABContact *contact = (ABContact *)object;
-        if ([[contact phoneLabels] containsObject:(NSString *)kABPersonPhoneIPhoneLabel] ||
-            [[contact phoneLabels] containsObject:(NSString *)kABPersonPhoneMobileLabel]) {
-            return YES;
-        }
-        return [[contact emailArray] count] > 0;
+        if (EV_IS_EMPTY_STRING([contact firstname]) && EV_IS_EMPTY_STRING([contact lastname]))
+            return NO;
+        return ([[contact phoneArray] count] > 0 || [[contact emailArray] count] > 0);
     }];
     return contacts;
 }

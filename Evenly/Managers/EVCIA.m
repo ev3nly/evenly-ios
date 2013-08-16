@@ -231,9 +231,7 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         
-        [mixpanel identify:me.dbid];
-        
-    	[mixpanel.people identify:me.dbid];
+        [mixpanel identify:me.dbid];        
         [mixpanel.people set:@"$name"       to:me.name];
         if (me.email)
             [mixpanel.people set:@"$email"      to:me.email];

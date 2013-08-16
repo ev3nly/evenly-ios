@@ -20,7 +20,7 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        self.fullFriendList = [[ABContactsHelper contactsWithEmail] sortedArrayUsingComparator:^NSComparisonResult(ABContact *obj1, ABContact *obj2) {
+        self.fullFriendList = [[ABContactsHelper autocompletableContacts] sortedArrayUsingComparator:^NSComparisonResult(ABContact *obj1, ABContact *obj2) {
             NSComparisonResult result = [obj1.firstname.lowercaseString compare:obj2.firstname.lowercaseString];
             if (result == NSOrderedSame)
                 result = [obj1.lastname.lowercaseString compare:obj2.lastname.lowercaseString];
@@ -44,17 +44,28 @@
     [self.view findAndResignFirstResponder];
     
     NSMutableArray *emails = [NSMutableArray array];
+    NSMutableArray *phoneNumbers = [NSMutableArray array];
     for (ABContact *contact in self.selectedFriends) {
-        [emails addObject:[[contact emailArray] objectAtIndex:0]];
+        if ([contact hasPhoneNumber])
+            [phoneNumbers addObject:[EVStringUtility strippedPhoneNumber:[contact evenlyContactString]]];
+        else
+            [emails addObject:[[contact emailArray] objectAtIndex:0]];
     }
     
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING INVITES..."];
-    [EVInvite createWithEmails:emails
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if ([emails count])
+        [params setObject:emails forKey:@"emails"];
+    if ([phoneNumbers count])
+        [params setObject:phoneNumbers forKey:@"phone_numbers"];
+    [EVInvite createWithParams:params
                        success:^(EVObject *object) {
                            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
                            self.selectedFriends = [NSArray array];
                            [self.tableView reloadData];
-                       } failure:^(NSError *error) {
+                       }
+                       failure:^(NSError *error) {
                            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
                        }];
 }
@@ -69,7 +80,7 @@
 
     [cell setName:[EVStringUtility displayNameForContact:contact]
         profilePicture:[EVImageUtility imageForContact:contact]];
-    [cell.emailLabel setText:[[contact emailArray] objectAtIndex:0]];
+    [cell.emailLabel setText:[contact evenlyContactString]];
     cell.identifier = contact;
     cell.handleSelection = ^(ABContact *friend) {
         if (![self.selectedFriends containsObject:friend])
