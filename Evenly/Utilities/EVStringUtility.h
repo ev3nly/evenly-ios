@@ -36,12 +36,14 @@
 + (NSString *)detailStringFromDate:(NSDate *)date;
 
 + (NSString *)toFieldPlaceholder;
++ (NSString *)groupToFieldPlaceholder;
 + (NSString *)requestDescriptionPlaceholder;
 + (NSString *)groupRequestTitlePlaceholder;
 + (NSString *)groupRequestDescriptionPlaceholder;
 + (NSString *)tipDescriptionPlaceholder;
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber;
++ (NSString *)strippedPhoneNumber:(NSString *)phoneNumber;
 
 + (NSString *)stringForPrivacySetting:(EVPrivacySetting)privacySetting;
 
@@ -89,6 +91,12 @@
 
 #pragma mark - Request
 
++ (NSString *)noRecipientsErrorMessage;
++ (NSString *)notEnoughRecipientsErrorMessage;
++ (NSString *)missingAmountErrorMessage;
++ (NSString *)assignFriendsErrorMessage;
++ (NSString *)minimumRequestErrorMessage;
++ (NSString *)multiAmountInfoMessage;
 + (NSString *)addAdditionalOptionButtonTitle;
 
 #pragma mark - Password Reset

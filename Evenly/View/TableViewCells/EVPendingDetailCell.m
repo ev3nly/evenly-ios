@@ -120,6 +120,20 @@
     [self configureButtonsForStoryType:story.transactionType];
 }
 
+- (void)disableAllButtons {
+    self.rejectButton.enabled = NO;
+    self.confirmButton.enabled = NO;
+    self.cancelButton.enabled = NO;
+    self.remindButton.enabled = NO;
+}
+
+- (void)enableAllButtons {
+    self.rejectButton.enabled = YES;
+    self.confirmButton.enabled = YES;
+    self.cancelButton.enabled = YES;
+    self.remindButton.enabled = YES;
+}
+
 #pragma mark - Utility
 
 - (void)configureButtonsForStoryType:(EVStoryTransactionType)storyType {

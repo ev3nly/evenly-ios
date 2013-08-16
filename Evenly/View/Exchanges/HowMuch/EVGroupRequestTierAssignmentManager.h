@@ -26,6 +26,8 @@
 @property (nonatomic, strong) NSMutableArray *tierMemberships;
 @property (nonatomic) NSInteger representedTierIndex;
 
+@property (nonatomic, readonly) BOOL hasUnassignedMembers;
+
 - (id)initWithGroupRequest:(EVGroupRequest *)groupRequest;
 
 @end

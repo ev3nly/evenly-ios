@@ -10,9 +10,8 @@
 
 @interface EVDashboardTitleCell : EVGroupedTableViewCell
 
-@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *memoLabel;
 
-+ (CGFloat)heightWithTitle:(NSString *)title memo:(NSString *)memo;
++ (CGFloat)heightWithMemo:(NSString *)memo;
 
 @end

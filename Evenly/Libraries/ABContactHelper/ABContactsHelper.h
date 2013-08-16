@@ -41,11 +41,6 @@
 // Find groups
 + (NSArray *) groupsMatchingName: (NSString *) fname;
 
-#pragma mark - Joe's Additions
-
-+ (NSArray *)contactsWithEmail;
-+ (NSArray *)contactsWithEmailMatchingName:(NSString *)name;
-
 @end
 
 // For the simple utility of it. Feel free to comment out if desired

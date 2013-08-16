@@ -32,6 +32,8 @@
 		9C0EC764175D80A5003B93E2 /* EVProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC763175D80A5003B93E2 /* EVProfileViewController.m */; };
 		9C0EC767175D80B1003B93E2 /* EVInviteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC766175D80B1003B93E2 /* EVInviteViewController.m */; };
 		9C0EC76A175D80BB003B93E2 /* EVSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C0EC769175D80BB003B93E2 /* EVSettingsViewController.m */; };
+		9C106A4A17BC640E00742BB9 /* ABContactsHelper+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C106A4917BC640D00742BB9 /* ABContactsHelper+EVAdditions.m */; };
+		9C106A4D17BC642800742BB9 /* ABContact+EVAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C106A4C17BC642800742BB9 /* ABContact+EVAdditions.m */; };
 		9C1606201788D23900852684 /* EVExchangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16061F1788D23900852684 /* EVExchangeViewController.m */; };
 		9C1606231788D24B00852684 /* EVPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C1606221788D24B00852684 /* EVPaymentViewController.m */; };
 		9C1606431788D5AE00852684 /* EVPrivacySelectorHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C16063C1788D5AE00852684 /* EVPrivacySelectorHeader.m */; };
@@ -609,6 +611,10 @@
 		9C0EC766175D80B1003B93E2 /* EVInviteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteViewController.m; sourceTree = "<group>"; };
 		9C0EC768175D80BB003B93E2 /* EVSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVSettingsViewController.h; sourceTree = "<group>"; };
 		9C0EC769175D80BB003B93E2 /* EVSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVSettingsViewController.m; sourceTree = "<group>"; };
+		9C106A4817BC640D00742BB9 /* ABContactsHelper+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ABContactsHelper+EVAdditions.h"; sourceTree = "<group>"; };
+		9C106A4917BC640D00742BB9 /* ABContactsHelper+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ABContactsHelper+EVAdditions.m"; sourceTree = "<group>"; };
+		9C106A4B17BC642800742BB9 /* ABContact+EVAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ABContact+EVAdditions.h"; sourceTree = "<group>"; };
+		9C106A4C17BC642800742BB9 /* ABContact+EVAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ABContact+EVAdditions.m"; sourceTree = "<group>"; };
 		9C16061E1788D23900852684 /* EVExchangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVExchangeViewController.h; sourceTree = "<group>"; };
 		9C16061F1788D23900852684 /* EVExchangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVExchangeViewController.m; sourceTree = "<group>"; };
 		9C1606211788D24B00852684 /* EVPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPaymentViewController.h; sourceTree = "<group>"; };
@@ -2721,6 +2727,10 @@
 				9CEEB831175526EC00C24C2A /* ABContactsHelper.m */,
 				9CEEB832175526EC00C24C2A /* ABGroup.h */,
 				9CEEB833175526EC00C24C2A /* ABGroup.m */,
+				9C106A4817BC640D00742BB9 /* ABContactsHelper+EVAdditions.h */,
+				9C106A4917BC640D00742BB9 /* ABContactsHelper+EVAdditions.m */,
+				9C106A4B17BC642800742BB9 /* ABContact+EVAdditions.h */,
+				9C106A4C17BC642800742BB9 /* ABContact+EVAdditions.m */,
 			);
 			path = ABContactHelper;
 			sourceTree = "<group>";
@@ -3757,6 +3767,8 @@
 				9C9DC5C617B1CED9002B7236 /* EVRewardBalanceView.m in Sources */,
 				9CD8B8A817B31C7500055883 /* EVRewardsExhaustedView.m in Sources */,
 				9C8DEF1417B43A060093E8F2 /* EVHistoryRewardViewController.m in Sources */,
+				9C106A4A17BC640E00742BB9 /* ABContactsHelper+EVAdditions.m in Sources */,
+				9C106A4D17BC642800742BB9 /* ABContact+EVAdditions.m in Sources */,
 				D03569E517BB4C9100E0776E /* EVGettingStartedViewController.m in Sources */,
 				D03569E817BB50A800E0776E /* EVGettingStartedCell.m in Sources */,
 			);

@@ -11,20 +11,12 @@
 typedef enum {
     EVDashboardPermanentRowTitle,
     EVDashboardPermanentRowProgress,
-    EVDashboardPermanentRowSegmentedControl,
     EVDashboardPermanentRowCOUNT
 } EVDashboardPermanentRow;
-
-typedef enum {
-    EVDashboardSegmentAll,
-    EVDashboardSegmentPaying,
-    EVDashboardSegmentPaid
-} EVDashboardSegment;
 
 @class EVGroupRequest;
 @class EVGroupRequestRecord;
 @class EVGroupRequestProgressView;
-@class EVSegmentedControl;
 @class EVBlueButton;
 
 @interface EVGroupRequestDashboardTableViewDataSource : NSObject <UITableViewDataSource>
@@ -32,7 +24,6 @@ typedef enum {
 @property (nonatomic, strong) EVGroupRequest *groupRequest;
 @property (nonatomic, weak) UITableView *tableView;
 @property (nonatomic, strong) EVGroupRequestProgressView *progressView;
-@property (nonatomic, strong) EVSegmentedControl *segmentedControl;
 
 @property (nonatomic, strong) EVBlueButton *inviteButton;
 @property (nonatomic, strong) EVBlueButton *remindAllButton;

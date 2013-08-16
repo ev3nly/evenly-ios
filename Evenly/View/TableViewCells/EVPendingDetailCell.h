@@ -19,4 +19,7 @@
 @property (nonatomic, strong) UIButton *cancelButton;
 @property (nonatomic, strong) UIButton *remindButton;
 
+- (void)disableAllButtons;
+- (void)enableAllButtons;
+
 @end

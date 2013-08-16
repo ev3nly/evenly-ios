@@ -35,6 +35,18 @@
     return [self filteredArrayUsingPredicate:filterPredicate];
 }
 
+- (NSArray *)flatten {
+    NSMutableArray *flattenedArray = [NSMutableArray array];
+    for (id obj in self) {
+        if ([obj isKindOfClass:[NSArray class]]) {
+            [flattenedArray addObjectsFromArray:[obj flatten]];
+        } else {
+            [flattenedArray addObject:obj];
+        }
+    }
+    return [NSArray arrayWithArray:flattenedArray];
+}
+
 
 - (id)randomObject {
 	if ([self count] == 0)

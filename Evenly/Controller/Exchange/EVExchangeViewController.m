@@ -119,9 +119,11 @@
 
 - (void)addContact:(id)contact {
     if ([contact isKindOfClass:[ABContact class]]) {
-        NSString *emailAddress = [[contact emailArray] objectAtIndex:0];
 		EVContact *toContact = [[EVContact alloc] init];
-		toContact.email = emailAddress;
+        if ([contact hasPhoneNumber])
+            toContact.phoneNumber = [EVStringUtility strippedPhoneNumber:[contact evenlyContactString]];
+        else
+            toContact.email = [[contact emailArray] objectAtIndex:0];
         toContact.name = [contact compositeName];
         contact = toContact;
     }
