@@ -32,6 +32,8 @@
 @property (nonatomic, strong) EVEditLabelCell *phoneNumberCell;
 @property (nonatomic, strong) EVEditLabelCell *passwordCell;
 
+@property (nonatomic, strong) UIButton *saveButton;
+
 @property (nonatomic, strong) EVUser *user;
 
 @end
@@ -61,8 +63,9 @@
     [super viewDidLoad];
     
     [self loadCells];
+    [self loadSaveButton];
     [self configureReactions];
-    self.saveButton.enabled = YES;
+
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)];
     tapRecognizer.delegate = self;
     tapRecognizer.cancelsTouchesInView = NO;
@@ -94,14 +97,17 @@
 - (void)loadChangePasswordButton {
 }
 
-- (void)loadPinButton {
-    [super loadPinButton];
-    
-    [self.saveButton setTitle:@"COMPLETE & SET PIN" forState:UIControlStateNormal];
-    self.saveButton.enabled = NO;
-    CGRect saveFrame = self.saveButton.frame;
-    saveFrame.origin.y = self.footerView.bounds.size.height - saveFrame.size.height - FOOTER_VIEW_BOTTOM_MARGIN;
-    self.saveButton.frame = saveFrame;
+- (void)loadSaveButton {
+    self.saveButton = [UIButton new];
+    [self.saveButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
+    [self.saveButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
+    [self.saveButton addTarget:self action:@selector(saveButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.saveButton setTitle:@"COMPLETE" forState:UIControlStateNormal];
+    [self.saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.saveButton setTitleEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 0)];
+    self.saveButton.titleLabel.font = [EVFont defaultButtonFont];
+    self.saveButton.frame = [self saveButtonFrame];
+    [self.footerView addSubview:self.saveButton];
 }
 
 - (void)loadSyncContactsButton {
@@ -367,9 +373,9 @@
                       CHECK_VIEW_HEIGHT);
 }
 
-- (CGRect)pinButtonFrame {
+- (CGRect)saveButtonFrame {
     return CGRectMake(BUTTON_BUFFER,
-                      0,
+                      self.footerView.bounds.size.height - [EVImages blueButtonBackground].size.height - FOOTER_VIEW_BOTTOM_MARGIN,
                       self.view.bounds.size.width - BUTTON_BUFFER*2,
                       [EVImages blueButtonBackground].size.height);
 }

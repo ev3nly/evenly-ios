@@ -451,6 +451,64 @@
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
+#pragma mark - Getters
+
+- (BOOL)needsGettingStartedHelp {
+    if (self.isUnconfirmed)
+        return YES;
+    if (!self.facebookConnected)
+        return YES;
+    if (!self.hasAddedCard)
+        return YES;
+    if (!self.hasAddedBank)
+        return YES;
+    if (!self.hasSentPayment)
+        return YES;
+    if (!self.hasSentRequest)
+        return YES;
+    if (!self.hasInvitedFriends)
+        return YES;
+    return NO;
+}
+
+- (BOOL)needsPaymentHelp {
+    if (self.isUnconfirmed || !self.hasAddedCard)
+        return YES;
+    return NO;
+}
+
+- (BOOL)needsRequestHelp {
+    if (self.isUnconfirmed)
+        return YES;
+    return NO;
+}
+
+- (BOOL)needsDepositHelp {
+    if (self.isUnconfirmed || !self.hasAddedBank)
+        return YES;
+    return NO;
+}
+
+- (BOOL)hasAddedCard {
+    return ([[EVCIA sharedInstance] activeCreditCard] != nil);
+}
+
+- (BOOL)hasAddedBank {
+    return ([[EVCIA sharedInstance] activeBankAccount] != nil);
+}
+
+- (BOOL)hasSentPayment {
+    return [self.roles containsObject:@"payer"];
+}
+
+- (BOOL)hasSentRequest {
+    return [self.roles containsObject:@"requester"];
+}
+
+- (BOOL)hasInvitedFriends {
+    return [self.roles containsObject:@"inviter"];
+}
+
 #pragma mark Images
 
 - (void)loadAvatar {

@@ -109,10 +109,14 @@ static EVFacebookManager *_sharedManager;
     [self performRequest:^{
         [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *fbError) {
             [self sharedManager].facebookID = user[@"id"];
-            if (!fbError)
-                completion(user);
-            else
-                failure(fbError);
+            if (!fbError) {
+                if (completion)
+                    completion(user);
+            }
+            else {
+                if (failure)
+                    failure(fbError);
+            }
         }];
     }];
 }
@@ -122,10 +126,13 @@ static EVFacebookManager *_sharedManager;
         [[FBRequest requestForMyFriends] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
             if (!error) {
                 NSArray *friends = [(NSDictionary *)result objectForKey:@"data"];
-                completion(friends);
+                if (completion)
+                    completion(friends);
             }
-            else
-                failure(error);
+            else {
+                if (failure)
+                    failure(error);
+            }
         }];
     }];
 }

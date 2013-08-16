@@ -10,6 +10,7 @@
 #import "EVSignInViewController.h"
 #import "EVSignUpViewController.h"
 #import "EVSetPINViewController.h"
+#import "EVGettingStartedViewController.h"
 #import "EVNavigationManager.h"
 #import "EVFacebookManager.h"
 #import <QuartzCore/QuartzCore.h>
@@ -174,10 +175,11 @@
 }
 
 - (UIView *)thirdOnboardView {
-    NSString *title = @"Collect money, effortlessly";
-    NSString *description = @"Stop hassling friends. Send a request and we'll remind your friends until they pay you back.";
-    UIImage *image = [EVImages onboardCard2];
-    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointMake(0, 2) shouldScale:YES];
+    NSString *title = @"Win Cash Rewards";
+    NSString *description = @"After every payment, you can play the Evenly Rewards game and win up to $10 in cash back.";
+    UIImage *image = [EVImages onboardCard4];
+    float bottomBuffer = [EVUtilities deviceHasTallScreen] ? PICTURE_BOTTOM_BUFFER : SMALL_SCREEN_REWARDS_PICTURE_BOTTOM_BUFFER;
+    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointMake(0, bottomBuffer) shouldScale:NO];
 }
 
 - (UIView *)fourthOnboardView {
@@ -188,11 +190,10 @@
 }
 
 - (UIView *)fifthOnboardView {
-    NSString *title = @"Win Cash Rewards";
-    NSString *description = @"After every payment, you can play the Evenly Rewards game and win up to $10 in cash back.";
-    UIImage *image = [EVImages onboardCard4];
-    float bottomBuffer = [EVUtilities deviceHasTallScreen] ? PICTURE_BOTTOM_BUFFER : SMALL_SCREEN_REWARDS_PICTURE_BOTTOM_BUFFER;
-    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointMake(0, bottomBuffer) shouldScale:NO];
+    NSString *title = @"Collect money, effortlessly";
+    NSString *description = @"Stop hassling friends. Send a request and we'll remind your friends until they pay you back.";
+    UIImage *image = [EVImages onboardCard2];
+    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointMake(0, 2) shouldScale:YES];
 }
 
 - (UIView *)sixthOnboardView {
@@ -200,14 +201,10 @@
     NSString *description = @"There are no transaction fees. Connect with Facebook and share the experience with your friends.";
     UIView *view = [self cardViewWithTitle:title description:description image:nil imageOffset:CGPointZero shouldScale:NO];
     
-    UILabel *signUpLabel = [self titleLabelWithText:@"Sign up in seconds."];
-    signUpLabel.font = [EVFont blackFontOfSize:18];
-    
     self.facebookButton = [self configuredFacebookButton];
     
     UIImageView *peopleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"people"]];
     
-    //    [view addSubview:signUpLabel];
     [view addSubview:self.facebookButton];
     
     for (UIView *subview in view.subviews) {
@@ -217,12 +214,8 @@
     
     float smallScreenBuffer = (self.view.bounds.size.height > 480) ? 0 : SMALL_SCREEN_PEOPLE_IMAGE_BUFFER;
     
-    signUpLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:signUpLabel].width/2,
-                                   SIGNUP_LABEL_Y_ORIGIN * CARD_SCALE,
-                                   [self sizeForLabel:signUpLabel].width,
-                                   [self sizeForLabel:signUpLabel].height);
     self.facebookButton.frame = CGRectMake(BUTTON_LEFT_MARGIN,
-                                           CGRectGetMaxY(signUpLabel.frame),// + SIGNUP_LABEL_BUTTON_BUFFER,
+                                           SIGNUP_LABEL_Y_ORIGIN * CARD_SCALE,
                                            self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
                                            [EVImages facebookButton].size.height);
     peopleImage.frame = CGRectMake((peopleImage.superview.bounds.size.width - peopleImage.image.size.width)/2,
@@ -348,10 +341,9 @@
         [newUser loadAvatar];
         
         EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
-                pinController.canDismissManually = NO;
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{                
+                EVGettingStartedViewController *controller = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeAll];
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
                 [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
             }];
         } user:newUser];

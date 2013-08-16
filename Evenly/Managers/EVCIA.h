@@ -42,6 +42,7 @@ extern NSString *const EVCIAUpdatedMeNotification;
 
 + (EVUser *)me;
 + (void)reloadMe;
++ (void)reloadMeWithCompletion:(void (^)(void))completion;
 - (void)cacheMe;
 
 + (NSArray *)myConnections;

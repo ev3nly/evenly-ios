@@ -192,10 +192,6 @@
 
 #pragma mark - Button Actions
 
-- (void)cancelButtonPress:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-}
-
 - (void)backButtonPress:(id)sender {
     [self popViewAnimated:YES];
     self.phase--;

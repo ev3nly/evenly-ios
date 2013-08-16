@@ -108,4 +108,7 @@
 + (NSString *)noActivityMessageForSelf;
 + (NSString *)noActivityMessageForOthers;
 
+#pragma mark - PIN
++ (NSString *)wouldYouLikeToSetPINPrompt;
+
 @end

@@ -11,6 +11,8 @@
 @class EVNotificationSetting;
 
 extern NSString *const EVHasSeenGroupRequestDashboardAlertKey;
+extern NSString *const EVHasSeenPINAlertKey;
+extern NSString *const EVDateAppEnteredBackgroundKey;
 
 @interface EVSettingsManager : NSObject
 

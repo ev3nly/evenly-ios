@@ -206,6 +206,10 @@
     return [UIImage imageNamed:@"Arrow"];
 }
 
++ (UIImage *)greenCheck {
+    return [UIImage imageNamed:@"green_check"];
+}
+
 #pragma mark - Onboarding
 
 + (UIImage *)addPhotoIcon {

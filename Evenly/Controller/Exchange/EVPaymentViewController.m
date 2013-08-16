@@ -88,7 +88,7 @@
             };
         } else {
             completion = ^(void) {
-                [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+                [self cancelButtonPress:nil];
                 [EVCIA reloadMe];
             };
         }

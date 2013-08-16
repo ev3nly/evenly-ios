@@ -69,6 +69,7 @@
 + (UIImage *)emptyDot;
 + (UIImage *)dashboardTabInactiveBackground;
 + (UIImage *)dashboardDisclosureArrow;
++ (UIImage *)greenCheck;
 
 #pragma mark - Onboarding
 + (UIImage *)addPhotoIcon;
