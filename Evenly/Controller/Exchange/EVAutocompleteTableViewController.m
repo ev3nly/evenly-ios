@@ -12,6 +12,7 @@
 
 #import "EVAutocompletePhotoCell.h"
 #import "EVAutocompleteEmailCell.h"
+#import "EVAutocompleteSearchOnServerCell.h"
 
 @interface EVAutocompleteTableViewController ()
 
@@ -21,7 +22,13 @@
 @property (nonatomic, strong) UIView *contactsHeaderView;
 @property (nonatomic, strong) EVSpreadLabel *contactsLabel;
 
+@property (nonatomic, strong) UIView *searchHeaderView;
+@property (nonatomic, strong) EVSpreadLabel *searchLabel;
+
+@property (nonatomic, strong) EVAutocompleteSearchOnServerCell *searchOnServerCell;
+
 - (void)loadHeaderViews;
+- (void)parseSearchResult:(id)result;
 
 @end
 
@@ -34,10 +41,13 @@
         self.cellHeight = 45.0;
         self.filteredConnections = [EVCIA myConnections];
         self.addressBookSuggestions = [ABContactsHelper autocompletableContacts];
+        self.serverSearchSuggestions = [NSArray array];
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(didUpdateMe:)
                                                      name:EVCIAUpdatedMeNotification
                                                    object:nil];
+        
+        [self loadSearchOnServerCell];
         
     }
     return self;
@@ -60,6 +70,11 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self loadHeaderViews];
+}
+
+- (void)loadSearchOnServerCell {
+    self.searchOnServerCell = [[EVAutocompleteSearchOnServerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"searchCell"];
+    
 }
 
 - (void)loadHeaderViews {
@@ -102,6 +117,24 @@
     self.contactsLabel = spreadLabel;
     self.contactsLabel.text = @"CONTACTS";
     self.contactsHeaderView = headerView;
+    
+    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(10, 5, self.tableView.frame.size.width - 20, 15)];
+    spreadLabel.backgroundColor = [UIColor clearColor];
+    spreadLabel.textColor = [EVColor lightLabelColor];
+    spreadLabel.font = [EVFont blackFontOfSize:11];
+    spreadLabel.characterSpacing = 2.0;
+    
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 25)];
+    headerView.backgroundColor = [EVColor requestGrayBackground];
+    [headerView addSubview:spreadLabel];
+    
+    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - 1, headerView.frame.size.width, 1)];
+    bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
+    [headerView addSubview:bottomStripe];
+    
+    self.searchLabel = spreadLabel;
+    self.searchLabel.text = @"SEARCH";
+    self.searchHeaderView = headerView;
 }
 
 - (void)didReceiveMemoryWarning
@@ -118,6 +151,10 @@
 }
 
 - (void)handleFieldInput:(NSString *)text {
+    if ([self.serverSearchSuggestions count]) {
+        self.serverSearchSuggestions = @[];
+    }
+    [self.searchOnServerCell setSearchQuery:text];
     EV_PERFORM_ON_BACKGROUND_QUEUE(^{
         if (!EV_IS_EMPTY_STRING(text)) {
             [self filterConnectionsWithText:text];
@@ -153,11 +190,26 @@
     self.filteredConnections = contacts;
 }
 
+- (void)parseSearchResult:(id)result {
+    DLog(@"Result: %@", result);
+    self.serverSearchSuggestions = result;
+    if (self.serverSearchSuggestions.count)
+        [self reloadSection:EVAutocompleteSectionSearchOnServer];
+    else
+        [self.searchOnServerCell setShowingNoResults:YES];
+}
+
+- (void)reloadSection:(NSInteger)sectionIndex {
+    [self.tableView beginUpdates];
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return EVAutocompleteSectionCOUNT;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -165,8 +217,10 @@
     NSInteger count = 0;
     if (section == EVAutocompleteSectionConnections)
         count = self.filteredConnections.count;
-    else
+    else if (section == EVAutocompleteSectionAddressBook)
         count = self.addressBookSuggestions.count;
+    else
+        count = (self.serverSearchSuggestions.count ?: 1);
     return count;
 }
 
@@ -178,8 +232,10 @@
     id contact = nil;
     if (indexPath.section == EVAutocompleteSectionConnections && [self.filteredConnections count] > indexPath.row)
         contact = [self.filteredConnections objectAtIndex:indexPath.row];
-    else if ([self.addressBookSuggestions count] > indexPath.row)
+    else if (indexPath.section == EVAutocompleteSectionAddressBook && [self.addressBookSuggestions count] > indexPath.row)
         contact = [self.addressBookSuggestions objectAtIndex:indexPath.row];
+    else if (indexPath.section == EVAutocompleteSectionSearchOnServer && [self.serverSearchSuggestions count] > indexPath.row)
+        contact = [self.serverSearchSuggestions objectAtIndex:indexPath.row];
     return contact;
 }
 
@@ -190,20 +246,9 @@
     id contact = [self contactAtIndexPath:indexPath];
     if (indexPath.section == EVAutocompleteSectionConnections)
     {
-        EVAutocompletePhotoCell *photoCell = [tableView dequeueReusableCellWithIdentifier:@"photoCell" forIndexPath:indexPath];
-        if ([contact conformsToProtocol:@protocol(EVAvatarOwning)])
-            [photoCell.avatarView setAvatarOwner:(NSObject<EVAvatarOwning> *)contact];
-        
-        if ([contact respondsToSelector:@selector(name)]) {
-            [photoCell.label setText:[contact name]];
-        }
-        else if ([contact isKindOfClass:[ABContact class]]) {
-            ABContact *abContact = contact;
-            photoCell.label.text = [NSString stringWithFormat:@"%@ %@", abContact.firstname, abContact.lastname];
-        }
-        cell = photoCell;
+        cell = [self photoCellForContactAtIndexPath:indexPath];
     }
-    else
+    else if (indexPath.section == EVAutocompleteSectionAddressBook)
     {
         EVAutocompleteEmailCell *emailCell = [tableView dequeueReusableCellWithIdentifier:@"emailCell" forIndexPath:indexPath];
         ABContact *abContact = contact;
@@ -211,10 +256,61 @@
         emailCell.emailLabel.text = [abContact evenlyContactString];
         cell = emailCell;
     }
+    else if (indexPath.section == EVAutocompleteSectionSearchOnServer)
+    {
+        if (indexPath.row == [self.serverSearchSuggestions count])
+        {
+            return self.searchOnServerCell;
+        }
+        else
+        {
+            cell = [self photoCellForContactAtIndexPath:indexPath];
+        }
+    }
     return cell;
 }
 
+- (EVAutocompletePhotoCell *)photoCellForContactAtIndexPath:(NSIndexPath *)indexPath {
+    id contact = [self contactAtIndexPath:indexPath];
+    EVAutocompletePhotoCell *photoCell = [self.tableView dequeueReusableCellWithIdentifier:@"photoCell" forIndexPath:indexPath];
+    if ([contact conformsToProtocol:@protocol(EVAvatarOwning)])
+        [photoCell.avatarView setAvatarOwner:(NSObject<EVAvatarOwning> *)contact];
+    
+    if ([contact respondsToSelector:@selector(name)]) {
+        [photoCell.label setText:[contact name]];
+    }
+    else if ([contact isKindOfClass:[ABContact class]]) {
+        ABContact *abContact = contact;
+        photoCell.label.text = [NSString stringWithFormat:@"%@ %@", abContact.firstname, abContact.lastname];
+    }
+    return photoCell;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView cellForRowAtIndexPath:indexPath] == self.searchOnServerCell) {
+        if (self.inputField.text.length > 2 && [self.serverSearchSuggestions count] == 0)
+            return indexPath;
+        else
+            return nil;
+    }
+    return indexPath;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([tableView cellForRowAtIndexPath:indexPath] == self.searchOnServerCell) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self.searchOnServerCell setLoading:YES];
+        [EVUser allWithParams:@{ @"query" : self.inputField.text }
+                      success:^(id result) {
+                          [self parseSearchResult:result];
+                          [self.searchOnServerCell setLoading:NO];
+                      } failure:^(NSError *error) {
+                          DLog(@"Error searching: %@", error);
+                          [self.searchOnServerCell setLoading:NO];
+                      }];
+        return;
+    }
+    
     EV_DISPATCH_AFTER(0.5, ^{
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     });
@@ -231,10 +327,14 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *view = nil;
     if (section == EVAutocompleteSectionConnections)
-        return self.evenlyFriendsHeaderView;
-    else
-        return self.contactsHeaderView;
+        view = self.evenlyFriendsHeaderView;
+    else if (section == EVAutocompleteSectionAddressBook)
+        view = self.contactsHeaderView;
+    else if (section == EVAutocompleteSectionSearchOnServer)
+        view = self.searchHeaderView;
+    return view;    
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
