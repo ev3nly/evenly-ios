@@ -10,7 +10,9 @@
 
 typedef enum {
     EVAutocompleteSectionConnections,
-    EVAutocompleteSectionAddressBook
+    EVAutocompleteSectionAddressBook,
+    EVAutocompleteSectionSearchOnServer,
+    EVAutocompleteSectionCOUNT
 } EVAutocompleteSection;
 
 @class EVAutocompleteTableViewController;
@@ -28,6 +30,7 @@ typedef enum {
 
 @property (nonatomic, strong) NSArray *filteredConnections;
 @property (nonatomic, strong) NSArray *addressBookSuggestions;
+@property (nonatomic, strong) NSArray *serverSearchSuggestions;
 @property (nonatomic) CGFloat cellHeight;
 
 - (void)handleFieldInput:(NSString *)text;
