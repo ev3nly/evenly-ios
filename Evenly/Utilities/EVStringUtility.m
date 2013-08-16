@@ -303,6 +303,8 @@ static NSDateFormatter *_detailDateFormatter;
         name = [contact.firstname stringByAppendingString:@" "];
     if (!EV_IS_EMPTY_STRING(contact.lastname))
         name = [name stringByAppendingString:contact.lastname];
+    if (EV_IS_EMPTY_STRING(name) && !EV_IS_EMPTY_STRING([contact organization]))
+        name = [contact organization];
     return name;
 }
 
