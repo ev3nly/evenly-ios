@@ -22,10 +22,14 @@
 @property (nonatomic, readonly) UILabel *titleLabel;
 @property (nonatomic, strong) UISwipeGestureRecognizer *swipeGestureRecognizer;
 
+@property (nonatomic, assign) BOOL shouldDismissGrandparent;
+
 - (void)loadTitleLabel;
 - (void)backButtonPress:(id)sender;
 
 - (UIButton *)defaultCancelButton;
 - (void)loadWalletBarButtonItem;
+
+- (void)cancelButtonPress:(id)sender;
 
 @end

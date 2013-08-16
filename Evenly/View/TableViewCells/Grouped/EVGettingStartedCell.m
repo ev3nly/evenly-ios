@@ -92,38 +92,20 @@
     [self setNeedsLayout];
 }
 
-- (void)performAction {
-    if ([self stepCompleted])
-        return;
+- (void)setCompleted:(BOOL)completed {
+    _completed = completed;
     
-    switch (self.step) {
-        case EVGettingStartedStepConfirmEmail:
-            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"RESENDING..."];
-            [EVUser sendConfirmationEmailWithSuccess:^{
-                [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-            } failure:^(NSError *error) {
-                [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-            }];
-            break;
-            
-        default:
-            break;
-    }
+    [self configureButton];
+    [self setNeedsLayout];
 }
 
-- (BOOL)stepCompleted {
-    switch (self.step) {
-        case EVGettingStartedStepSignUp:
-            return YES;
-        case EVGettingStartedStepConfirmEmail:
-            return ![[EVCIA me] isUnconfirmed];
-        default:
-            return NO;
-    }
+- (void)performAction {
+    if (self.action && !self.completed)
+        self.action(self.step);
 }
 
 - (void)configureButton {
-    if ([self stepCompleted]) {
+    if (self.completed) {
         [self.button setTitle:@"" forState:UIControlStateNormal];
         [self.button setBackgroundImage:[EVImages greenCheck] forState:UIControlStateNormal];
         [self.button setBackgroundImage:[EVImages greenCheck] forState:UIControlStateHighlighted];
@@ -132,6 +114,7 @@
         [self.button setBackgroundImage:[EVImages inviteButtonBackgroundSelected] forState:UIControlStateHighlighted];
         [self.button setTitle:[self buttonTextForStep:self.step] forState:UIControlStateNormal];
     }
+    self.button.frame = [self buttonFrame];
 }
 
 #pragma mark - Strings For Steps
@@ -148,8 +131,10 @@
             return @"Add a card";
         case EVGettingStartedStepInviteFriends:
             return @"Invite your friends";
-        case EVGettingStartedStepSendExchange:
-            return @"Send a payment or request";
+        case EVGettingStartedStepSendPayment:
+            return @"Send a payment";
+        case EVGettingStartedStepSendRequest:
+            return @"Send a request";
         case EVGettingStartedStepAddBank:
             return @"Add a bank";
         default:
@@ -169,8 +154,10 @@
             return @"Use any debit or credit card";
         case EVGettingStartedStepInviteFriends:
             return @"Evenly is more fun with friends!";
-        case EVGettingStartedStepSendExchange:
+        case EVGettingStartedStepSendPayment:
             return @"It only takes 10 seconds";
+        case EVGettingStartedStepSendRequest:
+            return @"Get your money back!";
         case EVGettingStartedStepAddBank:
             return @"Begin depositing your Evenly Cash";
         default:
@@ -190,8 +177,10 @@
             return @"Add";
         case EVGettingStartedStepInviteFriends:
             return @"Invite";
-        case EVGettingStartedStepSendExchange:
-            return @"Send";
+        case EVGettingStartedStepSendPayment:
+            return @"Pay";
+        case EVGettingStartedStepSendRequest:
+            return @"Request";
         case EVGettingStartedStepAddBank:
             return @"Add";
         default:
@@ -221,7 +210,7 @@
 
 - (CGRect)buttonFrame {
     CGSize buttonSize = CGSizeMake(GS_BUTTON_WIDTH, self.bounds.size.height - GS_BUTTON_MARGIN*2);
-    if ([self stepCompleted])
+    if (self.completed)
         buttonSize = [EVImages greenCheck].size;
     return CGRectMake(self.bounds.size.width - GS_BUTTON_MARGIN - GS_BUTTON_WIDTH/2 - buttonSize.width/2 - GS_TABLE_VIEW_MARGIN,
                       CGRectGetMidY(self.bounds) - buttonSize.height/2,

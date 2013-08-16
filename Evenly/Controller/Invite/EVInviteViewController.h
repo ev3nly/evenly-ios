@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVViewController.h"
+#import "EVModalViewController.h"
 
 typedef enum {
     EVInviteMethodFacebook,
@@ -14,6 +14,6 @@ typedef enum {
     EVInviteMethodCOUNT
 } EVInviteMethod;
 
-@interface EVInviteViewController : EVViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface EVInviteViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 @end

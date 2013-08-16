@@ -39,6 +39,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Invite";
+        self.canDismissManually = NO;
     }
     return self;
 }
@@ -130,7 +131,7 @@
     [self.view findAndResignFirstResponder];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"INVITING..."];
 
-    [EVInvite createWithEmails:@[self.textField.text] success:^(EVObject *object) {
+    [EVInvite createWithEmail:self.textField.text success:^(EVObject *object) {
         [EVStatusBarManager sharedManager].duringSuccess = ^{
             self.textField.text = @"";
             self.inviteEmailButton.enabled = NO;

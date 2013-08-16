@@ -10,17 +10,22 @@
 
 typedef enum {
     EVGettingStartedStepSignUp,
-    EVGettingStartedStepConfirmEmail,
     EVGettingStartedStepConnectFacebook,
+    EVGettingStartedStepConfirmEmail,
     EVGettingStartedStepAddCard,
     EVGettingStartedStepInviteFriends,
-    EVGettingStartedStepSendExchange,
+    EVGettingStartedStepSendPayment,
+    EVGettingStartedStepSendRequest,
     EVGettingStartedStepAddBank
 } EVGettingStartedStep;
+
+typedef void(^EVGettingStartedCellAction)(EVGettingStartedStep step);
 
 @interface EVGettingStartedCell : EVGroupedTableViewCell
 
 @property (nonatomic, assign) EVGettingStartedStep step;
+@property (nonatomic, strong) EVGettingStartedCellAction action;
+@property (nonatomic, assign) BOOL completed;
 
 + (float)cellHeight;
 

@@ -10,6 +10,7 @@
 #import "EVSignInViewController.h"
 #import "EVSignUpViewController.h"
 #import "EVSetPINViewController.h"
+#import "EVGettingStartedViewController.h"
 #import "EVNavigationManager.h"
 #import "EVFacebookManager.h"
 #import <QuartzCore/QuartzCore.h>
@@ -350,7 +351,9 @@
             [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                 EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
                 pinController.canDismissManually = NO;
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+                
+                EVGettingStartedViewController *controller = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeAll];
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
                 [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
             }];
         } user:newUser];

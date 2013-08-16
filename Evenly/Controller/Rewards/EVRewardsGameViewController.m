@@ -222,10 +222,6 @@
 
 #pragma mark - Button Actions
 
-- (void)cancelButtonPress:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-}
-
 - (void)doneButtonPress:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
 }

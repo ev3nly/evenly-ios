@@ -52,13 +52,24 @@
 @property (nonatomic, strong) NSString *password;
 @property (nonatomic, strong) NSDecimalNumber *balance;
 @property (nonatomic, strong) UIImage *updatedAvatar;
-@property (nonatomic, getter = isUnconfirmed) BOOL unconfirmed;
 @property (nonatomic, assign) EVPrivacySetting privacySetting;
 @property (nonatomic, assign) BOOL rewardSharingSetting;
 @property (nonatomic, strong) NSArray *connections;
 @property (nonatomic, strong) NSString *currentPassword;
 @property (nonatomic) BOOL facebookConnected;
 @property (nonatomic, strong) NSArray *roles;
+
+@property (nonatomic, readonly) BOOL needsGettingStartedHelp;
+@property (nonatomic, readonly) BOOL needsPaymentHelp;
+@property (nonatomic, readonly) BOOL needsRequestHelp;
+@property (nonatomic, readonly) BOOL needsDepositHelp;
+
+@property (nonatomic, getter = isUnconfirmed) BOOL unconfirmed;
+@property (nonatomic, readonly) BOOL hasAddedCard;
+@property (nonatomic, readonly) BOOL hasAddedBank;
+@property (nonatomic, readonly) BOOL hasSentPayment;
+@property (nonatomic, readonly) BOOL hasSentRequest;
+@property (nonatomic, readonly) BOOL hasInvitedFriends;
 
 + (void)meWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure reload:(BOOL)reload;
 + (void)updateMeWithFacebookToken:(NSString *)token

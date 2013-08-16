@@ -27,7 +27,8 @@ static NSDateFormatter *_dateFormatter = nil;
     [super setProperties:properties];
     
     self.lastFour = [properties valueForKey:@"last_four"];
-    self.brand = [properties valueForKey:@"brand"];
+    if ([properties valueForKey:@"brand"] != [NSNull null])
+        self.brand = [properties valueForKey:@"brand"];
     self.expirationMonth = [properties valueForKey:@"expiration_month"];
     self.expirationYear = [properties valueForKey:@"expiration_year"];
 }

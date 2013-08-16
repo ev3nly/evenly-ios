@@ -15,8 +15,11 @@ typedef enum {
     EVGettingStartedTypeDeposit
 } EVGettingStartedType;
 
-@interface EVGettingStartedViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate>
+@interface EVGettingStartedViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate>
 
 @property (nonatomic, assign) EVGettingStartedType type;
+@property (nonatomic, strong) EVViewController *controllerToShow;
+
+- (id)initWithType:(EVGettingStartedType)type;
 
 @end
