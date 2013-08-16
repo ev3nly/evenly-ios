@@ -108,6 +108,7 @@
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
+                [EVCIA reloadMe];
                 [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:NULL];
                 if (payment.reward)
                 {
