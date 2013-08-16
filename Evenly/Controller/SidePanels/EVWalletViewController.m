@@ -26,6 +26,7 @@
 #import "EVGroupRequestDashboardViewController.h"
 #import "EVWalletNotificationViewController.h"
 #import "EVGettingStartedViewController.h"
+#import "EVPaymentViewController.h"
 
 #import "UIScrollView+SVPullToRefresh.h"
 
@@ -375,7 +376,17 @@
         if ([interaction isKindOfClass:[EVExchange class]])
         {
             controller = [[EVPendingDetailViewController alloc] initWithExchange:(EVExchange *)interaction];
-            
+
+            if (!((EVExchange *)interaction).to) {
+                if ([EVCIA me].needsPaymentHelp) {
+                    ((EVViewController *)controller).shouldDismissGrandparent = YES;
+                    EVGettingStartedViewController *gettingStartedController = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypePayment];
+                    gettingStartedController.controllerToShow = (EVViewController *)controller;
+                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
+                    [self presentViewController:navController animated:YES completion:NULL];
+                    return;
+                }
+            }
         }
         else if ([interaction isKindOfClass:[EVGroupRequest class]])
         {

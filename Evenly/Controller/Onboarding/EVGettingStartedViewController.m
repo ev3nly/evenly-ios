@@ -15,6 +15,7 @@
 #import "EVBanksViewController.h"
 #import "EVPaymentViewController.h"
 #import "EVRequestViewController.h"
+#import "EVNavigationManager.h"
 
 #import "UIScrollView+SVPullToRefresh.h"
 
@@ -232,8 +233,11 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
     if (finishedAllSteps) {
         if (self.type != EVGettingStartedTypeAll)
             [self loadFooter];
-        else
+        else {
+            [[EVNavigationManager sharedManager].walletViewController.tableView reloadData];
             [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:nil];
+            self.headerTitle.text = @"You made it!";
+        }
     }
 }
 
