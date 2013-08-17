@@ -23,7 +23,6 @@
 @interface EVSignUpViewController ()
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) EVCheckmarkLinkButton *syncContactsButton;
 @property (nonatomic, strong) EVCheckmarkLinkButton *tosAgreementButton;
 
 @property (nonatomic, strong) UIImage *photo;
@@ -88,7 +87,6 @@
 - (void)loadFooterView {
     [super loadFooterView];
     
-    [self loadSyncContactsButton];
     [self loadTosAgreementButton];
     self.tableView.tableFooterView = self.footerView;
     [self.tableView registerClass:[EVPhotoNameEmailCell class] forCellReuseIdentifier:@"photoNameEmailCell"];
@@ -108,13 +106,6 @@
     self.saveButton.titleLabel.font = [EVFont defaultButtonFont];
     self.saveButton.frame = [self saveButtonFrame];
     [self.footerView addSubview:self.saveButton];
-}
-
-- (void)loadSyncContactsButton {
-    self.syncContactsButton = [[EVCheckmarkLinkButton alloc] initWithText:@"Sync Contacts to Server"];
-    self.syncContactsButton.checked = YES;
-    self.syncContactsButton.frame = [self syncContactsButtonFrame];
-    [self.footerView addSubview:self.syncContactsButton];
 }
 
 - (void)loadTosAgreementButton {
@@ -355,27 +346,20 @@
 
 - (CGRect)footerViewFrame {
     CGRect footerFrame = [super footerViewFrame];
-    footerFrame.size.height = BUTTON_BUFFER + [EVImages blueButtonBackground].size.height + BUTTON_BUFFER + CHECK_VIEW_HEIGHT*2 + CHECKMARK_BUFFER*2;
+    footerFrame.size.height = BUTTON_BUFFER + [EVImages blueButtonBackground].size.height + BUTTON_BUFFER + CHECK_VIEW_HEIGHT + CHECKMARK_BUFFER;
     return footerFrame;
-}
-
-- (CGRect)syncContactsButtonFrame {
-    return CGRectMake(0,
-                      0,
-                      self.footerView.bounds.size.width,
-                      CHECK_VIEW_HEIGHT);
 }
 
 - (CGRect)tosAgreementButtonFrame {
     return CGRectMake(0,
-                      CGRectGetMaxY(self.syncContactsButton.frame) + CHECKMARK_BUFFER,
+                      FOOTER_VIEW_BOTTOM_MARGIN,
                       self.footerView.bounds.size.width,
                       CHECK_VIEW_HEIGHT);
 }
 
 - (CGRect)saveButtonFrame {
     return CGRectMake(BUTTON_BUFFER,
-                      self.footerView.bounds.size.height - [EVImages blueButtonBackground].size.height - FOOTER_VIEW_BOTTOM_MARGIN,
+                      self.footerView.bounds.size.height - [EVImages blueButtonBackground].size.height,
                       self.view.bounds.size.width - BUTTON_BUFFER*2,
                       [EVImages blueButtonBackground].size.height);
 }

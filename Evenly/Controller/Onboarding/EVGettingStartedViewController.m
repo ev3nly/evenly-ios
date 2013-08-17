@@ -43,8 +43,13 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
     if (self = [super initWithNibName:nil bundle:nil]) {
         self.title = @"Getting Started";
         self.type = type;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadedMe) name:EVCIAUpdatedMeNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -70,7 +75,6 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
     [self refreshSelf];
     [EVUser meWithSuccess:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedMeNotification object:nil];
-        [self refreshSelf];
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];
@@ -93,7 +97,6 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
     [self.tableView addPullToRefreshWithActionHandler:^{
         [EVUser meWithSuccess:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedMeNotification object:nil];
-            [weakSelf refreshSelf];
             [weakSelf.tableView.pullToRefreshView stopAnimating];
         } failure:^(NSError *error) {
             DLog(@"ERROR?! %@", error);
@@ -231,6 +234,10 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
             self.headerTitle.text = @"You made it!";
         }
     }
+}
+
+- (void)reloadedMe {
+    [self refreshSelf];
 }
 
 #pragma mark - TableView DataSource/Delegate
