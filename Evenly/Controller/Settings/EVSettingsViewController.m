@@ -121,7 +121,7 @@
                 break;
             case EVSettingsMainRowChangePasscode:
                 cell.iconView.image = [EVImages settingsPasscodeIcon];
-                cell.label.text = @"Change Passcode";
+                cell.label.text = @"PIN";
                 break;
             default:
                 break;
