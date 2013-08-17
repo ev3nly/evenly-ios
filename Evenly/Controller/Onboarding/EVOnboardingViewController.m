@@ -43,6 +43,7 @@
 #define OR_LABEL_BUTTON_BUFFER 10
 
 #define FACEBOOK_F_TITLE_BUFFER 20
+#define FACEBOOK_WONT_POST_BUFFER ([EVUtilities deviceHasTallScreen] ? 20 : 12)
 #define F_ICON_TAG 4402
 #define ROUNDED_CARD_TAG 4205
 
@@ -202,10 +203,13 @@
     UIView *view = [self cardViewWithTitle:title description:description image:nil imageOffset:CGPointZero shouldScale:NO];
     
     self.facebookButton = [self configuredFacebookButton];
+    UILabel *wontPostLabel = [self descriptionLabelWithText:@"We will never post to your wall\nwithout your permission"];
+    wontPostLabel.font = [EVFont defaultFontOfSize:15];
     
     UIImageView *peopleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"people"]];
     
     [view addSubview:self.facebookButton];
+    [view addSubview:wontPostLabel];
     
     for (UIView *subview in view.subviews) {
         if ([subview viewWithTag:ROUNDED_CARD_TAG])
@@ -218,6 +222,10 @@
                                            SIGNUP_LABEL_Y_ORIGIN * CARD_SCALE,
                                            self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
                                            [EVImages facebookButton].size.height);
+    wontPostLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:wontPostLabel].width/2,
+                                     CGRectGetMaxY(self.facebookButton.frame) + FACEBOOK_WONT_POST_BUFFER,
+                                     [self sizeForLabel:wontPostLabel].width,
+                                     [self sizeForLabel:wontPostLabel].height);
     peopleImage.frame = CGRectMake((peopleImage.superview.bounds.size.width - peopleImage.image.size.width)/2,
                                    peopleImage.superview.bounds.size.height - peopleImage.image.size.height + smallScreenBuffer,
                                    peopleImage.image.size.width,
