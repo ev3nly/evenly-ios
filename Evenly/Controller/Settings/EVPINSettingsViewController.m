@@ -30,7 +30,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"Passcode";
+        self.title = @"PIN";
     }
     return self;
 }
@@ -67,7 +67,7 @@
 - (void)loadEnableLabel {
     UILabel *enableLabel = [UILabel new];
     enableLabel.backgroundColor = [UIColor clearColor];
-    enableLabel.text = @"Enable Passcode";
+    enableLabel.text = @"Enable PIN";
     enableLabel.textColor = [EVColor mediumLabelColor];
     enableLabel.font = [EVFont blackFontOfSize:15];
     [self.enableView addSubview:enableLabel];
@@ -118,7 +118,7 @@
         [cell addSubview:self.enableView];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     } else {
-        cell.textLabel.text = @"Change Passcode";
+        cell.textLabel.text = @"Change PIN";
         cell.textLabel.textAlignment = NSTextAlignmentCenter;
     }
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
