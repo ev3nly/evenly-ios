@@ -79,7 +79,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.text = @"Name";
     cell.textField.placeholder = @"John Grey";
-    cell.textField.keyboardType = UIKeyboardTypeNamePhonePad;
+    cell.textField.keyboardType = UIKeyboardTypeDefault;
     cell.textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
     cell.textField.tag = index++;
     cell.textField.delegate = self;

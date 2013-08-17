@@ -352,6 +352,8 @@
 - (NSArray *) arrayForProperty: (ABPropertyID) anID
 {
 	CFTypeRef theProperty = ABRecordCopyValue(record, anID);
+    if (!theProperty)
+        return @[];
 	NSArray *items = (NSArray *)ABMultiValueCopyArrayOfAllValues(theProperty);
 	CFRelease(theProperty);
 	return [items autorelease];
@@ -360,6 +362,8 @@
 - (NSArray *) labelsForProperty: (ABPropertyID) anID
 {
 	CFTypeRef theProperty = ABRecordCopyValue(record, anID);
+    if (!theProperty)
+        return @[];
 	NSMutableArray *labels = [NSMutableArray array];
 	for (int i = 0; i < ABMultiValueGetCount(theProperty); i++)
 	{

@@ -297,6 +297,7 @@
         {
             title = @"Cash";
             value = [EVStringUtility amountStringForAmount:[[[EVCIA sharedInstance] me] balance]];
+            cell.stamp = nil;
             cell.accessoryView.hidden = YES;
             cell.shouldHighlight = NO;
             break;
@@ -430,6 +431,14 @@
         gettingStartedController.controllerToShow = [EVDepositViewController new];
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
         [self presentViewController:navController animated:YES completion:NULL];
+    }
+    else if ([[[EVCIA me] balance] isEqualToNumber:[NSDecimalNumber zero]]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Whoops!"
+                                                        message:@"You don't have any money to deposit into a bank account yet.  Send your friends some requests and get some cash into your wallet!"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Okay"
+                                              otherButtonTitles:nil];
+        [alert show];
     }
     else {
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
