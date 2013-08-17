@@ -23,8 +23,11 @@
         return [self homeNumber];
     else if ([self otherNumber])
         return [self otherNumber];
-    else
+    else if ([[self phoneArray] count])
+        return [[self phoneArray] objectAtIndex:0];
+    else if ([[self emailArray] count])
         return [[self emailArray] objectAtIndex:0];
+    return nil;
 }
 
 - (BOOL)hasPhoneNumber {
