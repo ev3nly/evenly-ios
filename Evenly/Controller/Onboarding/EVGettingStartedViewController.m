@@ -227,7 +227,7 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
     [self.tableView reloadData];
     if (finishedAllSteps) {
         if (self.type != EVGettingStartedTypeAll) {
-            if (self.type == EVGettingStartedTypeDeposit && [[EVCIA sharedInstance].me.balance isEqualToNumber:@(0)])
+            if (self.type == EVGettingStartedTypeDeposit && [[EVCIA sharedInstance].me.balance isEqualToNumber:[NSDecimalNumber zero]])
                 return;
             [self loadFooter];
         }
