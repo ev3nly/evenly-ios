@@ -297,6 +297,7 @@
         {
             title = @"Cash";
             value = [EVStringUtility amountStringForAmount:[[[EVCIA sharedInstance] me] balance]];
+            cell.stamp = nil;
             cell.accessoryView.hidden = YES;
             cell.shouldHighlight = NO;
             break;
