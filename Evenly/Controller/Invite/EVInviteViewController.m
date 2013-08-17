@@ -139,7 +139,7 @@
     [self.view findAndResignFirstResponder];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"INVITING..."];
     
-    [EVInvite createWithPhoneNumber:self.textField.text success:^(EVObject *object) {
+    [EVInvite createWithPhoneNumber:[EVStringUtility strippedPhoneNumber:self.textField.text] success:^(EVObject *object) {
         [EVStatusBarManager sharedManager].duringSuccess = ^{
             self.textField.text = @"";
             self.inviteByTextButton.enabled = NO;
