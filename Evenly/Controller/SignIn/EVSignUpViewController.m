@@ -169,6 +169,7 @@
     if (self.photo)
         [params setObject:self.photo forKey:@"avatar"];
     
+    self.saveButton.enabled = NO;
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CREATING ACCOUNT..."];
     
     [EVUser createWithParams:params success:^(EVObject *object) {
@@ -190,10 +191,12 @@
             [[EVCIA sharedInstance] cacheNewSession];
         } failure:^(NSError *error) {
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+            self.saveButton.enabled = YES;
             DLog(@"Error logging in: %@", error);
         }];
     } failure:^(NSError *error) {
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+        self.saveButton.enabled = YES;
         DLog(@"Error creating user: %@", error);
     }];
 }

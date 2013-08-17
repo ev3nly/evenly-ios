@@ -226,8 +226,11 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
     }
     [self.tableView reloadData];
     if (finishedAllSteps) {
-        if (self.type != EVGettingStartedTypeAll)
+        if (self.type != EVGettingStartedTypeAll) {
+            if (self.type == EVGettingStartedTypeDeposit && [[EVCIA sharedInstance].me.balance isEqualToNumber:@(0)])
+                return;
             [self loadFooter];
+        }
         else {
             [[EVNavigationManager sharedManager].walletViewController.tableView reloadData];
             [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:nil];
