@@ -454,6 +454,9 @@
 #pragma mark - Getters
 
 - (BOOL)needsGettingStartedHelp {
+    if ([self userHasClearedGettingStartedBefore])
+        return NO;
+    
     if (self.isUnconfirmed)
         return YES;
     if (!self.facebookConnected)
@@ -468,7 +471,15 @@
         return YES;
     if (!self.hasInvitedFriends)
         return YES;
+    
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVUserHasCompletedGettingStarted];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     return NO;
+}
+
+- (BOOL)userHasClearedGettingStartedBefore {
+    return ([[NSUserDefaults standardUserDefaults] boolForKey:EVUserHasCompletedGettingStarted] == YES);
 }
 
 - (BOOL)needsPaymentHelp {
