@@ -501,11 +501,11 @@
 }
 
 - (BOOL)hasAddedCard {
-    return ([[EVCIA sharedInstance] activeCreditCard] != nil);
+    return [self.roles containsObject:@"buyer"];
 }
 
 - (BOOL)hasAddedBank {
-    return ([[EVCIA sharedInstance] activeBankAccount] != nil);
+    return [self.roles containsObject:@"seller"];
 }
 
 - (BOOL)hasSentPayment {
