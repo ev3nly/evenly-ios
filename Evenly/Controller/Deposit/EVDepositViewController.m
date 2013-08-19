@@ -291,6 +291,11 @@
         [self.amountCell.textField resignFirstResponder];
     else if ([self.bankCell.textField isFirstResponder])
         [self.bankCell.textField resignFirstResponder];
+    else {
+        CGPoint tapPoint = [recognizer locationInView:self.balancePane];
+        if (CGRectContainsPoint(self.balancePane.frame, tapPoint))
+            [self.amountCell.textField becomeFirstResponder];
+    }
 }
 
 #pragma mark - UITextFieldDelegate

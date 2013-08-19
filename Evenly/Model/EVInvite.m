@@ -22,4 +22,8 @@
     [self createWithParams:@{@"emails" : emails} success:success failure:failure];
 }
 
++ (void)createWithPhoneNumber:(NSString *)phoneNumber success:(void (^)(EVObject *object))success failure:(void(^)(NSError *error))failure {
+    [self createWithParams:@{ @"phone_number" : phoneNumber} success:success failure:failure];
+}
+
 @end

@@ -28,7 +28,7 @@
 @property (nonatomic, strong) UIView *footerView;
 @property (nonatomic, strong) UIView *textFieldBackground;
 @property (nonatomic, strong) UITextField *textField;
-@property (nonatomic, strong) UIButton *inviteEmailButton;
+@property (nonatomic, strong) UIButton *inviteByTextButton;
 
 @end
 
@@ -39,6 +39,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"Invite";
+        self.canDismissManually = NO;
     }
     return self;
 }
@@ -52,7 +53,7 @@
     [self loadFooterView];
     [self loadTextFieldBackground];
     [self loadTextField];
-    [self loadInviteEmailButton];
+    [self loadInviteByTextButton];
     [self configureReactions];
 }
 
@@ -63,7 +64,7 @@
     self.footerView.frame = [self footerViewFrame];
     self.textFieldBackground.frame = [self textFieldBackgroundFrame];
     self.textField.frame = [self textFieldFrame];
-    self.inviteEmailButton.frame = [self inviteEmailButtonFrame];
+    self.inviteByTextButton.frame = [self inviteByTextButtonFrame];
 }
 
 - (void)loadTableView {
@@ -100,40 +101,48 @@
     self.textField.delegate = self;
     self.textField.returnKeyType = UIReturnKeyDone;
     self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    self.textField.placeholder = @"Enter Email";
+    self.textField.placeholder = @"Enter Phone Number";
+    self.textField.keyboardType = UIKeyboardTypeNumberPad;
     self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
     [self.textFieldBackground addSubview:self.textField];
 }
 
-- (void)loadInviteEmailButton {
-    self.inviteEmailButton = [UIButton new];
-    [self.inviteEmailButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
-    [self.inviteEmailButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
-    [self.inviteEmailButton addTarget:self action:@selector(inviteEmail) forControlEvents:UIControlEventTouchUpInside];
-    [self.inviteEmailButton setTitle:@"INVITE EMAIL" forState:UIControlStateNormal];
-    [self.inviteEmailButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.inviteEmailButton.titleLabel.font = [EVFont defaultButtonFont];
-    self.inviteEmailButton.frame = [self inviteEmailButtonFrame];
-    [self.footerView addSubview:self.inviteEmailButton];
+- (void)loadInviteByTextButton {
+    self.inviteByTextButton = [UIButton new];
+    [self.inviteByTextButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
+    [self.inviteByTextButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
+    [self.inviteByTextButton addTarget:self action:@selector(invitePhoneNumber) forControlEvents:UIControlEventTouchUpInside];
+    [self.inviteByTextButton setTitle:@"INVITE BY TEXT" forState:UIControlStateNormal];
+    [self.inviteByTextButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.inviteByTextButton.titleLabel.font = [EVFont defaultButtonFont];
+    self.inviteByTextButton.frame = [self inviteByTextButtonFrame];
+    [self.footerView addSubview:self.inviteByTextButton];
 }
 
 - (void)configureReactions {
-    RAC(self.inviteEmailButton.enabled) = [RACSignal combineLatest:@[self.textField.rac_textSignal]
+    [self.textField.rac_textSignal subscribeNext:^(NSString *text) {
+        text = [EVStringUtility addHyphensToPhoneNumber:text];
+        self.textField.text = text;
+        if (text.length == 12)
+            [self.textField resignFirstResponder];
+    }];
+
+    RAC(self.inviteByTextButton.enabled) = [RACSignal combineLatest:@[self.textField.rac_textSignal]
                                                             reduce:^(NSString *text) {
-                                                                return @([[EVValidator sharedValidator] stringIsValidEmail:text]);
+                                                                return @([text isPhoneNumber]);
                                                             }];
 }
 
 #pragma mark - Button
 
-- (void)inviteEmail {
+- (void)invitePhoneNumber {
     [self.view findAndResignFirstResponder];
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"INVITING..."];
-
-    [EVInvite createWithEmails:@[self.textField.text] success:^(EVObject *object) {
+    
+    [EVInvite createWithPhoneNumber:[EVStringUtility strippedPhoneNumber:self.textField.text] success:^(EVObject *object) {
         [EVStatusBarManager sharedManager].duringSuccess = ^{
             self.textField.text = @"";
-            self.inviteEmailButton.enabled = NO;
+            self.inviteByTextButton.enabled = NO;
         };
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
     } failure:^(NSError *error) {
@@ -222,7 +231,7 @@
                       self.textFieldBackground.bounds.size.height);
 }
 
-- (CGRect)inviteEmailButtonFrame {
+- (CGRect)inviteByTextButtonFrame {
     return CGRectMake(self.textFieldBackground.frame.origin.x,
                       CGRectGetMaxY(self.textField.frame) + TEXT_FIELD_BUTTON_BUFFER,
                       self.textFieldBackground.bounds.size.width,

@@ -88,7 +88,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.exclusiveTouch = YES;
-    
+
     [self loadHeader];
     [self loadBalanceView];
     [self loadTopLabels];
@@ -222,12 +222,9 @@
 
 #pragma mark - Button Actions
 
-- (void)cancelButtonPress:(id)sender {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
-}
-
 - (void)doneButtonPress:(id)sender {
     [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+    [EVCIA reloadMe];
 }
 
 - (void)cardTapped:(EVRewardCard *)card {
@@ -262,6 +259,7 @@
     [self.reward redeemWithSuccess:^(EVReward *reward) {
         self.reward = reward;
         [self updateInterface];
+
         if (self.shareSwitch.on && ![self.reward.selectedAmount isEqual:[NSDecimalNumber zero]]) {
             [self share];
         }
@@ -298,24 +296,10 @@
 }
 
 - (void)acquirePublishPermissionsWithCompletion:(void (^)(void))completion {
-    if (![EVFacebookManager isConnected]) {
-        [EVFacebookManager openSessionWithCompletion:^{
-            [EVFacebookManager requestPublishPermissionsWithCompletion:^{
-                DLog(@"Received publish permissions");
-                if (completion)
-                    completion();
-            }];
-        }];
-    } else if (![EVFacebookManager hasPublishPermissions]) {
-        [EVFacebookManager requestPublishPermissionsWithCompletion:^{
-            DLog(@"Received publish permissions");
-            if (completion)
-                completion();
-        }];
-    } else {
+    [EVFacebookManager requestPublishPermissionsWithCompletion:^{
         if (completion)
             completion();
-    }
+    }];
 }
 
 #pragma mark - UI Updates

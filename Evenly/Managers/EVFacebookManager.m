@@ -41,33 +41,37 @@ static EVFacebookManager *_sharedManager;
     //why most apps don't use it.
     [FBSession openActiveSessionWithPermissions:@[@"basic_info", @"email"]
                                    allowLoginUI:YES
-                              completionHandler:^(FBSession *session,
-                                                  FBSessionState state, NSError *error) {
-                                  switch (state) {
-                                      case FBSessionStateOpen:
-                                          [self sharedManager].tokenData = session.accessTokenData;
-                                          completion();
-                                          break;
-                                      case FBSessionStateClosed:
-                                      case FBSessionStateClosedLoginFailed:
-                                          [FBSession.activeSession closeAndClearTokenInformation];
-                                          break;
-                                      default:
-                                          break;
-                                  }
-                                  if (error) {
-                                      NSString *title = nil, *message = nil;
-                                      if ([error code] == FBErrorLoginFailedOrCancelled) {
-                                          title = @"Facebook Login Required";
-                                          message = @"You must login with Facebook to use Evenly.";
-                                          [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-                                      }
-                                      //These errors stack, so only display the above, or users will see 3 in a row
-                                      
-                                      [self fbResync];
-                                      [NSThread sleepForTimeInterval:0.5];
-                                  }
-                              }];
+                              completionHandler:[self facebookSessionStateHandlerWithCompletion:completion]];
+}
+
++ (FBSessionStateHandler)facebookSessionStateHandlerWithCompletion:(void (^)(void))completion {
+    return ^(FBSession *session,
+             FBSessionState state, NSError *error) {
+        switch (state) {
+            case FBSessionStateOpen:
+                [self sharedManager].tokenData = session.accessTokenData;
+                completion();
+                break;
+            case FBSessionStateClosed:
+            case FBSessionStateClosedLoginFailed:
+                [FBSession.activeSession closeAndClearTokenInformation];
+                break;
+            default:
+                break;
+        }
+        if (error) {
+            NSString *title = nil, *message = nil;
+            if ([error code] == FBErrorLoginFailedOrCancelled) {
+                title = @"Facebook Login Required";
+                message = @"You must login with Facebook to use Evenly.";
+                [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+            }
+            //These errors stack, so only display the above, or users will see 3 in a row
+            
+            [self fbResync];
+            [NSThread sleepForTimeInterval:0.5];
+        }
+    };
 }
 
 + (BOOL)hasPublishPermissions {
@@ -76,14 +80,10 @@ static EVFacebookManager *_sharedManager;
 
 
 + (void)requestPublishPermissionsWithCompletion:(void (^)(void))completion {
-    [FBSession.activeSession requestNewPublishPermissions:@[ @"publish_actions" ]
-                                          defaultAudience:FBSessionDefaultAudienceEveryone
-                                        completionHandler:^(FBSession *session, NSError *error) {
-                                            if (!error) {
-                                                if (completion)
-                                                    completion();
-                                            }
-                                        }];
+    [FBSession openActiveSessionWithPublishPermissions:@[ @"publish_actions" ]
+                                       defaultAudience:FBSessionDefaultAudienceEveryone
+                                          allowLoginUI:YES
+                                     completionHandler:[self facebookSessionStateHandlerWithCompletion:completion]];
 }
 
 + (void)closeAndClearSession {
@@ -109,10 +109,14 @@ static EVFacebookManager *_sharedManager;
     [self performRequest:^{
         [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *fbError) {
             [self sharedManager].facebookID = user[@"id"];
-            if (!fbError)
-                completion(user);
-            else
-                failure(fbError);
+            if (!fbError) {
+                if (completion)
+                    completion(user);
+            }
+            else {
+                if (failure)
+                    failure(fbError);
+            }
         }];
     }];
 }
@@ -122,10 +126,13 @@ static EVFacebookManager *_sharedManager;
         [[FBRequest requestForMyFriends] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
             if (!error) {
                 NSArray *friends = [(NSDictionary *)result objectForKey:@"data"];
-                completion(friends);
+                if (completion)
+                    completion(friends);
             }
-            else
-                failure(error);
+            else {
+                if (failure)
+                    failure(error);
+            }
         }];
     }];
 }

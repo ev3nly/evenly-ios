@@ -20,6 +20,8 @@
     BOOL _loading;
 }
 
+@property (nonatomic, strong) EVPendingDetailCell *cell;
+
 @end
 
 @implementation EVPendingDetailViewController
@@ -39,10 +41,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self loadCell];
     [self loadTableView];
     if (self.exchange.isLoading)
         [self.tableView setLoading:YES];
+}
+
+- (void)loadCell {
+    self.cell = [[EVPendingDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    
 }
 
 - (void)loadTableView {
@@ -79,8 +86,7 @@
 #pragma mark - Take Action
 
 - (void)confirmRequest {
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
-    
+    [self prepareForRequestWithText:@"SENDING PAYMENT..."];
     if ([self.exchange isKindOfClass:[EVRequest class]]) {
         EVRequest *request = (EVRequest *)self.exchange;
         [request completeWithSuccess:^(EVPayment *payment){
@@ -102,6 +108,7 @@
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
+                [EVCIA reloadMe];
                 [[EVCIA sharedInstance] reloadPendingExchangesWithCompletion:NULL];
                 if (payment.reward)
                 {
@@ -112,15 +119,13 @@
                 }
             };
         } failure:^(NSError *error) {
-            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-            DLog(@"failed to complete request");
+            [self handleFailure];
         }];
     }
 }
 
 - (void)denyRequest {
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"DENYING PAYMENT..."];
-
+    [self prepareForRequestWithText:@"DENYING PAYMENT..."];
     if ([self.exchange isKindOfClass:[EVRequest class]]) {
         EVRequest *request = (EVRequest *)self.exchange;
         [request denyWithSuccess:^{
@@ -129,19 +134,16 @@
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
                 [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-
                 }];
             };
         } failure:^(NSError *error) {
-            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-            DLog(@"failed to complete request");
+            [self handleFailure];
         }];
     }
 }
 
 - (void)remindRequest {
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"REMINDING..."];
-    
+    [self prepareForRequestWithText:@"REMINDING..."];
     if ([self.exchange isKindOfClass:[EVRequest class]]) {
         EVRequest *request = (EVRequest *)self.exchange;
         [request remindWithSuccess:^{
@@ -154,15 +156,13 @@
                 }];
             };
         } failure:^(NSError *error) {
-            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-            DLog(@"failed to remind request");
+            [self handleFailure];
         }];
     }
 }
 
 - (void)cancelRequest {
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CANCELING REQUEST..."];
-    
+    [self prepareForRequestWithText:@"CANCELING REQUEST..."];
     if ([self.exchange isKindOfClass:[EVRequest class]]) {
         EVRequest *request = (EVRequest *)self.exchange;
         [request cancelWithSuccess:^{
@@ -175,10 +175,23 @@
                 }];
             };
         } failure:^(NSError *error) {
-            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-            DLog(@"failed to cancel request");
+            [self handleFailure];
         }];
     }
+}
+
+- (void)prepareForRequestWithText:(NSString *)text {
+    self.navigationItem.leftBarButtonItem.enabled = NO;
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [self.cell disableAllButtons];
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:text];    
+}
+
+- (void)handleFailure {
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+    self.navigationItem.leftBarButtonItem.enabled = YES;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
+    [self.cell enableAllButtons];
 }
 
 #pragma mark - TableView DataSource/Delegate
@@ -194,7 +207,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVPendingDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:@"pendingDetailCell" forIndexPath:indexPath];
+    EVPendingDetailCell *cell = self.cell;
     cell.story = [EVStory storyFromPendingExchange:self.exchange];
     NSString *amountString = [EVStringUtility amountStringForAmount:self.exchange.amount];
     [cell.confirmButton setTitle:[NSString stringWithFormat:@"PAY %@", amountString] forState:UIControlStateNormal];

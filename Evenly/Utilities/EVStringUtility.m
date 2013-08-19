@@ -252,7 +252,7 @@ static NSDateFormatter *_detailDateFormatter;
 }
 
 + (NSString *)toFieldPlaceholder {
-    return @"Name or email";
+    return @"Name, email, or phone number";
 }
 
 + (NSString *)groupToFieldPlaceholder {
@@ -287,6 +287,14 @@ static NSDateFormatter *_detailDateFormatter;
     return phoneNumber;
 }
 
++ (NSString *)strippedPhoneNumber:(NSString *)phoneNumber {
+    NSArray *components = [phoneNumber componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *newNumber = [components componentsJoinedByString:@""];
+    if (newNumber.length == 11)
+        newNumber = [newNumber substringFromIndex:1];
+    return newNumber;
+}
+
 #pragma mark - Contacts
 
 + (NSString *)displayNameForContact:(ABContact *)contact {
@@ -295,6 +303,8 @@ static NSDateFormatter *_detailDateFormatter;
         name = [contact.firstname stringByAppendingString:@" "];
     if (!EV_IS_EMPTY_STRING(contact.lastname))
         name = [name stringByAppendingString:contact.lastname];
+    if (EV_IS_EMPTY_STRING(name) && !EV_IS_EMPTY_STRING([contact organization]))
+        name = [contact organization];
     return name;
 }
 
@@ -477,6 +487,12 @@ static NSDateFormatter *_detailDateFormatter;
 
 + (NSString *)noActivityMessageForOthers {
     return @"No Evenly activity yet. Tap above and show them how it's done.";
+}
+
+#pragma mark - PIN
+
++ (NSString *)wouldYouLikeToSetPINPrompt {
+    return @"Would you like to set a PIN to protect your Evenly wallet? You can always set it later in settings.";
 }
 
 @end

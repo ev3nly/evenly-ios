@@ -214,7 +214,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 - (BOOL)shouldDisplayDateString {
     if (!self.story.publishedAt)
         return NO;
-    if (self.story.displayType == EVStoryDisplayTypePendingTransactionDetail)
+    if (self.story.displayType == EVStoryDisplayTypePendingTransactionDetail || self.story.displayType == EVStoryDisplayTypeCompletedTransactionDetail)
         return YES;
     return (self.story.dbid != nil);
 }

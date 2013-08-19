@@ -43,6 +43,7 @@
 + (NSString *)tipDescriptionPlaceholder;
 
 + (NSString *)displayStringForPhoneNumber:(NSString *)phoneNumber;
++ (NSString *)strippedPhoneNumber:(NSString *)phoneNumber;
 
 + (NSString *)stringForPrivacySetting:(EVPrivacySetting)privacySetting;
 
@@ -106,5 +107,8 @@
 #pragma mark - Profile
 + (NSString *)noActivityMessageForSelf;
 + (NSString *)noActivityMessageForOthers;
+
+#pragma mark - PIN
++ (NSString *)wouldYouLikeToSetPINPrompt;
 
 @end

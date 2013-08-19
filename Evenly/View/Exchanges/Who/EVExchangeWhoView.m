@@ -69,6 +69,7 @@ NSString *const EVExchangeWhoViewAddedTokenFromReturnPressNotification = @"EVExc
     self.toField = [[JSTokenField alloc] initWithFrame:[self toFieldFrame]];
     self.toField.textField.placeholder = [EVStringUtility toFieldPlaceholder];
     self.toField.textField.returnKeyType = UIReturnKeyNext;
+    self.toField.textField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.toField.backgroundColor = [UIColor clearColor];
     self.toField.textField.font = [EVFont lightExchangeFormFont];
     self.toField.autoresizingMask = UIViewAutoresizingFlexibleWidth;

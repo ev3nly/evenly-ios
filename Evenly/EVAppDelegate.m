@@ -26,14 +26,15 @@
 #import "EVKeyboardTracker.h"
 #import "EVPushManager.h"
 #import "EVPINUtility.h"
+#import "EVSettingsManager.h"
 
 #import "EVSignInViewController.h"
 #import "EVSetPINViewController.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 #import <Parse/Parse.h>
+#import "ABContactsHelper.h"
 
-#define EV_APP_ENTERED_BACKGROUND_DATE_KEY @"EVAppEnteredBackgroundDate"
 #define EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY 60
 
 @implementation EVAppDelegate
@@ -70,6 +71,10 @@
     if ([launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [self handleRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey] requirePIN:YES];
     }
+    
+    [ABContactsHelper autocompletableContacts];
+    DLog(@"Mobile label: %@  iPhone label: %@", kABPersonPhoneMobileLabel, kABPersonPhoneIPhoneLabel);
+    
     return YES;
 }
 
@@ -112,8 +117,12 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]
-                                              forKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
+    if ([EVSession sharedSession].authenticationToken) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]
+                                                  forKey:EVDateAppEnteredBackgroundKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
@@ -123,8 +132,14 @@
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]
-                                              forKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
+    if ([EVSession sharedSession].authenticationToken) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]
+                                                  forKey:EVDateAppEnteredBackgroundKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        if ([[EVPINUtility sharedUtility] pinIsSet])
+            [[self masterViewController] showPINViewControllerAnimated:NO];
+    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -141,19 +156,10 @@
     [EVAnalyticsUtility trackEvent:EVAnalyticsOpenedApp];
     [EVUtilities registerForPushNotifications];
 
-    NSDate *dateAppEnteredBackground = [[NSUserDefaults standardUserDefaults] objectForKey:EV_APP_ENTERED_BACKGROUND_DATE_KEY];
-    if (dateAppEnteredBackground && fabs([dateAppEnteredBackground timeIntervalSinceNow]) > EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY) {
-        EV_DISPATCH_AFTER(0.5, ^{
-            if ([[EVPINUtility sharedUtility] pinIsSet])
-                [[self masterViewController] showPINViewControllerAnimated:YES];
-            else {
-                EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
-                pinController.canDismissManually = NO;
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
-                [self.masterViewController presentViewController:navController animated:YES completion:nil];
-            }
-        });
-    }
+    EV_DISPATCH_AFTER(0.5, ^{
+        if ([self userHasNotSeenPINAlert])
+            [self showPINAlert];
+    });
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -180,6 +186,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self handleRemoteNotification:userInfo requirePIN:NO];
+    [EVCIA reloadMe];
 }
 
 - (void)handleRemoteNotification:(NSDictionary *)userInfo requirePIN:(BOOL)requirePIN {
@@ -203,4 +210,30 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
         [self.masterViewController presentViewController:pushNavController animated:YES completion:completionBlock];
     }
 }
+
+#pragma mark - PIN Setting
+
+- (BOOL)userHasNotSeenPINAlert {
+    return ([[NSUserDefaults standardUserDefaults] boolForKey:EVHasSeenPINAlertKey] != YES);
+}
+
+- (void)showPINAlert {
+    NSDate *dateAppEnteredBackground = [[NSUserDefaults standardUserDefaults] objectForKey:EVDateAppEnteredBackgroundKey];
+    if (dateAppEnteredBackground && ![[EVPINUtility sharedUtility] pinIsSet]) {
+        [[UIAlertView alertViewWithTitle:nil
+                                 message:[EVStringUtility wouldYouLikeToSetPINPrompt]
+                       cancelButtonTitle:@"Not now" otherButtonTitles:@[@"Yes"]
+                               onDismiss:^(int buttonIndex) {
+                                   [self showSetPINController];
+                               } onCancel:nil] show];
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVHasSeenPINAlertKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)showSetPINController {
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVSetPINViewController new]];
+    [self.masterViewController presentViewController:navController animated:YES completion:nil];
+}
+
 @end

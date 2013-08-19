@@ -10,12 +10,13 @@
 #import "EVSignInViewController.h"
 #import "EVSignUpViewController.h"
 #import "EVSetPINViewController.h"
+#import "EVGettingStartedViewController.h"
 #import "EVNavigationManager.h"
 #import "EVFacebookManager.h"
 #import <QuartzCore/QuartzCore.h>
 #import <FacebookSDK/FacebookSDK.h>
 
-#define NUMBER_OF_SLIDES 5
+#define NUMBER_OF_SLIDES 6
 
 #define CARD_SCALE (self.view.bounds.size.height/548.0)
 #define TARGET_CARD_HEIGHT 450.0
@@ -28,6 +29,7 @@
 #define LOGO_LENGTH 140
 #define LOGO_TEXT_BUFFER 20
 #define PICTURE_BOTTOM_BUFFER 20
+#define SMALL_SCREEN_REWARDS_PICTURE_BOTTOM_BUFFER 70
 #define TITLE_TOP_BUFFER 36
 #define TITLE_SUBTITLE_BUFFER 4
 #define MAX_TEXT_WIDTH 272
@@ -41,6 +43,7 @@
 #define OR_LABEL_BUTTON_BUFFER 10
 
 #define FACEBOOK_F_TITLE_BUFFER 20
+#define FACEBOOK_WONT_POST_BUFFER ([EVUtilities deviceHasTallScreen] ? 20 : 12)
 #define F_ICON_TAG 4402
 #define ROUNDED_CARD_TAG 4205
 
@@ -112,7 +115,8 @@
                              [self secondOnboardView],
                              [self thirdOnboardView],
                              [self fourthOnboardView],
-                             [self fifthOnboardView]];
+                             [self fifthOnboardView],
+                             [self sixthOnboardView]];
     for (UIView *view in self.onboardingViews) {
         view.frame = [self frameForOnboardingViewIndex:[self.onboardingViews indexOfObject:view]];
         [self.scrollView addSubview:view];
@@ -168,37 +172,44 @@
     NSString *title = @"Pay anyone, safely";
     NSString *description = @"Cash is a pain. Add a card to your Evenly wallet and pay anyone, anywhere, anytime.";
     UIImage *image = [EVImages onboardCard1];
-    return [self cardViewWithTitle:title description:description image:image];
+    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointZero shouldScale:YES];
 }
 
 - (UIView *)thirdOnboardView {
-    NSString *title = @"Collect money, effortlessly";
-    NSString *description = @"Stop hassling friends. Send a request and we'll remind your friends until they pay you back.";
-    UIImage *image = [EVImages onboardCard2];
-    return [self cardViewWithTitle:title description:description image:image];
+    NSString *title = @"Win Cash Rewards";
+    NSString *description = @"After every payment, you can play the Evenly Rewards game and win up to $10 in cash back.";
+    UIImage *image = [EVImages onboardCard4];
+    float bottomBuffer = [EVUtilities deviceHasTallScreen] ? PICTURE_BOTTOM_BUFFER : SMALL_SCREEN_REWARDS_PICTURE_BOTTOM_BUFFER;
+    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointMake(0, bottomBuffer) shouldScale:NO];
 }
 
 - (UIView *)fourthOnboardView {
     NSString *title = @"Deposit, instantly";
     NSString *description = @"With one tap, securely deposit the cash in your Evenly wallet into any bank account.";
     UIImage *image = [EVImages onboardCard3];
-    return [self cardViewWithTitle:title description:description image:image];
+    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointZero shouldScale:YES];
 }
 
 - (UIView *)fifthOnboardView {
+    NSString *title = @"Collect money, effortlessly";
+    NSString *description = @"Stop hassling friends. Send a request and we'll remind your friends until they pay you back.";
+    UIImage *image = [EVImages onboardCard2];
+    return [self cardViewWithTitle:title description:description image:image imageOffset:CGPointMake(0, 2) shouldScale:YES];
+}
+
+- (UIView *)sixthOnboardView {
     NSString *title = @"Fun, Social, & Free";
     NSString *description = @"There are no transaction fees. Connect with Facebook and share the experience with your friends.";
-    UIView *view = [self cardViewWithTitle:title description:description image:nil];
+    UIView *view = [self cardViewWithTitle:title description:description image:nil imageOffset:CGPointZero shouldScale:NO];
     
-    UILabel *signUpLabel = [self titleLabelWithText:@"Sign up in seconds."];
-    signUpLabel.font = [EVFont blackFontOfSize:18];
-        
     self.facebookButton = [self configuredFacebookButton];
+    UILabel *wontPostLabel = [self descriptionLabelWithText:@"We will never post to your wall\nwithout your permission"];
+    wontPostLabel.font = [EVFont defaultFontOfSize:15];
     
     UIImageView *peopleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"people"]];
     
-//    [view addSubview:signUpLabel];
     [view addSubview:self.facebookButton];
+    [view addSubview:wontPostLabel];
     
     for (UIView *subview in view.subviews) {
         if ([subview viewWithTag:ROUNDED_CARD_TAG])
@@ -207,14 +218,14 @@
     
     float smallScreenBuffer = (self.view.bounds.size.height > 480) ? 0 : SMALL_SCREEN_PEOPLE_IMAGE_BUFFER;
     
-    signUpLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:signUpLabel].width/2,
-                                   SIGNUP_LABEL_Y_ORIGIN * CARD_SCALE,
-                                   [self sizeForLabel:signUpLabel].width,
-                                   [self sizeForLabel:signUpLabel].height);
     self.facebookButton.frame = CGRectMake(BUTTON_LEFT_MARGIN,
-                                      CGRectGetMaxY(signUpLabel.frame),// + SIGNUP_LABEL_BUTTON_BUFFER,
-                                      self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
-                                      [EVImages facebookButton].size.height);
+                                           SIGNUP_LABEL_Y_ORIGIN * CARD_SCALE,
+                                           self.scrollView.bounds.size.width - BUTTON_LEFT_MARGIN*2,
+                                           [EVImages facebookButton].size.height);
+    wontPostLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:wontPostLabel].width/2,
+                                     CGRectGetMaxY(self.facebookButton.frame) + FACEBOOK_WONT_POST_BUFFER,
+                                     [self sizeForLabel:wontPostLabel].width,
+                                     [self sizeForLabel:wontPostLabel].height);
     peopleImage.frame = CGRectMake((peopleImage.superview.bounds.size.width - peopleImage.image.size.width)/2,
                                    peopleImage.superview.bounds.size.height - peopleImage.image.size.height + smallScreenBuffer,
                                    peopleImage.image.size.width,
@@ -223,9 +234,9 @@
     if ([self.facebookButton viewWithTag:F_ICON_TAG]) {
         float totalWidth = [EVImages facebookButton].size.width + FACEBOOK_F_TITLE_BUFFER + self.facebookButton.titleLabel.bounds.size.width;
         [self.facebookButton viewWithTag:F_ICON_TAG].frame = CGRectMake(CGRectGetMidX(self.facebookButton.bounds) - totalWidth/2,
-                                                                   CGRectGetMidY(self.facebookButton.bounds) - [EVImages facebookFIcon].size.height/2,
-                                                                   [EVImages facebookFIcon].size.width,
-                                                                   [EVImages facebookFIcon].size.height);
+                                                                        CGRectGetMidY(self.facebookButton.bounds) - [EVImages facebookFIcon].size.height/2,
+                                                                        [EVImages facebookFIcon].size.width,
+                                                                        [EVImages facebookFIcon].size.height);
     }
     
     return view;
@@ -233,9 +244,11 @@
 
 #pragma mark - View Helper Methods
 
-- (UIView *)cardViewWithTitle:(NSString *)title description:(NSString *)description image:(UIImage *)image {
+- (UIView *)cardViewWithTitle:(NSString *)title description:(NSString *)description image:(UIImage *)image imageOffset:(CGPoint)imageOffset shouldScale:(BOOL)shouldScale {
     UIView *view = [UIView new];
     [view addSubview:[self roundedBackgroundCardView]];
+    
+    float imageScale = shouldScale ? PICTURE_SCALE : 1;
     
     UILabel *titleLabel = [self titleLabelWithText:title];
     UILabel *descriptionLabel = [self descriptionLabelWithText:description];
@@ -249,10 +262,10 @@
                                         CGRectGetMaxY(titleLabel.frame) + TITLE_SUBTITLE_BUFFER,
                                         [self sizeForLabel:descriptionLabel].width,
                                         [self sizeForLabel:descriptionLabel].height);
-    picture.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - (image.size.width * PICTURE_SCALE)/2,
-                               self.scrollView.bounds.size.height - PICTURE_BOTTOM_BUFFER - (image.size.height * PICTURE_SCALE),
-                               image.size.width * PICTURE_SCALE,
-                               image.size.height * PICTURE_SCALE);
+    picture.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - (image.size.width * imageScale)/2 + imageOffset.x,
+                               self.scrollView.bounds.size.height - PICTURE_BOTTOM_BUFFER - (image.size.height * imageScale) + imageOffset.y,
+                               image.size.width * imageScale,
+                               image.size.height * imageScale);
     
     [view addSubview:titleLabel];
     [view addSubview:picture];
@@ -336,10 +349,9 @@
         [newUser loadAvatar];
         
         EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
-                EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
-                pinController.canDismissManually = NO;
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{                
+                EVGettingStartedViewController *controller = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeAll];
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
                 [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
             }];
         } user:newUser];

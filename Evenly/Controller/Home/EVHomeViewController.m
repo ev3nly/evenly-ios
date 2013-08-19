@@ -17,12 +17,16 @@
 #import "EVTippingViewController.h"
 #import "EVStoryDetailViewController.h"
 #import "EVNavigationManager.h"
+#import "EVSetPINViewController.h"
 
 #import "EVRewardsGameViewController.h"
 
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "EVLoadingIndicator.h"
+#import "EVSettingsManager.h"
+
+#import "EVGettingStartedViewController.h"
 
 #define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -20
 #define TABLE_VIEW_INFINITE_SCROLLING_INSET 60
@@ -146,6 +150,7 @@
     __weak EVHomeViewController *weakSelf = self;
     [self.tableView addPullToRefreshWithActionHandler:^{
         [weakSelf.newsfeedDataSource loadNewestStories];
+        [EVCIA reloadMe];
     }];
 }
 
@@ -167,13 +172,31 @@
 #pragma mark - Button Actions
 
 - (void)requestButtonPress:(id)sender {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
-    [self presentViewController:navController animated:YES completion:NULL];
+    
+    if ([EVCIA me].needsRequestHelp) {
+        EVGettingStartedViewController *gettingStartedController = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeRequest];
+        gettingStartedController.controllerToShow = [EVRequestViewController new];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
+        [self presentViewController:navController animated:YES completion:NULL];
+    }
+    else {
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
+        [self presentViewController:navController animated:YES completion:NULL];
+    }
 }
 
 - (void)payButtonPress:(id)sender {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVPaymentViewController alloc] init]];
-    [self presentViewController:navController animated:YES completion:NULL];    
+    
+    if ([EVCIA me].needsPaymentHelp) {
+        EVGettingStartedViewController *gettingStartedController = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypePayment];
+        gettingStartedController.controllerToShow = [EVPaymentViewController new];
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
+        [self presentViewController:navController animated:YES completion:NULL];
+    }
+    else {
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVPaymentViewController alloc] init]];
+        [self presentViewController:navController animated:YES completion:NULL];
+    }
 }
 
 #pragma mark - UITableViewDelegate

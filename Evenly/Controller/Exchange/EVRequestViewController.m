@@ -107,7 +107,7 @@
         story.source = self.request;
         [[NSNotificationCenter defaultCenter] postNotificationName:EVStoryLocallyCreatedNotification object:nil userInfo:@{ @"story" : story }];
         [self sentRequestWithSuccessBlock:^{
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+            [self cancelButtonPress:nil];;
         }];
     } failure:^(NSError *error) {
         [self sentRequestWithError:error];
@@ -123,13 +123,13 @@
                              success:^(EVObject *object) {
                                  EVGroupRequest *createdRequest = (EVGroupRequest *)object;
                                  [self sentRequestWithSuccessBlock:^{
-                                     __block UIViewController *presenter = self.presentingViewController;
-                                     [self.presentingViewController dismissViewControllerAnimated:YES
-                                                                                       completion:^{
-                                                                                           EVGroupRequestDashboardViewController *dashboardVC = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:createdRequest];
-                                                                                           UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardVC];
-                                                                                           [presenter presentViewController:navController animated:YES completion:NULL];
-                                                                                       }];
+                                     __block UIViewController *presenter = self.shouldDismissGrandparent ? self.presentingViewController.presentingViewController : self.presentingViewController;
+                                     [presenter dismissViewControllerAnimated:YES
+                                                                    completion:^{
+                                                                        EVGroupRequestDashboardViewController *dashboardVC = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:createdRequest];
+                                                                        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardVC];
+                                                                        [presenter presentViewController:navController animated:YES completion:NULL];
+                                                                    }];
                                  }];
                              } failure:^(NSError *error) {
                                  [self sentRequestWithError:error];

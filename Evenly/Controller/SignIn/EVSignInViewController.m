@@ -189,12 +189,6 @@
                 self.authenticationSuccess();
             [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
         };
-        [EVStatusBarManager sharedManager].postSuccess = ^(void) {
-            EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
-            pinController.canDismissManually = NO;
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
-            [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
-        };
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
         [[EVCIA sharedInstance] cacheNewSession];
         DLog(@"Logged in.");

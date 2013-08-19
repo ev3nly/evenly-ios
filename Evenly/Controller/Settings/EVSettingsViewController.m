@@ -15,7 +15,7 @@
 #import "EVFormView.h"
 
 #import "EVNotificationsViewController.h"
-#import "EVSetPINViewController.h"
+#import "EVPINSettingsViewController.h"
 
 #import "EVWebViewController.h"
 #import "EVFacebookManager.h"
@@ -121,7 +121,7 @@
                 break;
             case EVSettingsMainRowChangePasscode:
                 cell.iconView.image = [EVImages settingsPasscodeIcon];
-                cell.label.text = @"Change Passcode";
+                cell.label.text = @"PIN";
                 break;
             default:
                 break;
@@ -231,10 +231,8 @@
 }
 
 - (void)showPasscodeController {
-    EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
-    pinController.needsToEnterOldPIN = YES;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
-    [self.navigationController presentViewController:navController animated:YES completion:nil];
+    EVPINSettingsViewController *pinSettingsController = [EVPINSettingsViewController new];
+    [self.navigationController pushViewController:pinSettingsController animated:YES];
 }
 
 - (void)showLogOutActionSheet {

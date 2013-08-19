@@ -451,6 +451,64 @@
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
+#pragma mark - Getters
+
+- (BOOL)needsGettingStartedHelp {
+    if (self.isUnconfirmed)
+        return YES;
+    if (!self.facebookConnected)
+        return YES;
+    if (!self.hasAddedCard)
+        return YES;
+    if (!self.hasAddedBank)
+        return YES;
+    if (!self.hasSentPayment)
+        return YES;
+    if (!self.hasSentRequest)
+        return YES;
+    if (!self.hasInvitedFriends)
+        return YES;
+    return NO;
+}
+
+- (BOOL)needsPaymentHelp {
+    if (self.isUnconfirmed || !self.hasAddedCard)
+        return YES;
+    return NO;
+}
+
+- (BOOL)needsRequestHelp {
+    if (self.isUnconfirmed)
+        return YES;
+    return NO;
+}
+
+- (BOOL)needsDepositHelp {
+    if (self.isUnconfirmed || !self.hasAddedBank)
+        return YES;
+    return NO;
+}
+
+- (BOOL)hasAddedCard {
+    return ([[EVCIA sharedInstance] activeCreditCard] != nil);
+}
+
+- (BOOL)hasAddedBank {
+    return ([[EVCIA sharedInstance] activeBankAccount] != nil);
+}
+
+- (BOOL)hasSentPayment {
+    return [self.roles containsObject:@"payer"];
+}
+
+- (BOOL)hasSentRequest {
+    return [self.roles containsObject:@"requester"];
+}
+
+- (BOOL)hasInvitedFriends {
+    return [self.roles containsObject:@"inviter"];
+}
+
 #pragma mark Images
 
 - (void)loadAvatar {
@@ -562,42 +620,35 @@
 
 @synthesize avatar;
 @synthesize avatarURL;
+@synthesize name;
+@synthesize email;
+@synthesize phoneNumber;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super initWithDictionary:dictionary];
     if (self) {
         self.name = [dictionary valueForKey:@"name"];
-        self.information = [dictionary valueForKey:@"information"];
+        NSString *information = [dictionary valueForKey:@"information"];
+        if ([information isPhoneNumber])
+            self.phoneNumber = information;
+        else if ([information isEmail])
+            self.email = information;
     }
     return self;
 }
 
 #pragma mark - Properties
 
-- (NSString *)email {
-    return self.information;
-}
-
-- (void)setEmail:(NSString *)email {
-    self.information = email;
-}
-
-- (NSString *)phoneNumber {
-    return self.information;
-}
-
-- (void)setPhoneNumber:(NSString *)phoneNumber {
-    self.information = phoneNumber;
-}
-
 - (BOOL)isEqual:(id)object {
     if (![object isKindOfClass:[self class]])
         return NO;
-    return (EV_OBJECTS_EQUAL_OR_NIL(self.name, [object name]) && EV_OBJECTS_EQUAL_OR_NIL(self.information, [object information]));
+    return (EV_OBJECTS_EQUAL_OR_NIL(self.name, [object name]) &&
+            EV_OBJECTS_EQUAL_OR_NIL(self.email, [object email]) &&
+            EV_OBJECTS_EQUAL_OR_NIL(self.phoneNumber, [object phoneNumber]));
 }
 
 - (NSUInteger)hash {
-    return [self.name hash] + 7*[self.information hash];
+    return [self.name hash] + 7*[self.email hash] + 13*[self.phoneNumber hash];
 }
 
 @end

@@ -218,19 +218,20 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
 }
 
 + (void)reloadMe {
+    [self reloadMeWithCompletion:nil];
+}
+
++ (void)reloadMeWithCompletion:(void (^)(void))completion {
     [EVUser meWithSuccess:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:EVCIAUpdatedMeNotification object:nil];
         
         EVUser *me = [[self sharedInstance] me];
-        DLog(@"Got me: %@", [[self sharedInstance] me]);
         [[self sharedInstance] reloadPendingExchangesWithCompletion:NULL];
         [[self sharedInstance] reloadHistoryWithCompletion:NULL];
         
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         
-        [mixpanel identify:me.dbid];
-        
-    	[mixpanel.people identify:me.dbid];
+        [mixpanel identify:me.dbid];        
         [mixpanel.people set:@"$name"       to:me.name];
         if (me.email)
             [mixpanel.people set:@"$email"      to:me.email];
@@ -243,11 +244,13 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         
         [EVParseUtility registerChannels];
         
+        if (completion)
+            completion();
+        
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];
 }
-
 
 - (void)cacheNewSession {
     //retrieve user from session call, cache user
@@ -361,7 +364,7 @@ NSString *const EVCIAUpdatedExchangesNotification = @"EVCIAUpdatedExchangesNotif
     }];
     NSArray *everything = [received arrayByAddingObjectsFromArray:sent];
     
-    if ([self.me isUnconfirmed]) {
+    if (self.me.needsGettingStartedHelp) {
         everything = [@[ [EVWalletNotification unconfirmedNotification] ] arrayByAddingObjectsFromArray:everything];
     }
     return everything;

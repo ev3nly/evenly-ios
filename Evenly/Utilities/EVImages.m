@@ -206,6 +206,10 @@
     return [UIImage imageNamed:@"Arrow"];
 }
 
++ (UIImage *)greenCheck {
+    return [UIImage imageNamed:@"green_check"];
+}
+
 #pragma mark - Onboarding
 
 + (UIImage *)addPhotoIcon {
@@ -222,6 +226,10 @@
 
 + (UIImage *)onboardCard3 {
     return [UIImage imageNamed:@"onboard-card3"];
+}
+
++ (UIImage *)onboardCard4 {
+    return [UIImage imageNamed:@"onboard-card4"];
 }
 
 + (UIImage *)bigIcon {
