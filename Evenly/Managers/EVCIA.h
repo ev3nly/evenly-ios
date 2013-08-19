@@ -18,6 +18,8 @@
 
 + (instancetype)sharedInstance;
 
+extern NSString *const EVUserHasCompletedGettingStarted;
+
 #pragma mark - Image Loading
 
 typedef void(^EVCIAImageLoadedSuccessBlock)(UIImage *image);

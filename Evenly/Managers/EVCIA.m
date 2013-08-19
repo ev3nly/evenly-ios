@@ -22,6 +22,8 @@ NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKe
 NSString *const EVPendingReceivedExchangesKey = @"pending_received";
 NSString *const EVPendingSentExchangesKey = @"pending_sent";
 
+NSString *const EVUserHasCompletedGettingStarted = @"EVUserHasCompletedGettingStartedKey";
+
 static EVCIA *_sharedInstance;
 
 @interface EVCIA ()
