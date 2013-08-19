@@ -157,8 +157,10 @@
     [EVUtilities registerForPushNotifications];
 
     EV_DISPATCH_AFTER(0.5, ^{
-        if ([self userHasNotSeenPINAlert])
-            [self showPINAlert];
+        if ([[EVCIA sharedInstance] session]) {
+            if ([self userHasNotSeenPINAlert])
+                [self showPINAlert];
+        }
     });
 }
 
