@@ -25,6 +25,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "JASidePanelController.h"
+#import "EVStatusBarManager.h"
 
 static char ja_kvoContext;
 
@@ -164,6 +165,7 @@ static char ja_kvoContext;
     
     self.rightPanelContainer = [[UIView alloc] initWithFrame:self.view.bounds];
     self.rightPanelContainer.hidden = YES;
+    [self _loadRightPanel];
     
     [self _configureContainers];
     
@@ -287,8 +289,8 @@ static char ja_kvoContext;
     }
     container.layer.shadowPath = shadowPath.CGPath;	
     container.layer.shadowColor = [UIColor blackColor].CGColor;
-    container.layer.shadowRadius = 10.0f;
-    container.layer.shadowOpacity = 0.75f;
+    container.layer.shadowRadius = 8.0f;
+    container.layer.shadowOpacity = ([[EVStatusBarManager sharedManager] controllersShouldHideDropShadows]) ? 0.0 : 0.5f;
     container.clipsToBounds = NO;
 }
 
@@ -971,6 +973,7 @@ static char ja_kvoContext;
     } else if (self.state == JASidePanelCenterVisible) {
         [self _showLeftPanel:YES bounce:NO];
     }
+    [self.view findAndResignFirstResponder];
 }
 
 - (void)toggleRightPanel:(__unused id)sender {

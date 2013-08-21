@@ -27,7 +27,8 @@ static NSDateFormatter *_dateFormatter = nil;
     [super setProperties:properties];
     
     self.lastFour = [properties valueForKey:@"last_four"];
-    self.brand = [properties valueForKey:@"brand"];
+    if ([properties valueForKey:@"brand"] != [NSNull null])
+        self.brand = [properties valueForKey:@"brand"];
     self.expirationMonth = [properties valueForKey:@"expiration_month"];
     self.expirationYear = [properties valueForKey:@"expiration_year"];
 }
@@ -40,8 +41,8 @@ static NSDateFormatter *_dateFormatter = nil;
 {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
     dispatch_async(queue, ^{
-        
-        Balanced *balanced = [[Balanced alloc] initWithMarketplaceURI:BALANCED_URI];
+        NSString *balancedURL = [[EVNetworkManager sharedInstance] balancedURLStringForServerSelection:[[EVNetworkManager sharedInstance] serverSelection]];
+        Balanced *balanced = [[Balanced alloc] initWithMarketplaceURI:balancedURL];
         BPCard *card = [[BPCard alloc] initWithNumber:self.number
                                    andExperationMonth:self.expirationMonth
                                     andExperationYear:self.expirationYear
@@ -51,7 +52,6 @@ static NSDateFormatter *_dateFormatter = nil;
         NSDictionary *response = [balanced tokenizeCard:card error:&error];
         
         if (!error) {
-            NSLog(@"%@", response);
             self.uri = response[@"uri"];
         }
         else {

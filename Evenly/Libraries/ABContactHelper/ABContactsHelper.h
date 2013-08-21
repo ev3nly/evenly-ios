@@ -17,6 +17,7 @@
 
 // Address Book Contacts and Groups
 + (NSArray *) contacts; // people
++ (NSArray *)contactsMinusDuplicates;
 + (NSArray *) groups; // groups
 
 // Counting
@@ -39,10 +40,6 @@
 
 // Find groups
 + (NSArray *) groupsMatchingName: (NSString *) fname;
-
-#pragma mark - Joe's Additions
-
-+ (NSArray *)contactsWithEmailMatchingName:(NSString *)name;
 
 @end
 

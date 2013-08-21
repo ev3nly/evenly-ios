@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9C981B3E174FD95600BE9506"
-               BuildableName = "EvenlyTests.octest"
-               BlueprintName = "EvenlyTests"
+               BlueprintIdentifier = "9CE703E8175D1A7200561ADA"
+               BuildableName = "KiwiUnitTest.octest"
+               BlueprintName = "KiwiUnitTest"
                ReferencedContainer = "container:Evenly.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -67,14 +67,26 @@
             ReferencedContainer = "container:Evenly.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = ""
+            value = ""
+            isEnabled = "NO">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
       <AdditionalOptions>
+         <AdditionalOption
+            key = "NSZombieEnabled"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable>
          <BuildableReference
@@ -90,7 +102,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       revealArchiveInOrganizer = "YES">
       <PostActions>
          <ExecutionAction

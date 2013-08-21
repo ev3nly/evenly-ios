@@ -53,6 +53,21 @@
 	return array;
 }
 
++ (NSArray *)contactsMinusDuplicates
+{
+    NSArray *fullContactList = [self contacts];
+    NSMutableArray *newList = [NSMutableArray arrayWithCapacity:0];
+    NSMutableSet *nameSet = [NSMutableSet setWithCapacity:0];
+    
+    for (ABContact *contact in fullContactList) {
+        NSString *fullNameString = [NSString stringWithFormat:@"%@ %@ %@", contact.firstname, contact.middlename, contact.lastname];
+        if (![nameSet containsObject:fullNameString])
+            [newList addObject:contact];
+        [nameSet addObject:fullNameString];
+    }
+    return newList;
+}
+
 + (int) contactsCount
 {
 	ABAddressBookRef addressBook = CFAutorelease(ABAddressBookCreateWithOptions(NULL, NULL));
@@ -158,14 +173,4 @@
 	return [groups filteredArrayUsingPredicate:pred];
 }
 
-#pragma mark - Joe's Additions
-
-+ (NSArray *)contactsWithEmailMatchingName:(NSString *)name {
-    NSPredicate *pred;
-    NSArray *contacts = [[ABContactsHelper contacts] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[(ABContact *)evaluatedObject emailArray] count] > 0;
-    }]];
-	pred = [NSPredicate predicateWithFormat:@"firstname BEGINSWITH[cd] %@ OR lastname BEGINSWITH[cd] %@ OR compositeName BEGINSWITH[cd] %@", name, name, name];
-	return [contacts filteredArrayUsingPredicate:pred];
-}
 @end

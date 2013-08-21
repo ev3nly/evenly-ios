@@ -7,9 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Foundation/NSObjCRuntime.h>
+#import <objc/runtime.h>
 #import "AFNetworking.h"
 #import "EVNetworkManager.h"
 #import "EVHTTPClient.h"
+#import "ReactiveCocoa.h"
 
 #define setValueForKeyIfNonNil(value, key) if (value) { [mutableDictionary setObject:value forKey:key]; };
 
@@ -23,6 +26,10 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *operation, NSError *error
 @property (nonatomic, strong) NSString *dbid;
 @property (nonatomic, strong) NSDate *createdAt;
 @property (nonatomic, readonly) NSDictionary *originalDictionary;
+@property (nonatomic, assign, getter = isValid) BOOL valid;
+@property (nonatomic, getter = isLoading) BOOL loading;
+
++ (NSDateFormatter *)dateFormatter;
 
 + (NSString *)controllerName;
 + (NSMutableURLRequest *)requestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters;
@@ -38,9 +45,11 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *operation, NSError *error
 
 /** Designated initializer.  Overridden by subclasses as necessary. */
 - (id)initWithDictionary:(NSDictionary *)dictionary;
+- (id)initWithID:(NSString *)dbid;
+
 - (void)setProperties:(NSDictionary *)properties;
 - (NSDictionary *)dictionaryRepresentation;
-- (BOOL)isValid;
+- (void)validate;
 
 #pragma mark - CRUD methods
 
@@ -49,6 +58,8 @@ typedef void (^AFFailureBlock)(AFHTTPRequestOperation *operation, NSError *error
 + (void)createWithParams:(NSDictionary *)params
                  success:(void (^)(EVObject *))success
                  failure:(void (^)(NSError *error))failure;
+
+- (void)reloadWithSuccess:(void (^)(id object))success failure:(void (^)(NSError *error))failure;
 
 - (void)saveWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;
 - (void)updateWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure;

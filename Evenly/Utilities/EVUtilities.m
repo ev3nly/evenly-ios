@@ -7,6 +7,7 @@
 //
 
 #import "EVFundingSource.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 @implementation EVUtilities
 
@@ -26,6 +27,14 @@
      UIRemoteNotificationTypeSound];
 }
 
++ (void)buzz {
+    AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
+}
+
++ (EVAppDelegate *)appDelegate {
+    return (EVAppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
 + (EVFundingSource *)activeFundingSourceFromArray:(NSArray *)array {
     __block EVFundingSource *activeCard = nil;
     [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -35,6 +44,27 @@
         }
     }];
     return activeCard;
+}
+
++ (NSString *)dbidFromDictionary:(NSDictionary *)dictionary {
+    NSString *dbid;
+    if ([[dictionary valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
+        dbid = [[dictionary valueForKey:@"id"] stringValue];
+    else
+        dbid = [dictionary valueForKey:@"id"];
+    return dbid;
+}
+
++ (BOOL)deviceHasTallScreen {
+    return ([UIApplication sharedApplication].keyWindow.bounds.size.height > 480.0);
+}
+
++ (NSURL *)tosURL {
+    return [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Terms and Conditions.html")];
+}
+
++ (NSURL *)privacyPolicyURL {
+    return [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Privacy Policy.html")];
 }
 
 @end

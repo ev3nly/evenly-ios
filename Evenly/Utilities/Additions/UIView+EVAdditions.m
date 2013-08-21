@@ -8,6 +8,7 @@
 
 #import "UIView+EVAdditions.h"
 #import "NSArray+EVAdditions.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation UIView (EVAdditions)
 
@@ -34,6 +35,22 @@
 
 - (void)comeToFront {
     [self.superview bringSubviewToFront:self];
+}
+
+CG_EXTERN CGRect EVRectCenterFrameInFrame(CGRect frameToCenter, CGRect baseFrame) {
+    CGRect centeredFrame = CGRectMake(CGRectGetMidX(baseFrame) - frameToCenter.size.width/2,
+                                      CGRectGetMidY(baseFrame) - frameToCenter.size.height/2,
+                                      frameToCenter.size.width,
+                                      frameToCenter.size.height);
+    return CGRectIntegral(centeredFrame);
+}
+
+- (CGRect)centeredFrameForFrame:(CGRect)frameToCenter inFrame:(CGRect)baseFrame {
+    CGRect centeredFrame = CGRectMake(CGRectGetMidX(baseFrame) - frameToCenter.size.width/2,
+                                    CGRectGetMidY(baseFrame) - frameToCenter.size.height/2,
+                                    frameToCenter.size.width,
+                                    frameToCenter.size.height);
+    return CGRectIntegral(centeredFrame);
 }
 
 - (UIViewController *)viewController {
@@ -79,5 +96,200 @@
     }
     return NO;
 }
+
+- (UIView *)currentFirstResponder {
+    if (self.isFirstResponder)
+        return self;
+    for (UIView *subview in self.subviews) {
+        if ([subview currentFirstResponder])
+            return [subview currentFirstResponder];
+    }
+    return nil;
+}
+
+- (void)removeGestureRecognizers {
+    for (UIGestureRecognizer *recognizer in self.gestureRecognizers)
+        [self removeGestureRecognizer:recognizer];
+}
+
+#pragma mark - Animations
+
+- (void)rotateContinuouslyWithDuration:(float)duration {
+    CABasicAnimation *rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0];
+    rotationAnimation.duration = duration;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = HUGE_VALF;
+    rotationAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [self.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+}
+
+#define BOUNCE_OVERSHOOT_DURATION_PERCENT 0.65
+#define BOUNCE_OVERSHOOT_DISTANCE_PERCENT 0.2
+
+#define BOUNCE_MINIMUM_CHANGE 10
+
+- (void)bounceAnimationToFrame:(CGRect)targetFrame duration:(float)duration completion:(void (^)(void))completion {
+    [self bounceAnimationToFrame:targetFrame
+                 initialDuration:duration
+                 durationDamping:BOUNCE_OVERSHOOT_DURATION_PERCENT
+                 distanceDamping:BOUNCE_OVERSHOOT_DISTANCE_PERCENT
+                      completion:completion];
+}
+
+- (void)bounceAnimationToFrame:(CGRect)targetFrame duration:(float)duration delay:(float)delay completion:(void (^)(void))completion {
+    [self bounceAnimationToFrame:targetFrame
+                 initialDuration:duration
+                           delay:delay
+                 durationDamping:BOUNCE_OVERSHOOT_DURATION_PERCENT
+                 distanceDamping:BOUNCE_OVERSHOOT_DISTANCE_PERCENT
+                      completion:completion];
+}
+
+- (void)bounceAnimationToFrame:(CGRect)targetFrame
+               initialDuration:(float)duration
+                         delay:(float)delay
+               durationDamping:(float)durationDamping
+               distanceDamping:(float)distanceDamping
+                    completion:(void (^)(void))completion {
+    EV_DISPATCH_AFTER(delay, ^{
+        [self bounceAnimationToFrame:targetFrame
+                     initialDuration:duration
+                     durationDamping:durationDamping
+                     distanceDamping:distanceDamping
+                          completion:completion];
+    });
+}
+
+- (void)bounceAnimationToFrame:(CGRect)targetFrame
+               initialDuration:(float)duration
+               durationDamping:(float)durationDamping
+               distanceDamping:(float)distanceDamping
+                    completion:(void (^)(void))completion {
+    CGPoint currentOrigin = self.frame.origin;
+    float overshootXAmount = fabsf(targetFrame.origin.x - currentOrigin.x) + (fabsf(targetFrame.origin.x - currentOrigin.x)*distanceDamping);
+    float overshootYAmount = fabsf(targetFrame.origin.y - currentOrigin.y) + (fabsf(targetFrame.origin.y - currentOrigin.y)*distanceDamping);
+    
+    if (overshootXAmount < BOUNCE_MINIMUM_CHANGE && overshootYAmount < BOUNCE_MINIMUM_CHANGE) {
+        [UIView animateWithDuration:duration
+                         animations:^{
+                             self.frame = targetFrame;
+                         } completion:^(BOOL finished) {
+                             if (completion)
+                                 completion();
+                         }];
+        return;
+    }
+    
+    if (targetFrame.origin.x < currentOrigin.x)
+        overshootXAmount = -overshootXAmount;
+    if (targetFrame.origin.y < currentOrigin.y)
+        overshootYAmount = -overshootYAmount;
+    
+    CGRect overshootFrame = targetFrame;
+    overshootFrame.origin.x = currentOrigin.x + overshootXAmount;
+    overshootFrame.origin.y = currentOrigin.y + overshootYAmount;
+    
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.frame = overshootFrame;
+                     } completion:^(BOOL finished) {
+                         [self bounceAnimationToFrame:targetFrame
+                                      initialDuration:(duration * durationDamping)
+                                      durationDamping:durationDamping
+                                      distanceDamping:distanceDamping
+                                           completion:^{
+                                               if (completion)
+                                                   completion();
+                                           }];
+                     }];
+}
+
+#define ZOOM_OVERSHOOT_SCALE 1.3
+#define ZOOM_SMALL_SCALE 0.2
+#define ZOOM_OVERSHOOT_DURATION_PERCENT 0.2
+
+- (void)zoomBounceWithDuration:(float)duration completion:(void (^)(void))completion {
+    self.transform = CGAffineTransformMakeScale(ZOOM_SMALL_SCALE, ZOOM_SMALL_SCALE);
+    self.alpha = 0;
+    [UIView animateWithDuration:(1.0-ZOOM_OVERSHOOT_DURATION_PERCENT)*duration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.transform = CGAffineTransformMakeScale(ZOOM_OVERSHOOT_SCALE, ZOOM_OVERSHOOT_SCALE);
+                         self.alpha = 1;
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:ZOOM_OVERSHOOT_DURATION_PERCENT*duration
+                                               delay:0
+                                             options:UIViewAnimationOptionCurveEaseInOut
+                                          animations:^{
+                                              self.transform = CGAffineTransformIdentity;
+                                          } completion:^(BOOL finished) {
+                                              if (completion)
+                                                  completion();
+                                          }];
+                     }];
+}
+
+- (void)shrinkBounceWithDuration:(float)duration completion:(void (^)(void))completion {
+    self.alpha = 1;
+    [UIView animateWithDuration:ZOOM_OVERSHOOT_DURATION_PERCENT*duration
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.transform = CGAffineTransformScale(self.transform, ZOOM_OVERSHOOT_SCALE, ZOOM_OVERSHOOT_SCALE);
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:(1.0-ZOOM_OVERSHOOT_DURATION_PERCENT)*duration
+                                               delay:0
+                                             options:UIViewAnimationOptionCurveEaseInOut
+                                          animations:^{
+                                              self.transform = CGAffineTransformScale(self.transform, ZOOM_SMALL_SCALE, ZOOM_SMALL_SCALE);
+                                               self.alpha = 0;
+                                          } completion:^(BOOL finished) {
+                                              if (completion)
+                                                  completion();
+                                          }];
+                     }];
+}
+
+- (void)pulseFromAlpha:(float)fromAlpha toAlpha:(float)toAlpha duration:(float)duration {
+    self.alpha = fromAlpha;
+    
+    [UIView animateWithDuration:duration
+                          delay:0
+                        options:UIViewAnimationOptionRepeat | UIViewAnimationOptionAutoreverse
+                     animations:^{
+                         self.alpha = toAlpha;
+                     } completion:nil];
+}
+
+- (void)pulseToScale:(float)scale duration:(float)duration {
+    [UIView animateWithDuration:duration
+                     animations:^{
+                         self.transform = CGAffineTransformMakeScale(scale, scale);
+                     } completion:^(BOOL finished) {
+                         [UIView animateWithDuration:duration
+                                          animations:^{
+                                              self.transform = CGAffineTransformIdentity;
+                                          } completion:NULL];
+                     }];
+}
+
+static char UIViewUserInfoKey;
+
+- (void)setUserInfo:(NSDictionary *)userInfo {
+    objc_setAssociatedObject(self,
+                             &UIViewUserInfoKey,
+                             userInfo,
+                             OBJC_ASSOCIATION_RETAIN);
+}
+
+- (NSDictionary *)userInfo {
+    return objc_getAssociatedObject(self, &UIViewUserInfoKey);
+}
+
 
 @end

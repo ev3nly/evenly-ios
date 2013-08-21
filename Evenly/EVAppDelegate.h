@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class EVMasterViewController;
+
 @interface EVAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) EVMasterViewController *masterViewController;
 
 @end

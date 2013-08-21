@@ -1,6 +1,22 @@
 PODS:
-  - AFNetworking (1.2.1)
+  - AFNetworking (1.3.1)
+  - FormatterKit (1.1.2):
+    - FormatterKit/AddressFormatter
+    - FormatterKit/ArrayFormatter
+    - FormatterKit/LocationFormatter
+    - FormatterKit/OrdinalNumberFormatter
+    - FormatterKit/TimeIntervalFormatter
+    - FormatterKit/UnitOfInformationFormatter
+    - FormatterKit/URLRequestFormatter
+  - FormatterKit/AddressFormatter (1.1.2)
+  - FormatterKit/ArrayFormatter (1.1.2)
+  - FormatterKit/LocationFormatter (1.1.2)
+  - FormatterKit/OrdinalNumberFormatter (1.1.2)
+  - FormatterKit/TimeIntervalFormatter (1.1.2)
+  - FormatterKit/UnitOfInformationFormatter (1.1.2)
+  - FormatterKit/URLRequestFormatter (1.1.2)
   - JRSwizzle (1.0)
+  - Kiwi (2.0.6)
   - libextobjc/EXTConcreteProtocol (0.2.5):
     - libextobjc/RuntimeExtensions
   - libextobjc/EXTKeyPathCoding (0.2.5):
@@ -9,7 +25,7 @@ PODS:
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.2.5)
   - MBProgressHUD (0.6)
-  - Mixpanel (1.1.1)
+  - Mixpanel (2.0.0)
   - NewRelicAgent (1.309.0)
   - PaymentKit (1.0.0)
   - ReactiveCocoa (1.5.0):
@@ -23,29 +39,36 @@ PODS:
   - ReactiveCocoa/RACExtensions (1.5.0):
     - ReactiveCocoa/Core
   - SSKeychain (1.0.4)
+  - TTTAttributedLabel (1.7.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 1.0)
+  - FormatterKit (~> 1.1.2)
+  - Kiwi (~> 2.0.6)
   - MBProgressHUD (~> 0.6)
-  - Mixpanel (~> 1.1.1)
+  - Mixpanel (~> 2.0.0)
   - NewRelicAgent (~> 1.309.0)
   - PaymentKit (from `https://github.com/stripe/PaymentKit.git`)
   - ReactiveCocoa (~> 1.5.0)
   - SSKeychain (~> 1.0.2)
+  - TTTAttributedLabel
 
 EXTERNAL SOURCES:
   PaymentKit:
     :git: https://github.com/stripe/PaymentKit.git
 
 SPEC CHECKSUMS:
-  AFNetworking: a44069e3c9c89867544f6639482f155c7e5f9b41
+  AFNetworking: 9ec8aafb9269236a7630bd8d9838ce2ba30fa2a0
+  FormatterKit: bb53f3de30773e6b06f91dee1f82b46f536278d7
   JRSwizzle: 6242ff38485d870fc2636899048ee1ab883ae587
+  Kiwi: 56082a80f942de4d10423d8d8a599ab30cf50228
   libextobjc: 2cbc74caf8bdc74a86fdf24673f773c83424ea98
   MBProgressHUD: 9b55a90566fb5d07df0602f6fd9fa04510ad5d52
-  Mixpanel: 388e78ffe1c4878b65a86127b5dab70be36479ad
+  Mixpanel: e4af97adb60a10541b7869929a83d734025058a6
   NewRelicAgent: 3caf67341dd34afff1a224aace0bd053c0f7fd5d
   PaymentKit: 40e5673a9a0960d7ef111d66d0604af245caf635
   ReactiveCocoa: aacb9fe6272d638a0a0b629e304e81bfc4e5959a
   SSKeychain: 9b4a6249ae46b6d1f39a013621bd803f3baba1e3
+  TTTAttributedLabel: e504133915a9b11de63cb470ffa2790383a3eb23
 
-COCOAPODS: 0.20.2
+COCOAPODS: 0.23.0

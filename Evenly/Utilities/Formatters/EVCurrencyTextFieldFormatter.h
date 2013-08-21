@@ -12,4 +12,6 @@
 
 @property (nonatomic, readonly) NSString *formattedString;
 
+- (void)replaceUnderlyingDetailsWithThoseOfFormatter:(EVCurrencyTextFieldFormatter *)formatter;
+
 @end

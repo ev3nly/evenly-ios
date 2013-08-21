@@ -9,12 +9,19 @@
 #import <Foundation/Foundation.h>
 
 /* Vine */
+
+typedef enum {
+    EVServerSelectionProduction,
+    EVServerSelectionStaging,
+    EVServerSelectionLocal
+} EVServerSelection;
+
 #define EV_API_PRODUCTION_URL @"https://www.paywithivy.com/api/v1/"
 #define EV_API_STAGING_URL @"https://germ.herokuapp.com/api/v1/"
 #define EV_API_LOCAL_URL @"http://localhost:3000/api/v1/"
 
 #ifdef DEBUG
-    #define EV_API_URL EV_API_LOCAL_URL
+    #define EV_API_URL EV_API_STAGING_URL
 
     // To enable PonyDebugger, change this define from 0 to 1, uncomment the relevant lines in the
     // main Podfile, and run `pod install`.
@@ -35,21 +42,25 @@
     #define BALANCED_URI BALANCED_PRODUCTION_URI
 #endif
 
+#pragma mark - Master View Controller
+
+#define EV_RIGHT_OVERHANG_MARGIN 44.0
 
 #pragma mark - Animation
 
 #define EV_DEFAULT_ANIMATION_DURATION 0.25f
+#define EV_DEFAULT_KEYBOARD_HEIGHT 216
 
-#pragma mark - Transaction Fields
+#pragma mark - Exchange Fields
 
 typedef enum {
-    EVTransactionDetailFieldFrom = 0,
-    EVTransactionDetailFieldTo,
-    EVTransactionDetailFieldAmount,
-    EVTransactionDetailFieldNote,
-    EVTransactionDetailFieldDate,
-    EVTransactionDetailFieldCOUNT
-} EVTransactionDetailField;
+    EVExchangeDetailFieldFrom = 0,
+    EVExchangeDetailFieldTo,
+    EVExchangeDetailFieldAmount,
+    EVExchangeDetailFieldNote,
+    EVExchangeDetailFieldDate,
+    EVExchangeDetailFieldCOUNT
+} EVExchangeDetailField;
 
 #pragma mark - Signup Phases
 
@@ -60,3 +71,20 @@ typedef enum {
     EVSignUpPhasePicture,
     EVSignUpPhaseCOUNT
 } EVSignUpPhase;
+
+typedef enum {
+    EVPrivacySettingNetwork,
+    EVPrivacySettingFriends,
+    EVPrivacySettingPrivate
+} EVPrivacySetting;
+
+#define EV_MINIMUM_DEPOSIT_AMOUNT 0.50
+#define EV_MINIMUM_EXCHANGE_AMOUNT 0.50
+
+#pragma mark - Block Typedefs
+
+typedef void(^EVHandleTextChangeBlock)(NSString *text);
+
+#pragma mark - History / Timeline
+
+#define EV_ITEMS_PER_PAGE 20

@@ -7,18 +7,20 @@
 //
 
 #import "EVObject.h"
+#import "EVUtilities.h"
 #import "EVNetworkManager.h"
 #import "EVSerializer.h"
 
 @interface EVObject ()
-
-+ (NSDateFormatter *)dateFormatter;
 
 @end
 
 @implementation EVObject
 
 @synthesize originalDictionary = _originalDictionary;
+
+
+#pragma mark - Class Methods
 
 + (NSString *)controllerName {
     return nil; // abstract
@@ -36,6 +38,7 @@
     NSMutableURLRequest *urlRequest = [httpClient requestWithMethod:method
                                                                path:reformedPath
                                                          parameters:parameters];
+    [urlRequest setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     return urlRequest;
 }
 
@@ -54,12 +57,14 @@
                                                                             path:reformedPath
                                                                       parameters:parameters
                                                        constructingBodyWithBlock:block];
+    [urlRequest setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     return urlRequest;
 }
 
 + (EVJSONRequestOperation *)JSONRequestOperationWithRequest:(NSMutableURLRequest *)request
                                                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                                                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+
     AFSuccessBlock modifiedSuccess = ^(AFHTTPRequestOperation *operation, id responseObject) {
         [[EVNetworkManager sharedInstance] decreaseActivityIndicatorCounter];
         success(operation, responseObject);
@@ -74,44 +79,109 @@
                                                                                                       success:modifiedSuccess
                                                                                                       failure:modifiedFailure
                                                                                                 hijackFailure:YES];
+    [operation setCacheResponseBlock:^NSCachedURLResponse *(NSURLConnection *connection, NSCachedURLResponse *cachedResponse) {
+        return nil;
+    }];
+    [[EVNetworkManager sharedInstance] increaseActivityIndicatorCounter];
     return operation;
 }
 
 static NSDateFormatter *_dateFormatter = nil;
 + (NSDateFormatter *)dateFormatter {
-    if (_dateFormatter == nil) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         _dateFormatter = [[NSDateFormatter alloc] init];
         _dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
-        _dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
-    }
+        _dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
+    });
     return _dateFormatter;
 }
 
+- (id)init {
+    if (self = [super init]) {
+        
+    }
+    return self;
+}
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
-    self = [super init];
-    if (self) {
-        _originalDictionary = dictionary;
+    id cachedObject = [[EVCIA sharedInstance] cachedObjectWithClassName:NSStringFromClass([self class])
+                                                                   dbid:[EVUtilities dbidFromDictionary:dictionary]];
+    if (cachedObject)
+    {
+        self = cachedObject;
+        self->_originalDictionary = dictionary;
         [self setProperties:dictionary];
+    }
+    else
+    {
+        self = [super init];
+        if (self)
+        {
+            _originalDictionary = dictionary;
+            [self setProperties:dictionary];
+            [[EVCIA sharedInstance] cacheObject:self];
+        }
+    }
+    return self;
+}
+
+- (id)initWithID:(NSString *)dbid {
+    id cachedObject = [[EVCIA sharedInstance] cachedObjectWithClassName:NSStringFromClass([self class])
+                                                                   dbid:dbid];
+    if (cachedObject)
+    {
+        self = cachedObject;
+        [self reloadWithSuccess:^(id object) {
+
+        } failure:^(NSError *error) {
+            DLog(@"error: %@", error);
+        }];
+    }
+    else
+    {
+        self = [super init];
+        if (self) {
+            _dbid = dbid;
+            [self reloadWithSuccess:^(id object) {
+
+            } failure:^(NSError *error) {
+                DLog(@"error: %@", error);
+            }];
+        }
     }
     return self;
 }
 
 - (void)setProperties:(NSDictionary *)properties {
-    if ([[properties valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
-        _dbid = [[properties valueForKey:@"id"] stringValue];
-    else
-        _dbid = [properties valueForKey:@"id"];
-    if (![properties[@"created_at"] isKindOfClass:[NSNull class]])
-        self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+    @try {
+        if ([[properties valueForKey:@"id"] respondsToSelector:@selector(stringValue)])
+            _dbid = [[properties valueForKey:@"id"] stringValue];
+        else
+            _dbid = [properties valueForKey:@"id"];
+    }
+    @catch (NSException *exception) {
+        DRaise(exception);
+        _dbid = @"-1";
+    }
+    @try {
+        if (properties[@"created_at"] && ![properties[@"created_at"] isKindOfClass:[NSNull class]]) {
+            if ([properties[@"created_at"] isKindOfClass:[NSString class]])
+                self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+        }
+    }
+    @catch (NSException *exception) {
+        DRaise(exception);
+        self.createdAt = [NSDate date];
+    }
 }
 
 - (NSDictionary *)dictionaryRepresentation {
     return _originalDictionary;
 }
 
-- (BOOL)isValid {
-    return YES;
+- (void)validate {
+    self.valid = YES;
 }
 
 #pragma mark - CRUD methods
@@ -121,6 +191,10 @@ static NSDateFormatter *_dateFormatter = nil;
 }
 
 + (void)allWithParams:(NSDictionary *)params success:(void (^)(id result))success failure:(void (^)(NSError *error))failure {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self allWithParams:params success:success failure:failure];
+    });
+    
     NSMutableURLRequest *request = [self requestWithMethod:@"GET" path:nil parameters:params];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
@@ -129,7 +203,9 @@ static NSDateFormatter *_dateFormatter = nil;
         if ([responseObject isKindOfClass:[NSArray class]]) {
             result = [NSMutableArray array];
             for (NSDictionary *object in responseObject) {
-                [result addObject:[EVSerializer serializeDictionary:object]];
+                EVObject *serializedObject = [EVSerializer serializeDictionary:object];
+                if (serializedObject)
+                    [result addObject:serializedObject];
             }
         } else if ([responseObject isKindOfClass:[NSDictionary class]] && responseObject[@"class"] != nil) {
             result = [EVSerializer serializeDictionary:responseObject];
@@ -137,9 +213,10 @@ static NSDateFormatter *_dateFormatter = nil;
         else {
             result = responseObject;
         }
-        if (success)
-            success(result);
-        
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success(result);
+        });
     };
     
     AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
@@ -152,16 +229,24 @@ static NSDateFormatter *_dateFormatter = nil;
                  success:(void (^)(EVObject *))success
                  failure:(void (^)(NSError *error))failure
 {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self createWithParams:params success:success failure:failure];
+    });
+    
     NSMutableURLRequest *request = [self requestWithMethod:@"POST" path:nil parameters:params];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         
         EVObject *object = nil;
         if ([responseObject isKindOfClass:[NSDictionary class]])
             object = [[[self class] alloc] initWithDictionary:responseObject];
-        if (success)
-            success(object);
-    
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success(object);
+        });
     };
+    NSData *bodyData = [request HTTPBody];
+    NSString *bodyString = [NSString stringWithCString:[bodyData bytes] encoding:NSUTF8StringEncoding];
+    DLog(@"Body string: %@", bodyString);
     
     AFJSONRequestOperation *operation = [self JSONRequestOperationWithRequest:request
                                                                       success:successBlock
@@ -169,14 +254,41 @@ static NSDateFormatter *_dateFormatter = nil;
     [[EVNetworkManager sharedInstance] enqueueRequest:operation];
 }
 
+- (void)reloadWithSuccess:(void (^)(id object))success failure:(void (^)(NSError *error))failure {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self reloadWithSuccess:success failure:failure];
+    });
+    
+    NSMutableURLRequest *request = [[self class] requestWithMethod:@"GET"
+                                                              path:self.dbid
+                                                        parameters:nil];
+    AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        EVObject *object = nil;
+        if ([responseObject isKindOfClass:[NSDictionary class]])
+            object = [[[self class] alloc] initWithDictionary:responseObject];
+        [self setProperties:[object originalDictionary]];
+        [[EVCIA sharedInstance] cacheObject:object];
+        self.loading = NO;
+        if (success)
+            success(object);
+    };
+    
+    AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
+                                                                      success:successBlock
+                                                                      failure:[[self class] standardFailureBlockWithFailure:failure]];
+    self.loading = YES;
+    [[EVNetworkManager sharedInstance] enqueueRequest:operation];
+}
+
 - (void)saveWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
     
     if (self.dbid) {
-        
+        [self updateWithSuccess:success failure:failure];
     } else {        
         [[self class] createWithParams:[self dictionaryRepresentation] success:^(EVObject *object) {
             
             _dbid = object.dbid;
+            [self setProperties:[object originalDictionary]];
             if (success)
                 success();
             
@@ -185,9 +297,16 @@ static NSDateFormatter *_dateFormatter = nil;
 }
 
 - (void)updateWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self updateWithSuccess:success failure:failure];
+    });
+    
     NSMutableURLRequest *request = [[self class] requestWithMethod:@"PUT" path:self.dbid parameters:[self dictionaryRepresentation]];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        success();
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success();
+        });
     };
     
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request
@@ -198,11 +317,16 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (void)destroyWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure
 {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self destroyWithSuccess:success failure:failure];
+    });
+    
     NSMutableURLRequest *request = [[self class] requestWithMethod:@"DELETE" path:self.dbid parameters:nil];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        success();
-        
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success();
+        });
     };
     
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest: request
@@ -217,11 +341,18 @@ static NSDateFormatter *_dateFormatter = nil;
        success:(void (^)(void))success
        failure:(void (^)(NSError *error))failure {
     
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self action:action method:method parameters:parameters success:success failure:failure];
+    });
+    
     NSString *path = [NSString stringWithFormat:@"%@/%@", self.dbid, action];
     
     NSMutableURLRequest *request = [[self class] requestWithMethod:method path:path parameters:parameters];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        success();
+        EV_PERFORM_ON_MAIN_QUEUE(^{
+            if (success)
+                success();
+        });
     };
     
     AFJSONRequestOperation *operation = [[self class] JSONRequestOperationWithRequest:request

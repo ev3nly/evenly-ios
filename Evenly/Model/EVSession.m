@@ -9,11 +9,13 @@
 #import "EVSession.h"
 #import "EVNetworkManager.h"
 #import "EVPINUtility.h"
-#import "EVCache.h"
-
+#import "EVCIA.h"
 #import "AESCrypt.h"
 
-NSString *const EVSessionUserExplicitlySignedOutNotification = @"EVSessionUserExplicitlySignedOutNotification";
+#import "EVSerializer.h"
+
+NSString *const EVSessionSignedInNotification = @"EVSessionSignedInNotification";
+NSString *const EVSessionSignedOutNotification = @"EVSessionSignedOutNotification";
 
 static EVSession *_sharedSession = nil;
 
@@ -72,15 +74,16 @@ static EVSession *_sharedSession = nil;
 }
 
 + (void)signOutWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
-    [EVCache setSession:nil];
-    [EVCache setUser:nil];
-    
-    [EVUser setMe:nil];
+    [[EVCIA sharedInstance] setSession:nil];
+    [[EVCIA sharedInstance] setMe:nil];
+    [[EVCIA sharedInstance] clearCache];
     [EVSession setSharedSession:nil];
+
     if (success)
         success();
     
     [EVAnalyticsUtility trackEvent:EVAnalyticsSignedOut];
+    [EVParseUtility unregisterChannels];
 }
 
 - (void)destroyWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure

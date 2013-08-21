@@ -13,6 +13,13 @@
 
 + (EVNetworkManager *)sharedInstance;
 @property (nonatomic, readonly) EVHTTPClient *httpClient;
+@property (nonatomic) EVServerSelection serverSelection;
+
+- (NSURL *)urlForServerSelection:(EVServerSelection)serverSelection;
+- (NSString *)balancedURLStringForServerSelection:(EVServerSelection)serverSelection;
+
+/* For debugging purposes, to switch between dev and prod */
+- (void)reloadHTTPClient;
 
 - (BOOL)enqueueRequest:(NSOperation *)request;
 

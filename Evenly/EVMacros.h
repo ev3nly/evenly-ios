@@ -14,7 +14,7 @@
 #define EV_DOCUMENT_PATH(inPath) [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:inPath]
 #define EV_BUNDLE_PATH(inPath) [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:inPath]
 #define EV_TEMPORARY_PATH(inPath) [NSTemporaryDirectory() stringByAppendingPathComponent:inPath]
-
+#define EV_CACHE_PATH(inPath) [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:inPath]
 ////////////////////////////////////////////////
 // Memory Management
 ////////////////////////////////////////////////
@@ -61,6 +61,11 @@
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(secs * NSEC_PER_SEC)); \
         dispatch_after(popTime, dispatch_get_main_queue(), block); \
     } while (0)
+#define EV_ONLY_PERFORM_IN_BACKGROUND(block) \
+    if ([[NSThread currentThread] isMainThread]) { \
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), block); \
+        return; \
+    } \
 
 ////////////////////////////////////////////////
 // View Controllers
@@ -72,6 +77,13 @@
 ////////////////////////////////////////////////
 #define EV_RGB_COLOR(r, g, b) [UIColor colorWithRed:(r <= 1.0 ? r : r / 255.0f) green:(g <= 1.0 ? g : g / 255.0f) blue:(b <= 1.0 ? b : b / 255.0f) alpha:1.0f]
 #define EV_RGB_ALPHA_COLOR(r, g, b, a) [UIColor colorWithRed:(r <= 1.0 ? r : r / 255.0f) green:(g <= 1.0 ? g : g / 255.0f) blue:(b <= 1.0 ? b : b / 255.0f) alpha:(a <= 1.0 ? a : (a / 255.0f))]
+#define EV_RETURN_STATIC_RGB_COLOR(r, g, b) \
+    static UIColor *color; \
+    static dispatch_once_t onceToken; \
+    dispatch_once(&onceToken, ^{ \
+        color = EV_RGB_COLOR(r, g, b); \
+    }); \
+    return color; \
 
 ////////////////////////////////////////////////
 // Geometry
@@ -99,6 +111,17 @@
 	#else
 	#	define DLog(...)
 	#endif
+#endif
+
+////////////////////////////////////////////////
+// Exception Raising
+////////////////////////////////////////////////
+#ifndef DRaise
+    #ifdef DEBUG
+    #	define DRaise(exception) [exception raise]
+    #else
+    #	define DRaise(...)
+    #endif
 #endif
 
 ////////////////////////////////////////////////

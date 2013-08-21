@@ -8,41 +8,8 @@
 
 #import "EVExchange.h"
 #import "EVSerializer.h"
-#import "EVCharge.h"
+#import "EVRequest.h"
 #import "EVPayment.h"
-
-/* 
- {
-    amount = "10.0";
-    class = Charge;
-    "created_at" = "2013-04-04T04:56:01Z";
-    description = "Lunch @ Sai's";
-    from =     {
-        class = User;
-        "created_at" = "2013-04-03T05:41:57Z";
-        id = 8;
-        name = "Norole Jones";
-    };
-    id = 268;
-    to = me;
- }
- 
- {
-    "class": "SignUpCharge",
-    "id": 335,
-    "created_at": "2013-04-02T22:28:57Z",
-    "amount": "10.0",
-    "description": "Lunch @ Sai's",
-    "to": {
-        "class": "SignUpContact",
-        "id": 128,
-        "created_at": "2013-04-02T22:28:57Z",
-        "name": "joe@paywithivy.com",
-        "information": "joe@paywithivy.com"
-    },
-    "from": "me"
- }
-*/
 
 @implementation EVExchange
 
@@ -63,6 +30,20 @@
         if ([fromObject conformsToProtocol:@protocol(EVExchangeable)])
             self.from = (EVObject<EVExchangeable> *)fromObject;
     }
+    
+    if ([properties[@"rewards_exhausted"] boolValue]) {
+        self.reward = [EVReward rewardsExhaustedSentinel];
+    }
+    else if (properties[@"reward"]) {
+        id reward = properties[@"reward"];
+        if (reward == [NSNull null]) {
+            self.reward = nil;
+        } else {
+            self.reward = [[EVReward alloc] initWithDictionary:properties[@"reward"]];
+        }
+    }
+
+    self.visibility = (properties[@"visibility"]) ? properties[@"visibility"] : [EVStringUtility stringForPrivacySetting:[EVCIA me].privacySetting];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -70,24 +51,50 @@
     
     setValueForKeyIfNonNil(self.to.dbid, @"id");
     setValueForKeyIfNonNil(self.to.email, @"email");
+    setValueForKeyIfNonNil(self.to.phoneNumber, @"phone_number");
     
     return @{
         @"amount":          [self.amount stringValue],
         @"description":     self.memo,
-        @"to":              mutableDictionary
+        @"to":              mutableDictionary,
+        @"visibility":      self.visibility
     };
 }
 
-
-
 - (BOOL)isIncoming {
-    if ([self isKindOfClass:[EVCharge class]])
+    if ([self isKindOfClass:[EVRequest class]])
         return (self.from == nil);
     else if ([self isKindOfClass:[EVPayment class]])
         return (self.to == nil);
     else
-        [NSException raise:@"EVInvalidExchangeClassException" format:@"Exchange is neither a charge nor a payment but rather a %@", [self class]];
+        [NSException raise:@"EVInvalidExchangeClassException" format:@"Exchange is neither a request nor a payment but rather a %@", [self class]];
     return NO;
+}
+
+- (UIImage *)avatar {
+    if (self.to) {
+        return self.to.avatar;
+    } else if (self.from) {
+        return self.from.avatar;
+    }
+    return nil;
+}
+
+#pragma mark - Overrides
+
+- (void)validate {
+    BOOL isValid;
+    
+    if (!self.amount || [self.amount isEqualToNumber:[NSDecimalNumber notANumber]] || [self.amount isEqualToNumber:[NSNumber numberWithInt:0]])
+        isValid = NO;
+    else if (EV_IS_EMPTY_STRING(self.memo))
+        isValid = NO;
+    else if (!self.to)
+        isValid = NO;
+    else
+        isValid = YES;
+    
+    self.valid = isValid;
 }
 
 @end

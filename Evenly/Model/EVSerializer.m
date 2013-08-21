@@ -12,13 +12,17 @@
 
 #import "EVObject.h"
 #import "EVUser.h"
-#import "EVCharge.h"
-#import "EVGroupCharge.h"
+#import "EVRequest.h"
+#import "EVGroupRequest.h"
+#import "EVGroupRequestTier.h"
+#import "EVGroupRequestRecord.h"
 #import "EVPayment.h"
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
 #import "EVWithdrawal.h"
 #import "EVNotificationSetting.h"
+#import "EVConnection.h"
+#import "EVStory.h"
 
 static NSDictionary *_classMapping = nil;
 
@@ -35,17 +39,22 @@ static NSDictionary *_classMapping = nil;
         _classMapping = @{
                           
           @"User":                  [EVUser class],
+          @"SignUpUser":            [EVUser class],
           @"SignUpContact":         [EVContact class],
-          @"Charge":                [EVCharge class],
-          @"SignUpCharge":          [EVCharge class],
-          @"GroupCharge":           [EVGroupCharge class],
+          @"Charge":                [EVRequest class],
+          @"SignUpCharge":          [EVRequest class],
+          @"GroupCharge":           [EVGroupRequest class],
+          @"GroupChargeTier":       [EVGroupRequestTier class],
+          @"GroupChargeRecord":     [EVGroupRequestRecord class],
           @"Payment":               [EVPayment class],
           @"SignUpPayment":         [EVPayment class],
           @"Withdrawal":            [EVWithdrawal class],
           @"Balanced::Card":        [EVCreditCard class],
           @"Balanced::BankAccount": [EVBankAccount class],
-          @"NotificationSetting":   [EVNotificationSetting class]
-          
+          @"NotificationSetting":   [EVNotificationSetting class],
+          @"Connection":            [EVConnection class],
+          @"Story":                 [EVStory class],
+          @"Reward":                [EVReward class]
         };
     }
     return _classMapping;
@@ -69,6 +78,18 @@ static NSDictionary *_classMapping = nil;
         return nil;
     
     return [[class alloc] initWithDictionary:dictionary];
+}
+
++ (EVObject *)serializeType:(NSString *)type dbid:(NSString *)dbid
+{
+    if (EV_IS_EMPTY_STRING(type) || EV_IS_EMPTY_STRING(dbid))
+        return nil;
+    
+    Class class = [self classMapping][type];
+    if (!class)
+        return nil;
+    
+    return [[class alloc] initWithID:dbid];
 }
 
 @end

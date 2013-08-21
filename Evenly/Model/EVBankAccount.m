@@ -25,19 +25,11 @@ static NSDateFormatter *_dateFormatter = nil;
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     
-    self.bankName = [properties valueForKey:@"bank_name"];
+    if ([properties valueForKey:@"bank_name"] != [NSNull null])
+        self.bankName = [properties valueForKey:@"bank_name"];
     self.type = [properties valueForKey:@"type"];
     self.routingNumber = [properties valueForKey:@"routing_number"];
     self.accountNumber = [properties valueForKey:@"account_number"];
-}
-
-- (BOOL)isValid {
-    if ([self.name length] == 0) { return NO; }
-    if ([self.routingNumber length] == 0) { return NO; }
-    if ([self.accountNumber length] == 0) { return NO; }
-    if ([self.type length] == 0) { return NO; }
-    
-    return YES;
 }
 
 + (NSString *)controllerName {
@@ -49,7 +41,8 @@ static NSDateFormatter *_dateFormatter = nil;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
     dispatch_async(queue, ^{
         
-        Balanced *balanced = [[Balanced alloc] initWithMarketplaceURI:BALANCED_URI];
+        NSString *balancedURL = [[EVNetworkManager sharedInstance] balancedURLStringForServerSelection:[[EVNetworkManager sharedInstance] serverSelection]];
+        Balanced *balanced = [[Balanced alloc] initWithMarketplaceURI:balancedURL];
         
         BPBankAccount *bankAccount = [[BPBankAccount alloc] initWithRoutingNumber:self.routingNumber
                                                                  andAccountNumber:self.accountNumber
@@ -60,7 +53,6 @@ static NSDateFormatter *_dateFormatter = nil;
         NSDictionary *response = [balanced tokenizeBankAccount:bankAccount error:&error];
         
         if (!error) {
-            NSLog(@"%@", response);
             self.uri = response[@"uri"];
         }
         else {
@@ -81,6 +73,25 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<0x%x> %@ account number %@", (int)self, self.bankName, self.accountNumber];
+}
+
+#pragma mark - Overrides
+
+- (void)validate {
+    BOOL isValid;
+    
+    if (EV_IS_EMPTY_STRING(self.bankName))
+        isValid = NO;
+    else if (EV_IS_EMPTY_STRING(self.type))
+        isValid = NO;
+    else if (EV_IS_EMPTY_STRING(self.routingNumber))
+        isValid = NO;
+    else if (EV_IS_EMPTY_STRING(self.accountNumber))
+        isValid = NO;
+    else
+        isValid = YES;
+    
+    self.valid = isValid;
 }
 
 @end

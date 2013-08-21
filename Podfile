@@ -3,18 +3,21 @@ platform :ios, '6.0'
 
 pod 'MBProgressHUD', '~> 0.6'
 pod 'AFNetworking', '~> 1.0'
-pod 'Mixpanel', '~> 1.1.1'
+pod 'Mixpanel', '~> 2.0.0'
 pod 'NewRelicAgent', '~> 1.309.0'
 # pod 'Stripe', :git => 'https://github.com/stripe/stripe-ios.git'
 pod 'PaymentKit', :git => 'https://github.com/stripe/PaymentKit.git'
 pod 'SSKeychain', '~> 1.0.2'
 pod 'ReactiveCocoa', '~> 1.5.0'
+pod 'FormatterKit', '~> 1.1.2'
+pod 'TTTAttributedLabel'
+
 # pod 'SocketRocket', :podspec => 'SocketRocket.podspec'
 # pod 'PonyDebugger', :podspec => 'PonyDebugger.podspec'
 
-# target :KiwiUnitTest, exclusive: true do
-#  pod 'Kiwi', '~> 2.0.6'
-# end
+target :KiwiUnitTest, exclusive: true do
+  pod 'Kiwi', '~> 2.0.6'
+end
 
 post_install do |installer|
     prefix_header = installer.config.project_pods_root + 'Pods-prefix.pch'
