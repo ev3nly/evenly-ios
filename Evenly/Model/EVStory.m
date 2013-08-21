@@ -245,8 +245,10 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
         else if ([sourceType isEqualToString:@"Reward"])
             self.sourceType = EVStorySourceTypeReward;
     }
+    if (properties[@"image_url"] && ![properties[@"image_url"] isKindOfClass:[NSNull class]]) {
+        self.imageURL = [NSURL URLWithString:properties[@"image_url"]];
+    }
     
-    self.imageURL = [NSURL URLWithString:properties[@"image_url"]];
 
     [self determineStoryType];
     self.attributedString = [self attributedStringForDisplay];
