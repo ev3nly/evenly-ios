@@ -663,8 +663,6 @@
 @synthesize phoneNumber;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
-    if ([[dictionary valueForKey:@"name"] isEqualToString:@"yuzhou zhang"])
-        NSLog(@"dafuq");
     self = [super initWithDictionary:dictionary];
     if (self) {
         self.name = [dictionary valueForKey:@"name"];
