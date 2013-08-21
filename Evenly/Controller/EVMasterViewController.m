@@ -63,7 +63,7 @@
 									 animated:(BOOL)animated
 						authenticationSuccess:(void (^)(void))success {
     EVSignInViewController *signInViewController = [[EVSignInViewController alloc] initWithAuthenticationSuccess:success];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signInViewController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:signInViewController];
     [self presentViewController:navController animated:animated completion:completion];
 }
 
@@ -72,7 +72,7 @@
 - (void)showPINViewControllerAnimated:(BOOL)animated {
     EVEnterPINViewController *pinViewController = [[EVEnterPINViewController alloc] init];
     pinViewController.canDismissManually = NO;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinViewController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:pinViewController];
     [self presentViewController:navController animated:animated completion:nil];
 }
 
@@ -120,6 +120,12 @@
         self.killswitchAlertView = nil;
         self.killswitchURL = nil;
     }
+}
+
+#pragma mark - Status Bar
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 @end

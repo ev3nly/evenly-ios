@@ -136,7 +136,7 @@
 
 - (void)showGameForReward:(EVReward *)reward {
     EVRewardsGameViewController *rewardsViewController = [[EVRewardsGameViewController alloc] initWithReward:reward];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:rewardsViewController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:rewardsViewController];
     [self.navigationController presentViewController:navController animated:YES completion:^{
         [self.navigationController popViewControllerAnimated:YES];
     }];

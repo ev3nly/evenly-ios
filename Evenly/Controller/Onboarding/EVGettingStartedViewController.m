@@ -144,7 +144,7 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
 
 - (void)footerButtonTapped {
     self.controllerToShow.shouldDismissGrandparent = YES;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.controllerToShow];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:self.controllerToShow];
     [self presentViewController:navController animated:YES completion:nil];
 }
 
@@ -321,14 +321,14 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
 }
 
 - (void)addCard {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVCardsViewController new]];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[EVCardsViewController new]];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
 - (void)inviteFriends {
     EVInviteViewController *inviteController = [EVInviteViewController new];
     inviteController.canDismissManually = YES;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inviteController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:inviteController];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
@@ -340,7 +340,7 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
         [[UIAlertView alertViewWithTitle:@"Whoops!" message:@"You need to add a card before you can send a payment." cancelButtonTitle:@"OK"] show];
         return;
     }
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVPaymentViewController new]];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[EVPaymentViewController new]];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
@@ -349,12 +349,12 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
         [[UIAlertView alertViewWithTitle:@"Whoops!" message:@"You need to confirm your email before you can send a request." cancelButtonTitle:@"OK"] show];
         return;
     }
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVRequestViewController new]];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[EVRequestViewController new]];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
 - (void)addBank {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVBanksViewController new]];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[EVBanksViewController new]];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 

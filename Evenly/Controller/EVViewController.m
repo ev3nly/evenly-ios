@@ -10,6 +10,8 @@
 #import "EVNavigationManager.h"
 #import "EVBackButton.h"
 
+#import "AMBlurView.h"
+
 @interface EVViewController ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -48,13 +50,16 @@
     self.view.backgroundColor = [EVColor creamColor];
     
     [self loadTitleLabel];
+    
+    AMBlurView *blurView = [AMBlurView new];
+    blurView.frame =  self.navigationController.navigationBar.bounds;
+    //        [self.navigationController.navigationBar addSubview:blurView]; //insertSubview:blurView atIndex:0];
+    self.navigationController.navigationBar.alpha = 0.2;
 }
 
 - (void)loadTitleLabel {
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.titleLabel.font = [EVFont blackFontOfSize:21];
-//    self.titleLabel.shadowColor = [UIColor colorWithWhite:0.2 alpha:1.0];
-//    self.titleLabel.shadowOffset = CGSizeMake(0, 1);
     self.titleLabel.backgroundColor = [UIColor clearColor];
     self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.text = self.title;
@@ -87,7 +92,7 @@
     UIImage *closeImage = [EVImages navBarCancelButton];
     UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, closeImage.size.width + 20.0, closeImage.size.height)];
     [cancelButton setImage:closeImage forState:UIControlStateNormal];
-    [cancelButton setImageEdgeInsets:EV_VIEW_CONTROLLER_BAR_BUTTON_IMAGE_INSET];
+//    [cancelButton setImageEdgeInsets:EV_VIEW_CONTROLLER_BAR_BUTTON_IMAGE_INSET];
     cancelButton.adjustsImageWhenHighlighted = NO;
     cancelButton.showsTouchWhenHighlighted = YES;
     return cancelButton;
@@ -110,6 +115,10 @@
         [self.presentingViewController.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
     else
         [self.presentingViewController dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 @end

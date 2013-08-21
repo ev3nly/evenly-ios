@@ -252,7 +252,7 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)navigationController:(UINavigationController *)navigationController
+- (void)navigationController:(EVNavigationController *)navigationController
       willShowViewController:(UIViewController *)viewController
                     animated:(BOOL)animated {
     

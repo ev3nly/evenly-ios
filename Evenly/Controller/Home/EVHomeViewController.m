@@ -28,6 +28,8 @@
 
 #import "EVGettingStartedViewController.h"
 
+#import "AMBlurView.h"
+
 #define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -20
 #define TABLE_VIEW_INFINITE_SCROLLING_INSET 60
 
@@ -56,6 +58,10 @@
         self.title = @"Evenly";
         self.pageNumber = 1;
         self.locallyCreatedStories = [NSMutableArray array];
+//        AMBlurView *blurView = [AMBlurView new];
+//        blurView.frame =  self.navigationController.navigationBar.bounds;
+//        [self.navigationController.navigationBar addSubview:blurView]; //insertSubview:blurView atIndex:0];
+//        self.navigationController.navigationBar.alpha = 0.2;
     }
     return self;
 }
@@ -176,11 +182,11 @@
     if ([EVCIA me].needsRequestHelp) {
         EVGettingStartedViewController *gettingStartedController = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeRequest];
         gettingStartedController.controllerToShow = [EVRequestViewController new];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:gettingStartedController];
         [self presentViewController:navController animated:YES completion:NULL];
     }
     else {
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
         [self presentViewController:navController animated:YES completion:NULL];
     }
 }
@@ -190,11 +196,11 @@
     if ([EVCIA me].needsPaymentHelp) {
         EVGettingStartedViewController *gettingStartedController = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypePayment];
         gettingStartedController.controllerToShow = [EVPaymentViewController new];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:gettingStartedController];
         [self presentViewController:navController animated:YES completion:NULL];
     }
     else {
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVPaymentViewController alloc] init]];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[[EVPaymentViewController alloc] init]];
         [self presentViewController:navController animated:YES completion:NULL];
     }
 }

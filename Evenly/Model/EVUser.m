@@ -39,56 +39,83 @@
 @synthesize avatar;
 @synthesize avatarURL;
 
+- (NSDictionary *)modelServerMapping {
+    return @{@"name": @"name",
+             @"email": @"email",
+             @"phoneNumber" : @"phone_number",
+             @"email": @"email",
+             @"phoneNumber": @"phone_number",
+             @"balance": @"balance",
+             @"password": @"password",
+             @"avatarURL": @"avatar_url",
+             @"connections": @"connections",
+             @"unconfirmed": @"unconfirmed",
+             @"facebookConnected": @"facebook_connected",
+             @"roles": @"roles"};
+}
+
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     
-    if ([properties valueForKey:@"name"])
-        self.name = [properties valueForKey:@"name"];
+    [self mapModelToDictionary:properties];
+}
+
+- (void)mapModelToDictionary:(NSDictionary *)dictionary {
     
-    if ([properties valueForKey:@"email"])
-        self.email = [properties valueForKey:@"email"];
+    NSDictionary *mapping = [self modelServerMapping];
     
-    if ([properties valueForKey:@"phone_number"])
-        self.phoneNumber = [properties valueForKey:@"phone_number"];
-    
-    if (properties[@"balance"])
-    {
-        if ([properties[@"balance"] isKindOfClass:[NSDecimalNumber class]])
-            self.balance = properties[@"balance"];
+    for (NSString *modelKey in mapping.allKeys) {
+        NSString *serverKey = mapping[modelKey];
+        
+        if (dictionary[serverKey]) {
+            NSString *mappingSelectorString = [NSString stringWithFormat:@"%@MappingForValue:", modelKey];
+            SEL mappingSelector = NSSelectorFromString(mappingSelectorString);
+            
+            NSObject *value = dictionary[serverKey];
+            if (!value || [value isEqual:[NSNull null]] || [value isKindOfClass:[NSNull class]])
+                continue;
+
+            if ([self respondsToSelector:mappingSelector])
+                [self performSelector:mappingSelector withObject:dictionary[serverKey]];
+            else
+                [self setValue:dictionary[serverKey] forKey:modelKey];
+        }
+    }
+}
+
+- (void)balanceMappingForValue:(NSObject *)value {
+    if (value) {
+        if ([value isKindOfClass:[NSDecimalNumber class]])
+            self.balance = (NSDecimalNumber *)value;
         else
-            self.balance = [NSDecimalNumber decimalNumberWithString:properties[@"balance"]];
+            self.balance = [NSDecimalNumber decimalNumberWithString:(NSString *)value];
     }
     else {
         if (!self.balance)
             self.balance = [NSDecimalNumber decimalNumberWithString:@"0.00"];
     }
-    
-    if ([properties valueForKey:@"password"])
-        self.password = [properties valueForKey:@"password"];
-    
-    if (properties[@"avatar_url"] && ![properties[@"avatar_url"] isKindOfClass:[NSNull class]]) {
-        self.avatarURL = [NSURL URLWithString:properties[@"avatar_url"]];
-        [self loadAvatar];
+}
+
+- (void)avatarURLMappingForValue:(NSString *)value {
+    self.avatarURL = [NSURL URLWithString:value];
+    [self loadAvatar];
+}
+
+- (void)connectionsMappingForValue:(NSArray *)value {
+    NSMutableArray *array = [NSMutableArray array];
+    for (NSDictionary *dictionary in value) {
+        EVConnection *connection = (EVConnection *)[EVSerializer serializeDictionary:dictionary];
+        [array addObject:connection];
     }
-    
-    if (properties[@"connections"]) {
-        NSMutableArray *array = [NSMutableArray array];
-        for (NSDictionary *dictionary in properties[@"connections"]) {
-            EVConnection *connection = (EVConnection *)[EVSerializer serializeDictionary:dictionary];
-            [array addObject:connection];
-        }
-        self.connections = array;
-    }
-    
-    if ([properties valueForKey:@"confirmed"]) {
-        self.unconfirmed = ![[properties valueForKey:@"confirmed"] boolValue];
-    }
-    
-    if ([properties valueForKey:@"facebook_connected"] && ![[properties valueForKey:@"facebook_connected"] isEqual:[NSNull null]])
-        self.facebookConnected = [[properties valueForKey:@"facebook_connected"] boolValue];
-    
-    if ([properties valueForKey:@"roles"])
-        self.roles = [properties valueForKey:@"roles"];
+    self.connections = array;
+}
+
+- (void)unconfirmedMappingForValue:(NSString *)value {
+    self.unconfirmed = ![value boolValue];
+}
+
+- (void)facebookConnectedMappingForValue:(NSString *)value {
+    self.facebookConnected = [value boolValue];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -636,6 +663,8 @@
 @synthesize phoneNumber;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
+    if ([[dictionary valueForKey:@"name"] isEqualToString:@"yuzhou zhang"])
+        NSLog(@"dafuq");
     self = [super initWithDictionary:dictionary];
     if (self) {
         self.name = [dictionary valueForKey:@"name"];

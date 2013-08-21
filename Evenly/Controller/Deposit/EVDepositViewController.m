@@ -282,7 +282,7 @@
 
 - (void)presentAddBankController {
     EVAddBankViewController *addBankController = [[EVAddBankViewController alloc] init];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addBankController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:addBankController];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 

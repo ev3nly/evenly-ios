@@ -139,7 +139,7 @@ typedef enum {
 - (void)showInviteViewController {
     EVGroupRequestInviteViewController *inviteViewController = [[EVGroupRequestInviteViewController alloc] initWithGroupRequest:self.groupRequest];
     inviteViewController.delegate = self;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inviteViewController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:inviteViewController];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 

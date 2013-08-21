@@ -127,7 +127,7 @@
                                      [presenter dismissViewControllerAnimated:YES
                                                                     completion:^{
                                                                         EVGroupRequestDashboardViewController *dashboardVC = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:createdRequest];
-                                                                        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardVC];
+                                                                        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:dashboardVC];
                                                                         [presenter presentViewController:navController animated:YES completion:NULL];
                                                                     }];
                                  }];

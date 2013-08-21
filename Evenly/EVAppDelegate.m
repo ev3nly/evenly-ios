@@ -108,8 +108,16 @@
 }
 
 - (void)setUpAppearance {
-    [[UINavigationBar appearance] setBackgroundImage:[EVImages navBarBackground] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    self.window.tintColor = [EVColor blueColor];
+    
+//    [[UINavigationBar appearance] setTintColor:[EVColor blueColor]];
+//    [[UINavigationBar appearance] setBackgroundColor:EV_RGB_COLOR(0.09, 0.16, 0.6)];
+//    [[UINavigationBar appearance] setBackgroundColor:[EVColor blueColor]];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"big_background"] forBarMetrics:UIBarMetricsDefault];
+//    [[UINavigationBar appearance] setAlpha:0.6];
+//    [[UINavigationBar appearance] setBackgroundImage:[EVImages navBarBackground] forBarMetrics:UIBarMetricsDefault];
+//    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
 
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackground] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackgroundPress] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
@@ -197,13 +205,13 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     EVViewController *viewController = [[EVPushManager sharedManager] viewControllerFromPushDictionary:userInfo[@"meta"]];
     if (viewController)
     {
-        UINavigationController *pushNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
+        EVNavigationController *pushNavController = [[EVNavigationController alloc] initWithRootViewController:viewController];
         
         void (^completionBlock)(void) = nil;
         if (requirePIN && [[EVPINUtility sharedUtility] pinIsSet]) {
             EVEnterPINViewController *pinViewController = [[EVEnterPINViewController alloc] init];
             pinViewController.canDismissManually = NO;
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinViewController];
+            EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:pinViewController];
             completionBlock = ^{
                 [pushNavController presentViewController:navController animated:NO completion:nil];
             };
@@ -234,7 +242,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 }
 
 - (void)showSetPINController {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVSetPINViewController new]];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[EVSetPINViewController new]];
     [self.masterViewController presentViewController:navController animated:YES completion:nil];
 }
 

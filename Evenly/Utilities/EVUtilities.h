@@ -16,6 +16,7 @@
 #import "EVParseUtility.h"
 #import "EVAppDelegate.h"
 #import "EVStatusBarManager.h"
+#import "EVNavigationController.h"
 
 #import "EVCIA.h"
 

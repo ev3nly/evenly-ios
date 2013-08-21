@@ -141,7 +141,7 @@
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {    
     EVWebViewController *controller = [[EVWebViewController alloc] initWithURL:url];
     controller.title = [url isEqual:[EVUtilities tosURL]] ? @"Terms of Service" : @"Privacy Policy";
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navController animated:YES completion:nil];
 }
  

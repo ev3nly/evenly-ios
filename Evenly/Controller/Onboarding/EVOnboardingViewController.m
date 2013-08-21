@@ -239,7 +239,25 @@
                                                                         [EVImages facebookFIcon].size.height);
     }
     
+    [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedCard:)]];
     return view;
+}
+
+- (void)tappedCard:(UITapGestureRecognizer *)recognizer {
+    UIView *card = recognizer.view;
+    [UIView animateWithDuration:0.5
+                          delay:0
+         usingSpringWithDamping:0.3
+          initialSpringVelocity:5
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         CGRect cardFrame = card.frame;
+                         if (cardFrame.origin.y < 400)
+                             cardFrame.origin.y += 100;
+                         else
+                             cardFrame.origin.y = 50;
+                         card.frame = cardFrame;
+                     } completion:nil];
 }
 
 #pragma mark - View Helper Methods
@@ -351,11 +369,11 @@
         EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
             [self.presentingViewController dismissViewControllerAnimated:YES completion:^{                
                 EVGettingStartedViewController *controller = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeAll];
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+                EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:controller];
                 [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
             }];
         } user:newUser];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:signUpController];
         [self presentViewController:navController animated:YES completion:nil];
     } failure:^(NSError *error) {
         [[UIAlertView alertViewWithTitle:@"Error"
@@ -368,11 +386,11 @@
     EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+            EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:pinController];
             [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
         }];
     }];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:signUpController];
     [self presentViewController:navController animated:YES completion:nil];
 }
 
@@ -382,7 +400,7 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
     signInViewController.canDismissManually = YES;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signInViewController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:signInViewController];
     [self presentViewController:navController animated:YES completion:nil];
 }
 
@@ -425,6 +443,12 @@
 
 - (float)bottomSectionHeight {
     return (self.view.bounds.size.height - CGRectGetMaxY(self.scrollView.frame));
+}
+
+#pragma mark - Status Bar
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 @end

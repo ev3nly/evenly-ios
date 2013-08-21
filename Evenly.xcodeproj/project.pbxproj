@@ -531,6 +531,9 @@
 		D0A0BB72179E413E002C0EA0 /* EVNavBarBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A0BB71179E413E002C0EA0 /* EVNavBarBadge.m */; };
 		D0A0BB75179E472F002C0EA0 /* pending-number-container.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A0BB73179E472F002C0EA0 /* pending-number-container.png */; };
 		D0A0BB76179E472F002C0EA0 /* pending-number-container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A0BB74179E472F002C0EA0 /* pending-number-container@2x.png */; };
+		D0B3359D17C3FDAB007375AF /* big_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0B3359C17C3FDAB007375AF /* big_background@2x.png */; };
+		D0B335A017C441E6007375AF /* EVNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B3359F17C441E6007375AF /* EVNavigationController.m */; };
+		D0B335A417C45597007375AF /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B335A317C45597007375AF /* AMBlurView.m */; };
 		D0C30AF71770F480005606E8 /* EVStoryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF61770F480005606E8 /* EVStoryDetailViewController.m */; };
 		D0C30AFA1770F63A005606E8 /* EVTransactionDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AF91770F63A005606E8 /* EVTransactionDetailCell.m */; };
 		D0C30AFE177217A3005606E8 /* EVPendingDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0C30AFD177217A3005606E8 /* EVPendingDetailViewController.m */; };
@@ -1350,6 +1353,11 @@
 		D0A0BB71179E413E002C0EA0 /* EVNavBarBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNavBarBadge.m; sourceTree = "<group>"; };
 		D0A0BB73179E472F002C0EA0 /* pending-number-container.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-number-container.png"; sourceTree = "<group>"; };
 		D0A0BB74179E472F002C0EA0 /* pending-number-container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-number-container@2x.png"; sourceTree = "<group>"; };
+		D0B3359C17C3FDAB007375AF /* big_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big_background@2x.png"; sourceTree = "<group>"; };
+		D0B3359E17C441E6007375AF /* EVNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNavigationController.h; sourceTree = "<group>"; };
+		D0B3359F17C441E6007375AF /* EVNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNavigationController.m; sourceTree = "<group>"; };
+		D0B335A217C45597007375AF /* AMBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMBlurView.h; sourceTree = "<group>"; };
+		D0B335A317C45597007375AF /* AMBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMBlurView.m; sourceTree = "<group>"; };
 		D0C30AF51770F480005606E8 /* EVStoryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVStoryDetailViewController.h; sourceTree = "<group>"; };
 		D0C30AF61770F480005606E8 /* EVStoryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVStoryDetailViewController.m; sourceTree = "<group>"; };
 		D0C30AF81770F63A005606E8 /* EVTransactionDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVTransactionDetailCell.h; sourceTree = "<group>"; };
@@ -1495,6 +1503,8 @@
 				9C2E4F9C176E6B4700ACE30E /* EVModalViewController.m */,
 				9C5044251770EC7A0090D865 /* EVPushPopViewController.h */,
 				9C5044261770EC7A0090D865 /* EVPushPopViewController.m */,
+				D0B3359E17C441E6007375AF /* EVNavigationController.h */,
+				D0B3359F17C441E6007375AF /* EVNavigationController.m */,
 				9CB7FB4F178CD37C00827B5B /* Rewards */,
 				9CCA900E175EA8E8003462DC /* SidePanels */,
 				9C900D111767E83700E2F4C4 /* Deposit */,
@@ -2474,6 +2484,7 @@
 		9CB2857A1761521E009B26BB /* NavBar */ = {
 			isa = PBXGroup;
 			children = (
+				D0B3359C17C3FDAB007375AF /* big_background@2x.png */,
 				9C2DD0AE176A923400EAA3D1 /* Back.png */,
 				9C2DD0AF176A923400EAA3D1 /* Back@2x.png */,
 				D02758331795FAB3004F6F0A /* Back_noshadow.png */,
@@ -2718,6 +2729,7 @@
 			children = (
 				9CEEB82D175526EC00C24C2A /* ABContactHelper */,
 				9CEEB834175526EC00C24C2A /* AESCrypt-ObjC */,
+				D0B335A117C4557F007375AF /* AMBlurView */,
 				9CE05EEC175942610095CCFC /* JASidePanel */,
 				9C504465177122850090D865 /* JSTokenField */,
 				9C038F74177E109A00CDE030 /* MKAdditions */,
@@ -3001,6 +3013,15 @@
 			path = Loading;
 			sourceTree = "<group>";
 		};
+		D0B335A117C4557F007375AF /* AMBlurView */ = {
+			isa = PBXGroup;
+			children = (
+				D0B335A217C45597007375AF /* AMBlurView.h */,
+				D0B335A317C45597007375AF /* AMBlurView.m */,
+			);
+			path = AMBlurView;
+			sourceTree = "<group>";
+		};
 		D0C30AF41770F46C005606E8 /* TransactionDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -3277,6 +3298,7 @@
 				9C2E4FA6176E7A3A00ACE30E /* www.paywithivy.com.cer in Resources */,
 				D077A8C4177419EA001BAAAD /* Request-Invite-Friends-Banner.png in Resources */,
 				D077A8C5177419EA001BAAAD /* Request-Invite-Friends-Banner@2x.png in Resources */,
+				D0B3359D17C3FDAB007375AF /* big_background@2x.png in Resources */,
 				D0770B3F177519BF0002B572 /* add-photo.png in Resources */,
 				D0770B40177519BF0002B572 /* add-photo@2x.png in Resources */,
 				D0770B4317751D740002B572 /* DefaultAvatar.png in Resources */,
@@ -3664,6 +3686,7 @@
 				9C2DD0871769278E00EAA3D1 /* EVSettingsRow.m in Sources */,
 				9C32421517779809004A358F /* EVGroupRequestProgressView.m in Sources */,
 				9CAC4473177F673400CA27C5 /* EVPendingGroupViewController.m in Sources */,
+				D0B335A417C45597007375AF /* AMBlurView.m in Sources */,
 				9C2DD0AD176A8FAA00EAA3D1 /* EVNotificationsViewController.m in Sources */,
 				D07A3902176A661D00EABEB7 /* EVTapGestureRecognizer.m in Sources */,
 				9C54285F176F7BEA0028F141 /* EVBanksViewController.m in Sources */,
@@ -3759,6 +3782,7 @@
 				9C732A3F17A72FFC000D210C /* EVPushManager.m in Sources */,
 				D0CBDC4417A7548400E09D39 /* EVTippingViewController.m in Sources */,
 				D0CBDC7817A9D36000E09D39 /* EVChooseTipView.m in Sources */,
+				D0B335A017C441E6007375AF /* EVNavigationController.m in Sources */,
 				D0CBDC7B17A9DA0C00E09D39 /* EVChooseTipCell.m in Sources */,
 				D0CBDC8117AA03F000E09D39 /* EVTip.m in Sources */,
 				D0CBDC8417AA490400E09D39 /* EVSharingSelectorView.m in Sources */,
@@ -3923,7 +3947,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
 				INFOPLIST_FILE = "Evenly/Evenly-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Documents/FacebookSDK/FacebookSDK.framework/Versions/A,
@@ -3932,6 +3956,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3951,7 +3976,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
 				INFOPLIST_FILE = "Evenly/Evenly-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Documents/FacebookSDK/FacebookSDK.framework/Versions/A,
@@ -3960,6 +3985,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

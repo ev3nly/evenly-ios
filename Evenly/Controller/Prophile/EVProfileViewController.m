@@ -155,7 +155,7 @@
 }
 
 - (void)displayExchangeController:(EVExchangeViewController *)controller {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navController animated:YES completion:NULL];
     [controller unloadPageControlAnimated:NO];
     [controller loadPageControl];

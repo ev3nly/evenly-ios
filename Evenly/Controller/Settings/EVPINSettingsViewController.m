@@ -94,7 +94,7 @@
     } else {
         EVSetPINViewController *pinController = [EVSetPINViewController new];
         pinController.needsToEnterOldPIN = NO;
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:pinController];
         [self presentViewController:navController animated:YES completion:^{
             [self.tableView reloadData];
         }];
@@ -130,7 +130,7 @@
     
     EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
     pinController.needsToEnterOldPIN = YES;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:pinController];
     [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
