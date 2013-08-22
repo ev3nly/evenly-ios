@@ -8,14 +8,18 @@
 
 #import "EVBackButton.h"
 
+#define DEFAULT_TAPPABLE_SIZE 44
+
 @implementation EVBackButton
 
 + (id)button {
     UIImage *image = [EVImages navBarBackButton];
-    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
-    UIButton *button = [[self alloc] initWithFrame:CGRectMake(0, 0, image.size.width + edgeInsets.left + edgeInsets.right, image.size.height)];
+    UIButton *button = [[self alloc] initWithFrame:CGRectMake(0, 0, DEFAULT_TAPPABLE_SIZE, DEFAULT_TAPPABLE_SIZE)];
     [button setImage:image forState:UIControlStateNormal];
-    [button setImageEdgeInsets:edgeInsets];
+
+    CGSize insetSize = CGSizeMake(DEFAULT_TAPPABLE_SIZE - image.size.width, (DEFAULT_TAPPABLE_SIZE - image.size.height)/2);
+    [button setImageEdgeInsets:UIEdgeInsetsMake(insetSize.height, 0, insetSize.height, insetSize.width)];
+
     [button setAdjustsImageWhenHighlighted:NO];
     [button setShowsTouchWhenHighlighted:YES];
     return button;

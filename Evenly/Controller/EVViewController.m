@@ -91,9 +91,12 @@
 
 - (UIButton *)defaultCancelButton {
     UIImage *closeImage = [EVImages navBarCancelButton];
-    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, closeImage.size.width + 20.0, closeImage.size.height)];
+    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT)];
     [cancelButton setImage:closeImage forState:UIControlStateNormal];
-//    [cancelButton setImageEdgeInsets:EV_VIEW_CONTROLLER_BAR_BUTTON_IMAGE_INSET];
+
+    CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - closeImage.size.width, (EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - closeImage.size.height)/2);
+    [cancelButton setImageEdgeInsets:UIEdgeInsetsMake(insetSize.height, 0, insetSize.height, insetSize.width)];
+
     cancelButton.adjustsImageWhenHighlighted = NO;
     cancelButton.showsTouchWhenHighlighted = YES;
     return cancelButton;
@@ -101,20 +104,23 @@
 
 - (void)loadWalletBarButtonItem {
     UIImage *image = [UIImage imageNamed:@"Wallet"];
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + 14, image.size.height)];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT)];
     [button setImage:image forState:UIControlStateNormal];
+    
+    CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.width, (EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.height)/2);
+    [button setImageEdgeInsets:UIEdgeInsetsMake(insetSize.height, insetSize.width, insetSize.height, 0)];
+
     [button addTarget:self.masterViewController action:@selector(toggleRightPanel:) forControlEvents:UIControlEventTouchUpInside];
     button.adjustsImageWhenHighlighted = NO;
     button.showsTouchWhenHighlighted = YES;
-    [button setImageEdgeInsets:UIEdgeInsetsMake(1, 0, -1, 0)];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = barButtonItem;
 }
 
 - (void)loadStatusBarBackground {
     UIView *navStatusBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
-    navStatusBarBackground.backgroundColor = [EVColor blueColor];
-    navStatusBarBackground.alpha = 0.2;
+    navStatusBarBackground.backgroundColor = EV_RGB_COLOR(0, 112, 207);
+    navStatusBarBackground.alpha = 0.5;
     [self.view addSubview:navStatusBarBackground];
     
     AMBlurView *blurView = [AMBlurView new];

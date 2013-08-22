@@ -65,7 +65,12 @@
 #pragma mark - Newsfeed
 
 + (UIColor *)newsfeedStripeColor {
-    EV_RETURN_STATIC_RGB_COLOR(0.9020, 0.8941, 0.8902);
+    if ([UIScreen mainScreen].scale == 2) {
+        EV_RETURN_STATIC_RGB_COLOR(0.86, 0.85, 0.84);
+    }
+    else {
+        EV_RETURN_STATIC_RGB_COLOR(0.9020, 0.8941, 0.8902);
+    }
 }
 
 + (UIColor *)newsfeedNounColor {

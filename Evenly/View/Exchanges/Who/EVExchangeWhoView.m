@@ -85,7 +85,7 @@ NSString *const EVExchangeWhoViewAddedTokenFromReturnPressNotification = @"EVExc
     return CGRectMake(0,
                       EV_REQUEST_VIEW_LABEL_FIELD_BUFFER,
                       self.frame.size.width,
-                      1);
+                      [EVUtilities scaledDividerHeight]);
 }
 
 - (CGRect)toFieldFrame {
@@ -96,7 +96,7 @@ NSString *const EVExchangeWhoViewAddedTokenFromReturnPressNotification = @"EVExc
 }
 
 - (CGRect)lowerStripeFrame {
-    return CGRectMake(0, CGRectGetMaxY(self.toField.frame) + 1, self.frame.size.width, 1);
+    return CGRectMake(0, CGRectGetMaxY(self.toField.frame) + [EVUtilities scaledDividerHeight], self.frame.size.width, [EVUtilities scaledDividerHeight]);
 }
 
 - (CGRect)tableViewFrame {

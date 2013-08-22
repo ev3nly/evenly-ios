@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#define EV_VIEW_CONTROLLER_BAR_BUTTON_IMAGE_INSET UIEdgeInsetsMake(1, 10, -1, 10)
+#define EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT 44
 
 @protocol EVReloadable <NSObject>
 

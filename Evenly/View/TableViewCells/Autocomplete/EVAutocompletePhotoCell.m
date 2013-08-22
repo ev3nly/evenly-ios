@@ -17,7 +17,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(0, 0, self.contentView.frame.size.height, self.contentView.frame.size.height)];
-        self.avatarView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         self.avatarView.cornerRadius = 0.0;
         [self.contentView addSubview:self.avatarView];
         
@@ -37,6 +36,12 @@
         
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.avatarView.frame = CGRectMake(0, 0, self.contentView.frame.size.height, self.contentView.frame.size.height);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

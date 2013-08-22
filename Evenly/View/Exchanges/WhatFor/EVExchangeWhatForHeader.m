@@ -109,7 +109,7 @@ typedef enum {
 }
 
 - (void)generateBottomStripe {
-    self.bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];
+    self.bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - [EVUtilities scaledDividerHeight], self.frame.size.width, [EVUtilities scaledDividerHeight])];
     self.bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
     [self addSubview:self.bottomStripe];
 }

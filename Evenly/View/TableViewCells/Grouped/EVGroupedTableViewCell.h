@@ -18,6 +18,7 @@ typedef enum{
 @interface EVGroupedTableViewCell : UITableViewCell
 
 @property (nonatomic) EVGroupedTableViewCellPosition position;
+@property (nonatomic, readonly) CGRect visibleFrame;
 
 @end
 

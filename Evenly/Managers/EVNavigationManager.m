@@ -11,7 +11,8 @@
 #import "ReactiveCocoa.h"
 
 #define NAV_BAR_BADGE_TAG 9237
-#define BADGE_VIEW_OFFSET 0.5
+#define BADGE_VIEW_X_OFFSET 7
+#define BADGE_VIEW_Y_OFFSET 0.5
 
 static EVNavigationManager *_sharedManager;
 
@@ -141,8 +142,8 @@ static EVNavigationManager *_sharedManager;
 
 - (CGRect)badgeViewFrame {
     [self.badgeView sizeToFit];
-    return CGRectMake(0 - self.badgeView.bounds.size.width,
-                      BADGE_VIEW_OFFSET,
+    return CGRectMake(0 - BADGE_VIEW_X_OFFSET,
+                      [self walletButtonCustomView].bounds.size.height/2 - self.badgeView.bounds.size.height/2 - BADGE_VIEW_Y_OFFSET,
                       self.badgeView.bounds.size.width,
                       self.badgeView.bounds.size.height);
 }

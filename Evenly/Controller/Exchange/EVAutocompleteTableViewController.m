@@ -97,7 +97,7 @@
     headerView.backgroundColor = [EVColor requestGrayBackground];
     [headerView addSubview:spreadLabel];
     
-    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - 1, headerView.frame.size.width, 1)];
+    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - [EVUtilities scaledDividerHeight], headerView.frame.size.width, [EVUtilities scaledDividerHeight])];
     bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
     [headerView addSubview:bottomStripe];
     
@@ -115,7 +115,7 @@
     headerView.backgroundColor = [EVColor requestGrayBackground];
     [headerView addSubview:spreadLabel];
     
-    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - 1, headerView.frame.size.width, 1)];
+    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - [EVUtilities scaledDividerHeight], headerView.frame.size.width, [EVUtilities scaledDividerHeight])];
     bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
     [headerView addSubview:bottomStripe];
     
@@ -133,7 +133,7 @@
     headerView.backgroundColor = [EVColor requestGrayBackground];
     [headerView addSubview:spreadLabel];
     
-    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - 1, headerView.frame.size.width, 1)];
+    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - [EVUtilities scaledDividerHeight], headerView.frame.size.width, [EVUtilities scaledDividerHeight])];
     bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
     [headerView addSubview:bottomStripe];
     

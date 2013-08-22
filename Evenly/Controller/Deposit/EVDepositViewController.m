@@ -128,7 +128,7 @@
     self.cellContainer.image = [EVImages resizableTombstoneBackground];
     [self.view addSubview:self.cellContainer];
     
-    UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(0, EV_DEPOSIT_CELL_HEIGHT, self.cellContainer.frame.size.width, 1)];
+    UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(0, EV_DEPOSIT_CELL_HEIGHT, self.cellContainer.frame.size.width, [EVUtilities scaledDividerHeight])];
     [stripe setBackgroundColor:[EVColor newsfeedStripeColor]];
     [self.cellContainer addSubview:stripe];
     

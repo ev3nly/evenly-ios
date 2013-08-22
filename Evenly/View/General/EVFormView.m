@@ -68,7 +68,7 @@
 }
 
 - (UIView *)stripeAtPoint:(CGPoint)point {
-    UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(point.x, point.y, self.frame.size.width - 2*point.x, 1)];
+    UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(point.x, point.y, self.frame.size.width - 2*point.x, [EVUtilities scaledDividerHeight])];
     stripe.backgroundColor = [EVColor newsfeedStripeColor];
     return stripe;
 }

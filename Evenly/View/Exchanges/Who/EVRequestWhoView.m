@@ -41,7 +41,7 @@
     return CGRectMake(0,
                       CGRectGetMaxY(self.requestSwitchBackground.frame) + EV_REQUEST_VIEW_LABEL_FIELD_BUFFER,
                       self.frame.size.width,
-                      1);
+                      [EVUtilities scaledDividerHeight]);
 }
 
 - (void)loadRequestSwitch {

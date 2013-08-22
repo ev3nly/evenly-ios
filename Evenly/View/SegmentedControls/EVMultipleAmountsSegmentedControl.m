@@ -28,14 +28,14 @@
         UIView *topStripe = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                      0,
                                                                      self.frame.size.width,
-                                                                     1)];
+                                                                     [EVUtilities scaledDividerHeight])];
         [topStripe setBackgroundColor:[EVColor newsfeedStripeColor]];
         [self addSubview:topStripe];
         
         UIView *bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                                        self.frame.size.height - 1,
+                                                                        self.frame.size.height - [EVUtilities scaledDividerHeight],
                                                                         self.frame.size.width,
-                                                                        1)];
+                                                                        [EVUtilities scaledDividerHeight])];
         [bottomStripe setBackgroundColor:[EVColor newsfeedStripeColor]];
         [self addSubview:bottomStripe];
     }

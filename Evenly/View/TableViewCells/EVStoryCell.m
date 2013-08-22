@@ -222,7 +222,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 #pragma mark - Frames
 
 - (CGRect)avatarViewFrame {
-    return CGRectMake(EV_STORY_CELL_INTERIOR_MARGIN,
+    return CGRectMake(self.visibleFrame.origin.x + EV_STORY_CELL_INTERIOR_MARGIN,
                       EV_STORY_CELL_INTERIOR_MARGIN,
                       self.avatarView.size.width,
                       self.avatarView.size.height);
@@ -241,30 +241,30 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 }
 
 - (CGRect)horizontalRuleFrame {
-    return CGRectMake(0,
+    return CGRectMake(self.visibleFrame.origin.x,
                       EV_STORY_CELL_HORIZONTAL_RULE_Y,
-                      self.contentView.frame.size.width,
-                      1);
+                      self.contentView.frame.size.width - self.visibleFrame.origin.x*2,
+                      [EVUtilities scaledDividerHeight]);
 }
 
 - (CGRect)verticalRuleFrame {
     return CGRectMake(EV_STORY_CELL_VERTICAL_RULE_X,
                       EV_STORY_CELL_HORIZONTAL_RULE_Y,
-                      1,
+                      [EVUtilities scaledDividerHeight],
                       EV_STORY_CELL_VERTICAL_RULE_HEIGHT);
 }
 
 - (CGRect)dateLabelFrame {
-    return CGRectMake(0,
+    return CGRectMake(self.visibleFrame.origin.x,
                       EV_STORY_CELL_HORIZONTAL_RULE_Y,
-                      EV_STORY_CELL_VERTICAL_RULE_X,
+                      EV_STORY_CELL_VERTICAL_RULE_X - self.visibleFrame.origin.x,
                       self.contentView.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
 }
 
 - (CGRect)likeButtonFrame {
     CGRect rect = CGRectMake(EV_STORY_CELL_VERTICAL_RULE_X,
                              EV_STORY_CELL_HORIZONTAL_RULE_Y,
-                             EV_STORY_CELL_VERTICAL_RULE_X,
+                             EV_STORY_CELL_VERTICAL_RULE_X - self.visibleFrame.origin.x,
                              self.contentView.frame.size.height - EV_STORY_CELL_HORIZONTAL_RULE_Y);
     rect = CGRectInset(rect, 1, 1);
     return rect;
@@ -272,7 +272,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 
 - (CGRect)incomeIconFrame {
     CGSize iconSize = self.incomeIcon.image.size;
-    return CGRectMake(self.contentView.bounds.size.width - iconSize.width - EV_STORY_CELL_INCOME_ICON_BUFFER,
+    return CGRectMake(self.contentView.bounds.size.width - iconSize.width - EV_STORY_CELL_INCOME_ICON_BUFFER - self.visibleFrame.origin.x,
                       EV_STORY_CELL_INCOME_ICON_BUFFER,
                       iconSize.width,
                       iconSize.height);
@@ -281,6 +281,8 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 - (float)bottomSectionHeight {
     return EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
 }
+
+#pragma mark - Selection Overrides
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     [super setHighlighted:highlighted animated:animated];

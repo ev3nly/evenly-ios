@@ -29,7 +29,7 @@
 
         UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(self.contentView.frame.size.width / 2.0,
                                                                   0,
-                                                                  1,
+                                                                  [EVUtilities scaledDividerHeight],
                                                                   self.contentView.frame.size.height)];
         stripe.backgroundColor = [EVColor newsfeedStripeColor];
         stripe.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight;
