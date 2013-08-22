@@ -14,6 +14,7 @@
 #import "EVWithdrawal.h"
 #import "EVGroupRequest.h"
 #import "EVConnection.h"
+#import <DTCoreText/DTCoreText.h>
 
 NSString *const EVStoryLocallyCreatedNotification = @"EVStoryLocallyCreatedNotification";
 NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
@@ -152,6 +153,13 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     self.verb = properties[@"verb"];
     self.isPrivate = [properties[@"visibility"] isEqualToString:@"private"];
     self.storyDescription = properties[@"description"];
+    
+    if (properties[@"display_title"])
+        self.displayTitle = properties[@"display_title"];
+
+    if (properties[@"display_description"])
+        self.displayDescription = properties[@"display_description"];
+
     if (properties[@"published_at"] && ![properties[@"published_at"] isKindOfClass:[NSNull class]]) {
         if ([properties[@"published_at"] isKindOfClass:[NSString class]])
             self.publishedAt = [[[self class] dateFormatter] dateFromString:properties[@"published_at"]];
@@ -435,7 +443,36 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     return attrString;
 }
 
+static DTCSSStylesheet *_stylesheet;
+
 - (NSAttributedString *)attributedStringForDisplay {
+    if (self.displayDescription) {
+        
+        if (!_stylesheet) {
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^{
+                _stylesheet = [[DTCSSStylesheet alloc] initWithStyleBlock:@" strong { color: #282726 } "];
+            });
+        }
+                
+        NSDictionary *options = @{ DTDefaultFontFamily : @"Avenir",
+                                   DTDefaultFontSize : @(15),
+                                   DTDefaultTextColor : [EVColor newsfeedTextColor],
+                                   DTUseiOS6Attributes : @(YES),
+                                   DTDefaultStyleSheet : _stylesheet,
+                                   DTDefaultTextAlignment : @(kCTCenterTextAlignment) };
+        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTMLData:[self.displayDescription dataUsingEncoding:NSUTF8StringEncoding]
+                                                                              options:options
+                                                                   documentAttributes:nil];
+        
+        // Remove the paragraph style, which messes up the label textAlignment properties.
+        [attrString removeAttribute:NSParagraphStyleAttributeName range:NSMakeRange(0, attrString.length)];
+        
+        
+        DLog(@"Attributed string: %@", attrString);
+        return attrString;
+    }
+    
     if (self.sourceType == EVStorySourceTypeHint)
         return [self attributedStringForHintSourceType];
     if (self.sourceType == EVStorySourceTypeGettingStarted)
