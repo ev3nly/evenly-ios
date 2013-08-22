@@ -117,7 +117,7 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
             toName = [exchange.to email];
     }
     
-    whatTheyShared = exchange.description;
+    whatTheyShared = exchange.memo;
     NSString *htmlString = [NSString stringWithFormat:@"<strong>%@</strong> and <strong>%@</strong> shared %@",
                             fromName,
                             toName,
@@ -146,6 +146,32 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     return story;
 }
 
++ (NSString *)htmlFromGroupRequest:(EVGroupRequest *)groupRequest {
+    NSString *fromName = nil, *toName = nil, *whatTheyShared = nil;
+    if (!groupRequest.from)
+        fromName = @"You";
+    else
+    {
+        fromName = [groupRequest.from name];
+        if (!fromName)
+            fromName = [groupRequest.from phoneNumber];
+        if (!fromName)
+            fromName = [groupRequest.from email];
+    }
+    
+    if (![groupRequest.from.dbid isEqualToString:[EVCIA me].dbid])
+        toName = @"You";
+    else
+        toName = [EVStringUtility stringForNumberOfPeople:[[groupRequest tiers] count]];
+    
+    whatTheyShared = groupRequest.memo;
+    NSString *htmlString = [NSString stringWithFormat:@"<strong>%@</strong> and <strong>%@</strong> shared %@",
+                            fromName,
+                            toName,
+                            whatTheyShared];
+    return htmlString;
+}
+
 + (EVStory *)storyFromWithdrawal:(EVWithdrawal *)withdrawal {
     NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
     EVObject *fromUser = [EVCIA me];
@@ -158,6 +184,9 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     setValueForKeyIfNonNil(fromUser, @"subject")
     setValueForKeyIfNonNil(@"User", @"owner_type")
     setValueForKeyIfNonNil(fromUser.dbid, @"owner_id")
+    
+    NSString *htmlString = [NSString stringWithFormat:@"<strong>You</strong> withdrew %@", [EVStringUtility amountStringForAmount:withdrawal.amount]];
+    setValueForKeyIfNonNil(htmlString, @"display_description");
     
     EVStory *story = [EVStory new];
     [story setProperties:mutableDictionary];
