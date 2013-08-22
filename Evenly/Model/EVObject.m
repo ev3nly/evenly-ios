@@ -166,8 +166,11 @@ static NSDateFormatter *_dateFormatter = nil;
     }
     @try {
         if (properties[@"created_at"] && ![properties[@"created_at"] isKindOfClass:[NSNull class]]) {
-            if ([properties[@"created_at"] isKindOfClass:[NSString class]])
-                self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+            @synchronized ([[self class] dateFormatter])
+            {
+                if ([properties[@"created_at"] isKindOfClass:[NSString class]])
+                    self.createdAt = [[[self class] dateFormatter] dateFromString:properties[@"created_at"]];
+            }
         }
     }
     @catch (NSException *exception) {

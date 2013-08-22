@@ -35,11 +35,12 @@
 
 static NSDateFormatter *_dateFormatter = nil;
 + (NSDateFormatter *)dateFormatter {
-    if (_dateFormatter == nil) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         _dateFormatter = [[NSDateFormatter alloc] init];
         _dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
         _dateFormatter.dateFormat = @"MMMM dd";
-    }
+    });
     return _dateFormatter;
 }
 
@@ -221,7 +222,12 @@ static NSDateFormatter *_dateFormatter = nil;
 #pragma mark - Utility
 
 - (NSString *)displayStringForDate:(NSDate *)date {
-    return [[[[self class] dateFormatter] stringFromDate:date] uppercaseString];
+    NSString *dateString = nil;
+    @synchronized ([[self class] dateFormatter])
+    {
+        dateString = [[[[self class] dateFormatter] stringFromDate:date] uppercaseString];
+    }
+    return dateString;
 }
 
 @end
