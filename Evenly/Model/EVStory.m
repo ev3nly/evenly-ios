@@ -56,7 +56,8 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     setValueForKeyIfNonNil((exchange.to ?: [EVCIA me]), @"target")
     setValueForKeyIfNonNil(@"User", @"owner_type")
     setValueForKeyIfNonNil([EVCIA me].dbid, @"owner_id")
-    
+    setValueForKeyIfNonNil([self htmlFromExchange:exchange], @"display_description");
+
     EVStory *story = [EVStory new];
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypePendingTransactionDetail;
@@ -80,7 +81,8 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     setValueForKeyIfNonNil(toUser, @"target")
     setValueForKeyIfNonNil(@"User", @"owner_type")
     setValueForKeyIfNonNil(fromUser.dbid, @"owner_id")
-    
+    setValueForKeyIfNonNil([self htmlFromExchange:exchange], @"display_description");
+
     EVStory *story = [EVStory new];
     [story setProperties:mutableDictionary];
     story.displayType = EVStoryDisplayTypeCompletedTransactionDetail;
@@ -90,6 +92,39 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     story.publishedAt = exchange.createdAt ?: [NSDate date];
     return story;
 }
+
++ (NSString *)htmlFromExchange:(EVExchange *)exchange {
+    NSString *fromName = nil, *toName = nil, *whatTheyShared = nil;
+    if (!exchange.from)
+        fromName = @"You";
+    else
+    {
+        fromName = [exchange.from name];
+        if (!fromName)
+            fromName = [exchange.from phoneNumber];
+        if (!fromName)
+            fromName = [exchange.from email];
+    }
+    
+    if (!exchange.to)
+        toName = @"You";
+    else
+    {
+        toName = [exchange.to name];
+        if (!toName)
+            toName = [exchange.to phoneNumber];
+        if (!toName)
+            toName = [exchange.to email];
+    }
+    
+    whatTheyShared = exchange.description;
+    NSString *htmlString = [NSString stringWithFormat:@"<strong>%@</strong> and <strong>%@</strong> shared %@",
+                            fromName,
+                            toName,
+                            whatTheyShared];
+    return htmlString;
+}
+
 
 + (EVStory *)storyFromGroupRequest:(EVGroupRequest *)groupRequest {
     NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithCapacity:0];
