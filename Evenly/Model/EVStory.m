@@ -189,11 +189,12 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     self.isPrivate = [properties[@"visibility"] isEqualToString:@"private"];
     self.storyDescription = properties[@"description"];
     
-    if (properties[@"display_title"])
-        self.displayTitle = properties[@"display_title"];
+    if (properties[@"display_title"] && [properties[@"display_title"] isKindOfClass:[NSString class]]) {
+        self.displayTitle = [properties[@"display_title"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    }
 
-    if (properties[@"display_description"])
-        self.displayDescription = properties[@"display_description"];
+    if (properties[@"display_description"] && [properties[@"display_description"] isKindOfClass:[NSString class]])
+        self.displayDescription = [properties[@"display_description"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 
     if (properties[@"published_at"] && ![properties[@"published_at"] isKindOfClass:[NSNull class]]) {
         if ([properties[@"published_at"] isKindOfClass:[NSString class]])
@@ -520,10 +521,9 @@ static DTCSSStylesheet *_stylesheet;
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTMLData:[self.displayDescription dataUsingEncoding:NSUTF8StringEncoding]
                                                                                         options:options
                                                                              documentAttributes:nil];
-    
+
     // Remove the paragraph style, which messes up the label textAlignment properties.
     [attrString removeAttribute:NSParagraphStyleAttributeName range:NSMakeRange(0, attrString.length)];
-    
     if (self.displayTitle)
     {
         CGFloat fontSize = 15;
@@ -536,8 +536,28 @@ static DTCSSStylesheet *_stylesheet;
         attrString = titleString;
     }
     
+    // Hat tip to Panupan Sriautharawong,
+    // http://panupan.com/2012/06/04/trim-leading-and-trailing-whitespaces-from-nsmutableattributedstring/
+    // Trim leading whitespace and newlines.
+    NSCharacterSet *charSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    NSRange range           = [attrString.string rangeOfCharacterFromSet:charSet];
+    while (range.length != 0 && range.location == 0)
+    {
+        [attrString replaceCharactersInRange:range
+                                 withString:@""];
+        range = [attrString.string rangeOfCharacterFromSet:charSet];
+    }
     
-    DLog(@"Attributed string: %@", attrString);
+    // Trim trailing whitespace and newlines.
+    range = [attrString.string rangeOfCharacterFromSet:charSet
+                                              options:NSBackwardsSearch];
+    while (range.length != 0 && NSMaxRange(range) == attrString.length)
+    {
+        [attrString replaceCharactersInRange:range
+                                 withString:@""];
+        range = [attrString.string rangeOfCharacterFromSet:charSet
+                                                  options:NSBackwardsSearch];
+    }
     return attrString;
 }
 
