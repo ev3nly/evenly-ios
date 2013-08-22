@@ -58,10 +58,6 @@
         self.title = @"Evenly";
         self.pageNumber = 1;
         self.locallyCreatedStories = [NSMutableArray array];
-//        AMBlurView *blurView = [AMBlurView new];
-//        blurView.frame =  self.navigationController.navigationBar.bounds;
-//        [self.navigationController.navigationBar addSubview:blurView]; //insertSubview:blurView atIndex:0];
-//        self.navigationController.navigationBar.alpha = 0.2;
     }
     return self;
 }
@@ -70,13 +66,12 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor underPageBackgroundColor];
     [self loadBalanceLabel];
     [self loadWalletBarButtonItem];
     
     [self loadTableView];
     [self loadFloatingView];
-    [self configurePullToRefresh];
+    [self configurePullToRefresh];    
 }
 
 - (void)dealloc {

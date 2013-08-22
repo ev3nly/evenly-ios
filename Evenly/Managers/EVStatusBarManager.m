@@ -8,6 +8,7 @@
 
 #import "EVStatusBarManager.h"
 #import "EVNavigationManager.h"
+#import "AMBlurView.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define DEFAULT_IN_PROGRESS_TEXT @"SAVING.."
@@ -39,6 +40,9 @@ static EVStatusBarManager *_sharedManager = nil;
         _sharedManager.actionStack = [NSMutableArray arrayWithCapacity:0];
     });
     return _sharedManager;
+}
+
+- (void)setup {
 }
 
 - (void)setStatus:(EVStatusBarStatus)status {

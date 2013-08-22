@@ -75,6 +75,7 @@
     [ABContactsHelper autocompletableContacts];
     DLog(@"Mobile label: %@  iPhone label: %@", kABPersonPhoneMobileLabel, kABPersonPhoneIPhoneLabel);
     
+    [[EVStatusBarManager sharedManager] setup];
     return YES;
 }
 
@@ -114,9 +115,13 @@
 //    [[UINavigationBar appearance] setBackgroundColor:EV_RGB_COLOR(0.09, 0.16, 0.6)];
 //    [[UINavigationBar appearance] setBackgroundColor:[EVColor blueColor]];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"big_background"] forBarMetrics:UIBarMetricsDefault];
+    
+//    UIView *clearBackground = ;
+    UIImage *clearImage = [EVImageUtility imageWithColor:[UIColor clearColor]];
+    
+    [[UINavigationBar appearance] setBackgroundImage:clearImage forBarMetrics:UIBarMetricsDefault];
 //    [[UINavigationBar appearance] setAlpha:0.6];
-//    [[UINavigationBar appearance] setBackgroundImage:[EVImages navBarBackground] forBarMetrics:UIBarMetricsDefault];
+//    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"translucent_header"] forBarMetrics:UIBarMetricsDefault];
 //    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
 
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackground] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];

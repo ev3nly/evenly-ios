@@ -88,6 +88,7 @@
                                                  name:EVCIAUpdatedBankAccountsNotification
                                                object:nil];
     [self setUpReactions];
+    [self loadStatusBarBackground];
 }
 
 - (void)loadTableView {

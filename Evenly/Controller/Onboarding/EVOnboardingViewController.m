@@ -140,14 +140,16 @@
     
     UILabel *label = [UILabel new];
     label.backgroundColor = [UIColor clearColor];
-    label.text = @"Don't Get Mad.   Get Evenly";
+    label.text = @"Don't Get Mad.\nGet Evenly";
     label.numberOfLines = 2;
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.font = [EVFont romanFontOfSize:34];
+    label.clipsToBounds = NO;
     
-    float totalHeight = LOGO_LENGTH + LOGO_TEXT_BUFFER + [self sizeForLabel:label].height;
+    CGSize labelSize = [self sizeForLabel:label];
+    float totalHeight = LOGO_LENGTH + LOGO_TEXT_BUFFER + labelSize.height;
     
     UIImageView *logo = [[UIImageView alloc] initWithImage:[EVImages bigIcon]];
     logo.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - LOGO_LENGTH/2,
@@ -155,13 +157,12 @@
                             LOGO_LENGTH,
                             LOGO_LENGTH);
     logo.layer.masksToBounds = YES;
-    label.frame = CGRectMake(0,
-                             CGRectGetMaxY(logo.frame) + LOGO_TEXT_BUFFER,
-                             self.scrollView.bounds.size.width,
-                             [self sizeForLabel:label].height);
+    label.frame = CGRectMake(floorf(CGRectGetMidX(self.scrollView.bounds) - labelSize.width/2),
+                             floorf(CGRectGetMaxY(logo.frame) + LOGO_TEXT_BUFFER),
+                             ceilf(labelSize.width),
+                             ceilf(labelSize.height));
     
     [logo align];
-    [label align];
     
     [view addSubview:logo];
     [view addSubview:label];
@@ -245,10 +246,18 @@
 
 - (void)tappedCard:(UITapGestureRecognizer *)recognizer {
     UIView *card = recognizer.view;
-    [UIView animateWithDuration:0.5
+    CGRect daFrame = card.frame;
+    if (daFrame.origin.y < 400)
+        daFrame.origin.y += 100;
+    else
+        daFrame.origin.y = 50;
+
+//    [card bounceAnimationToFrame:daFrame duration:0.25 completion:nil];
+//    return;
+    [UIView animateWithDuration:0.6
                           delay:0
-         usingSpringWithDamping:0.3
-          initialSpringVelocity:5
+         usingSpringWithDamping:0.6
+          initialSpringVelocity:15.0
                         options:UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          CGRect cardFrame = card.frame;
@@ -272,14 +281,17 @@
     UILabel *descriptionLabel = [self descriptionLabelWithText:description];
     UIImageView *picture = [[UIImageView alloc] initWithImage:image];
     
-    titleLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:titleLabel].width/2,
+    CGSize titleLabelSize = [self sizeForLabel:titleLabel];
+    CGSize descriptionLabelSize = [self sizeForLabel:descriptionLabel];
+    
+    titleLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - titleLabelSize.width/2,
                                   TITLE_TOP_BUFFER,
-                                  [self sizeForLabel:titleLabel].width,
-                                  [self sizeForLabel:titleLabel].height);
-    descriptionLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:descriptionLabel].width/2,
+                                  titleLabelSize.width,
+                                  titleLabelSize.height);
+    descriptionLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - descriptionLabelSize.width/2,
                                         CGRectGetMaxY(titleLabel.frame) + TITLE_SUBTITLE_BUFFER,
-                                        [self sizeForLabel:descriptionLabel].width,
-                                        [self sizeForLabel:descriptionLabel].height);
+                                        descriptionLabelSize.width,
+                                        descriptionLabelSize.height);
     picture.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - (image.size.width * imageScale)/2 + imageOffset.x,
                                self.scrollView.bounds.size.height - PICTURE_BOTTOM_BUFFER - (image.size.height * imageScale) + imageOffset.y,
                                image.size.width * imageScale,
@@ -350,9 +362,10 @@
 }
 
 - (CGSize)sizeForLabel:(UILabel *)label {
-    return [label.text sizeWithFont:label.font
-                  constrainedToSize:CGSizeMake(MAX_TEXT_WIDTH, 1000)
-                      lineBreakMode:label.lineBreakMode];
+    return [label.text boundingRectWithSize:CGSizeMake(MAX_TEXT_WIDTH, 1000)
+                                    options:NSStringDrawingUsesLineFragmentOrigin
+                                 attributes:@{NSFontAttributeName: label.font}
+                                    context:NULL].size;
 }
 
 #pragma mark - Button Handling
@@ -414,7 +427,7 @@
 
 - (CGRect)scrollViewFrame {
     return CGRectMake(0,
-                      0,
+                      [self totalBarHeight],
                       self.view.bounds.size.width,
                       CARD_HEIGHT + CARD_SIDE_BUFFER);
 }

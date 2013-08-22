@@ -12,6 +12,7 @@
 #import "EVMainMenuFooter.h"
 #import <Social/Social.h>
 #import "OpenInChromeController.h"
+#import "AMBlurView.h"
 
 #define FOOTER_HEIGHT 60.0
 
@@ -53,6 +54,7 @@
     [self.view addSubview:self.tableView];
     
     [self loadFooter];
+    [self loadStatusBarBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

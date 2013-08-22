@@ -33,6 +33,7 @@
 #pragma mark - View Loading
 
 - (void)loadContentViews {
+    self.view.backgroundColor = [EVColor lightRedColor];
     self.initialView = [[EVPaymentWhoView alloc] initWithFrame:[self.view bounds]];
     self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     

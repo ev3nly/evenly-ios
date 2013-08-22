@@ -24,11 +24,14 @@
 
 @property (nonatomic, assign) BOOL shouldDismissGrandparent;
 
+- (float)totalBarHeight;
+
 - (void)loadTitleLabel;
 - (void)backButtonPress:(id)sender;
 
 - (UIButton *)defaultCancelButton;
 - (void)loadWalletBarButtonItem;
+- (void)loadStatusBarBackground;
 
 - (void)cancelButtonPress:(id)sender;
 

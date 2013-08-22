@@ -38,7 +38,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     self.swipeGestureRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeGestureRecognized:)];
     [self.swipeGestureRecognizer setDirection:UISwipeGestureRecognizerDirectionRight];
     if (self.navigationController.viewControllers.count > 1 && self.navigationController.viewControllers.lastObject == self)
@@ -49,12 +49,13 @@
     
     self.view.backgroundColor = [EVColor creamColor];
     
-    [self loadTitleLabel];
-    
-    AMBlurView *blurView = [AMBlurView new];
-    blurView.frame =  self.navigationController.navigationBar.bounds;
-    //        [self.navigationController.navigationBar addSubview:blurView]; //insertSubview:blurView atIndex:0];
-    self.navigationController.navigationBar.alpha = 0.2;
+    [self loadTitleLabel];    
+}
+
+- (float)totalBarHeight {
+    float statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+    float navigationBarHeight = self.navigationController ? self.navigationController.navigationBar.bounds.size.height : 0;
+    return statusBarHeight + navigationBarHeight;
 }
 
 - (void)loadTitleLabel {
@@ -108,6 +109,18 @@
     [button setImageEdgeInsets:UIEdgeInsetsMake(1, 0, -1, 0)];
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = barButtonItem;
+}
+
+- (void)loadStatusBarBackground {
+    UIView *navStatusBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+    navStatusBarBackground.backgroundColor = [EVColor blueColor];
+    navStatusBarBackground.alpha = 0.2;
+    [self.view addSubview:navStatusBarBackground];
+    
+    AMBlurView *blurView = [AMBlurView new];
+    blurView.frame = CGRectMake(0, 0, 320, 21);
+    blurView.blurTintColor = [EVColor blueColor];
+    [self.view addSubview:blurView];
 }
 
 - (void)cancelButtonPress:(id)sender {
