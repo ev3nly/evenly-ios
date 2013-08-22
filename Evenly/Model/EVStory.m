@@ -154,7 +154,13 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     self.storyDescription = properties[@"description"];
     if (properties[@"published_at"] && ![properties[@"published_at"] isKindOfClass:[NSNull class]]) {
         if ([properties[@"published_at"] isKindOfClass:[NSString class]])
-            self.publishedAt = [[[self class] dateFormatter] dateFromString:properties[@"published_at"]];
+        {
+            @synchronized ([[self class] dateFormatter])
+            {
+                self.publishedAt = [[[self class] dateFormatter] dateFromString:properties[@"published_at"]];
+                
+            }
+        }
         else
             self.publishedAt = properties[@"published_at"];
     }
