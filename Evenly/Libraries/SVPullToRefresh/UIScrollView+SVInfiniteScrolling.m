@@ -29,7 +29,6 @@ static CGFloat const SVInfiniteScrollingViewHeight = 60;
 @property (nonatomic, readwrite) SVInfiniteScrollingState state;
 @property (nonatomic, strong) NSMutableArray *viewForState;
 @property (nonatomic, weak) UIScrollView *scrollView;
-@property (nonatomic, readwrite) CGFloat originalBottomInset;
 @property (nonatomic, assign) BOOL wasTriggeredByUser;
 @property (nonatomic, assign) BOOL isObserving;
 
@@ -59,7 +58,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
         view.scrollView = self;
         [self addSubview:view];
         
-        view.originalBottomInset = self.contentInset.bottom;
+        view.originalBottomInset = 60;
         self.infiniteScrollingView = view;
         self.showsInfiniteScrolling = YES;
     }
@@ -253,6 +252,10 @@ UIEdgeInsets scrollViewOriginalContentInsets;
 
 - (void)stopAnimating {
     self.state = SVInfiniteScrollingStateStopped;
+}
+
+- (void)reachedEnd {
+    self.state = SVInfiniteScrollingStateReachedEnd;
 }
 
 - (void)setState:(SVInfiniteScrollingState)newState {

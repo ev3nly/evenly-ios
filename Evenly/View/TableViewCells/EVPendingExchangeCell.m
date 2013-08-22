@@ -237,6 +237,7 @@
         [self.avatarView removeFromSuperview];
         self.avatarView = nil;
         self.accessoryView = nil;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [self.stripe removeFromSuperview];
         self.stripe = nil;

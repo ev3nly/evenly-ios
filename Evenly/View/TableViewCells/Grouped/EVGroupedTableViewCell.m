@@ -19,8 +19,13 @@
         self.textLabel.highlightedTextColor = self.textLabel.textColor;
         self.textLabel.font = [EVFont blackFontOfSize:15];
         
-        EVGroupedTableViewCellBackground *background = [[EVGroupedTableViewCellBackground alloc] initWithFrame:self.bounds];
-        background.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+        CGRect cellBackgroundFrame = CGRectMake(10,
+                                                0,
+                                                self.bounds.size.width - 10*2,
+                                                self.bounds.size.height);
+        
+        EVGroupedTableViewCellBackground *background = [[EVGroupedTableViewCellBackground alloc] initWithFrame:cellBackgroundFrame];
+        background.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         self.backgroundView = background;
         
         EVGroupedTableViewCellBackground *selectedBackground = [[EVGroupedTableViewCellBackground alloc] initWithFrame:self.bounds];

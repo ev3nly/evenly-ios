@@ -30,7 +30,7 @@
 
 #import "AMBlurView.h"
 
-#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -20
+#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -40
 #define TABLE_VIEW_INFINITE_SCROLLING_INSET 60
 
 @interface EVHomeViewController ()
@@ -71,8 +71,13 @@
     
     [self loadTableView];
     [self loadFloatingView];
-    [self configurePullToRefresh];    
 }
+
+//- (void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//    
+//    [self updateTableViewContentInset];
+//}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -101,7 +106,7 @@
     self.tableView.backgroundColor = [EVColor creamColor];
     self.tableView.backgroundView = nil;
     self.tableView.loadingIndicatorYOffset = TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET;
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, TABLE_VIEW_INFINITE_SCROLLING_INSET, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 56, 0);
     [self.tableView registerClass:[EVStoryCell class] forCellReuseIdentifier:@"storyCell"];
     [self.view addSubview:self.tableView];
 
@@ -109,6 +114,7 @@
     [self configureInfiniteScrolling];
     [self.newsfeedDataSource setTableView:self.tableView];
     [self.newsfeedDataSource loadNewestStories];
+    
 }
 
 - (void)loadFloatingView {
@@ -133,15 +139,13 @@
     [self.floatingView addSubview:self.payButton];
     
     [self.view addSubview:self.floatingView];
-    
-    [self updateTableViewContentInset];
 }
 
 
 - (void)updateTableViewContentInset {
-    UIEdgeInsets insets = UIEdgeInsetsMake(0,
+    UIEdgeInsets insets = UIEdgeInsetsMake([self totalBarHeight],
                                            0,
-                                           self.floatingView.frame.size.height + self.tableView.infiniteScrollingView.frame.size.height,
+                                           TABLE_VIEW_INFINITE_SCROLLING_INSET,
                                            0);
     self.tableView.contentInset = insets;
 }
@@ -163,6 +167,8 @@
     
     [self.tableView.infiniteScrollingView setCustomView:self.newsfeedDataSource.loadingIndicator
                                                forState:SVInfiniteScrollingStateLoading];
+    [self.tableView.infiniteScrollingView setCustomView:[[UIImageView alloc] initWithImage:[EVImages grayLoadingLogo]]
+                                               forState:SVInfiniteScrollingStateReachedEnd];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -204,6 +210,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [EVStoryCell cellHeightForStory:[self.newsfeedDataSource.newsfeed objectAtIndex:indexPath.section]];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 10;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 10;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

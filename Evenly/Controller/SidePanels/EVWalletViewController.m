@@ -99,7 +99,8 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-    
+    self.tableView.contentInset = UIEdgeInsetsMake([self totalBarHeight], 0, 0, 0);
+
     [self.tableView registerClass:[EVWalletItemCell class] forCellReuseIdentifier:@"walletItemCell"];
     [self.tableView registerClass:[EVPendingExchangeCell class] forCellReuseIdentifier:@"pendingCell"];
     [self.tableView registerClass:[EVNoPendingExchangesCell class] forCellReuseIdentifier:@"noPendingCell"];

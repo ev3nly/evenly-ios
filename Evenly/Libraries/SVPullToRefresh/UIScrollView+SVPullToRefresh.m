@@ -41,7 +41,6 @@ static CGFloat const SVPullToRefreshViewHeight = 48;
 @property (nonatomic, strong) NSMutableArray *viewForState;
 
 @property (nonatomic, weak) UIScrollView *scrollView;
-@property (nonatomic, readwrite) CGFloat originalTopInset;
 
 @property (nonatomic, assign) BOOL wasTriggeredByUser;
 @property (nonatomic, assign) BOOL showsPullToRefresh;
@@ -74,9 +73,14 @@ static char UIScrollViewPullToRefreshView;
         view.scrollView = self;
         [self addSubview:view];
         
-        view.originalTopInset = self.contentInset.top;
+        view.originalTopInset = 64;
         self.pullToRefreshView = view;
         self.showsPullToRefresh = YES;
+        
+//        [self.pullToRefreshView resetScrollViewContentInset];
+//        EV_DISPATCH_AFTER(0.01, ^{
+//            [view resetScrollViewContentInset];
+//        });
     }
 }
 
@@ -155,7 +159,8 @@ static char UIScrollViewPullToRefreshView;
         self.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
         self.textColor = EV_RGB_COLOR(182, 182, 182);
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.state = SVPullToRefreshStateStopped;
+//        self.state = SVPullToRefreshStateLoading;
+//        self.state = SVPullToRefreshStateStopped;
         self.showsDateLabel = NO;
         
         self.titles = [NSMutableArray arrayWithObjects:NSLocalizedString(@"",),
@@ -186,12 +191,12 @@ static char UIScrollViewPullToRefreshView;
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
+    
     self.titleLabel.text = [self.titles objectAtIndex:self.state];
     
     CGRect titleFrame = self.titleLabel.frame;
-    CGSize titleSize = [self.titleLabel.text sizeWithFont:self.titleLabel.font
-                                        constrainedToSize:CGSizeMake(320, self.bounds.size.height)
-                                            lineBreakMode:self.titleLabel.lineBreakMode];
+    CGSize titleSize = CGSizeZero;
     
     float arrowXOrigin = 54;
     
