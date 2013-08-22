@@ -443,34 +443,9 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     return attrString;
 }
 
-static DTCSSStylesheet *_stylesheet;
-
 - (NSAttributedString *)attributedStringForDisplay {
     if (self.displayDescription) {
-        
-        if (!_stylesheet) {
-            static dispatch_once_t onceToken;
-            dispatch_once(&onceToken, ^{
-                _stylesheet = [[DTCSSStylesheet alloc] initWithStyleBlock:@" strong { color: #282726 } "];
-            });
-        }
-                
-        NSDictionary *options = @{ DTDefaultFontFamily : @"Avenir",
-                                   DTDefaultFontSize : @(15),
-                                   DTDefaultTextColor : [EVColor newsfeedTextColor],
-                                   DTUseiOS6Attributes : @(YES),
-                                   DTDefaultStyleSheet : _stylesheet,
-                                   DTDefaultTextAlignment : @(kCTCenterTextAlignment) };
-        NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTMLData:[self.displayDescription dataUsingEncoding:NSUTF8StringEncoding]
-                                                                              options:options
-                                                                   documentAttributes:nil];
-        
-        // Remove the paragraph style, which messes up the label textAlignment properties.
-        [attrString removeAttribute:NSParagraphStyleAttributeName range:NSMakeRange(0, attrString.length)];
-        
-        
-        DLog(@"Attributed string: %@", attrString);
-        return attrString;
+        return [self attributedStringFromHTMLDisplayDescription];
     }
     
     if (self.sourceType == EVStorySourceTypeHint)
@@ -482,6 +457,47 @@ static DTCSSStylesheet *_stylesheet;
     if (self.sourceType == EVStorySourceTypeReward)
         return [self attributedStringForRewardSourceType];
     return [self attributedStringForNormalSourceType];
+}
+
+
+static DTCSSStylesheet *_stylesheet;
+
+- (NSAttributedString *)attributedStringFromHTMLDisplayDescription {
+    if (!_stylesheet) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _stylesheet = [[DTCSSStylesheet alloc] initWithStyleBlock:@" strong { color: #282726 } "];
+        });
+    }
+    
+    NSDictionary *options = @{ DTDefaultFontFamily : @"Avenir",
+                               DTDefaultFontSize : @(15),
+                               DTDefaultTextColor : [EVColor newsfeedTextColor],
+                               DTUseiOS6Attributes : @(YES),
+                               DTDefaultStyleSheet : _stylesheet,
+                               DTDefaultTextAlignment : @(kCTCenterTextAlignment) };
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTMLData:[self.displayDescription dataUsingEncoding:NSUTF8StringEncoding]
+                                                                                        options:options
+                                                                             documentAttributes:nil];
+    
+    // Remove the paragraph style, which messes up the label textAlignment properties.
+    [attrString removeAttribute:NSParagraphStyleAttributeName range:NSMakeRange(0, attrString.length)];
+    
+    if (self.displayTitle)
+    {
+        CGFloat fontSize = 15;
+        NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
+                                          NSForegroundColorAttributeName : [EVColor newsfeedNounColor] };
+        NSMutableAttributedString *titleString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", self.displayTitle]
+                                                                                        attributes:nounAttributes]
+        ;
+        [titleString appendAttributedString:attrString];
+        attrString = titleString;
+    }
+    
+    
+    DLog(@"Attributed string: %@", attrString);
+    return attrString;
 }
 
 - (NSInteger)likeCount {
