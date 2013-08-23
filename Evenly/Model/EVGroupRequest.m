@@ -78,8 +78,10 @@
     for (EVObject<EVExchangeable> *member in self.initialMembers) {
         if ([member isKindOfClass:[EVUser class]]) {
             [array addObject:[member dbid]];
-        } else {
+        } else if ([member email]) {
             [array addObject:[member email]];
+        } else if ([member phoneNumber]) {
+            [array addObject:[member phoneNumber]];
         }
     }
     if ([array count])
