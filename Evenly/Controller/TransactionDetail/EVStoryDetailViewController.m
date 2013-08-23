@@ -45,7 +45,9 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [EVColor creamColor];
     self.tableView.backgroundView = nil;
+//    self.tableView.contentInset = UIEdgeInsetsMake([self totalBarHeight], 0, 0, 0);
     [self.tableView registerClass:[EVTransactionDetailCell class] forCellReuseIdentifier:@"detailCell"];
+    self.tableView.contentOffset = CGPointZero;
     [self.view addSubview:self.tableView];
     
     [self.tableView setLoading:self.story.loading];
@@ -70,7 +72,10 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [EVTransactionDetailCell cellHeightForStory:self.story];
+    float height = (int)[EVTransactionDetailCell cellHeightForStory:self.story];
+    if ((int)height % 2 != 0)
+        height += 1; //the grouped cells don't play nice with odd heights
+    return height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -78,6 +83,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.story = self.story;
     cell.delegate = self;
+    cell.position = [tableView cellPositionForIndexPath:indexPath];
     return cell;
 }
 

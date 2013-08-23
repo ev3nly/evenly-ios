@@ -10,7 +10,7 @@
 
 #define TOKEN_FIELD_ADJUSTMENT 9
 #define LEFT_RIGHT_BUFFER 10
-#define TO_FIELD_HEIGHT 35
+#define TO_FIELD_HEIGHT 40
 #define LINE_HEIGHT 40
 
 NSString *const EVExchangeWhoViewAddedTokenFromReturnPressNotification = @"EVExchangeWhoViewAddedTokenFromReturnPressNotification";
@@ -83,7 +83,7 @@ NSString *const EVExchangeWhoViewAddedTokenFromReturnPressNotification = @"EVExc
 
 - (CGRect)upperStripeFrame {
     return CGRectMake(0,
-                      EV_REQUEST_VIEW_LABEL_FIELD_BUFFER,
+                      0,
                       self.frame.size.width,
                       [EVUtilities scaledDividerHeight]);
 }

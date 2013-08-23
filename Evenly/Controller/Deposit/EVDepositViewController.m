@@ -99,7 +99,6 @@
 }
 
 - (void)loadBalancePane {
-    
     self.balancePane = [[UIImageView alloc] initWithFrame:CGRectMake(EV_DEPOSIT_MARGIN,
                                                                 EV_DEPOSIT_MARGIN,
                                                                 self.view.frame.size.width - 2*EV_DEPOSIT_MARGIN,

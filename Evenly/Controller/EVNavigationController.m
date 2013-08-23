@@ -30,7 +30,7 @@
     
     UIView *navStatusBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, -20, 320, 65)];
     navStatusBarBackground.backgroundColor = EV_RGB_COLOR(0, 112, 207);// [EVColor blueColor];
-    navStatusBarBackground.alpha = 0.6;
+    navStatusBarBackground.alpha = 0.5;
     [self.navigationBar insertSubview:navStatusBarBackground atIndex:0];
     
     AMBlurView *blurView = [AMBlurView new];

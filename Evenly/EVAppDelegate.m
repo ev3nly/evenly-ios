@@ -110,19 +110,10 @@
 
 - (void)setUpAppearance {
     self.window.tintColor = [EVColor blueColor];
-    
-//    [[UINavigationBar appearance] setTintColor:[EVColor blueColor]];
-//    [[UINavigationBar appearance] setBackgroundColor:EV_RGB_COLOR(0.09, 0.16, 0.6)];
-//    [[UINavigationBar appearance] setBackgroundColor:[EVColor blueColor]];
+
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    
-//    UIView *clearBackground = ;
     UIImage *clearImage = [EVImageUtility imageWithColor:[UIColor clearColor]];
-    
     [[UINavigationBar appearance] setBackgroundImage:clearImage forBarMetrics:UIBarMetricsDefault];
-//    [[UINavigationBar appearance] setAlpha:0.6];
-//    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"translucent_header"] forBarMetrics:UIBarMetricsDefault];
-//    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
 
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackground] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackgroundPress] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];

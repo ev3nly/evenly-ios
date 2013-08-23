@@ -39,17 +39,15 @@
 
 @implementation EVWalletSectionHeader
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+- (id)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = [EVColor sidePanelHeaderBackgroundColor];
         
-        [self setBackgroundColor:[EVColor sidePanelHeaderBackgroundColor]];
         CGFloat margin = 12.0;
-        UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(EV_RIGHT_OVERHANG_MARGIN, 0, self.contentView.frame.size.width - EV_RIGHT_OVERHANG_MARGIN, self.contentView.frame.size.height)];
+        UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(EV_RIGHT_OVERHANG_MARGIN, 0, self.bounds.size.width - EV_RIGHT_OVERHANG_MARGIN, self.bounds.size.height)];
         containerView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         containerView.autoresizesSubviews = YES;
-        [self.contentView addSubview:containerView];
+        [self addSubview:containerView];
         self.label = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(margin,
                                                                     0.0,
                                                                     containerView.frame.size.width / 2.0 - margin,
@@ -62,13 +60,6 @@
         [containerView addSubview:self.label];
     }
     return self;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
 }
 
 @end

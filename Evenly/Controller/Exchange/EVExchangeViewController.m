@@ -300,4 +300,11 @@
                       [EVPrivacySelectorToggle lineHeight] * [EVPrivacySelectorToggle numberOfLines]);
 }
 
+- (CGRect)exchangeViewDefaultFrame {
+    CGRect frame = self.view.bounds;
+    frame.origin.y += [self totalBarHeight];
+    frame.size.height -= [self totalBarHeight];
+    return frame;
+}
+
 @end

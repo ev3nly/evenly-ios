@@ -17,9 +17,9 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
 
         UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                                  self.frame.size.height - 1,
+                                                                  self.frame.size.height - [EVUtilities scaledDividerHeight],
                                                                   self.frame.size.width,
-                                                                  1)];
+                                                                  [EVUtilities scaledDividerHeight])];
         stripe.backgroundColor = [EVColor sidePanelStripeColor];
         stripe.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
         [self addSubview:stripe];

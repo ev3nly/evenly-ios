@@ -67,10 +67,10 @@
     
     [self loadTableView];
     
-    self.walletHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    self.walletHeader = [[EVWalletSectionHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
     self.walletHeader.label.text = @"WALLET";
     
-    self.pendingHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    self.pendingHeader = [[EVWalletSectionHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
     self.pendingHeader.label.text = @"PENDING";
     
     [self loadWalletFooter];
@@ -220,7 +220,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = nil;
+    EVWalletSectionHeader *headerView = nil;
     if (section == EVWalletSectionPending)
         headerView = self.pendingHeader;
     else

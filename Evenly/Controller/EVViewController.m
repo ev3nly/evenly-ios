@@ -12,6 +12,8 @@
 
 #import "AMBlurView.h"
 
+#define HEADER_FOOTER_DEFAULT_HEIGHT 10
+
 @interface EVViewController ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -64,6 +66,7 @@
     self.titleLabel.backgroundColor = [UIColor clearColor];
     self.titleLabel.textColor = [UIColor whiteColor];
     self.titleLabel.text = self.title;
+    self.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.titleLabel sizeToFit];
     [self.navigationItem setTitleView:self.titleLabel];
 }
@@ -138,6 +141,20 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
+}
+
+#pragma mark - Defaults
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (tableView.style == UITableViewStylePlain)
+        return 0;
+    return HEADER_FOOTER_DEFAULT_HEIGHT;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (tableView.style == UITableViewStylePlain)
+        return 0;
+    return HEADER_FOOTER_DEFAULT_HEIGHT;
 }
 
 @end

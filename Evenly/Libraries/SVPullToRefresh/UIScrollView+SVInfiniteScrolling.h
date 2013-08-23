@@ -38,6 +38,7 @@ typedef NSUInteger SVInfiniteScrollingState;
 @property (nonatomic, readonly) SVInfiniteScrollingState state;
 @property (nonatomic, readwrite) BOOL enabled;
 @property (nonatomic, readwrite) CGFloat originalBottomInset;
+@property (nonatomic, assign) float customViewOffset;
 
 - (void)setCustomView:(UIView *)view forState:(SVInfiniteScrollingState)state;
 

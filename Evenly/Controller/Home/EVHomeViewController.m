@@ -30,8 +30,9 @@
 
 #import "AMBlurView.h"
 
-#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -40
-#define TABLE_VIEW_INFINITE_SCROLLING_INSET 60
+#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -50
+#define TABLE_VIEW_INFINITE_SCROLLING_INSET 40
+#define TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET -9
 
 @interface EVHomeViewController ()
 
@@ -84,13 +85,13 @@
 }
 
 - (void)loadBalanceLabel {
-    [self setTitle:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
+    self.title = [EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance];
     
     // RACAble prefers to operate on properties of self, so we can make the CIA a property of self
     // for a little syntactic sugar.  Sugar... mhmmmmm
     self.cia = [EVCIA sharedInstance];
     [RACAble(self.cia.me.balance) subscribeNext:^(NSDecimalNumber *balance) {
-        [self setTitle:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
+        self.title = [EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance];
     }];
 }
 
@@ -106,7 +107,6 @@
     self.tableView.backgroundColor = [EVColor creamColor];
     self.tableView.backgroundView = nil;
     self.tableView.loadingIndicatorYOffset = TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET;
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 56, 0);
     [self.tableView registerClass:[EVStoryCell class] forCellReuseIdentifier:@"storyCell"];
     [self.view addSubview:self.tableView];
 
@@ -165,6 +165,7 @@
         [weakSelf.newsfeedDataSource loadNextPage];
     }];
     
+    self.tableView.infiniteScrollingView.customViewOffset = -7;
     [self.tableView.infiniteScrollingView setCustomView:self.newsfeedDataSource.loadingIndicator
                                                forState:SVInfiniteScrollingStateLoading];
     [self.tableView.infiniteScrollingView setCustomView:[[UIImageView alloc] initWithImage:[EVImages grayLoadingLogo]]
@@ -209,15 +210,10 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [EVStoryCell cellHeightForStory:[self.newsfeedDataSource.newsfeed objectAtIndex:indexPath.section]];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 10;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 10;
+    float height = (int)[EVStoryCell cellHeightForStory:[self.newsfeedDataSource.newsfeed objectAtIndex:indexPath.section]];
+    if ((int)height % 2 != 0)
+        height += 1; //the grouped cells don't play nice with odd heights
+    return height;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -11,7 +11,7 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 
 
-static CGFloat const SVInfiniteScrollingViewHeight = 60;
+static CGFloat const SVInfiniteScrollingViewHeight = 48;
 
 @interface SVInfiniteScrollingDotView : UIView
 
@@ -58,7 +58,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
         view.scrollView = self;
         [self addSubview:view];
         
-        view.originalBottomInset = 60;
+        view.originalBottomInset = SVInfiniteScrollingViewHeight;
         self.infiniteScrollingView = view;
         self.showsInfiniteScrolling = YES;
     }
@@ -131,6 +131,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.state = SVInfiniteScrollingStateStopped;
         self.enabled = YES;
+        self.customViewOffset = 0;
         
         self.viewForState = [NSMutableArray arrayWithObjects:@"", @"", @"", @"", nil];
     }
@@ -152,7 +153,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
 }
 
 - (void)layoutSubviews {
-    self.activityIndicatorView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+    self.activityIndicatorView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2 - 50);
 }
 
 #pragma mark - Scroll View
@@ -279,7 +280,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
         CGRect viewBounds = [customView bounds];
         CGPoint origin = CGPointMake(roundf((self.bounds.size.width-viewBounds.size.width)/2), roundf((self.bounds.size.height-viewBounds.size.height)/2));
         CGRect frame = CGRectMake(origin.x, origin.y, viewBounds.size.width, viewBounds.size.height);
-        [customView setCenter: CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) )];
+        [customView setCenter: CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) + self.customViewOffset)];
     }
     else {
         CGRect viewBounds = [self.activityIndicatorView bounds];

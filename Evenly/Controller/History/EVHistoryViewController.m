@@ -104,7 +104,6 @@ static NSDateFormatter *_dateFormatter = nil;
     [self.tableView registerClass:[EVHistoryCell class] forCellReuseIdentifier:@"historyCell"];
     [self.view addSubview:self.tableView];
 
-    
     EVLoadingIndicator *customLoadingIndicator = [[EVLoadingIndicator alloc] initWithFrame:CGRectZero];
     [customLoadingIndicator sizeToFit];
     __weak EVHistoryViewController *weakSelf = self;
@@ -160,7 +159,10 @@ static NSDateFormatter *_dateFormatter = nil;
         subtitle = @"Reward";
     }
 
-    return [EVHistoryCell heightGivenSubtitle:subtitle];
+    float height = (int)[EVHistoryCell heightGivenSubtitle:subtitle];
+    if ((int)height % 2 != 0)
+        height += 1; //the grouped cells don't play nice with odd heights
+    return height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -214,7 +216,7 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (CGRect)tableViewFrame {
     CGRect tableFrame = self.view.bounds;
-    tableFrame.size.height -= (44 - 20);
+//    tableFrame.size.height -= (44 - 20);
     return tableFrame;
 }
 
