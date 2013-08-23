@@ -19,7 +19,7 @@
 
 @end
 
-@interface EVWalletSectionHeader : EVSidePanelCell
+@interface EVWalletSectionHeader : UIView
 
 @property (nonatomic, strong) UILabel *label;
 

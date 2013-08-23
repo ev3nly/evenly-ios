@@ -67,10 +67,10 @@
     
     [self loadTableView];
     
-    self.walletHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    self.walletHeader = [[EVWalletSectionHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, EV_WALLET_ROW_HEIGHT)];
     self.walletHeader.label.text = @"WALLET";
     
-    self.pendingHeader = [[EVWalletSectionHeader alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    self.pendingHeader = [[EVWalletSectionHeader alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, EV_WALLET_ROW_HEIGHT)];
     self.pendingHeader.label.text = @"PENDING";
     
     [self loadWalletFooter];
@@ -227,7 +227,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 44.0;
+    return EV_WALLET_ROW_HEIGHT;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -251,7 +251,7 @@
             return [EVPendingExchangeCell sizeForInteraction:exchange].height;
         }
     }
-    return 44.0;
+    return EV_WALLET_ROW_HEIGHT;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
