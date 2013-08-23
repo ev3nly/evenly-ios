@@ -116,7 +116,6 @@ typedef enum {
                                                     cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:
-                                  @"Invite",
                                   @"Close Request", nil];
     [actionSheet showInView:self.view];
 }
