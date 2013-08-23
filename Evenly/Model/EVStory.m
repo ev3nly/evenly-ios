@@ -224,6 +224,7 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
 
     if (properties[@"display_description"] && [properties[@"display_description"] isKindOfClass:[NSString class]]) {
         self.displayDescription = [properties[@"display_description"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        self.displayDescription = [self.displayDescription stringByReplacingOccurrencesOfString:[EVCIA me].name withString:@"You"];
     }
 
     if (properties[@"published_at"] && ![properties[@"published_at"] isKindOfClass:[NSNull class]]) {
@@ -232,7 +233,6 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
             @synchronized ([[self class] dateFormatter])
             {
                 self.publishedAt = [[[self class] dateFormatter] dateFromString:properties[@"published_at"]];
-                
             }
         }
         else
