@@ -16,4 +16,6 @@
 @property (nonatomic, strong) NSDecimalNumber *amount;
 @property (nonatomic, strong) NSString *memo;
 
+@property (nonatomic, strong) NSArray *details;
+
 @end

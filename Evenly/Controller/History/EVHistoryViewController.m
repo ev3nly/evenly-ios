@@ -15,11 +15,7 @@
 #import "EVLoadingIndicator.h"
 #import "EVStory.h"
 #import "EVHistoryItem.h"
-
-
-#import "EVHistoryPaymentViewController.h"
-#import "EVHistoryDepositViewController.h"
-#import "EVHistoryRewardViewController.h"
+#import "EVHistoryItemViewController.h"
 
 #define CELL_HEIGHT 60
 
@@ -137,6 +133,39 @@ static NSDateFormatter *_dateFormatter = nil;
     [self.tableView setFrame:[self.view bounds]];
 }
 
+- (NSString *)subtitleForHistoryItem:(EVHistoryItem *)historyItem {
+    return historyItem.memo;
+    
+    NSString *subtitle = @"";
+    NSString *memo = historyItem.memo;
+    EVObject<EVExchangeable> *exchangeable = nil;
+    if ([historyItem.source[@"type"] isEqualToString:@"Payment"])
+    {
+        if ([historyItem.from.dbid isEqualToString:[EVCIA me].dbid]) {
+            exchangeable = historyItem.to;
+        }
+        else if ([historyItem.to.dbid isEqualToString:[EVCIA me].dbid]) {
+            exchangeable = historyItem.from;
+        }
+    }
+    
+    if (exchangeable)
+    {
+        NSString *otherPerson = exchangeable.name;
+        if (memo)
+            subtitle = [NSString stringWithFormat:@"%@ • %@", otherPerson, historyItem.memo];
+        else
+            subtitle = otherPerson;
+    }
+    else
+    {
+        if (memo)
+            subtitle = memo;
+    }
+    return subtitle;
+}
+
+
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -148,58 +177,15 @@ static NSDateFormatter *_dateFormatter = nil;
         return 0;
     
     EVHistoryItem *historyItem = (EVHistoryItem *)[self.exchanges objectAtIndex:indexPath.row];
-    NSString *subtitle = @"";
-    if (historyItem.from || historyItem.to)
-    {
-        EVObject<EVExchangeable> *exchangeable = nil;
-        if ([historyItem.from.dbid isEqualToString:[EVCIA me].dbid]) {
-            exchangeable = historyItem.to;
-        }
-        else if ([historyItem.from.dbid isEqualToString:[EVCIA me].dbid]) {
-            exchangeable = historyItem.from;
-        }
-        if (exchangeable)
-        {
-            NSString *otherPerson = exchangeable.name;
-            if (historyItem.memo)
-                subtitle = [NSString stringWithFormat:@"%@ • %@", otherPerson, historyItem.memo];
-            else
-                subtitle = otherPerson;
-        }
-    }
-    else
-    {
-        if (historyItem.memo)
-            subtitle = historyItem.memo;
-    }
+    NSString *subtitle = [self subtitleForHistoryItem:historyItem];
     return [EVHistoryCell heightGivenSubtitle:subtitle];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVHistoryCell *cell = (EVHistoryCell *)[tableView dequeueReusableCellWithIdentifier:@"historyCell" forIndexPath:indexPath];
-    EVObject *historyItem = (EVObject *)[self.exchanges objectAtIndex:indexPath.row];
-
-    NSString *subtitle = @"";
-    NSDecimalNumber *amount;
-    if ([historyItem isKindOfClass:[EVWithdrawal class]]) {
-        EVWithdrawal *withdrawal = (EVWithdrawal *)historyItem;
-        subtitle = [NSString stringWithFormat:@"Deposit into %@", withdrawal.bankName];
-        amount = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"-%@", [withdrawal.amount stringValue]]];
-    }
-    else if ([historyItem isKindOfClass:[EVExchange class]]) {
-        EVExchange *exchange = (EVExchange *)historyItem;
-        EVObject<EVExchangeable> *exchangeable = exchange.to ? exchange.to : exchange.from;
-        NSString *otherPerson = exchangeable.name ? exchangeable.name : exchangeable.email;
-        subtitle = [NSString stringWithFormat:@"%@ • %@", otherPerson, exchange.memo];
-        amount = exchange.amount;
-        if (exchange.to)
-            amount = [NSDecimalNumber decimalNumberWithString:[NSString stringWithFormat:@"-%@", [amount stringValue]]];
-    }
-    else if ([historyItem isKindOfClass:[EVReward class]]) {
-        EVReward *reward = (EVReward *)historyItem;
-        subtitle = @"Reward";
-        amount = [reward selectedAmount];
-    }
+    EVHistoryItem *historyItem = (EVHistoryItem *)[self.exchanges objectAtIndex:indexPath.row];
+    NSString *subtitle = [self subtitleForHistoryItem:historyItem];
+    NSDecimalNumber *amount = historyItem.amount;
     [cell setTitle:[self displayStringForDate:historyItem.createdAt] subtitle:subtitle amount:amount];
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
 
@@ -208,18 +194,9 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    EVObject *historyItem = (EVObject *)[self.exchanges objectAtIndex:indexPath.row];
-    UIViewController *controller = nil;
-    if ([historyItem isKindOfClass:[EVPayment class]]) {
-        controller = [[EVHistoryPaymentViewController alloc] initWithPayment:(EVPayment *)historyItem];
-    } else if ([historyItem isKindOfClass:[EVWithdrawal class]]) {
-        controller = [[EVHistoryDepositViewController alloc] initWithWithdrawal:(EVWithdrawal *)historyItem];
-    } else if ([historyItem isKindOfClass:[EVReward class]]) {
-        controller = [[EVHistoryRewardViewController alloc] initWithReward:(EVReward *)historyItem];
-    }
-    if (controller)
-        [self.navigationController pushViewController:controller animated:YES];
+    EVHistoryItem *historyItem = [self.exchanges objectAtIndex:indexPath.row];
+    EVHistoryItemViewController *viewController = [[EVHistoryItemViewController alloc] initWithHistoryItem:historyItem];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 #pragma mark - Frames

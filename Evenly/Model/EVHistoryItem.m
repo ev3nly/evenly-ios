@@ -19,13 +19,6 @@
                          @"id" : properties[@"source_id"] };
     }
     
-    if (properties[@"amount"] && properties[@"amount"] != [NSNull null]) {
-        if ([properties[@"amount"] isKindOfClass:[NSDecimalNumber class]])
-            self.amount = properties[@"amount"];
-        else if ([properties[@"amount"] respondsToSelector:@selector(stringValue)])
-            self.amount = [NSDecimalNumber decimalNumberWithString:[properties[@"amount"] stringValue]];
-    }
-    
     if (properties[@"description"] && [properties[@"description"] isKindOfClass:[NSString class]])
         self.memo = properties[@"description"];
     
@@ -33,7 +26,13 @@
     {
         NSDictionary *fromDictionary = properties[@"from"];
         if ([fromDictionary[@"type"] isEqual:@"User"])
-            self.from = [[EVUser alloc] initWithDictionary:fromDictionary];
+        {
+            if ([[fromDictionary[@"id"] stringValue] isEqualToString:[EVCIA me].dbid])
+                self.from = [EVCIA me];
+            else
+                self.from = [[EVUser alloc] initWithDictionary:fromDictionary];
+            
+        }
         else
             self.from = [[EVContact alloc] initWithDictionary:fromDictionary];
     }
@@ -42,10 +41,31 @@
     {
         NSDictionary *toDictionary = properties[@"to"];
         if ([toDictionary[@"type"] isEqual:@"User"])
-            self.from = [[EVUser alloc] initWithDictionary:toDictionary];
+        {
+            if ([[toDictionary[@"id"] stringValue] isEqualToString:[EVCIA me].dbid])
+                self.to = [EVCIA me];
+            else
+                self.to = [[EVUser alloc] initWithDictionary:toDictionary];
+        }
         else
-            self.from = [[EVContact alloc] initWithDictionary:toDictionary];
+            self.to = [[EVContact alloc] initWithDictionary:toDictionary];
     }
+    
+    if (properties[@"amount"] && properties[@"amount"] != [NSNull null]) {
+        NSString *amountString = nil;
+        if ([properties[@"amount"] respondsToSelector:@selector(stringValue)])
+            amountString = [properties[@"amount"] stringValue];
+        else if ([properties[@"amount"] isKindOfClass:[NSString class]])
+            amountString = properties[@"amount"];
+        
+        if (([self.source[@"type"] isEqualToString:@"Withdrawal"]) || (self.to && self.to != [EVCIA me])) {
+            amountString = [NSString stringWithFormat:@"-%@", amountString];
+        }
+        self.amount = [EVStringUtility amountFromAmountString:amountString];
+    }
+    
+    if (properties[@"details"])
+        self.details = properties[@"details"];
 }
 
 @end
