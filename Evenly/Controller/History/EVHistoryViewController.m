@@ -14,6 +14,8 @@
 #import "UIScrollView+SVInfiniteScrolling.h"
 #import "EVLoadingIndicator.h"
 #import "EVStory.h"
+#import "EVHistoryItem.h"
+
 
 #import "EVHistoryPaymentViewController.h"
 #import "EVHistoryDepositViewController.h"
@@ -144,23 +146,32 @@ static NSDateFormatter *_dateFormatter = nil;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!self.exchanges)
         return 0;
-    EVObject *historyItem = (EVObject *)[self.exchanges objectAtIndex:indexPath.row];
+    
+    EVHistoryItem *historyItem = (EVHistoryItem *)[self.exchanges objectAtIndex:indexPath.row];
     NSString *subtitle = @"";
-
-    if ([historyItem isKindOfClass:[EVWithdrawal class]]) {
-        EVWithdrawal *withdrawal = (EVWithdrawal *)historyItem;
-        subtitle = [NSString stringWithFormat:@"Deposit into %@", withdrawal.bankName];
+    if (historyItem.from || historyItem.to)
+    {
+        EVObject<EVExchangeable> *exchangeable = nil;
+        if ([historyItem.from.dbid isEqualToString:[EVCIA me].dbid]) {
+            exchangeable = historyItem.to;
+        }
+        else if ([historyItem.from.dbid isEqualToString:[EVCIA me].dbid]) {
+            exchangeable = historyItem.from;
+        }
+        if (exchangeable)
+        {
+            NSString *otherPerson = exchangeable.name;
+            if (historyItem.memo)
+                subtitle = [NSString stringWithFormat:@"%@ • %@", otherPerson, historyItem.memo];
+            else
+                subtitle = otherPerson;
+        }
     }
-    else if ([historyItem isKindOfClass:[EVExchange class]]) {
-        EVExchange *exchange = (EVExchange *)historyItem;
-        EVObject<EVExchangeable> *exchangeable = exchange.to ? exchange.to : exchange.from;
-        NSString *otherPerson = exchangeable.name ? exchangeable.name : exchangeable.email;
-        subtitle = [NSString stringWithFormat:@"%@ • %@", otherPerson, exchange.memo];
+    else
+    {
+        if (historyItem.memo)
+            subtitle = historyItem.memo;
     }
-    else if ([historyItem isKindOfClass:[EVReward class]]) {
-        subtitle = @"Reward";
-    }
-
     return [EVHistoryCell heightGivenSubtitle:subtitle];
 }
 
