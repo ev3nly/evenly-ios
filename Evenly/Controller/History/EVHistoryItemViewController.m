@@ -28,7 +28,7 @@
     if (self) {
         self.canDismissManually = NO;
         self.historyItem = historyItem;
-        self.title = self.historyItem.source[@"type"];
+        self.title = self.historyItem.title;
     }
     return self;
 }
@@ -91,7 +91,7 @@
 }
 
 - (NSString *)emailSubjectLine {
-    return [NSString stringWithFormat:@"%@ %@", self.historyItem.source[@"type"], self.historyItem.source[@"id"]];
+    return [NSString stringWithFormat:@"%@ %@", self.historyItem.title, self.historyItem.source[@"id"]];
 }
 
 #pragma mark - EVReloadable

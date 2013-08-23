@@ -58,7 +58,7 @@
         else if ([properties[@"amount"] isKindOfClass:[NSString class]])
             amountString = properties[@"amount"];
         
-        if (([self.source[@"type"] isEqualToString:@"Withdrawal"]) || (self.to && self.to != [EVCIA me])) {
+        if (properties[@"amount_sign"] && [properties[@"amount_sign"] isEqualToString:@"-"]) {
             amountString = [NSString stringWithFormat:@"-%@", amountString];
         }
         self.amount = [EVStringUtility amountFromAmountString:amountString];
@@ -66,6 +66,8 @@
     
     if (properties[@"details"])
         self.details = properties[@"details"];
+    if (properties[@"title"])
+        self.title = properties[@"title"];
 }
 
 @end

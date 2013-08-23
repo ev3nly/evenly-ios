@@ -17,5 +17,6 @@
 @property (nonatomic, strong) NSString *memo;
 
 @property (nonatomic, strong) NSArray *details;
+@property (nonatomic, strong) NSString *title;
 
 @end
