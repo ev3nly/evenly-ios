@@ -222,8 +222,9 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
         self.displayTitle = [properties[@"display_title"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     }
 
-    if (properties[@"display_description"] && [properties[@"display_description"] isKindOfClass:[NSString class]])
+    if (properties[@"display_description"] && [properties[@"display_description"] isKindOfClass:[NSString class]]) {
         self.displayDescription = [properties[@"display_description"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    }
 
     if (properties[@"published_at"] && ![properties[@"published_at"] isKindOfClass:[NSNull class]]) {
         if ([properties[@"published_at"] isKindOfClass:[NSString class]])
@@ -366,168 +367,11 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     }
 }
 
-- (NSAttributedString *)attributedStringForHintSourceType {
-    CGFloat fontSize = 15;
-    NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
-                                      NSForegroundColorAttributeName : [EVColor newsfeedNounColor] };
-    NSDictionary *copyAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:fontSize],
-                                      NSForegroundColorAttributeName : [EVColor newsfeedTextColor] };
-    
-    NSAttributedString *title = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", self.verb]
-                                                                attributes:nounAttributes];
-    NSAttributedString *description = [[NSAttributedString alloc] initWithString:self.storyDescription
-                                                                      attributes:copyAttributes];
-
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:title];
-    [attrString appendAttributedString:description];
-
-    return attrString;
-}
-
-- (NSAttributedString *)attributedStringForGettingStartedSourceType {
-    CGFloat fontSize = 15;
-    NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
-                                      NSForegroundColorAttributeName : [EVColor newsfeedNounColor] };
-    NSDictionary *copyAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:fontSize],
-                                      NSForegroundColorAttributeName : [EVColor newsfeedTextColor] };
-    
-    NSAttributedString *title = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n", self.verb]
-                                                                attributes:nounAttributes];
-    NSAttributedString *description = [[NSAttributedString alloc] initWithString:self.storyDescription
-                                                                      attributes:copyAttributes];
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:title];
-    [attrString appendAttributedString:description];
-    
-    return attrString;
-}
-
-- (NSAttributedString *)attributedStringForUserSourceType {
-    CGFloat fontSize = 15;
-    NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
-                                      NSForegroundColorAttributeName : [EVColor newsfeedNounColor] };
-    NSDictionary *copyAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:fontSize],
-                                      NSForegroundColorAttributeName : [EVColor newsfeedTextColor] };
-    
-    NSAttributedString *subject, *verb, *description = nil;
-    
-    NSString *subjectName = [[self.subject dbid] isEqualToString:[EVCIA me].dbid] ? @"You" : [self.subject name];
-    if (!subjectName)
-        subjectName = @"";
-    subject = [[NSAttributedString alloc] initWithString:subjectName
-                                              attributes:nounAttributes];
-    verb = [[NSAttributedString alloc] initWithString:@"joined"
-                                           attributes:copyAttributes];
-    description = [[NSAttributedString alloc] initWithString:@"Evenly!" attributes:copyAttributes];
-    
-    NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" " attributes:copyAttributes];
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:subject];
-    [attrString appendAttributedString:space];
-    [attrString appendAttributedString:verb];
-    [attrString appendAttributedString:space];
-    [attrString appendAttributedString:description];
-    
-    return attrString;
-}
-
-- (NSAttributedString *)attributedStringForRewardSourceType {
-    CGFloat fontSize = 15;
-    NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
-                                      NSForegroundColorAttributeName : [EVColor newsfeedNounColor] };
-    NSDictionary *copyAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:fontSize],
-                                      NSForegroundColorAttributeName : [EVColor newsfeedTextColor] };
-    
-    NSAttributedString *subject, *verb, *description, *exclamationPoint = nil;
-    
-    NSString *subjectName = [[self.subject dbid] isEqualToString:[EVCIA me].dbid] ? @"You" : [self.subject name];
-    subject = [[NSAttributedString alloc] initWithString:subjectName
-                                              attributes:nounAttributes];
-    verb = [[NSAttributedString alloc] initWithString:@"won"
-                                           attributes:copyAttributes];
-    description = [[NSAttributedString alloc] initWithString:[EVStringUtility amountStringForAmount:self.amount] attributes:nounAttributes];
-    
-    exclamationPoint = [[NSAttributedString alloc] initWithString:@"!" attributes:copyAttributes];
-    
-    NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" " attributes:nounAttributes];
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:subject];
-    [attrString appendAttributedString:space];
-    [attrString appendAttributedString:verb];
-    [attrString appendAttributedString:space];
-    [attrString appendAttributedString:description];
-    [attrString appendAttributedString:exclamationPoint];
-    
-    return attrString;
-}
-
-- (NSAttributedString *)attributedStringForNormalSourceType {
-    CGFloat fontSize = 15;
-    NSDictionary *nounAttributes = @{ NSFontAttributeName : [EVFont boldFontOfSize:fontSize],
-                                      NSForegroundColorAttributeName : [EVColor newsfeedNounColor] };
-    NSDictionary *copyAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:fontSize],
-                                      NSForegroundColorAttributeName : [EVColor newsfeedTextColor] };
-    
-    NSAttributedString *subject, *verb, *target, *description = nil;
-    NSString *subjectName = [[self.subject dbid] isEqualToString:[EVCIA me].dbid] ? @"You" : [self.subject name];
-    subject = [[NSAttributedString alloc] initWithString:subjectName
-                                              attributes:nounAttributes];
-    verb = [[NSAttributedString alloc] initWithString:@"and"
-                                           attributes:copyAttributes];
-    if (self.target) {
-        if (self.displayType != EVStoryDisplayTypePendingTransactionDetail || self.transactionType == EVStoryTransactionTypePendingIncoming) {
-            NSString *targetName = [[self.target dbid] isEqualToString:[EVCIA me].dbid] ? @"You" : [self.target name];
-            target = [[NSAttributedString alloc] initWithString:targetName
-                                                     attributes:nounAttributes];
-        }
-    }
-    
-    if (!EV_IS_EMPTY_STRING(self.storyDescription)) {
-        description = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"shared %@", self.storyDescription]
-                                                      attributes:copyAttributes];
-    }
-    NSAttributedString *space = [[NSAttributedString alloc] initWithString:@" " attributes:copyAttributes];
-    
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithAttributedString:subject];
-    [attrString appendAttributedString:space];
-    [attrString appendAttributedString:verb];
-    
-    if (self.displayType == EVStoryDisplayTypePendingTransactionDetail && self.transactionType == EVStoryTransactionTypePendingIncoming) {
-        NSAttributedString *from = [[NSAttributedString alloc] initWithString:@"from" attributes:copyAttributes];
-        if (target) {
-            [attrString appendAttributedString:space];
-            [attrString appendAttributedString:from];
-            [attrString appendAttributedString:space];
-            [attrString appendAttributedString:target];
-        }
-        
-    } else {
-        if (target) {
-            [attrString appendAttributedString:space];
-            [attrString appendAttributedString:target];
-        }
-    }
-    if (description) {
-        [attrString appendAttributedString:space];
-        [attrString appendAttributedString:description];
-    }
-    return attrString;
-}
-
 - (NSAttributedString *)attributedStringForDisplay {
     if (self.displayDescription) {
         return [self attributedStringFromHTMLDisplayDescription];
     }
-    
-    if (self.sourceType == EVStorySourceTypeHint)
-        return [self attributedStringForHintSourceType];
-    if (self.sourceType == EVStorySourceTypeGettingStarted)
-        return [self attributedStringForGettingStartedSourceType];
-    if (self.sourceType == EVStorySourceTypeUser)
-        return [self attributedStringForUserSourceType];
-    if (self.sourceType == EVStorySourceTypeReward)
-        return [self attributedStringForRewardSourceType];
-    return [self attributedStringForNormalSourceType];
+    return nil;
 }
 
 
