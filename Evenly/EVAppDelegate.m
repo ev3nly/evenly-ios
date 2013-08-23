@@ -72,9 +72,6 @@
         [self handleRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey] requirePIN:YES];
     }
     
-    [ABContactsHelper autocompletableContacts];
-    DLog(@"Mobile label: %@  iPhone label: %@", kABPersonPhoneMobileLabel, kABPersonPhoneIPhoneLabel);
-    
     return YES;
 }
 
