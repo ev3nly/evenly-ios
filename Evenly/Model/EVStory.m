@@ -373,7 +373,7 @@ static DTCSSStylesheet *_stylesheet;
     if (!_stylesheet) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            _stylesheet = [[DTCSSStylesheet alloc] initWithStyleBlock:@" strong { color: #282726 } "];
+            _stylesheet = [[DTCSSStylesheet alloc] initWithStyleBlock:@" strong { color: #282726;  font-family: Avenir; font-weight: bold; } "];
         });
     }
     
