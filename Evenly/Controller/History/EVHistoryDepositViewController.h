@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Evenly. All rights reserved.
 //
 
-#import "EVHistoryItemViewController.h"
+#import "EVHistoryAbstractViewController.h"
 #import "EVWithdrawal.h"
 
 typedef enum {
@@ -16,7 +16,7 @@ typedef enum {
     EVHistoryDepositRowCOUNT
 } EVHistoryDepositRow;
 
-@interface EVHistoryDepositViewController : EVHistoryItemViewController
+@interface EVHistoryDepositViewController : EVHistoryAbstractViewController
 
 - (id)initWithWithdrawal:(EVWithdrawal *)withdrawal;
 
