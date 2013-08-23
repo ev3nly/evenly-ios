@@ -331,7 +331,7 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     
 
     [self determineStoryType];
-    self.attributedString = [self attributedStringForDisplay];
+    self.attributedString = [self attributedStringFromHTMLDisplayDescription];
 }
 
 - (void)determineStoryType {
@@ -366,14 +366,6 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
         }
     }
 }
-
-- (NSAttributedString *)attributedStringForDisplay {
-    if (self.displayDescription) {
-        return [self attributedStringFromHTMLDisplayDescription];
-    }
-    return nil;
-}
-
 
 static DTCSSStylesheet *_stylesheet;
 
