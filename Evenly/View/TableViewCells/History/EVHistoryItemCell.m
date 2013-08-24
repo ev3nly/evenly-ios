@@ -11,9 +11,9 @@
 #define FIELD_FONT [EVFont boldFontOfSize:15]
 #define VALUE_FONT [EVFont defaultFontOfSize:15]
 
-#define X_MARGIN 10.0
+#define X_MARGIN 20.0
 #define FIELD_LABEL_WIDTH 80.0
-#define VALUE_LABEL_WIDTH 190.0
+#define VALUE_LABEL_WIDTH 180.0
 #define CELL_MINIMUM_HEIGHT 44.0
 
 @implementation EVHistoryItemCell
@@ -51,8 +51,8 @@
         self.fieldLabel.textColor = [EVColor darkColor];
         self.fieldLabel.textAlignment = NSTextAlignmentLeft;
         self.fieldLabel.numberOfLines = 1;
-        self.fieldLabel.adjustsLetterSpacingToFitWidth = YES;
         self.fieldLabel.adjustsFontSizeToFitWidth = YES;
+        self.fieldLabel.minimumScaleFactor = 2.0;
         [self.contentView addSubview:self.fieldLabel];
         
         CGFloat xOrigin = CGRectGetMaxX(self.fieldLabel.frame);

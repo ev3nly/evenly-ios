@@ -64,11 +64,6 @@
     [self loadCells];
     [self loadSaveButton];
     [self configureReactions];
-
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)];
-    tapRecognizer.delegate = self;
-    tapRecognizer.cancelsTouchesInView = NO;
-    [self.view addGestureRecognizer:tapRecognizer];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

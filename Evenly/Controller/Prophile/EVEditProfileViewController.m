@@ -48,6 +48,11 @@
     [self loadFooterView];
     [self loadChangePasswordButton];
     [self loadPinButton];
+    
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)];
+    tapRecognizer.delegate = self;
+    tapRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapRecognizer];
 }
 
 - (void)viewWillLayoutSubviews {
