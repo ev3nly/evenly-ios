@@ -73,7 +73,7 @@ static char UIScrollViewPullToRefreshView;
         view.scrollView = self;
         [self addSubview:view];
         
-        view.originalTopInset = 64;
+        view.originalTopInset = self.contentInset.top;
         self.pullToRefreshView = view;
         self.showsPullToRefresh = YES;
         

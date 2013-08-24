@@ -109,7 +109,7 @@ typedef enum {
 }
 
 - (void)generateBottomStripe {
-    self.bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - [EVUtilities scaledDividerHeight], self.frame.size.width, [EVUtilities scaledDividerHeight])];
+    self.bottomStripe = [[UIView alloc] initWithFrame:[self bottomStripeFrame]];
     self.bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
     [self addSubview:self.bottomStripe];
 }
@@ -152,16 +152,14 @@ typedef enum {
     }
     
     self.amountLabel.frame = CGRectMake(maxX, 0, self.frame.size.width - maxX - X_MARGIN, self.frame.size.height);
-    self.bottomStripe.frame = CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1);
+    self.bottomStripe.frame = [self bottomStripeFrame];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (CGRect)bottomStripeFrame {
+    return CGRectMake(0,
+                      self.frame.size.height - [EVUtilities scaledDividerHeight],
+                      self.frame.size.width,
+                      [EVUtilities scaledDividerHeight]);
 }
-*/
 
 @end

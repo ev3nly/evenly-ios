@@ -16,22 +16,27 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {        
-        UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(EV_RIGHT_OVERHANG_MARGIN, 0, self.contentView.frame.size.width - EV_RIGHT_OVERHANG_MARGIN, self.contentView.frame.size.height)];
-        containerView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-        containerView.autoresizesSubviews = YES;
-        [self.contentView addSubview:containerView];
+        self.containerView = [[UIView alloc] initWithFrame:[self containerViewFrame]];
+//        self.containerView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+        self.containerView.autoresizesSubviews = YES;
+        [self.contentView addSubview:self.containerView];
 
-        self.containerView = containerView;
         self.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"WalletArrow"]];
     }
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.containerView.frame = [self containerViewFrame];
+}
 
-    // Configure the view for the selected state
+- (CGRect)containerViewFrame {
+    return CGRectMake(EV_RIGHT_OVERHANG_MARGIN,
+                      0,
+                      self.contentView.frame.size.width - EV_RIGHT_OVERHANG_MARGIN,
+                      self.contentView.frame.size.height);
 }
 
 @end

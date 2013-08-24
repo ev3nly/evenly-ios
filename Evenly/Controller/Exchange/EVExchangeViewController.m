@@ -293,7 +293,7 @@
     }
     self.privacySelector.hidden = !shouldShowPrivacySelector;
     
-    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorToggle lineHeight];
+    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorToggle lineHeight] - [self totalBarHeight];
     return CGRectMake(0,
                       yOrigin,
                       self.view.bounds.size.width,

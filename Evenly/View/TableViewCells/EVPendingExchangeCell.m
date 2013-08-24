@@ -73,7 +73,7 @@
 
 - (void)loadExchangeViews {
     self.exchangeContainer = [[UIView alloc] initWithFrame:[self containerFrame]];
-    self.exchangeContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
+//    self.exchangeContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
 
     self.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     self.descriptionLabel.backgroundColor = [UIColor clearColor];
@@ -113,6 +113,8 @@
     } else if ([object isKindOfClass:[EVWalletNotification class]]) {
         [self configureForWalletNotification:(EVWalletNotification *)object];
     }
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
 
 - (void)configureForExchange:(EVExchange *)exchange {
@@ -208,7 +210,7 @@
     return CGRectMake(CGRectGetMaxX(self.avatarView.frame) + EV_PENDING_EXCHANGE_CELL_MARGIN,
                       EV_PENDING_EXCHANGE_CELL_Y_MARGIN,
                       EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH,
-                      self.containerView.frame.size.height - 2*EV_PENDING_EXCHANGE_CELL_Y_MARGIN);
+                      self.frame.size.height - 2*EV_PENDING_EXCHANGE_CELL_Y_MARGIN);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

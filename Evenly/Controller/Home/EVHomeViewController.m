@@ -157,6 +157,7 @@
         [weakSelf.newsfeedDataSource loadNewestStories];
         [EVCIA reloadMe];
     }];
+    self.tableView.pullToRefreshView.originalTopInset = [self totalBarHeight];
 }
 
 - (void)configureInfiniteScrolling {

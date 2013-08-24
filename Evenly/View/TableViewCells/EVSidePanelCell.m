@@ -16,17 +16,25 @@
     if (self) {        
         self.selectionStyle = UITableViewCellSelectionStyleNone;
 
-        UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                                  self.frame.size.height - [EVUtilities scaledDividerHeight],
-                                                                  self.frame.size.width,
-                                                                  [EVUtilities scaledDividerHeight])];
-        stripe.backgroundColor = [EVColor sidePanelStripeColor];
-        stripe.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-        [self addSubview:stripe];
-        self.stripe = stripe;
+        self.stripe = [[UIView alloc] initWithFrame:CGRectMake(0,
+                                                               self.frame.size.height - [EVUtilities scaledDividerHeight],
+                                                               self.frame.size.width,
+                                                               [EVUtilities scaledDividerHeight])];
+        self.stripe.backgroundColor = [EVColor sidePanelStripeColor];
+        [self addSubview:self.stripe];
+
         self.shouldHighlight = YES;
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.stripe.frame = CGRectMake(0,
+                                   self.frame.size.height - [EVUtilities scaledDividerHeight],
+                                   self.frame.size.width,
+                                   [EVUtilities scaledDividerHeight]);
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
