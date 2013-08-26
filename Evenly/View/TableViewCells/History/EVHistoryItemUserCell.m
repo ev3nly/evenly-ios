@@ -26,7 +26,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectZero];
+        self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(0, 0, AVATAR_VIEW_DIMENSION, AVATAR_VIEW_DIMENSION)];
         [self.contentView addSubview:self.avatarView];
         
     }

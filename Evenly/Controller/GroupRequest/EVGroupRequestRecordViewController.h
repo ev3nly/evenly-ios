@@ -12,7 +12,7 @@
 @class EVGroupRequestRecord;
 @class EVGroupRequestRecordViewController;
 
-@protocol EVGroupRequestRecordViewControllerDelegate <NSObject>
+@protocol EVGroupRequestRecordViewControllerDelegate <NSObject, UIAlertViewDelegate>
 
 - (void)viewController:(EVGroupRequestRecordViewController *)viewController updatedRecord:(EVGroupRequestRecord *)record;
 - (void)viewController:(EVGroupRequestRecordViewController *)viewController deletedRecord:(EVGroupRequestRecord *)record;
