@@ -253,11 +253,7 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         [EVParseUtility registerChannels];
         if (completion)
             completion();
-        
-        EV_DISPATCH_AFTER(2.0, ^{
-            [NSException raise:@"JoeTestingCrashlytics" format:@"This is just Joe testing Crashlytics from the simulator"];
-        });
-        
+
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];
