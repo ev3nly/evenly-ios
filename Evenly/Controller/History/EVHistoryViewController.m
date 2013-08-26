@@ -20,6 +20,9 @@
 #import "EVHistoryRewardViewController.h"
 
 #define CELL_HEIGHT 60
+#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -50
+#define TABLE_VIEW_INFINITE_SCROLLING_INSET 44
+#define TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET -7
 
 @interface EVHistoryViewController ()
 
@@ -101,6 +104,7 @@ static NSDateFormatter *_dateFormatter = nil;
     self.tableView.backgroundView = nil;
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.loadingIndicatorYOffset = TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET;
     [self.tableView registerClass:[EVHistoryCell class] forCellReuseIdentifier:@"historyCell"];
     [self.view addSubview:self.tableView];
 
@@ -113,10 +117,17 @@ static NSDateFormatter *_dateFormatter = nil;
         [customLoadingIndicator startAnimating];
         [EVUser historyStartingAtPage:weakSelf.pageNumber
                               success:^(NSArray *history) {
+                                  if ([history count] == 0) {
+                                      weakSelf.pageNumber--;
+                                      DLog(@"No entries, reverted page number to %d", weakSelf.pageNumber);
+                                  }
                                   weakSelf.exchanges = [weakSelf.exchanges arrayByAddingObjectsFromArray:history];
                                   [weakSelf.tableView reloadData];
                                   [weakSelf.tableView.infiniteScrollingView stopAnimating];
                                   [customLoadingIndicator stopAnimating];
+                                  
+                                  if (!history || [history count] == 0)
+                                      [weakSelf.tableView.infiniteScrollingView reachedEnd];
                               } failure:^(NSError *error) {
                                   DLog(@"error: %@", error);
                                   weakSelf.pageNumber--;
@@ -124,8 +135,17 @@ static NSDateFormatter *_dateFormatter = nil;
                                   [customLoadingIndicator stopAnimating];
                               }];
     }];
+    
+    self.tableView.infiniteScrollingView.customViewOffset = TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET;
+    [self.tableView.infiniteScrollingView setCustomView:[[UIImageView alloc] initWithImage:[EVImages grayLoadingLogo]]
+                                               forState:SVInfiniteScrollingStateReachedEnd];
     [self.tableView.infiniteScrollingView setCustomView:customLoadingIndicator
                                                forState:SVInfiniteScrollingStateLoading];
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(0,
+                                                   0,
+                                                   TABLE_VIEW_INFINITE_SCROLLING_INSET,
+                                                   0);
 }
 
 - (void)viewWillLayoutSubviews {

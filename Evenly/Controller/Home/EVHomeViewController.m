@@ -32,7 +32,7 @@
 
 #define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -50
 #define TABLE_VIEW_INFINITE_SCROLLING_INSET 40
-#define TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET -9
+#define TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET -7
 
 @interface EVHomeViewController ()
 
@@ -166,7 +166,7 @@
         [weakSelf.newsfeedDataSource loadNextPage];
     }];
     
-    self.tableView.infiniteScrollingView.customViewOffset = -7;
+    self.tableView.infiniteScrollingView.customViewOffset = TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET;
     [self.tableView.infiniteScrollingView setCustomView:self.newsfeedDataSource.loadingIndicator
                                                forState:SVInfiniteScrollingStateLoading];
     [self.tableView.infiniteScrollingView setCustomView:[[UIImageView alloc] initWithImage:[EVImages grayLoadingLogo]]
