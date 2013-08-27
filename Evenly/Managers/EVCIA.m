@@ -23,7 +23,8 @@ NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKe
 NSString *const EVPendingReceivedExchangesKey = @"pending_received";
 NSString *const EVPendingSentExchangesKey = @"pending_sent";
 
-NSString *const EVUserHasCompletedGettingStarted = @"EVUserHasCompletedGettingStartedKey";
+NSString *const EVUserHasCompletedGettingStartedKey = @"EVUserHasCompletedGettingStartedKey";
+NSString *const EVUserFacebookFriendCountKey = @"EVUserFacebookFriendCountKey";
 
 static EVCIA *_sharedInstance;
 
@@ -253,9 +254,19 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         if (me.roles)
             [Crashlytics setObjectValue:me.roles forKey:@"user_roles"];
         [EVParseUtility registerChannels];
+        
+        me.facebookFriendCount = [[NSUserDefaults standardUserDefaults] integerForKey:EVUserFacebookFriendCountKey];        
+        if ([EVFacebookManager isConnected]) {
+            [EVFacebookManager loadFriendsWithCompletion:^(NSArray *friends) {
+                me.facebookFriendCount = [friends count];
+                [[NSUserDefaults standardUserDefaults] setInteger:[friends count] forKey:EVUserFacebookFriendCountKey];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            } failure:^(NSError *error) {
+                DLog(@"Could not load friends: %@", error);
+            }];
+        }        
         if (completion)
             completion();
-
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];

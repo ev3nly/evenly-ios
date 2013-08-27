@@ -18,6 +18,8 @@
 
 + (BOOL)isConnected;
 + (void)openSessionWithCompletion:(void (^)(void))completion;
++ (void)quietlyOpenSessionWithCompletion:(void (^)(void))completion;
+
 + (BOOL)hasPublishPermissions;
 + (void)requestPublishPermissionsWithCompletion:(void (^)(void))completion;
 
