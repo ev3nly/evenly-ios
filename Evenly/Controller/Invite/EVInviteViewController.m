@@ -61,16 +61,6 @@
     [self loadTextField];
     [self loadInviteByTextButton];
     [self configureReactions];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
 }
 
 - (void)dealloc {
@@ -238,16 +228,6 @@
         [self.navigationController pushViewController:inviteContactsController animated:YES];
     }
 }
-
-#pragma mark - Handling Keyboard
-
-- (void)keyboardWillShow:(NSNotification *)notification {
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification {
-//    self.tableView.contentInset = UIEdgeInsetsZero;
-}
-
 
 #pragma mark - TextField Delegate
 
