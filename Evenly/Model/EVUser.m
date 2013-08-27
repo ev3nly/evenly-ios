@@ -472,14 +472,14 @@
     if (!self.hasInvitedFriends)
         return YES;
     
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVUserHasCompletedGettingStarted];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVUserHasCompletedGettingStartedKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     return NO;
 }
 
 - (BOOL)userHasClearedGettingStartedBefore {
-    return ([[NSUserDefaults standardUserDefaults] boolForKey:EVUserHasCompletedGettingStarted] == YES);
+    return ([[NSUserDefaults standardUserDefaults] boolForKey:EVUserHasCompletedGettingStartedKey] == YES);
 }
 
 - (BOOL)needsPaymentHelp {

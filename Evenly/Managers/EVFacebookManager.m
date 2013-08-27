@@ -44,13 +44,27 @@ static EVFacebookManager *_sharedManager;
                               completionHandler:[self facebookSessionStateHandlerWithCompletion:completion]];
 }
 
++ (void)quietlyOpenSessionWithCompletion:(void (^)(void))completion {
+    [FBSession openActiveSessionWithPermissions:@[@"basic_info", @"email"]
+                                   allowLoginUI:NO
+                              completionHandler:[self facebookSessionStateHandlerWithCompletion:completion]];
+}
+
 + (FBSessionStateHandler)facebookSessionStateHandlerWithCompletion:(void (^)(void))completion {
     return ^(FBSession *session,
              FBSessionState state, NSError *error) {
         switch (state) {
             case FBSessionStateOpen:
                 [self sharedManager].tokenData = session.accessTokenData;
-                completion();
+                [self loadFriendsWithCompletion:^(NSArray *friends) {
+                    [EVCIA me].facebookFriendCount = [friends count];
+                    [[NSUserDefaults standardUserDefaults] setInteger:[friends count] forKey:EVUserFacebookFriendCountKey];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                } failure:^(NSError *error) {
+                    DLog(@"Could not load friends: %@", error);
+                }];
+                if (completion)
+                    completion();
                 break;
             case FBSessionStateClosed:
             case FBSessionStateClosedLoginFailed:
