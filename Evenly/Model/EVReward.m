@@ -65,7 +65,9 @@ static EVReward *_rewardsExhaustedSentinel;
 }
 
 - (void)redeemWithSuccess:(void (^)(EVReward *reward))success failure:(void (^)(NSError *error))failure {
-    NSMutableURLRequest *request = [[self class] requestWithMethod:@"PUT" 
+    
+    DLog(@"Dictionary representation: %@", [self dictionaryRepresentation]);
+    NSMutableURLRequest *request = [[self class] requestWithMethod:@"PUT"
                                                               path:self.dbid
                                                         parameters:[self dictionaryRepresentation]];
     AFSuccessBlock successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
