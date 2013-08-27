@@ -15,6 +15,7 @@
 #import "EVWalletNotification.h"
 #import "EVFacebookManager.h"
 #import <Mixpanel/Mixpanel.h>
+#import <Crashlytics/Crashlytics.h>
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
 NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKey";
@@ -233,10 +234,15 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         
-        [mixpanel identify:me.dbid];        
+        [mixpanel identify:me.dbid];
+        [Crashlytics setUserIdentifier:[EVParseUtility userIdentifier]];
+        
         [mixpanel.people set:@"$name"       to:me.name];
-        if (me.email)
+        [Crashlytics setUserName:me.name];
+        if (me.email) {
             [mixpanel.people set:@"$email"      to:me.email];
+            [Crashlytics setUserEmail:me.email];
+        }
         [mixpanel.people set:@"$created"    to:me.createdAt];
         [mixpanel.people set:@"$last_login" to:[NSDate date]];
         [mixpanel.people set:@"iOS App True Version"    to:EV_APP_VERSION];
@@ -245,10 +251,9 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         mixpanel.nameTag = me.name;
         
         [EVParseUtility registerChannels];
-        
         if (completion)
             completion();
-        
+
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];
