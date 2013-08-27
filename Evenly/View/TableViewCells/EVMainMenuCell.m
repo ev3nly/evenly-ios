@@ -8,6 +8,8 @@
 
 #import "EVMainMenuCell.h"
 
+#define MARKETING_VIEW_PADDING 5
+
 @implementation EVMainMenuCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -43,10 +45,30 @@
     return self;
 }
 
+- (void)setMarketingView:(UIView *)marketingView {
+    [_marketingView removeFromSuperview];
+    _marketingView = marketingView;
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
     // Configure the view for the selected state
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [self.label sizeToFit];
+    [self.label setFrame:CGRectMake(CGRectGetMaxX(self.iconView.frame),
+                                    (self.contentView.frame.size.height - self.label.frame.size.height) / 2.0,
+                                    self.label.frame.size.width,
+                                    self.label.frame.size.height)];
+    
+    if (self.marketingView) {
+        [self.marketingView setFrame:CGRectMake(CGRectGetMaxX(self.label.frame), 0, self.contentView.frame.size.width - CGRectGetMaxX(self.label.frame), self.contentView.frame.size.height)];
+        [self.contentView addSubview:self.marketingView];
+    }
 }
 
 @end
