@@ -17,6 +17,10 @@
 
 #define CELL_HEIGHT 54
 
+#define HEADER_HEIGHT 80
+#define HEADER_MARGIN 10
+#define HEADER_BOLD_LABEL_HEIGHT 25
+
 #define FOOTER_TOP_BUFFER 20
 #define TEXT_FIELD_BUTTON_BUFFER 20
 #define TEXT_FIELD_SIDE_BUFFER 10
@@ -25,6 +29,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 
+@property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UIView *footerView;
 @property (nonatomic, strong) UIView *textFieldBackground;
 @property (nonatomic, strong) UITextField *textField;
@@ -50,11 +55,26 @@
     
     [self loadWalletBarButtonItem];
     [self loadTableView];
+    [self loadHeaderView];
     [self loadFooterView];
     [self loadTextFieldBackground];
     [self loadTextField];
     [self loadInviteByTextButton];
     [self configureReactions];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -77,6 +97,37 @@
     self.tableView.backgroundView = nil;
     [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"groupedTableViewCell"];
     [self.view addSubview:self.tableView];
+}
+
+- (void)loadHeaderView {
+    self.headerView = [UIView new];
+    self.headerView.backgroundColor = [UIColor clearColor];
+    self.headerView.frame = [self headerViewFrame];
+    UILabel *label;
+    label = [[UILabel alloc] initWithFrame:CGRectMake(HEADER_MARGIN,
+                                                      HEADER_MARGIN,
+                                                      self.headerView.frame.size.width - 2*HEADER_MARGIN,
+                                                      HEADER_BOLD_LABEL_HEIGHT)];
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = [EVColor darkColor];
+    label.font = [EVFont blackFontOfSize:16];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"Get $5 for every 3 friends that sign up.";
+    [self.headerView addSubview:label];
+    
+    label = [[UILabel alloc] initWithFrame:CGRectMake(HEADER_MARGIN,
+                                                      HEADER_MARGIN + HEADER_BOLD_LABEL_HEIGHT,
+                                                      self.headerView.frame.size.width - 2*HEADER_MARGIN,
+                                                      self.headerView.frame.size.height - HEADER_MARGIN - HEADER_BOLD_LABEL_HEIGHT)];
+    label.backgroundColor = [UIColor clearColor];
+    label.numberOfLines = 0;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.textColor = [EVColor darkColor];
+    label.font = [EVFont defaultFontOfSize:15];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"Friends will thank you!\nAfter joining, they'll receive $1 on us.";
+    [self.headerView addSubview:label];
+    self.tableView.tableHeaderView = self.headerView;
 }
 
 - (void)loadFooterView {
@@ -188,26 +239,51 @@
     }
 }
 
+#pragma mark - Handling Keyboard
+
+- (void)keyboardWillShow:(NSNotification *)notification {
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification {
+//    self.tableView.contentInset = UIEdgeInsetsZero;
+}
+
+
 #pragma mark - TextField Delegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
+    [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, EV_DEFAULT_KEYBOARD_HEIGHT, 0)];
+    [self.tableView setContentOffset:CGPointMake(0, self.footerView.frame.origin.y - FOOTER_TOP_BUFFER) animated:YES];
     return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self.view findAndResignFirstResponder];
+    [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION animations:^{
+        self.tableView.contentInset = UIEdgeInsetsZero;
+    }];
     return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     [self.view removeGestureRecognizers];
+    [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION animations:^{
+        self.tableView.contentInset = UIEdgeInsetsZero;
+    }];
 }
 
 #pragma mark - Frames
 
 - (CGRect)tableViewFrame {
     return self.view.bounds;
+}
+
+- (CGRect)headerViewFrame {
+    return CGRectMake(0,
+                      0,
+                      self.view.bounds.size.width,
+                      HEADER_HEIGHT);
 }
 
 - (CGRect)footerViewFrame {
