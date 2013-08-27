@@ -84,7 +84,7 @@ typedef enum {
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT)];
     
     CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.width, (EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.height)/2);
-    [button setImageEdgeInsets:UIEdgeInsetsMake(insetSize.height, 0, insetSize.height, insetSize.width)];
+    [button setImageEdgeInsets:UIEdgeInsetsMake(insetSize.height, insetSize.width, insetSize.height, 0)];
 
     [button setImage:image forState:UIControlStateNormal];
     [button setShowsTouchWhenHighlighted:YES];
@@ -97,8 +97,7 @@ typedef enum {
     [super viewDidAppear:animated];
     [self.dataSource animate];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:EVHasSeenGroupRequestDashboardAlertKey] != YES)
-    {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:EVHasSeenGroupRequestDashboardAlertKey] != YES) {
         [self showDashboardInstructions];
     }
 }
@@ -119,7 +118,6 @@ typedef enum {
                                                     cancelButtonTitle:@"Cancel"
                                                destructiveButtonTitle:nil
                                                     otherButtonTitles:
-                                  @"Invite",
                                   @"Close Request", nil];
     [actionSheet showInView:self.view];
 }
