@@ -250,6 +250,8 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         
         mixpanel.nameTag = me.name;
         
+        if (me.roles)
+            [Crashlytics setObjectValue:me.roles forKey:@"user_roles"];
         [EVParseUtility registerChannels];
         if (completion)
             completion();
