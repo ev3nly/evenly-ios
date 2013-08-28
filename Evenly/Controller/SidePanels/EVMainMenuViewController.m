@@ -83,10 +83,8 @@
 
 - (void)populateInviteBonusLabel {
     NSInteger numberOfPotentialInvitees = MAX([[ABContactsHelper contacts] count], [[EVCIA me] facebookFriendCount]);
-    NSInteger potentialDollars = (numberOfPotentialInvitees / EV_INVITES_NEEDED_FOR_PRIZE) * EV_DOLLARS_PER_PRIZE;
-    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:EV_STRING_FROM_INT(potentialDollars)];
-    NSString *amountString = [EVStringUtility amountStringForAmount:number];
-    self.inviteBonusLabel.text = [NSString stringWithFormat:@"Earn %@!", amountString];    
+    NSString *amountString = [EVStringUtility inviteAmountStringForNumberOfInvitees:numberOfPotentialInvitees];
+    self.inviteBonusLabel.text = [NSString stringWithFormat:@"Earn %@!", amountString];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
