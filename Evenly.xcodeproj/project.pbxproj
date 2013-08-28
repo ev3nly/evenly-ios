@@ -531,6 +531,7 @@
 		D0A0BB72179E413E002C0EA0 /* EVNavBarBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A0BB71179E413E002C0EA0 /* EVNavBarBadge.m */; };
 		D0A0BB75179E472F002C0EA0 /* pending-number-container.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A0BB73179E472F002C0EA0 /* pending-number-container.png */; };
 		D0A0BB76179E472F002C0EA0 /* pending-number-container@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0A0BB74179E472F002C0EA0 /* pending-number-container@2x.png */; };
+		D0A2ED4417CDC91D00FE9F14 /* EVLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A2ED4317CDC91D00FE9F14 /* EVLabel.m */; };
 		D0B3359D17C3FDAB007375AF /* big_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0B3359C17C3FDAB007375AF /* big_background@2x.png */; };
 		D0B335A017C441E6007375AF /* EVNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B3359F17C441E6007375AF /* EVNavigationController.m */; };
 		D0B335A417C45597007375AF /* AMBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B335A317C45597007375AF /* AMBlurView.m */; };
@@ -1356,6 +1357,8 @@
 		D0A0BB71179E413E002C0EA0 /* EVNavBarBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNavBarBadge.m; sourceTree = "<group>"; };
 		D0A0BB73179E472F002C0EA0 /* pending-number-container.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-number-container.png"; sourceTree = "<group>"; };
 		D0A0BB74179E472F002C0EA0 /* pending-number-container@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pending-number-container@2x.png"; sourceTree = "<group>"; };
+		D0A2ED4217CDC91D00FE9F14 /* EVLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVLabel.h; sourceTree = "<group>"; };
+		D0A2ED4317CDC91D00FE9F14 /* EVLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVLabel.m; sourceTree = "<group>"; };
 		D0B3359C17C3FDAB007375AF /* big_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "big_background@2x.png"; sourceTree = "<group>"; };
 		D0B3359E17C441E6007375AF /* EVNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNavigationController.h; sourceTree = "<group>"; };
 		D0B3359F17C441E6007375AF /* EVNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNavigationController.m; sourceTree = "<group>"; };
@@ -2279,6 +2282,8 @@
 				9C900D37176802FF00E2F4C4 /* EVSpreadLabel.m */,
 				9C1DEC30177B6A230057526D /* EVGroupRequestStatementLabel.h */,
 				9C1DEC31177B6A230057526D /* EVGroupRequestStatementLabel.m */,
+				D0A2ED4217CDC91D00FE9F14 /* EVLabel.h */,
+				D0A2ED4317CDC91D00FE9F14 /* EVLabel.m */,
 			);
 			path = Labels;
 			sourceTree = "<group>";
@@ -3666,6 +3671,7 @@
 				9C659C03177A8A050028072A /* EVGroupRequestStatementCell.m in Sources */,
 				9C2684B9176683BB00AEA624 /* EVFloatingButton.m in Sources */,
 				9C863C8E17729702003ADB49 /* EVFundingSourceCell.m in Sources */,
+				D0A2ED4417CDC91D00FE9F14 /* EVLabel.m in Sources */,
 				9C863C8F17729702003ADB49 /* EVGroupedTableViewCell.m in Sources */,
 				9C2684BC176683CB00AEA624 /* EVFloatingRequestButton.m in Sources */,
 				9C2684BF176683D600AEA624 /* EVFloatingPaymentButton.m in Sources */,
@@ -3949,7 +3955,7 @@
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3967,7 +3973,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 				WRAPPER_EXTENSION = app;
 			};
@@ -3978,7 +3984,7 @@
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3996,7 +4002,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "F56CF74A-2211-435B-A3DA-0A293A8B54C8";
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 				WRAPPER_EXTENSION = app;
 			};

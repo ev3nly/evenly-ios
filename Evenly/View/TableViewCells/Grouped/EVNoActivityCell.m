@@ -26,10 +26,11 @@
 + (float)cellHeightForUser:(EVUser *)user {
     UILabel *label = [self configuredLabel];
     label.text = [user.dbid isEqualToString:[EVCIA me].dbid] ? [EVStringUtility noActivityMessageForSelf] : [EVStringUtility noActivityMessageForOthers];
-    float labelHeight = [label.text sizeWithFont:label.font
-                               constrainedToSize:CGSizeMake(SCREEN_WIDTH - LABEL_SIDE_BUFFER*2, 100000)
-                                   lineBreakMode:label.lineBreakMode].height;
-    return (TOP_BOTTOM_BUFFER + [EVImages inviteFriendsBanner].size.height + IMAGE_LABEL_BUFFER + labelHeight + TOP_BOTTOM_BUFFER);
+    float labelHeight = [label multiLineSizeForWidth:SCREEN_WIDTH - LABEL_SIDE_BUFFER*2].height;
+    float totalHeight = (TOP_BOTTOM_BUFFER + [EVImages inviteFriendsBanner].size.height + IMAGE_LABEL_BUFFER + labelHeight + TOP_BOTTOM_BUFFER);
+    if ((int)totalHeight%2 != 0)
+        totalHeight++;
+    return floorf(totalHeight);
 }
 
 + (UILabel *)configuredLabel {
@@ -83,9 +84,7 @@
 }
 
 - (CGRect)noActivityLabelFrame {
-    CGSize labelSize = [self.noActivityLabel.text sizeWithFont:self.noActivityLabel.font
-                                             constrainedToSize:CGSizeMake(SCREEN_WIDTH - LABEL_SIDE_BUFFER*2, 100000)
-                                                 lineBreakMode:self.noActivityLabel.lineBreakMode];
+    CGSize labelSize = [self.noActivityLabel multiLineSizeForWidth:SCREEN_WIDTH - LABEL_SIDE_BUFFER*2];
     return CGRectMake(CGRectGetMidX(self.bounds) - labelSize.width/2,
                       CGRectGetMaxY(self.placeholderImageView.frame) + IMAGE_LABEL_BUFFER,
                       labelSize.width,

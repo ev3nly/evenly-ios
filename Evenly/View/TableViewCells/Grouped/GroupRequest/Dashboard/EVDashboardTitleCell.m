@@ -24,9 +24,10 @@
 }
 
 + (CGSize)sizeForMemo:(NSString *)memo {
-    return [memo sizeWithFont:DASHBOARD_MEMO_FONT
-            constrainedToSize:CGSizeMake(DASHBOARD_LABEL_MAX_WIDTH, FLT_MAX)
-                lineBreakMode:NSLineBreakByWordWrapping];
+    return [memo boundingRectWithSize:CGSizeMake(DASHBOARD_LABEL_MAX_WIDTH, FLT_MAX)
+                              options:NSStringDrawingUsesLineFragmentOrigin
+                           attributes:@{NSFontAttributeName: DASHBOARD_MEMO_FONT}
+                              context:NULL].size;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

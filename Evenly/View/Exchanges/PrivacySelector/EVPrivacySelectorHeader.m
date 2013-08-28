@@ -101,9 +101,10 @@
 #pragma mark - Frame Defines
 
 - (CGRect)dropdownArrowFrame {
-    float labelWidth = [self.label.text sizeWithFont:self.label.font
-                                   constrainedToSize:CGSizeMake(self.bounds.size.width, self.label.bounds.size.height)
-                                       lineBreakMode:self.label.lineBreakMode].width;
+    float labelWidth = [self.label.text boundingRectWithSize:CGSizeMake(self.bounds.size.width, self.label.bounds.size.height)
+                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                  attributes:@{NSFontAttributeName: self.label.font}
+                                                     context:NULL].size.width;
     return CGRectMake(self.label.frame.origin.x + labelWidth + DROPDOWN_BUFFER,
                       self.bounds.size.height/2 - _dropdownArrow.image.size.height/2,
                       _dropdownArrow.image.size.width,

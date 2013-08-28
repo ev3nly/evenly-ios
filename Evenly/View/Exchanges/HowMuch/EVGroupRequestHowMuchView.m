@@ -107,7 +107,7 @@
     self.multipleAmountsView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.multipleAmountsView.backgroundColor = [EVColor creamColor];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(INFO_LABEL_X_MARGIN,
+    EVLabel *label = [[EVLabel alloc] initWithFrame:CGRectMake(INFO_LABEL_X_MARGIN,
                                                                INFO_LABEL_Y_MARGIN,
                                                                self.frame.size.width - 2*INFO_LABEL_X_MARGIN,
                                                                INFO_LABEL_HEIGHT)];
@@ -117,7 +117,7 @@
     label.text = [EVStringUtility multiAmountInfoMessage];
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 1;
-    label.attributedText = [[NSAttributedString alloc] initWithString:label.text attributes:@{NSKernAttributeName: @(-0.2)}];
+//    label.attributedText = [[NSAttributedString alloc] initWithString:label.text attributes:@{NSKernAttributeName: @(-0.2)}];
     
     self.footerLabel = label;
     UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, INFO_LABEL_HEIGHT)];

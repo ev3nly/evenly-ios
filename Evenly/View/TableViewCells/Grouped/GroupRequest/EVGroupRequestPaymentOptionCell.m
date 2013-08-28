@@ -67,7 +67,10 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGSize size = [self.headerLabel.text sizeWithFont:self.headerLabel.font constrainedToSize:CGSizeMake(self.contentView.frame.size.width, FLT_MAX)];
+    CGSize size = [self.headerLabel.text boundingRectWithSize:CGSizeMake(self.contentView.frame.size.width, FLT_MAX)
+                                                      options:NSStringDrawingUsesLineFragmentOrigin
+                                                   attributes:@{NSFontAttributeName: self.headerLabel.font}
+                                                      context:NULL].size;
     [self.headerLabel setFrame:CGRectMake((self.contentView.frame.size.width - size.width) / 2.0,
                                           TOP_MARGIN,
                                           size.width,

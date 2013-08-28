@@ -40,9 +40,10 @@
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
-    float labelWidth = [self.numberLabel.text sizeWithFont:self.numberLabel.font
-                                         constrainedToSize:CGSizeMake(320, 1000000)
-                                             lineBreakMode:self.numberLabel.lineBreakMode].width;
+    float labelWidth = [self.numberLabel.text boundingRectWithSize:CGSizeMake(FLT_MAX, FLT_MAX)
+                                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                                        attributes:@{NSFontAttributeName: self.numberLabel.font}
+                                                           context:NULL].size.width;
     return CGSizeMake(fmaxf(labelWidth + LABEL_SIDE_BUFFER*2, self.backgroundView.image.size.width), self.backgroundView.image.size.height);
 }
 

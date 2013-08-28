@@ -272,7 +272,6 @@
         [viewController.view addSubview:navBar];
 
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:NO];
         viewController.view.backgroundColor = [UIColor blackColor];
     }
 }

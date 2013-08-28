@@ -422,7 +422,7 @@
     newLabel.textColor = [EVColor mediumLabelColor];
     
     CGPoint faceLabelCenter = [self.view convertPoint:faceLabel.center fromView:card.face];
-    CGSize textSize = [faceLabel.text sizeWithFont:faceLabel.font];
+    CGSize textSize = [faceLabel.text sizeWithAttributes:@{NSFontAttributeName: faceLabel.font}];
     [newLabel setSize:textSize];
     newLabel.center = faceLabelCenter;
     
