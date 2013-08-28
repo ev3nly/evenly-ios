@@ -130,13 +130,8 @@
     [userCell.nameLabel setText:record.user.name];
     [userCell.avatarView setAvatarOwner:record.user];
     [userCell.tierLabel setText:record.tier.name];
-    if (record.tier == nil) {
-        
-        userCell.paidStamp = nil;
-        userCell.noTierLabel = [EVDashboardUserCell configuredNoTierLabel];
-    } else if (record.completed) {
-        
-        userCell.noTierLabel = nil;
+    
+    if (record.completed) {
         EVWalletStamp *walletStamp = [[EVWalletStamp alloc] initWithText:@"PAID" maxWidth:50.0];
         walletStamp.fillColor = [UIColor whiteColor];
         walletStamp.strokeColor = [EVColor lightLabelColor];
@@ -145,7 +140,6 @@
     }
     else {
         userCell.paidStamp = nil;
-        userCell.noTierLabel = nil;
         [userCell.amountLabel setText:(record.tier ? [EVStringUtility amountStringForAmount:record.tier.price] : @"--")];
     }
     

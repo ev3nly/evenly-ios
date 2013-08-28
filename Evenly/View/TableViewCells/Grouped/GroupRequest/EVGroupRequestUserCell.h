@@ -20,4 +20,6 @@
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *tierLabel;
 
+- (CGRect)nameLabelFrame;
+
 @end

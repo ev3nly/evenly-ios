@@ -97,7 +97,8 @@
     UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT)];
     [cancelButton setImage:closeImage forState:UIControlStateNormal];
 
-    CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - closeImage.size.width, (EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - closeImage.size.height)/2);
+    CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - closeImage.size.width,
+                                  (EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - closeImage.size.height)/2);
     [cancelButton setImageEdgeInsets:UIEdgeInsetsMake(insetSize.height, 0, insetSize.height, insetSize.width)];
 
     cancelButton.adjustsImageWhenHighlighted = NO;

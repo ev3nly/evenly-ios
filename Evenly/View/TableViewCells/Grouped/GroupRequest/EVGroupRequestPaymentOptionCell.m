@@ -12,9 +12,11 @@
 #import "EVGroupRequestRecord.h"
 #import "EVGroupRequestTier.h"
 #import "EVGroupRequestPaymentOptionButton.h"
+#import "EVCheckmarkLinkButton.h"
 
 #define TOP_MARGIN 10.0
 #define HEADER_LABEL_HEIGHT_WITH_PADDING 40.0
+#define SIDE_MARGIN 10
 
 @implementation EVGroupRequestPaymentOptionCell
 
@@ -53,7 +55,7 @@
                 EVGroupRequestPaymentOptionButton *button = [EVGroupRequestPaymentOptionButton buttonForTier:tier];
                 [self.contentView addSubview:button];
                 [self.optionButtons addObject:button];
-                [button setSelected:(record.tier == tier)];
+                button.checked = (record.tier == tier);
                 [button setEnabled:YES];
             }
         }

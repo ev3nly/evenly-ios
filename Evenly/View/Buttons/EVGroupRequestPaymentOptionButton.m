@@ -25,6 +25,7 @@
     if (self) {
         self.checkboxImageView = [[UIImageView alloc] initWithImage:[self normalImage]];
         [self addSubview:self.checkboxImageView];
+        self.checked = NO;
         
         self.label = [[UILabel alloc] initWithFrame:CGRectZero];
         self.label.backgroundColor = [UIColor clearColor];
@@ -72,18 +73,45 @@
 
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
-    self.checkboxImageView.image = (selected ? [self selectedImage] : [self normalImage]);
+    
+    [self fadeBetweenChecks];
 }
 
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (BOOL)isSelected {
+    return self.isChecked;
 }
-*/
+
+- (void)fadeBetweenChecks {
+    UIImage *newCheckImage = !self.isChecked ? [EVImages checkHoleChecked] : [EVImages checkHoleEmpty];
+    UIImageView *newCheck = [[UIImageView alloc] initWithImage:newCheckImage];
+    newCheck.frame = self.checkboxImageView.frame;
+    newCheck.alpha = self.isChecked;
+    [self addSubview:newCheck];
+    
+    [UIView animateWithDuration:0.2
+                          delay:0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         if (self.isChecked)
+                             self.checkboxImageView.alpha = 0;
+                         else
+                             newCheck.alpha = 1;
+                     } completion:^(BOOL finished) {
+                         self.checkboxImageView.alpha = 1;
+                         self.checked = !self.isChecked;
+                         [newCheck removeFromSuperview];
+                     }];
+}
+
+#pragma mark - Setters
+
+- (void)setChecked:(BOOL)checked {
+    _checked = checked;
+    
+    if (checked)
+        self.checkboxImageView.image = [EVImages checkHoleChecked];
+    else
+        self.checkboxImageView.image = [EVImages checkHoleEmpty];
+}
 
 @end

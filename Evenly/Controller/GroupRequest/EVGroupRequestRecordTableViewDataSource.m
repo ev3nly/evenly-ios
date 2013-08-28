@@ -13,10 +13,10 @@
 
 #define USER_ROW_HEIGHT 64.0
 
-#define BUTTON_X_MARGIN 12.0
-#define BUTTON_Y_MARGIN 15.0
+#define BUTTON_X_MARGIN 20.0
+#define BUTTON_Y_MARGIN 10.0
 #define BUTTON_SPACING 10.0
-#define BUTTON_WIDTH 276.0
+#define BUTTON_WIDTH 280.0
 #define BUTTON_HEIGHT 44.0
 
 #define BUTTON_ROW_HEIGHT ((44.0*2) + (BUTTON_Y_MARGIN*2) + (BUTTON_SPACING*1))
@@ -70,14 +70,6 @@
     [self.remindButton addSubview:imageView];
 }
 
-- (void)loadMarkAsCompletedButton {
-    self.markAsCompletedButton = [[EVGrayButton alloc] initWithFrame:CGRectMake(BUTTON_X_MARGIN,
-                                                                                CGRectGetMaxY(self.remindButton.frame) + BUTTON_SPACING,
-                                                                                BUTTON_WIDTH,
-                                                                                BUTTON_HEIGHT)];
-    [self.markAsCompletedButton setTitle:@"MARK AS COMPLETED" forState:UIControlStateNormal];
-}
-
 - (void)loadCancelButton {
     self.cancelButton = [[EVGrayButton alloc] initWithFrame:CGRectMake(BUTTON_X_MARGIN,
                                                                        CGRectGetMaxY(self.remindButton.frame) + BUTTON_SPACING,
@@ -88,6 +80,8 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.record.completed)
+        return 3;
     return EVGroupRequestRecordRowCOUNT;
 }
 
@@ -100,27 +94,14 @@
             return [EVGroupRequestStatementCell heightForRecord:self.record];
         if (indexPath.row == EVGroupRequestRecordRowPaymentOption) // "completed" indicator
             return 44.0;
-        // EVGroupRequestRecordRowButtons height = 0.
 
     } else {
-        if (!self.record.tier) // unassigned
-        {
-            // EVGroupRequestRecordRowStatement height = 0.
-            
-            if (indexPath.row == EVGroupRequestRecordRowPaymentOption) // payment option cell
-                return [self.paymentOptionCell heightForRecord:self.record];
-            else if (indexPath.row == EVGroupRequestRecordRowButtons)
-                return BUTTON_ROW_HEIGHT;
-        }
-        else // assigned
-        {
-            if (indexPath.row == EVGroupRequestRecordRowStatement) // payment history
-                return [EVGroupRequestStatementCell heightForRecord:self.record];
-            if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
-                return [self.paymentOptionCell heightForRecord:self.record];
-            else if (indexPath.row == EVGroupRequestRecordRowButtons) {
-                return BUTTON_ROW_HEIGHT;
-            }
+        if (indexPath.row == EVGroupRequestRecordRowStatement) // payment history
+            return [EVGroupRequestStatementCell heightForRecord:self.record];
+        if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
+            return [self.paymentOptionCell heightForRecord:self.record];
+        else if (indexPath.row == EVGroupRequestRecordRowButtons) {
+            return BUTTON_ROW_HEIGHT;
         }
     }
     return 0.0;
@@ -139,7 +120,6 @@
         if (self.record.completed)
         {
             [self.remindButton removeFromSuperview];
-            [self.markAsCompletedButton removeFromSuperview];
             [self.cancelButton removeFromSuperview];
             
             if (indexPath.row == EVGroupRequestRecordRowStatement)
@@ -153,48 +133,30 @@
         }
         else
         {
-            if (!self.record.tier)
+            if (indexPath.row == EVGroupRequestRecordRowStatement)
             {
-                if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
-                {
-                    if (self.record.numberOfPayments == 0 && [self.record.groupRequest.tiers count] > 1)
-                        self.paymentOptionCell.headerLabel.text = @"Set a Payment Option";
-                    else
-                        self.paymentOptionCell.headerLabel.text = nil;
-                    cell = self.paymentOptionCell;
-                }
-                else if (indexPath.row == EVGroupRequestRecordRowButtons)
-                {
-                    cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-                    [self configureCellForButtons:cell];
-                }
+                cell = [self statementCellForIndexPath:indexPath];
             }
-            else
+            else if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
             {
-                if (indexPath.row == EVGroupRequestRecordRowStatement)
-                {
-                    cell = [self statementCellForIndexPath:indexPath];
-                }
-                else if (indexPath.row == EVGroupRequestRecordRowPaymentOption)
-                {
-                    if (self.record.numberOfPayments == 0 && [self.record.groupRequest.tiers count] > 1)
-                        self.paymentOptionCell.headerLabel.text = @"Change Payment Option";
-                    else
-                        self.paymentOptionCell.headerLabel.text = nil;
-                    
-                    cell = self.paymentOptionCell;
-                }
-                else if (indexPath.row == EVGroupRequestRecordRowButtons)
-                {
-                    cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-                    [self configureCellForButtons:cell];
-                }
+                if (self.record.numberOfPayments == 0 && [self.record.groupRequest.tiers count] > 1)
+                    self.paymentOptionCell.headerLabel.text = @"Change Payment Option";
+                else
+                    self.paymentOptionCell.headerLabel.text = nil;
+                
+                cell = self.paymentOptionCell;
+            }
+            else if (indexPath.row == EVGroupRequestRecordRowButtons)
+            {
+                cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+                [self configureCellForButtons:cell];
             }
         }
     }
     if (!cell)
         cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.position = [tableView cellPositionForIndexPath:indexPath];
     return cell;
 }
 
@@ -205,9 +167,7 @@
 }
 
 - (void)configureCellForButtons:(EVGroupedTableViewCell *)cell {
-    cell.position = EVGroupedTableViewCellPositionBottom;
     [cell.contentView addSubview:self.remindButton];
-    [cell.contentView addSubview:self.markAsCompletedButton];
     if (self.record.numberOfPayments == 0)
         [cell.contentView addSubview:self.cancelButton];
     else

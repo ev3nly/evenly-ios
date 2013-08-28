@@ -15,24 +15,35 @@
 @implementation EVGroupRequestPendingHeaderCell
 
 + (CGFloat)cellHeightForStory:(EVStory *)story memo:(NSString *)memo {
+    if (EV_IS_EMPTY_STRING(memo))
+        return [self cellHeightForStory:story];
+    
     CGFloat height = [self cellHeightForStory:story];
-    CGSize memoSize = [memo sizeWithFont:MEMO_LABEL_FONT
-                       constrainedToSize:CGSizeMake(MEMO_LABEL_WIDTH, FLT_MAX)
-                           lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize memoSize = [memo boundingRectWithSize:CGSizeMake(MEMO_LABEL_WIDTH, FLT_MAX)
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                      attributes:@{NSFontAttributeName: MEMO_LABEL_FONT}
+                                         context:NULL].size;
     height += memoSize.height + PENDING_STORY_DATE_BUFFER;
-    return height;    
+    if ((int)height % 2 != 0)
+        height++;
+    return floorf(height);
 }
 
 + (CGFloat)cellHeightForStory:(EVStory *)story {
     float superHeight = [EVTransactionDetailCell cellHeightForStory:story];
     NSString *dateString = [[self timeIntervalFormatter] stringForTimeIntervalFromDate:[NSDate date]
                                                                                 toDate:[story publishedAt]];
-    float dateHeight = [dateString sizeWithFont:EV_STORY_CELL_DATE_LABEL_FONT
-                              constrainedToSize:CGSizeMake([UIScreen mainScreen].applicationFrame.size.width, 100000)
-                                  lineBreakMode:NSLineBreakByTruncatingTail].height;
-    return (superHeight + dateHeight - EV_STORY_CELL_VERTICAL_RULE_HEIGHT);
+    float dateHeight = [dateString boundingRectWithSize:CGSizeMake([UIScreen mainScreen].applicationFrame.size.width, 100000)
+                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName: EV_STORY_CELL_DATE_LABEL_FONT}
+                                                context:NULL].size.height;
+    float height = (superHeight + dateHeight - EV_STORY_CELL_VERTICAL_RULE_HEIGHT);
+    if ((int)height % 2 != 0)
+        height++;
+    return floorf(height);
 }
 
+#pragma mark - Lifecycle
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
@@ -53,6 +64,15 @@
     return self;
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.memoLabel.frame = [self memoLabelFrame];
+    self.dateLabel.frame = [self dateLabelFrame];
+}
+
+#pragma mark - Setters
+
 - (void)switchAvatars {
     id leftAvatar = self.avatarView.avatarOwner;
     id rightAvatar = self.rightAvatarView.avatarOwner;
@@ -60,12 +80,7 @@
     self.rightAvatarView.avatarOwner = leftAvatar;
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    self.memoLabel.frame = [self memoLabelFrame];
-    self.dateLabel.frame = [self dateLabelFrame];
-}
+#pragma mark - Frames
 
 - (CGRect)verticalRuleFrame {
     return CGRectZero;
@@ -76,9 +91,7 @@
 }
 
 - (CGRect)memoLabelFrame {
-    CGSize labelSize = [self.memoLabel.text sizeWithFont:self.memoLabel.font
-                                       constrainedToSize:CGSizeMake(MEMO_LABEL_WIDTH, 100000)
-                                           lineBreakMode:self.memoLabel.lineBreakMode];
+    CGSize labelSize = [self.memoLabel multiLineSizeForWidth:MEMO_LABEL_WIDTH];
     return CGRectMake(CGRectGetMidX(self.contentView.bounds) - labelSize.width/2,
                       CGRectGetMaxY(self.storyLabel.frame) + PENDING_STORY_DATE_BUFFER,
                       labelSize.width,
@@ -86,11 +99,10 @@
 }
 
 - (CGRect)dateLabelFrame {
-    CGSize labelSize = [self.dateLabel.text sizeWithFont:self.dateLabel.font
-                                       constrainedToSize:CGSizeMake(self.bounds.size.width, 100000)
-                                           lineBreakMode:self.dateLabel.lineBreakMode];
+    float dateBuffer = EV_IS_EMPTY_STRING(self.memoLabel.text) ? 4 : PENDING_STORY_DATE_BUFFER;
+    CGSize labelSize = [self.dateLabel multiLineSizeForWidth:self.bounds.size.width];
     return CGRectMake(CGRectGetMidX(self.contentView.bounds) - labelSize.width/2,
-                      CGRectGetMaxY(self.memoLabel.frame) + PENDING_STORY_DATE_BUFFER,
+                      CGRectGetMaxY(self.memoLabel.frame) + dateBuffer,
                       labelSize.width,
                       labelSize.height);
 }
@@ -98,14 +110,5 @@
 - (CGRect)likeButtonFrame {
     return CGRectZero;
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

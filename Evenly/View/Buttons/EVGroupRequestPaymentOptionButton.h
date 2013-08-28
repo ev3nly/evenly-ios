@@ -12,6 +12,7 @@
 
 @interface EVGroupRequestPaymentOptionButton : UIButton
 
+@property (nonatomic, assign, getter = isChecked) BOOL checked;
 @property (nonatomic, strong) UIImageView *checkboxImageView;
 @property (nonatomic, strong) UILabel *label;
 

@@ -9,25 +9,17 @@
 #import "EVDashboardUserCell.h"
 #import "EVWalletStamp.h"
 
-#define AMOUNT_LABELS_MAX_X 275.0
+#define SIDE_MARGIN 20
+#define ARROW_CENTER_RIGHT_BUFFER 17
+#define AMOUNT_LABELS_MAX_X 284.0
 #define SMALL_GAP 3.0
-#define STAMP_RIGHT_MARGIN 15.0
+#define STAMP_RIGHT_MARGIN 16.0
 
 @interface EVDashboardUserCell ()
 
 @end
 
 @implementation EVDashboardUserCell
-
-+ (UILabel *)configuredNoTierLabel {
-    UILabel *noTierLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    noTierLabel.backgroundColor = [UIColor clearColor];
-    noTierLabel.textColor = [EVColor lightLabelColor];
-    noTierLabel.font = [EVFont defaultFontOfSize:15.0];
-    noTierLabel.text = @"Set amount";
-    [noTierLabel sizeToFit];
-    return noTierLabel;
-}
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -57,26 +49,18 @@
     _paidStamp = paidStamp;
 }
 
-- (void)setNoTierLabel:(UILabel *)noTierLabel {
-    if (_noTierLabel)
-        [_noTierLabel removeFromSuperview];
-    _noTierLabel = noTierLabel;
-}
-
 - (void)layoutSubviews {
     [super layoutSubviews];
+    
+    CGPoint center = self.accessoryView.center;
+    center.y = self.bounds.size.height / 2.0;
+    center.x = self.bounds.size.width - [EVImages dashboardDisclosureArrow].size.width - ARROW_CENTER_RIGHT_BUFFER;
+    self.accessoryView.center = center;
+    
     if (self.paidStamp)
-    {
         [self layoutStamp];
-    }
-    else if (self.noTierLabel)
-    {
-        [self layoutNoTierLabel];
-    }
     else
-    {
         [self layoutLabels];
-    }
 }
 
 - (void)layoutStamp {
@@ -85,71 +69,48 @@
     CGRect paidStampFrame = self.paidStamp.frame;
     paidStampFrame.origin.x = self.contentView.frame.size.width - paidStampFrame.size.width - STAMP_RIGHT_MARGIN;
     paidStampFrame.origin.y = (int)((self.contentView.frame.size.height - paidStampFrame.size.height) / 2.0);
-    self.paidStamp.frame = paidStampFrame;
+    self.paidStamp.frame = CGRectIntegral(paidStampFrame);
     [self.contentView addSubview:self.paidStamp];
     
     CGFloat maxX = CGRectGetMinX(self.paidStamp.frame) - SMALL_GAP;
-    [self.nameLabel setFrame:CGRectMake(GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
-                                        0,
-                                        maxX - GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
-                                        self.contentView.frame.size.height)];
-}
-
-- (void)layoutNoTierLabel {
-    self.amountLabel.hidden = YES;
-    
-    CGRect noTierFrame = self.noTierLabel.frame;
-    noTierFrame.origin.x = AMOUNT_LABELS_MAX_X - noTierFrame.size.width;
-    noTierFrame.origin.y = (int)((self.contentView.frame.size.height - noTierFrame.size.height) / 2.0);
-    self.noTierLabel.frame = noTierFrame;
-    [self.contentView addSubview:self.noTierLabel];
-    
-    CGFloat maxX = CGRectGetMinX(self.noTierLabel.frame) - SMALL_GAP;
-    [self.nameLabel setFrame:CGRectMake(GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
-                                        0,
-                                        maxX - GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
-                                        self.contentView.frame.size.height)];
+    CGRect nameFrame = [self nameLabelFrame];
+    nameFrame.size.width = maxX - nameFrame.origin.x;
+    self.nameLabel.frame  = nameFrame;
 }
 
 - (void)layoutLabels {
+    self.nameLabel.text = @"Some really long name that would probably never really exist";
+    self.tierLabel.text = @"An obnoxiously long tier description that probably only Obed would ever make";
     self.amountLabel.hidden = NO;
-    [self.amountLabel sizeToFit];
-    
-    CGFloat totalHeight = self.amountLabel.frame.size.height;
-    CGFloat yOrigin = (self.contentView.frame.size.height - totalHeight) / 2.0;
-    [self.amountLabel setOrigin:CGPointMake(AMOUNT_LABELS_MAX_X - self.amountLabel.frame.size.width, yOrigin)];
+    self.amountLabel.frame = [self amountLabelFrame];
     
     CGFloat maxX = CGRectGetMinX(self.amountLabel.frame) - SMALL_GAP;
-    
-    if (!EV_IS_EMPTY_STRING(self.tierLabel.text))
-    {
+    CGRect nameFrame = [self nameLabelFrame];
+    nameFrame.size.width = maxX - nameFrame.origin.x;
+
+    if (!EV_IS_EMPTY_STRING(self.tierLabel.text)) {
         CGFloat height = self.nameLabel.font.lineHeight;
-        [self.nameLabel setFrame:CGRectMake(GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+        [self.nameLabel setFrame:CGRectMake(nameFrame.origin.x,
                                             0.5 *self.contentView.frame.size.height - height,
-                                            maxX - GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+                                            nameFrame.size.width,
                                             height)];
-        [self.tierLabel setFrame:CGRectMake(GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+        [self.tierLabel setFrame:CGRectMake(nameFrame.origin.x,
                                             0.5 *self.contentView.frame.size.height,
-                                            maxX - GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
+                                            nameFrame.size.width,
                                             height)];
         
     }
-    else
-    {
-        [self.nameLabel setFrame:CGRectMake(GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
-                                            0,
-                                            maxX - GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
-                                            self.contentView.frame.size.height)];
+    else {
+        self.nameLabel.frame = nameFrame;
     }
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (CGRect)amountLabelFrame {
+    [self.amountLabel sizeToFit];
+    CGRect amountFrame = self.amountLabel.frame;
+    amountFrame.origin.y = (self.contentView.frame.size.height - amountFrame.size.height) / 2.0;
+    amountFrame.origin.x = AMOUNT_LABELS_MAX_X - amountFrame.size.width;
+    return amountFrame;
 }
-*/
 
 @end

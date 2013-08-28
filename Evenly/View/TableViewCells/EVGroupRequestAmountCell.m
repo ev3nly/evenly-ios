@@ -68,7 +68,7 @@
     CGPoint center = self.accessoryView.center;
     center.y = [[self class] standardHeight] / 2.0;
     center.x = self.bounds.size.width - self.arrowButton.imageView.image.size.width;
-    [self.accessoryView setCenter:center];
+    self.accessoryView.center = center;
     
     self.bottomStripe.frame = [self bottomStripeFrame];
 }

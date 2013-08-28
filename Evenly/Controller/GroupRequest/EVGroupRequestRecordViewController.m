@@ -29,7 +29,6 @@
         [self hookUpOptionButtons];
         
         [self.dataSource.remindButton addTarget:self action:@selector(remindButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-        [self.dataSource.markAsCompletedButton addTarget:self action:@selector(markAsCompletedButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         [self.dataSource.cancelButton addTarget:self action:@selector(cancelButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
@@ -84,29 +83,38 @@
 
 #pragma mark - Button Actions
 
+static BOOL _currentlySettingOption = NO;
+
 - (void)paymentOptionButtonPress:(UIButton *)button {
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SETTING PAYMENT OPTION..."];
     
     UIButton *oldButton = nil;
     for (oldButton in self.dataSource.paymentOptionCell.optionButtons) {
-        if (oldButton.selected)
+        if (oldButton.isSelected)
             break;
     }
+    if (_currentlySettingOption || oldButton == button)
+        return;
+    
     [oldButton setSelected:NO];
     [button setSelected:YES];
     NSInteger index = [self.dataSource.paymentOptionCell.optionButtons indexOfObject:button];
     [self.record setTier:[self.record.groupRequest.tiers objectAtIndex:index]];
+    
+    _currentlySettingOption = YES;
     [self.record.groupRequest updateRecord:self.record
                                withSuccess:^(EVGroupRequestRecord *record) {
                                    self.record = record;
                                    [self.dataSource setRecord:self.record];
                                    [self hookUpOptionButtons];
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+                                   _currentlySettingOption = NO;
                                } failure:^(NSError *error) {
                                    DLog(@"Failed to update record: %@", error);
                                    [oldButton setSelected:YES];
                                    [button setSelected:NO];
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+                                   _currentlySettingOption = NO;
                                }];
 }
 
@@ -118,24 +126,6 @@
                                } failure:^(NSError *error) {
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
                                }];
-}
-
-- (void)markAsCompletedButtonPress:(id)sender {
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"MARKING COMPLETE..."];
-    [self.record.groupRequest markRecordCompleted:self.record
-                                      withSuccess:^(EVGroupRequestRecord *record) {
-                                          [EVStatusBarManager sharedManager].duringSuccess = ^{
-                                              self.record = record;
-                                              [self.dataSource setRecord:self.record];
-                                              if (self.delegate)
-                                                  [self.delegate viewController:self updatedRecord:self.record];
-
-                                              [self.tableView reloadData];
-                                          };
-                                          [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-                                      } failure:^(NSError *error) {
-                                          [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-                                      }];
 }
 
 - (void)cancelButtonPress:(id)sender {
