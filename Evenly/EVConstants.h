@@ -88,3 +88,8 @@ typedef void(^EVHandleTextChangeBlock)(NSString *text);
 #pragma mark - History / Timeline
 
 #define EV_ITEMS_PER_PAGE 20
+
+#pragma mark - Inviting
+
+#define EV_INVITES_NEEDED_FOR_PRIZE 3
+#define EV_DOLLARS_PER_PRIZE 5
