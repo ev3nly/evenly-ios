@@ -27,7 +27,7 @@
 @interface EVPendingExchangeCell ()
 
 @property (nonatomic, strong) UIView *exchangeContainer;
-@property (nonatomic, strong) UILabel *descriptionLabel;
+@property (nonatomic, strong) EVLabel *descriptionLabel;
 @property (nonatomic, strong) UILabel *amountLabel;
 @property (nonatomic, strong) UILabel *dateLabel;
 
@@ -74,7 +74,7 @@
     self.exchangeContainer = [[UIView alloc] initWithFrame:[self containerFrame]];
 //    self.exchangeContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
 
-    self.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.descriptionLabel = [[EVLabel alloc] initWithFrame:CGRectZero];
     self.descriptionLabel.backgroundColor = [UIColor clearColor];
     [self.exchangeContainer addSubview:self.descriptionLabel];
     
@@ -140,7 +140,7 @@
                                                CGRectGetMinX(self.amountLabel.frame) - MIN_LABEL_SPACING,
                                                self.amountLabel.frame.size.height)];
     [self.descriptionLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.descriptionLabel setAdjustsLetterSpacingToFitWidth:YES];
+    [self.descriptionLabel setAdjustLetterSpacingToFitWidth:YES];
     [self.descriptionLabel setNumberOfLines:1];
     [self.descriptionLabel setLineBreakMode:NSLineBreakByTruncatingTail];
     
@@ -184,7 +184,7 @@
                                                CGRectGetMinX(self.amountLabel.frame) - MIN_LABEL_SPACING,
                                                self.amountLabel.frame.size.height)];
     [self.descriptionLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.descriptionLabel setAdjustsLetterSpacingToFitWidth:YES];
+    [self.descriptionLabel setAdjustLetterSpacingToFitWidth:YES];
     [self.descriptionLabel setNumberOfLines:1];
     [self.descriptionLabel setLineBreakMode:NSLineBreakByTruncatingTail];
     

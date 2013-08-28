@@ -48,7 +48,6 @@
                                                                                                  self.frame.size.height - BIG_AMOUNT_CONTAINER_MARGIN - MINIMUM_AMOUNT_LABEL_HEIGHT - TITLE_CONTAINER_BUFFER)];
     self.bigAmountContainer.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.bigAmountContainer.userInteractionEnabled = YES;
-    self.bigAmountContainer.position = EVGroupedTableViewCellPositionSingle;
     [self addSubview:self.bigAmountContainer];
     
     self.amountField = [[EVTextField alloc] initWithFrame:[self amountFieldFrame]];

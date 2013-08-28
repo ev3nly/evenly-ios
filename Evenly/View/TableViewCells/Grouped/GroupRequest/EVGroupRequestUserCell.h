@@ -17,8 +17,8 @@
 
 @property (nonatomic, strong) EVAvatarView *avatarView;
 
-@property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UILabel *tierLabel;
+@property (nonatomic, strong) EVLabel *nameLabel;
+@property (nonatomic, strong) EVLabel *tierLabel;
 
 - (CGRect)nameLabelFrame;
 

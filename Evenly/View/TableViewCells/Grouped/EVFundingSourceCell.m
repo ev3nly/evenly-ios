@@ -75,7 +75,6 @@
     accountNumber = [accountNumber stringByReplacingOccurrencesOfString:@"x" withString:@"*"];
     self.textLabel.text = [NSString stringWithFormat:@"%@ %@", bankName, accountNumber];
     self.textLabel.textColor = [EVColor newsfeedTextColor];
-    self.textLabel.adjustsLetterSpacingToFitWidth = YES;
     self.textLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
 }
 

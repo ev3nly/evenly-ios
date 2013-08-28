@@ -26,7 +26,7 @@ typedef enum {
 @property (nonatomic, strong) NSArray *amounts;
 
 @property (nonatomic, strong) UILabel *verbLabel;
-@property (nonatomic, strong) UILabel *amountLabel;
+@property (nonatomic, strong) EVLabel *amountLabel;
 @property (nonatomic, strong) EVAvatarToken *avatarToken;
 @property (nonatomic, strong) UIView *bottomStripe;
 
@@ -97,13 +97,13 @@ typedef enum {
     if (self.type == EVExchangeWhatForTypeTip)
         text = @"";
     
-    self.amountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.amountLabel = [[EVLabel alloc] initWithFrame:CGRectZero];
     self.amountLabel.backgroundColor = [UIColor clearColor];
     self.amountLabel.font = [EVFont boldFontOfSize:15];
     self.amountLabel.textColor = [UIColor blackColor];
     self.amountLabel.text = text;
     self.amountLabel.textAlignment = NSTextAlignmentRight;
-    self.amountLabel.adjustsLetterSpacingToFitWidth = YES;
+    self.amountLabel.adjustLetterSpacingToFitWidth = YES;
     [self.amountLabel sizeToFit];    
     [self addSubview:self.amountLabel];
 }

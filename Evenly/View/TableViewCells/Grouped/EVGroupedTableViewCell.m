@@ -68,6 +68,7 @@
         self.fillColor = [UIColor whiteColor];
         self.strokeColor = [EVColor newsfeedStripeColor];
         self.clipsToBounds = YES;
+        self.position = EVGroupedTableViewCellPositionSingle;
     }
     return self;
 }

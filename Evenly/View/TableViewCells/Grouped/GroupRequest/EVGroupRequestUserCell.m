@@ -41,21 +41,21 @@
 }
 
 - (void)loadNameLabel {
-    self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.nameLabel = [[EVLabel alloc] initWithFrame:CGRectZero];
     self.nameLabel.font = [EVFont blackFontOfSize:GROUP_REQUEST_USER_CELL_LARGE_FONT_SIZE];
     self.nameLabel.textColor = [UIColor blackColor];
     self.nameLabel.backgroundColor = [UIColor clearColor];
-    self.nameLabel.adjustsLetterSpacingToFitWidth = YES;
+    self.nameLabel.adjustLetterSpacingToFitWidth = YES;
     self.nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [self.contentView addSubview:self.nameLabel];
 }
 
 - (void)loadTierLabel {
-    self.tierLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.tierLabel = [[EVLabel alloc] initWithFrame:CGRectZero];
     self.tierLabel.font = [EVFont defaultFontOfSize:GROUP_REQUEST_USER_CELL_SMALL_FONT_SIZE];
     self.tierLabel.textColor = [EVColor lightLabelColor];
     self.tierLabel.backgroundColor = [UIColor clearColor];
-    self.tierLabel.adjustsLetterSpacingToFitWidth = YES;
+    self.tierLabel.adjustLetterSpacingToFitWidth = YES;
     self.tierLabel.adjustsFontSizeToFitWidth = YES;
     [self.contentView addSubview:self.tierLabel];
 }
