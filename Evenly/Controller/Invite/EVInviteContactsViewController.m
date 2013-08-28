@@ -62,7 +62,7 @@
     self.headerView = [[UIView alloc] initWithFrame:[self headerViewFrame]];
     [self loadHeaderLabel];
     [self loadHeaderButton];
-    [self setUpReactions];
+    [self setUpMoreReactions];
 }
 
 - (void)loadHeaderLabel {
@@ -91,7 +91,7 @@
     self.tableView.tableHeaderView = self.headerView;
 }
 
-- (void)setUpReactions {
+- (void)setUpMoreReactions {
     [RACAble(self.selectedFriends) subscribeNext:^(NSArray *array) {
         if ([self.selectedFriends isEqualToArray:self.fullFriendList]) {
             UIImage *greenCheck = [EVImageUtility overlayImage:[EVImages checkIcon] withColor:[EVColor lightGreenColor] identifier:@"checkIcon"];
