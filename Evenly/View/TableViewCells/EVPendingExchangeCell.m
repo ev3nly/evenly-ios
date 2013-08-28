@@ -40,12 +40,11 @@
 
 + (CGSize)sizeForInteraction:(EVObject *)object {
     NSString *string = [EVStringUtility stringForInteraction:object];
-//    CGFloat margination = EV_RIGHT_OVERHANG_MARGIN + 4*EV_PENDING_EXCHANGE_CELL_MARGIN + [EVAvatarView avatarSize].width;
     CGFloat maxWidth = EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH;
-    CGSize size = [string sizeWithFont:EV_PENDING_EXCHANGE_CELL_FONT
-                     constrainedToSize:CGSizeMake(maxWidth, 3*EV_PENDING_EXCHANGE_CELL_FONT.lineHeight)
-                         lineBreakMode:NSLineBreakByTruncatingMiddle];
-    
+    CGSize size = [string boundingRectWithSize:CGSizeMake(maxWidth, 3*EV_PENDING_EXCHANGE_CELL_FONT.lineHeight)
+                                       options:NSStringDrawingUsesLineFragmentOrigin
+                                    attributes:@{NSFontAttributeName: EV_PENDING_EXCHANGE_CELL_FONT}
+                                       context:NULL].size;
     CGFloat height = MAX(size.height + 2*EV_PENDING_EXCHANGE_CELL_Y_MARGIN, [EVAvatarView avatarSize].height + 2*EV_PENDING_EXCHANGE_CELL_MARGIN);
     return CGSizeMake(EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH, height);
 }

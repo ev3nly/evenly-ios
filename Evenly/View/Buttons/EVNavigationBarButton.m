@@ -47,7 +47,7 @@
 }
 
 - (CGRect)frameForTitle:(NSString *)title {
-    CGSize size = [title sizeWithFont:[self buttonFont]];
+    CGSize size = [title sizeWithAttributes:@{NSFontAttributeName: [self buttonFont]}];
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     rect = UIEdgeInsetsInsetRect(rect, [self frameEdgeInsets]);
     rect.size.width = MAX(rect.size.width, EV_NAVIGATION_BAR_BUTTON_MINIMUM_WIDTH);

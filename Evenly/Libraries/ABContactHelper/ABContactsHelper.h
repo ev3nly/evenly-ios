@@ -27,7 +27,7 @@
 + (int) numberOfGroups;
 
 // Sorting
-+ (BOOL) firstNameSorting;
+//+ (BOOL) firstNameSorting; //commented out because uses deprecated function
 
 // Add contacts and groups
 + (BOOL) addContact: (ABContact *) aContact withError: (NSError **) error;

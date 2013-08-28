@@ -403,7 +403,8 @@
         {
             controller = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeAll];
         }
-        NSAssert1(controller != nil, @"Controller to be presented was nil!  The object we were making the controller for was %@", interaction);
+        if (!controller)
+            return;
         EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:navController animated:YES completion:nil];
     }

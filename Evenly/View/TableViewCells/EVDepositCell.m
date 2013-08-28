@@ -55,9 +55,10 @@
 {
     [super layoutSubviews];
     
-    float textWidth = [self.label.text sizeWithFont:self.label.font
-                                  constrainedToSize:CGSizeMake(self.label.frame.size.width, self.label.frame.size.height)
-                                      lineBreakMode:self.label.lineBreakMode].width;
+    float textWidth = [self.label.text boundingRectWithSize:CGSizeMake(self.label.frame.size.width, self.label.frame.size.height)
+                                                    options:NSStringDrawingUsesLineFragmentOrigin
+                                                 attributes:@{NSFontAttributeName: self.label.font}
+                                                    context:NULL].size.width;
     float textFieldOrigin = self.label.frame.origin.x + textWidth + 20;
     
     self.textField.frame = CGRectMake(textFieldOrigin,

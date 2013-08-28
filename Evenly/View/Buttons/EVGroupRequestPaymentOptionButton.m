@@ -57,7 +57,10 @@
 }
 
 - (CGSize)sizeForText:(NSString *)text {
-    CGSize size = [text sizeWithFont:[EVFont defaultFontOfSize:15] constrainedToSize:CGSizeMake(DEFAULT_WIDTH - [self normalImage].size.width - HORIZONTAL_MARGIN, FLT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [text boundingRectWithSize:CGSizeMake(DEFAULT_WIDTH - [self normalImage].size.width - HORIZONTAL_MARGIN, FLT_MAX)
+                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                  attributes:@{NSFontAttributeName: [EVFont defaultFontOfSize:15]}
+                                     context:NULL].size;
     size.height = MAX(size.height, [self normalImage].size.height);
     return size;
 }

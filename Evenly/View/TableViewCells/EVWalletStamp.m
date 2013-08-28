@@ -38,10 +38,10 @@
 - (id)initWithText:(NSString *)text maxWidth:(CGFloat)maxWidth {
     if ([text isEqualToString:@"American Express"])
         text = @"Amex";
-    CGSize textSize = [[text uppercaseString] sizeWithFont:[self font]
-                                         constrainedToSize:CGSizeMake(maxWidth, [self font].lineHeight)
-                                             lineBreakMode:NSLineBreakByTruncatingMiddle];
-    
+    CGSize textSize = [[text uppercaseString] boundingRectWithSize:CGSizeMake(maxWidth, [self font].lineHeight)
+                                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                                        attributes:@{NSFontAttributeName: [self font]}
+                                                           context:NULL].size;
     self = [self initWithFrame:CGRectMake(0, 0, textSize.width + 16, textSize.height + 10)];
     if (self) {
         self.text = [text uppercaseString];
