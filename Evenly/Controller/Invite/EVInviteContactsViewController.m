@@ -17,6 +17,14 @@
 #define INVITE_BUTTON_WIDTH 70
 #define INVITE_BUTTON_HEIGHT 36
 
+#define HEADER_LABEL_X_ORIGIN 18
+#define HEADER_LABEL_Y_ORIGIN 5
+#define HEADER_LABEL_WIDTH 202
+
+#define HEADER_BUTTON_X_ORIGIN 230
+
+#define MIN_CONTACTS_TO_REQUIRE_CONFIRMATION 5
+
 @interface EVInviteContactsViewController ()
 
 @property (nonatomic, strong) UIView *headerView;
@@ -53,7 +61,10 @@
 - (void)loadHeader {
     self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT)];
     
-    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 5, 202, HEADER_HEIGHT)];
+    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(HEADER_LABEL_X_ORIGIN,
+                                                                 HEADER_LABEL_Y_ORIGIN,
+                                                                 HEADER_LABEL_WIDTH,
+                                                                 HEADER_HEIGHT)];
     self.headerLabel.backgroundColor = [UIColor clearColor];
     self.headerLabel.textColor = [EVColor darkColor];
     self.headerLabel.font = [EVFont defaultFontOfSize:15];
@@ -62,7 +73,10 @@
     self.headerLabel.numberOfLines = 2;
     self.headerLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
-    self.headerButton = [[UIButton alloc] initWithFrame:CGRectMake(230, (HEADER_HEIGHT - INVITE_BUTTON_HEIGHT) / 2 + 5, INVITE_BUTTON_WIDTH, INVITE_BUTTON_HEIGHT)];
+    self.headerButton = [[UIButton alloc] initWithFrame:CGRectMake(HEADER_BUTTON_X_ORIGIN,
+                                                                   (HEADER_HEIGHT - INVITE_BUTTON_HEIGHT) / 2 + HEADER_LABEL_Y_ORIGIN,
+                                                                   INVITE_BUTTON_WIDTH,
+                                                                   INVITE_BUTTON_HEIGHT)];
     [self.headerButton setBackgroundImage:[EVImages inviteButtonBackground] forState:UIControlStateNormal];
     [self.headerButton setBackgroundImage:[EVImages inviteButtonBackgroundSelected] forState:UIControlStateHighlighted];
     [self.headerButton addTarget:self action:@selector(inviteAllButtonPress:) forControlEvents:UIControlEventTouchUpInside];
@@ -110,7 +124,7 @@
 #pragma mark - Invite
 
 - (void)inviteFriendsButtonPress:(id)sender {
-    if ([self.selectedFriends count] > 5) {
+    if ([self.selectedFriends count] > MIN_CONTACTS_TO_REQUIRE_CONFIRMATION) {
         [EVAnalyticsUtility trackEvent:EVAnalyticsPressedInviteFromContacts
                             properties:@{ @"friend_count" : @([self.selectedFriends count]) }];
         [[UIAlertView alertViewWithTitle:@"Confirmation"
