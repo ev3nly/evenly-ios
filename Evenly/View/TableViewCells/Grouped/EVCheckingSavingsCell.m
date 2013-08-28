@@ -24,7 +24,7 @@
         [self.contentView addSubview:self.checkingButton];
         self.checkingButton.checked = YES;
         self.checkingButton.label.font = [EVFont blackFontOfSize:15];
-        
+        [self.checkingButton removeGestureRecognizers];
         [self.checkingButton addTarget:self action:@selector(checkingButtonPress:) forControlEvents:UIControlEventTouchUpInside];
 
         UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(self.contentView.frame.size.width / 2.0,
@@ -43,27 +43,24 @@
         self.savingsButton.xMargin = 15;
         self.savingsButton.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         [self.contentView addSubview:self.savingsButton];
+        [self.savingsButton removeGestureRecognizers];
         [self.savingsButton addTarget:self action:@selector(savingsButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     }
     return self;
 }
 
 - (void)checkingButtonPress:(id)sender {
-    [self.savingsButton fadeBetweenChecks];
+    if (!self.checkingButton.checked) {
+        [self.checkingButton fadeBetweenChecks];
+        [self.savingsButton fadeBetweenChecks];
+    }
 }
 
 - (void)savingsButtonPress:(id)sender {
-    [self.checkingButton fadeBetweenChecks];
+    if (!self.savingsButton.checked) {
+        [self.savingsButton fadeBetweenChecks];
+        [self.checkingButton fadeBetweenChecks];
+    }
 }
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

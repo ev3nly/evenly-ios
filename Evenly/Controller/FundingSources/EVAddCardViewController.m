@@ -11,7 +11,8 @@
 #import "EVNavigationBarButton.h"
 #import "EVPrivacyNotice.h"
 
-#define PK_VIEW_MARGIN 15
+#define PK_VIEW_SIDE_MARGIN 15
+#define PK_VIEW_TOP_MARGIN 79
 #define PK_VIEW_HEIGHT 55
 
 #define MESSAGE_TOP_MARGIN 15
@@ -48,9 +49,9 @@
 {
     [super viewDidLoad];
     
-    self.cardView = [[PKView alloc] initWithFrame:CGRectMake(PK_VIEW_MARGIN,
-                                                             PK_VIEW_MARGIN,
-                                                             self.view.frame.size.width - 2*PK_VIEW_MARGIN,
+    self.cardView = [[PKView alloc] initWithFrame:CGRectMake(PK_VIEW_SIDE_MARGIN,
+                                                             PK_VIEW_TOP_MARGIN,
+                                                             self.view.frame.size.width - 2*PK_VIEW_SIDE_MARGIN,
                                                              PK_VIEW_HEIGHT)];
     self.cardView.delegate = self;
     [self.view addSubview:self.cardView];

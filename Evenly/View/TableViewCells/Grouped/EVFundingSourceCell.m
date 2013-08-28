@@ -34,6 +34,13 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    self.imageView.frame = [self imageViewFrame];
+    self.accessoryView.frame = [self accessoryViewFrame];
+}
+
 - (void)prepareForReuse {
     [super prepareForReuse];
     self.textLabel.textColor = [EVColor newsfeedNounColor];
@@ -76,6 +83,20 @@
     self.textLabel.text = [NSString stringWithFormat:@"%@ %@", bankName, accountNumber];
     self.textLabel.textColor = [EVColor newsfeedTextColor];
     self.textLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+}
+
+#pragma mark - Frames
+
+- (CGRect)imageViewFrame {
+    CGRect imageFrame = self.imageView.frame;
+    imageFrame.origin.x = 20;
+    return imageFrame;
+}
+
+- (CGRect)accessoryViewFrame {
+    CGRect accessoryFrame = self.accessoryView.frame;
+    accessoryFrame.origin.x = self.bounds.size.width - accessoryFrame.size.width - 20;
+    return accessoryFrame;
 }
 
 @end

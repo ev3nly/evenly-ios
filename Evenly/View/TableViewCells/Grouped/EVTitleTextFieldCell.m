@@ -8,6 +8,8 @@
 
 #import "EVTitleTextFieldCell.h"
 
+#define SIDE_MARGIN 20
+
 @implementation EVTitleTextFieldCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -26,6 +28,7 @@
 {
     [super layoutSubviews];
     
+    self.textLabel.frame = [self textLabelFrame];
     float textWidth = [self.textLabel.text boundingRectWithSize:CGSizeMake(self.textLabel.frame.size.width, self.textLabel.frame.size.height)
                                                         options:NSStringDrawingUsesLineFragmentOrigin
                                                      attributes:@{NSFontAttributeName: self.textLabel.font}
@@ -56,6 +59,14 @@
     self.textLabel.textColor = [EVColor newsfeedNounColor];
     self.textLabel.font = [EVFont blackFontOfSize:15];
     self.textLabel.backgroundColor = [UIColor clearColor];
+}
+
+#pragma mark - Frames
+
+- (CGRect)textLabelFrame {
+    CGRect textFrame = self.textLabel.frame;
+    textFrame.origin.x = SIDE_MARGIN;
+    return textFrame;
 }
 
 @end

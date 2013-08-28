@@ -13,6 +13,8 @@
 
 #define CORNER_RADIUS 2.0
 
+#define RED_CONTROL_INSET CGPointMake(8, -1)
+
 @implementation EVGroupedTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -38,6 +40,15 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    if (self.isEditing) {
+        [self resetBackgroundFrameToCounteractIos7DeleteBug];
+        [self adjustRedControl];
+    }
+}
+
 - (void)setPosition:(EVGroupedTableViewCellPosition)position {
     _position = position;
     [(EVGroupedTableViewCellBackground *)self.backgroundView setPosition:_position];
@@ -45,11 +56,43 @@
     [self.backgroundView setNeedsDisplay];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
+#pragma mark - IOS7 Editing Fixes
 
-    // Configure the view for the selected state
+- (void)resetBackgroundFrameToCounteractIos7DeleteBug {
+    CGRect bgFrame = self.backgroundView.frame;
+    bgFrame.origin.x = 0;
+    self.backgroundView.frame = bgFrame;
+}
+
+- (void)adjustRedControl {
+    UIScrollView *scrollView = [self mainCellSubview];
+    if (scrollView) {
+        UIControl *redControl = [self redControlForScrollView:scrollView];
+        if (redControl) {
+            CGRect controlFrame = redControl.frame;
+            controlFrame.origin.x = RED_CONTROL_INSET.x;
+            controlFrame.origin.y = RED_CONTROL_INSET.y;
+            redControl.frame = controlFrame;
+        }
+    }
+}
+
+- (UIScrollView *)mainCellSubview {
+    UIScrollView *scrollView;
+    for (UIView *subview in self.subviews) {
+        if ([subview isKindOfClass:[UIScrollView class]])
+            scrollView = (UIScrollView *)subview;
+    }
+    return scrollView;
+}
+
+- (UIControl *)redControlForScrollView:(UIScrollView *)scrollView {
+    UIControl *redControl;
+    for (UIView *subview in scrollView.subviews) {
+        if ([subview isKindOfClass:[UIControl class]])
+            redControl = (UIControl *)subview;
+    }
+    return redControl;
 }
 
 - (CGRect)visibleFrame {
