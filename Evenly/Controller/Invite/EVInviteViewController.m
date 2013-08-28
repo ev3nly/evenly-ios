@@ -93,22 +93,25 @@
     self.headerView = [UIView new];
     self.headerView.backgroundColor = [UIColor clearColor];
     self.headerView.frame = [self headerViewFrame];
+    [self loadHeaderTitleLabel];
+    [self loadHeaderSubtitleLabel];
+    self.tableView.tableHeaderView = self.headerView;
+}
+
+- (void)loadHeaderTitleLabel {
     UILabel *label;
-    label = [[UILabel alloc] initWithFrame:CGRectMake(HEADER_MARGIN,
-                                                      HEADER_MARGIN,
-                                                      self.headerView.frame.size.width - 2*HEADER_MARGIN,
-                                                      HEADER_BOLD_LABEL_HEIGHT)];
+    label = [[UILabel alloc] initWithFrame:[self headerTitleLabelFrame]];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [EVColor darkColor];
     label.font = [EVFont blackFontOfSize:16];
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"Get $5 for every 3 friends that sign up.";
     [self.headerView addSubview:label];
-    
-    label = [[UILabel alloc] initWithFrame:CGRectMake(HEADER_MARGIN,
-                                                      HEADER_MARGIN + HEADER_BOLD_LABEL_HEIGHT,
-                                                      self.headerView.frame.size.width - 2*HEADER_MARGIN,
-                                                      self.headerView.frame.size.height - HEADER_MARGIN - HEADER_BOLD_LABEL_HEIGHT)];
+}
+
+- (void)loadHeaderSubtitleLabel {
+    UILabel *label;
+    label = [[UILabel alloc] initWithFrame:[self headerSubtitleLabelFrame]];
     label.backgroundColor = [UIColor clearColor];
     label.numberOfLines = 0;
     label.lineBreakMode = NSLineBreakByWordWrapping;
@@ -117,7 +120,6 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.text = @"Friends will thank you!\nAfter joining, they'll receive $1 on us.";
     [self.headerView addSubview:label];
-    self.tableView.tableHeaderView = self.headerView;
 }
 
 - (void)loadFooterView {
@@ -264,6 +266,20 @@
                       0,
                       self.view.bounds.size.width,
                       HEADER_HEIGHT);
+}
+
+- (CGRect)headerTitleLabelFrame {
+    return CGRectMake(HEADER_MARGIN,
+                      HEADER_MARGIN,
+                      self.headerView.frame.size.width - 2*HEADER_MARGIN,
+                      HEADER_BOLD_LABEL_HEIGHT);
+}
+
+- (CGRect)headerSubtitleLabelFrame {
+    return CGRectMake(HEADER_MARGIN,
+                      HEADER_MARGIN + HEADER_BOLD_LABEL_HEIGHT,
+                      self.headerView.frame.size.width - 2*HEADER_MARGIN,
+                      self.headerView.frame.size.height - HEADER_MARGIN - HEADER_BOLD_LABEL_HEIGHT);
 }
 
 - (CGRect)footerViewFrame {
