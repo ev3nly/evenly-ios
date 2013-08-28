@@ -59,12 +59,14 @@
 }
 
 - (void)loadHeader {
-    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT)];
-    
-    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(HEADER_LABEL_X_ORIGIN,
-                                                                 HEADER_LABEL_Y_ORIGIN,
-                                                                 HEADER_LABEL_WIDTH,
-                                                                 HEADER_HEIGHT)];
+    self.headerView = [[UIView alloc] initWithFrame:[self headerViewFrame]];
+    [self loadHeaderLabel];
+    [self loadHeaderButton];
+    [self setUpReactions];
+}
+
+- (void)loadHeaderLabel {
+    self.headerLabel = [[UILabel alloc] initWithFrame:[self headerLabelFrame]];
     self.headerLabel.backgroundColor = [UIColor clearColor];
     self.headerLabel.textColor = [EVColor darkColor];
     self.headerLabel.font = [EVFont defaultFontOfSize:15];
@@ -72,11 +74,11 @@
     self.headerLabel.text = @"Make it a party,\ninvite all your friends!";
     self.headerLabel.numberOfLines = 2;
     self.headerLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    
-    self.headerButton = [[UIButton alloc] initWithFrame:CGRectMake(HEADER_BUTTON_X_ORIGIN,
-                                                                   (HEADER_HEIGHT - INVITE_BUTTON_HEIGHT) / 2 + HEADER_LABEL_Y_ORIGIN,
-                                                                   INVITE_BUTTON_WIDTH,
-                                                                   INVITE_BUTTON_HEIGHT)];
+    [self.headerView addSubview:self.headerLabel];
+}
+
+- (void)loadHeaderButton {
+    self.headerButton = [[UIButton alloc] initWithFrame:[self headerButtonFrame]];
     [self.headerButton setBackgroundImage:[EVImages inviteButtonBackground] forState:UIControlStateNormal];
     [self.headerButton setBackgroundImage:[EVImages inviteButtonBackgroundSelected] forState:UIControlStateHighlighted];
     [self.headerButton addTarget:self action:@selector(inviteAllButtonPress:) forControlEvents:UIControlEventTouchUpInside];
@@ -85,10 +87,11 @@
     [self.headerButton setTitleEdgeInsets:UIEdgeInsetsMake(2, 0, 0, 0)];
     self.headerButton.titleLabel.font = [EVFont blackFontOfSize:11];
     
-    [self.headerView addSubview:self.headerLabel];
     [self.headerView addSubview:self.headerButton];
     self.tableView.tableHeaderView = self.headerView;
-    
+}
+
+- (void)setUpReactions {
     [RACAble(self.selectedFriends) subscribeNext:^(NSArray *array) {
         if ([self.selectedFriends isEqualToArray:self.fullFriendList]) {
             UIImage *greenCheck = [EVImageUtility overlayImage:[EVImages checkIcon] withColor:[EVColor lightGreenColor] identifier:@"checkIcon"];
@@ -103,7 +106,6 @@
         }
     }];
     [self setAllSelected:YES];
-
 }
 
 - (void)inviteAllButtonPress:(UIButton *)sender {
@@ -173,8 +175,8 @@
                            [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
                        }];
 }
-#pragma mark - TableView DataSource/Delegate
 
+#pragma mark - TableView DataSource/Delegate
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVInviteContactCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"contactInviteCell"];
@@ -206,6 +208,26 @@
         NSString *name = [NSString stringWithFormat:@"%@ %@", contact.firstname, contact.lastname];
         return ([name.lowercaseString rangeOfString:search.lowercaseString].location != NSNotFound);
     }];
+}
+
+#pragma mark - Frames 
+
+- (CGRect)headerViewFrame {
+    return CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT);
+}
+
+- (CGRect)headerLabelFrame {
+    return CGRectMake(HEADER_LABEL_X_ORIGIN,
+                      HEADER_LABEL_Y_ORIGIN,
+                      HEADER_LABEL_WIDTH,
+                      HEADER_HEIGHT);
+}
+
+- (CGRect)headerButtonFrame {
+    return CGRectMake(HEADER_BUTTON_X_ORIGIN,
+                      (HEADER_HEIGHT - INVITE_BUTTON_HEIGHT) / 2 + HEADER_LABEL_Y_ORIGIN,
+                      INVITE_BUTTON_WIDTH,
+                      INVITE_BUTTON_HEIGHT);
 }
 
 @end
