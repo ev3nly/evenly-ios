@@ -72,7 +72,7 @@
 
 - (void)loadRightButton {
     EVNavigationBarButton *button = [[EVNavigationBarButton alloc] initWithTitle:@"Invite"];
-    [button addTarget:self action:@selector(inviteFriends) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(inviteFriendsButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [button setEnabled:NO];
     
     self.rightButton = [[UIBarButtonItem alloc] initWithCustomView:button];
@@ -177,6 +177,10 @@ static NSString *previousSearch = @"";
 }
 
 #pragma mark - Invite
+
+- (void)inviteFriendsButtonPress:(id)sender {
+    [self inviteFriends];
+}
 
 - (void)inviteFriends {
     //implement in subclass

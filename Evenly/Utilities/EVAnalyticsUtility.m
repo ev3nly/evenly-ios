@@ -13,6 +13,10 @@ NSString *const EVAnalyticsOpenedApp = @"Opened app";
 NSString *const EVAnalyticsAddedCard = @"Added card";
 NSString *const EVAnalyticsSignedOut = @"Signed out";
 
+NSString *const EVAnalyticsPressedInviteFromContacts = @"Was prompted for confirmation from Invite Contacts";
+NSString *const EVAnalyticsConfirmedInviteFromContacts = @"Confirmed Invite Contacts";
+NSString *const EVAnalyticsCanceledInviteFromContacts = @"Canceled Invite Contacts";
+
 @implementation EVAnalyticsUtility
 
 + (void)trackEvent:(NSString *)event {

@@ -11,8 +11,19 @@
 #import "ABContactsHelper.h"
 #import <AddressBook/AddressBook.h>
 #import "EVInvite.h"
+#import "UIAlertView+MKBlockAdditions.h"
+
+#define HEADER_HEIGHT 44
+#define INVITE_BUTTON_WIDTH 70
+#define INVITE_BUTTON_HEIGHT 36
 
 @interface EVInviteContactsViewController ()
+
+@property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) UILabel *headerLabel;
+@property (nonatomic, strong) UIButton *headerButton;
+
+@property (nonatomic) BOOL allSelected;
 
 @end
 
@@ -35,10 +46,89 @@
     [super viewDidLoad];
     
     [self.tableView registerClass:[EVInviteContactCell class] forCellReuseIdentifier:@"contactInviteCell"];
+    
+    [self loadHeader];
+}
+
+- (void)loadHeader {
+    self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT)];
+    
+    self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 5, 202, HEADER_HEIGHT)];
+    self.headerLabel.backgroundColor = [UIColor clearColor];
+    self.headerLabel.textColor = [EVColor darkColor];
+    self.headerLabel.font = [EVFont defaultFontOfSize:15];
+    self.headerLabel.textAlignment = NSTextAlignmentLeft;
+    self.headerLabel.text = @"Make it a party,\ninvite all your friends!";
+    self.headerLabel.numberOfLines = 2;
+    self.headerLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    
+    self.headerButton = [[UIButton alloc] initWithFrame:CGRectMake(230, (HEADER_HEIGHT - INVITE_BUTTON_HEIGHT) / 2 + 5, INVITE_BUTTON_WIDTH, INVITE_BUTTON_HEIGHT)];
+    [self.headerButton setBackgroundImage:[EVImages inviteButtonBackground] forState:UIControlStateNormal];
+    [self.headerButton setBackgroundImage:[EVImages inviteButtonBackgroundSelected] forState:UIControlStateHighlighted];
+    [self.headerButton addTarget:self action:@selector(inviteAllButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [self.headerButton setTitle:@"ADD ALL" forState:UIControlStateNormal];
+    [self.headerButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
+    [self.headerButton setTitleEdgeInsets:UIEdgeInsetsMake(2, 0, 0, 0)];
+    self.headerButton.titleLabel.font = [EVFont blackFontOfSize:11];
+    
+    [self.headerView addSubview:self.headerLabel];
+    [self.headerView addSubview:self.headerButton];
+    self.tableView.tableHeaderView = self.headerView;
+    
+    [RACAble(self.selectedFriends) subscribeNext:^(NSArray *array) {
+        if ([self.selectedFriends isEqualToArray:self.fullFriendList]) {
+            UIImage *greenCheck = [EVImageUtility overlayImage:[EVImages checkIcon] withColor:[EVColor lightGreenColor] identifier:@"checkIcon"];
+            [UIView animateWithDuration:0.3 animations:^{
+                [self.headerButton setTitle:@"" forState:UIControlStateNormal];
+                [self.headerButton setImage:greenCheck forState:UIControlStateNormal];
+            }];
+        } else {
+            _allSelected = NO;
+            [self.headerButton setTitle:@"ADD ALL" forState:UIControlStateNormal];
+            [self.headerButton setImage:nil forState:UIControlStateNormal];
+        }
+    }];
+    [self setAllSelected:YES];
+
+}
+
+- (void)inviteAllButtonPress:(UIButton *)sender {
+    [self setAllSelected:!self.allSelected];
+}
+
+- (void)setAllSelected:(BOOL)allSelected {
+    _allSelected = allSelected;
+    if (_allSelected) {
+        self.selectedFriends = [NSArray arrayWithArray:self.fullFriendList];
+        [self.tableView reloadData];
+    } else {
+        self.selectedFriends = @[];
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - Invite
 
+- (void)inviteFriendsButtonPress:(id)sender {
+    if ([self.selectedFriends count] > 5) {
+        [EVAnalyticsUtility trackEvent:EVAnalyticsPressedInviteFromContacts
+                            properties:@{ @"friend_count" : @([self.selectedFriends count]) }];
+        [[UIAlertView alertViewWithTitle:@"Confirmation"
+                                 message:[NSString stringWithFormat:@"Ready to invite %d of your friends?", [self.selectedFriends count]]
+                       cancelButtonTitle:@"Don't Invite"
+                       otherButtonTitles:@[@"Invite"]
+                               onDismiss:^(int buttonIndex) {
+                                   [EVAnalyticsUtility trackEvent:EVAnalyticsConfirmedInviteFromContacts
+                                                       properties:@{ @"friend_count" : @([self.selectedFriends count]) }];
+                                   [self inviteFriends];
+                               } onCancel:^{
+                                   [EVAnalyticsUtility trackEvent:EVAnalyticsCanceledInviteFromContacts
+                                                       properties:@{ @"friend_count" : @([self.selectedFriends count]) }];
+                               }] show];
+    } else {
+        [self inviteFriends];
+    }
+}
 
 - (void)inviteFriends {
     [self.view findAndResignFirstResponder];
