@@ -7,7 +7,6 @@
 //
 
 #import "EVWalletCell.h"
-#import "EVSpreadLabel.h"
 
 @implementation EVWalletCell
 
@@ -53,15 +52,15 @@
         containerView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         containerView.autoresizesSubviews = YES;
         [self addSubview:containerView];
-        self.label = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(margin,
-                                                                    0.0,
-                                                                    containerView.frame.size.width / 2.0 - margin,
-                                                                    containerView.frame.size.height)];
+        self.label = [[EVLabel alloc] initWithFrame:CGRectMake(margin,
+                                                               0.0,
+                                                               containerView.frame.size.width / 2.0 - margin,
+                                                               containerView.frame.size.height)];
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = [EVColor sidePanelTextColor];
         self.label.font = [EVFont walletHeaderFont];
         self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
-        [(EVSpreadLabel *)self.label setCharacterSpacing:2.0];
+        ((EVLabel *)self.label).characterSpacing = 2.0;
         [containerView addSubview:self.label];
     }
     return self;

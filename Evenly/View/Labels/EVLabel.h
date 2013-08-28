@@ -10,7 +10,7 @@
 
 @interface EVLabel : UILabel
 
-@property (nonatomic, assign) float fixedCharacterSpacing;
+@property (nonatomic, assign) float characterSpacing;
 @property (nonatomic, assign) BOOL adjustLetterSpacingToFitWidth;
 
 @end

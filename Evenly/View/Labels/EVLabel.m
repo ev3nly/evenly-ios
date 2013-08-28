@@ -16,6 +16,8 @@
 
 @implementation EVLabel
 
+#pragma mark - Lifecycle
+
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -30,10 +32,7 @@
     self.attributedText = [[NSAttributedString alloc] initWithString:self.text attributes:[self attributesDictionary]];
 }
 
-- (CGSize)sizeWithSpacing:(float)spacing {
-    return [self.text sizeWithAttributes:@{NSFontAttributeName: self.font,
-                                           NSKernAttributeName: @(spacing)}];
-}
+#pragma mark - Spacing
 
 - (float)neededCharacterSpacing {
     float currentSpacing = 0;
@@ -45,9 +44,19 @@
     return currentSpacing;
 }
 
+- (CGSize)sizeWithSpacing:(float)spacing {
+    return [self.text sizeWithAttributes:@{NSFontAttributeName: self.font,
+                                           NSKernAttributeName: @(spacing)}];
+}
+
+#pragma mark - Dictionary
+
 - (NSDictionary *)attributesDictionary {
+    float spacing = self.characterSpacing;
+    if (self.adjustLetterSpacingToFitWidth)
+        spacing = [self neededCharacterSpacing];
     return @{NSFontAttributeName: self.font,
-             NSKernAttributeName: @([self neededCharacterSpacing])};
+             NSKernAttributeName: @(spacing)};
 }
 
 @end

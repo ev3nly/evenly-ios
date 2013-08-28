@@ -117,7 +117,7 @@
     label.text = [EVStringUtility multiAmountInfoMessage];
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 1;
-//    label.attributedText = [[NSAttributedString alloc] initWithString:label.text attributes:@{NSKernAttributeName: @(-0.2)}];
+    label.adjustLetterSpacingToFitWidth = YES;
     
     self.footerLabel = label;
     UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, INFO_LABEL_HEIGHT)];
