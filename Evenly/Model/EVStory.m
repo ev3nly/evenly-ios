@@ -367,25 +367,8 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     }
 }
 
-static DTCSSStylesheet *_stylesheet;
-
 - (NSAttributedString *)attributedStringFromHTMLDisplayDescription {
-    if (!_stylesheet) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            _stylesheet = [[DTCSSStylesheet alloc] initWithStyleBlock:@" strong { color: #282726;  font-family: Avenir; font-weight: bold; } "];
-        });
-    }
-    
-    NSDictionary *options = @{ DTDefaultFontFamily : @"Avenir",
-                               DTDefaultFontSize : @(15),
-                               DTDefaultTextColor : [EVColor newsfeedTextColor],
-                               DTUseiOS6Attributes : @(YES),
-                               DTDefaultStyleSheet : _stylesheet,
-                               DTDefaultTextAlignment : @(kCTCenterTextAlignment) };
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTMLData:[self.displayDescription dataUsingEncoding:NSUTF8StringEncoding]
-                                                                                        options:options
-                                                                             documentAttributes:nil];
+    NSMutableAttributedString *attrString = [EVStringUtility mutableAttributedStringWithHTML:self.displayDescription];
 
     // Remove the paragraph style, which messes up the label textAlignment properties.
     [attrString removeAttribute:NSParagraphStyleAttributeName range:NSMakeRange(0, attrString.length)];

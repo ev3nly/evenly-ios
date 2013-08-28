@@ -78,6 +78,7 @@
 #pragma mark - Amounts
 + (NSString *)amountStringForAmount:(NSDecimalNumber *)amount;
 + (NSDecimalNumber *)amountFromAmountString:(NSString *)amountString;
++ (NSString *)inviteAmountStringForNumberOfInvitees:(NSInteger)numberOfPeople;
 
 #pragma mark - General
 
@@ -110,5 +111,9 @@
 
 #pragma mark - PIN
 + (NSString *)wouldYouLikeToSetPINPrompt;
+
+#pragma mark - HTML Processing
++ (NSAttributedString *)attributedStringWithHTML:(NSString *)html;
++ (NSMutableAttributedString *)mutableAttributedStringWithHTML:(NSString *)html;
 
 @end
