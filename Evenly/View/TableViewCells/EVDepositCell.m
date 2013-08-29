@@ -8,6 +8,8 @@
 
 #import "EVDepositCell.h"
 
+#define SIDE_MARGIN 20
+
 @implementation EVDepositCell
 
 - (id)initWithFrame:(CGRect)frame {
@@ -23,7 +25,7 @@
         
         CGFloat fontSize = 15.0;
         
-        self.label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 44)];
+        self.label = [[UILabel alloc] initWithFrame:CGRectMake(SIDE_MARGIN, 0, 150, 44)];
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = [UIColor blackColor];
         self.label.font = [EVFont blackFontOfSize:fontSize];

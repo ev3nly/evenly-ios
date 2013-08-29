@@ -11,7 +11,7 @@
 
 #define SIDE_MARGIN 10
 #define AVATAR_LENGTH 88
-#define STRIPE_WIDTH 1
+#define STRIPE_WIDTH [EVUtilities scaledDividerHeight]
 
 @interface EVPhotoNameEmailCell ()
 
@@ -23,7 +23,7 @@
 @implementation EVPhotoNameEmailCell
 
 + (float)cellHeight {
-    return AVATAR_LENGTH + STRIPE_WIDTH;
+    return AVATAR_LENGTH;
 }
 
 #pragma mark - Lifecycle
@@ -53,12 +53,12 @@
 #pragma mark - View Loading
 
 - (void)loadProfilePictureView {
-    UIView *clippingContainer = [[UIView alloc] initWithFrame:CGRectMake(SIDE_MARGIN,
+    UIView *clippingContainer = [[UIView alloc] initWithFrame:CGRectMake(SIDE_MARGIN + STRIPE_WIDTH,
                                                                          STRIPE_WIDTH,
                                                                          AVATAR_LENGTH + SIDE_MARGIN,
                                                                          AVATAR_LENGTH + SIDE_MARGIN)];
     clippingContainer.backgroundColor = [UIColor clearColor];
-    clippingContainer.layer.cornerRadius = 2.0;
+    clippingContainer.layer.cornerRadius = 1.5;
     clippingContainer.clipsToBounds = YES;
     [self addSubview:clippingContainer];
     
