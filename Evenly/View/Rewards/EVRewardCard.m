@@ -15,7 +15,6 @@
     if (self) {
         _text = text;
         self.animationEnabled = YES;
-        
         self.autoresizesSubviews = YES;
         
         self.back = [[EVRewardCardBack alloc] initWithFrame:self.bounds text:text color:color];

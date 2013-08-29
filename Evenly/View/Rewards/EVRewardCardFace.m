@@ -30,6 +30,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = color;
+        self.layer.cornerRadius = 2.0;
+        self.clipsToBounds = YES;
         
         self.throbber = [[EVThrobber alloc] initWithThrobberStyle:EVThrobberStyleLight];
         self.throbber.center = CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0);
@@ -59,7 +61,7 @@
     CGRect frame;
     UIView *stripe;
     
-    frame = CGRectMake(0, self.frame.size.height / 2.0, CGRectGetMinX(self.logo.frame) - LOGO_PADDING, 1);
+    frame = CGRectMake(0, self.frame.size.height / 2.0, CGRectGetMinX(self.logo.frame) - LOGO_PADDING, [EVUtilities scaledDividerHeight]);
     stripe = [[UIView alloc] initWithFrame:frame];
     stripe.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.43];
     [self.contentContainer addSubview:stripe];
@@ -68,7 +70,7 @@
     frame = CGRectMake(CGRectGetMaxX(self.logo.frame) + LOGO_PADDING,
                        self.frame.size.height / 2.0,
                        self.frame.size.width - LOGO_PADDING - CGRectGetMaxX(self.logo.frame),
-                       1);
+                       [EVUtilities scaledDividerHeight]);
     stripe = [[UIView alloc] initWithFrame:frame];
     stripe.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.43];
     [self.contentContainer addSubview:stripe];

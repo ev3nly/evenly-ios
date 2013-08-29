@@ -129,7 +129,10 @@
     
     [passwordRow setContentView:self.passwordField];
     
-    EVFormView *formView = [[EVFormView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.logo.frame) + LOGO_BUFFER, 320, 50)];
+    EVFormView *formView = [[EVFormView alloc] initWithFrame:CGRectMake(0,
+                                                                        CGRectGetMaxY(self.logo.frame) + LOGO_BUFFER,
+                                                                        self.view.bounds.size.width,
+                                                                        50)];
     formView.tag = FORM_VIEW_TAG;
     [self.view addSubview:formView];
     [formView setFormRows:@[ emailRow, passwordRow ]];

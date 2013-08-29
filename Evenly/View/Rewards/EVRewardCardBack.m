@@ -26,7 +26,7 @@
 
         self.layer.cornerRadius = 2.0;
         self.layer.borderColor = [[EVColor newsfeedStripeColor] CGColor];
-        self.layer.borderWidth = 1.0;
+        self.layer.borderWidth = [EVUtilities scaledDividerHeight];
         
         self.dot = [[EVRewardCardBackDot alloc] initWithText:text color:color];
         self.dot.center = CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0);

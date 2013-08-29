@@ -12,8 +12,6 @@
 #import "EVSession.h"
 #import "EVNavigationManager.h"
 
-#import "EVFormView.h"
-
 #import "EVNotificationsViewController.h"
 #import "EVPINSettingsViewController.h"
 

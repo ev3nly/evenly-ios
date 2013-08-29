@@ -79,8 +79,6 @@
 }
 
 - (void)layoutLabels {
-    self.nameLabel.text = @"Some really long name that would probably never really exist";
-    self.tierLabel.text = @"An obnoxiously long tier description that probably only Obed would ever make";
     self.amountLabel.hidden = NO;
     self.amountLabel.frame = [self amountLabelFrame];
     

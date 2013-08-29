@@ -60,6 +60,8 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"groupedCell"];
     [self.view addSubview:self.tableView];
 }

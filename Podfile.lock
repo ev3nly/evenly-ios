@@ -1,5 +1,14 @@
 PODS:
   - AFNetworking (1.3.1)
+  - DTCoreText (1.6.5):
+    - DTFoundation/Core (~> 1.5.1)
+    - DTFoundation/DTHTMLParser (~> 1.5.1)
+    - DTFoundation/UIKit (~> 1.5.1)
+  - DTFoundation/Core (1.5.2)
+  - DTFoundation/DTHTMLParser (1.5.2):
+    - DTFoundation/Core
+  - DTFoundation/UIKit (1.5.2):
+    - DTFoundation/Core
   - FormatterKit (1.1.2):
     - FormatterKit/AddressFormatter
     - FormatterKit/ArrayFormatter
@@ -43,6 +52,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 1.0)
+  - DTCoreText (~> 1.6.4)
   - FormatterKit (~> 1.1.2)
   - Kiwi (~> 2.0.6)
   - MBProgressHUD (~> 0.6)
@@ -59,6 +69,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: 9ec8aafb9269236a7630bd8d9838ce2ba30fa2a0
+  DTCoreText: 8798221d6da3bc079be24e808f152910c6f5e264
+  DTFoundation: 6138b5437df0217bbeba2b5cec89d5e95cf7f0e8
   FormatterKit: bb53f3de30773e6b06f91dee1f82b46f536278d7
   JRSwizzle: 6242ff38485d870fc2636899048ee1ab883ae587
   Kiwi: 56082a80f942de4d10423d8d8a599ab30cf50228

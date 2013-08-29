@@ -8,6 +8,8 @@
 
 #import "EVLabel.h"
 
+#define MINIMUM_SPACING -1.0
+
 @interface EVLabel ()
 
 @property (nonatomic, readonly) NSDictionary *attributesDictionary;
@@ -37,7 +39,7 @@
 - (float)neededCharacterSpacing {
     float currentSpacing = 0;
     if (self.numberOfLines == 1) {
-        while ([self sizeWithSpacing:currentSpacing].width > self.bounds.size.width) {
+        while ([self sizeWithSpacing:currentSpacing].width > self.bounds.size.width && currentSpacing > MINIMUM_SPACING) {
             currentSpacing -= 0.1;
         }
     }

@@ -17,6 +17,7 @@
 #define EV_PENDING_EXCHANGE_CELL_MARGIN 10.0
 #define EV_PENDING_EXCHANGE_CELL_Y_MARGIN 5.0
 #define EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH 185.0
+#define EV_PENDING_EXCHANGE_CELL_AMOUNT_LABEL_Y_OFFSET 1
 
 #define EV_PENDING_EXCHANGE_CELL_FONT [EVFont defaultFontOfSize:14]
 #define EV_PENDING_EXCHANGE_CELL_BOLD_FONT [EVFont boldFontOfSize:14]
@@ -129,7 +130,7 @@
     CGFloat yMidpoint = self.exchangeContainer.frame.size.height / 2.0;
     
     [self.amountLabel setFrame:CGRectMake(self.exchangeContainer.frame.size.width - self.amountLabel.frame.size.width,
-                                          yMidpoint - self.amountLabel.frame.size.height,
+                                          yMidpoint - self.amountLabel.frame.size.height/2 + EV_PENDING_EXCHANGE_CELL_AMOUNT_LABEL_Y_OFFSET,
                                           self.amountLabel.frame.size.width,
                                           self.amountLabel.frame.size.height)];
     self.amountLabel.textColor = (exchange.from == nil) ? [EVColor lightGreenColor] : [EVColor lightRedColor];
@@ -173,7 +174,7 @@
     CGFloat yMidpoint = self.exchangeContainer.frame.size.height / 2.0;
     
     [self.amountLabel setFrame:CGRectMake(self.exchangeContainer.frame.size.width - self.amountLabel.frame.size.width,
-                                          yMidpoint - self.amountLabel.frame.size.height,
+                                          yMidpoint - self.amountLabel.frame.size.height/2 + EV_PENDING_EXCHANGE_CELL_AMOUNT_LABEL_Y_OFFSET,
                                           self.amountLabel.frame.size.width,
                                           self.amountLabel.frame.size.height)];
     self.amountLabel.textColor = (groupRequest.from == nil) ? [EVColor lightGreenColor] : [EVColor lightRedColor];

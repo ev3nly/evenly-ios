@@ -11,6 +11,7 @@ pod 'SSKeychain', '~> 1.0.2'
 pod 'ReactiveCocoa', '~> 1.5.0'
 pod 'FormatterKit', '~> 1.1.2'
 pod 'TTTAttributedLabel'
+pod 'DTCoreText', '~> 1.6.4'
 
 # pod 'SocketRocket', :podspec => 'SocketRocket.podspec'
 # pod 'PonyDebugger', :podspec => 'PonyDebugger.podspec'

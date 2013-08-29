@@ -11,6 +11,7 @@
 
 #define PENDING_BUTTON_TOP_BUFFER 10
 #define PENDING_BUTTON_SIDE_BUFFER 20
+#define PENDING_BUTTON_BUTTON_BUFFER 10
 #define PENDING_BOTTOM_SECTION_HEIGHT ([EVImages grayButtonBackground].size.height + PENDING_BUTTON_TOP_BUFFER*2)
 #define PENDING_DATE_BOTTOM_SECTION_BUFFER 0
 #define PENDING_STORY_DATE_BUFFER 6
@@ -182,13 +183,13 @@
 - (CGRect)rejectButtonFrame {
     return CGRectMake(PENDING_BUTTON_SIDE_BUFFER,
                       self.horizontalRuleFrame.origin.y + PENDING_BUTTON_TOP_BUFFER,
-                      (self.contentView.bounds.size.width - PENDING_BUTTON_SIDE_BUFFER*3)/2,
+                      (self.contentView.bounds.size.width - PENDING_BUTTON_SIDE_BUFFER*2 - PENDING_BUTTON_BUTTON_BUFFER)/2,
                       [self bottomSectionHeight] - PENDING_BUTTON_TOP_BUFFER*2);
 }
 
 - (CGRect)confirmButtonFrame {
     CGRect leftButtonFrame = self.rejectButton ? self.rejectButton.frame : self.cancelButton.frame;
-    return CGRectMake(CGRectGetMaxX(leftButtonFrame) + PENDING_BUTTON_SIDE_BUFFER,
+    return CGRectMake(CGRectGetMaxX(leftButtonFrame) + PENDING_BUTTON_BUTTON_BUFFER,
                       leftButtonFrame.origin.y,
                       leftButtonFrame.size.width,
                       leftButtonFrame.size.height);
