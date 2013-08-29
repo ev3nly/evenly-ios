@@ -14,4 +14,6 @@
 + (void)createWithEmails:(NSArray *)emails success:(void (^)(EVObject *object))success failure:(void(^)(NSError *error))failure;
 
 + (void)createWithPhoneNumber:(NSString *)phoneNumber success:(void (^)(EVObject *object))success failure:(void(^)(NSError *error))failure;
+
++ (void)createWithFacebookIDs:(NSArray *)facebookIDs success:(void (^)(EVObject *object))success failure:(void(^)(NSError *error))failure;
 @end
