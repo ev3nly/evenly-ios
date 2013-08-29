@@ -151,4 +151,41 @@ static EVFacebookManager *_sharedManager;
     }];
 }
 
+#pragma mark - Close Friends
+
++ (BOOL)hasFriendListReadPermissions {
+    return [FBSession.activeSession.permissions containsObject:@"read_friendlists"];
+}
+
++ (void)requestFriendListReadPermissionsWithCompletion:(void (^)(void))completion {
+    [[FBSession activeSession] requestNewReadPermissions:@[ @"read_friendlists" ] completionHandler:^(FBSession *session, NSError *error) {
+        if (!error) {
+            if (completion)
+                completion();
+        } else {
+            DLog(@"Error getting read_friendlists permission: %@", error);
+        }
+    }];
+}
+
++ (void)loadCloseFriendsWithCompletion:(void (^)(NSArray *closeFriends))completion failure:(void (^)(NSError *error))failure {
+    [self performRequest:^{
+        [[FBRequest requestWithGraphPath:@"me/friendlists/close_friends"
+                              parameters:@{ @"fields" : @"members" }
+                              HTTPMethod:@"GET"] startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+            if (!error) {
+                NSArray *friends = [(NSDictionary *)result objectForKey:@"data"];
+                friends = friends[0][@"members"][@"data"];
+                if (completion)
+                    completion(friends);
+            }
+            else {
+                if (failure)
+                    failure(error);
+            }
+            
+        }];
+    }];
+}
+
 @end

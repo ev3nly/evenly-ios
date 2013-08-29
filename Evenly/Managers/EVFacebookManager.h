@@ -28,6 +28,9 @@
 + (void)loadMeWithCompletion:(void (^)(NSDictionary *userDict))completion failure:(void (^)(NSError *error))failure;
 + (void)loadFriendsWithCompletion:(void (^)(NSArray *friends))completion failure:(void (^)(NSError *error))failure;
 
-
+#pragma mark - Close Friends
++ (BOOL)hasFriendListReadPermissions;
++ (void)requestFriendListReadPermissionsWithCompletion:(void (^)(void))completion;
++ (void)loadCloseFriendsWithCompletion:(void (^)(NSArray *closeFriends))completion failure:(void (^)(NSError *error))failure;
 
 @end

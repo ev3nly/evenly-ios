@@ -59,7 +59,7 @@
 - (void)loadNameLabel {
     self.nameLabel = [UILabel new];
     self.nameLabel.backgroundColor = [UIColor clearColor];
-    self.nameLabel.textColor = [UIColor darkGrayColor];
+    self.nameLabel.textColor = [EVColor darkColor];
     self.nameLabel.font = [EVFont blackFontOfSize:14];
     [self addSubview:self.nameLabel];
 }
