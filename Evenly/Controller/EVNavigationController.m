@@ -37,6 +37,12 @@
     blurView.frame = CGRectMake(0, -20, 320, 65);
     blurView.blurTintColor = [EVColor blueColor];
     [self.navigationBar insertSubview:blurView atIndex:0];
+    
+    self.interactivePopGestureRecognizer.delegate = self;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    return YES;
 }
 
 #pragma mark - Status Bar
