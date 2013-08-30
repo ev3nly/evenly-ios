@@ -8,6 +8,10 @@
 
 #import "EVFacebookManager.h"
 
+NSString *const EVFacebookManagerDidLogInNotification = @"EVFacebookManagerDidLogInNotification";
+NSString *const EVFacebookManagerDidLogOutNotification = @"EVFacebookManagerDidLogOutNotification";
+
+
 @implementation EVFacebookManager
 
 static EVFacebookManager *_sharedManager;
@@ -34,20 +38,44 @@ static EVFacebookManager *_sharedManager;
     }
 }
 
-+ (void)openSessionWithCompletion:(void (^)(void))completion {
+#pragma mark - Signup Pathway
+
++ (void)openSessionForSignupWithCompletion:(void (^)(void))completion {
     //This method is deprecated, but using it is the only way I could find to force
     //Facebook to use its in-app authentication instead of the native dialog tied to
     //the Facebook info in settings.  The latter is buggy on Facebook's end, which is
     //why most apps don't use it.
-    [FBSession openActiveSessionWithPermissions:@[@"basic_info", @"email"]
+    [FBSession openActiveSessionWithPermissions:@[@"basic_info", @"email", @"read_friendlists"]
                                    allowLoginUI:YES
                               completionHandler:[self facebookSessionStateHandlerWithCompletion:completion]];
 }
 
++ (void)loadMeForSignupWithCompletion:(void (^)(NSDictionary *userDict))completion failure:(void (^)(NSError *error))failure {
+    [self openSessionForSignupWithCompletion:^{
+        [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *fbError) {
+            [self sharedManager].facebookID = user[@"id"];
+            if (!fbError) {
+                if (completion)
+                    completion(user);
+            }
+            else {
+                if (failure)
+                    failure(fbError);
+            }
+        }];
+    }];
+}
+
++ (void)openSessionWithCompletion:(void (^)(void))completion {
+    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email", @"read_friendlists"]
+                                       allowLoginUI:YES
+                                  completionHandler:[self facebookSessionStateHandlerWithCompletion:completion]];
+}
+
 + (void)quietlyOpenSessionWithCompletion:(void (^)(void))completion {
-    [FBSession openActiveSessionWithPermissions:@[@"basic_info", @"email"]
-                                   allowLoginUI:NO
-                              completionHandler:[self facebookSessionStateHandlerWithCompletion:completion]];
+    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email", @"read_friendlists"]
+                                       allowLoginUI:YES
+                                  completionHandler:[self facebookSessionStateHandlerWithCompletion:completion]];
 }
 
 + (FBSessionStateHandler)facebookSessionStateHandlerWithCompletion:(void (^)(void))completion {
@@ -56,19 +84,14 @@ static EVFacebookManager *_sharedManager;
         switch (state) {
             case FBSessionStateOpen:
                 [self sharedManager].tokenData = session.accessTokenData;
-                [self loadFriendsWithCompletion:^(NSArray *friends) {
-                    [EVCIA me].facebookFriendCount = [friends count];
-                    [[NSUserDefaults standardUserDefaults] setInteger:[friends count] forKey:EVUserFacebookFriendCountKey];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                } failure:^(NSError *error) {
-                    DLog(@"Could not load friends: %@", error);
-                }];
                 if (completion)
                     completion();
+                [[NSNotificationCenter defaultCenter] postNotificationName:EVFacebookManagerDidLogInNotification object:nil];
                 break;
             case FBSessionStateClosed:
             case FBSessionStateClosedLoginFailed:
                 [FBSession.activeSession closeAndClearTokenInformation];
+                [[NSNotificationCenter defaultCenter] postNotificationName:EVFacebookManagerDidLogOutNotification object:nil];
                 break;
             default:
                 break;
@@ -152,21 +175,6 @@ static EVFacebookManager *_sharedManager;
 }
 
 #pragma mark - Close Friends
-
-+ (BOOL)hasFriendListReadPermissions {
-    return [FBSession.activeSession.permissions containsObject:@"read_friendlists"];
-}
-
-+ (void)requestFriendListReadPermissionsWithCompletion:(void (^)(void))completion {
-    [[FBSession activeSession] requestNewReadPermissions:@[ @"read_friendlists" ] completionHandler:^(FBSession *session, NSError *error) {
-        if (!error) {
-            if (completion)
-                completion();
-        } else {
-            DLog(@"Error getting read_friendlists permission: %@", error);
-        }
-    }];
-}
 
 + (void)loadCloseFriendsWithCompletion:(void (^)(NSArray *closeFriends))completion failure:(void (^)(NSError *error))failure {
     [self performRequest:^{

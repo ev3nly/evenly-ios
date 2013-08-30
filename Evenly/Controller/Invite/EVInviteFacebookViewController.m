@@ -11,6 +11,11 @@
 #import "EVFacebookManager.h"
 #import <FacebookSDK/FacebookSDK.h>
 
+#define SECTION_HEADER_HEIGHT 30
+#define SECTION_HEADER_X_MARGIN 20
+#define SECTION_HEADER_Y_INSET 10
+#define SECTION_HEADER_LABEL_HEIGHT 16
+
 @interface EVInviteFacebookViewController ()
 
 @property (nonatomic, strong) NSArray *closeFriends;
@@ -24,16 +29,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         
-        [EVFacebookManager loadFriendsWithCompletion:^(NSArray *friends) {
-            self.fullFriendList = [friends sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-                NSComparisonResult result = [obj1[@"first_name"] compare:obj2[@"first_name"]];
-                if (result == NSOrderedSame)
-                    result = [obj1[@"last_name"] compare:obj2[@"last_name"]];
-                return result;
-            }];
-            self.displayedFriendList = self.fullFriendList;
-            [self.tableView reloadData];
-        } failure:nil];
+
     }
     return self;
 }
@@ -42,21 +38,38 @@
     [super viewDidLoad];
     
     [self.tableView registerClass:[EVInviteFacebookCell class] forCellReuseIdentifier:@"facebookInviteCell"];
-    void (^loadCloseFriends)(void) = ^{
+    [self loadFriends];
+}
+
+- (void)loadFriends {
+    self.tableView.loading = YES;
+    [EVFacebookManager loadFriendsWithCompletion:^(NSArray *friends) {
+        [EVCIA me].facebookFriendCount = [friends count];
+        [[NSUserDefaults standardUserDefaults] setInteger:[friends count] forKey:EVUserFacebookFriendCountKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        self.fullFriendList = [friends sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            NSComparisonResult result = [obj1[@"first_name"] compare:obj2[@"first_name"]];
+            if (result == NSOrderedSame)
+                result = [obj1[@"last_name"] compare:obj2[@"last_name"]];
+            return result;
+        }];
         [EVFacebookManager loadCloseFriendsWithCompletion:^(NSArray *closeFriends) {
             self.closeFriends = [closeFriends sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
                 NSComparisonResult result = [obj1[@"name"] compare:obj2[@"name"]];
                 return result;
             }];
+            self.tableView.loading = NO;
+            self.displayedFriendList = self.fullFriendList;
             [self.tableView reloadData];
         } failure:^(NSError *error) {
             DLog(@"Error: %@", error);
+            self.tableView.loading = NO;
+            self.displayedFriendList = self.fullFriendList;
+            [self.tableView reloadData]; // reload the table anyway because the full friend list came in
         }];
-    };
-    if ([EVFacebookManager hasFriendListReadPermissions])
-        loadCloseFriends();
-    else
-        [EVFacebookManager requestFriendListReadPermissionsWithCompletion:loadCloseFriends];
+    } failure:^(NSError *error) {
+        self.tableView.loading = NO;
+    }];
 }
 
 - (BOOL)shouldShowCloseFriends {
@@ -80,6 +93,9 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (tableView.loading)
+        return nil;
+    
     if ([self shouldShowCloseFriends] && section == 0)
         return @"Close Friends";
     else
@@ -91,9 +107,15 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (tableView.loading)
+        return nil;
+    
     NSString *string = [self tableView:tableView titleForHeaderInSection:section];
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 30)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, self.view.frame.size.width - 40, 16)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, SECTION_HEADER_HEIGHT)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(SECTION_HEADER_X_MARGIN,
+                                                               SECTION_HEADER_Y_INSET,
+                                                               self.view.frame.size.width - 2*SECTION_HEADER_X_MARGIN,
+                                                               SECTION_HEADER_LABEL_HEIGHT)];
     label.backgroundColor = [UIColor clearColor];
     label.textColor = [EVColor darkColor];
     label.font = [EVFont blackFontOfSize:15];
@@ -103,46 +125,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVInviteFacebookCell *cell = nil;
+    NSDictionary *userDict = nil;
     if ([self shouldShowCloseFriends] && indexPath.section == 0)
-    {
-        cell = [self closeFriendFacebookCellForUserAtIndex:indexPath.row];
-    }
+        userDict = [self.closeFriends objectAtIndex:indexPath.row];
     else
-    {
-        cell = [self normalFacebookCellForUserAtIndex:indexPath.row];
-    }
-    cell.position = [self.tableView cellPositionForIndexPath:indexPath];
-    return cell;
-}
+        userDict = [self.displayedFriendList objectAtIndex:indexPath.row];
 
-- (EVInviteFacebookCell *)normalFacebookCellForUserAtIndex:(NSInteger)index {
-    NSString *reuseIdentifier = [NSString stringWithFormat:@"facebookInviteCell-%i", (index % 30)];
+    NSString *reuseIdentifier = [NSString stringWithFormat:@"facebookInviteCell-%i", (indexPath.row % 30)];
     EVInviteFacebookCell *cell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
     if (!cell)
         cell = [[EVInviteFacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
     
-    NSDictionary *userDict = [self.displayedFriendList objectAtIndex:index];
-    [cell setName:[NSString stringWithFormat:@"%@ %@", userDict[@"first_name"], userDict[@"last_name"]] profileID:userDict[@"id"]];
-    cell.handleSelection = ^(NSString *profileID) {
-        if (![self.selectedFriends containsObject:profileID])
-            self.selectedFriends = [self.selectedFriends arrayByAddingObject:profileID];
-    };
-    cell.handleDeselection = ^(NSString *profileID) {
-        if ([self.selectedFriends containsObject:profileID])
-            self.selectedFriends = [self.selectedFriends arrayByRemovingObject:profileID];
-    };
-    cell.shouldInvite = [self.selectedFriends containsObject:userDict[@"id"]];
-    return cell;
-}
-
-- (EVInviteFacebookCell *)closeFriendFacebookCellForUserAtIndex:(NSInteger)index {
-    NSString *reuseIdentifier = [NSString stringWithFormat:@"facebookInviteCell-%i", (index % 30)];
-    EVInviteFacebookCell *cell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    if (!cell)
-        cell = [[EVInviteFacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-    
-    NSDictionary *userDict = [self.closeFriends objectAtIndex:index];
     [cell setName:userDict[@"name"] profileID:userDict[@"id"]];
     cell.handleSelection = ^(NSString *profileID) {
         if (![self.selectedFriends containsObject:profileID])
@@ -153,6 +146,7 @@
             self.selectedFriends = [self.selectedFriends arrayByRemovingObject:profileID];
     };
     cell.shouldInvite = [self.selectedFriends containsObject:userDict[@"id"]];
+    cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     return cell;
 }
 
