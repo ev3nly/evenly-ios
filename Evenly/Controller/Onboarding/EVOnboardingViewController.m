@@ -340,7 +340,7 @@
 #pragma mark - Button Handling
 
 - (void)facebookButtonTapped {
-    [EVFacebookManager loadMeWithCompletion:^(NSDictionary *userDict) {
+    [EVFacebookManager loadMeForSignupWithCompletion:^(NSDictionary *userDict) {
         NSString *avatarUrlString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?width=176&height=176", [userDict objectForKey:@"id"]];
         EVUser *newUser = [EVUser new];
         newUser.name = [userDict objectForKey:@"name"];

@@ -96,7 +96,9 @@
     // Load user and session from cache.
     [EVSession setSharedSession:[[EVCIA sharedInstance] session]];
     
-    [EVFacebookManager quietlyOpenSessionWithCompletion:NULL];
+    if ([[EVCIA sharedInstance] session]) {
+        [EVFacebookManager quietlyOpenSessionWithCompletion:NULL];
+    }
     [EVCIA reloadMe];
     
     [[EVKeyboardTracker sharedTracker] registerForNotifications];
@@ -144,7 +146,9 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    [EVFacebookManager quietlyOpenSessionWithCompletion:NULL];
+    if ([[EVCIA sharedInstance] session]) {
+        [EVFacebookManager quietlyOpenSessionWithCompletion:NULL];
+    }
     [EVCIA reloadMe];
 }
 
