@@ -10,6 +10,7 @@
 #import "EVInviteFacebookCell.h"
 #import "EVFacebookManager.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "EVInvite.h"
 
 #define SECTION_HEADER_HEIGHT 30
 #define SECTION_HEADER_X_MARGIN 20
@@ -182,6 +183,12 @@
              NSLog(@"Error sending request.");
          }
          if ([[resultURL relativeString] containsString:@"request="]) {
+             [EVInvite createWithFacebookIDs:self.selectedFriends
+                                     success:^(EVObject *object) {
+                                         DLog(@"Success: %@", object);
+                                     } failure:^(NSError *error) {
+                                         DLog(@"Failure: %@", error);
+                                     }];             
              self.selectedFriends = [NSArray array];
              [self.tableView reloadData];
          }
