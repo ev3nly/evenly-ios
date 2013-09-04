@@ -73,7 +73,6 @@
 
 - (void)loadExchangeViews {
     self.exchangeContainer = [[UIView alloc] initWithFrame:[self containerFrame]];
-//    self.exchangeContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
 
     self.descriptionLabel = [[EVLabel alloc] initWithFrame:CGRectZero];
     self.descriptionLabel.backgroundColor = [UIColor clearColor];
@@ -93,7 +92,7 @@
 
 - (void)loadGroupRequestViews {
     self.groupRequestContainer = [[UIView alloc] initWithFrame:[self containerFrame]];
-    self.groupRequestContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
+//    self.groupRequestContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
     
     self.groupRequestLabel = [[UILabel alloc] initWithFrame:self.groupRequestContainer.bounds];
     self.groupRequestLabel.backgroundColor = [UIColor clearColor];

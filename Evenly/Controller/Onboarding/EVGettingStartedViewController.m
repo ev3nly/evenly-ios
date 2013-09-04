@@ -102,6 +102,7 @@ NSString *const GettingStartedCellIdentifier = @"gettingStartedCell";
             DLog(@"ERROR?! %@", error);
         } reload:YES];
     }];
+    self.tableView.pullToRefreshView.originalTopInset = [self totalBarHeight];
 }
 
 - (void)loadHeader {
