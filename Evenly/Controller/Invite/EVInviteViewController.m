@@ -22,8 +22,12 @@
 #define HEADER_BOLD_LABEL_HEIGHT 25
 
 #define FOOTER_TOP_BUFFER 20
-#define TEXT_FIELD_BUTTON_BUFFER 20
+#define TEXT_FIELD_BUTTON_BUFFER 10
 #define TEXT_FIELD_SIDE_BUFFER 10
+
+#define LINK_INSTRUCTION_LABEL_BUFFER 20
+#define LINK_INSTRUCTION_LABEL_HEIGHT 20
+#define LINK_LABEL_HEIGHT 30
 
 @interface EVInviteViewController ()
 
@@ -34,7 +38,9 @@
 @property (nonatomic, strong) UIView *textFieldBackground;
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIButton *inviteByTextButton;
-
+@property (nonatomic, strong) UILabel *linkInstructionLabel;
+@property (nonatomic, strong) UILabel *linkLabel;
+@property (nonatomic, strong) UITapGestureRecognizer *linkTapRecognizer;
 @end
 
 @implementation EVInviteViewController
@@ -60,6 +66,7 @@
     [self loadTextFieldBackground];
     [self loadTextField];
     [self loadInviteByTextButton];
+    [self loadLinkLabels];
     [self configureReactions];
 }
 
@@ -75,6 +82,8 @@
     self.textFieldBackground.frame = [self textFieldBackgroundFrame];
     self.textField.frame = [self textFieldFrame];
     self.inviteByTextButton.frame = [self inviteByTextButtonFrame];
+    self.linkInstructionLabel.frame = [self linkInstructionLabelFrame];
+    self.linkLabel.frame = [self linkLabelFrame];
 }
 
 - (void)loadTableView {
@@ -162,6 +171,28 @@
     [self.footerView addSubview:self.inviteByTextButton];
 }
 
+- (void)loadLinkLabels {
+    self.linkInstructionLabel = [UILabel new];
+    self.linkInstructionLabel.backgroundColor = [UIColor clearColor];
+    self.linkInstructionLabel.textColor = [EVColor darkLabelColor];
+    self.linkInstructionLabel.font = [EVFont defaultFontOfSize:15];
+    self.linkInstructionLabel.textAlignment = NSTextAlignmentCenter;
+    self.linkInstructionLabel.text = @"Or tap to share your personal invite link:";
+    [self.footerView addSubview:self.linkInstructionLabel];
+    
+    self.linkLabel = [UILabel new];
+    self.linkLabel.backgroundColor = [UIColor clearColor];
+    self.linkLabel.textColor = [EVColor blueColor];
+    self.linkLabel.font = [EVFont blackFontOfSize:20];
+    self.linkLabel.textAlignment = NSTextAlignmentCenter;
+    self.linkLabel.text = [[[EVCIA me] shortInviteURL] absoluteString];
+    self.linkLabel.userInteractionEnabled = YES;
+    [self.footerView addSubview:self.linkLabel];
+
+    self.linkTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(linkTapped:)];
+    [self.linkLabel addGestureRecognizer:self.linkTapRecognizer];
+}
+
 - (void)configureReactions {
     [self.textField.rac_textSignal subscribeNext:^(NSString *text) {
         text = [EVStringUtility addHyphensToPhoneNumber:text];
@@ -174,6 +205,7 @@
                                                             reduce:^(NSString *text) {
                                                                 return @([text isPhoneNumber]);
                                                             }];
+    
 }
 
 #pragma mark - Button
@@ -191,6 +223,14 @@
     } failure:^(NSError *error) {
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
     }];
+}
+
+- (void)linkTapped:(UITapGestureRecognizer *)recognizer {
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[ [[EVCIA me] shortInviteURL] ]
+                                                                                         applicationActivities:nil];
+    [activityViewController setExcludedActivityTypes:@[ UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll ]];
+    [self presentViewController:activityViewController animated:YES completion:NULL];
+    
 }
 
 #pragma mark - TableView DataSource/Delegate
@@ -286,7 +326,7 @@
     return CGRectMake(0,
                       0,
                       self.view.bounds.size.width,
-                      FOOTER_TOP_BUFFER + [EVImages blueButtonBackground].size.height + CELL_HEIGHT + TEXT_FIELD_BUTTON_BUFFER);
+                      FOOTER_TOP_BUFFER + [EVImages blueButtonBackground].size.height + CELL_HEIGHT + TEXT_FIELD_BUTTON_BUFFER + LINK_INSTRUCTION_LABEL_HEIGHT + LINK_INSTRUCTION_LABEL_BUFFER + LINK_LABEL_HEIGHT);
 }
 
 - (CGRect)textFieldBackgroundFrame {
@@ -308,6 +348,20 @@
                       CGRectGetMaxY(self.textField.frame) + TEXT_FIELD_BUTTON_BUFFER,
                       self.textFieldBackground.bounds.size.width,
                       [EVImages blueButtonBackground].size.height);
+}
+
+- (CGRect)linkInstructionLabelFrame {
+    return CGRectMake(0,
+                      CGRectGetMaxY(self.inviteByTextButton.frame) + LINK_INSTRUCTION_LABEL_BUFFER,
+                      self.view.bounds.size.width,
+                      LINK_INSTRUCTION_LABEL_HEIGHT);
+}
+
+- (CGRect)linkLabelFrame {
+    return CGRectMake(0,
+                      CGRectGetMaxY(self.linkInstructionLabel.frame),
+                      self.view.bounds.size.width,
+                      LINK_LABEL_HEIGHT);
 }
 
 @end
