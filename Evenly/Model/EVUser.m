@@ -89,6 +89,9 @@
     
     if ([properties valueForKey:@"roles"])
         self.roles = [properties valueForKey:@"roles"];
+    
+    if ([properties valueForKey:@"short_invite_url"])
+        self.shortInviteURL = [NSURL URLWithString:[properties valueForKey:@"short_invite_url"]];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
