@@ -166,6 +166,9 @@
 		9C39173C1773DEAE002949C3 /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C39173A1773DEAE002949C3 /* Arrow.png */; };
 		9C39173D1773DEAE002949C3 /* Arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C39173B1773DEAE002949C3 /* Arrow@2x.png */; };
 		9C3B362B17AB2D4B00874402 /* EVNewsfeedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C3B362A17AB2D4B00874402 /* EVNewsfeedDataSource.m */; };
+		9C44D72A17D7F8CE00D0334B /* EVInviteActivityItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C44D72917D7F8CE00D0334B /* EVInviteActivityItem.m */; };
+		9C44D72D17D811D900D0334B /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C44D72B17D811D900D0334B /* plus.png */; };
+		9C44D72E17D811D900D0334B /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C44D72C17D811D900D0334B /* plus@2x.png */; };
 		9C5044171770E5B10090D865 /* EVRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5044161770E5880090D865 /* EVRequestViewController.m */; };
 		9C5044271770EC990090D865 /* EVPushPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C5044261770EC7A0090D865 /* EVPushPopViewController.m */; };
 		9C50442D1770FC250090D865 /* EVBackButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C50442C1770FC050090D865 /* EVBackButton.m */; };
@@ -845,6 +848,10 @@
 		9C39173B1773DEAE002949C3 /* Arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arrow@2x.png"; sourceTree = "<group>"; };
 		9C3B362917AB2D4B00874402 /* EVNewsfeedDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVNewsfeedDataSource.h; sourceTree = "<group>"; };
 		9C3B362A17AB2D4B00874402 /* EVNewsfeedDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVNewsfeedDataSource.m; sourceTree = "<group>"; };
+		9C44D72817D7F8CE00D0334B /* EVInviteActivityItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVInviteActivityItem.h; sourceTree = "<group>"; };
+		9C44D72917D7F8CE00D0334B /* EVInviteActivityItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVInviteActivityItem.m; sourceTree = "<group>"; };
+		9C44D72B17D811D900D0334B /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
+		9C44D72C17D811D900D0334B /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
 		9C5044151770E5880090D865 /* EVRequestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVRequestViewController.h; sourceTree = "<group>"; };
 		9C5044161770E5880090D865 /* EVRequestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVRequestViewController.m; sourceTree = "<group>"; };
 		9C5044251770EC7A0090D865 /* EVPushPopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EVPushPopViewController.h; sourceTree = "<group>"; };
@@ -1542,6 +1549,8 @@
 				D03A33721783C01A007F4B0B /* EVInviteFacebookViewController.m */,
 				D031C3F21787F54F008AC614 /* EVInviteContactsViewController.h */,
 				D031C3F31787F54F008AC614 /* EVInviteContactsViewController.m */,
+				9C44D72817D7F8CE00D0334B /* EVInviteActivityItem.h */,
+				9C44D72917D7F8CE00D0334B /* EVInviteActivityItem.m */,
 			);
 			path = Invite;
 			sourceTree = "<group>";
@@ -2821,6 +2830,8 @@
 				D027582C1795F572004F6F0A /* contact@2x.png */,
 				D027582F1795F57B004F6F0A /* facebook.png */,
 				D02758301795F57B004F6F0A /* facebook@2x.png */,
+				9C44D72B17D811D900D0334B /* plus.png */,
+				9C44D72C17D811D900D0334B /* plus@2x.png */,
 			);
 			path = Invite;
 			sourceTree = "<group>";
@@ -3421,6 +3432,8 @@
 				9C9DC5C317B1C44D002B7236 /* white_logo.png in Resources */,
 				D03569E117BAF79200E0776E /* onboard-card4.png in Resources */,
 				D03569E217BAF79200E0776E /* onboard-card4@2x.png in Resources */,
+				9C44D72D17D811D900D0334B /* plus.png in Resources */,
+				9C44D72E17D811D900D0334B /* plus@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3795,6 +3808,7 @@
 				D0E6C07817BED5CE00E8EFD5 /* EVPINSettingsViewController.m in Sources */,
 				9CCCA62817C6E31A00C85A72 /* EVHistoryItem.m in Sources */,
 				9CCCA62B17C6FD1A00C85A72 /* EVHistoryItemViewController.m in Sources */,
+				9C44D72A17D7F8CE00D0334B /* EVInviteActivityItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

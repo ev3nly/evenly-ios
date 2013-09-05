@@ -13,6 +13,7 @@
 #import "EVInvite.h"
 #import "EVValidator.h"
 #import "ReactiveCocoa.h"
+#import "EVInviteActivityItem.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 #define CELL_HEIGHT 54
@@ -21,19 +22,10 @@
 #define HEADER_MARGIN 10
 #define HEADER_BOLD_LABEL_HEIGHT 25
 
-#define FOOTER_TOP_BUFFER 20
-#define TEXT_FIELD_BUTTON_BUFFER 20
-#define TEXT_FIELD_SIDE_BUFFER 10
-
 @interface EVInviteViewController ()
 
 @property (nonatomic, strong) UITableView *tableView;
-
 @property (nonatomic, strong) UIView *headerView;
-@property (nonatomic, strong) UIView *footerView;
-@property (nonatomic, strong) UIView *textFieldBackground;
-@property (nonatomic, strong) UITextField *textField;
-@property (nonatomic, strong) UIButton *inviteByTextButton;
 
 @end
 
@@ -56,11 +48,6 @@
     [self loadWalletBarButtonItem];
     [self loadTableView];
     [self loadHeaderView];
-    [self loadFooterView];
-    [self loadTextFieldBackground];
-    [self loadTextField];
-    [self loadInviteByTextButton];
-    [self configureReactions];
 }
 
 - (void)dealloc {
@@ -69,12 +56,7 @@
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    
     self.tableView.frame = [self tableViewFrame];
-    self.footerView.frame = [self footerViewFrame];
-    self.textFieldBackground.frame = [self textFieldBackgroundFrame];
-    self.textField.frame = [self textFieldFrame];
-    self.inviteByTextButton.frame = [self inviteByTextButtonFrame];
 }
 
 - (void)loadTableView {
@@ -122,77 +104,6 @@
     [self.headerView addSubview:label];
 }
 
-- (void)loadFooterView {
-    self.footerView = [UIView new];
-    self.footerView.backgroundColor = [UIColor clearColor];
-    self.footerView.frame = [self footerViewFrame];
-    self.tableView.tableFooterView = self.footerView;
-}
-
-- (void)loadTextFieldBackground {
-    EVGroupedTableViewCell *cell = [[EVGroupedTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"textField"];
-    cell.position = EVGroupedTableViewCellPositionSingle;
-    self.textFieldBackground = cell;
-    [self.footerView addSubview:self.textFieldBackground];
-}
-
-- (void)loadTextField {
-    self.textField = [UITextField new];
-    self.textField.text = @"";
-    self.textField.textColor = [EVColor darkLabelColor];
-    self.textField.font = [EVFont boldFontOfSize:15];
-    self.textField.delegate = self;
-    self.textField.returnKeyType = UIReturnKeyDone;
-    self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    self.textField.placeholder = @"Enter Phone Number";
-    self.textField.keyboardType = UIKeyboardTypeNumberPad;
-    self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-    [self.textFieldBackground addSubview:self.textField];
-}
-
-- (void)loadInviteByTextButton {
-    self.inviteByTextButton = [UIButton new];
-    [self.inviteByTextButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
-    [self.inviteByTextButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
-    [self.inviteByTextButton addTarget:self action:@selector(invitePhoneNumber) forControlEvents:UIControlEventTouchUpInside];
-    [self.inviteByTextButton setTitle:@"INVITE BY TEXT" forState:UIControlStateNormal];
-    [self.inviteByTextButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.inviteByTextButton.titleLabel.font = [EVFont defaultButtonFont];
-    self.inviteByTextButton.frame = [self inviteByTextButtonFrame];
-    [self.footerView addSubview:self.inviteByTextButton];
-}
-
-- (void)configureReactions {
-    [self.textField.rac_textSignal subscribeNext:^(NSString *text) {
-        text = [EVStringUtility addHyphensToPhoneNumber:text];
-        self.textField.text = text;
-        if (text.length == 12)
-            [self.textField resignFirstResponder];
-    }];
-
-    RAC(self.inviteByTextButton.enabled) = [RACSignal combineLatest:@[self.textField.rac_textSignal]
-                                                            reduce:^(NSString *text) {
-                                                                return @([text isPhoneNumber]);
-                                                            }];
-}
-
-#pragma mark - Button
-
-- (void)invitePhoneNumber {
-    [self.view findAndResignFirstResponder];
-    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"INVITING..."];
-    
-    [EVInvite createWithPhoneNumber:[EVStringUtility strippedPhoneNumber:self.textField.text] success:^(EVObject *object) {
-        [EVStatusBarManager sharedManager].duringSuccess = ^{
-            self.textField.text = @"";
-            self.inviteByTextButton.enabled = NO;
-        };
-        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
-    } failure:^(NSError *error) {
-        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
-    }];
-}
-
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -207,13 +118,17 @@
     EVGroupedTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"groupedTableViewCell"];
     
     cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Arrow"]];
-    
+    cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    cell.textLabel.numberOfLines = 2;
     if (indexPath.row == EVInviteMethodFacebook) {
         cell.textLabel.text = @"Invite From Facebook";
         cell.imageView.image = [EVImages inviteFacebookIcon];
     } else if (indexPath.row == EVInviteMethodContacts) {
         cell.textLabel.text = @"Invite From Contacts";
         cell.imageView.image = [EVImages inviteContactsIcon];
+    } else if (indexPath.row == EVInviteMethodLink) {
+        cell.textLabel.text = @"Share your personal invitation URL via email, text, and more";
+        cell.imageView.image = [EVImages invitePlusIcon];
     }
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     return cell;
@@ -223,36 +138,30 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row == EVInviteMethodFacebook) {
-        EVInviteFacebookViewController *facebookInviteController = [[EVInviteFacebookViewController alloc] initWithNibName:nil bundle:nil];
-        [self.navigationController pushViewController:facebookInviteController animated:YES];
+        [self showFacebookController];
     } else if (indexPath.row == EVInviteMethodContacts) {
-        EVInviteContactsViewController *inviteContactsController = [[EVInviteContactsViewController alloc] initWithNibName:nil bundle:nil];
-        [self.navigationController pushViewController:inviteContactsController animated:YES];
+        [self showContactsController];
+    } else if (indexPath.row == EVInviteMethodLink) {
+        [self showActivityController];
     }
 }
 
-#pragma mark - TextField Delegate
-
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
-    [self.tableView setContentInset:UIEdgeInsetsMake(0, 0, EV_DEFAULT_KEYBOARD_HEIGHT, 0)];
-    [self.tableView setContentOffset:CGPointMake(0, self.footerView.frame.origin.y - FOOTER_TOP_BUFFER) animated:YES];
-    return YES;
+- (void)showFacebookController {
+    EVInviteFacebookViewController *facebookInviteController = [[EVInviteFacebookViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:facebookInviteController animated:YES];
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self.view findAndResignFirstResponder];
-    [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION animations:^{
-        self.tableView.contentInset = UIEdgeInsetsZero;
-    }];
-    return YES;
+- (void)showContactsController {
+    EVInviteContactsViewController *inviteContactsController = [[EVInviteContactsViewController alloc] initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:inviteContactsController animated:YES];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    [self.view removeGestureRecognizers];
-    [UIView animateWithDuration:EV_DEFAULT_ANIMATION_DURATION animations:^{
-        self.tableView.contentInset = UIEdgeInsetsZero;
-    }];
+- (void)showActivityController {
+    EVInviteActivityItem *activityItem = [[EVInviteActivityItem alloc] initWithURL:[[EVCIA me] shortInviteURL]];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[ activityItem ]
+                                                                                         applicationActivities:nil];
+    [activityViewController setExcludedActivityTypes:@[ UIActivityTypePostToWeibo, UIActivityTypePrint, UIActivityTypeSaveToCameraRoll ]];
+    [self presentViewController:activityViewController animated:YES completion:NULL];
 }
 
 #pragma mark - Frames
@@ -280,34 +189,6 @@
                       HEADER_MARGIN + HEADER_BOLD_LABEL_HEIGHT,
                       self.headerView.frame.size.width - 2*HEADER_MARGIN,
                       self.headerView.frame.size.height - HEADER_MARGIN - HEADER_BOLD_LABEL_HEIGHT);
-}
-
-- (CGRect)footerViewFrame {
-    return CGRectMake(0,
-                      0,
-                      self.view.bounds.size.width,
-                      FOOTER_TOP_BUFFER + [EVImages blueButtonBackground].size.height + CELL_HEIGHT + TEXT_FIELD_BUTTON_BUFFER);
-}
-
-- (CGRect)textFieldBackgroundFrame {
-    return CGRectMake(TEXT_FIELD_SIDE_BUFFER,
-                      0,
-                      self.view.bounds.size.width - TEXT_FIELD_SIDE_BUFFER*2,
-                      CELL_HEIGHT);
-}
-
-- (CGRect)textFieldFrame {
-    return CGRectMake(TEXT_FIELD_SIDE_BUFFER,
-                      0,
-                      self.textFieldBackground.bounds.size.width - TEXT_FIELD_SIDE_BUFFER*2,
-                      self.textFieldBackground.bounds.size.height);
-}
-
-- (CGRect)inviteByTextButtonFrame {
-    return CGRectMake(self.textFieldBackground.frame.origin.x,
-                      CGRectGetMaxY(self.textField.frame) + TEXT_FIELD_BUTTON_BUFFER,
-                      self.textFieldBackground.bounds.size.width,
-                      [EVImages blueButtonBackground].size.height);
 }
 
 @end

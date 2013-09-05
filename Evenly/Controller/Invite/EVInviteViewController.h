@@ -11,9 +11,10 @@
 typedef enum {
     EVInviteMethodFacebook,
     EVInviteMethodContacts,
+    EVInviteMethodLink,
     EVInviteMethodCOUNT
 } EVInviteMethod;
 
-@interface EVInviteViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface EVInviteViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate>
 
 @end

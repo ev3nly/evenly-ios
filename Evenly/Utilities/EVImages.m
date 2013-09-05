@@ -309,6 +309,10 @@
     return [UIImage imageNamed:@"facebook"];
 }
 
++ (UIImage *)invitePlusIcon {
+    return [UIImage imageNamed:@"plus"];
+}
+
 #pragma mark - Banks and Cards
 
 + (UIImage *)banksCardsAddIcon {
