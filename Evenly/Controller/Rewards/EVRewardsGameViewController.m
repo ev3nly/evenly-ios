@@ -449,9 +449,19 @@
 - (void)updateBalance {
     NSDecimalNumber *myBalance = [[EVCIA me] balance];
     NSDecimalNumber *rewardAmount = self.reward.selectedAmount;
-    NSDecimalNumber *newBalance = [myBalance decimalNumberByAdding:rewardAmount];
-    [self.balanceView.balanceLabel setText:[EVStringUtility amountStringForAmount:newBalance]];
-    [[[EVCIA sharedInstance] me] setBalance:newBalance];
+
+    // JH: Per Crashlytics #114, we're seeing some weird NSDecimalNumberOverflowExceptions being raised
+    // in this method when the addition takes place.  I have no idea why, considering we're never even coming
+    // close to overflowing NSDecimalNumber.  In any case, my solution is to catch the exception and,
+    // instead of doing the addition locally, just reload Me to update the balance.
+    @try {
+        NSDecimalNumber *newBalance = [myBalance decimalNumberByAdding:rewardAmount];
+        [self.balanceView.balanceLabel setText:[EVStringUtility amountStringForAmount:newBalance]];
+        [[[EVCIA sharedInstance] me] setBalance:newBalance];
+    }
+    @catch (NSException *exception) {
+        [EVCIA reloadMe];
+    }
 }
 
 - (void)switchTopLabel {
