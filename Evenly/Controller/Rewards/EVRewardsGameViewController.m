@@ -415,6 +415,9 @@
 }
 
 - (void)animateAmountLabel {
+    if (self.reward.selectedOptionIndex == NSNotFound)
+        return;
+    
     EVRewardCard *card = [self.cards objectAtIndex:self.reward.selectedOptionIndex];
     
     UILabel *faceLabel = card.face.amountLabel;
