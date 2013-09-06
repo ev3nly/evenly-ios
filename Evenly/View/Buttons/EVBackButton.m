@@ -22,6 +22,12 @@
 
     [button setAdjustsImageWhenHighlighted:NO];
     [button setShowsTouchWhenHighlighted:YES];
+    
+    if (![EVUtilities userHasIOS7]) {
+        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
+        button.frame = CGRectMake(0, 0, image.size.width + edgeInsets.left + edgeInsets.right, image.size.height);
+        button.imageEdgeInsets = edgeInsets;
+    }
     return button;
 }
 

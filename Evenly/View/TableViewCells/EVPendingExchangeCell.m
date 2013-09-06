@@ -42,10 +42,10 @@
 + (CGSize)sizeForInteraction:(EVObject *)object {
     NSString *string = [EVStringUtility stringForInteraction:object];
     CGFloat maxWidth = EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH;
-    CGSize size = [string boundingRectWithSize:CGSizeMake(maxWidth, 3*EV_PENDING_EXCHANGE_CELL_FONT.lineHeight)
-                                       options:NSStringDrawingUsesLineFragmentOrigin
-                                    attributes:@{NSFontAttributeName: EV_PENDING_EXCHANGE_CELL_FONT}
-                                       context:NULL].size;
+    CGSize size = [string _safeBoundingRectWithSize:CGSizeMake(maxWidth, 3*EV_PENDING_EXCHANGE_CELL_FONT.lineHeight)
+                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                         attributes:@{NSFontAttributeName: EV_PENDING_EXCHANGE_CELL_FONT}
+                                            context:NULL].size;
     CGFloat height = MAX(size.height + 2*EV_PENDING_EXCHANGE_CELL_Y_MARGIN, [EVAvatarView avatarSize].height + 2*EV_PENDING_EXCHANGE_CELL_MARGIN);
     return CGSizeMake(EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH, height);
 }
@@ -54,7 +54,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-
+        
         CGFloat margin = EV_PENDING_EXCHANGE_CELL_MARGIN;
         
         self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(margin,
@@ -66,14 +66,14 @@
         
         [self loadExchangeViews];
         [self loadGroupRequestViews];
-
+        
     }
     return self;
 }
 
 - (void)loadExchangeViews {
     self.exchangeContainer = [[UIView alloc] initWithFrame:[self containerFrame]];
-
+    
     self.descriptionLabel = [[EVLabel alloc] initWithFrame:CGRectZero];
     self.descriptionLabel.backgroundColor = [UIColor clearColor];
     [self.exchangeContainer addSubview:self.descriptionLabel];
@@ -92,7 +92,7 @@
 
 - (void)loadGroupRequestViews {
     self.groupRequestContainer = [[UIView alloc] initWithFrame:[self containerFrame]];
-//    self.groupRequestContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
+    //    self.groupRequestContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
     
     self.groupRequestLabel = [[UILabel alloc] initWithFrame:self.groupRequestContainer.bounds];
     self.groupRequestLabel.backgroundColor = [UIColor clearColor];
@@ -118,7 +118,7 @@
 
 - (void)configureForExchange:(EVExchange *)exchange {
     [self.groupRequestContainer removeFromSuperview];
-
+    
     [self.exchangeContainer setFrame:[self containerFrame]];
     NSAttributedString *descriptionString = [EVStringUtility attributedStringForPendingExchange:exchange];
     NSString *amountString = [EVStringUtility amountStringForAmount:exchange.amount];
@@ -133,7 +133,7 @@
                                           self.amountLabel.frame.size.width,
                                           self.amountLabel.frame.size.height)];
     self.amountLabel.textColor = (exchange.from == nil) ? [EVColor lightGreenColor] : [EVColor lightRedColor];
-
+    
     [self.descriptionLabel setAttributedText:descriptionString];
     [self.descriptionLabel setFrame:CGRectMake(0,
                                                yMidpoint - self.amountLabel.frame.size.height,
@@ -165,7 +165,7 @@
         amountString = [EVStringUtility amountStringForAmount:[[[groupRequest myRecord] tier] price]];
     else
         amountString = @"TBD";
-
+    
     NSString *dateString = [[EVStringUtility shortDateFormatter] stringFromDate:groupRequest.createdAt];
     
     self.amountLabel.text = amountString;
@@ -200,7 +200,7 @@
 - (void)configureForWalletNotification:(EVWalletNotification *)walletNotification {
     [self.exchangeContainer removeFromSuperview];
     [self.groupRequestLabel setText:walletNotification.headline];
-
+    
     [self.groupRequestContainer setFrame:[self containerFrame]];
     [self.containerView addSubview:self.groupRequestContainer];
 }
@@ -215,7 +215,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

@@ -12,7 +12,7 @@
 #import "EVPrivacyNotice.h"
 
 #define PK_VIEW_SIDE_MARGIN 15
-#define PK_VIEW_TOP_MARGIN 79
+#define PK_VIEW_TOP_MARGIN ([EVUtilities userHasIOS7] ? 79 : 15)
 #define PK_VIEW_HEIGHT 55
 
 #define MESSAGE_TOP_MARGIN 15

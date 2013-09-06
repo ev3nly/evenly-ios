@@ -37,8 +37,10 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    self.imageView.frame = [self imageViewFrame];
-    self.accessoryView.frame = [self accessoryViewFrame];
+    if ([EVUtilities userHasIOS7]) {
+        self.imageView.frame = [self imageViewFrame];
+        self.accessoryView.frame = [self accessoryViewFrame];
+    }
 }
 
 - (void)prepareForReuse {
@@ -58,7 +60,6 @@
         [self setUpWithAccountNumber:bankAccount.accountNumber andBankName:bankAccount.bankName];
     }
     [self setAccessoryView:(fundingSource.isActive ? [[UIImageView alloc] initWithImage:[EVImages checkIcon]] : nil)];
-//    [self setAccessoryType:(fundingSource.isActive ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone)];
 }
 
 - (void)setUpWithLastFour:(NSString *)lastFour andBrandImage:(UIImage *)brandImage {

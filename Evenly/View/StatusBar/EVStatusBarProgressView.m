@@ -228,10 +228,10 @@
 }
 
 - (CGSize)sizeForLabel:(UILabel *)label {
-    return [label.text boundingRectWithSize:CGSizeMake(self.bounds.size.width, self.bounds.size.height)
-                                    options:NSStringDrawingUsesLineFragmentOrigin
-                                 attributes:@{NSFontAttributeName: label.font}
-                                    context:NULL].size;
+    return [label.text _safeBoundingRectWithSize:CGSizeMake(self.bounds.size.width, self.bounds.size.height)
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                      attributes:@{NSFontAttributeName: label.font}
+                                         context:NULL].size;
 }
 
 @end

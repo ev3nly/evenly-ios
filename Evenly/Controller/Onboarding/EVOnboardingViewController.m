@@ -75,7 +75,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     self.view.backgroundColor = EV_RGB_COLOR(27, 34, 38);
     [self loadScrollView];
     [self loadPageControl];
@@ -251,9 +251,9 @@
         daFrame.origin.y += 100;
     else
         daFrame.origin.y = 50;
-
-//    [card bounceAnimationToFrame:daFrame duration:0.25 completion:nil];
-//    return;
+    
+    //    [card bounceAnimationToFrame:daFrame duration:0.25 completion:nil];
+    //    return;
     [UIView animateWithDuration:0.6
                           delay:0
          usingSpringWithDamping:0.6
@@ -362,10 +362,10 @@
 }
 
 - (CGSize)sizeForLabel:(UILabel *)label {
-    return [label.text boundingRectWithSize:CGSizeMake(MAX_TEXT_WIDTH, 1000)
-                                    options:NSStringDrawingUsesLineFragmentOrigin
-                                 attributes:@{NSFontAttributeName: label.font}
-                                    context:NULL].size;
+    return [label.text _safeBoundingRectWithSize:CGSizeMake(MAX_TEXT_WIDTH, 1000)
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                      attributes:@{NSFontAttributeName: label.font}
+                                         context:NULL].size;
 }
 
 #pragma mark - Button Handling
@@ -380,7 +380,7 @@
         [newUser loadAvatar];
         
         EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{                
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                 EVGettingStartedViewController *controller = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeAll];
                 EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:controller];
                 [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
@@ -390,8 +390,8 @@
         [self presentViewController:navController animated:YES completion:nil];
     } failure:^(NSError *error) {
         [[UIAlertView alertViewWithTitle:@"Error"
-                                  message:@"Sorry! We couldn't connect with Facebook right now. Please make sure you're using the right username and password and try again!"
-                        cancelButtonTitle:@"OK"] show];
+                                 message:@"Sorry! We couldn't connect with Facebook right now. Please make sure you're using the right username and password and try again!"
+                       cancelButtonTitle:@"OK"] show];
     }];
 }
 

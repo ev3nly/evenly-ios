@@ -142,6 +142,12 @@ static EVNavigationManager *_sharedManager;
 
 - (CGRect)badgeViewFrame {
     [self.badgeView sizeToFit];
+    if (![EVUtilities userHasIOS7]) {
+        return CGRectMake(0 - self.badgeView.bounds.size.width,
+                          BADGE_VIEW_Y_OFFSET,
+                          self.badgeView.bounds.size.width,
+                          self.badgeView.bounds.size.height);
+    }
     return CGRectMake(0 - BADGE_VIEW_X_OFFSET,
                       [self walletButtonCustomView].bounds.size.height/2 - self.badgeView.bounds.size.height/2 - BADGE_VIEW_Y_OFFSET,
                       self.badgeView.bounds.size.width,

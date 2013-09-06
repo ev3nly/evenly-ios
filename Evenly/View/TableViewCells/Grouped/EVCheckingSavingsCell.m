@@ -32,7 +32,7 @@
                                                                   [EVUtilities scaledDividerHeight],
                                                                   self.contentView.frame.size.height)];
         stripe.backgroundColor = [EVColor newsfeedStripeColor];
-        stripe.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight;
+//        stripe.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleHeight;
         [self.contentView addSubview:stripe];
         
         self.savingsButton = [[EVCheckmarkButton alloc] initWithText:@"Savings"];

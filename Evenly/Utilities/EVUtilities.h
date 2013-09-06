@@ -52,6 +52,7 @@
 + (NSString *)dbidFromDictionary:(NSDictionary *)dictionary;
 
 + (BOOL)deviceHasTallScreen;
++ (BOOL)userHasIOS7;
 + (float)scaledDividerHeight;
 
 + (NSURL *)tosURL;

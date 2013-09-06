@@ -11,9 +11,9 @@
 #define FIELD_FONT [EVFont boldFontOfSize:15]
 #define VALUE_FONT [EVFont romanFontOfSize:15]
 
-#define X_MARGIN 20.0
+#define X_MARGIN ([EVUtilities userHasIOS7] ? 20.0 : 10)
 #define FIELD_LABEL_WIDTH 80.0
-#define VALUE_LABEL_WIDTH 180.0
+#define VALUE_LABEL_WIDTH ([EVUtilities userHasIOS7] ? 180.0 : 190)
 #define CELL_MINIMUM_HEIGHT 44.0
 
 #define VALUE_TOP_BOTTOM_BUFFER 6
@@ -21,10 +21,10 @@
 @implementation EVHistoryItemCell
 
 + (CGFloat)heightForValueText:(NSString *)valueText {
-    CGSize size = [valueText boundingRectWithSize:CGSizeMake([self valueLabelWidth], FLT_MAX)
-                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                        attributes:@{NSFontAttributeName: [self valueLabelFont]}
-                                           context:NULL].size;
+    CGSize size = [valueText _safeBoundingRectWithSize:CGSizeMake([self valueLabelWidth], FLT_MAX)
+                                               options:NSStringDrawingUsesLineFragmentOrigin
+                                            attributes:@{NSFontAttributeName: [self valueLabelFont]}
+                                               context:NULL].size;
     float height = (int)MAX([self cellMinimumHeight], size.height + VALUE_TOP_BOTTOM_BUFFER*2);
     return height;
 }

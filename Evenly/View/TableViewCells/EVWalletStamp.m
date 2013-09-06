@@ -38,10 +38,10 @@
 - (id)initWithText:(NSString *)text maxWidth:(CGFloat)maxWidth {
     if ([text isEqualToString:@"American Express"])
         text = @"Amex";
-    CGSize textSize = [[text uppercaseString] boundingRectWithSize:CGSizeMake(maxWidth, [self font].lineHeight)
-                                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                                        attributes:@{NSFontAttributeName: [self font]}
-                                                           context:NULL].size;
+    CGSize textSize = [[text uppercaseString] _safeBoundingRectWithSize:CGSizeMake(maxWidth, [self font].lineHeight)
+                                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                                             attributes:@{NSFontAttributeName: [self font]}
+                                                                context:NULL].size;
     self = [self initWithFrame:CGRectMake(0, 0, textSize.width + 16, textSize.height + 10)];
     if (self) {
         self.text = [text uppercaseString];
@@ -91,12 +91,12 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 @end

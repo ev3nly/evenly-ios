@@ -8,7 +8,7 @@
 
 #import "EVTitleTextFieldCell.h"
 
-#define SIDE_MARGIN 20
+#define SIDE_MARGIN ([EVUtilities userHasIOS7] ? 20 : 10)
 
 @implementation EVTitleTextFieldCell
 
@@ -29,16 +29,16 @@
     [super layoutSubviews];
     
     self.textLabel.frame = [self textLabelFrame];
-    float textWidth = [self.textLabel.text boundingRectWithSize:CGSizeMake(self.textLabel.frame.size.width, self.textLabel.frame.size.height)
-                                                        options:NSStringDrawingUsesLineFragmentOrigin
-                                                     attributes:@{NSFontAttributeName: self.textLabel.font}
-                                                        context:NULL].size.width;
+    float textWidth = [self.textLabel.text _safeBoundingRectWithSize:CGSizeMake(self.textLabel.frame.size.width, self.textLabel.frame.size.height)
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                          attributes:@{NSFontAttributeName: self.textLabel.font}
+                                                             context:NULL].size.width;
     float textFieldOrigin = self.textLabel.frame.origin.x + textWidth + 20;
     
     self.textField.frame = CGRectMake(textFieldOrigin,
-                                  0,
-                                  self.bounds.size.width - textFieldOrigin - 20,
-                                  self.bounds.size.height);
+                                      0,
+                                      self.bounds.size.width - textFieldOrigin - 20,
+                                      self.bounds.size.height);
 }
 
 - (void)configureTextField

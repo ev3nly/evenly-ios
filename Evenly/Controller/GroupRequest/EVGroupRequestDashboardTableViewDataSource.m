@@ -18,10 +18,10 @@
 #import "EVBlueButton.h"
 #import "EVWalletStamp.h"
 
-#define TABLE_VIEW_SIDE_MARGIN 10
+#define TABLE_VIEW_SIDE_MARGIN ([EVUtilities userHasIOS7] ? 10 : 0)
 #define GENERAL_Y_PADDING 10.0
 #define GENERAL_X_MARGIN 10.0
-#define GENERAL_CONTENT_WIDTH 280.0
+#define GENERAL_CONTENT_WIDTH ([EVUtilities userHasIOS7] ? 280.0 : 280)
 #define REMIND_ALL_BUTTON_HEIGHT 44.0
 #define NO_ONE_JOINED_ROW_HEIGHT 190.0
 #define USER_ROW_HEIGHT 64.0

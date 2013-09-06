@@ -109,12 +109,19 @@
 }
 
 - (void)setUpAppearance {
-    self.window.tintColor = [EVColor blueColor];
-
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    UIImage *clearImage = [EVImageUtility imageWithColor:[UIColor clearColor]];
-    [[UINavigationBar appearance] setBackgroundImage:clearImage forBarMetrics:UIBarMetricsDefault];
-
+    if ([EVUtilities userHasIOS7]) {
+        self.window.tintColor = [EVColor blueColor];
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        UIImage *clearImage = [EVImageUtility imageWithColor:[UIColor clearColor]];
+        [[UINavigationBar appearance] setBackgroundImage:clearImage forBarMetrics:UIBarMetricsDefault];
+    }
+    else {
+        UIImage *blueImage = [EVImageUtility imageWithColor:[EVColor blueColor]];
+        [[UINavigationBar appearance] setBackgroundImage:blueImage forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    }
+    
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackground] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackgroundPress] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
 }

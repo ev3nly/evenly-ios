@@ -41,8 +41,14 @@
     button.adjustsImageWhenHighlighted = NO;
     button.showsTouchWhenHighlighted = YES;
     
-    CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.width, (EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.height)/2);
-    [button setImageEdgeInsets:UIEdgeInsetsMake(insetSize.height, 0, insetSize.height, insetSize.width)];
+    if (![EVUtilities userHasIOS7]) {
+        button.frame = CGRectMake(0, 0, image.size.width + 14, image.size.height);
+    }
+    else {
+        CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.width,
+                                      (EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.height)/2);
+        [button setImageEdgeInsets:UIEdgeInsetsMake(insetSize.height, 0, insetSize.height, insetSize.width)];
+    }
     
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     return barButtonItem;

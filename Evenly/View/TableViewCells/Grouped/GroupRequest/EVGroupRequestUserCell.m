@@ -8,7 +8,7 @@
 
 #import "EVGroupRequestUserCell.h"
 
-#define SIDE_MARGIN 20.0
+#define SIDE_MARGIN ([EVUtilities userHasIOS7] ? 20 : 10)
 #define TOP_MARGIN 10
 #define AVATAR_HEIGHT 44
 #define NAME_LABEL_BUFFER 10

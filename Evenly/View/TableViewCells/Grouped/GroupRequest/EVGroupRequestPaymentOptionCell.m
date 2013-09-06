@@ -67,10 +67,10 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGSize size = [self.headerLabel.text boundingRectWithSize:CGSizeMake(self.contentView.frame.size.width, FLT_MAX)
-                                                      options:NSStringDrawingUsesLineFragmentOrigin
-                                                   attributes:@{NSFontAttributeName: self.headerLabel.font}
-                                                      context:NULL].size;
+    CGSize size = [self.headerLabel.text _safeBoundingRectWithSize:CGSizeMake(self.contentView.frame.size.width, FLT_MAX)
+                                                           options:NSStringDrawingUsesLineFragmentOrigin
+                                                        attributes:@{NSFontAttributeName: self.headerLabel.font}
+                                                           context:NULL].size;
     [self.headerLabel setFrame:CGRectMake((self.contentView.frame.size.width - size.width) / 2.0,
                                           TOP_MARGIN,
                                           size.width,
@@ -89,7 +89,7 @@
 - (CGFloat)heightForRecord:(EVGroupRequestRecord *)record {
     if (self.optionButtons.count == 0)
         return 0.0;
-
+    
     [self layoutSubviews];
     CGFloat height = HEADER_LABEL_HEIGHT_WITH_PADDING;
     for (EVGroupRequestPaymentOptionButton *button in self.optionButtons) {

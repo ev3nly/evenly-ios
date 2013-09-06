@@ -45,10 +45,13 @@
         [self setPlaceholder:@""];
         [self setPlaceholderColor:[UIColor lightGrayColor]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:nil];
-        self.textContainerInset = UIEdgeInsetsMake(PLACEHOLDER_TEXT_VIEW_TOP_BOTTOM_INSET,
-                                                   PLACEHOLDER_TEXT_VIEW_SIDE_INSET,
-                                                   PLACEHOLDER_TEXT_VIEW_TOP_BOTTOM_INSET,
-                                                   PLACEHOLDER_TEXT_VIEW_SIDE_INSET);
+        
+        if ([EVUtilities userHasIOS7]) {
+            self.textContainerInset = UIEdgeInsetsMake(PLACEHOLDER_TEXT_VIEW_TOP_BOTTOM_INSET,
+                                                       PLACEHOLDER_TEXT_VIEW_SIDE_INSET,
+                                                       PLACEHOLDER_TEXT_VIEW_TOP_BOTTOM_INSET,
+                                                       PLACEHOLDER_TEXT_VIEW_SIDE_INSET);
+        }
     }
     return self;
 }

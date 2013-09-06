@@ -42,14 +42,14 @@
 
 + (float)heightGivenSubtitle:(NSString *)subtitle {
     float maxWidth = [UIScreen mainScreen].applicationFrame.size.width - LEFT_TEXT_BUFFER*2;
-    CGSize subtitleSize = [subtitle boundingRectWithSize:CGSizeMake(maxWidth, FLT_MAX)
-                                                 options:NSStringDrawingUsesLineFragmentOrigin
-                                              attributes:@{NSFontAttributeName: SUBTITLE_FONT}
-                                                 context:NULL].size;
-    CGSize titleSize = [@"title" boundingRectWithSize:CGSizeMake(maxWidth, 50)
-                                              options:NSStringDrawingUsesLineFragmentOrigin
-                                           attributes:@{NSFontAttributeName: TITLE_FONT}
-                                              context:NULL].size;
+    CGSize subtitleSize = [subtitle _safeBoundingRectWithSize:CGSizeMake(maxWidth, FLT_MAX)
+                                                      options:NSStringDrawingUsesLineFragmentOrigin
+                                                   attributes:@{NSFontAttributeName: SUBTITLE_FONT}
+                                                      context:NULL].size;
+    CGSize titleSize = [@"title" _safeBoundingRectWithSize:CGSizeMake(maxWidth, 50)
+                                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                                attributes:@{NSFontAttributeName: TITLE_FONT}
+                                                   context:NULL].size;
     float totalHeight = (TOP_TEXT_BUFFER + titleSize.height + TITLE_SUBTITLE_BUFFER + subtitleSize.height + TOP_TEXT_BUFFER);
     if ((int)totalHeight%2 != 0)
         totalHeight++;

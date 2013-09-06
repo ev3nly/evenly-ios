@@ -17,10 +17,12 @@
 
 #import "EVAddBankViewController.h"
 
+#define EV_DEPOSIT_PANE_LEFT_MARGIN ([EVUtilities userHasIOS7] ? 0 : 10)
 #define EV_DEPOSIT_STATUS_NAV_BAROFFSET [self totalBarHeight]
 #define EV_DEPOSIT_TOP_BUFFER 10
 #define EV_DEPOSIT_TOP_MARGIN (EV_DEPOSIT_STATUS_NAV_BAROFFSET + EV_DEPOSIT_TOP_BUFFER)
 #define EV_DEPOSIT_SIDE_MARGIN 10.0
+#define EV_DEPOSIT_STRIPE_SIDE_MARGIN ([EVUtilities userHasIOS7] ? 10 : 0)
 #define EV_DEPOSIT_BETWEEN_ELEMENTS_BUFFER 10.0
 #define EV_DEPOSIT_BALANCE_PANE_HEIGHT 96.0
 #define EV_DEPOSIT_CELL_HEIGHT 44.0
@@ -104,9 +106,9 @@
 }
 
 - (void)loadBalancePane {
-    self.balancePane = [[EVGroupedTableViewCellBackground alloc] initWithFrame:CGRectMake(0,
+    self.balancePane = [[EVGroupedTableViewCellBackground alloc] initWithFrame:CGRectMake(EV_DEPOSIT_PANE_LEFT_MARGIN,
                                                                                           EV_DEPOSIT_TOP_MARGIN,
-                                                                                          self.view.frame.size.width,
+                                                                                          self.view.frame.size.width - EV_DEPOSIT_PANE_LEFT_MARGIN*2,
                                                                                           EV_DEPOSIT_BALANCE_PANE_HEIGHT)];
     self.balancePane.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:self.balancePane];
@@ -123,16 +125,16 @@
 }
 
 - (void)loadCells {
-    self.cellContainer = [[EVGroupedTableViewCellBackground alloc] initWithFrame:CGRectMake(0,
+    self.cellContainer = [[EVGroupedTableViewCellBackground alloc] initWithFrame:CGRectMake(EV_DEPOSIT_PANE_LEFT_MARGIN,
                                                                                             CGRectGetMaxY(self.balancePane.frame) + EV_DEPOSIT_BETWEEN_ELEMENTS_BUFFER,
-                                                                                            self.view.frame.size.width,
+                                                                                            self.view.frame.size.width - EV_DEPOSIT_PANE_LEFT_MARGIN*2,
                                                                                             2*EV_DEPOSIT_CELL_HEIGHT)];
     self.cellContainer.userInteractionEnabled = YES;
     [self.view addSubview:self.cellContainer];
     
-    UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(EV_DEPOSIT_SIDE_MARGIN,
+    UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(EV_DEPOSIT_STRIPE_SIDE_MARGIN,
                                                               EV_DEPOSIT_CELL_HEIGHT,
-                                                              self.cellContainer.frame.size.width - EV_DEPOSIT_SIDE_MARGIN*2,
+                                                              self.cellContainer.frame.size.width - EV_DEPOSIT_STRIPE_SIDE_MARGIN*2,
                                                               [EVUtilities scaledDividerHeight])];
     [stripe setBackgroundColor:[EVColor newsfeedStripeColor]];
     [self.cellContainer addSubview:stripe];

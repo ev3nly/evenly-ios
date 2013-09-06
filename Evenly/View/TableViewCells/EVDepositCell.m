@@ -49,7 +49,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -57,10 +57,10 @@
 {
     [super layoutSubviews];
     
-    float textWidth = [self.label.text boundingRectWithSize:CGSizeMake(self.label.frame.size.width, self.label.frame.size.height)
-                                                    options:NSStringDrawingUsesLineFragmentOrigin
-                                                 attributes:@{NSFontAttributeName: self.label.font}
-                                                    context:NULL].size.width;
+    float textWidth = [self.label.text _safeBoundingRectWithSize:CGSizeMake(self.label.frame.size.width, self.label.frame.size.height)
+                                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                                      attributes:@{NSFontAttributeName: self.label.font}
+                                                         context:NULL].size.width;
     float textFieldOrigin = self.label.frame.origin.x + textWidth + 20;
     
     self.textField.frame = CGRectMake(textFieldOrigin,

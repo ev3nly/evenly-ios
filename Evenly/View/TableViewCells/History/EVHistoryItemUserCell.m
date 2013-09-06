@@ -36,7 +36,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    float valueWidth = [self.valueLabel.text sizeWithAttributes:@{NSFontAttributeName: self.valueLabel.font}].width;
+    float valueWidth = [self.valueLabel.text _safeSizeWithAttributes:@{NSFontAttributeName: self.valueLabel.font}].width;
     self.avatarView.frame = CGRectMake(CGRectGetMaxX(self.valueLabel.frame) - valueWidth - AVATAR_VIEW_DIMENSION - AVATAR_SPACING,
                                        (self.contentView.frame.size.height - AVATAR_VIEW_DIMENSION) / 2.0,
                                        AVATAR_VIEW_DIMENSION,

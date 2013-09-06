@@ -13,6 +13,7 @@
 #import "AMBlurView.h"
 
 #define HEADER_FOOTER_DEFAULT_HEIGHT 10
+#define STATUS_BAR_BLUR_BACKGROUND_EXTENSION 1
 
 @interface EVViewController ()
 
@@ -55,6 +56,9 @@
 }
 
 - (float)totalBarHeight {
+    if (![EVUtilities userHasIOS7])
+        return 0;
+    
     float statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
     float navigationBarHeight = self.navigationController ? self.navigationController.navigationBar.bounds.size.height : 0;
     return statusBarHeight + navigationBarHeight;
@@ -99,10 +103,15 @@
 
     CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - closeImage.size.width,
                                   (EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - closeImage.size.height)/2);
-    [cancelButton setImageEdgeInsets:UIEdgeInsetsMake(insetSize.height, 0, insetSize.height, insetSize.width)];
+    cancelButton.imageEdgeInsets = UIEdgeInsetsMake(insetSize.height, 0, insetSize.height, insetSize.width);
 
     cancelButton.adjustsImageWhenHighlighted = NO;
     cancelButton.showsTouchWhenHighlighted = YES;
+    
+    if (![EVUtilities userHasIOS7]) {
+        cancelButton.frame = CGRectMake(0, 0, closeImage.size.width + 20.0, closeImage.size.height);
+        cancelButton.imageEdgeInsets = EV_VIEW_CONTROLLER_BAR_BUTTON_IMAGE_INSET;
+    }
     return cancelButton;
 }
 
@@ -112,25 +121,39 @@
     [button setImage:image forState:UIControlStateNormal];
     
     CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.width, (EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.height)/2);
-    [button setImageEdgeInsets:UIEdgeInsetsMake(insetSize.height, insetSize.width, insetSize.height, 0)];
+    button.imageEdgeInsets = UIEdgeInsetsMake(insetSize.height, insetSize.width, insetSize.height, 0);
 
     [button addTarget:self.masterViewController action:@selector(toggleRightPanel:) forControlEvents:UIControlEventTouchUpInside];
     button.adjustsImageWhenHighlighted = NO;
     button.showsTouchWhenHighlighted = YES;
+    
+    if (![EVUtilities userHasIOS7]) {
+        button.frame = CGRectMake(0, 0, image.size.width + 14, image.size.height);
+        button.imageEdgeInsets = UIEdgeInsetsMake(1, 0, -1, 0);
+    }
+    
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = barButtonItem;
 }
 
 - (void)loadStatusBarBackground {
-    UIView *navStatusBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
-    navStatusBarBackground.backgroundColor = EV_RGB_COLOR(0, 112, 207);
-    navStatusBarBackground.alpha = 0.5;
-    [self.view addSubview:navStatusBarBackground];
-    
-    AMBlurView *blurView = [AMBlurView new];
-    blurView.frame = CGRectMake(0, 0, 320, 21);
-    blurView.blurTintColor = [EVColor blueColor];
-    [self.view addSubview:blurView];
+    if ([EVUtilities userHasIOS7]) {
+        UIView *navStatusBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0,
+                                                                                  0,
+                                                                                  self.view.bounds.size.width,
+                                                                                  [UIApplication sharedApplication].statusBarFrame.size.height)];
+        navStatusBarBackground.backgroundColor = EV_RGB_COLOR(0, 112, 207);
+        navStatusBarBackground.alpha = 0.5;
+        [self.view addSubview:navStatusBarBackground];
+        
+        AMBlurView *blurView = [AMBlurView new];
+        blurView.frame = CGRectMake(0,
+                                    0,
+                                    self.view.bounds.size.width,
+                                    [UIApplication sharedApplication].statusBarFrame.size.height + STATUS_BAR_BLUR_BACKGROUND_EXTENSION);
+        blurView.blurTintColor = [EVColor blueColor];
+        [self.view addSubview:blurView];
+    }
 }
 
 - (void)cancelButtonPress:(id)sender {

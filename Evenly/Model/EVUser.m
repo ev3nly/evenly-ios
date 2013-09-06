@@ -57,6 +57,55 @@
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     
+    if ([properties valueForKey:@"name"])
+        self.name = [properties valueForKey:@"name"];
+    
+    if ([properties valueForKey:@"email"])
+        self.email = [properties valueForKey:@"email"];
+    
+    if ([properties valueForKey:@"phone_number"])
+        self.phoneNumber = [properties valueForKey:@"phone_number"];
+    
+    if (properties[@"balance"])
+    {
+        if ([properties[@"balance"] isKindOfClass:[NSDecimalNumber class]])
+            self.balance = properties[@"balance"];
+        else
+            self.balance = [NSDecimalNumber decimalNumberWithString:properties[@"balance"]];
+    }
+    else {
+        if (!self.balance)
+            self.balance = [NSDecimalNumber decimalNumberWithString:@"0.00"];
+    }
+    
+    if ([properties valueForKey:@"password"])
+        self.password = [properties valueForKey:@"password"];
+    
+    if (properties[@"avatar_url"] && ![properties[@"avatar_url"] isKindOfClass:[NSNull class]]) {
+        self.avatarURL = [NSURL URLWithString:properties[@"avatar_url"]];
+        [self loadAvatar];
+    }
+    
+    if (properties[@"connections"]) {
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSDictionary *dictionary in properties[@"connections"]) {
+            EVConnection *connection = (EVConnection *)[EVSerializer serializeDictionary:dictionary];
+            [array addObject:connection];
+        }
+        self.connections = array;
+    }
+    
+    if ([properties valueForKey:@"confirmed"]) {
+        self.unconfirmed = ![[properties valueForKey:@"confirmed"] boolValue];
+    }
+    
+    if ([properties valueForKey:@"facebook_connected"] && ![[properties valueForKey:@"facebook_connected"] isEqual:[NSNull null]])
+        self.facebookConnected = [[properties valueForKey:@"facebook_connected"] boolValue];
+    
+    if ([properties valueForKey:@"roles"])
+        self.roles = [properties valueForKey:@"roles"];
+    
+    return;
     [self mapModelToDictionary:properties];
 }
 
@@ -663,8 +712,6 @@
 @synthesize phoneNumber;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary {
-    if ([[dictionary valueForKey:@"name"] isEqualToString:@"yuzhou zhang"])
-        NSLog(@"dafuq");
     self = [super initWithDictionary:dictionary];
     if (self) {
         self.name = [dictionary valueForKey:@"name"];

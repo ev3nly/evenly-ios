@@ -11,7 +11,7 @@
 
 #define SIDE_MARGIN 20
 #define ARROW_CENTER_RIGHT_BUFFER 17
-#define AMOUNT_LABELS_MAX_X 284.0
+#define AMOUNT_LABELS_MAX_X ([EVUtilities userHasIOS7] ? 284.0 : 275)
 #define SMALL_GAP 3.0
 #define STAMP_RIGHT_MARGIN 16.0
 

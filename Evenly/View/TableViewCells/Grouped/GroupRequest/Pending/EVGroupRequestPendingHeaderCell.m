@@ -19,10 +19,10 @@
         return [self cellHeightForStory:story];
     
     CGFloat height = [self cellHeightForStory:story];
-    CGSize memoSize = [memo boundingRectWithSize:CGSizeMake(MEMO_LABEL_WIDTH, FLT_MAX)
-                                         options:NSStringDrawingUsesLineFragmentOrigin
-                                      attributes:@{NSFontAttributeName: MEMO_LABEL_FONT}
-                                         context:NULL].size;
+    CGSize memoSize = [memo _safeBoundingRectWithSize:CGSizeMake(MEMO_LABEL_WIDTH, FLT_MAX)
+                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                           attributes:@{NSFontAttributeName: MEMO_LABEL_FONT}
+                                              context:NULL].size;
     height += memoSize.height + PENDING_STORY_DATE_BUFFER;
     if ((int)height % 2 != 0)
         height++;
@@ -33,10 +33,10 @@
     float superHeight = [EVTransactionDetailCell cellHeightForStory:story];
     NSString *dateString = [[self timeIntervalFormatter] stringForTimeIntervalFromDate:[NSDate date]
                                                                                 toDate:[story publishedAt]];
-    float dateHeight = [dateString boundingRectWithSize:CGSizeMake([UIScreen mainScreen].applicationFrame.size.width, 100000)
-                                                options:NSStringDrawingUsesLineFragmentOrigin
-                                             attributes:@{NSFontAttributeName: EV_STORY_CELL_DATE_LABEL_FONT}
-                                                context:NULL].size.height;
+    float dateHeight = [dateString _safeBoundingRectWithSize:CGSizeMake([UIScreen mainScreen].applicationFrame.size.width, 100000)
+                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                  attributes:@{NSFontAttributeName: EV_STORY_CELL_DATE_LABEL_FONT}
+                                                     context:NULL].size.height;
     float height = (superHeight + dateHeight - EV_STORY_CELL_VERTICAL_RULE_HEIGHT);
     if ((int)height % 2 != 0)
         height++;
@@ -47,7 +47,7 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-
+        
         self.memoLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.memoLabel.font = MEMO_LABEL_FONT;
         self.memoLabel.backgroundColor = [UIColor clearColor];

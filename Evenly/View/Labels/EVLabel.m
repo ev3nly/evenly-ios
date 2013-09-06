@@ -31,7 +31,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.attributedText = [[NSAttributedString alloc] initWithString:self.text attributes:[self attributesDictionary]];
+    if ([EVUtilities userHasIOS7]) {
+        self.attributedText = [[NSAttributedString alloc] initWithString:self.text attributes:[self attributesDictionary]];
+    }
 }
 
 #pragma mark - Spacing
@@ -47,8 +49,8 @@
 }
 
 - (CGSize)sizeWithSpacing:(float)spacing {
-    return [self.text sizeWithAttributes:@{NSFontAttributeName: self.font,
-                                           NSKernAttributeName: @(spacing)}];
+    return [self.text _safeSizeWithAttributes:@{NSFontAttributeName: self.font,
+                                                NSKernAttributeName: @(spacing)}];
 }
 
 #pragma mark - Dictionary

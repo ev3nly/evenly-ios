@@ -40,10 +40,10 @@
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
-    float labelWidth = [self.numberLabel.text boundingRectWithSize:CGSizeMake(FLT_MAX, FLT_MAX)
-                                                           options:NSStringDrawingUsesLineFragmentOrigin
-                                                        attributes:@{NSFontAttributeName: self.numberLabel.font}
-                                                           context:NULL].size.width;
+    float labelWidth = [self.numberLabel.text _safeBoundingRectWithSize:CGSizeMake(FLT_MAX, FLT_MAX)
+                                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                                             attributes:@{NSFontAttributeName: self.numberLabel.font}
+                                                                context:NULL].size.width;
     return CGSizeMake(fmaxf(labelWidth + LABEL_SIDE_BUFFER*2, self.backgroundView.image.size.width), self.backgroundView.image.size.height);
 }
 
@@ -60,7 +60,7 @@
     self.numberLabel.font = [EVFont boldFontOfSize:13];
     self.numberLabel.textAlignment = NSTextAlignmentCenter;
     self.numberLabel.textColor = [EVColor lightColor];
-    self.numberLabel.text = @""; 
+    self.numberLabel.text = @"";
     [self addSubview:self.numberLabel];
 }
 
@@ -87,7 +87,7 @@
 - (CGRect)numberLabelFrame {
     CGRect numberFrame = self.bounds;
     numberFrame.origin.x += LABEL_OFFSET;
-//    numberFrame.origin.y += LABEL_OFFSET;
+    //    numberFrame.origin.y += LABEL_OFFSET;
     return numberFrame;
 }
 

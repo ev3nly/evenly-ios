@@ -60,7 +60,7 @@
     [self setBackgroundColor:[UIColor clearColor]];
 }
 
-- (void) setBlurTintColor:(UIColor *)blurTintColor {
+- (void)setBlurTintColor:(UIColor *)blurTintColor {
     [self.toolbar setBarTintColor:blurTintColor];
 }
 

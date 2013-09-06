@@ -13,7 +13,7 @@
 
 #define USER_ROW_HEIGHT 64.0
 
-#define BUTTON_X_MARGIN 20.0
+#define BUTTON_X_MARGIN ([EVUtilities userHasIOS7] ? 20.0 : 10)
 #define BUTTON_Y_MARGIN 10.0
 #define BUTTON_SPACING 10.0
 #define BUTTON_WIDTH 280.0

@@ -64,7 +64,7 @@ static EVStatusBarManager *_sharedManager = nil;
     text = [text lowercaseString];
     text = [text stringByReplacingCharactersInRange:NSMakeRange(0, 1)
                                          withString:[[text substringToIndex:1] uppercaseString]];
-//    EV_PERFORM_ON_MAIN_QUEUE(^{
+    EV_PERFORM_ON_MAIN_QUEUE(^{
         EVStatusBarManagerActionBlock action = [self actionForStatus:status text:text];
         
         if (status == EVStatusBarStatusInProgress) {
@@ -82,7 +82,7 @@ static EVStatusBarManager *_sharedManager = nil;
                     [self.actionStack removeObjectAtIndex:0];
             }
         }
-//    });
+    });
 }
 
 - (EVStatusBarManagerActionBlock)actionForStatus:(EVStatusBarStatus)status text:(NSString *)text {

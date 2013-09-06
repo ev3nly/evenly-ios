@@ -23,6 +23,8 @@
 
 #define LABEL_ATTRIBUTED_STRING_SIDE_BUFFER 2
 
+#define PRE_IOS_7_RULE_OFFSET 1
+
 @interface EVStoryCell ()
 
 @end
@@ -241,6 +243,12 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
 }
 
 - (CGRect)horizontalRuleFrame {
+    if (![EVUtilities userHasIOS7]) {
+        return CGRectMake(self.visibleFrame.origin.x - PRE_IOS_7_RULE_OFFSET,
+                          EV_STORY_CELL_HORIZONTAL_RULE_Y,
+                          self.contentView.frame.size.width - self.visibleFrame.origin.x*2 + PRE_IOS_7_RULE_OFFSET*2,
+                          [EVUtilities scaledDividerHeight]);
+    }
     return CGRectMake(self.visibleFrame.origin.x,
                       EV_STORY_CELL_HORIZONTAL_RULE_Y,
                       self.contentView.frame.size.width - self.visibleFrame.origin.x*2,
@@ -251,7 +259,7 @@ static TTTTimeIntervalFormatter *_timeIntervalFormatter;
     return CGRectMake(EV_STORY_CELL_VERTICAL_RULE_X,
                       EV_STORY_CELL_HORIZONTAL_RULE_Y,
                       [EVUtilities scaledDividerHeight],
-                      EV_STORY_CELL_VERTICAL_RULE_HEIGHT);
+                      EV_STORY_CELL_VERTICAL_RULE_HEIGHT + PRE_IOS_7_RULE_OFFSET);
 }
 
 - (CGRect)dateLabelFrame {

@@ -80,7 +80,6 @@
     } else {
         [self.editButton setTitle:@"Edit" forState:UIControlStateNormal];
     }
-//    self.tableView.
 }
 
 #pragma mark - UITableViewDataSource

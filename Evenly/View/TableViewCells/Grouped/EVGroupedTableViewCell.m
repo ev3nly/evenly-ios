@@ -27,12 +27,12 @@
         self.textLabel.font = [EVFont blackFontOfSize:15];
         self.backgroundColor = [UIColor clearColor];
         
-        EVGroupedTableViewCellBackground *background = [[EVGroupedTableViewCellBackground alloc] initWithFrame:VISIBLE_FRAME];
+        EVGroupedTableViewCellBackground *background = [[EVGroupedTableViewCellBackground alloc] initWithFrame:[self visibleFrame]];
         background.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         background.fillColor = [UIColor whiteColor];
         self.backgroundView = background;
         
-        EVGroupedTableViewCellBackground *selectedBackground = [[EVGroupedTableViewCellBackground alloc] initWithFrame:VISIBLE_FRAME];
+        EVGroupedTableViewCellBackground *selectedBackground = [[EVGroupedTableViewCellBackground alloc] initWithFrame:[self visibleFrame]];
         selectedBackground.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         selectedBackground.fillColor = [EVColor newsfeedButtonHighlightColor];
         self.selectedBackgroundView = selectedBackground;
@@ -43,9 +43,11 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    if (self.isEditing) {
-        [self resetBackgroundFrameToCounteractIos7DeleteBug];
-        [self adjustRedControl];
+    if ([EVUtilities userHasIOS7]) {
+        if (self.isEditing) {
+            [self resetBackgroundFrameToCounteractIos7DeleteBug];
+            [self adjustRedControl];
+        }
     }
 }
 
@@ -96,6 +98,8 @@
 }
 
 - (CGRect)visibleFrame {
+    if (![EVUtilities userHasIOS7])
+        return self.bounds;
     return VISIBLE_FRAME;
 }
 
@@ -110,14 +114,17 @@
         self.backgroundColor = [UIColor clearColor];
         self.fillColor = [UIColor whiteColor];
         self.strokeColor = [EVColor newsfeedStripeColor];
-        self.clipsToBounds = YES;
         self.position = EVGroupedTableViewCellPositionSingle;
+        
+        if ([EVUtilities userHasIOS7])
+            self.clipsToBounds = YES;
     }
     return self;
 }
 
 - (void)drawRect:(CGRect)rect {
-    rect = CGRectIntegral(VISIBLE_FRAME);
+    if ([EVUtilities userHasIOS7])
+        rect = CGRectIntegral(VISIBLE_FRAME);
     UIBezierPath *path = [UIBezierPath bezierPath];
 
     if (self.position == EVGroupedTableViewCellPositionTop)

@@ -29,8 +29,9 @@
 #import "EVGettingStartedViewController.h"
 
 #import "AMBlurView.h"
+#import "FXBlurView.h"
 
-#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -50
+#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET ([EVUtilities userHasIOS7] ? -50 : -16)
 #define TABLE_VIEW_INFINITE_SCROLLING_INSET 40
 #define TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET -7
 

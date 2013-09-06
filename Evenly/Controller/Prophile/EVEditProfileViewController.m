@@ -257,25 +257,6 @@
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
-//- (void)navigationController:(EVNavigationController *)navigationController
-//      willShowViewController:(UIViewController *)viewController
-//                    animated:(BOOL)animated {
-//    
-//    if ([navigationController isKindOfClass:[UIImagePickerController class]] &&
-//        ((UIImagePickerController *)navigationController).sourceType == UIImagePickerControllerSourceTypePhotoLibrary) {
-//
-//        UIView *blackBackground = [[UIView alloc] initWithFrame:CGRectMake(0, 20, 320, 20)];
-//        blackBackground.backgroundColor = [UIColor blackColor];
-//        [viewController.view addSubview:blackBackground];
-//        UIImageView *navBar = [[UIImageView alloc] initWithImage:[EVImages navBarBackground]];
-//        navBar.frame = CGRectMake(0, 20, navBar.image.size.width, navBar.image.size.height);
-//        [viewController.view addSubview:navBar];
-//
-//        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
-//        viewController.view.backgroundColor = [UIColor blackColor];
-//    }
-//}
-
 #pragma mark - ActionSheet Delegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex

@@ -17,8 +17,9 @@
 #define CONTEXT_LABEL_Y_MARGIN 15.0
 #define CONTEXT_LABEL_HEIGHT 20.0
 
+#define FORM_CELL_SIDE_MARGIN ([EVUtilities userHasIOS7] ? 0 : 10)
 #define FORM_Y_ORIGIN 44.0
-#define FORM_MARGIN 10.0
+#define FORM_MARGIN ([EVUtilities userHasIOS7] ? 10.0 : 0)
 #define FORM_ROW_HEIGHT 50.0
 
 @interface EVNotificationsViewController ()
@@ -83,9 +84,9 @@
 }
 
 - (void)loadForm {
-    self.form = [[EVFormView alloc] initWithFrame:CGRectMake(0,
+    self.form = [[EVFormView alloc] initWithFrame:CGRectMake(FORM_CELL_SIDE_MARGIN,
                                                              FORM_Y_ORIGIN,
-                                                             self.view.frame.size.width,
+                                                             self.view.frame.size.width - FORM_CELL_SIDE_MARGIN*2,
                                                              3*FORM_ROW_HEIGHT)];
     [self.tableView addSubview:self.form];
 }

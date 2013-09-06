@@ -3965,7 +3965,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
 				INFOPLIST_FILE = "Evenly/Evenly-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Documents/FacebookSDK/FacebookSDK.framework/Versions/A,
@@ -3994,7 +3994,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Evenly/Evenly-Prefix.pch";
 				INFOPLIST_FILE = "Evenly/Evenly-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Documents/FacebookSDK/FacebookSDK.framework/Versions/A,

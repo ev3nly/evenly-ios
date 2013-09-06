@@ -9,7 +9,9 @@
 #import "EVSettingsCell.h"
 
 #define EV_SETTINGS_ROW_TOP_MARGIN 12.0
-#define EV_SETTINGS_ROW_SIDE_MARGIN 20
+#define EV_SETTINGS_ROW_SIDE_MARGIN ([EVUtilities userHasIOS7] ? 20 : 10)
+#define EV_SETTINGS_DISCLOSURE_RIGHT_MARGIN 20
+#define EV_SETTINGS_ICON_LABEL_BUFFER 10
 
 @interface EVSettingsCell ()
 
@@ -42,8 +44,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    if (self.iconView.image)
-        self.iconView.frame = [self iconViewFrame];
+    self.iconView.frame = [self iconViewFrame];
     self.label.frame = [self labelFrame];
     self.disclosureArrow.frame = [self disclosureArrowFrame];
 }
@@ -56,7 +57,8 @@
 }
 
 - (CGRect)labelFrame {
-    float xOrigin = (CGRectGetMaxX(self.iconView.frame) + EV_SETTINGS_ROW_SIDE_MARGIN/2);
+    float iconBuffer = self.iconView.image ? EV_SETTINGS_ICON_LABEL_BUFFER : 0;
+    float xOrigin = (CGRectGetMaxX(self.iconView.frame) + iconBuffer);
     return CGRectMake(xOrigin,
                       EV_SETTINGS_ROW_TOP_MARGIN,
                       self.frame.size.width - EV_SETTINGS_ROW_SIDE_MARGIN - xOrigin,
@@ -64,7 +66,7 @@
 }
 
 - (CGRect)disclosureArrowFrame {
-    return CGRectMake(self.bounds.size.width - self.disclosureArrow.image.size.width - EV_SETTINGS_ROW_SIDE_MARGIN,
+    return CGRectMake(self.bounds.size.width - self.disclosureArrow.image.size.width - EV_SETTINGS_DISCLOSURE_RIGHT_MARGIN,
                       CGRectGetMidY(self.bounds) - self.disclosureArrow.image.size.height/2,
                       self.disclosureArrow.bounds.size.width,
                       self.disclosureArrow.bounds.size.height);

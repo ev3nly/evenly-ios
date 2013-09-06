@@ -13,7 +13,7 @@
 #import "EVGroupRequest.h"
 #import "EVPayment.h"
 
-#define X_MARGIN 20.0
+#define X_MARGIN ([EVUtilities userHasIOS7] ? 20.0 : 10)
 #define Y_MARGIN 10.0
 #define LINE_HEIGHT 25.0
 

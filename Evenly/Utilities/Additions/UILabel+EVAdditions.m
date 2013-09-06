@@ -60,10 +60,10 @@
 - (CGSize)multiLineSizeForWidth:(float)width {
     if (EV_IS_EMPTY_STRING(self.text))
         return CGSizeZero;
-    return [self.text boundingRectWithSize:CGSizeMake(width, FLT_MAX)
-                                   options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
-                                attributes:@{NSFontAttributeName: self.font}
-                                   context:NULL].size;
+    return [self.text _safeBoundingRectWithSize:CGSizeMake(width, FLT_MAX)
+                                        options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
+                                     attributes:@{NSFontAttributeName: self.font}
+                                        context:NULL].size;
 }
 
 @end

@@ -28,17 +28,19 @@
 {
     [super viewDidLoad];
     
-    UIView *navStatusBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, -20, 320, 65)];
-    navStatusBarBackground.backgroundColor = EV_RGB_COLOR(0, 112, 207);// [EVColor blueColor];
-    navStatusBarBackground.alpha = 0.5;
-    [self.navigationBar insertSubview:navStatusBarBackground atIndex:0];
-    
-    AMBlurView *blurView = [AMBlurView new];
-    blurView.frame = CGRectMake(0, -20, 320, 65);
-    blurView.blurTintColor = [EVColor blueColor];
-    [self.navigationBar insertSubview:blurView atIndex:0];
-    
-    self.interactivePopGestureRecognizer.delegate = self;
+    if ([EVUtilities userHasIOS7]) {
+        UIView *navStatusBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, -20, 320, 65)];
+        navStatusBarBackground.backgroundColor = EV_RGB_COLOR(0, 112, 207);// [EVColor blueColor];
+        navStatusBarBackground.alpha = 0.5;
+        [self.navigationBar insertSubview:navStatusBarBackground atIndex:0];
+        
+        AMBlurView *blurView = [AMBlurView new];
+        blurView.frame = CGRectMake(0, -20, 320, 65);
+        blurView.blurTintColor = [EVColor blueColor];
+        [self.navigationBar insertSubview:blurView atIndex:0];
+        
+        self.interactivePopGestureRecognizer.delegate = self;
+    }
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {

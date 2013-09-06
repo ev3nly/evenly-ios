@@ -10,7 +10,7 @@
 #import "EVPendingDetailViewController.h"
 
 #define PENDING_BUTTON_TOP_BUFFER 10
-#define PENDING_BUTTON_SIDE_BUFFER 20
+#define PENDING_BUTTON_SIDE_BUFFER ([EVUtilities userHasIOS7] ? 20 : 10)
 #define PENDING_BUTTON_BUTTON_BUFFER 10
 #define PENDING_BOTTOM_SECTION_HEIGHT ([EVImages grayButtonBackground].size.height + PENDING_BUTTON_TOP_BUFFER*2)
 #define PENDING_DATE_BOTTOM_SECTION_BUFFER 0
@@ -25,11 +25,11 @@
 + (CGFloat)cellHeightForStory:(EVStory *)story {
     float superHeight = [EVTransactionDetailCell cellHeightForStory:story];
     NSString *dateString = [[self timeIntervalFormatter] stringForTimeIntervalFromDate:[NSDate date]
-                                                                          toDate:[story publishedAt]];
-    float dateHeight = [dateString boundingRectWithSize:CGSizeMake([UIScreen mainScreen].applicationFrame.size.width, 100000)
-                                                options:NSStringDrawingUsesLineFragmentOrigin
-                                             attributes:@{NSFontAttributeName: EV_STORY_CELL_DATE_LABEL_FONT}
-                                                context:NULL].size.height;
+                                                                                toDate:[story publishedAt]];
+    float dateHeight = [dateString _safeBoundingRectWithSize:CGSizeMake([UIScreen mainScreen].applicationFrame.size.width, 100000)
+                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                  attributes:@{NSFontAttributeName: EV_STORY_CELL_DATE_LABEL_FONT}
+                                                     context:NULL].size.height;
     float differenceInBottomSectionHeight = (PENDING_BOTTOM_SECTION_HEIGHT - EV_STORY_CELL_VERTICAL_RULE_HEIGHT);
     float cellHeight = (int)(superHeight + dateHeight + PENDING_DATE_BOTTOM_SECTION_BUFFER + differenceInBottomSectionHeight);
     if ((int)cellHeight % 2 != 0)
@@ -122,7 +122,7 @@
     self.remindButton = nil;
     
     [super setStory:story];
-//    [self switchAvatars];
+    //    [self switchAvatars];
     [self configureButtonsForStoryType:story.transactionType];
 }
 
@@ -166,10 +166,10 @@
 }
 
 - (CGRect)dateLabelFrame {
-    CGSize labelSize = [self.dateLabel.text boundingRectWithSize:CGSizeMake([UIScreen mainScreen].applicationFrame.size.width, 100000)
-                                                options:NSStringDrawingUsesLineFragmentOrigin
-                                             attributes:@{NSFontAttributeName: self.dateLabel.font}
-                                                context:NULL].size;
+    CGSize labelSize = [self.dateLabel.text _safeBoundingRectWithSize:CGSizeMake([UIScreen mainScreen].applicationFrame.size.width, 100000)
+                                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                                           attributes:@{NSFontAttributeName: self.dateLabel.font}
+                                                              context:NULL].size;
     return CGRectMake(CGRectGetMidX(self.contentView.bounds) - labelSize.width/2,
                       CGRectGetMaxY(self.storyLabel.frame) + PENDING_STORY_DATE_BUFFER,
                       labelSize.width,
