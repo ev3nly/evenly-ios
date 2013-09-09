@@ -27,6 +27,7 @@
         [self loadDefaultAvatar];
         [self loadNameLabel];
         [self loadInviteButton];
+        [self loadTapRecognizer];
     }
     return self;
 }
@@ -59,7 +60,7 @@
 - (void)loadNameLabel {
     self.nameLabel = [UILabel new];
     self.nameLabel.backgroundColor = [UIColor clearColor];
-    self.nameLabel.textColor = [UIColor darkGrayColor];
+    self.nameLabel.textColor = [EVColor darkColor];
     self.nameLabel.font = [EVFont blackFontOfSize:14];
     [self addSubview:self.nameLabel];
 }
@@ -74,6 +75,11 @@
     [self.inviteButton setTitleEdgeInsets:UIEdgeInsetsMake(2, 0, 0, 0)];
     self.inviteButton.titleLabel.font = [EVFont blackFontOfSize:11];
     [self addSubview:self.inviteButton];
+}
+
+- (void)loadTapRecognizer {
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(inviteTapped)];
+    [self addGestureRecognizer:self.tapRecognizer];
 }
 
 #pragma mark - Gesture Handling

@@ -64,4 +64,11 @@
     [currentInstallation saveInBackground];
 }
 
++ (NSString *)userIdentifier {
+    NSString *namespace = @"VINE";
+    if ([[EVNetworkManager sharedInstance] serverSelection] != EVServerSelectionProduction)
+        namespace = @"GERM";
+    return [self stringWithNamespace:namespace string:[[EVCIA me] dbid]];
+}
+
 @end

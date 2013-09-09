@@ -12,13 +12,14 @@
 #import "EVMainMenuFooter.h"
 #import <Social/Social.h>
 #import "OpenInChromeController.h"
-#import "AMBlurView.h"
+#import "ABContactsHelper.h"
 
 #define FOOTER_HEIGHT 60.0
 
 @interface EVMainMenuViewController ()
 
 @property (nonatomic, strong) EVMainMenuFooter *footerView;
+@property (nonatomic, strong) UILabel *inviteBonusLabel;
 
 @end
 
@@ -54,12 +55,14 @@
     [self.view addSubview:self.tableView];
     
     [self loadFooter];
+    [self loadInviteBonusLabel];
     [self loadStatusBarBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [self populateInviteBonusLabel];
     [self.tableView reloadData];
 }
 
@@ -69,6 +72,20 @@
                                                                          self.view.frame.size.width,
                                                                          FOOTER_HEIGHT)];
     [self.view addSubview:self.footerView];
+}
+
+- (void)loadInviteBonusLabel {
+    self.inviteBonusLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.inviteBonusLabel.textAlignment = NSTextAlignmentCenter;
+    self.inviteBonusLabel.font = [EVFont defaultFontOfSize:15];
+    self.inviteBonusLabel.textColor = [EVColor darkColor];
+    self.inviteBonusLabel.backgroundColor = [UIColor clearColor];
+}
+
+- (void)populateInviteBonusLabel {
+    NSInteger numberOfPotentialInvitees = MAX([[ABContactsHelper contacts] count], [[EVCIA me] facebookFriendCount]);
+    NSString *amountString = [EVStringUtility inviteAmountStringForNumberOfInvitees:numberOfPotentialInvitees];
+    self.inviteBonusLabel.text = [NSString stringWithFormat:@"Earn %@!", amountString];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -108,6 +125,7 @@
     icon = [EVImageUtility overlayImage:icon withColor:[EVColor blueColor] identifier:[NSString stringWithFormat:@"mainMenuIcon-%i", indexPath.row]];
     [cell.label setText:title];
     [cell.iconView setImage:icon];
+    cell.marketingView = (indexPath.row == EVMainMenuOptionInvite ? self.inviteBonusLabel : nil);
     
     return cell;    
 }

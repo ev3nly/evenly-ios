@@ -100,6 +100,7 @@
 #pragma mark - Invite
 + (UIImage *)inviteContactsIcon;
 + (UIImage *)inviteFacebookIcon;
++ (UIImage *)invitePlusIcon;
 
 #pragma mark - Banks and Cards
 + (UIImage *)banksCardsAddIcon;

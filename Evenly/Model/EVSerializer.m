@@ -23,6 +23,7 @@
 #import "EVNotificationSetting.h"
 #import "EVConnection.h"
 #import "EVStory.h"
+#import "EVHistoryItem.h"
 
 static NSDictionary *_classMapping = nil;
 
@@ -54,7 +55,8 @@ static NSDictionary *_classMapping = nil;
           @"NotificationSetting":   [EVNotificationSetting class],
           @"Connection":            [EVConnection class],
           @"Story":                 [EVStory class],
-          @"Reward":                [EVReward class]
+          @"Reward":                [EVReward class],
+          @"HistoryItem":           [EVHistoryItem class]
         };
     }
     return _classMapping;

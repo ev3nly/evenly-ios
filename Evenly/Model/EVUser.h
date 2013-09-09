@@ -58,7 +58,9 @@
 @property (nonatomic, strong) NSArray *connections;
 @property (nonatomic, strong) NSString *currentPassword;
 @property (nonatomic) BOOL facebookConnected;
+@property (nonatomic) NSInteger facebookFriendCount;
 @property (nonatomic, strong) NSArray *roles;
+@property (nonatomic, strong) NSURL *shortInviteURL;
 
 @property (nonatomic, readonly) BOOL needsGettingStartedHelp;
 @property (nonatomic, readonly) BOOL needsPaymentHelp;

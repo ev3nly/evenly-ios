@@ -13,5 +13,7 @@
 
 @property (nonatomic, strong) UIImageView *iconView;
 @property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) UIView *marketingView;
+
 
 @end

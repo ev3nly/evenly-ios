@@ -19,6 +19,9 @@
 - (void)loadRightButton;
 - (NSArray *)filterArray:(NSArray *)array forSearch:(NSString *)search;
 
+- (void)setUpReactions;
+
+- (void)inviteFriendsButtonPress:(id)sender;
 - (void)inviteFriends;
 
 @end

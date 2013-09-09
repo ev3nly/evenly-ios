@@ -18,7 +18,8 @@
 
 + (instancetype)sharedInstance;
 
-extern NSString *const EVUserHasCompletedGettingStarted;
+extern NSString *const EVUserHasCompletedGettingStartedKey;
+extern NSString *const EVUserFacebookFriendCountKey;
 
 #pragma mark - Image Loading
 

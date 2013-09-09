@@ -129,6 +129,20 @@ static BOOL _currentlySettingOption = NO;
 }
 
 - (void)cancelButtonPress:(id)sender {
+    
+    // If this is the only record left in the group request, we need to:
+    // a) inform the user that by doing this, they'll be closing the whole request, and
+    // b) close the whole thing.
+    if (self.record.groupRequest.records.count == 1) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Close the Request?"
+                                                        message:@"This is the only person left in this group request.  Do you want to close the request?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"No"
+                                              otherButtonTitles:@"Yes", nil];
+        [alert show];
+        return;
+    }
+    
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"MARKING COMPLETE..."];
     [self.record.groupRequest deleteRecord:self.record
                                withSuccess:^{
@@ -141,6 +155,28 @@ static BOOL _currentlySettingOption = NO;
                                } failure:^(NSError *error) {
                                    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
                                }];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == [alertView cancelButtonIndex])
+        return;
+
+    [self closeRequest];
+}
+
+- (void)closeRequest {
+    [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"CLOSING REQUEST..."];
+    [self.record.groupRequest setCompleted:YES];
+    [self.record.groupRequest updateWithSuccess:^{
+        [[EVCIA sharedInstance] reloadPendingSentExchangesWithCompletion:NULL];
+        [EVStatusBarManager sharedManager].duringSuccess = ^(void) {
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
+            }];
+        };
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
+    } failure:^(NSError *error) {
+        [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];
+    }];
 }
 
 @end

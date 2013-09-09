@@ -13,6 +13,7 @@
 #import "EVRequest.h"
 #import "EVGroupRequest.h"
 #import "ABContact.h"
+#import <DTCoreText/DTCoreText.h>
 
 @interface EVStringUtility (private)
 
@@ -397,6 +398,14 @@ static NSDateFormatter *_detailDateFormatter;
                                                                                             withString:@""]];
 }
 
++ (NSString *)inviteAmountStringForNumberOfInvitees:(NSInteger)numberOfPeople {
+    NSInteger potentialDollars = (numberOfPeople / EV_INVITES_NEEDED_FOR_PRIZE) * EV_DOLLARS_PER_PRIZE;
+    NSDecimalNumber *number = [NSDecimalNumber decimalNumberWithString:EV_STRING_FROM_INT(potentialDollars)];
+    NSString *amountString = [self amountStringForAmount:number];
+    amountString = [amountString substringToIndex:amountString.length - 3]; // truncate ".00" from end
+    return amountString;
+}
+
 #pragma mark - General
 
 + (NSString *)onString {
@@ -493,6 +502,37 @@ static NSDateFormatter *_detailDateFormatter;
 
 + (NSString *)wouldYouLikeToSetPINPrompt {
     return @"Would you like to set a PIN to protect your Evenly wallet? You can always set it later in settings.";
+}
+
+#pragma mark - HTML Processing
+
+
++ (NSAttributedString *)attributedStringWithHTML:(NSString *)html {
+    return [self _attributedStringWithHTML:html className:@"NSAttributedString"];
+}
+
++ (NSMutableAttributedString *)mutableAttributedStringWithHTML:(NSString *)html {
+    return [self _attributedStringWithHTML:html className:@"NSMutableAttributedString"];
+}
+
+static DTCSSStylesheet *_stylesheet;
+
++ (id)_attributedStringWithHTML:(NSString *)html className:(NSString *)className {
+    if (!_stylesheet) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _stylesheet = [[DTCSSStylesheet alloc] initWithStyleBlock:@" strong { color: #282726;  font-family: Avenir; font-weight: bold; } "];
+        });
+    }
+    NSDictionary *options = @{ DTDefaultFontFamily : @"Avenir",
+                               DTDefaultFontSize : @(15),
+                               DTDefaultTextColor : [EVColor newsfeedTextColor],
+                               DTUseiOS6Attributes : @(YES),
+                               DTDefaultStyleSheet : _stylesheet,
+                               DTDefaultTextAlignment : @(kCTCenterTextAlignment) };
+    return [[NSClassFromString(className) alloc] initWithHTMLData:[html dataUsingEncoding:NSUTF8StringEncoding]
+                                                          options:options
+                                               documentAttributes:nil];    
 }
 
 @end

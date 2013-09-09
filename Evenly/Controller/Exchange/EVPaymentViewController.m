@@ -124,7 +124,7 @@
 
 - (BOOL)shouldAdvanceToHowMuch {
    if (self.initialView.recipientCount == 0) {
-        [self.initialView flashMessage:@"You've got to tell us who you want to pay!"
+        [self.initialView flashMessage:@"Please tell us who you'd like to pay."
                                inFrame:self.initialView.toFieldFrame
                           withDuration:2.0];
         return NO;

@@ -34,6 +34,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <Parse/Parse.h>
 #import "ABContactsHelper.h"
+#import "EVFacebookManager.h"
 
 #define EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY 60
 
@@ -72,10 +73,6 @@
         [self handleRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey] requirePIN:YES];
     }
     
-    [ABContactsHelper autocompletableContacts];
-    DLog(@"Mobile label: %@  iPhone label: %@", kABPersonPhoneMobileLabel, kABPersonPhoneIPhoneLabel);
-    
-    [[EVStatusBarManager sharedManager] setup];
     return YES;
 }
 
@@ -99,6 +96,9 @@
     // Load user and session from cache.
     [EVSession setSharedSession:[[EVCIA sharedInstance] session]];
     
+    if ([[EVCIA sharedInstance] session]) {
+        [EVFacebookManager quietlyOpenSessionWithCompletion:NULL];
+    }
     [EVCIA reloadMe];
     
     [[EVKeyboardTracker sharedTracker] registerForNotifications];
@@ -156,6 +156,9 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    if ([[EVCIA sharedInstance] session]) {
+        [EVFacebookManager quietlyOpenSessionWithCompletion:NULL];
+    }
     [EVCIA reloadMe];
 }
 

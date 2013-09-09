@@ -105,66 +105,8 @@
     if ([properties valueForKey:@"roles"])
         self.roles = [properties valueForKey:@"roles"];
     
-    return;
-    [self mapModelToDictionary:properties];
-}
-
-- (void)mapModelToDictionary:(NSDictionary *)dictionary {
-    
-    NSDictionary *mapping = [self modelServerMapping];
-    
-    for (NSString *modelKey in mapping.allKeys) {
-        NSString *serverKey = mapping[modelKey];
-        
-        if (dictionary[serverKey]) {
-            NSString *mappingSelectorString = [NSString stringWithFormat:@"%@MappingForValue:", modelKey];
-            SEL mappingSelector = NSSelectorFromString(mappingSelectorString);
-            
-            NSObject *value = dictionary[serverKey];
-            if (!value || [value isEqual:[NSNull null]] || [value isKindOfClass:[NSNull class]])
-                continue;
-
-            if ([self respondsToSelector:mappingSelector])
-                [self performSelector:mappingSelector withObject:dictionary[serverKey]];
-            else
-                [self setValue:dictionary[serverKey] forKey:modelKey];
-        }
-    }
-}
-
-- (void)balanceMappingForValue:(NSObject *)value {
-    if (value) {
-        if ([value isKindOfClass:[NSDecimalNumber class]])
-            self.balance = (NSDecimalNumber *)value;
-        else
-            self.balance = [NSDecimalNumber decimalNumberWithString:(NSString *)value];
-    }
-    else {
-        if (!self.balance)
-            self.balance = [NSDecimalNumber decimalNumberWithString:@"0.00"];
-    }
-}
-
-- (void)avatarURLMappingForValue:(NSString *)value {
-    self.avatarURL = [NSURL URLWithString:value];
-    [self loadAvatar];
-}
-
-- (void)connectionsMappingForValue:(NSArray *)value {
-    NSMutableArray *array = [NSMutableArray array];
-    for (NSDictionary *dictionary in value) {
-        EVConnection *connection = (EVConnection *)[EVSerializer serializeDictionary:dictionary];
-        [array addObject:connection];
-    }
-    self.connections = array;
-}
-
-- (void)unconfirmedMappingForValue:(NSString *)value {
-    self.unconfirmed = ![value boolValue];
-}
-
-- (void)facebookConnectedMappingForValue:(NSString *)value {
-    self.facebookConnected = [value boolValue];
+    if ([properties valueForKey:@"short_invite_url"])
+        self.shortInviteURL = [NSURL URLWithString:[properties valueForKey:@"short_invite_url"]];
 }
 
 - (NSDictionary *)dictionaryRepresentation {
@@ -548,14 +490,14 @@
     if (!self.hasInvitedFriends)
         return YES;
     
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVUserHasCompletedGettingStarted];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVUserHasCompletedGettingStartedKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     return NO;
 }
 
 - (BOOL)userHasClearedGettingStartedBefore {
-    return ([[NSUserDefaults standardUserDefaults] boolForKey:EVUserHasCompletedGettingStarted] == YES);
+    return ([[NSUserDefaults standardUserDefaults] boolForKey:EVUserHasCompletedGettingStartedKey] == YES);
 }
 
 - (BOOL)needsPaymentHelp {

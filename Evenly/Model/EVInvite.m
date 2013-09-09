@@ -23,7 +23,12 @@
 }
 
 + (void)createWithPhoneNumber:(NSString *)phoneNumber success:(void (^)(EVObject *object))success failure:(void(^)(NSError *error))failure {
-    [self createWithParams:@{ @"phone_number" : phoneNumber} success:success failure:failure];
+    [self createWithParams:@{@"phone_number" : phoneNumber} success:success failure:failure];
 }
+
++ (void)createWithFacebookIDs:(NSArray *)facebookIDs success:(void (^)(EVObject *object))success failure:(void(^)(NSError *error))failure {
+    [self createWithParams:@{@"facebook_ids" : facebookIDs} success:success failure:failure];
+}
+
 
 @end

@@ -14,4 +14,6 @@
 + (void)registerChannelsWithDeviceTokenData:(NSData *)deviceToken;
 + (void)unregisterChannels;
 
++ (NSString *)userIdentifier;
+
 @end

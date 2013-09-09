@@ -201,7 +201,7 @@
 - (void)nextButtonPress:(id)sender {
     if (self.phase == EVExchangePhaseWho) {
         NSString *toFieldContents = self.initialView.toField.textField.text;
-        if ([[EVValidator sharedValidator] stringIsValidEmail:toFieldContents]) {
+        if ([[EVValidator sharedValidator] stringIsValidEmail:toFieldContents] || [toFieldContents isPhoneNumber]) {
             [self.initialView addTokenFromField:self.initialView.toField];
             [self.autocompleteTableViewController handleFieldInput:nil];
         } else {

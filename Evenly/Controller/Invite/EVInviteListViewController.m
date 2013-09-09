@@ -20,6 +20,9 @@
 
 @interface EVInviteListViewController ()
 
+@property (nonatomic, strong) UIView *incentiveLabelContainer;
+@property (nonatomic, strong) UILabel *incentiveLabel;
+
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UIView *shadeView;
 
@@ -43,14 +46,18 @@
 
     [self loadTableView];
     [self loadRightButton];
+    [self loadIncentiveLabel];
     [self loadSearchBar];
     [self loadShadeView];
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
+    
+    [self setUpReactions];    
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
+    self.incentiveLabelContainer.frame = [self incentiveLabelContainerFrame];
     self.searchBar.frame = [self searchBarFrame];
     self.tableView.frame = [self tableViewFrame];
     self.shadeView.frame = [self shadeViewFrame];
@@ -72,25 +79,29 @@
 
 - (void)loadRightButton {
     EVNavigationBarButton *button = [[EVNavigationBarButton alloc] initWithTitle:@"Invite"];
-    [button addTarget:self action:@selector(inviteFriends) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(inviteFriendsButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [button setEnabled:NO];
     
     self.rightButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     [self.navigationItem setRightBarButtonItem:self.rightButton animated:YES];
+}
 
-    RAC(self.navigationItem.rightBarButtonItem.enabled) = [RACSignal combineLatest:@[RACAble(self.selectedFriends)]
-                                                                            reduce:^(NSArray *array) {
-                                                                                NSString *suffix = [NSString stringWithFormat:@" (%i)", [self.selectedFriends count]];
-                                                                                NSString *buttonTitle = @"Invite";
-                                                                                if ([self.selectedFriends count] > 0)
-                                                                                    buttonTitle = [buttonTitle stringByAppendingString:suffix];
-                                                                                [UIView animateWithDuration:0.3
-                                                                                                 animations:^{
-                                                                                                     [button setTitle:buttonTitle forState:UIControlStateNormal];
-                                                                                                     [button setSize:[button frameForTitle:buttonTitle].size];
-                                                                                                 }];
-                                                                                return @([array count] > 0);
-                                                                            }];
+- (void)loadIncentiveLabel {
+    self.incentiveLabelContainer = [[UIView alloc] initWithFrame:[self incentiveLabelContainerFrame]];
+    self.incentiveLabelContainer.backgroundColor = [EVColor blueColor];
+    
+    self.incentiveLabel = [[UILabel alloc] initWithFrame:[self incentiveLabelFrame]];
+    self.incentiveLabel.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    self.incentiveLabel.backgroundColor = [UIColor clearColor];
+    self.incentiveLabel.textColor = [UIColor whiteColor];
+    self.incentiveLabel.font = [EVFont defaultFontOfSize:15];
+    self.incentiveLabel.textAlignment = NSTextAlignmentCenter;
+    self.incentiveLabel.numberOfLines = 0;
+    self.incentiveLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    [self.incentiveLabelContainer addSubview:self.incentiveLabel];
+    [self.view addSubview:self.incentiveLabelContainer];
+    
+    [self updateIncentiveString];
 }
 
 - (void)loadSearchBar {
@@ -106,6 +117,47 @@
     self.shadeView = [UIView new];
     self.shadeView.backgroundColor = [UIColor blackColor];
     self.shadeView.alpha = 0;
+}
+
+- (void)setUpReactions {
+    RAC(self.navigationItem.rightBarButtonItem.enabled) = [RACSignal combineLatest:@[RACAble(self.selectedFriends)]
+                                                                            reduce:^(NSArray *array) {
+                                                                                [self updateIncentiveString];
+                                                                                NSString *suffix = [NSString stringWithFormat:@" (%i)", [self.selectedFriends count]];
+                                                                                NSString *buttonTitle = @"Invite";
+                                                                                if ([self.selectedFriends count] > 0)
+                                                                                    buttonTitle = [buttonTitle stringByAppendingString:suffix];
+                                                                                [UIView animateWithDuration:0.3
+                                                                                                 animations:^{
+                                                                                                     EVNavigationBarButton *button = (EVNavigationBarButton *)self.rightButton.customView;
+                                                                                                     [button setTitle:buttonTitle forState:UIControlStateNormal];
+                                                                                                     [button setSize:[button frameForTitle:buttonTitle].size];
+                                                                                                 }];
+                                                                                return @([array count] > 0);
+                                                                            }];
+    
+    [RACAble(self.fullFriendList) subscribeNext:^(NSArray *array) {
+        [self updateIncentiveString];
+    }];
+}
+
+- (void)updateIncentiveString {
+    NSString *string = nil;
+    switch (self.selectedFriends.count) {
+        case 0:
+            string = [NSString stringWithFormat:@"Earn up to %@ by inviting friends!", [EVStringUtility inviteAmountStringForNumberOfInvitees:self.fullFriendList.count]];
+            break;
+        case 1:
+            string = [NSString stringWithFormat:@"Invite 2 more to earn $%d.", EV_DOLLARS_PER_PRIZE];
+            break;
+        case 2:
+            string = [NSString stringWithFormat:@"Invite 1 more to earn $%d.", EV_DOLLARS_PER_PRIZE];
+            break;
+        default:
+            string = [NSString stringWithFormat:@"When they sign up,\nyour friends get $%d, you get %@.", self.selectedFriends.count, [EVStringUtility inviteAmountStringForNumberOfInvitees:self.selectedFriends.count]];
+            break;
+    }
+    self.incentiveLabel.text = string;
 }
 
 #pragma mark - TableView DataSource/Delegate
@@ -182,6 +234,10 @@ static NSString *previousSearch = @"";
 
 #pragma mark - Invite
 
+- (void)inviteFriendsButtonPress:(id)sender {
+    [self inviteFriends];
+}
+
 - (void)inviteFriends {
     //implement in subclass
 }
@@ -226,9 +282,20 @@ static NSString *previousSearch = @"";
                       self.view.bounds.size.height - self.searchBar.bounds.size.height);
 }
 
-- (CGRect)searchBarFrame {
+- (CGRect)incentiveLabelContainerFrame {
     return CGRectMake(0,
                       0,
+                      self.view.bounds.size.width,
+                      SEARCH_BAR_HEIGHT);
+}
+
+- (CGRect)incentiveLabelFrame {
+    return CGRectInset([self incentiveLabelContainerFrame], 10, 0);
+}
+
+- (CGRect)searchBarFrame {
+    return CGRectMake(0,
+                      CGRectGetMaxY(self.incentiveLabelContainer.frame),
                       self.view.bounds.size.width,
                       SEARCH_BAR_HEIGHT);
 }
