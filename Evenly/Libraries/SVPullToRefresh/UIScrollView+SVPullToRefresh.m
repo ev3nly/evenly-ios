@@ -76,11 +76,6 @@ static char UIScrollViewPullToRefreshView;
         view.originalTopInset = self.contentInset.top;
         self.pullToRefreshView = view;
         self.showsPullToRefresh = YES;
-        
-//        [self.pullToRefreshView resetScrollViewContentInset];
-//        EV_DISPATCH_AFTER(0.01, ^{
-//            [view resetScrollViewContentInset];
-//        });
     }
 }
 
@@ -159,8 +154,6 @@ static char UIScrollViewPullToRefreshView;
         self.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
         self.textColor = EV_RGB_COLOR(182, 182, 182);
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-//        self.state = SVPullToRefreshStateLoading;
-//        self.state = SVPullToRefreshStateStopped;
         self.showsDateLabel = NO;
         
         self.titles = [NSMutableArray arrayWithObjects:NSLocalizedString(@"",),

@@ -22,6 +22,7 @@
 #define LOGO_BUFFER (([UIApplication sharedApplication].keyWindow.bounds.size.height > 480) ? 30 : 10)
 #define FORM_LABEL_BUFFER 14
 #define FORM_VIEW_TAG 9372
+#define FORM_VIEW_HEIGHT 50
 
 @interface EVSignInViewController ()
 
@@ -132,7 +133,7 @@
     EVFormView *formView = [[EVFormView alloc] initWithFrame:CGRectMake(0,
                                                                         CGRectGetMaxY(self.logo.frame) + LOGO_BUFFER,
                                                                         self.view.bounds.size.width,
-                                                                        50)];
+                                                                        FORM_VIEW_HEIGHT)];
     formView.tag = FORM_VIEW_TAG;
     [self.view addSubview:formView];
     [formView setFormRows:@[ emailRow, passwordRow ]];

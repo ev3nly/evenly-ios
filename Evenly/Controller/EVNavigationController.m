@@ -9,6 +9,10 @@
 #import "EVNavigationController.h"
 #import "AMBlurView.h"
 
+#define STATUS_BAR_HEIGHT [UIApplication sharedApplication].statusBarFrame.size.height
+#define NAV_AND_STATUS_BAR_BACKGROUND_HEIGHT 65
+#define STATUS_BAR_BACKGROUND_ALPHA 0.5
+
 @interface EVNavigationController ()
 
 @end
@@ -29,13 +33,13 @@
     [super viewDidLoad];
     
     if ([EVUtilities userHasIOS7]) {
-        UIView *navStatusBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, -20, 320, 65)];
-        navStatusBarBackground.backgroundColor = EV_RGB_COLOR(0, 112, 207);// [EVColor blueColor];
-        navStatusBarBackground.alpha = 0.5;
+        UIView *navStatusBarBackground = [[UIView alloc] initWithFrame:[self navStatusBarBackgroundFrame]];
+        navStatusBarBackground.backgroundColor = [EVColor navBarOverlayColor];
+        navStatusBarBackground.alpha = STATUS_BAR_BACKGROUND_ALPHA;
         [self.navigationBar insertSubview:navStatusBarBackground atIndex:0];
         
         AMBlurView *blurView = [AMBlurView new];
-        blurView.frame = CGRectMake(0, -20, 320, 65);
+        blurView.frame = [self navStatusBarBackgroundFrame];
         blurView.blurTintColor = [EVColor blueColor];
         [self.navigationBar insertSubview:blurView atIndex:0];
         
@@ -51,6 +55,15 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
+}
+
+#pragma mark - Frames
+
+- (CGRect)navStatusBarBackgroundFrame {
+    return CGRectMake(0,
+                      -STATUS_BAR_HEIGHT,
+                      self.view.bounds.size.width,
+                      NAV_AND_STATUS_BAR_BACKGROUND_HEIGHT);
 }
 
 @end

@@ -87,7 +87,6 @@
 - (CGRect)numberLabelFrame {
     CGRect numberFrame = self.bounds;
     numberFrame.origin.x += LABEL_OFFSET;
-    //    numberFrame.origin.y += LABEL_OFFSET;
     return numberFrame;
 }
 

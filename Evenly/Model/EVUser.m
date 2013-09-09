@@ -39,21 +39,6 @@
 @synthesize avatar;
 @synthesize avatarURL;
 
-- (NSDictionary *)modelServerMapping {
-    return @{@"name": @"name",
-             @"email": @"email",
-             @"phoneNumber" : @"phone_number",
-             @"email": @"email",
-             @"phoneNumber": @"phone_number",
-             @"balance": @"balance",
-             @"password": @"password",
-             @"avatarURL": @"avatar_url",
-             @"connections": @"connections",
-             @"unconfirmed": @"unconfirmed",
-             @"facebookConnected": @"facebook_connected",
-             @"roles": @"roles"};
-}
-
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
     

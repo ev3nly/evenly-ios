@@ -9,6 +9,7 @@
 #import "EVNavigationBarButton.h"
 
 #define EV_NAVIGATION_BAR_BUTTON_MINIMUM_WIDTH 45.0
+#define NAV_BUTTON_LEFT_RIGHT_INSET 50
 
 @interface EVNavigationBarButton ()
 
@@ -44,7 +45,7 @@
         [self.titleLabel setFont:[self buttonFont]];
         
         
-        self.imageEdgeInsets = UIEdgeInsetsMake(0, 50, 0, 50);
+        self.imageEdgeInsets = UIEdgeInsetsMake(0, NAV_BUTTON_LEFT_RIGHT_INSET, 0, NAV_BUTTON_LEFT_RIGHT_INSET);
     }
     return self;
 }

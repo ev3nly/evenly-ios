@@ -234,7 +234,6 @@
     UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
     imagePicker.sourceType = sourceType;
     imagePicker.delegate = self;
-//    imagePicker.view.backgroundColor = [UIColor blackColor];
     
     if (sourceType == UIImagePickerControllerSourceTypeCamera) {
         if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront])

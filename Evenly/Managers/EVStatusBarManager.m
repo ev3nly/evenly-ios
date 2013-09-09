@@ -13,7 +13,7 @@
 
 #define DEFAULT_IN_PROGRESS_TEXT @"SAVING.."
 #define DEFAULT_SUCCESS_TEXT @"SUCCESS!"
-#define DEFAULT_FAILURE_TEXT @"Error. Try again.}"
+#define DEFAULT_FAILURE_TEXT @"Whoops! Try again."
 //#define DEFAULT_FAILURE_TEXT @"WHOOPS! SOMETHING WENT WRONG."
 
 typedef void(^EVStatusBarManagerActionBlock)(void);
@@ -43,9 +43,6 @@ static EVStatusBarManager *_sharedManager = nil;
         _sharedManager.actionStack = [NSMutableArray arrayWithCapacity:0];
     });
     return _sharedManager;
-}
-
-- (void)setup {
 }
 
 - (void)setStatus:(EVStatusBarStatus)status {

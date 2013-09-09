@@ -29,6 +29,8 @@
 
 #define DEFAULT_NUMBER_OF_REWARD_OPTIONS 3
 
+#define VERTICAL_CARD_SPACING 20
+
 @interface EVRewardsGameViewController ()
 
 @property (nonatomic, strong) EVReward *reward;
@@ -440,7 +442,7 @@
 }
 
 - (CGRect)cardFrameForIndex:(NSInteger)i {
-    CGFloat spacing = 20.0;
+    CGFloat spacing = VERTICAL_CARD_SPACING;
     CGSize size = [self cardSize];
     CGFloat width = size.width;
     CGFloat height = size.height;

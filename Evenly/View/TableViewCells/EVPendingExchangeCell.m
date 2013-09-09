@@ -92,7 +92,6 @@
 
 - (void)loadGroupRequestViews {
     self.groupRequestContainer = [[UIView alloc] initWithFrame:[self containerFrame]];
-    //    self.groupRequestContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
     
     self.groupRequestLabel = [[UILabel alloc] initWithFrame:self.groupRequestContainer.bounds];
     self.groupRequestLabel.backgroundColor = [UIColor clearColor];
@@ -101,6 +100,7 @@
     self.groupRequestLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
     self.groupRequestLabel.font = EV_PENDING_EXCHANGE_CELL_FONT;
     self.groupRequestLabel.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    
     [self.groupRequestContainer addSubview:self.groupRequestLabel];
 }
 

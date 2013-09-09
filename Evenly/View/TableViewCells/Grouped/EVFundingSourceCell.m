@@ -11,6 +11,7 @@
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
 
+#define CELL_SIDE_BUFFER 20
 
 @interface EVFundingSourceCell ()
 
@@ -90,13 +91,13 @@
 
 - (CGRect)imageViewFrame {
     CGRect imageFrame = self.imageView.frame;
-    imageFrame.origin.x = 20;
+    imageFrame.origin.x = CELL_SIDE_BUFFER;
     return imageFrame;
 }
 
 - (CGRect)accessoryViewFrame {
     CGRect accessoryFrame = self.accessoryView.frame;
-    accessoryFrame.origin.x = self.bounds.size.width - accessoryFrame.size.width - 20;
+    accessoryFrame.origin.x = self.bounds.size.width - accessoryFrame.size.width - CELL_SIDE_BUFFER;
     return accessoryFrame;
 }
 

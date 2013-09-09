@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIScrollView+SVInfiniteScrolling.h"
 
+#define LOADING_INDICATOR_OFFSET -50
 
 static CGFloat const SVInfiniteScrollingViewHeight = 48;
 
@@ -153,7 +154,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
 }
 
 - (void)layoutSubviews {
-    self.activityIndicatorView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2 - 50);
+    self.activityIndicatorView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2 + LOADING_INDICATOR_OFFSET);
 }
 
 #pragma mark - Scroll View

@@ -122,7 +122,6 @@
     self.remindButton = nil;
     
     [super setStory:story];
-    //    [self switchAvatars];
     [self configureButtonsForStoryType:story.transactionType];
 }
 

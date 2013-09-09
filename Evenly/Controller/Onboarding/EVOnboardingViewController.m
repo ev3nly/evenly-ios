@@ -240,33 +240,7 @@
                                                                         [EVImages facebookFIcon].size.height);
     }
     
-    [view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedCard:)]];
     return view;
-}
-
-- (void)tappedCard:(UITapGestureRecognizer *)recognizer {
-    UIView *card = recognizer.view;
-    CGRect daFrame = card.frame;
-    if (daFrame.origin.y < 400)
-        daFrame.origin.y += 100;
-    else
-        daFrame.origin.y = 50;
-    
-    //    [card bounceAnimationToFrame:daFrame duration:0.25 completion:nil];
-    //    return;
-    [UIView animateWithDuration:0.6
-                          delay:0
-         usingSpringWithDamping:0.6
-          initialSpringVelocity:15.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         CGRect cardFrame = card.frame;
-                         if (cardFrame.origin.y < 400)
-                             cardFrame.origin.y += 100;
-                         else
-                             cardFrame.origin.y = 50;
-                         card.frame = cardFrame;
-                     } completion:nil];
 }
 
 #pragma mark - View Helper Methods

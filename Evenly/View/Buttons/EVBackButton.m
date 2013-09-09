@@ -9,6 +9,7 @@
 #import "EVBackButton.h"
 
 #define DEFAULT_TAPPABLE_SIZE 44
+#define BUTTON_LEFT_RIGHT_INSET 10
 
 @implementation EVBackButton
 
@@ -24,7 +25,7 @@
     [button setShowsTouchWhenHighlighted:YES];
     
     if (![EVUtilities userHasIOS7]) {
-        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
+        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, BUTTON_LEFT_RIGHT_INSET, 0, BUTTON_LEFT_RIGHT_INSET);
         button.frame = CGRectMake(0, 0, image.size.width + edgeInsets.left + edgeInsets.right, image.size.height);
         button.imageEdgeInsets = edgeInsets;
     }

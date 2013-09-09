@@ -12,6 +12,8 @@
 #import "EVEnterPINViewController.h"
 #import "EVNavigationManager.h"
 
+#define HAMBURGER_IMAGE_WIDTH_PADDING 14
+
 @interface EVMasterViewController ()
 
 @property (nonatomic, strong) NSURL *killswitchURL;
@@ -42,7 +44,7 @@
     button.showsTouchWhenHighlighted = YES;
     
     if (![EVUtilities userHasIOS7]) {
-        button.frame = CGRectMake(0, 0, image.size.width + 14, image.size.height);
+        button.frame = CGRectMake(0, 0, image.size.width + HAMBURGER_IMAGE_WIDTH_PADDING, image.size.height);
     }
     else {
         CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.width,
