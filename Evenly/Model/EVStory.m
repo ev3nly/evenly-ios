@@ -422,10 +422,10 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     NSString *string = nil;
     if (self.liked)
     {
-        if (self.likeCount == 0)
+        if (self.likeCount <= 1)
             string = @"You like this";
         else
-            string = [NSString stringWithFormat:@"You + %d", self.likeCount];
+            string = [NSString stringWithFormat:@"You + %d", self.likeCount-1];
     }
     else
     {
@@ -454,6 +454,15 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
 }
 
 - (void)unlikeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    NSArray *users = [self.likes map:^id(id object) {
+        return [object liker];
+    }];
+    if ([users containsObject:[EVCIA me]]) {
+        NSMutableArray *mutableLikes = [NSMutableArray arrayWithArray:self.likes];
+        [mutableLikes removeObjectAtIndex:[users indexOfObject:[EVCIA me]]];
+        self.likes = (NSArray *)mutableLikes;
+    }
+    
     NSMutableURLRequest *request = [[self class] requestWithMethod:@"DELETE"
                                                               path:[NSString stringWithFormat:@"%@/likes", self.dbid]
                                                         parameters:nil];
