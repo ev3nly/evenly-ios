@@ -3938,8 +3938,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Zach Abrams (T49S4L7JS7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zach Abrams (T49S4L7JS7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (8TD4XDX6H8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zach Abrams (8TD4XDX6H8)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3956,8 +3956,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "7042ACD3-A9D2-403E-B009-0AA4FD0C049D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7042ACD3-A9D2-403E-B009-0AA4FD0C049D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3966,8 +3966,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Zach Abrams (T49S4L7JS7)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Zach Abrams (T49S4L7JS7)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (8TD4XDX6H8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zach Abrams (8TD4XDX6H8)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3984,8 +3984,8 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "7042ACD3-A9D2-403E-B009-0AA4FD0C049D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7042ACD3-A9D2-403E-B009-0AA4FD0C049D";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
