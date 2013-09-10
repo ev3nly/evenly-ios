@@ -32,8 +32,7 @@
                                                      context:NULL].size.height;
     float differenceInBottomSectionHeight = (PENDING_BOTTOM_SECTION_HEIGHT - EV_STORY_CELL_VERTICAL_RULE_HEIGHT);
     float cellHeight = (int)(superHeight + dateHeight + PENDING_DATE_BOTTOM_SECTION_BUFFER + differenceInBottomSectionHeight);
-    if ((int)cellHeight % 2 != 0)
-        cellHeight++;
+    EV_MAKE_FLOAT_ROUND_AND_EVEN(cellHeight);
     return cellHeight;
 }
 

@@ -28,9 +28,6 @@
 
 #import "EVGettingStartedViewController.h"
 
-#import "AMBlurView.h"
-#import "FXBlurView.h"
-
 #define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET ([EVUtilities userHasIOS7] ? -50 : -16)
 #define TABLE_VIEW_INFINITE_SCROLLING_INSET 40
 #define TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET -7
@@ -207,8 +204,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     float height = (int)[EVStoryCell cellHeightForStory:[self.newsfeedDataSource.newsfeed objectAtIndex:indexPath.section]];
-    if ((int)height % 2 != 0)
-        height += 1; //the grouped cells don't play nice with odd heights
     return height;
 }
 

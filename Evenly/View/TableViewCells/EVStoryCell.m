@@ -39,7 +39,9 @@
                                                            context:NULL].size.height;
     float heightDueToLabel = EV_STORY_CELL_BACKGROUND_MARGIN + TEXT_BUFFER + labelHeight + TEXT_BUFFER/2 + EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
     float minimumHeight = EV_STORY_CELL_BACKGROUND_MARGIN + TEXT_BUFFER + AVATAR_LENGTH + EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
-    return fmaxf(heightDueToLabel, minimumHeight);
+    float totalHeight = fmaxf(heightDueToLabel, minimumHeight);
+    EV_MAKE_FLOAT_ROUND_AND_EVEN(totalHeight);
+    return totalHeight;
 }
 
 static TTTTimeIntervalFormatter *_timeIntervalFormatter;

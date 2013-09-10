@@ -16,13 +16,13 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:CGRectMake(frame.origin.x, frame.origin.y, [[self class] size].width, [[self class] size].height)];
+    self = [super initWithFrame:frame];
     if (self) {
         UIImage *image = [UIImage imageNamed:@"arrowbutton"];
         [self setImage:image forState:UIControlStateNormal];
-        [self setImageEdgeInsets:UIEdgeInsetsMake(7, 7, 7, 7)];
         self.expanded = NO;
         [self addTarget:self action:@selector(tapped:) forControlEvents:UIControlEventTouchUpInside];
+        self.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -46,14 +46,5 @@
         [self setExpanded:!self.expanded animated:YES];
     }
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

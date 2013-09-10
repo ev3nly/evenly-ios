@@ -12,6 +12,7 @@
 #define SIDE_MARGIN 10
 #define AVATAR_LENGTH 88
 #define STRIPE_WIDTH [EVUtilities scaledDividerHeight]
+#define PICTURE_X_OFFSET ([EVUtilities userHasIOS7] ? 0 : -1)
 
 @interface EVPhotoNameEmailCell ()
 
@@ -53,7 +54,7 @@
 #pragma mark - View Loading
 
 - (void)loadProfilePictureView {
-    UIView *clippingContainer = [[UIView alloc] initWithFrame:CGRectMake(SIDE_MARGIN + STRIPE_WIDTH,
+    UIView *clippingContainer = [[UIView alloc] initWithFrame:CGRectMake(SIDE_MARGIN + STRIPE_WIDTH + PICTURE_X_OFFSET,
                                                                          STRIPE_WIDTH,
                                                                          AVATAR_LENGTH + SIDE_MARGIN,
                                                                          AVATAR_LENGTH + SIDE_MARGIN)];
@@ -140,7 +141,7 @@
 }
 
 - (CGRect)verticalStripeFrame {
-    return CGRectMake(CGRectGetMaxX(self.profilePictureView.frame) + SIDE_MARGIN,
+    return CGRectMake(CGRectGetMaxX(self.profilePictureView.frame) + SIDE_MARGIN + PICTURE_X_OFFSET,
                       0,
                       STRIPE_WIDTH,
                       self.bounds.size.height);

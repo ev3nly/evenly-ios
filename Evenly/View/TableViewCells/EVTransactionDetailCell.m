@@ -22,9 +22,9 @@
                                                                      options:(NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading)
                                                                      context:NULL].size.height;
     float totalHeight = EV_STORY_CELL_BACKGROUND_MARGIN + AVATAR_TOP_BUFFER + AVATAR_LENGTH + TEXT_BUFFER + labelHeight + TEXT_BUFFER + EV_STORY_CELL_VERTICAL_RULE_HEIGHT;
-    if ((int)totalHeight % 2 != 0)
-        totalHeight++;
-    return floorf(totalHeight);
+    
+    EV_MAKE_FLOAT_ROUND_AND_EVEN(totalHeight);
+    return totalHeight;
 }
 
 #pragma mark - Lifecycle

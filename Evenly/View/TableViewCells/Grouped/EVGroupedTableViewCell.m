@@ -60,6 +60,17 @@
 
 #pragma mark - IOS7 Editing Fixes
 
+/* 
+    If you have a backgroundView in a tableViewCell, the background view
+    will slide over incorrectly when you enter delete mode.  TableViewCells
+    now have their entire view nested in a scrollView, which seems to be 
+    responsible for this issue.
+ 
+    In addition, the red delete button isn't centered in a way that looks
+    nice with our layout, and it doesn't include a built-in way to change it,
+    hence the redControl methods.
+*/
+
 - (void)resetBackgroundFrameToCounteractIos7DeleteBug {
     CGRect bgFrame = self.backgroundView.frame;
     bgFrame.origin.x = 0;

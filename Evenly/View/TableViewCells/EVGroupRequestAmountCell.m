@@ -24,6 +24,8 @@
 
 #define TAPPABLE_BUTTON_WIDTH 44
 
+#define ARROW_BUTTON_Y_OFFSET 6
+
 @interface EVGroupRequestAmountCell ()
 
 @property (nonatomic, strong) UIButton *deleteButton;
@@ -46,7 +48,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
+        self.contentView.backgroundColor = [UIColor whiteColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.currencyFormatter = [[EVCurrencyTextFieldFormatter alloc] init];
         [self loadDeleteButton];
@@ -64,13 +66,8 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    // Keep the arrow on the first line when the cells expand.
-    CGPoint center = self.accessoryView.center;
-    center.y = [[self class] standardHeight] / 2.0;
-    center.x = self.bounds.size.width - self.arrowButton.imageView.image.size.width;
-    self.accessoryView.center = center;
-    
     self.bottomStripe.frame = [self bottomStripeFrame];
+    self.arrowButton.frame = [self arrowButtonFrame];
 }
 
 #pragma mark - View Loading
@@ -116,8 +113,9 @@
 }
 
 - (void)loadArrowButton {
-    self.arrowButton = [[EVExpansionArrowButton alloc] initWithFrame:CGRectZero];
-    self.accessoryView = self.arrowButton;
+    self.arrowButton = [[EVExpansionArrowButton alloc] initWithFrame:CGRectMake(self.bounds.size.width - 44, 0, 44, self.bounds.size.height)];
+//    self.accessoryView = self.arrowButton;
+    [self.contentView addSubview:self.arrowButton];
     [self.arrowButton addTarget:self action:@selector(arrowButtonPress:) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -227,6 +225,13 @@
                       [EVUtilities scaledDividerHeight]);
 }
 
+- (CGRect)arrowButtonFrame {
+    return CGRectMake(self.bounds.size.width - TAPPABLE_BUTTON_WIDTH,
+                      ARROW_BUTTON_Y_OFFSET,
+                      TAPPABLE_BUTTON_WIDTH,
+                      TAPPABLE_BUTTON_WIDTH);
+}
+
 @end
 
 
@@ -242,7 +247,7 @@
         UILabel *label = [[UILabel alloc] initWithFrame:self.bounds];
         label.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         label.font = [EVFont defaultFontOfSize:16];
-        label.backgroundColor = [UIColor clearColor];
+        label.backgroundColor = [UIColor whiteColor];
         label.textColor = [EVColor darkLabelColor];
         label.text = @"+   Add Option";
         label.textAlignment = NSTextAlignmentCenter;

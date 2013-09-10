@@ -44,6 +44,13 @@
 #define EV_PERCENTAGE_FROM_FLOAT(x) [NSString stringWithFormat:@"%d%%", (int)((float)x * 100.0)]
 
 ////////////////////////////////////////////////
+// Numbers
+////////////////////////////////////////////////
+#define EV_MAKE_FLOAT_ROUND_AND_EVEN(x) if ((int)x % 2 != 0) \
+                                            x++; \
+                                        x = floorf(x);
+
+////////////////////////////////////////////////
 // Design Constants
 ////////////////////////////////////////////////
 #define EV_AUTORESIZE_TO_FIT UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight

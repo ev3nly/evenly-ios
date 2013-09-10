@@ -11,7 +11,7 @@
 #import "EVGroupRequestTier.h"
 
 #define HEADER_LABEL_HEIGHT 40.0
-#define NAVIGATION_BAR_OFFSET 0
+#define NAVIGATION_BAR_OFFSET ([EVUtilities userHasIOS7] ? 0 : 44)
 
 #define INITIAL_NUMBER_OF_OPTIONS 1
 
@@ -19,7 +19,7 @@
 
 #define INFO_LABEL_X_MARGIN 20
 #define INFO_LABEL_Y_MARGIN 5
-#define INFO_LABEL_HEIGHT 30
+#define INFO_LABEL_HEIGHT ([EVUtilities userHasIOS7] ? 30 : 20)
 
 #define MULTI_ADD_OPTION_X_MARGIN 20
 #define MULTI_ADD_OPTION_WIDTH 280
@@ -449,6 +449,8 @@
 
 - (void)handleDeleteForCell:(EVGroupRequestAmountCell *)cell {
     NSInteger index = [self.optionCells indexOfObject:cell];
+    if (index >= [self.optionCells count])
+        return;
     [self removeCellAtIndex:index];
     if ([self.optionCells count] > 1)
     {

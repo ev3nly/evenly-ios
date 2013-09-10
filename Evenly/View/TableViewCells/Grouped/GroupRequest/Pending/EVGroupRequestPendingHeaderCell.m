@@ -24,9 +24,8 @@
                                            attributes:@{NSFontAttributeName: MEMO_LABEL_FONT}
                                               context:NULL].size;
     height += memoSize.height + PENDING_STORY_DATE_BUFFER;
-    if ((int)height % 2 != 0)
-        height++;
-    return floorf(height);
+    EV_MAKE_FLOAT_ROUND_AND_EVEN(height);
+    return height;
 }
 
 + (CGFloat)cellHeightForStory:(EVStory *)story {
@@ -38,9 +37,8 @@
                                                   attributes:@{NSFontAttributeName: EV_STORY_CELL_DATE_LABEL_FONT}
                                                      context:NULL].size.height;
     float height = (superHeight + dateHeight - EV_STORY_CELL_VERTICAL_RULE_HEIGHT);
-    if ((int)height % 2 != 0)
-        height++;
-    return floorf(height);
+    EV_MAKE_FLOAT_ROUND_AND_EVEN(height);
+    return height;
 }
 
 #pragma mark - Lifecycle
