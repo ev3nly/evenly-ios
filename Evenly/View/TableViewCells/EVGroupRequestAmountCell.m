@@ -113,8 +113,7 @@
 }
 
 - (void)loadArrowButton {
-    self.arrowButton = [[EVExpansionArrowButton alloc] initWithFrame:CGRectMake(self.bounds.size.width - 44, 0, 44, self.bounds.size.height)];
-//    self.accessoryView = self.arrowButton;
+    self.arrowButton = [[EVExpansionArrowButton alloc] initWithFrame:[self arrowButtonFrame]];
     [self.contentView addSubview:self.arrowButton];
     [self.arrowButton addTarget:self action:@selector(arrowButtonPress:) forControlEvents:UIControlEventTouchUpInside];
 }
