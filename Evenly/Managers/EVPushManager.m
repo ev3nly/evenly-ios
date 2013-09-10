@@ -22,6 +22,10 @@
 #import "EVStoryDetailViewController.h"
 #import "EVProfileViewController.h"
 
+NSString *const EVApplicationDidRegisterForPushesNotification = @"EVApplicationDidRegisterForPushesNotification";
+NSString *const EVApplicationUserDeniedPushPermissionNotification = @"EVApplicationUserDeniedPushPermissionNotification";
+NSString *const EVUserDeniedPushPermissionKey = @"EVUserDeniedPushPermissionKey";
+
 @implementation EVPushManager
 
 static EVPushManager *_sharedManager;
@@ -32,6 +36,11 @@ static EVPushManager *_sharedManager;
         _sharedManager = [EVPushManager new];
     });
     return _sharedManager;
+}
+
++ (BOOL)acceptsPushNotifications {
+    UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+    return (BOOL)(type & UIRemoteNotificationTypeAlert);
 }
 
 - (EVObject *)objectFromPushDictionary:(NSDictionary *)pushDictionary {

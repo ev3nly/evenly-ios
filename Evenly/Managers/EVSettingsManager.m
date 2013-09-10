@@ -13,6 +13,8 @@ NSString *const EVHasSeenGroupRequestDashboardAlertKey = @"EVHasSeenGroupRequest
 NSString *const EVHasSeenPINAlertKey = @"EVHasSeenPINAlertKey";
 NSString *const EVDateAppEnteredBackgroundKey = @"EVAppEnteredBackgroundDate";
 
+NSString *const EVSettingsWereLoadedFromServerNotification = @"EVSettingsWereLoadedFromServerNotification";
+
 static EVSettingsManager *_sharedManager;
 
 @implementation EVSettingsManager
@@ -36,6 +38,7 @@ static EVSettingsManager *_sharedManager;
 - (void)loadSettingsFromServer {
     [EVNotificationSetting allWithSuccess:^(id result) {
         self.notificationSetting = [result lastObject];
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVSettingsWereLoadedFromServerNotification object:nil];
     } failure:^(NSError *error) {
         DLog(@"Error loading setting: %@", error);
     }];

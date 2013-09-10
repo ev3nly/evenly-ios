@@ -281,6 +281,7 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
     [self setMe:me];
     
     [EVUtilities registerForPushNotifications];
+    [[EVSettingsManager sharedManager] loadSettingsFromServer];
     
     //cache session
     [self setSession:[EVSession sharedSession]];

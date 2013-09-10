@@ -178,6 +178,8 @@
     return [FBSession.activeSession handleOpenURL:url];
 }
 
+#pragma mark - Push Notifications
+
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
@@ -188,11 +190,24 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         [mixpanel.people addPushDeviceToken:deviceToken];
     }
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:EVUserDeniedPushPermissionKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVApplicationDidRegisterForPushesNotification
+                                                        object:nil
+                                                      userInfo:@{ @"deviceToken" : deviceToken }];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self handleRemoteNotification:userInfo requirePIN:NO];
     [EVCIA reloadMe];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVUserDeniedPushPermissionKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVApplicationUserDeniedPushPermissionNotification
+                                                        object:nil
+                                                      userInfo:@{ @"error" : error }];
 }
 
 - (void)handleRemoteNotification:(NSDictionary *)userInfo requirePIN:(BOOL)requirePIN {
