@@ -20,4 +20,10 @@
 
 - (int)intValue;
 
+- (CGRect)_safeBoundingRectWithSize:(CGSize)size
+                            options:(NSStringDrawingOptions)options
+                         attributes:(NSDictionary *)attributes
+                            context:(NSStringDrawingContext *)context;
+- (CGSize)_safeSizeWithAttributes:(NSDictionary *)attributes;
+
 @end

@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    EVDashboardPermanentRowTitle,
     EVDashboardPermanentRowProgress,
     EVDashboardPermanentRowCOUNT
 } EVDashboardPermanentRow;

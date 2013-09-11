@@ -88,6 +88,7 @@
                                                  name:EVCIAUpdatedBankAccountsNotification
                                                object:nil];
     [self setUpReactions];
+    [self loadStatusBarBackground];
 }
 
 - (void)loadTableView {
@@ -98,7 +99,8 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-    
+    self.tableView.contentInset = UIEdgeInsetsMake([self totalBarHeight], 0, 0, 0);
+
     [self.tableView registerClass:[EVWalletItemCell class] forCellReuseIdentifier:@"walletItemCell"];
     [self.tableView registerClass:[EVPendingExchangeCell class] forCellReuseIdentifier:@"pendingCell"];
     [self.tableView registerClass:[EVNoPendingExchangesCell class] forCellReuseIdentifier:@"noPendingCell"];
@@ -218,7 +220,7 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = nil;
+    EVWalletSectionHeader *headerView = nil;
     if (section == EVWalletSectionPending)
         headerView = self.pendingHeader;
     else
@@ -383,7 +385,7 @@
                     ((EVViewController *)controller).shouldDismissGrandparent = YES;
                     EVGettingStartedViewController *gettingStartedController = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypePayment];
                     gettingStartedController.controllerToShow = (EVViewController *)controller;
-                    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
+                    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:gettingStartedController];
                     [self presentViewController:navController animated:YES completion:NULL];
                     return;
                 }
@@ -401,26 +403,27 @@
         {
             controller = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeAll];
         }
-        NSAssert1(controller != nil, @"Controller to be presented was nil!  The object we were making the controller for was %@", interaction);
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+        if (!controller)
+            return;
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:controller];
         [self presentViewController:navController animated:YES completion:nil];
     }
     else     if (indexPath.section == EVWalletSectionWallet) {
         if (indexPath.row == EVWalletRowCards)
         {
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVCardsViewController alloc] init]];
+            EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[[EVCardsViewController alloc] init]];
             [self presentViewController:navController animated:YES completion:NULL];
         }
         else if (indexPath.row == EVWalletRowBanks)
         {
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVBanksViewController alloc] init]];
+            EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[[EVBanksViewController alloc] init]];
             [self presentViewController:navController animated:YES completion:NULL];
         }
     }
 }
 
 - (void)historyButtonPress:(id)sender {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVHistoryViewController new]];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[EVHistoryViewController new]];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
@@ -429,7 +432,7 @@
     if ([EVCIA me].needsDepositHelp) {
         EVGettingStartedViewController *gettingStartedController = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeDeposit];
         gettingStartedController.controllerToShow = [EVDepositViewController new];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:gettingStartedController];
         [self presentViewController:navController animated:YES completion:NULL];
     }
     else if ([[[EVCIA me] balance] isEqualToNumber:[NSDecimalNumber zero]]) {
@@ -441,7 +444,7 @@
         [alert show];
     }
     else {
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[[EVDepositViewController alloc] init]];
         [self presentViewController:navController animated:YES completion:NULL];
     }
 }

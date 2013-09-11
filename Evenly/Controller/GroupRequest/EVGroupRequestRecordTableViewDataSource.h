@@ -30,7 +30,6 @@ typedef enum {
 @property (nonatomic, strong) EVGroupRequestPaymentOptionCell *paymentOptionCell;
 
 @property (nonatomic, strong) EVBlueButton *remindButton;
-@property (nonatomic, strong) EVGrayButton *markAsCompletedButton;
 @property (nonatomic, strong) EVGrayButton *cancelButton;
 
 - (id)initWithRecord:(EVGroupRequestRecord *)record;

@@ -13,10 +13,17 @@
 #import "EVBlueButton.h"
 #import "EVPrivacyNotice.h"
 #import "EVCurrencyTextFieldFormatter.h"
+#import "EVGroupedTableViewCell.h"
 
 #import "EVAddBankViewController.h"
 
-#define EV_DEPOSIT_MARGIN 10.0
+#define EV_DEPOSIT_PANE_LEFT_MARGIN ([EVUtilities userHasIOS7] ? 0 : 10)
+#define EV_DEPOSIT_STATUS_NAV_BAROFFSET [self totalBarHeight]
+#define EV_DEPOSIT_TOP_BUFFER 10
+#define EV_DEPOSIT_TOP_MARGIN (EV_DEPOSIT_STATUS_NAV_BAROFFSET + EV_DEPOSIT_TOP_BUFFER)
+#define EV_DEPOSIT_SIDE_MARGIN 10.0
+#define EV_DEPOSIT_STRIPE_SIDE_MARGIN ([EVUtilities userHasIOS7] ? 10 : 0)
+#define EV_DEPOSIT_BETWEEN_ELEMENTS_BUFFER 10.0
 #define EV_DEPOSIT_BALANCE_PANE_HEIGHT 96.0
 #define EV_DEPOSIT_CELL_HEIGHT 44.0
 #define EV_DEPOSIT_BUTTON_HEIGHT 44.0
@@ -25,10 +32,10 @@
 
 @property (nonatomic, weak) EVCIA *cia;
 
-@property (nonatomic, strong) UIImageView *balancePane;
+@property (nonatomic, strong) EVGroupedTableViewCellBackground *balancePane;
 @property (nonatomic, strong) UILabel *balanceLabel;
 
-@property (nonatomic, strong) UIImageView *cellContainer;
+@property (nonatomic, strong) EVGroupedTableViewCellBackground *cellContainer;
 @property (nonatomic, strong) EVDepositCell *amountCell;
 @property (nonatomic, strong) EVDepositCell *bankCell;
 @property (nonatomic, strong) UIPickerView *pickerView;
@@ -99,13 +106,11 @@
 }
 
 - (void)loadBalancePane {
-    
-    self.balancePane = [[UIImageView alloc] initWithFrame:CGRectMake(EV_DEPOSIT_MARGIN,
-                                                                EV_DEPOSIT_MARGIN,
-                                                                self.view.frame.size.width - 2*EV_DEPOSIT_MARGIN,
-                                                                EV_DEPOSIT_BALANCE_PANE_HEIGHT)];
+    self.balancePane = [[EVGroupedTableViewCellBackground alloc] initWithFrame:CGRectMake(EV_DEPOSIT_PANE_LEFT_MARGIN,
+                                                                                          EV_DEPOSIT_TOP_MARGIN,
+                                                                                          self.view.frame.size.width - EV_DEPOSIT_PANE_LEFT_MARGIN*2,
+                                                                                          EV_DEPOSIT_BALANCE_PANE_HEIGHT)];
     self.balancePane.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    self.balancePane.image = [EVImages resizableTombstoneBackground];
     [self.view addSubview:self.balancePane];
     
     self.balanceLabel = [[UILabel alloc] initWithFrame:self.balancePane.bounds];
@@ -120,15 +125,17 @@
 }
 
 - (void)loadCells {
-    self.cellContainer = [[UIImageView alloc] initWithFrame:CGRectMake(EV_DEPOSIT_MARGIN,
-                                                                       CGRectGetMaxY(self.balancePane.frame) + EV_DEPOSIT_MARGIN,
-                                                                       self.view.frame.size.width - 2*EV_DEPOSIT_MARGIN,
-                                                                       2*EV_DEPOSIT_CELL_HEIGHT)];
+    self.cellContainer = [[EVGroupedTableViewCellBackground alloc] initWithFrame:CGRectMake(EV_DEPOSIT_PANE_LEFT_MARGIN,
+                                                                                            CGRectGetMaxY(self.balancePane.frame) + EV_DEPOSIT_BETWEEN_ELEMENTS_BUFFER,
+                                                                                            self.view.frame.size.width - EV_DEPOSIT_PANE_LEFT_MARGIN*2,
+                                                                                            2*EV_DEPOSIT_CELL_HEIGHT)];
     self.cellContainer.userInteractionEnabled = YES;
-    self.cellContainer.image = [EVImages resizableTombstoneBackground];
     [self.view addSubview:self.cellContainer];
     
-    UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(0, EV_DEPOSIT_CELL_HEIGHT, self.cellContainer.frame.size.width, 1)];
+    UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(EV_DEPOSIT_STRIPE_SIDE_MARGIN,
+                                                              EV_DEPOSIT_CELL_HEIGHT,
+                                                              self.cellContainer.frame.size.width - EV_DEPOSIT_STRIPE_SIDE_MARGIN*2,
+                                                              [EVUtilities scaledDividerHeight])];
     [stripe setBackgroundColor:[EVColor newsfeedStripeColor]];
     [self.cellContainer addSubview:stripe];
     
@@ -152,9 +159,9 @@
 }
 
 - (void)loadDepositButton {
-    self.depositButton = [[EVBlueButton alloc] initWithFrame:CGRectMake(EV_DEPOSIT_MARGIN,
-                                                                        CGRectGetMaxY(self.cellContainer.frame) + EV_DEPOSIT_MARGIN,
-                                                                        self.view.frame.size.width - 2*EV_DEPOSIT_MARGIN,
+    self.depositButton = [[EVBlueButton alloc] initWithFrame:CGRectMake(EV_DEPOSIT_SIDE_MARGIN,
+                                                                        CGRectGetMaxY(self.cellContainer.frame) + EV_DEPOSIT_BETWEEN_ELEMENTS_BUFFER,
+                                                                        self.view.frame.size.width - 2*EV_DEPOSIT_SIDE_MARGIN,
                                                                         EV_DEPOSIT_BUTTON_HEIGHT)];
     [self.depositButton addTarget:self action:@selector(depositButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.depositButton];
@@ -162,9 +169,9 @@
 }
 
 - (void)loadReassuringMessage {
-    self.privacyNotice = [[EVPrivacyNotice alloc] initWithFrame:CGRectMake(EV_DEPOSIT_MARGIN,
-                                                                           CGRectGetMaxY(self.depositButton.frame) + EV_DEPOSIT_MARGIN,
-                                                                           self.view.frame.size.width - 2*EV_DEPOSIT_MARGIN,
+    self.privacyNotice = [[EVPrivacyNotice alloc] initWithFrame:CGRectMake(EV_DEPOSIT_SIDE_MARGIN,
+                                                                           CGRectGetMaxY(self.depositButton.frame) + EV_DEPOSIT_BETWEEN_ELEMENTS_BUFFER,
+                                                                           self.view.frame.size.width - 2*EV_DEPOSIT_SIDE_MARGIN,
                                                                            EV_DEPOSIT_BUTTON_HEIGHT)];
     self.privacyNotice.label.text = @"100% Free.  Transfers take 1-2 days.";
     [self.view addSubview:self.privacyNotice];
@@ -282,7 +289,7 @@
 
 - (void)presentAddBankController {
     EVAddBankViewController *addBankController = [[EVAddBankViewController alloc] init];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:addBankController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:addBankController];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
@@ -293,7 +300,7 @@
         [self.bankCell.textField resignFirstResponder];
     else {
         CGPoint tapPoint = [recognizer locationInView:self.balancePane];
-        if (CGRectContainsPoint(self.balancePane.frame, tapPoint))
+        if (CGRectContainsPoint(self.balancePane.bounds, tapPoint))
             [self.amountCell.textField becomeFirstResponder];
     }
 }

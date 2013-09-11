@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "EVTextField.h"
 #import "EVCurrencyTextFieldFormatter.h"
+#import "EVGroupedTableViewCell.h"
 
 @interface EVExchangeBigAmountView : UIView <UITextFieldDelegate>
 
-@property (nonatomic, strong) UIImageView *bigAmountContainer;
+@property (nonatomic, strong) EVGroupedTableViewCellBackground *bigAmountContainer;
 @property (nonatomic, strong) EVTextField *amountField;
 @property (nonatomic, strong) UILabel *minimumAmountLabel;
 

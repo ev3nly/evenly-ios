@@ -59,4 +59,7 @@ typedef enum {
 - (void)setVisibilityForExchange:(EVExchange *)exchange;
 - (NSString *)actionButtonText;
 
+#pragma mark - Frames
+- (CGRect)exchangeViewDefaultFrame;
+
 @end

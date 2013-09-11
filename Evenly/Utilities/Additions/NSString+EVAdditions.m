@@ -72,4 +72,31 @@
     return [decimalNumber intValue];
 }
 
+#pragma mark - IOS6 protection
+
+- (CGRect)_safeBoundingRectWithSize:(CGSize)size
+                            options:(NSStringDrawingOptions)options
+                         attributes:(NSDictionary *)attributes
+                            context:(NSStringDrawingContext *)context {
+    if ([EVUtilities userHasIOS7]) {
+        return [self boundingRectWithSize:size
+                                  options:options
+                               attributes:attributes
+                                  context:context];
+    }
+    else {
+        CGSize textSize = [self sizeWithFont:attributes[NSFontAttributeName]
+                       constrainedToSize:size
+                           lineBreakMode:NSLineBreakByWordWrapping];
+        return CGRectMake(0, 0, textSize.width, textSize.height);
+    }
+}
+
+- (CGSize)_safeSizeWithAttributes:(NSDictionary *)attributes {
+    if ([EVUtilities userHasIOS7])
+        return [self sizeWithAttributes:attributes];
+    else
+        return [self sizeWithFont:attributes[NSFontAttributeName]];
+}
+
 @end

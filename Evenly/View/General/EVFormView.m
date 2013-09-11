@@ -9,10 +9,11 @@
 #import "EVFormView.h"
 
 #define EV_FORM_VIEW_STRIPE_THICKNESS 1.0
+#define SIDE_MARGIN ([EVUtilities userHasIOS7] ? 10 : 0)
 
 @interface EVFormView ()
 
-@property (nonatomic, strong) UIImageView *background;
+@property (nonatomic, strong) EVGroupedTableViewCellBackground *background;
 @property (nonatomic, strong) NSMutableArray *stripes;
 
 @end
@@ -24,9 +25,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.background = [[UIImageView alloc] initWithFrame:self.bounds];
-        self.background.autoresizingMask = EV_AUTORESIZE_TO_FIT;
-        self.background.image = [EVImages resizableTombstoneBackground];
+        self.background = [[EVGroupedTableViewCellBackground alloc] initWithFrame:self.bounds];
+        self.background.autoresizingMask = EV_AUTORESIZE_TO_FIT;;
         self.autoresizesSubviews = YES;
         [self addSubview:self.background];
         
@@ -52,7 +52,7 @@
     totalHeight += stripeCount * EV_FORM_VIEW_STRIPE_THICKNESS;
     [self setSize:CGSizeMake(self.frame.size.width, totalHeight)];
     
-    CGPoint origin = CGPointMake(1, 1);
+    CGPoint origin = CGPointMake(SIDE_MARGIN, 1);
     for (UIView *view in _formRows) {
         [view setOrigin:origin];
         [self addSubview:view];
@@ -68,20 +68,9 @@
 }
 
 - (UIView *)stripeAtPoint:(CGPoint)point {
-    UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(point.x, point.y, self.frame.size.width - 2*point.x, 1)];
+    UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(point.x, point.y, self.frame.size.width - 2*point.x, [EVUtilities scaledDividerHeight])];
     stripe.backgroundColor = [EVColor newsfeedStripeColor];
     return stripe;
 }
-
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

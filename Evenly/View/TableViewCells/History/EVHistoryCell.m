@@ -42,13 +42,18 @@
 
 + (float)heightGivenSubtitle:(NSString *)subtitle {
     float maxWidth = [UIScreen mainScreen].applicationFrame.size.width - LEFT_TEXT_BUFFER*2;
-    CGSize subtitleSize = [subtitle sizeWithFont:SUBTITLE_FONT
-                               constrainedToSize:CGSizeMake(maxWidth, 1000000)
-                                   lineBreakMode:NSLineBreakByWordWrapping];
-    CGSize titleSize = [@"title" sizeWithFont:TITLE_FONT
-                            constrainedToSize:CGSizeMake(maxWidth, 50)
-                                lineBreakMode:NSLineBreakByClipping];
-    return TOP_TEXT_BUFFER + titleSize.height + TITLE_SUBTITLE_BUFFER + subtitleSize.height + TOP_TEXT_BUFFER;
+    CGSize subtitleSize = [subtitle _safeBoundingRectWithSize:CGSizeMake(maxWidth, FLT_MAX)
+                                                      options:NSStringDrawingUsesLineFragmentOrigin
+                                                   attributes:@{NSFontAttributeName: SUBTITLE_FONT}
+                                                      context:NULL].size;
+    CGSize titleSize = [@"title" _safeBoundingRectWithSize:CGSizeMake(maxWidth, 50)
+                                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                                attributes:@{NSFontAttributeName: TITLE_FONT}
+                                                   context:NULL].size;
+    float totalHeight = (TOP_TEXT_BUFFER + titleSize.height + TITLE_SUBTITLE_BUFFER + subtitleSize.height + TOP_TEXT_BUFFER);
+    if ((int)totalHeight%2 != 0)
+        totalHeight++;
+    return floorf(totalHeight);
 }
 
 #pragma mark - Lifecycle
@@ -155,9 +160,7 @@
 }
 
 - (float)heightForSubtitle {
-    return [self.subtitleLabel.text sizeWithFont:self.subtitleLabel.font
-                               constrainedToSize:CGSizeMake(self.bounds.size.width - LEFT_TEXT_BUFFER*2, 1000000)
-                                   lineBreakMode:self.subtitleLabel.lineBreakMode].height;
+    return [self.subtitleLabel multiLineSizeForWidth:self.bounds.size.width - LEFT_TEXT_BUFFER*2].height;
 }
 
 @end

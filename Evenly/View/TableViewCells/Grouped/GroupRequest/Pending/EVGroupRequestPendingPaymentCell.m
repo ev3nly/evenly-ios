@@ -12,7 +12,8 @@
 
 #define BUTTON_HEIGHT 44.0
 #define TOP_BOTTOM_MARGIN 10.0
-#define LEFT_RIGHT_MARGIN 10.0
+#define LEFT_RIGHT_MARGIN 20.0
+#define BUTTON_BUTTON_BUFFER 10
 
 #define PAY_IN_FULL_TEXT @"PAY"
 #define PAY_PARTIAL_TEXT @"PAY PARTIAL"
@@ -54,8 +55,22 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    [self.declineButton setFrame:CGRectMake(LEFT_RIGHT_MARGIN, TOP_BOTTOM_MARGIN, (self.contentView.frame.size.width - 3*LEFT_RIGHT_MARGIN)/ 2, BUTTON_HEIGHT)];
-    [self.payInFullButton setFrame:CGRectMake(CGRectGetMaxX(self.declineButton.frame) + LEFT_RIGHT_MARGIN, TOP_BOTTOM_MARGIN, (self.contentView.frame.size.width - 3*LEFT_RIGHT_MARGIN)/ 2, BUTTON_HEIGHT)];
+    self.declineButton.frame = [self declineButtonFrame];
+    self.payInFullButton.frame = [self payInFullButtonFrame];
+}
+
+- (CGRect)declineButtonFrame {
+    return CGRectMake(LEFT_RIGHT_MARGIN,
+                      TOP_BOTTOM_MARGIN,
+                      (self.contentView.frame.size.width - 2*LEFT_RIGHT_MARGIN - BUTTON_BUTTON_BUFFER)/ 2,
+                      BUTTON_HEIGHT);
+}
+
+- (CGRect)payInFullButtonFrame {
+    return CGRectMake(CGRectGetMaxX(self.declineButton.frame) + BUTTON_BUTTON_BUFFER,
+                      TOP_BOTTOM_MARGIN,
+                      (self.contentView.frame.size.width - 2*LEFT_RIGHT_MARGIN - BUTTON_BUTTON_BUFFER)/ 2,
+                      BUTTON_HEIGHT);
 }
 
 - (CGFloat)heightForRecord:(EVGroupRequestRecord *)record {

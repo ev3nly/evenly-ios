@@ -9,6 +9,7 @@
 #import "EVRewardsExhaustedView.h"
 
 #define MARGINS 20.0
+#define SAD_FACE_Y_OFFSET ([EVUtilities userHasIOS7] ? 32 : 0)
 
 @implementation EVRewardsExhaustedView
 
@@ -20,7 +21,7 @@
         self.backgroundColor = EV_RGB_ALPHA_COLOR(36, 45, 50, 0.9);
         
         self.topLabel = [self configuredLabel];
-        self.topLabel.text = @"Sorry!  You've used all your\nrewards for the day.";
+        self.topLabel.text = @"Sorry! You've used all your\nrewards for the day.";
         [self addSubview:self.topLabel];
         
         self.sadFace = [[UIImageView alloc] initWithImage:[EVImages noRewardsSadFace]];
@@ -49,10 +50,10 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.sadFace.center = CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0);
+    self.sadFace.center = CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0 + SAD_FACE_Y_OFFSET);
     
     self.topLabel.frame = CGRectMake(MARGINS,
-                                     MARGINS,
+                                     MARGINS + SAD_FACE_Y_OFFSET,
                                      self.frame.size.width - 2*MARGINS,
                                      CGRectGetMinY(self.sadFace.frame) - 2*MARGINS);
     self.bottomLabel.frame = CGRectMake(MARGINS,

@@ -9,31 +9,29 @@
 #import "EVGroupRequestSingleAmountView.h"
 #import "EVGroupRequestHowMuchView.h"
 
-#define Y_SPACING 10.0
-#define HINT_LABEL_HEIGHT 16.0
-
+#define ADD_OPTION_BUTTON_BOTTOM_MARGIN ([EVUtilities deviceHasTallScreen] ? 20 : 10)
+#define ADD_OPTION_BUTTON_SIDE_MARGIN 20.0
+#define HINT_LABEL_Y_OFFSET -30
 
 @implementation EVGroupRequestSingleAmountView
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        
-        [self loadBigAmountView];
+- (id)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
         [self loadHintLabel];
         [self loadAddOptionButton];
-
     }
     return self;
 }
 
-- (void)loadBigAmountView {
-    self.bigAmountView = [[EVExchangeBigAmountView alloc] initWithFrame:[self bigAmountFrame]];
-    [self addSubview:self.bigAmountView];
-    
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.bigAmountView.backgroundColor = [UIColor clearColor];
+    self.bigAmountView.frame = [self bigAmountViewFrame];
+    self.hintLabel.frame = [self hintLabelFrame];
+    self.addOptionButton.frame = [self addOptionButtonFrame];
 }
 
+#pragma mark - View Loading
 
 - (void)loadHintLabel {
     self.hintLabel = [[UILabel alloc] initWithFrame:[self hintLabelFrame]];
@@ -52,27 +50,31 @@
 }
 #pragma mark - Frames
 
-- (CGRect)bigAmountFrame {
+- (CGRect)bigAmountViewFrame {
+    float bigAmountHeight = [EVUtilities deviceHasTallScreen] ? [EVExchangeBigAmountView totalHeight] : 100;
     return CGRectMake(0,
                       0,
                       self.frame.size.width,
-                      CGRectGetMinY([self hintLabelFrame]) - Y_SPACING / 2);
+                      bigAmountHeight);
 }
 
 - (CGRect)hintLabelFrame {
-    CGFloat yOrigin = [self addOptionButtonYOrigin] - HINT_LABEL_HEIGHT - 2.0;
+    float yOrigin = CGRectGetMaxY(self.bigAmountView.frame) + HINT_LABEL_Y_OFFSET;
     return CGRectMake(0,
                       yOrigin,
                       self.frame.size.width,
-                      HINT_LABEL_HEIGHT);
+                      [self addOptionButtonYOrigin] - yOrigin);
 }
 
 - (CGFloat)addOptionButtonYOrigin {
-    return self.frame.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - ADD_OPTION_BUTTON_HEIGHT - Y_SPACING;
+    return self.frame.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - ADD_OPTION_BUTTON_HEIGHT - ADD_OPTION_BUTTON_BOTTOM_MARGIN;
 }
 
 - (CGRect)addOptionButtonFrame {
-    return CGRectMake(20, [self addOptionButtonYOrigin], 280, ADD_OPTION_BUTTON_HEIGHT);
+    return CGRectMake(ADD_OPTION_BUTTON_SIDE_MARGIN,
+                      [self addOptionButtonYOrigin],
+                      self.bounds.size.width - ADD_OPTION_BUTTON_SIDE_MARGIN*2,
+                      ADD_OPTION_BUTTON_HEIGHT);
 }
 
 

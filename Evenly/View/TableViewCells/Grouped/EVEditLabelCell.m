@@ -8,7 +8,7 @@
 
 #import "EVEditLabelCell.h"
 
-#define LABEL_X_ORIGIN 10
+#define LABEL_X_ORIGIN ([EVUtilities userHasIOS7] ? 20 : 10)
 #define AVATAR_LENGTH 80
 #define AVATAR_BUFFER 10
 #define SIDE_BUFFER 10
@@ -80,13 +80,11 @@
 #pragma mark - Frames
 
 - (CGRect)textLabelFrame {
-    CGSize labelSize = [self.textLabel.text sizeWithFont:self.textLabel.font
-                                        constrainedToSize:CGSizeMake(self.bounds.size.width, self.bounds.size.height)
-                                            lineBreakMode:self.textLabel.lineBreakMode];
+    [self.textLabel sizeToFit];
     return CGRectMake(LABEL_X_ORIGIN,
-                      CGRectGetMidY(self.bounds) - labelSize.height/2,
-                      labelSize.width,
-                      labelSize.height);
+                      CGRectGetMidY(self.bounds) - self.textLabel.bounds.size.height/2,
+                      self.textLabel.bounds.size.width,
+                      self.textLabel.bounds.size.height);
 }
 
 - (CGRect)textFieldFrame {

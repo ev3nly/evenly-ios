@@ -14,12 +14,17 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];
+        self.bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, self.contentView.frame.size.height, self.contentView.frame.size.width, [EVUtilities scaledDividerHeight])];
         self.bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
-        self.bottomStripe.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-        [self addSubview:self.bottomStripe];
+        [self.contentView addSubview:self.bottomStripe];
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.bottomStripe.frame = CGRectMake(0, self.contentView.frame.size.height - [EVUtilities scaledDividerHeight], self.contentView.frame.size.width, [EVUtilities scaledDividerHeight]);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

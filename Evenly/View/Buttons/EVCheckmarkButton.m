@@ -41,13 +41,8 @@
 - (void)layoutSubviews {
     float maxLabelWidth = (self.bounds.size.width - CGRectGetMaxX(self.check.frame) - self.xMargin - self.checkLabelBuffer);
     
-    
-    CGSize labelSize = [self.label.text sizeWithFont:self.label.font
-                                   constrainedToSize:CGSizeMake(maxLabelWidth, 1000)
-                                       lineBreakMode:self.label.lineBreakMode];
-    
+    CGSize labelSize = [self.label multiLineSizeForWidth:maxLabelWidth];
     CGFloat totalWidth = self.check.image.size.width + self.checkLabelBuffer + labelSize.width;
-    
     CGFloat xOrigin = (self.frame.size.width - totalWidth) / 2.0;
     
     self.check.frame = CGRectMake(xOrigin,

@@ -30,53 +30,68 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = color;
-        
-        self.throbber = [[EVThrobber alloc] initWithThrobberStyle:EVThrobberStyleLight];
-        self.throbber.center = CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0);
-        [self addSubview:self.throbber];
-        
-        self.contentContainer = [[UIView alloc] initWithFrame:self.bounds];
-        [self addSubview:self.contentContainer];
-        self.contentContainer.alpha = 0.0;
-        
+        self.layer.cornerRadius = 2.0;
+        self.clipsToBounds = YES;
+        self.autoresizesSubviews = YES;
+
+        [self loadThrobber];
+        [self loadContentContainer];
         [self loadLogo];
         [self loadStripes];
         [self loadAmountLabel];
-        [self loadMessageLabel];
-        
-        self.autoresizesSubviews = YES;
+        [self loadMessageLabel];        
     }
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.throbber.center = [self throbberCenter];
+    self.contentContainer.frame = [self contentContainerFrame];
+    self.logo.center = [self logoCenter];
+    self.leftStripe.frame = [self leftStripeFrame];
+    self.rightStripe.frame = [self rightStripeFrame];
+    self.amountLabel.frame = [self amountLabelFrame];
+    self.messageLabel.frame = [self messageLabelFrame];
+}
+
+#pragma mark - View Loading
+
+- (void)loadThrobber {
+    self.throbber = [[EVThrobber alloc] initWithThrobberStyle:EVThrobberStyleLight];
+    self.throbber.center = [self throbberCenter];
+    [self addSubview:self.throbber];
+}
+
+- (void)loadContentContainer {
+    self.contentContainer = [[UIView alloc] initWithFrame:[self contentContainerFrame]];
+    [self addSubview:self.contentContainer];
+    self.contentContainer.alpha = 0.0;
+}
+
 - (void)loadLogo {
     self.logo = [[UIImageView alloc] initWithImage:[EVImages rewardCardLogo]];
-    self.logo.center = CGPointMake(self.contentContainer.bounds.size.width / 2.0, self.contentContainer.bounds.size.height / 2.0);
+    self.logo.center = [self throbberCenter];
     [self.contentContainer addSubview:self.logo];
 }
 
 - (void)loadStripes {
-    CGRect frame;
     UIView *stripe;
     
-    frame = CGRectMake(0, self.frame.size.height / 2.0, CGRectGetMinX(self.logo.frame) - LOGO_PADDING, 1);
-    stripe = [[UIView alloc] initWithFrame:frame];
+    stripe = [[UIView alloc] initWithFrame:[self leftStripeFrame]];
     stripe.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.43];
     [self.contentContainer addSubview:stripe];
     self.leftStripe = stripe;
     
-    frame = CGRectMake(CGRectGetMaxX(self.logo.frame) + LOGO_PADDING,
-                       self.frame.size.height / 2.0,
-                       self.frame.size.width - LOGO_PADDING - CGRectGetMaxX(self.logo.frame),
-                       1);
-    stripe = [[UIView alloc] initWithFrame:frame];
+    stripe = [[UIView alloc] initWithFrame:[self rightStripeFrame]];
     stripe.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.43];
     [self.contentContainer addSubview:stripe];
     self.rightStripe = stripe;
 }
 
 - (void)loadAmountLabel {
-    self.amountLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, AMOUNT_LABEL_Y_MARGIN, self.frame.size.width, CGRectGetMinY(self.logo.frame) - LOGO_PADDING)];
+    self.amountLabel = [[UILabel alloc] initWithFrame:[self amountLabelFrame]];
     self.amountLabel.font = [EVFont blackFontOfSize:16];
     self.amountLabel.backgroundColor = [UIColor clearColor];
     self.amountLabel.textColor = [UIColor whiteColor];
@@ -86,10 +101,7 @@
 }
 
 - (void)loadMessageLabel {
-    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(LABEL_MARGIN,
-                                                                  CGRectGetMaxY(self.logo.frame) + LOGO_PADDING,
-                                                                  self.frame.size.width - 2*LABEL_MARGIN,
-                                                                  self.frame.size.height - LOGO_PADDING - CGRectGetMaxY(self.logo.frame))];
+    self.messageLabel = [[UILabel alloc] initWithFrame:[self messageLabelFrame]];
     self.messageLabel.backgroundColor = [UIColor clearColor];
     self.messageLabel.textColor = [UIColor whiteColor];
     self.messageLabel.font = [EVFont bookFontOfSize:12];
@@ -98,6 +110,8 @@
     self.messageLabel.adjustsFontSizeToFitWidth = YES;
     [self.contentContainer addSubview:self.messageLabel];
 }
+
+#pragma mark - Animating
 
 - (void)startAnimating {
     self.animating = YES;
@@ -139,6 +153,50 @@
                              completion();
                      }
      ];
+}
+
+#pragma mark - Frames
+
+- (CGPoint)throbberCenter {
+    return CGPointMake(self.bounds.size.width / 2.0,
+                       self.bounds.size.height / 2.0);
+}
+
+- (CGRect)contentContainerFrame {
+    return self.bounds;
+}
+
+- (CGPoint)logoCenter {
+    return CGPointMake(self.contentContainer.bounds.size.width / 2.0,
+                       self.contentContainer.bounds.size.height / 2.0);
+}
+
+- (CGRect)leftStripeFrame {
+    return CGRectMake(0,
+                      self.frame.size.height / 2.0,
+                      CGRectGetMinX(self.logo.frame) - LOGO_PADDING,
+                      [EVUtilities scaledDividerHeight]);
+}
+
+- (CGRect)rightStripeFrame {
+    return CGRectMake(CGRectGetMaxX(self.logo.frame) + LOGO_PADDING,
+                      self.frame.size.height / 2.0,
+                      self.frame.size.width - LOGO_PADDING - CGRectGetMaxX(self.logo.frame),
+                      [EVUtilities scaledDividerHeight]);
+}
+
+- (CGRect)amountLabelFrame {
+    return CGRectMake(0,
+                      AMOUNT_LABEL_Y_MARGIN,
+                      self.frame.size.width,
+                      CGRectGetMinY(self.logo.frame) - LOGO_PADDING);
+}
+
+- (CGRect)messageLabelFrame {
+    return CGRectMake(LABEL_MARGIN,
+                      CGRectGetMaxY(self.logo.frame) + LOGO_PADDING,
+                      self.frame.size.width - 2*LABEL_MARGIN,
+                      self.frame.size.height - LOGO_PADDING - CGRectGetMaxY(self.logo.frame));
 }
 
 @end

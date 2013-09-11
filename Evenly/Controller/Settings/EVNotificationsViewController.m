@@ -18,8 +18,9 @@
 #define CONTEXT_LABEL_Y_MARGIN 15.0
 #define CONTEXT_LABEL_HEIGHT 20.0
 
+#define FORM_CELL_SIDE_MARGIN ([EVUtilities userHasIOS7] ? 0 : 10)
 #define FORM_Y_ORIGIN 44.0
-#define FORM_MARGIN 10.0
+#define FORM_MARGIN ([EVUtilities userHasIOS7] ? 10.0 : 0)
 #define FORM_ROW_HEIGHT 50.0
 
 @interface EVNotificationsViewController ()
@@ -70,6 +71,8 @@
                                                object:nil];
 }
 
+#pragma mark - View Loading
+
 - (void)loadTableView {
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -91,16 +94,16 @@
 }
 
 - (void)loadForm {
-    self.form = [[EVFormView alloc] initWithFrame:CGRectMake(FORM_MARGIN,
+    self.form = [[EVFormView alloc] initWithFrame:CGRectMake(FORM_CELL_SIDE_MARGIN,
                                                              FORM_Y_ORIGIN,
-                                                             self.view.frame.size.width - 2*FORM_MARGIN,
+                                                             self.view.frame.size.width - FORM_CELL_SIDE_MARGIN*2,
                                                              3*FORM_ROW_HEIGHT)];
     [self.tableView addSubview:self.form];
 }
 
 - (void)loadRows {
     EVFormRow *row = nil;
-    CGRect rect = CGRectMake(0, 0, self.form.frame.size.width, FORM_ROW_HEIGHT);
+    CGRect rect = CGRectMake(0, 0, self.form.frame.size.width - FORM_MARGIN*2, FORM_ROW_HEIGHT);
     NSMutableArray *array = [NSMutableArray array];
     
     row = [[EVFormRow alloc] initWithFrame:rect];
@@ -129,6 +132,8 @@
     
     [self.form setFormRows:array];
 }
+
+#pragma mark - Switches
 
 - (void)pushSwitchChanged:(EVSwitch *)sender {
     if (sender.on != self.setting.push)

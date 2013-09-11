@@ -177,15 +177,17 @@
     CGSize sizeConstraint = CGSizeMake(self.frame.size.width - 2*BACKGROUND_MARGIN - 2*INTERNAL_MARGIN, FLT_MAX);
     if (self.attributedText)
     {
-        CGRect boundingRect = [self.attributedText boundingRectWithSize:sizeConstraint                                                               options:NSStringDrawingUsesLineFragmentOrigin
+        CGRect boundingRect = [self.attributedText boundingRectWithSize:sizeConstraint
+                                                                options:NSStringDrawingUsesLineFragmentOrigin
                                                                 context:nil];
         textSize = boundingRect.size;
     }
     else if (self.text)
     {
-        textSize = [self.text sizeWithFont:self.label.font
-                         constrainedToSize:sizeConstraint
-                             lineBreakMode:self.label.lineBreakMode];
+        textSize = [self.text _safeBoundingRectWithSize:sizeConstraint
+                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName: self.label.font}
+                                                context:NULL].size;
     }
     
     // Add y-margins

@@ -17,15 +17,19 @@
 + (CGFloat)standardHeight;
 + (CGFloat)expandedHeight;
 
-@property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, strong) EVTextField *optionAmountField;
 @property (nonatomic, strong) EVGrayButton *friendsButton;
-@property (nonatomic, strong) EVExpansionArrowButton *arrowButton;
 
 @property (nonatomic, strong) UIView *optionNameFieldBackground;
 @property (nonatomic, strong) EVTextField *optionNameField;
 
 @property (nonatomic, strong) EVCurrencyTextFieldFormatter *currencyFormatter;
+
+@property (nonatomic, strong) void (^handleDeletePress)(EVGroupRequestAmountCell *cell);
+@property (nonatomic, strong) void (^handleSelectFriendsPress)(EVGroupRequestAmountCell *cell);
+@property (nonatomic, strong) void (^handleArrowPress)(EVGroupRequestAmountCell *cell);
+
+- (void)addTopStripe;
 
 @end
 
