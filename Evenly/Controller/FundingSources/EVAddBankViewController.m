@@ -67,6 +67,8 @@
     self.tableView.dataSource = self;
     self.tableView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView addReassuringMessage];
     [self.view addSubview:self.tableView];
 }
@@ -84,7 +86,6 @@
     cell.textField.tag = index++;
     cell.textField.delegate = self;
     self.ownerNameCell = cell;
-    self.ownerNameCell.position = EVGroupedTableViewCellPositionTop;
     
     cell = [[EVTitleTextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -94,7 +95,6 @@
     cell.textField.tag = index++;
     cell.textField.delegate = self;
     self.routingNumberCell = cell;
-    self.routingNumberCell.position = EVGroupedTableViewCellPositionCenter;
     self.ownerNameCell.textField.next = self.routingNumberCell.textField;
     
     cell = [[EVTitleTextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
@@ -105,7 +105,6 @@
     cell.textField.tag = index++;
     cell.textField.delegate = self;
     self.accountNumberCell = cell;
-    self.accountNumberCell.position = EVGroupedTableViewCellPositionCenter;
     self.routingNumberCell.textField.next = self.accountNumberCell.textField;
 
     EVCheckingSavingsCell *checkingSavingsCell = [[EVCheckingSavingsCell alloc] initWithStyle:UITableViewCellStyleDefault
@@ -215,7 +214,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell;
+    EVGroupedTableViewCell *cell;
     switch (indexPath.row) {
         case 0:
             cell = self.ownerNameCell;
@@ -232,6 +231,7 @@
         default:
             break;
     }
+    cell.position = [tableView cellPositionForIndexPath:indexPath];
     return cell;
 }
 

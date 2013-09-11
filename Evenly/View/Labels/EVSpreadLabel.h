@@ -12,6 +12,6 @@
 
 @interface EVSpreadLabel : UILabel
 
-@property CGFloat characterSpacing;
+@property (nonatomic, assign) CGFloat characterSpacing;
 
 @end

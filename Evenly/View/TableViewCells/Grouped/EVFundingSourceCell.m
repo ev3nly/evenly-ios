@@ -11,6 +11,7 @@
 #import "EVCreditCard.h"
 #import "EVBankAccount.h"
 
+#define CELL_SIDE_BUFFER 20
 
 @interface EVFundingSourceCell ()
 
@@ -34,6 +35,15 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    if ([EVUtilities userHasIOS7]) {
+        self.imageView.frame = [self imageViewFrame];
+        self.accessoryView.frame = [self accessoryViewFrame];
+    }
+}
+
 - (void)prepareForReuse {
     [super prepareForReuse];
     self.textLabel.textColor = [EVColor newsfeedNounColor];
@@ -51,7 +61,6 @@
         [self setUpWithAccountNumber:bankAccount.accountNumber andBankName:bankAccount.bankName];
     }
     [self setAccessoryView:(fundingSource.isActive ? [[UIImageView alloc] initWithImage:[EVImages checkIcon]] : nil)];
-//    [self setAccessoryType:(fundingSource.isActive ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone)];
 }
 
 - (void)setUpWithLastFour:(NSString *)lastFour andBrandImage:(UIImage *)brandImage {
@@ -75,8 +84,21 @@
     accountNumber = [accountNumber stringByReplacingOccurrencesOfString:@"x" withString:@"*"];
     self.textLabel.text = [NSString stringWithFormat:@"%@ %@", bankName, accountNumber];
     self.textLabel.textColor = [EVColor newsfeedTextColor];
-    self.textLabel.adjustsLetterSpacingToFitWidth = YES;
     self.textLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+}
+
+#pragma mark - Frames
+
+- (CGRect)imageViewFrame {
+    CGRect imageFrame = self.imageView.frame;
+    imageFrame.origin.x = CELL_SIDE_BUFFER;
+    return imageFrame;
+}
+
+- (CGRect)accessoryViewFrame {
+    CGRect accessoryFrame = self.accessoryView.frame;
+    accessoryFrame.origin.x = self.bounds.size.width - accessoryFrame.size.width - CELL_SIDE_BUFFER;
+    return accessoryFrame;
 }
 
 @end

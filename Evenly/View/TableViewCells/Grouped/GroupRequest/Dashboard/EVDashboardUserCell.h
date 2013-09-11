@@ -14,9 +14,6 @@
 
 @property (nonatomic, strong) UILabel *amountLabel;
 @property (nonatomic, strong) EVWalletStamp *paidStamp;
-@property (nonatomic, strong) UILabel *noTierLabel;
-
-+ (UILabel *)configuredNoTierLabel;
 
 @end
 

@@ -11,7 +11,7 @@
 
 @interface EVAutocompleteEmailCell : EVAutocompleteCell
 
-@property (nonatomic, strong) UILabel *nameLabel;
-@property (nonatomic, strong) UILabel *emailLabel;
+@property (nonatomic, strong) EVLabel *nameLabel;
+@property (nonatomic, strong) EVLabel *emailLabel;
 
 @end

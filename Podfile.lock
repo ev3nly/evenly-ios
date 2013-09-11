@@ -1,6 +1,6 @@
 PODS:
-  - AFNetworking (1.3.1)
-  - DTCoreText (1.6.4):
+  - AFNetworking (1.3.2)
+  - DTCoreText (1.6.6):
     - DTFoundation/Core (~> 1.5.1)
     - DTFoundation/DTHTMLParser (~> 1.5.1)
     - DTFoundation/UIKit (~> 1.5.1)
@@ -24,6 +24,7 @@ PODS:
   - FormatterKit/TimeIntervalFormatter (1.1.2)
   - FormatterKit/UnitOfInformationFormatter (1.1.2)
   - FormatterKit/URLRequestFormatter (1.1.2)
+  - FXBlurView (1.3.2)
   - JRSwizzle (1.0)
   - Kiwi (2.0.6)
   - libextobjc/EXTConcreteProtocol (0.2.5):
@@ -33,8 +34,8 @@ PODS:
   - libextobjc/EXTScope (0.2.5):
     - libextobjc/RuntimeExtensions
   - libextobjc/RuntimeExtensions (0.2.5)
-  - MBProgressHUD (0.6)
-  - Mixpanel (2.0.0)
+  - MBProgressHUD (0.7)
+  - Mixpanel (2.0.1)
   - NewRelicAgent (1.309.0)
   - PaymentKit (1.0.0)
   - ReactiveCocoa (1.5.0):
@@ -54,6 +55,7 @@ DEPENDENCIES:
   - AFNetworking (~> 1.0)
   - DTCoreText (~> 1.6.4)
   - FormatterKit (~> 1.1.2)
+  - FXBlurView (~> 1.3.2)
   - Kiwi (~> 2.0.6)
   - MBProgressHUD (~> 0.6)
   - Mixpanel (~> 2.0.0)
@@ -68,19 +70,20 @@ EXTERNAL SOURCES:
     :git: https://github.com/stripe/PaymentKit.git
 
 SPEC CHECKSUMS:
-  AFNetworking: 9ec8aafb9269236a7630bd8d9838ce2ba30fa2a0
-  DTCoreText: f92b3bc0d001be2eccaaca5255efdb38b88385e4
+  AFNetworking: 7f9bcd7c287a75476cd5c61e82fd3380e93e4c54
+  DTCoreText: 1a67169c5d5b7ca8381d8ad218d8596fe5107d7d
   DTFoundation: 6138b5437df0217bbeba2b5cec89d5e95cf7f0e8
   FormatterKit: bb53f3de30773e6b06f91dee1f82b46f536278d7
+  FXBlurView: 93bf69869fbe36d1f851df484d058494a6a8dc9c
   JRSwizzle: 6242ff38485d870fc2636899048ee1ab883ae587
   Kiwi: 56082a80f942de4d10423d8d8a599ab30cf50228
   libextobjc: 2cbc74caf8bdc74a86fdf24673f773c83424ea98
-  MBProgressHUD: 9b55a90566fb5d07df0602f6fd9fa04510ad5d52
-  Mixpanel: e4af97adb60a10541b7869929a83d734025058a6
+  MBProgressHUD: 1fd8591a2216d5dec6de24e09187bb03bcbe9946
+  Mixpanel: e0311534e33c62dd7aa1486d71b499adbfcf1a40
   NewRelicAgent: 3caf67341dd34afff1a224aace0bd053c0f7fd5d
   PaymentKit: 40e5673a9a0960d7ef111d66d0604af245caf635
   ReactiveCocoa: aacb9fe6272d638a0a0b629e304e81bfc4e5959a
   SSKeychain: 9b4a6249ae46b6d1f39a013621bd803f3baba1e3
   TTTAttributedLabel: e504133915a9b11de63cb470ffa2790383a3eb23
 
-COCOAPODS: 0.23.0
+COCOAPODS: 0.24.0

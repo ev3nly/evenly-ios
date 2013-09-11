@@ -11,7 +11,7 @@
 #import "EVGroupRequestTier.h"
 
 #define HEADER_LABEL_HEIGHT 40.0
-#define NAVIGATION_BAR_OFFSET 44.0
+#define NAVIGATION_BAR_OFFSET ([EVUtilities userHasIOS7] ? 0 : 44)
 
 #define INITIAL_NUMBER_OF_OPTIONS 1
 
@@ -19,7 +19,7 @@
 
 #define INFO_LABEL_X_MARGIN 20
 #define INFO_LABEL_Y_MARGIN 5
-#define INFO_LABEL_HEIGHT 20
+#define INFO_LABEL_HEIGHT ([EVUtilities userHasIOS7] ? 30 : 20)
 
 #define MULTI_ADD_OPTION_X_MARGIN 20
 #define MULTI_ADD_OPTION_WIDTH 280
@@ -70,10 +70,11 @@
     return self;
 }
 
+#pragma mark - View Loading
 
 - (void)loadHeaderLabel {
     self.headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, HEADER_LABEL_HEIGHT)];
-    self.headerLabel.backgroundColor = [UIColor whiteColor];
+    self.headerLabel.backgroundColor = [EVColor creamColor];
     self.headerLabel.textColor = [UIColor blackColor];
     self.headerLabel.font = [EVFont blackFontOfSize:16];
     self.headerLabel.textAlignment = NSTextAlignmentCenter;
@@ -85,8 +86,8 @@
 
 - (void)loadSingleAmountView {
     self.singleAmountView = [[EVGroupRequestSingleAmountView alloc] initWithFrame:[self singleAmountViewFrame]];
-    [self addSubview:self.singleAmountView];
-    self.singleAmountView.backgroundColor = [UIColor whiteColor];
+    [self insertSubview:self.singleAmountView belowSubview:self.headerLabel];
+    self.singleAmountView.backgroundColor = [EVColor creamColor];
     [self.singleAmountView.bigAmountView.amountField.rac_textSignal subscribeNext:^(NSString *amountString) {
         [self validate];
     }];
@@ -94,22 +95,6 @@
                                               action:@selector(addOptionFromSingleAmountPress:)
                                     forControlEvents:UIControlEventTouchUpInside];
 }
-
-- (CGRect)singleAmountViewFrame {
-    return CGRectMake(0,
-                      CGRectGetMaxY(self.headerLabel.frame),
-                      self.frame.size.width,
-                      self.frame.size.height - CGRectGetMaxY(self.headerLabel.frame) - NAVIGATION_BAR_OFFSET);
-}
-
-- (CGRect)singleAmountViewOffscreenFrame {
-    CGFloat height = self.frame.size.height - CGRectGetMaxY(self.headerLabel.frame) - NAVIGATION_BAR_OFFSET;
-    return CGRectMake(0,
-                      -height - NAVIGATION_BAR_OFFSET,
-                      self.frame.size.width,
-                      height);
-}
-
 
 - (void)loadMultipleAmountsView {
     UITableViewController *tvc = [[UITableViewController alloc] initWithStyle:UITableViewStylePlain];
@@ -120,9 +105,9 @@
     self.multipleAmountsView.dataSource = self;
     self.multipleAmountsView.separatorColor = [UIColor clearColor];
     self.multipleAmountsView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.multipleAmountsView.backgroundColor = [EVColor creamColor];
     
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(INFO_LABEL_X_MARGIN,
+    EVLabel *label = [[EVLabel alloc] initWithFrame:CGRectMake(INFO_LABEL_X_MARGIN,
                                                                INFO_LABEL_Y_MARGIN,
                                                                self.frame.size.width - 2*INFO_LABEL_X_MARGIN,
                                                                INFO_LABEL_HEIGHT)];
@@ -132,35 +117,25 @@
     label.text = [EVStringUtility multiAmountInfoMessage];
     label.textAlignment = NSTextAlignmentCenter;
     label.numberOfLines = 1;
-    label.adjustsLetterSpacingToFitWidth = YES;
+    
+    if (![EVUtilities userHasIOS7])
+        label.adjustsLetterSpacingToFitWidth = YES;
+    else
+        label.adjustLetterSpacingToFitWidth = YES;
+    
     self.footerLabel = label;
     UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, INFO_LABEL_HEIGHT)];
     [containerView addSubview:label];
     self.multipleAmountsView.tableFooterView = containerView;
     self.footerView = containerView;
     
-    [self addSubview:self.multipleAmountsView];
-}
-
-- (CGRect)multipleAmountsViewFrame {
-    return CGRectMake(0,
-                      CGRectGetMaxY(self.headerLabel.frame),
-                      self.frame.size.width,
-                      self.frame.size.height - CGRectGetMaxY(self.headerLabel.frame) - NAVIGATION_BAR_OFFSET -  ADD_OPTION_BUTTON_HEIGHT - 2*Y_SPACING);
-}
-
-- (CGRect)multipleAmountsViewOffscreenFrame {
-    CGFloat height = self.frame.size.height - CGRectGetMaxY(self.headerLabel.frame) - NAVIGATION_BAR_OFFSET -  ADD_OPTION_BUTTON_HEIGHT - 2*Y_SPACING;
-    return CGRectMake(0,
-                      -height - NAVIGATION_BAR_OFFSET,
-                      self.frame.size.width,
-                      height);
+    [self insertSubview:self.multipleAmountsView belowSubview:self.headerLabel];
 }
 
 - (void)loadAddOptionButton {
     
     self.multiAddOptionButtonContainer = [[UIView alloc] initWithFrame:[self addOptionButtonContainerOffscreenFrame]];
-    self.multiAddOptionButtonContainer.backgroundColor = [UIColor whiteColor];
+    self.multiAddOptionButtonContainer.backgroundColor = [EVColor creamColor];
     [self addSubview:self.multiAddOptionButtonContainer];
     
     self.multiAddOptionButton = [[EVGrayButton alloc] initWithFrame:CGRectMake(MULTI_ADD_OPTION_X_MARGIN,
@@ -174,20 +149,6 @@
     
     [self.multipleAmountsView setOrigin:CGPointMake(self.multipleAmountsView.frame.origin.x, -self.multipleAmountsView.frame.size.height)];
     [self.multiAddOptionButtonContainer setOrigin:CGPointMake(self.multiAddOptionButtonContainer.frame.origin.x, self.frame.size.height)];
-}
-
-- (CGRect)addOptionButtonContainerFrame {
-    return CGRectMake(0,
-                      self.frame.size.height - NAVIGATION_BAR_OFFSET - ADD_OPTION_BUTTON_HEIGHT - 2*Y_SPACING,
-                      self.frame.size.width,
-                      ADD_OPTION_BUTTON_HEIGHT + 2*Y_SPACING);
-}
-
-- (CGRect)addOptionButtonContainerOffscreenFrame {
-    return CGRectMake(0,
-                      self.frame.size.height,
-                      self.frame.size.width,
-                      ADD_OPTION_BUTTON_HEIGHT + 2*Y_SPACING);
 }
 
 - (void)loadTierAssignmentView {
@@ -209,14 +170,23 @@
     for (int i=0; i<INITIAL_NUMBER_OF_OPTIONS; i++) {
         [self.optionCells addObject:[self configuredCell]];
     }
+    EVGroupRequestAmountCell *firstCell = [self.optionCells firstObject];
+    [firstCell addTopStripe];
 }
 
 - (EVGroupRequestAmountCell *)configuredCell {
     EVGroupRequestAmountCell *cell = [[EVGroupRequestAmountCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                                      reuseIdentifier:@"optionCell"];
-    [cell.deleteButton addTarget:self action:@selector(deleteButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.friendsButton addTarget:self action:@selector(friendsButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [cell.arrowButton addTarget:self action:@selector(arrowButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    cell.handleDeletePress = ^(EVGroupRequestAmountCell *cell) {
+        [self handleDeleteForCell:cell];
+    };
+    cell.handleSelectFriendsPress = ^(EVGroupRequestAmountCell *cell) {
+        [self handleSelectFriendsForCell:cell];
+    };
+    cell.handleArrowPress = ^(EVGroupRequestAmountCell *cell) {
+        [self handleArrowForCell:cell];
+    };
     
     EVGroupRequestAmountCell *lastCell = [self.optionCells lastObject];
     if (lastCell)
@@ -283,27 +253,26 @@
     // then the add option button comes in from the bottom.    
     void (^addOptionButtonBlock)(void) = ^{
         [self.multiAddOptionButtonContainer bounceAnimationToFrame:[self addOptionButtonContainerFrame]
-                                                   initialDuration:(float)0.2
-                                                   durationDamping:(float)0.65
+                                                   initialDuration:(float)0.15
+                                                   durationDamping:(float)0.55
                                                    distanceDamping:(float)0.05
                                                         completion:^{
                                                        if (completion)
                                                            completion();
-                                                       
                                                    }];
     };
     
     void (^multipleAmountsBlock)(void) = ^{
         [self.multipleAmountsView bounceAnimationToFrame:[self multipleAmountsViewFrame]
-                                         initialDuration:(float)0.2
+                                         initialDuration:(float)0.25
                                          durationDamping:(float)0.65
                                          distanceDamping:(float)0.05
                                               completion:addOptionButtonBlock];
     };
-    
+
     [self.singleAmountView bounceAnimationToFrame:[self singleAmountViewOffscreenFrame]
-                                  initialDuration:(float)0.2
-                                  durationDamping:(float)0.65
+                                  initialDuration:(float)0.25
+                                  durationDamping:(float)0.45
                                   distanceDamping:(float)0.05
                                        completion:multipleAmountsBlock];
 }
@@ -315,28 +284,25 @@
     // and then the single amount view comes in.
     void (^singleAmountBlock)(void) = ^{
         [self.singleAmountView bounceAnimationToFrame:[self singleAmountViewFrame]
-                                      initialDuration:(float)0.2
+                                      initialDuration:(float)0.25
                                       durationDamping:(float)0.65
                                       distanceDamping:(float)0.05
                                            completion:^{
                                           if (completion)
                                               completion();
-                                          
                                       }];
     };
     
-    void (^multipleAmountsBlock)(void) = ^{
-        [self.multipleAmountsView bounceAnimationToFrame:[self multipleAmountsViewOffscreenFrame]
-                                         initialDuration:(float)0.2
-                                         durationDamping:(float)0.65
-                                         distanceDamping:(float)0.05
-                                              completion:singleAmountBlock];
-    };
+    [self.multipleAmountsView bounceAnimationToFrame:[self multipleAmountsViewOffscreenFrame]
+                                     initialDuration:(float)0.25
+                                     durationDamping:(float)0.45
+                                     distanceDamping:(float)0.05
+                                          completion:singleAmountBlock];
     
-    [self.multiAddOptionButtonContainer bounceAnimationToFrame:[self addOptionButtonContainerOffscreenFrame]
-                                                      duration:0.1
-                                                    completion:multipleAmountsBlock];
-    
+    [UIView animateWithDuration:0.25
+                     animations:^{
+                         self.multiAddOptionButtonContainer.frame = [self addOptionButtonContainerOffscreenFrame];
+                     } completion:nil];
 }
 
 - (void)showTierAssignmentView {
@@ -485,9 +451,10 @@
     [self addCell];
 }
 
-- (void)deleteButtonPress:(UIButton *)sender {
-    EVGroupRequestAmountCell *cell = (EVGroupRequestAmountCell *)[[sender superview] superview];
+- (void)handleDeleteForCell:(EVGroupRequestAmountCell *)cell {
     NSInteger index = [self.optionCells indexOfObject:cell];
+    if (index >= [self.optionCells count])
+        return;
     [self removeCellAtIndex:index];
     if ([self.optionCells count] > 1)
     {
@@ -498,7 +465,7 @@
     }
 }
 
-- (void)friendsButtonPress:(UIButton *)sender {
+- (void)handleSelectFriendsForCell:(EVGroupRequestAmountCell *)cell {
     if ([self.groupRequest.initialMembers count] == 0) {
         [self flashMessage:@"Go back and add friends first!"
                    inFrame:self.headerLabel.bounds
@@ -506,14 +473,12 @@
         return;
     }
     
-    EVGroupRequestAmountCell *cell = (EVGroupRequestAmountCell *)[[sender superview] superview];
     NSInteger index = [self.optionCells indexOfObject:cell];
     [self.tierAssignmentManager setRepresentedTierIndex:index];
     [self showTierAssignmentView];    
 }
 
-- (void)arrowButtonPress:(UIButton *)sender {
-    EVGroupRequestAmountCell *cell = (EVGroupRequestAmountCell *)[sender superview];
+- (void)handleArrowForCell:(EVGroupRequestAmountCell *)cell {
     NSInteger index = [self.optionCells indexOfObject:cell];
     if ([self.expandedCells containsIndex:index]) {
         [self.expandedCells removeIndex:index];
@@ -523,7 +488,6 @@
     
     [self.multipleAmountsView beginUpdates];
     [self.multipleAmountsView endUpdates];
-    
 }
 
 - (void)tapRecognized:(UITapGestureRecognizer *)recognizer {
@@ -645,6 +609,60 @@
     [self.multipleAmountsView setContentInset:UIEdgeInsetsZero];
 }
 
+#pragma mark - First Responder
 
+- (BOOL)isFirstResponder {
+    return self.singleAmountView.isFirstResponder;
+}
+
+- (BOOL)becomeFirstResponder {
+    return [self.singleAmountView becomeFirstResponder];
+}
+
+#pragma mark - Frames
+
+- (CGRect)singleAmountViewFrame {
+    return CGRectMake(0,
+                      HEADER_LABEL_HEIGHT,
+                      self.frame.size.width,
+                      self.frame.size.height - CGRectGetMaxY(self.headerLabel.frame) - NAVIGATION_BAR_OFFSET);
+}
+
+- (CGRect)singleAmountViewOffscreenFrame {
+    CGFloat height = self.frame.size.height - CGRectGetMaxY(self.headerLabel.frame) - NAVIGATION_BAR_OFFSET;
+    return CGRectMake(0,
+                      -height - NAVIGATION_BAR_OFFSET,
+                      self.frame.size.width,
+                      height);
+}
+
+- (CGRect)multipleAmountsViewFrame {
+    return CGRectMake(0,
+                      CGRectGetMaxY(self.headerLabel.frame),
+                      self.frame.size.width,
+                      self.frame.size.height - CGRectGetMaxY(self.headerLabel.frame) - NAVIGATION_BAR_OFFSET -  ADD_OPTION_BUTTON_HEIGHT - 2*Y_SPACING);
+}
+
+- (CGRect)multipleAmountsViewOffscreenFrame {
+    CGFloat height = self.frame.size.height - CGRectGetMaxY(self.headerLabel.frame) - NAVIGATION_BAR_OFFSET -  ADD_OPTION_BUTTON_HEIGHT - 2*Y_SPACING;
+    return CGRectMake(0,
+                      -height - NAVIGATION_BAR_OFFSET,
+                      self.frame.size.width,
+                      height);
+}
+
+- (CGRect)addOptionButtonContainerFrame {
+    return CGRectMake(0,
+                      self.frame.size.height - NAVIGATION_BAR_OFFSET - ADD_OPTION_BUTTON_HEIGHT - 2*Y_SPACING,
+                      self.frame.size.width,
+                      ADD_OPTION_BUTTON_HEIGHT + 2*Y_SPACING);
+}
+
+- (CGRect)addOptionButtonContainerOffscreenFrame {
+    return CGRectMake(0,
+                      self.frame.size.height,
+                      self.frame.size.width,
+                      ADD_OPTION_BUTTON_HEIGHT + 2*Y_SPACING);
+}
 
 @end

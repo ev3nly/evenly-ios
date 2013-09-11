@@ -11,7 +11,7 @@
 
 @class EVFloatingButton;
 
-@interface EVHomeViewController : EVViewController <UITableViewDataSource, UITableViewDelegate>
+@interface EVHomeViewController : EVViewController <UITableViewDelegate>
 
 @property (nonatomic, strong) EVNewsfeedDataSource *newsfeedDataSource;
 

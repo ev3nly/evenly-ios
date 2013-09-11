@@ -81,12 +81,20 @@ typedef enum {
 
 - (void)loadRightBarButton {
     UIImage *image = [UIImage imageNamed:@"More"];
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + 20.0, image.size.height)];
-    [button setImageEdgeInsets:EV_VIEW_CONTROLLER_BAR_BUTTON_IMAGE_INSET];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT)];
+    
+    CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.width, (EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.height)/2);
+    button.imageEdgeInsets = UIEdgeInsetsMake(insetSize.height, insetSize.width, insetSize.height, 0);
+
     [button setImage:image forState:UIControlStateNormal];
     [button setShowsTouchWhenHighlighted:YES];
     [button setAdjustsImageWhenHighlighted:NO];
     [button addTarget:self action:@selector(moreButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    if (![EVUtilities userHasIOS7]) {
+        button.frame = CGRectMake(0, 0, image.size.width + 20.0, image.size.height);
+        button.imageEdgeInsets = EV_VIEW_CONTROLLER_BAR_BUTTON_IMAGE_INSET;
+    }
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
@@ -94,8 +102,7 @@ typedef enum {
     [super viewDidAppear:animated];
     [self.dataSource animate];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:EVHasSeenGroupRequestDashboardAlertKey] != YES)
-    {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:EVHasSeenGroupRequestDashboardAlertKey] != YES) {
         [self showDashboardInstructions];
     }
 }
@@ -138,7 +145,7 @@ typedef enum {
 - (void)showInviteViewController {
     EVGroupRequestInviteViewController *inviteViewController = [[EVGroupRequestInviteViewController alloc] initWithGroupRequest:self.groupRequest];
     inviteViewController.delegate = self;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:inviteViewController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:inviteViewController];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 

@@ -8,6 +8,9 @@
 
 #import "EVPlaceholderTextView.h"
 
+#define PLACEHOLDER_TEXT_VIEW_TOP_BOTTOM_INSET 8
+#define PLACEHOLDER_TEXT_VIEW_SIDE_INSET 3
+
 @implementation EVPlaceholderTextView
 
 @synthesize placeHolderLabel;
@@ -42,6 +45,13 @@
         [self setPlaceholder:@""];
         [self setPlaceholderColor:[UIColor lightGrayColor]];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChanged:) name:UITextViewTextDidChangeNotification object:nil];
+        
+        if ([EVUtilities userHasIOS7]) {
+            self.textContainerInset = UIEdgeInsetsMake(PLACEHOLDER_TEXT_VIEW_TOP_BOTTOM_INSET,
+                                                       PLACEHOLDER_TEXT_VIEW_SIDE_INSET,
+                                                       PLACEHOLDER_TEXT_VIEW_TOP_BOTTOM_INSET,
+                                                       PLACEHOLDER_TEXT_VIEW_SIDE_INSET);
+        }
     }
     return self;
 }
@@ -74,11 +84,11 @@
     {
         if ( placeHolderLabel == nil )
         {
+            self.backgroundColor = [UIColor redColor];
             placeHolderLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, self.bounds.size.width - 16,0)];
             placeHolderLabel.lineBreakMode = NSLineBreakByWordWrapping;
             placeHolderLabel.numberOfLines = 0;
             placeHolderLabel.font = self.font;
-            placeHolderLabel.backgroundColor = [UIColor clearColor];
             placeHolderLabel.textColor = self.placeholderColor;
             placeHolderLabel.alpha = 0;
             placeHolderLabel.tag = 999;

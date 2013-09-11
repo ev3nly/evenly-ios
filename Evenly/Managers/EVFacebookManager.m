@@ -74,7 +74,7 @@ static EVFacebookManager *_sharedManager;
 
 + (void)quietlyOpenSessionWithCompletion:(void (^)(void))completion {
     [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email", @"read_friendlists"]
-                                       allowLoginUI:YES
+                                       allowLoginUI:NO
                                   completionHandler:[self facebookSessionStateHandlerWithCompletion:completion]];
 }
 

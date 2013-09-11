@@ -8,7 +8,10 @@
 
 #import "EVGroupRequestUserCell.h"
 
-#define RIGHT_PADDING 10.0
+#define SIDE_MARGIN ([EVUtilities userHasIOS7] ? 20 : 10)
+#define TOP_MARGIN 10
+#define AVATAR_HEIGHT 44
+#define NAME_LABEL_BUFFER 10
 
 @interface EVGroupRequestUserCell ()
 
@@ -33,57 +36,52 @@
 
 
 - (void)loadAvatarView {
-    self.avatarView = [[EVAvatarView alloc] initWithFrame:[self avatarFrame]];
+    self.avatarView = [[EVAvatarView alloc] initWithFrame:[self avatarViewFrame]];
     [self.contentView addSubview:self.avatarView];
 }
 
-- (CGRect)avatarFrame {
-    return CGRectMake(8, 10, 44, 44);
-}
-
 - (void)loadNameLabel {
-    self.nameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.nameLabel = [[EVLabel alloc] initWithFrame:CGRectZero];
     self.nameLabel.font = [EVFont blackFontOfSize:GROUP_REQUEST_USER_CELL_LARGE_FONT_SIZE];
     self.nameLabel.textColor = [UIColor blackColor];
     self.nameLabel.backgroundColor = [UIColor clearColor];
-    self.nameLabel.adjustsLetterSpacingToFitWidth = YES;
+    self.nameLabel.adjustLetterSpacingToFitWidth = YES;
     self.nameLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     [self.contentView addSubview:self.nameLabel];
 }
 
 - (void)loadTierLabel {
-    self.tierLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    self.tierLabel = [[EVLabel alloc] initWithFrame:CGRectZero];
     self.tierLabel.font = [EVFont defaultFontOfSize:GROUP_REQUEST_USER_CELL_SMALL_FONT_SIZE];
     self.tierLabel.textColor = [EVColor lightLabelColor];
     self.tierLabel.backgroundColor = [UIColor clearColor];
-    self.tierLabel.adjustsLetterSpacingToFitWidth = YES;
+    self.tierLabel.adjustLetterSpacingToFitWidth = YES;
     self.tierLabel.adjustsFontSizeToFitWidth = YES;
     [self.contentView addSubview:self.tierLabel];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    if (!EV_IS_EMPTY_STRING(self.tierLabel.text))
-    {
-        
-    }
-    else
-    {
-        [self.nameLabel setFrame:CGRectMake(GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN,
-                                            0,
-                                            self.contentView.frame.size.width - GROUP_REQUEST_USER_CELL_LABELS_LEFT_MARGIN - RIGHT_PADDING,
-                                            self.contentView.frame.size.height)];
-    }
+    
+    self.avatarView.frame = [self avatarViewFrame];
+    self.nameLabel.frame = [self nameLabelFrame];
 }
 
+#pragma mark - Frames
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
+- (CGRect)avatarViewFrame {
+    return CGRectMake(SIDE_MARGIN,
+                      TOP_MARGIN,
+                      AVATAR_HEIGHT,
+                      AVATAR_HEIGHT);
 }
-*/
+
+- (CGRect)nameLabelFrame {
+    float xOrigin = CGRectGetMaxX(self.avatarView.frame) + NAME_LABEL_BUFFER;
+    return CGRectMake(CGRectGetMaxX(self.avatarView.frame) + NAME_LABEL_BUFFER,
+                      0,
+                      self.contentView.frame.size.width - xOrigin - SIDE_MARGIN,
+                      self.contentView.frame.size.height);
+}
 
 @end

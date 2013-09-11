@@ -167,6 +167,10 @@
     return [self.displayedFriendList count];
 }
 
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return nil; //implement in subclasses
+}
+
 #pragma mark - ScrollView Delegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {

@@ -8,7 +8,7 @@
 
 #import "EVEditPhotoCell.h"
 
-#define LABEL_X_ORIGIN 10
+#define LABEL_X_ORIGIN ([EVUtilities userHasIOS7] ? 20 : 10)
 #define AVATAR_LENGTH 80
 #define AVATAR_BUFFER 10
 #define SIDE_BUFFER 10

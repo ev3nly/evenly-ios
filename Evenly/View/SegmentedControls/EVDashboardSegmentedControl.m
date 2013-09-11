@@ -20,7 +20,7 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width - 1, 0, 1, self.frame.size.height)];
+        UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(self.frame.size.width - [EVUtilities scaledDividerHeight], 0, [EVUtilities scaledDividerHeight], self.frame.size.height)];
         [stripe setBackgroundColor:[EVColor newsfeedStripeColor]];
         [stripe setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight];
         [self addSubview:stripe];
@@ -62,7 +62,7 @@
         self.clipsToBounds = YES;
         [self addSubview:self.backgroundView];
         
-        UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];
+        UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - [EVUtilities scaledDividerHeight], self.frame.size.width, [EVUtilities scaledDividerHeight])];
         [stripe setBackgroundColor:[EVColor newsfeedStripeColor]];
         [stripe setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth];
         [self addSubview:stripe];

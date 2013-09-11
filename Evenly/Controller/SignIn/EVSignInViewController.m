@@ -17,9 +17,12 @@
 
 #import "EVSession.h"
 
+#define STATUS_BAR_BUFFER [UIApplication sharedApplication].statusBarFrame.size.height
+
 #define LOGO_BUFFER (([UIApplication sharedApplication].keyWindow.bounds.size.height > 480) ? 30 : 10)
 #define FORM_LABEL_BUFFER 14
 #define FORM_VIEW_TAG 9372
+#define FORM_VIEW_HEIGHT 50
 
 @interface EVSignInViewController ()
 
@@ -90,7 +93,7 @@
 - (void)loadLogo {
     self.logo = [[UIImageView alloc] initWithImage:[EVImages securityLogoGray]];
     self.logo.frame = CGRectMake(CGRectGetMidX(self.view.bounds) - [EVImages grayLogo].size.width/2,
-                                 LOGO_BUFFER,
+                                 [self totalBarHeight] + LOGO_BUFFER,
                                  [EVImages grayLogo].size.width,
                                  [EVImages grayLogo].size.height);
     [self.view addSubview:self.logo];
@@ -127,7 +130,10 @@
     
     [passwordRow setContentView:self.passwordField];
     
-    EVFormView *formView = [[EVFormView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.logo.frame) + LOGO_BUFFER, 300, 50)];
+    EVFormView *formView = [[EVFormView alloc] initWithFrame:CGRectMake(0,
+                                                                        CGRectGetMaxY(self.logo.frame) + LOGO_BUFFER,
+                                                                        self.view.bounds.size.width,
+                                                                        FORM_VIEW_HEIGHT)];
     formView.tag = FORM_VIEW_TAG;
     [self.view addSubview:formView];
     [formView setFormRows:@[ emailRow, passwordRow ]];
@@ -145,7 +151,6 @@
 
 - (void)loadSegmentedControl {
     self.serverControl = [[UISegmentedControl alloc] initWithItems:@[ @"PROD", @"DEV", @"LOCAL" ]];
-    [self.serverControl setSegmentedControlStyle:UISegmentedControlStyleBordered];
     [self.serverControl setSelectedSegmentIndex:[[EVNetworkManager sharedInstance] serverSelection]];
     [self.serverControl addTarget:self action:@selector(serverControlChanged:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:self.serverControl];

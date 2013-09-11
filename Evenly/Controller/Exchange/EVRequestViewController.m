@@ -41,29 +41,23 @@
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
-}
-
 #pragma mark - Loading
 
 - (void)loadContentViews {
-    self.initialView = [[EVRequestWhoView alloc] initWithFrame:[self.view bounds]];
+    self.initialView = [[EVRequestWhoView alloc] initWithFrame:[self exchangeViewDefaultFrame]];
     self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.singleHowMuchView = [[EVExchangeHowMuchView alloc] initWithFrame:[self contentViewFrame]];
+    self.singleHowMuchView = [[EVExchangeHowMuchView alloc] initWithFrame:[self exchangeViewDefaultFrame]];
     self.singleHowMuchView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.groupHowMuchView = [[EVGroupRequestHowMuchView alloc] initWithFrame:[self.view bounds]];
+    self.groupHowMuchView = [[EVGroupRequestHowMuchView alloc] initWithFrame:[self exchangeViewDefaultFrame]];
     self.groupHowMuchView.groupRequest = self.groupRequest;
     self.groupHowMuchView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.singleWhatForView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];
+    self.singleWhatForView = [[EVExchangeWhatForView alloc] initWithFrame:[self exchangeViewDefaultFrame]];
     self.singleWhatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.groupWhatForView = [[EVGroupRequestWhatForView alloc] initWithFrame:[self.view bounds]];
+    self.groupWhatForView = [[EVGroupRequestWhatForView alloc] initWithFrame:[self exchangeViewDefaultFrame]];
     self.groupWhatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
     [self.view addSubview:self.initialView];
@@ -127,7 +121,7 @@
                                      [presenter dismissViewControllerAnimated:YES
                                                                     completion:^{
                                                                         EVGroupRequestDashboardViewController *dashboardVC = [[EVGroupRequestDashboardViewController alloc] initWithGroupRequest:createdRequest];
-                                                                        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:dashboardVC];
+                                                                        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:dashboardVC];
                                                                         [presenter presentViewController:navController animated:YES completion:NULL];
                                                                     }];
                                  }];

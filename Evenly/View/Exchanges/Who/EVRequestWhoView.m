@@ -11,6 +11,7 @@
 
 
 #define REQUEST_SWITCH_HEIGHT 45
+#define REQUEST_STRIPE_BUFFER 4
 
 
 @interface EVRequestWhoView ()
@@ -39,9 +40,9 @@
 
 - (CGRect)upperStripeFrame {
     return CGRectMake(0,
-                      CGRectGetMaxY(self.requestSwitchBackground.frame) + EV_REQUEST_VIEW_LABEL_FIELD_BUFFER,
+                      CGRectGetMaxY(self.requestSwitchBackground.frame) + REQUEST_STRIPE_BUFFER,
                       self.frame.size.width,
-                      1);
+                      [EVUtilities scaledDividerHeight]);
 }
 
 - (void)loadRequestSwitch {
