@@ -73,6 +73,8 @@
         [self handleRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey] requirePIN:YES];
     }
     
+    [self showPINIfSet];
+    
     return YES;
 }
 
@@ -143,14 +145,7 @@
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
-    if ([EVSession sharedSession].authenticationToken) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]
-                                                  forKey:EVDateAppEnteredBackgroundKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        if ([[EVPINUtility sharedUtility] pinIsSet])
-            [[self masterViewController] showPINViewControllerAnimated:NO];
-    }
+    [self showPINIfSet];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -228,6 +223,17 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 }
 
 #pragma mark - PIN Setting
+
+- (void)showPINIfSet {
+    if ([EVSession sharedSession].authenticationToken) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]
+                                                  forKey:EVDateAppEnteredBackgroundKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        if ([[EVPINUtility sharedUtility] pinIsSet])
+            [[self masterViewController] showPINViewControllerAnimated:NO];
+    }
+}
 
 - (BOOL)userHasNotSeenPINAlert {
     return ([[NSUserDefaults standardUserDefaults] boolForKey:EVHasSeenPINAlertKey] != YES);
