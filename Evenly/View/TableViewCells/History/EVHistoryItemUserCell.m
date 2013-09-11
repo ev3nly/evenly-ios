@@ -36,11 +36,8 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    CGSize valueLabelSize = [self.valueLabel.text sizeWithFont:self.valueLabel.font
-                                             constrainedToSize:CGSizeMake(self.valueLabel.frame.size.width, FLT_MAX)
-                                                 lineBreakMode:self.valueLabel.lineBreakMode];
-    
-    self.avatarView.frame = CGRectMake(CGRectGetMaxX(self.valueLabel.frame) - valueLabelSize.width - AVATAR_VIEW_DIMENSION - AVATAR_SPACING,
+    float valueWidth = [self.valueLabel.text _safeSizeWithAttributes:@{NSFontAttributeName: self.valueLabel.font}].width;
+    self.avatarView.frame = CGRectMake(CGRectGetMaxX(self.valueLabel.frame) - valueWidth - AVATAR_VIEW_DIMENSION - AVATAR_SPACING,
                                        (self.contentView.frame.size.height - AVATAR_VIEW_DIMENSION) / 2.0,
                                        AVATAR_VIEW_DIMENSION,
                                        AVATAR_VIEW_DIMENSION);

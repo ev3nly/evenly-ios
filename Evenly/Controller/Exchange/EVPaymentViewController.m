@@ -33,13 +33,14 @@
 #pragma mark - View Loading
 
 - (void)loadContentViews {
-    self.initialView = [[EVPaymentWhoView alloc] initWithFrame:[self.view bounds]];
+    self.view.backgroundColor = [EVColor lightRedColor];
+    self.initialView = [[EVPaymentWhoView alloc] initWithFrame:[self exchangeViewDefaultFrame]];
     self.initialView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.howMuchView = [[EVExchangeHowMuchView alloc] initWithFrame:[self.view bounds]];
+    self.howMuchView = [[EVExchangeHowMuchView alloc] initWithFrame:[self exchangeViewDefaultFrame]];
     self.howMuchView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     
-    self.whatForView = [[EVExchangeWhatForView alloc] initWithFrame:[self.view bounds]];
+    self.whatForView = [[EVExchangeWhatForView alloc] initWithFrame:[self exchangeViewDefaultFrame]];
     self.whatForView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     [self.whatForView addSubview:self.privacySelector];
     

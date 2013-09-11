@@ -60,6 +60,8 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.backgroundView = nil;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"groupedCell"];
     [self.view addSubview:self.tableView];
 }
@@ -94,7 +96,7 @@
     } else {
         EVSetPINViewController *pinController = [EVSetPINViewController new];
         pinController.needsToEnterOldPIN = NO;
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:pinController];
         [self presentViewController:navController animated:YES completion:^{
             [self.tableView reloadData];
         }];
@@ -130,7 +132,7 @@
     
     EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
     pinController.needsToEnterOldPIN = YES;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:pinController];
     [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 

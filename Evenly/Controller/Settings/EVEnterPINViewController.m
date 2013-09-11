@@ -176,7 +176,7 @@
 
 - (CGRect)logoFrame {
     return CGRectMake(CGRectGetMidX(self.view.bounds) - self.logo.image.size.width/2,
-                      LOGO_TOP_BUFFER,
+                      LOGO_TOP_BUFFER + [self totalBarHeight],
                       self.logo.image.size.width,
                       self.logo.image.size.height);
 }

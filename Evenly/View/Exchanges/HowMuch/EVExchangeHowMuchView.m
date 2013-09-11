@@ -9,6 +9,7 @@
 #import "EVExchangeHowMuchView.h"
 #import "EVCurrencyTextFieldFormatter.h"
 
+#define TITLE_BIG_AMOUNT_BUFFER 8
 
 @interface EVExchangeHowMuchView ()
 
@@ -30,7 +31,10 @@
 }
 
 - (void)loadBigAmountField {
-    self.bigAmountView = [[EVExchangeBigAmountView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.titleLabel.frame), self.frame.size.width, [EVExchangeBigAmountView totalHeight])];
+    self.bigAmountView = [[EVExchangeBigAmountView alloc] initWithFrame:CGRectMake(0,
+                                                                                   CGRectGetMaxY(self.titleLabel.frame) + TITLE_BIG_AMOUNT_BUFFER,
+                                                                                   self.frame.size.width,
+                                                                                   [EVExchangeBigAmountView totalHeight])];
     [self addSubview:self.bigAmountView];
 }
 

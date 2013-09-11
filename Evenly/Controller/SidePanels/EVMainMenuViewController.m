@@ -50,12 +50,13 @@
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [EVColor sidePanelBackgroundColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
+    self.tableView.contentInset = UIEdgeInsetsMake([self totalBarHeight], 0, 0, 0);
     [self.tableView registerClass:[EVMainMenuCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
     
     [self loadFooter];
     [self loadInviteBonusLabel];
+    [self loadStatusBarBackground];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

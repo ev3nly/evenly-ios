@@ -15,8 +15,8 @@
     if (self) {
         _text = text;
         self.animationEnabled = YES;
-        
         self.autoresizesSubviews = YES;
+        self.clipsToBounds = YES;
         
         self.back = [[EVRewardCardBack alloc] initWithFrame:self.bounds text:text color:color];
         self.back.autoresizingMask = EV_AUTORESIZE_TO_FIT;
@@ -29,6 +29,13 @@
         [self addGestureRecognizer:self.tapRecognizer];
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.back.frame = self.bounds;
+    self.face.frame = self.bounds;
 }
 
 - (void)tapRecognized:(UITapGestureRecognizer *)recognizer {
@@ -63,7 +70,7 @@
 }
 
 - (void)pulse {
-    [self.back pulseToScale:1.15 duration:EV_DEFAULT_ANIMATION_DURATION];
+    [self pulseToScale:1.1 duration:EV_DEFAULT_ANIMATION_DURATION];
 }
 
 - (void)setRewardAmount:(NSDecimalNumber *)rewardAmount animated:(BOOL)animated completion:(void (^)(void))completion {

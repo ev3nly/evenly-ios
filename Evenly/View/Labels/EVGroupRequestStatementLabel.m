@@ -57,10 +57,12 @@
     CGRect frame = self.categoryLabel.frame;
     frame.origin.x = (self.indented ? INDENT_WIDTH : 0.0);
     frame.size.width = MIN(frame.size.width, CATEGORY_LABEL_MAX_X - frame.origin.x);
+    frame.size.height = self.bounds.size.height;
     self.categoryLabel.frame = frame;
     
     frame = self.amountLabel.frame;
     frame.origin.x = self.frame.size.width - frame.size.width;
+    frame.size.height = self.bounds.size.height;
     self.amountLabel.frame = frame;
     
     [self.dotsLabel setFrame:CGRectMake(CGRectGetMaxX(self.categoryLabel.frame),

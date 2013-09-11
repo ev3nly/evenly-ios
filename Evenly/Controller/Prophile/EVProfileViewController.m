@@ -83,6 +83,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundView = nil;
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, [UIApplication sharedApplication].statusBarFrame.size.height, 0);
     [self.tableView registerClass:[EVProfileCell class] forCellReuseIdentifier:@"profileCell"];
     [self.tableView registerClass:[EVNoActivityCell class] forCellReuseIdentifier:@"noActivityCell"];
     [self.tableView registerClass:[EVProfileHistoryCell class] forCellReuseIdentifier:@"profileHistoryCell"];
@@ -101,6 +102,7 @@
             [profileController.tableView.pullToRefreshView stopAnimating];
         }];
     }];
+    self.tableView.pullToRefreshView.originalTopInset = [self totalBarHeight];
     
     [self.tableView setLoading:self.user.loading];
 }
@@ -155,7 +157,7 @@
 }
 
 - (void)displayExchangeController:(EVExchangeViewController *)controller {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navController animated:YES completion:NULL];
     [controller unloadPageControlAnimated:NO];
     [controller loadPageControl];

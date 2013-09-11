@@ -59,6 +59,16 @@
     return ([UIApplication sharedApplication].keyWindow.bounds.size.height > 480.0);
 }
 
++ (BOOL)userHasIOS7 {
+    UIView *window = [UIApplication sharedApplication].keyWindow;
+    window = window ?: [UIView new];
+    return [window respondsToSelector:@selector(tintColor)];
+}
+
++ (float)scaledDividerHeight {
+    return (1.0 / [UIScreen mainScreen].scale);
+}
+
 + (NSURL *)tosURL {
     return [NSURL fileURLWithPath:EV_BUNDLE_PATH(@"Terms and Conditions.html")];
 }

@@ -13,6 +13,6 @@
 @interface EVAutocompletePhotoCell : EVAutocompleteCell
 
 @property (nonatomic, strong) EVAvatarView *avatarView;
-@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) EVLabel *label;
 
 @end

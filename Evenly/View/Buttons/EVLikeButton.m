@@ -23,7 +23,7 @@
     if (self) {
         
         self.spacing = 5.0f;
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
         self.highlightedColor = [EVColor newsfeedButtonHighlightColor];
         
         self.container = [[UIView alloc] initWithFrame:CGRectZero];

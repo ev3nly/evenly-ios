@@ -10,16 +10,18 @@
 
 #define BIG_AMOUNT_CONTAINER_MARGIN 10
 #define BIG_AMOUNT_CONTAINER_HEIGHT 100
-#define BIG_AMOUNT_HEIGHT 60
 #define BIG_AMOUNT_FONT [EVFont defaultFontOfSize:48]
 #define MINIMUM_AMOUNT_FONT [EVFont defaultFontOfSize:16]
 #define MINIMUM_AMOUNT_LABEL_HEIGHT 20
+#define TOTAL_HEIGHT 160
+#define AMOUNT_FIELD_HEIGHT 60
+#define TITLE_CONTAINER_BUFFER 0
 
 @implementation EVExchangeBigAmountView
 
 
 + (CGFloat)totalHeight {
-    return BIG_AMOUNT_CONTAINER_HEIGHT + 2*BIG_AMOUNT_CONTAINER_MARGIN + MINIMUM_AMOUNT_LABEL_HEIGHT;
+    return TOTAL_HEIGHT;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -33,21 +35,22 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.amountField.frame = [self amountFieldFrame];
+}
+
 - (void)loadBigAmountField {
-    self.bigAmountContainer = [[UIImageView alloc] initWithFrame:CGRectMake(BIG_AMOUNT_CONTAINER_MARGIN,
-                                                                            0,
-                                                                            self.frame.size.width - 2*BIG_AMOUNT_CONTAINER_MARGIN,
-                                                                            self.frame.size.height - BIG_AMOUNT_CONTAINER_MARGIN - MINIMUM_AMOUNT_LABEL_HEIGHT)];
+    self.bigAmountContainer = [[EVGroupedTableViewCellBackground alloc] initWithFrame:CGRectMake(BIG_AMOUNT_CONTAINER_MARGIN,
+                                                                                                 TITLE_CONTAINER_BUFFER,
+                                                                                                 self.frame.size.width - 2*BIG_AMOUNT_CONTAINER_MARGIN,
+                                                                                                 self.frame.size.height - BIG_AMOUNT_CONTAINER_MARGIN - MINIMUM_AMOUNT_LABEL_HEIGHT - TITLE_CONTAINER_BUFFER)];
     self.bigAmountContainer.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.bigAmountContainer.image = [EVImages resizableTombstoneBackground];
     self.bigAmountContainer.userInteractionEnabled = YES;
     [self addSubview:self.bigAmountContainer];
     
-    CGRect amountFieldFrame = CGRectMake(BIG_AMOUNT_CONTAINER_MARGIN,
-                                         MAX(0, ((self.bigAmountContainer.frame.size.height - BIG_AMOUNT_HEIGHT) / 2.0)),
-                                         self.bigAmountContainer.frame.size.width - 2*BIG_AMOUNT_CONTAINER_MARGIN,
-                                         BIG_AMOUNT_HEIGHT);
-    self.amountField = [[EVTextField alloc] initWithFrame:amountFieldFrame];
+    self.amountField = [[EVTextField alloc] initWithFrame:[self amountFieldFrame]];
     self.amountField.font = BIG_AMOUNT_FONT;
     self.amountField.textAlignment = NSTextAlignmentCenter;
     self.amountField.textColor = [UIColor blackColor];
@@ -59,7 +62,7 @@
 
 - (void)loadMinimumAmountLabel {
     self.minimumAmountLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(self.bigAmountContainer.frame),
-                                                                        CGRectGetMaxY(self.bigAmountContainer.frame) + BIG_AMOUNT_CONTAINER_MARGIN /2,
+                                                                        CGRectGetMaxY(self.bigAmountContainer.frame) + BIG_AMOUNT_CONTAINER_MARGIN,
                                                                         self.bigAmountContainer.frame.size.width,
                                                                         MINIMUM_AMOUNT_LABEL_HEIGHT)];
     self.minimumAmountLabel.font = MINIMUM_AMOUNT_FONT;
@@ -111,6 +114,15 @@
         return NO;
     }
     return YES;
+}
+
+#pragma mark - Frames
+
+- (CGRect)amountFieldFrame {
+    return CGRectMake(BIG_AMOUNT_CONTAINER_MARGIN,
+                      MAX(0, ((self.bigAmountContainer.frame.size.height - AMOUNT_FIELD_HEIGHT) / 2.0)),
+                      self.bigAmountContainer.frame.size.width - 2*BIG_AMOUNT_CONTAINER_MARGIN,
+                      AMOUNT_FIELD_HEIGHT);
 }
 
 @end

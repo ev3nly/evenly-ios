@@ -80,7 +80,7 @@
     return CGRectMake(0,
                       [[self class] lineHeight] * index,
                       self.bounds.size.width,
-                      1);
+                      [EVUtilities scaledDividerHeight]);
 }
 
 - (CGRect)frameForCellIndex:(int)index {

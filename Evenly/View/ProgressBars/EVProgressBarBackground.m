@@ -31,7 +31,7 @@
     } else {
         [[EVColor progressBarDisabledColor] setFill];
     }
-    path.lineWidth = 2.0;
+    path.lineWidth = 1.0;
     [path addClip];
     [path fill];
     [path stroke];

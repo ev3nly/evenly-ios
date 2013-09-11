@@ -8,6 +8,8 @@
 
 #import "EVTitleTextFieldCell.h"
 
+#define SIDE_MARGIN ([EVUtilities userHasIOS7] ? 20 : 10)
+
 @implementation EVTitleTextFieldCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -26,14 +28,17 @@
 {
     [super layoutSubviews];
     
-    float textWidth = [self.textLabel.text sizeWithFont:self.textLabel.font
-                                      constrainedToSize:CGSizeMake(self.textLabel.frame.size.width, self.textLabel.frame.size.height) lineBreakMode:self.textLabel.lineBreakMode].width;
+    self.textLabel.frame = [self textLabelFrame];
+    float textWidth = [self.textLabel.text _safeBoundingRectWithSize:CGSizeMake(self.textLabel.frame.size.width, self.textLabel.frame.size.height)
+                                                             options:NSStringDrawingUsesLineFragmentOrigin
+                                                          attributes:@{NSFontAttributeName: self.textLabel.font}
+                                                             context:NULL].size.width;
     float textFieldOrigin = self.textLabel.frame.origin.x + textWidth + 20;
     
     self.textField.frame = CGRectMake(textFieldOrigin,
-                                  0,
-                                  self.bounds.size.width - textFieldOrigin - 20,
-                                  self.bounds.size.height);
+                                      0,
+                                      self.bounds.size.width - textFieldOrigin - 20,
+                                      self.bounds.size.height);
 }
 
 - (void)configureTextField
@@ -54,6 +59,14 @@
     self.textLabel.textColor = [EVColor newsfeedNounColor];
     self.textLabel.font = [EVFont blackFontOfSize:15];
     self.textLabel.backgroundColor = [UIColor clearColor];
+}
+
+#pragma mark - Frames
+
+- (CGRect)textLabelFrame {
+    CGRect textFrame = self.textLabel.frame;
+    textFrame.origin.x = SIDE_MARGIN;
+    return textFrame;
 }
 
 @end

@@ -11,7 +11,7 @@
 #import "EVChooseTipCell.h"
 
 #define LINE_HEIGHT 40
-#define LEFT_RIGHT_BUFFER 5
+#define LEFT_RIGHT_BUFFER 0
 
 #define TIP_LEFT_BUFFER 10
 #define TIP_TOP_BUFFER ([EVUtilities deviceHasTallScreen] ? 10 : 2)
@@ -70,6 +70,7 @@
     [_whatForHeader removeFromSuperview];
     _whatForHeader = whatForHeader;
     [self addSubview:_whatForHeader];
+    _whatForHeader.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)setTip:(EVTip *)tip {

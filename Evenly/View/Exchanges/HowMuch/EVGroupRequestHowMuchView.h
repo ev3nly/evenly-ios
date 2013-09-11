@@ -12,7 +12,7 @@
 #import "EVGroupRequestTierAssignmentManager.h"
 #import "EVGroupRequestTierAssignmentView.h"
 
-#define ADD_OPTION_BUTTON_HEIGHT 35.0
+#define ADD_OPTION_BUTTON_HEIGHT 40.0
 
 @interface EVGroupRequestHowMuchView : EVExchangeView <UITableViewDataSource, UITableViewDelegate, EVGroupRequestTierAssignmentManagerDelegate>
 

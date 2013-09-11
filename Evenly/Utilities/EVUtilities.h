@@ -16,6 +16,8 @@
 #import "EVParseUtility.h"
 #import "EVAppDelegate.h"
 #import "EVStatusBarManager.h"
+#import "EVNavigationController.h"
+#import "EVLabel.h"
 
 #import "EVCIA.h"
 
@@ -50,6 +52,8 @@
 + (NSString *)dbidFromDictionary:(NSDictionary *)dictionary;
 
 + (BOOL)deviceHasTallScreen;
++ (BOOL)userHasIOS7;
++ (float)scaledDividerHeight;
 
 + (NSURL *)tosURL;
 + (NSURL *)privacyPolicyURL;

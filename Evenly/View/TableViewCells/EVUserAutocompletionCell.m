@@ -15,7 +15,7 @@
 
 #define NAME_LABEL_Y_OFFSET 5
 #define EMAIL_LABEL_Y_OFFSET 2
-#define STRIPE_HEIGHT 1
+#define STRIPE_HEIGHT [EVUtilities scaledDividerHeight]
 
 @interface EVUserAutocompletionCell ()
 

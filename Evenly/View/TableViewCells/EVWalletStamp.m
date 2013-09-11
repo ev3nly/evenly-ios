@@ -38,10 +38,10 @@
 - (id)initWithText:(NSString *)text maxWidth:(CGFloat)maxWidth {
     if ([text isEqualToString:@"American Express"])
         text = @"Amex";
-    CGSize textSize = [[text uppercaseString] sizeWithFont:[self font]
-                                         constrainedToSize:CGSizeMake(maxWidth, [self font].lineHeight)
-                                             lineBreakMode:NSLineBreakByTruncatingMiddle];
-    
+    CGSize textSize = [[text uppercaseString] _safeBoundingRectWithSize:CGSizeMake(maxWidth, [self font].lineHeight)
+                                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                                             attributes:@{NSFontAttributeName: [self font]}
+                                                                context:NULL].size;
     self = [self initWithFrame:CGRectMake(0, 0, textSize.width + 16, textSize.height + 10)];
     if (self) {
         self.text = [text uppercaseString];
@@ -59,9 +59,12 @@
         self.backgroundView = [[EVWalletStampBorder alloc] initWithFrame:self.bounds];
         [self addSubview:self.backgroundView];
         
+        UIBezierPath *shapePath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) cornerRadius:2.0];
+        [shapePath addClip];
+        
         self.shapeLayer = (CAShapeLayer *)self.backgroundView.layer;
-        self.shapeLayer.path = [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) cornerRadius:3.0] CGPath];
-        self.shapeLayer.lineWidth = 1.0f;
+        self.shapeLayer.path = [shapePath CGPath];
+        self.shapeLayer.lineWidth = [EVUtilities scaledDividerHeight];
         self.shapeLayer.strokeColor = [[EVColor sidePanelStripeColor] CGColor];
         self.shapeLayer.fillColor = [[EVColor sidePanelSelectedColor] CGColor];
         
@@ -86,14 +89,5 @@
 - (void)setTextColor:(UIColor *)textColor {
     self.label.textColor = textColor;
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

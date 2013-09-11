@@ -12,7 +12,9 @@
 
 - (void)setProperties:(NSDictionary *)properties {
     [super setProperties:properties];
-    self.liker = [[EVUser alloc] initWithDictionary:properties[@"liker"]];
+    
+    if (properties[@"liker"] && ![properties[@"liker"] isKindOfClass:[NSNull class]])
+        self.liker = [[EVUser alloc] initWithDictionary:properties[@"liker"]];
 }
 
 @end

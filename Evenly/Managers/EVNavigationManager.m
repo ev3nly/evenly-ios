@@ -11,7 +11,8 @@
 #import "ReactiveCocoa.h"
 
 #define NAV_BAR_BADGE_TAG 9237
-#define BADGE_VIEW_OFFSET 0.5
+#define BADGE_VIEW_X_OFFSET 7
+#define BADGE_VIEW_Y_OFFSET 0.5
 
 static EVNavigationManager *_sharedManager;
 
@@ -21,10 +22,10 @@ static EVNavigationManager *_sharedManager;
     EVMainMenuViewController *_mainMenuViewController;
     EVWalletViewController *_walletViewController;
     
-    UINavigationController *_homeViewController;
-    UINavigationController *_profileViewController;
-    UINavigationController *_inviteViewController;
-    UINavigationController *_settingsViewController;
+    EVNavigationController *_homeViewController;
+    EVNavigationController *_profileViewController;
+    EVNavigationController *_inviteViewController;
+    EVNavigationController *_settingsViewController;
 }
 
 @property (nonatomic, strong) EVNavBarBadge *badgeView;
@@ -66,27 +67,27 @@ static EVNavigationManager *_sharedManager;
     return _walletViewController;
 }
 
-- (UINavigationController *)homeViewController {
+- (EVNavigationController *)homeViewController {
     if (!_homeViewController)
-        _homeViewController = [[UINavigationController alloc] initWithRootViewController:[[EVHomeViewController alloc] init]];
+        _homeViewController = [[EVNavigationController alloc] initWithRootViewController:[[EVHomeViewController alloc] init]];
     return _homeViewController;
 }
 
-- (UINavigationController *)profileViewController {
+- (EVNavigationController *)profileViewController {
     if (!_profileViewController)
-        _profileViewController = [[UINavigationController alloc] initWithRootViewController:[[EVProfileViewController alloc] initWithUser:[EVCIA me]]];
+        _profileViewController = [[EVNavigationController alloc] initWithRootViewController:[[EVProfileViewController alloc] initWithUser:[EVCIA me]]];
     return _profileViewController;
 }
 
-- (UINavigationController *)inviteViewController {
+- (EVNavigationController *)inviteViewController {
     if (!_inviteViewController)
-        _inviteViewController = [[UINavigationController alloc] initWithRootViewController:[[EVInviteViewController alloc] init]];
+        _inviteViewController = [[EVNavigationController alloc] initWithRootViewController:[[EVInviteViewController alloc] init]];
     return _inviteViewController;
 }
 
-- (UINavigationController *)settingsViewController {
+- (EVNavigationController *)settingsViewController {
     if (!_settingsViewController)
-        _settingsViewController = [[UINavigationController alloc] initWithRootViewController:[[EVSettingsViewController alloc] init]];
+        _settingsViewController = [[EVNavigationController alloc] initWithRootViewController:[[EVSettingsViewController alloc] init]];
     return _settingsViewController;
 }
 
@@ -141,8 +142,14 @@ static EVNavigationManager *_sharedManager;
 
 - (CGRect)badgeViewFrame {
     [self.badgeView sizeToFit];
-    return CGRectMake(0 - self.badgeView.bounds.size.width,
-                      BADGE_VIEW_OFFSET,
+    if (![EVUtilities userHasIOS7]) {
+        return CGRectMake(0 - self.badgeView.bounds.size.width,
+                          BADGE_VIEW_Y_OFFSET,
+                          self.badgeView.bounds.size.width,
+                          self.badgeView.bounds.size.height);
+    }
+    return CGRectMake(0 - BADGE_VIEW_X_OFFSET,
+                      [self walletButtonCustomView].bounds.size.height/2 - self.badgeView.bounds.size.height/2 - BADGE_VIEW_Y_OFFSET,
                       self.badgeView.bounds.size.width,
                       self.badgeView.bounds.size.height);
 }

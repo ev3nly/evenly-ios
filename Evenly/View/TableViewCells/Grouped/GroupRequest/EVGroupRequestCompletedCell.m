@@ -21,9 +21,7 @@
         label.font = [EVFont blackFontOfSize:18];
         label.textAlignment = NSTextAlignmentCenter;
         label.text = @"COMPLETED!";
-        [self.contentView addSubview:label];
-        
-        self.position = EVGroupedTableViewCellPositionBottom;
+        [self.contentView addSubview:label];        
     }
     return self;
 }

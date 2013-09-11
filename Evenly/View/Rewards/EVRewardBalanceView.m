@@ -45,7 +45,7 @@
         self.balanceLabel.textAlignment = NSTextAlignmentRight;
         [self addSubview:self.balanceLabel];
         
-        self.stripe = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - 1, self.frame.size.width, 1)];
+        self.stripe = [[UIView alloc] initWithFrame:CGRectMake(0, self.frame.size.height - [EVUtilities scaledDividerHeight], self.frame.size.width, [EVUtilities scaledDividerHeight])];
         self.stripe.backgroundColor = [EVColor newsfeedStripeColor];
         [self addSubview:self.stripe];
     }

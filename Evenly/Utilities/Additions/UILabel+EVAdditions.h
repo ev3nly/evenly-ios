@@ -15,4 +15,6 @@
 - (void)fadeToText:(NSString *)text withColor:(UIColor *)color duration:(float)duration;
 - (UILabel *)roughCopy;
 
+- (CGSize)multiLineSizeForWidth:(float)width;
+
 @end

@@ -8,6 +8,10 @@
 
 #import "EVDepositCell.h"
 
+#define SIDE_MARGIN 20
+#define DEPOSIT_LABEL_WIDTH 150
+#define DEPOSIT_LABEL_HEIGHT 44
+
 @implementation EVDepositCell
 
 - (id)initWithFrame:(CGRect)frame {
@@ -23,7 +27,7 @@
         
         CGFloat fontSize = 15.0;
         
-        self.label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 150, 44)];
+        self.label = [[UILabel alloc] initWithFrame:CGRectMake(SIDE_MARGIN, 0, DEPOSIT_LABEL_WIDTH, DEPOSIT_LABEL_HEIGHT)];
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = [UIColor blackColor];
         self.label.font = [EVFont blackFontOfSize:fontSize];
@@ -47,7 +51,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -55,9 +59,10 @@
 {
     [super layoutSubviews];
     
-    float textWidth = [self.label.text sizeWithFont:self.label.font
-                                  constrainedToSize:CGSizeMake(self.label.frame.size.width, self.label.frame.size.height)
-                                      lineBreakMode:self.label.lineBreakMode].width;
+    float textWidth = [self.label.text _safeBoundingRectWithSize:CGSizeMake(self.label.frame.size.width, self.label.frame.size.height)
+                                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                                      attributes:@{NSFontAttributeName: self.label.font}
+                                                         context:NULL].size.width;
     float textFieldOrigin = self.label.frame.origin.x + textWidth + 20;
     
     self.textField.frame = CGRectMake(textFieldOrigin,

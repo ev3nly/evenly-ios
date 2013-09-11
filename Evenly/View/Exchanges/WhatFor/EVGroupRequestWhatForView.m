@@ -35,7 +35,7 @@
 - (void)loadDivider
 {
     UIView *divider = [[UIView alloc] initWithFrame:[self dividerFrame]];
-    divider.backgroundColor = EV_RGB_COLOR(240, 240, 240);
+    divider.backgroundColor = [EVColor newsfeedStripeColor];
     self.divider = divider;
     [self addSubview:divider];
 }
@@ -98,7 +98,7 @@
     return CGRectMake(0,
                       y,
                       self.bounds.size.width,
-                      1);
+                      [EVUtilities scaledDividerHeight]);
 }
 
 - (CGRect)descriptionFieldFrame {

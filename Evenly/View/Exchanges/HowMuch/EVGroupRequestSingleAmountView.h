@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "EVExchangeHowMuchView.h"
 #import "EVExchangeBigAmountView.h"
 #import "EVGrayButton.h"
 
-@interface EVGroupRequestSingleAmountView : UIView
+@interface EVGroupRequestSingleAmountView : EVExchangeHowMuchView
 
-@property (nonatomic, strong) EVExchangeBigAmountView *bigAmountView;
 @property (nonatomic, strong) UILabel *hintLabel;
 @property (nonatomic, strong) EVGrayButton *addOptionButton;
 

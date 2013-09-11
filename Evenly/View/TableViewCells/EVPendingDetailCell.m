@@ -9,9 +9,11 @@
 #import "EVPendingDetailCell.h"
 #import "EVPendingDetailViewController.h"
 
-#define PENDING_BUTTON_BUFFER 10
-#define PENDING_BOTTOM_SECTION_HEIGHT ([EVImages grayButtonBackground].size.height + PENDING_BUTTON_BUFFER*2)
-#define PENDING_DATE_BOTTOM_SECTION_BUFFER 12
+#define PENDING_BUTTON_TOP_BUFFER 10
+#define PENDING_BUTTON_SIDE_BUFFER ([EVUtilities userHasIOS7] ? 20 : 10)
+#define PENDING_BUTTON_BUTTON_BUFFER 10
+#define PENDING_BOTTOM_SECTION_HEIGHT ([EVImages grayButtonBackground].size.height + PENDING_BUTTON_TOP_BUFFER*2)
+#define PENDING_DATE_BOTTOM_SECTION_BUFFER 0
 #define PENDING_STORY_DATE_BUFFER 6
 
 @interface EVPendingDetailCell ()
@@ -23,12 +25,15 @@
 + (CGFloat)cellHeightForStory:(EVStory *)story {
     float superHeight = [EVTransactionDetailCell cellHeightForStory:story];
     NSString *dateString = [[self timeIntervalFormatter] stringForTimeIntervalFromDate:[NSDate date]
-                                                                          toDate:[story publishedAt]];
-    float dateHeight = [dateString sizeWithFont:EV_STORY_CELL_DATE_LABEL_FONT
-                              constrainedToSize:CGSizeMake([UIScreen mainScreen].applicationFrame.size.width, 100000)
-                                  lineBreakMode:NSLineBreakByTruncatingTail].height;
+                                                                                toDate:[story publishedAt]];
+    float dateHeight = [dateString _safeBoundingRectWithSize:CGSizeMake([UIScreen mainScreen].applicationFrame.size.width, 100000)
+                                                     options:NSStringDrawingUsesLineFragmentOrigin
+                                                  attributes:@{NSFontAttributeName: EV_STORY_CELL_DATE_LABEL_FONT}
+                                                     context:NULL].size.height;
     float differenceInBottomSectionHeight = (PENDING_BOTTOM_SECTION_HEIGHT - EV_STORY_CELL_VERTICAL_RULE_HEIGHT);
-    return (superHeight + dateHeight + PENDING_DATE_BOTTOM_SECTION_BUFFER + differenceInBottomSectionHeight);
+    float cellHeight = (int)(superHeight + dateHeight + PENDING_DATE_BOTTOM_SECTION_BUFFER + differenceInBottomSectionHeight);
+    EV_MAKE_FLOAT_ROUND_AND_EVEN(cellHeight);
+    return cellHeight;
 }
 
 #pragma mark - Lifecycle
@@ -116,7 +121,6 @@
     self.remindButton = nil;
     
     [super setStory:story];
-//    [self switchAvatars];
     [self configureButtonsForStoryType:story.transactionType];
 }
 
@@ -160,9 +164,10 @@
 }
 
 - (CGRect)dateLabelFrame {
-    CGSize labelSize = [self.dateLabel.text sizeWithFont:self.dateLabel.font
-                                       constrainedToSize:CGSizeMake(self.bounds.size.width, 100000)
-                                           lineBreakMode:self.dateLabel.lineBreakMode];
+    CGSize labelSize = [self.dateLabel.text _safeBoundingRectWithSize:CGSizeMake([UIScreen mainScreen].applicationFrame.size.width, 100000)
+                                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                                           attributes:@{NSFontAttributeName: self.dateLabel.font}
+                                                              context:NULL].size;
     return CGRectMake(CGRectGetMidX(self.contentView.bounds) - labelSize.width/2,
                       CGRectGetMaxY(self.storyLabel.frame) + PENDING_STORY_DATE_BUFFER,
                       labelSize.width,
@@ -174,15 +179,15 @@
 }
 
 - (CGRect)rejectButtonFrame {
-    return CGRectMake(PENDING_BUTTON_BUFFER,
-                      self.horizontalRuleFrame.origin.y + PENDING_BUTTON_BUFFER,
-                      (self.contentView.bounds.size.width - PENDING_BUTTON_BUFFER*3)/2,
-                      [self bottomSectionHeight] - PENDING_BUTTON_BUFFER*2);
+    return CGRectMake(PENDING_BUTTON_SIDE_BUFFER,
+                      self.horizontalRuleFrame.origin.y + PENDING_BUTTON_TOP_BUFFER,
+                      (self.contentView.bounds.size.width - PENDING_BUTTON_SIDE_BUFFER*2 - PENDING_BUTTON_BUTTON_BUFFER)/2,
+                      [self bottomSectionHeight] - PENDING_BUTTON_TOP_BUFFER*2);
 }
 
 - (CGRect)confirmButtonFrame {
     CGRect leftButtonFrame = self.rejectButton ? self.rejectButton.frame : self.cancelButton.frame;
-    return CGRectMake(CGRectGetMaxX(leftButtonFrame) + PENDING_BUTTON_BUFFER,
+    return CGRectMake(CGRectGetMaxX(leftButtonFrame) + PENDING_BUTTON_BUTTON_BUFFER,
                       leftButtonFrame.origin.y,
                       leftButtonFrame.size.width,
                       leftButtonFrame.size.height);

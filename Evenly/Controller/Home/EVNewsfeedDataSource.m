@@ -68,15 +68,19 @@
     [self.loadingIndicator startAnimating];
     [EVUser newsfeedStartingAtPage:self.pageNumber
                            success:^(NSArray *history) {
+                               BOOL reachedEnd = NO;
                                if ([history count] == 0) {
                                    self.pageNumber--;
+                                   reachedEnd = YES;
                                    DLog(@"No entries, reverted page number to %d", self.pageNumber);
                                }
                                [self.newsfeed addObjectsFromArray:history];
                                [self.tableView reloadData];
                                [self.tableView.infiniteScrollingView stopAnimating];
                                [self.loadingIndicator stopAnimating];
-                           } failure:^(NSError *error) {
+                               if (reachedEnd)
+                                   [self.tableView.infiniteScrollingView reachedEnd];
+                            } failure:^(NSError *error) {
                                DLog(@"error: %@", error);
                                self.pageNumber--;
                                DLog(@"Error, reverted page number to %d", self.pageNumber);
