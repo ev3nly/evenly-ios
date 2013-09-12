@@ -139,28 +139,15 @@
     if (sender.on != self.setting.push)
     {
         if (sender.on) {
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(didRegisterForPush:)
-                                                         name:EVApplicationDidRegisterForPushesNotification
-                                                       object:nil];
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(failedToRegisterForPush:)
-                                                         name:EVApplicationUserDeniedPushPermissionNotification
-                                                       object:nil];
             if (![EVPushManager acceptsPushNotifications]) {
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Push Notifications Disabled"
-                                                                message:@"To receive push notifications from Evenly, go to Settings -> Notifications -> Evenly and enable alert banners, then return here and switch on the notifications.  Thanks!"
+                                                                message:@"To receive push notifications from Evenly, go to Settings -> Notifications -> Evenly and enable alert banners.  Thanks!"
                                                                delegate:nil
                                                       cancelButtonTitle:@"Close"
                                                       otherButtonTitles:nil];
                 [alert show];
-                [sender setOn:NO animated:YES];
-                return;
             }
             [EVUtilities registerForPushNotifications];
-            return;
-        } else {
-//            [[UIApplication sharedApplication] unregisterForRemoteNotifications];
         }
         [self.setting setPush:sender.on];
         [self.setting updateWithSuccess:^{
@@ -169,19 +156,6 @@
             DLog(@"Failure: %@", error);
         }];
     }
-}
-
-- (void)didRegisterForPush:(NSNotification *)notification {
-    [self.setting setPush:YES];
-    [self.setting updateWithSuccess:^{
-        DLog(@"Success");
-    } failure:^(NSError *error) {
-        DLog(@"Failure: %@", error);
-    }];
-}
-
-- (void)failedToRegisterForPush:(NSNotification *)notification {
-    DLog(@"Error: %@", [notification userInfo][@"error"]);    
 }
 
 - (void)emailSwitchChanged:(EVSwitch *)sender {
