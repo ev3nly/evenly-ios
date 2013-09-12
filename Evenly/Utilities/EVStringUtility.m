@@ -530,9 +530,23 @@ static DTCSSStylesheet *_stylesheet;
                                DTUseiOS6Attributes : @(YES),
                                DTDefaultStyleSheet : _stylesheet,
                                DTDefaultTextAlignment : @(kCTCenterTextAlignment) };
-    return [[NSClassFromString(className) alloc] initWithHTMLData:[html dataUsingEncoding:NSUTF8StringEncoding]
-                                                          options:options
-                                               documentAttributes:nil];    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTMLData:[html dataUsingEncoding:NSUTF8StringEncoding]
+                                                       options:options
+                                            documentAttributes:nil];
+    
+    // Manually iterate and replace occurrences of Avenir-Black with Avenir-Heavy.
+    [attrString enumerateAttribute:NSFontAttributeName
+                           inRange:NSMakeRange(0, attrString.length)
+                           options:0
+                        usingBlock:^(id value, NSRange range, BOOL *stop) {
+                            UIFont *font = (UIFont *)value;
+                            if ([[font fontName] isEqualToString:@"Avenir-Black"]) {
+                                NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:[attrString attributesAtIndex:range.location effectiveRange:&range]];
+                                [attributes setObject:[UIFont fontWithName:@"Avenir-Heavy" size:[font pointSize]] forKey:NSFontAttributeName];
+                                [attrString setAttributes:attributes range:range];
+                            }
+                        }];
+    return attrString;
 }
 
 @end
