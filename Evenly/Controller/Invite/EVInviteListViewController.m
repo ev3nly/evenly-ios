@@ -17,6 +17,7 @@
 #define SEARCH_FIELD_SIDE_BUFFER 10
 #define SEARCH_FIELD_TEXT_BUFFER 16
 #define SEARCH_BAR_HEIGHT 44
+#define SEARCH_BAR_Y_OFFSET 6
 
 @interface EVInviteListViewController ()
 
@@ -46,8 +47,8 @@
 
     [self loadTableView];
     [self loadRightButton];
-    [self loadIncentiveLabel];
     [self loadSearchBar];
+    [self loadIncentiveLabel];
     [self loadShadeView];
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
     
@@ -58,6 +59,7 @@
     [super viewDidLayoutSubviews];
     
     self.incentiveLabelContainer.frame = [self incentiveLabelContainerFrame];
+    self.incentiveLabel.frame = [self incentiveLabelFrame];
     self.searchBar.frame = [self searchBarFrame];
     self.tableView.frame = [self tableViewFrame];
     self.shadeView.frame = [self shadeViewFrame];
@@ -74,6 +76,7 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundView = nil;
     self.tableView.rowHeight = [EVInviteCell cellHeight];
+    self.tableView.contentInset = UIEdgeInsetsMake(SEARCH_BAR_HEIGHT*2, 0, 0, 0);
     [self.view addSubview:self.tableView];
 }
 
@@ -276,6 +279,7 @@ static NSString *previousSearch = @"";
 #pragma mark - Frames
 
 - (CGRect)tableViewFrame {
+    return self.view.bounds;
     return CGRectMake(0,
                       CGRectGetMaxY(self.searchBar.frame),
                       self.view.bounds.size.width,
@@ -284,18 +288,18 @@ static NSString *previousSearch = @"";
 
 - (CGRect)incentiveLabelContainerFrame {
     return CGRectMake(0,
-                      0,
+                      [self totalBarHeight],
                       self.view.bounds.size.width,
                       SEARCH_BAR_HEIGHT);
 }
 
 - (CGRect)incentiveLabelFrame {
-    return CGRectInset([self incentiveLabelContainerFrame], 10, 0);
+    return self.incentiveLabelContainer.bounds;
 }
 
 - (CGRect)searchBarFrame {
     return CGRectMake(0,
-                      CGRectGetMaxY(self.incentiveLabelContainer.frame),
+                      CGRectGetMaxY(self.incentiveLabelContainer.frame) - SEARCH_BAR_Y_OFFSET,
                       self.view.bounds.size.width,
                       SEARCH_BAR_HEIGHT);
 }
