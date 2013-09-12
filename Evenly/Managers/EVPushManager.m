@@ -75,6 +75,7 @@ static EVPushManager *_sharedManager;
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+
 - (EVViewController<EVReloadable> *)viewControllerFromPushDictionary:(NSDictionary *)pushDictionary {
     self.pushObject = [self objectFromPushDictionary:pushDictionary];
     self.pushObject.loading = YES;

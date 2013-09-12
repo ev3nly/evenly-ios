@@ -23,5 +23,6 @@ extern NSString *const EVSettingsWereLoadedFromServerNotification;
 + (instancetype)sharedManager;
 
 - (void)loadSettingsFromServer;
+- (void)checkForPushPermissionAndUpdateSettingAccordingly;
 
 @end
