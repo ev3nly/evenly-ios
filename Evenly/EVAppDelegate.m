@@ -163,7 +163,9 @@
     
     [FBSession.activeSession handleDidBecomeActive];
     [EVAnalyticsUtility trackEvent:EVAnalyticsOpenedApp];
-    [EVUtilities registerForPushNotifications];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:EVShouldRegisterForPushAtStartup] == YES)
+        [EVUtilities registerForPushNotifications];
 
     EV_DISPATCH_AFTER(0.5, ^{
         if ([[EVCIA sharedInstance] session]) {
@@ -183,6 +185,8 @@
     return [FBSession.activeSession handleOpenURL:url];
 }
 
+#pragma mark - Push Notifications
+
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
@@ -193,11 +197,20 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         [mixpanel.people addPushDeviceToken:deviceToken];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVApplicationDidRegisterForPushesNotification
+                                                        object:nil
+                                                      userInfo:@{ @"deviceToken" : deviceToken }];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVShouldRegisterForPushAtStartup];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self handleRemoteNotification:userInfo requirePIN:NO];
     [EVCIA reloadMe];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    DLog(@"Registering for push failed: %@", error);
 }
 
 - (void)handleRemoteNotification:(NSDictionary *)userInfo requirePIN:(BOOL)requirePIN {

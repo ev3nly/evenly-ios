@@ -22,6 +22,9 @@
 #import "EVStoryDetailViewController.h"
 #import "EVProfileViewController.h"
 
+NSString *const EVApplicationDidRegisterForPushesNotification = @"EVApplicationDidRegisterForPushesNotification";
+NSString *const EVShouldRegisterForPushAtStartup = @"EVShouldRegisterForPushAtStartup";
+
 @implementation EVPushManager
 
 static EVPushManager *_sharedManager;
@@ -32,6 +35,26 @@ static EVPushManager *_sharedManager;
         _sharedManager = [EVPushManager new];
     });
     return _sharedManager;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleSignOut:)
+                                                     name:EVShouldRegisterForPushAtStartup
+                                                   object:nil];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
++ (BOOL)acceptsPushNotifications {
+    UIRemoteNotificationType type = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
+    return (BOOL)(type & UIRemoteNotificationTypeAlert);
 }
 
 - (EVObject *)objectFromPushDictionary:(NSDictionary *)pushDictionary {
@@ -46,6 +69,12 @@ static EVPushManager *_sharedManager;
     DLog(@"Object: %@  Loading? %@", object, (object.loading ? @"YES" : @"NO"));
     return object;
 }
+
+- (void)handleSignOut:(NSNotification *)notification {
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:EVShouldRegisterForPushAtStartup];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 
 - (EVViewController<EVReloadable> *)viewControllerFromPushDictionary:(NSDictionary *)pushDictionary {
     self.pushObject = [self objectFromPushDictionary:pushDictionary];

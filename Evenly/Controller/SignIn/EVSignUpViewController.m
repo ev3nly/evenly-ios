@@ -14,6 +14,8 @@
 #import "ReactiveCocoa.h"
 #import <QuartzCore/QuartzCore.h>
 #import "OpenInChromeController.h"
+#import "EVSettingsManager.h"
+
 
 #define CHECK_VIEW_HEIGHT 40
 #define FOOTER_VIEW_BOTTOM_MARGIN 10
@@ -176,6 +178,9 @@
             [[EVCIA sharedInstance] setMe:me];
             
             [EVUtilities registerForPushNotifications];
+            EV_DISPATCH_AFTER(10.0, ^{
+                [[EVSettingsManager sharedManager] checkForPushPermissionAndUpdateSettingAccordingly];
+            });
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {

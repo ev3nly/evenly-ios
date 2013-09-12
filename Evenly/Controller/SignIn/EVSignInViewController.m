@@ -197,6 +197,7 @@
         };
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
         [[EVCIA sharedInstance] cacheNewSession];
+        
         DLog(@"Logged in.");
     } failure:^(NSError *error) {
         [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusFailure];

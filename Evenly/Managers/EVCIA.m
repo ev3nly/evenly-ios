@@ -14,6 +14,7 @@
 #import "EVExchange.h"
 #import "EVWalletNotification.h"
 #import "EVFacebookManager.h"
+#import "EVSettingsManager.h"
 #import <Mixpanel/Mixpanel.h>
 #import <Crashlytics/Crashlytics.h>
 
@@ -232,6 +233,7 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         EVUser *me = [[self sharedInstance] me];
         [[self sharedInstance] reloadPendingExchangesWithCompletion:NULL];
         [[self sharedInstance] reloadHistoryWithCompletion:NULL];
+        [[EVSettingsManager sharedManager] loadSettingsFromServer];
         
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         
@@ -279,6 +281,7 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
     [self setMe:me];
     
     [EVUtilities registerForPushNotifications];
+    [[EVSettingsManager sharedManager] loadSettingsFromServer];
     
     //cache session
     [self setSession:[EVSession sharedSession]];
