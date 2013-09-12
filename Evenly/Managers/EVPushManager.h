@@ -10,8 +10,8 @@
 #import "EVViewController.h"
 
 extern NSString *const EVApplicationDidRegisterForPushesNotification;
-extern NSString *const EVApplicationUserDeniedPushPermissionNotification;
-extern NSString *const EVUserDeniedPushPermissionKey;
+
+extern NSString *const EVShouldRegisterForPushAtStartup;
 
 @interface EVPushManager : NSObject
 
@@ -22,5 +22,7 @@ extern NSString *const EVUserDeniedPushPermissionKey;
 
 - (EVObject *)objectFromPushDictionary:(NSDictionary *)pushDictionary;
 - (EVViewController<EVReloadable> *)viewControllerFromPushDictionary:(NSDictionary *)pushDictionary;
+
+- (void)handleSignOut:(NSNotification *)notification;
 
 @end

@@ -23,8 +23,7 @@
 #import "EVProfileViewController.h"
 
 NSString *const EVApplicationDidRegisterForPushesNotification = @"EVApplicationDidRegisterForPushesNotification";
-NSString *const EVApplicationUserDeniedPushPermissionNotification = @"EVApplicationUserDeniedPushPermissionNotification";
-NSString *const EVUserDeniedPushPermissionKey = @"EVUserDeniedPushPermissionKey";
+NSString *const EVShouldRegisterForPushAtStartup = @"EVShouldRegisterForPushAtStartup";
 
 @implementation EVPushManager
 
@@ -36,6 +35,21 @@ static EVPushManager *_sharedManager;
         _sharedManager = [EVPushManager new];
     });
     return _sharedManager;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleSignOut:)
+                                                     name:EVShouldRegisterForPushAtStartup
+                                                   object:nil];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 + (BOOL)acceptsPushNotifications {
@@ -54,6 +68,11 @@ static EVPushManager *_sharedManager;
                                               dbid:dbid];
     DLog(@"Object: %@  Loading? %@", object, (object.loading ? @"YES" : @"NO"));
     return object;
+}
+
+- (void)handleSignOut:(NSNotification *)notification {
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:EVShouldRegisterForPushAtStartup];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (EVViewController<EVReloadable> *)viewControllerFromPushDictionary:(NSDictionary *)pushDictionary {

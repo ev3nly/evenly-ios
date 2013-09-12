@@ -168,7 +168,9 @@
     
     [FBSession.activeSession handleDidBecomeActive];
     [EVAnalyticsUtility trackEvent:EVAnalyticsOpenedApp];
-    [EVUtilities registerForPushNotifications];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:EVShouldRegisterForPushAtStartup] == YES)
+        [EVUtilities registerForPushNotifications];
 
     EV_DISPATCH_AFTER(0.5, ^{
         if ([[EVCIA sharedInstance] session]) {
@@ -200,11 +202,11 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         [mixpanel.people addPushDeviceToken:deviceToken];
     }
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:EVUserDeniedPushPermissionKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
     [[NSNotificationCenter defaultCenter] postNotificationName:EVApplicationDidRegisterForPushesNotification
                                                         object:nil
                                                       userInfo:@{ @"deviceToken" : deviceToken }];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVShouldRegisterForPushAtStartup];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -213,11 +215,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVUserDeniedPushPermissionKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [[NSNotificationCenter defaultCenter] postNotificationName:EVApplicationUserDeniedPushPermissionNotification
-                                                        object:nil
-                                                      userInfo:@{ @"error" : error }];
+    DLog(@"Registering for push failed: %@", error);
 }
 
 - (void)handleRemoteNotification:(NSDictionary *)userInfo requirePIN:(BOOL)requirePIN {
