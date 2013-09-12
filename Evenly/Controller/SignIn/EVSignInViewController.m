@@ -23,6 +23,7 @@
 #define FORM_LABEL_BUFFER 14
 #define FORM_VIEW_TAG 9372
 #define FORM_VIEW_HEIGHT 50
+#define FORM_SIDE_MARGIN ([EVUtilities userHasIOS7] ? 0 : 10)
 
 @interface EVSignInViewController ()
 
@@ -130,9 +131,9 @@
     
     [passwordRow setContentView:self.passwordField];
     
-    EVFormView *formView = [[EVFormView alloc] initWithFrame:CGRectMake(0,
+    EVFormView *formView = [[EVFormView alloc] initWithFrame:CGRectMake(FORM_SIDE_MARGIN,
                                                                         CGRectGetMaxY(self.logo.frame) + LOGO_BUFFER,
-                                                                        self.view.bounds.size.width,
+                                                                        self.view.bounds.size.width - FORM_SIDE_MARGIN*2,
                                                                         FORM_VIEW_HEIGHT)];
     formView.tag = FORM_VIEW_TAG;
     [self.view addSubview:formView];

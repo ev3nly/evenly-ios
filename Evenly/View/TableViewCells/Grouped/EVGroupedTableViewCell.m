@@ -49,6 +49,12 @@
             [self adjustRedControl];
         }
     }
+//    if (self.accessoryView) {
+//        self.accessoryView.center = [self accessoryViewCenter];
+//    }
+//    if (self.imageView) {
+//        self.imageView.center = [self imageViewCenter];
+//    }
 }
 
 - (void)setPosition:(EVGroupedTableViewCellPosition)position {
@@ -113,6 +119,22 @@
         return self.bounds;
     return VISIBLE_FRAME;
 }
+
+#pragma mark - Centers
+
+- (CGPoint)imageViewCenter {
+    CGPoint center = self.accessoryView.center;
+    center.y = self.bounds.size.height / 2.0;
+    center.x = 10;
+    return center;
+}
+
+//- (CGPoint)accessoryViewCenter {
+//    CGPoint center = self.accessoryView.center;
+//    center.y = self.bounds.size.height / 2.0;
+//    center.x = self.bounds.size.width - self.accessoryView.image.size.width/2;
+//    return center;
+//}
 
 @end
 

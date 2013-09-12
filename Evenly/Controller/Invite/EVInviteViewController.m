@@ -7,13 +7,13 @@
 //
 
 #import "EVInviteViewController.h"
-#import "EVGroupedTableViewCell.h"
 #import "EVInviteFacebookViewController.h"
 #import "EVInviteContactsViewController.h"
 #import "EVInvite.h"
 #import "EVValidator.h"
 #import "ReactiveCocoa.h"
 #import "EVInviteActivityItem.h"
+#import "EVSettingsCell.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 #define CELL_HEIGHT 54
@@ -67,7 +67,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundView = nil;
-    [self.tableView registerClass:[EVGroupedTableViewCell class] forCellReuseIdentifier:@"groupedTableViewCell"];
+    [self.tableView registerClass:[EVSettingsCell class] forCellReuseIdentifier:@"groupedTableViewCell"];
     [self.view addSubview:self.tableView];
 }
 
@@ -115,20 +115,19 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    EVGroupedTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"groupedTableViewCell"];
+    EVSettingsCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"groupedTableViewCell"];
     
-    cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Arrow"]];
-    cell.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    cell.textLabel.numberOfLines = 2;
+    cell.label.lineBreakMode = NSLineBreakByWordWrapping;
+    cell.label.numberOfLines = 2;
     if (indexPath.row == EVInviteMethodFacebook) {
-        cell.textLabel.text = @"Invite From Facebook";
-        cell.imageView.image = [EVImages inviteFacebookIcon];
+        cell.label.text = @"Invite From Facebook";
+        cell.iconView.image = [EVImages inviteFacebookIcon];
     } else if (indexPath.row == EVInviteMethodContacts) {
-        cell.textLabel.text = @"Invite From Contacts";
-        cell.imageView.image = [EVImages inviteContactsIcon];
+        cell.label.text = @"Invite From Contacts";
+        cell.iconView.image = [EVImages inviteContactsIcon];
     } else if (indexPath.row == EVInviteMethodLink) {
-        cell.textLabel.text = @"Share your personal invitation URL via email, text, and more";
-        cell.imageView.image = [EVImages invitePlusIcon];
+        cell.label.text = @"Share your personal invitation URL via email, text, and more";
+        cell.iconView.image = [EVImages invitePlusIcon];
     }
     cell.position = [self.tableView cellPositionForIndexPath:indexPath];
     return cell;

@@ -37,7 +37,7 @@
 }
 
 + (UIColor *)navBarOverlayColor {
-    EV_RETURN_STATIC_RGB_COLOR(0, 112, 207);
+    EV_RETURN_STATIC_RGB_COLOR(12, 112, 207);
 }
 
 #pragma mark - Side Panels
