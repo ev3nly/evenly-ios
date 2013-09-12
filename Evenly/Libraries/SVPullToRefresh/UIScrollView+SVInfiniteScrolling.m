@@ -181,6 +181,12 @@ UIEdgeInsets scrollViewOriginalContentInsets;
                      completion:NULL];
 }
 
+- (void)setOriginalBottomInset:(CGFloat)originalBottomInset {
+    _originalBottomInset = originalBottomInset;
+    
+    [self setScrollViewContentInsetForInfiniteScrolling];
+}
+
 #pragma mark - Observing
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {    

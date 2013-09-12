@@ -105,7 +105,6 @@
             [self.headerButton setImage:nil forState:UIControlStateNormal];
         }
     }];
-    [self setAllSelected:YES];
 }
 
 - (void)inviteAllButtonPress:(UIButton *)sender {

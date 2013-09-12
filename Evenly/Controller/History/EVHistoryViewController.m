@@ -68,7 +68,36 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-    [self.tableView setFrame:[self.view bounds]];
+    
+    self.tableView.frame = [self tableViewFrame];
+}
+
+#pragma mark - View Loading
+
+- (void)loadTableView {
+    self.tableView = [[UITableView alloc] initWithFrame:[self tableViewFrame] style:UITableViewStyleGrouped];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundView = nil;
+    self.tableView.separatorColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.loadingIndicatorYOffset = TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET;
+    [self.tableView registerClass:[EVHistoryCell class] forCellReuseIdentifier:@"historyCell"];
+    [self.view addSubview:self.tableView];
+}
+
+- (void)loadNoHistoryLabel {
+    self.noHistoryLabel = [UILabel new];
+    self.noHistoryLabel.backgroundColor = [UIColor clearColor];
+    self.noHistoryLabel.text = @"You haven't made any transactions yet!";
+    self.noHistoryLabel.textAlignment = NSTextAlignmentCenter;
+    self.noHistoryLabel.textColor = [EVColor lightLabelColor];
+    self.noHistoryLabel.font = [EVFont defaultFontOfSize:15];
+    [self.noHistoryLabel sizeToFit];
+    
+    self.noHistoryLabel.center = [self noHistoryLabelCenter];
+    [self.tableView addSubview:self.noHistoryLabel];
 }
 
 #pragma mark - Data Loading
@@ -88,8 +117,8 @@ static NSDateFormatter *_dateFormatter = nil;
         else if (self.noHistoryLabel) {
             [self.noHistoryLabel removeFromSuperview];
             self.noHistoryLabel = nil;
-            [self addInfiniteScrolling];
         }
+        [self addInfiniteScrolling];
     }];
 }
 
@@ -122,46 +151,13 @@ static NSDateFormatter *_dateFormatter = nil;
                               }];
     }];
     
+    self.tableView.infiniteScrollingView.originalBottomInset = 0;
     self.tableView.infiniteScrollingView.customViewOffset = TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET;
     [self.tableView.infiniteScrollingView setCustomView:[[UIImageView alloc] initWithImage:[EVImages grayLoadingLogo]]
                                                forState:SVInfiniteScrollingStateReachedEnd];
     [self.tableView.infiniteScrollingView setCustomView:customLoadingIndicator
                                                forState:SVInfiniteScrollingStateLoading];
 }
-
-#pragma mark - View Loading
-
-- (void)loadTableView {
-    self.tableView = [[UITableView alloc] initWithFrame:[self tableViewFrame] style:UITableViewStyleGrouped];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.backgroundView = nil;
-    self.tableView.separatorColor = [UIColor clearColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.loadingIndicatorYOffset = TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET;
-    [self.tableView registerClass:[EVHistoryCell class] forCellReuseIdentifier:@"historyCell"];
-    [self.view addSubview:self.tableView];
-    
-    self.tableView.contentInset = UIEdgeInsetsMake(0,
-                                                   0,
-                                                   TABLE_VIEW_INFINITE_SCROLLING_INSET,
-                                                   0);
-}
-
-- (void)loadNoHistoryLabel {
-    self.noHistoryLabel = [UILabel new];
-    self.noHistoryLabel.backgroundColor = [UIColor clearColor];
-    self.noHistoryLabel.text = @"You haven't made any transactions yet!";
-    self.noHistoryLabel.textAlignment = NSTextAlignmentCenter;
-    self.noHistoryLabel.textColor = [EVColor lightLabelColor];
-    self.noHistoryLabel.font = [EVFont defaultFontOfSize:15];
-    [self.noHistoryLabel sizeToFit];
-    
-    self.noHistoryLabel.center = [self noHistoryLabelCenter];
-    [self.tableView addSubview:self.noHistoryLabel];
-}
-
 
 #pragma mark - TableView DataSource/Delegate
 
