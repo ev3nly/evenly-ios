@@ -3985,8 +3985,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Brunet (29LDK233A6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (8TD4XDX6H8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zach Abrams (8TD4XDX6H8)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4002,9 +4002,8 @@
 					/Documents/FacebookSDK/FacebookSDK.framework/Versions/A,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ED933B27-D9D0-402A-8C06-D93233D5FBD0";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ED933B27-D9D0-402A-8C06-D93233D5FBD0";
-				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
+				PROVISIONING_PROFILE = "AA34FA97-7300-4D19-8A27-8FF1D4CDDBA3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AA34FA97-7300-4D19-8A27-8FF1D4CDDBA3";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -4013,8 +4012,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Brunet (29LDK233A6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zach Abrams (8TD4XDX6H8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Zach Abrams (8TD4XDX6H8)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4030,9 +4029,8 @@
 					/Documents/FacebookSDK/FacebookSDK.framework/Versions/A,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ED933B27-D9D0-402A-8C06-D93233D5FBD0";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ED933B27-D9D0-402A-8C06-D93233D5FBD0";
-				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
+				PROVISIONING_PROFILE = "AA34FA97-7300-4D19-8A27-8FF1D4CDDBA3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AA34FA97-7300-4D19-8A27-8FF1D4CDDBA3";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
