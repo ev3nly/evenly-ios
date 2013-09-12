@@ -8,6 +8,7 @@
 
 #import "EVNotificationsViewController.h"
 #import "EVSettingsManager.h"
+#import "EVPushManager.h"
 
 #import "EVFormView.h"
 #import "EVFormRow.h"
@@ -50,6 +51,10 @@
     return self;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -59,6 +64,11 @@
     [self loadContextLabel];
     [self loadForm];
     [self loadRows];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(settingsDidReload:)
+                                                 name:EVSettingsWereLoadedFromServerNotification
+                                               object:nil];
 }
 
 #pragma mark - View Loading
@@ -128,6 +138,17 @@
 - (void)pushSwitchChanged:(EVSwitch *)sender {
     if (sender.on != self.setting.push)
     {
+        if (sender.on) {
+            if (![EVPushManager acceptsPushNotifications]) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Push Notifications Disabled"
+                                                                message:@"To receive push notifications from Evenly, go to Settings -> Notifications -> Evenly and enable alert banners.  Thanks!"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Close"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            [EVUtilities registerForPushNotifications];
+        }
         [self.setting setPush:sender.on];
         [self.setting updateWithSuccess:^{
             DLog(@"Success");
@@ -147,6 +168,13 @@
             DLog(@"Failure: %@", error);
         }];
     }
+}
+
+- (void)settingsDidReload:(NSNotification *)notification {
+    self->_setting = [[EVSettingsManager sharedManager] notificationSetting];
+    self.pushSwitch.on = self.setting.push;
+    self.emailSwitch.on = self.setting.email;
+    self.smsSwitch.on = self.setting.sms;
 }
 
 - (void)smsSwitchChanged:(EVSwitch *)sender {
