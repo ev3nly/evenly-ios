@@ -79,10 +79,10 @@
     [self.saveButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
     [self.saveButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
     [self.saveButton addTarget:self action:@selector(saveButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.saveButton setTitle:@"SAVE" forState:UIControlStateNormal];
+    [self.saveButton setTitle:@"Save" forState:UIControlStateNormal];
     [self.saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.saveButton setTitleEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 0)];
-    self.saveButton.titleLabel.font = [EVFont defaultButtonFont];
+    self.saveButton.titleLabel.font = [EVFont blackFontOfSize:16];
     [self.footerView addSubview:self.saveButton];
     self.saveButton.enabled = NO;
 }

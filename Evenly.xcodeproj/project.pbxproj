@@ -3985,8 +3985,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Brunet (29LDK233A6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4002,7 +4002,7 @@
 					/Documents/FacebookSDK/FacebookSDK.framework/Versions/A,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A3DC806D-1967-4B75-9582-13D3371A2301";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3DC806D-1967-4B75-9582-13D3371A2301";
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 				WRAPPER_EXTENSION = app;
@@ -4013,8 +4013,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4AC28FCF10394BFDB538CC8E /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Justin Brunet (29LDK233A6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Justin Brunet (29LDK233A6)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -4030,7 +4030,7 @@
 					/Documents/FacebookSDK/FacebookSDK.framework/Versions/A,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "A3DC806D-1967-4B75-9582-13D3371A2301";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3DC806D-1967-4B75-9582-13D3371A2301";
 				WARNING_CFLAGS = "-Wno-arc-performSelector-leaks";
 				WRAPPER_EXTENSION = app;

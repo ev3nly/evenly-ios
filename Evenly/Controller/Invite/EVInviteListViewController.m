@@ -12,6 +12,7 @@
 #import "EVInviteCell.h"
 #import "ReactiveCocoa.h"
 #import "UIAlertView+MKBlockAdditions.h"
+#import "AMBlurView.h"
 
 #define SEARCH_FIELD_HEIGHT 30
 #define SEARCH_FIELD_SIDE_BUFFER 10
@@ -26,6 +27,8 @@
 
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UIView *shadeView;
+
+@property (nonatomic, strong) AMBlurView *blurView;
 
 @end
 
@@ -50,6 +53,8 @@
     [self loadSearchBar];
     [self loadIncentiveLabel];
     [self loadShadeView];
+    if ([EVUtilities userHasIOS7])
+        [self loadBlurView];
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
     
     [self setUpReactions];    
@@ -63,6 +68,7 @@
     self.searchBar.frame = [self searchBarFrame];
     self.tableView.frame = [self tableViewFrame];
     self.shadeView.frame = [self shadeViewFrame];
+    self.blurView.frame = [self blurViewFrame];
 }
 
 #pragma mark - View Loading
@@ -91,10 +97,9 @@
 
 - (void)loadIncentiveLabel {
     self.incentiveLabelContainer = [[UIView alloc] initWithFrame:[self incentiveLabelContainerFrame]];
-    self.incentiveLabelContainer.backgroundColor = [EVColor blueColor];
+    self.incentiveLabelContainer.backgroundColor = [EVColor transparentBlueColor];
     
     self.incentiveLabel = [[UILabel alloc] initWithFrame:[self incentiveLabelFrame]];
-    self.incentiveLabel.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     self.incentiveLabel.backgroundColor = [UIColor clearColor];
     self.incentiveLabel.textColor = [UIColor whiteColor];
     self.incentiveLabel.font = [EVFont defaultFontOfSize:15];
@@ -108,8 +113,8 @@
 }
 
 - (void)loadSearchBar {
-    self.searchBar = [UISearchBar new];    
-    self.searchBar.backgroundImage = [EVImageUtility imageWithColor:[EVColor blueColor]];
+    self.searchBar = [UISearchBar new];
+    self.searchBar.backgroundImage = [EVImageUtility imageWithColor:[EVColor transparentBlueColor]];
     self.searchBar.showsCancelButton = NO;
     self.searchBar.delegate = self;
     [self.searchBar setPositionAdjustment:UIOffsetMake(1, 1) forSearchBarIcon:UISearchBarIconSearch];
@@ -120,6 +125,13 @@
     self.shadeView = [UIView new];
     self.shadeView.backgroundColor = [UIColor blackColor];
     self.shadeView.alpha = 0;
+}
+
+- (void)loadBlurView {
+    self.blurView = [AMBlurView new];
+    self.blurView.frame = self.searchBar.frame;
+    self.blurView.blurTintColor = [EVColor blueColor];
+    [self.view insertSubview:self.blurView belowSubview:self.searchBar];
 }
 
 - (void)setUpReactions {
@@ -143,6 +155,8 @@
         [self updateIncentiveString];
     }];
 }
+
+#pragma mark - Strings
 
 - (void)updateIncentiveString {
     NSString *string = nil;
@@ -290,16 +304,19 @@ static NSString *previousSearch = @"";
     return CGRectMake(0,
                       [self totalBarHeight],
                       self.view.bounds.size.width,
-                      SEARCH_BAR_HEIGHT);
+                      SEARCH_BAR_HEIGHT - SEARCH_BAR_Y_OFFSET);
 }
 
 - (CGRect)incentiveLabelFrame {
-    return self.incentiveLabelContainer.bounds;
+    return CGRectMake(0,
+                      0,
+                      self.view.bounds.size.width,
+                      SEARCH_BAR_HEIGHT);
 }
 
 - (CGRect)searchBarFrame {
     return CGRectMake(0,
-                      CGRectGetMaxY(self.incentiveLabelContainer.frame) - SEARCH_BAR_Y_OFFSET,
+                      CGRectGetMaxY(self.incentiveLabelContainer.frame),// - SEARCH_BAR_Y_OFFSET,
                       self.view.bounds.size.width,
                       SEARCH_BAR_HEIGHT);
 }
@@ -309,6 +326,13 @@ static NSString *previousSearch = @"";
                       CGRectGetMaxY(self.searchBar.frame),
                       self.view.bounds.size.width,
                       self.view.bounds.size.height - CGRectGetMaxY(self.searchBar.frame));
+}
+
+- (CGRect)blurViewFrame {
+    return CGRectMake(0,
+                      self.incentiveLabelContainer.frame.origin.y,
+                      self.view.bounds.size.width,
+                      CGRectGetMaxY(self.searchBar.frame) - self.incentiveLabelContainer.frame.origin.y);
 }
 
 @end

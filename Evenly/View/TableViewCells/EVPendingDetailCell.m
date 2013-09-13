@@ -64,7 +64,7 @@
     [self.rejectButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
     [self.rejectButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
     [self.rejectButton addTarget:self.parent action:@selector(denyRequest) forControlEvents:UIControlEventTouchUpInside];
-    [self.rejectButton setTitle:@"REJECT" forState:UIControlStateNormal];
+    [self.rejectButton setTitle:@"Reject" forState:UIControlStateNormal];
     [self.rejectButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
     self.rejectButton.titleLabel.font = [EVFont defaultButtonFont];
     [self.contentView addSubview:self.rejectButton];
@@ -77,7 +77,7 @@
     [self.confirmButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
     [self.confirmButton addTarget:self.parent action:@selector(confirmRequest) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.confirmButton setTitle:@"PAY" forState:UIControlStateNormal];
+    [self.confirmButton setTitle:@"Pay" forState:UIControlStateNormal];
     [self.confirmButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.confirmButton.titleLabel.font = [EVFont defaultButtonFont];
     [self.contentView addSubview:self.confirmButton];
@@ -89,7 +89,7 @@
     [self.cancelButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
     [self.cancelButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
     [self.cancelButton addTarget:self.parent action:@selector(cancelRequest) forControlEvents:UIControlEventTouchUpInside];
-    [self.cancelButton setTitle:@"CANCEL" forState:UIControlStateNormal];
+    [self.cancelButton setTitle:@"Cancel" forState:UIControlStateNormal];
     [self.cancelButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
     self.cancelButton.titleLabel.font = [EVFont defaultButtonFont];
     [self.contentView addSubview:self.cancelButton];
@@ -101,7 +101,7 @@
     [self.remindButton setBackgroundImage:[EVImages blueButtonBackground] forState:UIControlStateNormal];
     [self.remindButton setBackgroundImage:[EVImages blueButtonBackgroundPress] forState:UIControlStateHighlighted];
     [self.remindButton addTarget:self.parent action:@selector(remindRequest) forControlEvents:UIControlEventTouchUpInside];
-    [self.remindButton setTitle:@"REMIND" forState:UIControlStateNormal];
+    [self.remindButton setTitle:@"Remind" forState:UIControlStateNormal];
     [self.remindButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.remindButton.titleLabel.font = [EVFont defaultButtonFont];
     [self.contentView addSubview:self.remindButton];

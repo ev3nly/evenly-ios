@@ -243,7 +243,7 @@ static NSDateFormatter *_dateFormatter = nil;
     NSString *dateString = nil;
     @synchronized ([[self class] dateFormatter])
     {
-        dateString = [[[[self class] dateFormatter] stringFromDate:date] uppercaseString];
+        dateString = [[[self class] dateFormatter] stringFromDate:date];
     }
     return dateString;
 }

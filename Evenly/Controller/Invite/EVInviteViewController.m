@@ -111,6 +111,8 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == EVInviteMethodLink)
+        return 66;
     return CELL_HEIGHT;
 }
 

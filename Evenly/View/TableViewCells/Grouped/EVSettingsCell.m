@@ -32,7 +32,7 @@
         self.label.backgroundColor = [UIColor clearColor];
         self.label.textColor = [EVColor newsfeedNounColor];
         self.label.font = [EVFont blackFontOfSize:15];
-        self.label.numberOfLines = 1;
+        self.label.numberOfLines = 0;
         [self.contentView addSubview:self.label];
         
         self.disclosureArrow = [[UIImageView alloc] initWithImage:[EVImages dashboardDisclosureArrow]];

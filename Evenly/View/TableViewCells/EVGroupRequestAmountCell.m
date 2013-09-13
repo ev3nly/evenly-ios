@@ -107,8 +107,8 @@
                                                                         FRIENDS_BUTTON_HEIGHT)];
     self.friendsButton.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
     [self.friendsButton addTarget:self action:@selector(friendsButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [self.friendsButton.titleLabel setFont:[EVFont blackFontOfSize:12]];
-    [self.friendsButton setTitle:@"SELECT FRIENDS" forState:UIControlStateNormal];
+    [self.friendsButton.titleLabel setFont:[EVFont blackFontOfSize:14]];
+    [self.friendsButton setTitle:@"Select Friends" forState:UIControlStateNormal];
     [self.contentView addSubview:self.friendsButton];
 }
 

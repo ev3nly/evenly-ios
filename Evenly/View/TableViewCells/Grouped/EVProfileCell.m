@@ -100,10 +100,10 @@
     [self.profileButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
     [self.profileButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
     [self.profileButton addTarget:self.parent action:@selector(editProfileButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.profileButton setTitle:@"EDIT PROFILE" forState:UIControlStateNormal];
+    [self.profileButton setTitle:@"Edit Profile" forState:UIControlStateNormal];
     [self.profileButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
     [self.profileButton setTitleEdgeInsets:UIEdgeInsetsMake(1, 0, 0, 0)];
-    self.profileButton.titleLabel.font = [EVFont blackFontOfSize:14];
+    self.profileButton.titleLabel.font = [EVFont defaultButtonFont];
     [self addSubview:self.profileButton];
     
     UIImageView *settingsIcon = [[UIImageView alloc] initWithImage:[EVImageUtility overlayImage:[EVImages settingsIcon]
@@ -123,9 +123,9 @@
     [self.chargeButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
     [self.chargeButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
     [self.chargeButton addTarget:self action:@selector(chargeButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.chargeButton setTitle:@"REQUEST" forState:UIControlStateNormal];
+    [self.chargeButton setTitle:@"Request" forState:UIControlStateNormal];
     [self.chargeButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
-    self.chargeButton.titleLabel.font = [EVFont blackFontOfSize:14];
+    self.chargeButton.titleLabel.font = [EVFont defaultButtonFont];
     [self addSubview:self.chargeButton];    
 }
 
@@ -157,7 +157,7 @@
             [[self.profileButton viewWithTag:SETTINGS_GEAR_TAG] removeFromSuperview];
         [self.profileButton setBackgroundImage:[EVImages grayButtonBackground] forState:UIControlStateNormal];
         [self.profileButton setBackgroundImage:[EVImages grayButtonBackgroundPress] forState:UIControlStateHighlighted];
-        [self.profileButton setTitle:@"PAY" forState:UIControlStateNormal];
+        [self.profileButton setTitle:@"Pay" forState:UIControlStateNormal];
         [self.profileButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
         [self.profileButton removeTarget:self.parent action:@selector(editButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         [self.profileButton addTarget:self action:@selector(payButtonTapped) forControlEvents:UIControlEventTouchUpInside];

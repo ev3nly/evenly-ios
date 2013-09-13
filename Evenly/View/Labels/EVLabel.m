@@ -31,9 +31,8 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    if ([EVUtilities userHasIOS7]) {
+    if (self.text)
         self.attributedText = [[NSAttributedString alloc] initWithString:self.text attributes:[self attributesDictionary]];
-    }
 }
 
 #pragma mark - Spacing

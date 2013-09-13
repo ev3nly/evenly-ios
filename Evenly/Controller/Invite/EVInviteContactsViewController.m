@@ -82,10 +82,10 @@
     [self.headerButton setBackgroundImage:[EVImages inviteButtonBackground] forState:UIControlStateNormal];
     [self.headerButton setBackgroundImage:[EVImages inviteButtonBackgroundSelected] forState:UIControlStateHighlighted];
     [self.headerButton addTarget:self action:@selector(inviteAllButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-    [self.headerButton setTitle:@"ADD ALL" forState:UIControlStateNormal];
+    [self.headerButton setTitle:@"Add All" forState:UIControlStateNormal];
     [self.headerButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
     [self.headerButton setTitleEdgeInsets:UIEdgeInsetsMake(2, 0, 0, 0)];
-    self.headerButton.titleLabel.font = [EVFont blackFontOfSize:11];
+    self.headerButton.titleLabel.font = [EVFont blackFontOfSize:13];
     
     [self.headerView addSubview:self.headerButton];
     self.tableView.tableHeaderView = self.headerView;
@@ -101,7 +101,7 @@
             }];
         } else {
             _allSelected = NO;
-            [self.headerButton setTitle:@"ADD ALL" forState:UIControlStateNormal];
+            [self.headerButton setTitle:@"Add All" forState:UIControlStateNormal];
             [self.headerButton setImage:nil forState:UIControlStateNormal];
         }
     }];

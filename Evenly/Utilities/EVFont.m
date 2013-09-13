@@ -11,15 +11,21 @@
 @implementation EVFont
 
 + (UIFont *)defaultFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"Avenir" size:fontSize];    
+    return [UIFont fontWithName:@"Avenir-Roman" size:fontSize];
+
+    return [UIFont fontWithName:@"Avenir" size:fontSize];
 }
 
 + (UIFont *)boldFontOfSize:(CGFloat)fontSize {
+    return [UIFont fontWithName:@"Avenir" size:fontSize];
+
     return [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
 }
 
 + (UIFont *)blackFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"Avenir-Black" size:fontSize];    
+    return [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
+
+    return [UIFont fontWithName:@"Avenir-Black" size:fontSize];
 }
 
 + (UIFont *)romanFontOfSize:(CGFloat)fontSize {
@@ -51,7 +57,7 @@
 }
 
 + (UIFont *)defaultButtonFont {
-    return [self blackFontOfSize:14];
+    return [self blackFontOfSize:15];
 }
 
 @end
