@@ -19,6 +19,7 @@
 #define SEARCH_FIELD_TEXT_BUFFER 16
 #define SEARCH_BAR_HEIGHT 44
 #define SEARCH_BAR_Y_OFFSET 6
+#define SEARCH_BAR_BACKGROUND_COLOR ([EVUtilities userHasIOS7] ? [EVColor transparentBlueColor] : [EVColor blueColor])
 
 @interface EVInviteListViewController ()
 
@@ -97,7 +98,7 @@
 
 - (void)loadIncentiveLabel {
     self.incentiveLabelContainer = [[UIView alloc] initWithFrame:[self incentiveLabelContainerFrame]];
-    self.incentiveLabelContainer.backgroundColor = [EVColor transparentBlueColor];
+    self.incentiveLabelContainer.backgroundColor = SEARCH_BAR_BACKGROUND_COLOR;
     
     self.incentiveLabel = [[UILabel alloc] initWithFrame:[self incentiveLabelFrame]];
     self.incentiveLabel.backgroundColor = [UIColor clearColor];
@@ -114,7 +115,7 @@
 
 - (void)loadSearchBar {
     self.searchBar = [UISearchBar new];
-    self.searchBar.backgroundImage = [EVImageUtility imageWithColor:[EVColor transparentBlueColor]];
+    self.searchBar.backgroundImage = [EVImageUtility imageWithColor:SEARCH_BAR_BACKGROUND_COLOR];
     self.searchBar.showsCancelButton = NO;
     self.searchBar.delegate = self;
     [self.searchBar setPositionAdjustment:UIOffsetMake(1, 1) forSearchBarIcon:UISearchBarIconSearch];

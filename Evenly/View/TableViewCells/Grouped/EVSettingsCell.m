@@ -61,7 +61,7 @@
     float xOrigin = (CGRectGetMaxX(self.iconView.frame) + iconBuffer);
     return CGRectMake(xOrigin,
                       EV_SETTINGS_ROW_TOP_MARGIN,
-                      self.frame.size.width - EV_SETTINGS_ROW_SIDE_MARGIN - xOrigin,
+                      self.contentView.frame.size.width - EV_SETTINGS_ROW_SIDE_MARGIN*2 - xOrigin,
                       (self.frame.size.height - 2*EV_SETTINGS_ROW_TOP_MARGIN));
 }
 
