@@ -10,6 +10,7 @@
 #import "EVViewController.h"
 
 extern NSString *const EVApplicationDidRegisterForPushesNotification;
+extern NSString *const EVReceivedPushAboutNewPaymentNotification;
 
 extern NSString *const EVShouldRegisterForPushAtStartup;
 
