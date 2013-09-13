@@ -71,7 +71,7 @@
                                                                       CGRectGetMaxY(self.footerLabel.frame) + FOOTER_Y_MARGIN,
                                                                       self.view.frame.size.width - 2*X_MARGIN,
                                                                       BUTTON_HEIGHT)];
-    [self.emailButton setTitle:@"EMAIL OUR SUPPORT TEAM" forState:UIControlStateNormal];
+    [self.emailButton setTitle:@"Email Our Support Team" forState:UIControlStateNormal];
     [self.emailButton addTarget:self action:@selector(emailButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
     self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, CGRectGetMaxY(self.emailButton.frame) + FOOTER_Y_MARGIN)];

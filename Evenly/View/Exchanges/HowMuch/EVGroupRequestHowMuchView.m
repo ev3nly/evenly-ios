@@ -589,11 +589,11 @@
         NSArray *memberships = [[manager tierMemberships] objectAtIndex:i];
         NSString *title = nil;
         if ([memberships count] == 0)
-            title = @"SELECT FRIENDS";
+            title = @"Select Friends";
         else if ([memberships count] == 1)
-            title = @"1 FRIEND";
+            title = @"1 Friend";
         else
-            title = [NSString stringWithFormat:@"%d FRIENDS", [memberships count]];
+            title = [NSString stringWithFormat:@"%d Friends", [memberships count]];
         [cell.friendsButton setTitle:title forState:UIControlStateNormal];
         i++;
     }

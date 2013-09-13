@@ -447,7 +447,7 @@ static NSDateFormatter *_detailDateFormatter;
 #pragma mark - Request
 
 + (NSString *)addAdditionalOptionButtonTitle {
-    return @"ADD ANOTHER PAYMENT OPTION";
+    return @"Add Another Payment Option";
 }
 
 + (NSString *)noRecipientsErrorMessage {

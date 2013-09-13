@@ -19,7 +19,7 @@
         
         [self setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
         [self setTitleColor:[EVColor lightLabelColor] forState:UIControlStateDisabled];
-        [self.titleLabel setFont:[EVFont blackFontOfSize:15]];
+        [self.titleLabel setFont:[EVFont blackFontOfSize:16]];
     }
     return self;
 }

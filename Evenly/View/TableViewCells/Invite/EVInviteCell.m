@@ -12,7 +12,7 @@
 #define PICTURE_BUFER 8
 #define INVITE_BUTTON_WIDTH 70
 #define INVITE_BUTTON_HEIGHT 36
-#define INVITE_BUTTON_TEXT @"ADD"
+#define INVITE_BUTTON_TEXT @"Add"
 
 @implementation EVInviteCell
 
@@ -73,7 +73,7 @@
     [self.inviteButton setTitle:INVITE_BUTTON_TEXT forState:UIControlStateNormal];
     [self.inviteButton setTitleColor:[EVColor darkLabelColor] forState:UIControlStateNormal];
     [self.inviteButton setTitleEdgeInsets:UIEdgeInsetsMake(2, 0, 0, 0)];
-    self.inviteButton.titleLabel.font = [EVFont blackFontOfSize:11];
+    self.inviteButton.titleLabel.font = [EVFont blackFontOfSize:13];
     [self addSubview:self.inviteButton];
 }
 

@@ -132,10 +132,7 @@
     else
         userDict = [self.displayedFriendList objectAtIndex:indexPath.row];
 
-    NSString *reuseIdentifier = [NSString stringWithFormat:@"facebookInviteCell-%i", (indexPath.row % 30)];
-    EVInviteFacebookCell *cell = [self.tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-    if (!cell)
-        cell = [[EVInviteFacebookCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+    EVInviteFacebookCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"facebookInviteCell" forIndexPath:indexPath];
     
     [cell setName:userDict[@"name"] profileID:userDict[@"id"]];
     cell.handleSelection = ^(NSString *profileID) {

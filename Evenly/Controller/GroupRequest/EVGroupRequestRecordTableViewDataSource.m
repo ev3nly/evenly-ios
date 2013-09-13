@@ -62,7 +62,7 @@
                                                                        BUTTON_Y_MARGIN,
                                                                        BUTTON_WIDTH,
                                                                        BUTTON_HEIGHT)];
-    [self.remindButton setTitle:@"REMIND" forState:UIControlStateNormal];
+    [self.remindButton setTitle:@"Remind" forState:UIControlStateNormal];
     
     UIImage *bellImage = [UIImage imageNamed:@"Request-Reminder-Bell"];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:bellImage];
@@ -76,7 +76,7 @@
 
                                                                        BUTTON_WIDTH,
                                                                        BUTTON_HEIGHT)];
-    [self.cancelButton setTitle:@"CANCEL REQUEST" forState:UIControlStateNormal];
+    [self.cancelButton setTitle:@"Cancel Request" forState:UIControlStateNormal];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
