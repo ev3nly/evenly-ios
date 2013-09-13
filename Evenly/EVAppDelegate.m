@@ -19,6 +19,7 @@
 #import "EVHomeViewController.h"
 #import "EVWalletViewController.h"
 #import "EVSession.h"
+#import "EVPayment.h"
 #import "EVCIA.h"
 #import "EVSettingsManager.h"
 #import "EVHTTPClient.h"
@@ -216,6 +217,14 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 - (void)handleRemoteNotification:(NSDictionary *)userInfo requirePIN:(BOOL)requirePIN {
     DLog(@"Remote notification: %@", userInfo);
     [PFPush handlePush:userInfo];
+    
+    EVObject *object = [[EVPushManager sharedManager] objectFromPushDictionary:userInfo[@"meta"]];
+    if ([object isKindOfClass:[EVPayment class]])
+    {
+        [EVCIA reloadMe];
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVReceivedPushAboutNewPaymentNotification object:nil];
+    }
+    
     EVViewController *viewController = [[EVPushManager sharedManager] viewControllerFromPushDictionary:userInfo[@"meta"]];
     if (viewController)
     {

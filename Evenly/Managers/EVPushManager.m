@@ -23,6 +23,8 @@
 #import "EVProfileViewController.h"
 
 NSString *const EVApplicationDidRegisterForPushesNotification = @"EVApplicationDidRegisterForPushesNotification";
+NSString *const EVReceivedPushAboutNewPaymentNotification = @"EVReceivedPushAboutNewPaymentNotification";
+
 NSString *const EVShouldRegisterForPushAtStartup = @"EVShouldRegisterForPushAtStartup";
 
 @implementation EVPushManager

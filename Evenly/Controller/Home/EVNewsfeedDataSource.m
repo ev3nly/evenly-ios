@@ -10,8 +10,10 @@
 #import "EVStory.h"
 #import "EVStoryCell.h"
 #import "EVLoadingIndicator.h"
+#import "EVPushManager.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
+
 @implementation EVNewsfeedDataSource
 
 - (id)init {
@@ -24,6 +26,10 @@
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(storyWasCreatedLocally:)
                                                      name:EVStoryLocallyCreatedNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(receivedPushAboutNewPayment:)
+                                                     name:EVReceivedPushAboutNewPaymentNotification
                                                    object:nil];
         
         EVLoadingIndicator *customLoadingIndicator = [[EVLoadingIndicator alloc] initWithFrame:CGRectZero];
@@ -134,6 +140,11 @@
 - (void)didSignOut:(NSNotification *)notification {
     self.newsfeed = [NSMutableArray array];
     [self.tableView reloadData];
+}
+
+- (void)receivedPushAboutNewPayment:(NSNotification *)notification {
+    DLog(@"Received push about new payment");
+    [self loadNewestStories];
 }
 
 #pragma mark - UITableViewDataSource
