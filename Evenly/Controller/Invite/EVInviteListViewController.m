@@ -316,7 +316,7 @@ static NSString *previousSearch = @"";
 
 - (CGRect)searchBarFrame {
     return CGRectMake(0,
-                      CGRectGetMaxY(self.incentiveLabelContainer.frame),// - SEARCH_BAR_Y_OFFSET,
+                      CGRectGetMaxY(self.incentiveLabelContainer.frame),
                       self.view.bounds.size.width,
                       SEARCH_BAR_HEIGHT);
 }

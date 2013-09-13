@@ -17,6 +17,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 #define CELL_HEIGHT 54
+#define URL_CELL_HEIGHT 66
 
 #define HEADER_HEIGHT 80
 #define HEADER_MARGIN 10
@@ -112,7 +113,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == EVInviteMethodLink)
-        return 66;
+        return URL_CELL_HEIGHT;
     return CELL_HEIGHT;
 }
 

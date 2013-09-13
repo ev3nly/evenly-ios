@@ -145,12 +145,6 @@
 
 - (void)requestFromContact:(EVUser *)contact {
     [self displayExchangeController:[EVRequestViewController new] forContact:contact];
-    
-//    EVRequestViewController *requestController = [EVRequestViewController new];
-//    [requestController viewDidLoad];
-//    [requestController addContact:contact];
-//    [requestController advancePhase];
-//    [self displayExchangeController:requestController];
 }
 
 - (void)displayExchangeController:(EVExchangeViewController *)controller forContact:(EVUser *)contact {
