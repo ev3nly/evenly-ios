@@ -191,7 +191,7 @@
             NSString *amountText = self.amountCell.textField.text;
             if (EV_IS_EMPTY_STRING(amountText))
                 amountText = self.amountCell.textField.placeholder;
-            [self.depositButton setTitle:[NSString stringWithFormat:@"DEPOSIT %@", amountText] forState:UIControlStateNormal];
+            [self.depositButton setTitle:[NSString stringWithFormat:@"Deposit %@", amountText] forState:UIControlStateNormal];
             [self.amountCell.textField setEnabled:YES];
         }
         else {
@@ -199,7 +199,7 @@
                 self.bankCell.textField.text = @"Loading...";
             else {
                 self.bankCell.textField.text = @"No bank account added.";
-                [self.depositButton setTitle:@"ADD BANK ACCOUNT" forState:UIControlStateNormal];
+                [self.depositButton setTitle:@"Add Bank Account" forState:UIControlStateNormal];
                 [self.depositButton setEnabled:YES];
                 [self.amountCell.textField setEnabled:NO];
             }
@@ -212,7 +212,7 @@
     [self.amountCell.textField.rac_textSignal subscribeNext:^(NSString *amountText) {
         if (EV_IS_EMPTY_STRING(amountText))
             amountText = self.amountCell.textField.placeholder;
-        [self.depositButton setTitle:[NSString stringWithFormat:@"DEPOSIT %@", amountText] forState:UIControlStateNormal];
+        [self.depositButton setTitle:[NSString stringWithFormat:@"Deposit %@", amountText] forState:UIControlStateNormal];
     }];
     
     // Form validity

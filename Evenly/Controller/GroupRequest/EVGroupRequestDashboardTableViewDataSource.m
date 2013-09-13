@@ -60,12 +60,12 @@
 
 - (void)loadInviteButton {
     self.inviteButton = [[EVBlueButton alloc] initWithFrame:CGRectZero];
-    [self.inviteButton setTitle:@"INVITE FRIENDS" forState:UIControlStateNormal];
+    [self.inviteButton setTitle:@"Invite Friends" forState:UIControlStateNormal];
 }
 
 - (void)loadRemindAllButton {
     self.remindAllButton = [[EVBlueButton alloc] initWithFrame:[self remindAllButtonFrame]];
-    [self.remindAllButton setTitle:@"REMIND ALL" forState:UIControlStateNormal];
+    [self.remindAllButton setTitle:@"Remind All" forState:UIControlStateNormal];
     
     UIImage *bellImage = [UIImage imageNamed:@"Request-Reminder-Bell"];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:bellImage];

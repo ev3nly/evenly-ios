@@ -135,7 +135,7 @@ static EVStatusBarManager *_sharedManager = nil;
 }
 
 - (void)endWithText:(NSString *)text {
-    if (self.preSuccess)
+    if (self.preSuccess && self.progressView.status == EVStatusBarStatusSuccess)
         self.preSuccess();
     self.preSuccess = nil;
     
@@ -145,11 +145,11 @@ static EVStatusBarManager *_sharedManager = nil;
         [MBProgressHUD hideHUDForView:[self viewForHUD] animated:YES];
         self.hud = nil;
         
-        if (self.duringSuccess)
+        if (self.duringSuccess && self.progressView.status == EVStatusBarStatusSuccess)
             self.duringSuccess();
         self.duringSuccess = nil;
         
-        if (self.postSuccess)
+        if (self.postSuccess && self.progressView.status == EVStatusBarStatusSuccess)
             self.postSuccess();
         self.postSuccess = nil;
         

@@ -40,6 +40,12 @@
     EV_RETURN_STATIC_RGB_COLOR(12, 112, 207);
 }
 
++ (UIColor *)transparentBlueColor {
+    float red, green, blue, alpha;
+    [[EVColor navBarOverlayColor] getRed:&red green:&green blue:&blue alpha:&alpha];
+    return EV_RGB_ALPHA_COLOR(red, green, blue, 0.5);
+}
+
 #pragma mark - Side Panels
 
 + (UIColor *)sidePanelBackgroundColor {

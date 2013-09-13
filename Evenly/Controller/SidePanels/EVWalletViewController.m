@@ -130,14 +130,14 @@
                                                                         yMargin,
                                                                         buttonWidth,
                                                                         buttonHeight)];
-    [self.historyButton setTitle:@"HISTORY" forState:UIControlStateNormal];
+    [self.historyButton setTitle:@"History" forState:UIControlStateNormal];
     [self.historyButton addTarget:self action:@selector(historyButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
     self.depositButton = [[EVGrayButton alloc] initWithFrame:CGRectMake(xOrigin + 2*buttonMargin + buttonWidth,
                                                                         yMargin,
                                                                         buttonWidth,
                                                                         buttonHeight)];
-    [self.depositButton setTitle:@"DEPOSIT" forState:UIControlStateNormal];
+    [self.depositButton setTitle:@"Deposit" forState:UIControlStateNormal];
     [self.depositButton addTarget:self action:@selector(depositButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     
     self.walletFooter = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 2*yMargin + buttonHeight)];
