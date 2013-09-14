@@ -83,6 +83,7 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundView = nil;
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, [UIApplication sharedApplication].statusBarFrame.size.height, 0);
     [self.tableView registerClass:[EVProfileCell class] forCellReuseIdentifier:@"profileCell"];
     [self.tableView registerClass:[EVNoActivityCell class] forCellReuseIdentifier:@"noActivityCell"];
     [self.tableView registerClass:[EVProfileHistoryCell class] forCellReuseIdentifier:@"profileHistoryCell"];
@@ -101,6 +102,7 @@
             [profileController.tableView.pullToRefreshView stopAnimating];
         }];
     }];
+    self.tableView.pullToRefreshView.originalTopInset = [self totalBarHeight];
     
     [self.tableView setLoading:self.user.loading];
 }
@@ -138,24 +140,22 @@
 }
 
 - (void)payContact:(EVUser *)contact {
-    EVPaymentViewController *paymentController = [EVPaymentViewController new];
-    [paymentController viewDidLoad];
-    [paymentController addContact:contact];
-    // EVPaymentViewController has a reaction that advances when a contact is added,
-    // so don't advance phase here.
-    [self displayExchangeController:paymentController];
+    [self displayExchangeController:[EVPaymentViewController new] forContact:contact];
 }
 
 - (void)requestFromContact:(EVUser *)contact {
-    EVRequestViewController *requestController = [EVRequestViewController new];
-    [requestController viewDidLoad];
-    [requestController addContact:contact];
-    [requestController advancePhase];
-    [self displayExchangeController:requestController];
+    [self displayExchangeController:[EVRequestViewController new] forContact:contact];
 }
 
-- (void)displayExchangeController:(EVExchangeViewController *)controller {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+- (void)displayExchangeController:(EVExchangeViewController *)controller forContact:(EVUser *)contact {
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:controller];
+    
+    [controller viewDidLoad];
+    [controller addContact:contact];
+    // EVPaymentViewController has a reaction that advances when a contact is added, so just do this for requests
+    if ([controller isKindOfClass:[EVRequestViewController class]])
+        [controller advancePhase];
+    
     [self presentViewController:navController animated:YES completion:NULL];
     [controller unloadPageControlAnimated:NO];
     [controller loadPageControl];

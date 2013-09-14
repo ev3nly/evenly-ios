@@ -18,6 +18,8 @@
 + (UIColor *)darkColor;
 + (UIColor *)lightColor;
 + (UIColor *)blueColor;
++ (UIColor *)navBarOverlayColor;
++ (UIColor *)transparentBlueColor;
 
 #pragma mark - Side Panels
 

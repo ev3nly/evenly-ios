@@ -17,6 +17,7 @@
 #define EV_PENDING_EXCHANGE_CELL_MARGIN 10.0
 #define EV_PENDING_EXCHANGE_CELL_Y_MARGIN 5.0
 #define EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH 185.0
+#define EV_PENDING_EXCHANGE_CELL_AMOUNT_LABEL_Y_OFFSET 1
 
 #define EV_PENDING_EXCHANGE_CELL_FONT [EVFont defaultFontOfSize:14]
 #define EV_PENDING_EXCHANGE_CELL_BOLD_FONT [EVFont boldFontOfSize:14]
@@ -27,7 +28,7 @@
 @interface EVPendingExchangeCell ()
 
 @property (nonatomic, strong) UIView *exchangeContainer;
-@property (nonatomic, strong) UILabel *descriptionLabel;
+@property (nonatomic, strong) EVLabel *descriptionLabel;
 @property (nonatomic, strong) UILabel *amountLabel;
 @property (nonatomic, strong) UILabel *dateLabel;
 
@@ -40,12 +41,11 @@
 
 + (CGSize)sizeForInteraction:(EVObject *)object {
     NSString *string = [EVStringUtility stringForInteraction:object];
-//    CGFloat margination = EV_RIGHT_OVERHANG_MARGIN + 4*EV_PENDING_EXCHANGE_CELL_MARGIN + [EVAvatarView avatarSize].width;
     CGFloat maxWidth = EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH;
-    CGSize size = [string sizeWithFont:EV_PENDING_EXCHANGE_CELL_FONT
-                     constrainedToSize:CGSizeMake(maxWidth, 3*EV_PENDING_EXCHANGE_CELL_FONT.lineHeight)
-                         lineBreakMode:NSLineBreakByTruncatingMiddle];
-    
+    CGSize size = [string _safeBoundingRectWithSize:CGSizeMake(maxWidth, 3*EV_PENDING_EXCHANGE_CELL_FONT.lineHeight)
+                                            options:NSStringDrawingUsesLineFragmentOrigin
+                                         attributes:@{NSFontAttributeName: EV_PENDING_EXCHANGE_CELL_FONT}
+                                            context:NULL].size;
     CGFloat height = MAX(size.height + 2*EV_PENDING_EXCHANGE_CELL_Y_MARGIN, [EVAvatarView avatarSize].height + 2*EV_PENDING_EXCHANGE_CELL_MARGIN);
     return CGSizeMake(EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH, height);
 }
@@ -54,7 +54,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-
+        
         CGFloat margin = EV_PENDING_EXCHANGE_CELL_MARGIN;
         
         self.avatarView = [[EVAvatarView alloc] initWithFrame:CGRectMake(margin,
@@ -66,16 +66,15 @@
         
         [self loadExchangeViews];
         [self loadGroupRequestViews];
-
+        
     }
     return self;
 }
 
 - (void)loadExchangeViews {
     self.exchangeContainer = [[UIView alloc] initWithFrame:[self containerFrame]];
-    self.exchangeContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
-
-    self.descriptionLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    
+    self.descriptionLabel = [[EVLabel alloc] initWithFrame:CGRectZero];
     self.descriptionLabel.backgroundColor = [UIColor clearColor];
     [self.exchangeContainer addSubview:self.descriptionLabel];
     
@@ -93,7 +92,6 @@
 
 - (void)loadGroupRequestViews {
     self.groupRequestContainer = [[UIView alloc] initWithFrame:[self containerFrame]];
-    self.groupRequestContainer.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleBottomMargin;
     
     self.groupRequestLabel = [[UILabel alloc] initWithFrame:self.groupRequestContainer.bounds];
     self.groupRequestLabel.backgroundColor = [UIColor clearColor];
@@ -102,6 +100,7 @@
     self.groupRequestLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
     self.groupRequestLabel.font = EV_PENDING_EXCHANGE_CELL_FONT;
     self.groupRequestLabel.autoresizingMask = EV_AUTORESIZE_TO_FIT;
+    
     [self.groupRequestContainer addSubview:self.groupRequestLabel];
 }
 
@@ -113,11 +112,13 @@
     } else if ([object isKindOfClass:[EVWalletNotification class]]) {
         [self configureForWalletNotification:(EVWalletNotification *)object];
     }
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
 
 - (void)configureForExchange:(EVExchange *)exchange {
     [self.groupRequestContainer removeFromSuperview];
-
+    
     [self.exchangeContainer setFrame:[self containerFrame]];
     NSAttributedString *descriptionString = [EVStringUtility attributedStringForPendingExchange:exchange];
     NSString *amountString = [EVStringUtility amountStringForAmount:exchange.amount];
@@ -128,18 +129,18 @@
     CGFloat yMidpoint = self.exchangeContainer.frame.size.height / 2.0;
     
     [self.amountLabel setFrame:CGRectMake(self.exchangeContainer.frame.size.width - self.amountLabel.frame.size.width,
-                                          yMidpoint - self.amountLabel.frame.size.height,
+                                          yMidpoint - self.amountLabel.frame.size.height/2 + EV_PENDING_EXCHANGE_CELL_AMOUNT_LABEL_Y_OFFSET,
                                           self.amountLabel.frame.size.width,
                                           self.amountLabel.frame.size.height)];
     self.amountLabel.textColor = (exchange.from == nil) ? [EVColor lightGreenColor] : [EVColor lightRedColor];
-
+    
     [self.descriptionLabel setAttributedText:descriptionString];
     [self.descriptionLabel setFrame:CGRectMake(0,
                                                yMidpoint - self.amountLabel.frame.size.height,
                                                CGRectGetMinX(self.amountLabel.frame) - MIN_LABEL_SPACING,
                                                self.amountLabel.frame.size.height)];
     [self.descriptionLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.descriptionLabel setAdjustsLetterSpacingToFitWidth:YES];
+    [self.descriptionLabel setAdjustLetterSpacingToFitWidth:YES];
     [self.descriptionLabel setNumberOfLines:1];
     [self.descriptionLabel setLineBreakMode:NSLineBreakByTruncatingTail];
     
@@ -164,7 +165,7 @@
         amountString = [EVStringUtility amountStringForAmount:[[[groupRequest myRecord] tier] price]];
     else
         amountString = @"TBD";
-
+    
     NSString *dateString = [[EVStringUtility shortDateFormatter] stringFromDate:groupRequest.createdAt];
     
     self.amountLabel.text = amountString;
@@ -172,7 +173,7 @@
     CGFloat yMidpoint = self.exchangeContainer.frame.size.height / 2.0;
     
     [self.amountLabel setFrame:CGRectMake(self.exchangeContainer.frame.size.width - self.amountLabel.frame.size.width,
-                                          yMidpoint - self.amountLabel.frame.size.height,
+                                          yMidpoint - self.amountLabel.frame.size.height/2 + EV_PENDING_EXCHANGE_CELL_AMOUNT_LABEL_Y_OFFSET,
                                           self.amountLabel.frame.size.width,
                                           self.amountLabel.frame.size.height)];
     self.amountLabel.textColor = (groupRequest.from == nil) ? [EVColor lightGreenColor] : [EVColor lightRedColor];
@@ -183,7 +184,7 @@
                                                CGRectGetMinX(self.amountLabel.frame) - MIN_LABEL_SPACING,
                                                self.amountLabel.frame.size.height)];
     [self.descriptionLabel setAdjustsFontSizeToFitWidth:YES];
-    [self.descriptionLabel setAdjustsLetterSpacingToFitWidth:YES];
+    [self.descriptionLabel setAdjustLetterSpacingToFitWidth:YES];
     [self.descriptionLabel setNumberOfLines:1];
     [self.descriptionLabel setLineBreakMode:NSLineBreakByTruncatingTail];
     
@@ -199,7 +200,7 @@
 - (void)configureForWalletNotification:(EVWalletNotification *)walletNotification {
     [self.exchangeContainer removeFromSuperview];
     [self.groupRequestLabel setText:walletNotification.headline];
-
+    
     [self.groupRequestContainer setFrame:[self containerFrame]];
     [self.containerView addSubview:self.groupRequestContainer];
 }
@@ -208,13 +209,13 @@
     return CGRectMake(CGRectGetMaxX(self.avatarView.frame) + EV_PENDING_EXCHANGE_CELL_MARGIN,
                       EV_PENDING_EXCHANGE_CELL_Y_MARGIN,
                       EV_PENDING_EXCHANGE_CELL_MAX_LABEL_WIDTH,
-                      self.containerView.frame.size.height - 2*EV_PENDING_EXCHANGE_CELL_Y_MARGIN);
+                      self.frame.size.height - 2*EV_PENDING_EXCHANGE_CELL_Y_MARGIN);
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -237,6 +238,7 @@
         [self.avatarView removeFromSuperview];
         self.avatarView = nil;
         self.accessoryView = nil;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         [self.stripe removeFromSuperview];
         self.stripe = nil;

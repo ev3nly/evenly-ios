@@ -14,7 +14,9 @@
 #import "EVExchange.h"
 #import "EVWalletNotification.h"
 #import "EVFacebookManager.h"
+#import "EVSettingsManager.h"
 #import <Mixpanel/Mixpanel.h>
+#import <Crashlytics/Crashlytics.h>
 
 NSString *const EVCachedUserKey = @"EVCachedUserKey";
 NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKey";
@@ -22,7 +24,8 @@ NSString *const EVCachedAuthenticationTokenKey = @"EVCachedAuthenticationTokenKe
 NSString *const EVPendingReceivedExchangesKey = @"pending_received";
 NSString *const EVPendingSentExchangesKey = @"pending_sent";
 
-NSString *const EVUserHasCompletedGettingStarted = @"EVUserHasCompletedGettingStartedKey";
+NSString *const EVUserHasCompletedGettingStartedKey = @"EVUserHasCompletedGettingStartedKey";
+NSString *const EVUserFacebookFriendCountKey = @"EVUserFacebookFriendCountKey";
 
 static EVCIA *_sharedInstance;
 
@@ -230,13 +233,19 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         EVUser *me = [[self sharedInstance] me];
         [[self sharedInstance] reloadPendingExchangesWithCompletion:NULL];
         [[self sharedInstance] reloadHistoryWithCompletion:NULL];
+        [[EVSettingsManager sharedManager] loadSettingsFromServer];
         
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         
-        [mixpanel identify:me.dbid];        
+        [mixpanel identify:me.dbid];
+        [Crashlytics setUserIdentifier:[EVParseUtility userIdentifier]];
+        
         [mixpanel.people set:@"$name"       to:me.name];
-        if (me.email)
+        [Crashlytics setUserName:me.name];
+        if (me.email) {
             [mixpanel.people set:@"$email"      to:me.email];
+            [Crashlytics setUserEmail:me.email];
+        }
         [mixpanel.people set:@"$created"    to:me.createdAt];
         [mixpanel.people set:@"$last_login" to:[NSDate date]];
         [mixpanel.people set:@"iOS App True Version"    to:EV_APP_VERSION];
@@ -244,11 +253,22 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
         
         mixpanel.nameTag = me.name;
         
+        if (me.roles)
+            [Crashlytics setObjectValue:me.roles forKey:@"user_roles"];
         [EVParseUtility registerChannels];
         
+        me.facebookFriendCount = [[NSUserDefaults standardUserDefaults] integerForKey:EVUserFacebookFriendCountKey];        
+        if ([EVFacebookManager isConnected]) {
+            [EVFacebookManager loadFriendsWithCompletion:^(NSArray *friends) {
+                me.facebookFriendCount = [friends count];
+                [[NSUserDefaults standardUserDefaults] setInteger:[friends count] forKey:EVUserFacebookFriendCountKey];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            } failure:^(NSError *error) {
+                DLog(@"Could not load friends: %@", error);
+            }];
+        }        
         if (completion)
             completion();
-        
     } failure:^(NSError *error) {
         DLog(@"ERROR?! %@", error);
     } reload:YES];
@@ -261,6 +281,7 @@ NSString *const EVCIAUpdatedMeNotification = @"EVCIAUpdatedMeNotification";
     [self setMe:me];
     
     [EVUtilities registerForPushNotifications];
+    [[EVSettingsManager sharedManager] loadSettingsFromServer];
     
     //cache session
     [self setSession:[EVSession sharedSession]];

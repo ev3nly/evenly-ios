@@ -290,12 +290,12 @@ static char ja_kvoContext;
     container.layer.shadowPath = shadowPath.CGPath;	
     container.layer.shadowColor = [UIColor blackColor].CGColor;
     container.layer.shadowRadius = 8.0f;
-    container.layer.shadowOpacity = ([[EVStatusBarManager sharedManager] controllersShouldHideDropShadows]) ? 0.0 : 0.5f;
+    container.layer.shadowOpacity = 0.5f;
     container.clipsToBounds = NO;
 }
 
 - (void)stylePanel:(UIView *)panel {
-    panel.layer.cornerRadius = 6.0f;
+    panel.layer.cornerRadius = 0;
     panel.clipsToBounds = YES;
 }
 
@@ -429,8 +429,8 @@ static char ja_kvoContext;
 - (void)_placeButtonForLeftPanel {
     if (self.leftPanel) {
         UIViewController *buttonController = self.centerPanel;
-        if ([buttonController isKindOfClass:[UINavigationController class]]) {
-            UINavigationController *nav = (UINavigationController *)buttonController;
+        if ([buttonController isKindOfClass:[EVNavigationController class]]) {
+            EVNavigationController *nav = (EVNavigationController *)buttonController;
             if ([nav.viewControllers count] > 0) {
                 buttonController = [nav.viewControllers objectAtIndex:0];
             }
@@ -625,8 +625,8 @@ static char ja_kvoContext;
 }
 
 - (BOOL)_isOnTopLevelViewController:(UIViewController *)root {
-    if ([root isKindOfClass:[UINavigationController class]]) {
-        UINavigationController *nav = (UINavigationController *)root;
+    if ([root isKindOfClass:[EVNavigationController class]]) {
+        EVNavigationController *nav = (EVNavigationController *)root;
         return [nav.viewControllers count] == 1;
     } else if ([root isKindOfClass:[UITabBarController class]]) {
         UITabBarController *tab = (UITabBarController *)root;

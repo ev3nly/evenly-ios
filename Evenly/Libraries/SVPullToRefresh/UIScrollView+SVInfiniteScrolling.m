@@ -10,8 +10,9 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIScrollView+SVInfiniteScrolling.h"
 
+#define LOADING_INDICATOR_OFFSET -50
 
-static CGFloat const SVInfiniteScrollingViewHeight = 60;
+static CGFloat const SVInfiniteScrollingViewHeight = 48;
 
 @interface SVInfiniteScrollingDotView : UIView
 
@@ -29,7 +30,6 @@ static CGFloat const SVInfiniteScrollingViewHeight = 60;
 @property (nonatomic, readwrite) SVInfiniteScrollingState state;
 @property (nonatomic, strong) NSMutableArray *viewForState;
 @property (nonatomic, weak) UIScrollView *scrollView;
-@property (nonatomic, readwrite) CGFloat originalBottomInset;
 @property (nonatomic, assign) BOOL wasTriggeredByUser;
 @property (nonatomic, assign) BOOL isObserving;
 
@@ -59,7 +59,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
         view.scrollView = self;
         [self addSubview:view];
         
-        view.originalBottomInset = self.contentInset.bottom;
+        view.originalBottomInset = SVInfiniteScrollingViewHeight;
         self.infiniteScrollingView = view;
         self.showsInfiniteScrolling = YES;
     }
@@ -132,6 +132,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.state = SVInfiniteScrollingStateStopped;
         self.enabled = YES;
+        self.customViewOffset = 0;
         
         self.viewForState = [NSMutableArray arrayWithObjects:@"", @"", @"", @"", nil];
     }
@@ -153,7 +154,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
 }
 
 - (void)layoutSubviews {
-    self.activityIndicatorView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2);
+    self.activityIndicatorView.center = CGPointMake(self.bounds.size.width/2, self.bounds.size.height/2 + LOADING_INDICATOR_OFFSET);
 }
 
 #pragma mark - Scroll View
@@ -178,6 +179,12 @@ UIEdgeInsets scrollViewOriginalContentInsets;
                          self.scrollView.contentInset = contentInset;
                      }
                      completion:NULL];
+}
+
+- (void)setOriginalBottomInset:(CGFloat)originalBottomInset {
+    _originalBottomInset = originalBottomInset;
+    
+    [self setScrollViewContentInsetForInfiniteScrolling];
 }
 
 #pragma mark - Observing
@@ -255,6 +262,10 @@ UIEdgeInsets scrollViewOriginalContentInsets;
     self.state = SVInfiniteScrollingStateStopped;
 }
 
+- (void)reachedEnd {
+    self.state = SVInfiniteScrollingStateReachedEnd;
+}
+
 - (void)setState:(SVInfiniteScrollingState)newState {
     
     if(_state == newState)
@@ -276,7 +287,7 @@ UIEdgeInsets scrollViewOriginalContentInsets;
         CGRect viewBounds = [customView bounds];
         CGPoint origin = CGPointMake(roundf((self.bounds.size.width-viewBounds.size.width)/2), roundf((self.bounds.size.height-viewBounds.size.height)/2));
         CGRect frame = CGRectMake(origin.x, origin.y, viewBounds.size.width, viewBounds.size.height);
-        [customView setCenter: CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) )];
+        [customView setCenter: CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame) + self.customViewOffset)];
     }
     else {
         CGRect viewBounds = [self.activityIndicatorView bounds];

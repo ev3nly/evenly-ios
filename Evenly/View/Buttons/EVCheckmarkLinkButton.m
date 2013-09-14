@@ -94,24 +94,15 @@ static BOOL ignoringTap = NO;
 
 - (CGRect)labelFrame {
     float maxLabelWidth = (self.bounds.size.width - CGRectGetMaxX(self.check.frame) - self.xMargin - self.checkLabelBuffer);
-    CGSize labelSize = [self.label.text sizeWithFont:self.label.font
-                                   constrainedToSize:CGSizeMake(maxLabelWidth, 1000)
-                                       lineBreakMode:self.label.lineBreakMode];
+    CGSize labelSize = [self.label.text _safeBoundingRectWithSize:CGSizeMake(maxLabelWidth, 1000)
+                                                          options:NSStringDrawingUsesLineFragmentOrigin
+                                                       attributes:@{NSFontAttributeName: self.label.font}
+                                                          context:NULL].size;
+
     return CGRectMake(CGRectGetMaxX(self.check.frame) + self.checkLabelBuffer,
                       CGRectGetMidY(self.bounds) - labelSize.height/2,
                       labelSize.width,
                       labelSize.height);
 }
-
-
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
 
 @end

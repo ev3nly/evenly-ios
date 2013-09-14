@@ -9,6 +9,7 @@
 #import "EVNavigationBarButton.h"
 
 #define EV_NAVIGATION_BAR_BUTTON_MINIMUM_WIDTH 45.0
+#define NAV_BUTTON_LEFT_RIGHT_INSET 50
 
 @interface EVNavigationBarButton ()
 
@@ -42,12 +43,15 @@
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.titleLabel setFont:[self buttonFont]];
+        
+        
+        self.imageEdgeInsets = UIEdgeInsetsMake(0, NAV_BUTTON_LEFT_RIGHT_INSET, 0, NAV_BUTTON_LEFT_RIGHT_INSET);
     }
     return self;
 }
 
 - (CGRect)frameForTitle:(NSString *)title {
-    CGSize size = [title sizeWithFont:[self buttonFont]];
+    CGSize size = [title _safeSizeWithAttributes:@{NSFontAttributeName: [self buttonFont]}];
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     rect = UIEdgeInsetsInsetRect(rect, [self frameEdgeInsets]);
     rect.size.width = MAX(rect.size.width, EV_NAVIGATION_BAR_BUTTON_MINIMUM_WIDTH);

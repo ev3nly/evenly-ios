@@ -8,10 +8,13 @@
 
 #import "EVSettingsManager.h"
 #import "EVNotificationSetting.h"
+#import "EVPushManager.h"
 
 NSString *const EVHasSeenGroupRequestDashboardAlertKey = @"EVHasSeenGroupRequestDashboardAlertKey";
 NSString *const EVHasSeenPINAlertKey = @"EVHasSeenPINAlertKey";
 NSString *const EVDateAppEnteredBackgroundKey = @"EVAppEnteredBackgroundDate";
+
+NSString *const EVSettingsWereLoadedFromServerNotification = @"EVSettingsWereLoadedFromServerNotification";
 
 static EVSettingsManager *_sharedManager;
 
@@ -36,6 +39,7 @@ static EVSettingsManager *_sharedManager;
 - (void)loadSettingsFromServer {
     [EVNotificationSetting allWithSuccess:^(id result) {
         self.notificationSetting = [result lastObject];
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVSettingsWereLoadedFromServerNotification object:nil];
     } failure:^(NSError *error) {
         DLog(@"Error loading setting: %@", error);
     }];
@@ -45,6 +49,24 @@ static EVSettingsManager *_sharedManager;
     if (_notificationSetting == nil)
         [self loadSettingsFromServer];
     return _notificationSetting;
+}
+
+// Note that this should be done only once, after new user sign-up.
+- (void)checkForPushPermissionAndUpdateSettingAccordingly {
+    EV_ONLY_PERFORM_IN_BACKGROUND(^{
+        [self checkForPushPermissionAndUpdateSettingAccordingly];
+    });
+    
+    if (![EVPushManager acceptsPushNotifications])
+    {
+        EVNotificationSetting *setting = [self notificationSetting];
+        [setting setPush:NO];
+        [setting updateWithSuccess:^{
+            DLog(@"Success");
+        } failure:^(NSError *error) {
+            DLog(@"Failure: %@", error);
+        }];
+    }
 }
 
 @end

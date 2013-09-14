@@ -18,7 +18,7 @@ typedef enum {
     EVEditProfileCellRowCOUNT
 } EVEditProfileCellRow;
 
-@interface EVEditProfileViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
+@interface EVEditProfileViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) EVUser *user;
@@ -35,7 +35,6 @@ typedef enum {
 - (void)loadPinButton;
 
 - (void)photoTapped;
-- (void)saveButtonTapped;
 
 - (EVGroupedTableViewCell *)editPhotoCell;
 - (EVEditLabelCell *)editLabelCellForIndexPath:(NSIndexPath *)indexPath;

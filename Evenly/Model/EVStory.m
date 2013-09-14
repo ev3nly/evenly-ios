@@ -367,25 +367,8 @@ NSTimeInterval const EVStoryLocalMaxLifespan = 60 * 60; // one hour
     }
 }
 
-static DTCSSStylesheet *_stylesheet;
-
 - (NSAttributedString *)attributedStringFromHTMLDisplayDescription {
-    if (!_stylesheet) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            _stylesheet = [[DTCSSStylesheet alloc] initWithStyleBlock:@" strong { color: #282726;  font-family: Avenir; font-weight: bold; } "];
-        });
-    }
-    
-    NSDictionary *options = @{ DTDefaultFontFamily : @"Avenir",
-                               DTDefaultFontSize : @(15),
-                               DTDefaultTextColor : [EVColor newsfeedTextColor],
-                               DTUseiOS6Attributes : @(YES),
-                               DTDefaultStyleSheet : _stylesheet,
-                               DTDefaultTextAlignment : @(kCTCenterTextAlignment) };
-    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTMLData:[self.displayDescription dataUsingEncoding:NSUTF8StringEncoding]
-                                                                                        options:options
-                                                                             documentAttributes:nil];
+    NSMutableAttributedString *attrString = [EVStringUtility mutableAttributedStringWithHTML:self.displayDescription];
 
     // Remove the paragraph style, which messes up the label textAlignment properties.
     [attrString removeAttribute:NSParagraphStyleAttributeName range:NSMakeRange(0, attrString.length)];
@@ -439,10 +422,10 @@ static DTCSSStylesheet *_stylesheet;
     NSString *string = nil;
     if (self.liked)
     {
-        if (self.likeCount == 0)
+        if (self.likeCount <= 1)
             string = @"You like this";
         else
-            string = [NSString stringWithFormat:@"You + %d", self.likeCount];
+            string = [NSString stringWithFormat:@"You + %d", self.likeCount-1];
     }
     else
     {
@@ -471,6 +454,15 @@ static DTCSSStylesheet *_stylesheet;
 }
 
 - (void)unlikeWithSuccess:(void (^)(void))success failure:(void (^)(NSError *error))failure {
+    NSArray *users = [self.likes map:^id(id object) {
+        return [object liker];
+    }];
+    if ([users containsObject:[EVCIA me]]) {
+        NSMutableArray *mutableLikes = [NSMutableArray arrayWithArray:self.likes];
+        [mutableLikes removeObjectAtIndex:[users indexOfObject:[EVCIA me]]];
+        self.likes = (NSArray *)mutableLikes;
+    }
+    
     NSMutableURLRequest *request = [[self class] requestWithMethod:@"DELETE"
                                                               path:[NSString stringWithFormat:@"%@/likes", self.dbid]
                                                         parameters:nil];

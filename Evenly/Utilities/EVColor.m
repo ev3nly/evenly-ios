@@ -36,10 +36,20 @@
     EV_RETURN_STATIC_RGB_COLOR(0, 127, 216);
 }
 
++ (UIColor *)navBarOverlayColor {
+    EV_RETURN_STATIC_RGB_COLOR(12, 112, 207);
+}
+
++ (UIColor *)transparentBlueColor {
+    float red, green, blue, alpha;
+    [[EVColor navBarOverlayColor] getRed:&red green:&green blue:&blue alpha:&alpha];
+    return EV_RGB_ALPHA_COLOR(red, green, blue, 0.5);
+}
+
 #pragma mark - Side Panels
 
 + (UIColor *)sidePanelBackgroundColor {
-    EV_RETURN_STATIC_RGB_COLOR(250, 250, 250);
+    EV_RETURN_STATIC_RGB_COLOR(252, 250, 248);
 }
 
 + (UIColor *)sidePanelHeaderBackgroundColor {
@@ -51,7 +61,7 @@
 }
 
 + (UIColor *)sidePanelStripeColor {
-    EV_RETURN_STATIC_RGB_COLOR(215, 215, 215);
+    return [self newsfeedStripeColor];
 }
 
 + (UIColor *)sidePanelTextColor {
@@ -65,7 +75,12 @@
 #pragma mark - Newsfeed
 
 + (UIColor *)newsfeedStripeColor {
-    EV_RETURN_STATIC_RGB_COLOR(0.9020, 0.8941, 0.8902);
+    if ([UIScreen mainScreen].scale == 2) {
+        EV_RETURN_STATIC_RGB_COLOR(0.84, 0.835, 0.83);
+    }
+    else {
+        EV_RETURN_STATIC_RGB_COLOR(0.9020, 0.8941, 0.8902);
+    }
 }
 
 + (UIColor *)newsfeedNounColor {

@@ -28,8 +28,9 @@
 
 #import "EVGettingStartedViewController.h"
 
-#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET -20
-#define TABLE_VIEW_INFINITE_SCROLLING_INSET 60
+#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET ([EVUtilities userHasIOS7] ? -50 : -16)
+#define TABLE_VIEW_INFINITE_SCROLLING_INSET 40
+#define TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET -7
 
 @interface EVHomeViewController ()
 
@@ -64,13 +65,11 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor underPageBackgroundColor];
     [self loadBalanceLabel];
     [self loadWalletBarButtonItem];
     
     [self loadTableView];
     [self loadFloatingView];
-    [self configurePullToRefresh];
 }
 
 - (void)dealloc {
@@ -78,13 +77,13 @@
 }
 
 - (void)loadBalanceLabel {
-    [self setTitle:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
+    self.title = [EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance];
     
     // RACAble prefers to operate on properties of self, so we can make the CIA a property of self
     // for a little syntactic sugar.  Sugar... mhmmmmm
     self.cia = [EVCIA sharedInstance];
     [RACAble(self.cia.me.balance) subscribeNext:^(NSDecimalNumber *balance) {
-        [self setTitle:[EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance]];
+        self.title = [EVStringUtility amountStringForAmount:[EVCIA sharedInstance].me.balance];
     }];
 }
 
@@ -100,7 +99,6 @@
     self.tableView.backgroundColor = [EVColor creamColor];
     self.tableView.backgroundView = nil;
     self.tableView.loadingIndicatorYOffset = TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET;
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, TABLE_VIEW_INFINITE_SCROLLING_INSET, 0);
     [self.tableView registerClass:[EVStoryCell class] forCellReuseIdentifier:@"storyCell"];
     [self.view addSubview:self.tableView];
 
@@ -108,6 +106,7 @@
     [self configureInfiniteScrolling];
     [self.newsfeedDataSource setTableView:self.tableView];
     [self.newsfeedDataSource loadNewestStories];
+    
 }
 
 - (void)loadFloatingView {
@@ -132,15 +131,13 @@
     [self.floatingView addSubview:self.payButton];
     
     [self.view addSubview:self.floatingView];
-    
-    [self updateTableViewContentInset];
 }
 
 
 - (void)updateTableViewContentInset {
-    UIEdgeInsets insets = UIEdgeInsetsMake(0,
+    UIEdgeInsets insets = UIEdgeInsetsMake([self totalBarHeight],
                                            0,
-                                           self.floatingView.frame.size.height + self.tableView.infiniteScrollingView.frame.size.height,
+                                           TABLE_VIEW_INFINITE_SCROLLING_INSET,
                                            0);
     self.tableView.contentInset = insets;
 }
@@ -152,6 +149,7 @@
         [weakSelf.newsfeedDataSource loadNewestStories];
         [EVCIA reloadMe];
     }];
+    self.tableView.pullToRefreshView.originalTopInset = [self totalBarHeight];
 }
 
 - (void)configureInfiniteScrolling {
@@ -160,8 +158,11 @@
         [weakSelf.newsfeedDataSource loadNextPage];
     }];
     
+    self.tableView.infiniteScrollingView.customViewOffset = TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET;
     [self.tableView.infiniteScrollingView setCustomView:self.newsfeedDataSource.loadingIndicator
                                                forState:SVInfiniteScrollingStateLoading];
+    [self.tableView.infiniteScrollingView setCustomView:[[UIImageView alloc] initWithImage:[EVImages grayLoadingLogo]]
+                                               forState:SVInfiniteScrollingStateReachedEnd];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -176,11 +177,11 @@
     if ([EVCIA me].needsRequestHelp) {
         EVGettingStartedViewController *gettingStartedController = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeRequest];
         gettingStartedController.controllerToShow = [EVRequestViewController new];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:gettingStartedController];
         [self presentViewController:navController animated:YES completion:NULL];
     }
     else {
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[[EVRequestViewController alloc] init]];
         [self presentViewController:navController animated:YES completion:NULL];
     }
 }
@@ -190,11 +191,11 @@
     if ([EVCIA me].needsPaymentHelp) {
         EVGettingStartedViewController *gettingStartedController = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypePayment];
         gettingStartedController.controllerToShow = [EVPaymentViewController new];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:gettingStartedController];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:gettingStartedController];
         [self presentViewController:navController animated:YES completion:NULL];
     }
     else {
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[EVPaymentViewController alloc] init]];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[[EVPaymentViewController alloc] init]];
         [self presentViewController:navController animated:YES completion:NULL];
     }
 }
@@ -202,7 +203,8 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [EVStoryCell cellHeightForStory:[self.newsfeedDataSource.newsfeed objectAtIndex:indexPath.section]];
+    float height = (int)[EVStoryCell cellHeightForStory:[self.newsfeedDataSource.newsfeed objectAtIndex:indexPath.section]];
+    return height;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

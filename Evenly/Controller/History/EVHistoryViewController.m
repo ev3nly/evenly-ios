@@ -18,6 +18,11 @@
 #import "EVHistoryItemViewController.h"
 
 #define CELL_HEIGHT 60
+#define TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET ([EVUtilities userHasIOS7] ? -50 : -16)
+#define TABLE_VIEW_INFINITE_SCROLLING_INSET 44
+#define TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET -7
+
+#define NO_HISTORY_LABEL_OFFSET ([EVUtilities userHasIOS7] ? 6 : -20)
 
 @interface EVHistoryViewController ()
 
@@ -61,33 +66,10 @@ static NSDateFormatter *_dateFormatter = nil;
     [self reloadHistory];
 }
 
-- (void)reloadHistory {
-    if ([self.exchanges count] == 0)
-        self.tableView.loading = YES;
-    [[EVCIA sharedInstance] reloadHistoryWithCompletion:^(NSArray *history) {
-        self.tableView.loading = NO;
-        self.exchanges = history;
-        [self.tableView reloadData];
-        
-        if ([history count] == 0 && !self.noHistoryLabel)
-            [self loadNoHistoryLabel];
-        else if (self.noHistoryLabel) {
-            [self.noHistoryLabel removeFromSuperview];
-            self.noHistoryLabel = nil;
-        }
-    }];
-}
-
-- (void)loadNoHistoryLabel {
-    self.noHistoryLabel = [UILabel new];
-    self.noHistoryLabel.backgroundColor = [UIColor clearColor];
-    self.noHistoryLabel.text = @"You haven't made any transactions yet!";
-    self.noHistoryLabel.textAlignment = NSTextAlignmentCenter;
-    self.noHistoryLabel.textColor = [EVColor lightLabelColor];
-    self.noHistoryLabel.font = [EVFont defaultFontOfSize:15];
-    [self.noHistoryLabel sizeToFit];
-    self.noHistoryLabel.center = self.tableView.center;
-    [self.tableView addSubview:self.noHistoryLabel];
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    
+    self.tableView.frame = [self tableViewFrame];
 }
 
 #pragma mark - View Loading
@@ -100,10 +82,47 @@ static NSDateFormatter *_dateFormatter = nil;
     self.tableView.backgroundView = nil;
     self.tableView.separatorColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.loadingIndicatorYOffset = TABLE_VIEW_LOADING_INDICATOR_Y_OFFSET;
     [self.tableView registerClass:[EVHistoryCell class] forCellReuseIdentifier:@"historyCell"];
     [self.view addSubview:self.tableView];
+}
 
+- (void)loadNoHistoryLabel {
+    self.noHistoryLabel = [UILabel new];
+    self.noHistoryLabel.backgroundColor = [UIColor clearColor];
+    self.noHistoryLabel.text = @"You haven't made any transactions yet!";
+    self.noHistoryLabel.textAlignment = NSTextAlignmentCenter;
+    self.noHistoryLabel.textColor = [EVColor lightLabelColor];
+    self.noHistoryLabel.font = [EVFont defaultFontOfSize:15];
+    [self.noHistoryLabel sizeToFit];
     
+    self.noHistoryLabel.center = [self noHistoryLabelCenter];
+    [self.tableView addSubview:self.noHistoryLabel];
+}
+
+#pragma mark - Data Loading
+
+- (void)reloadHistory {
+    if ([self.exchanges count] == 0)
+        self.tableView.loading = YES;
+    [[EVCIA sharedInstance] reloadHistoryWithCompletion:^(NSArray *history) {
+        self.tableView.loading = NO;
+        self.exchanges = history;
+        [self.tableView reloadData];
+        
+        if ([history count] == 0) {
+            if (!self.noHistoryLabel)
+                [self loadNoHistoryLabel];
+        }
+        else if (self.noHistoryLabel) {
+            [self.noHistoryLabel removeFromSuperview];
+            self.noHistoryLabel = nil;
+        }
+        [self addInfiniteScrolling];
+    }];
+}
+
+- (void)addInfiniteScrolling {
     EVLoadingIndicator *customLoadingIndicator = [[EVLoadingIndicator alloc] initWithFrame:CGRectZero];
     [customLoadingIndicator sizeToFit];
     __weak EVHistoryViewController *weakSelf = self;
@@ -113,10 +132,17 @@ static NSDateFormatter *_dateFormatter = nil;
         [customLoadingIndicator startAnimating];
         [EVUser historyStartingAtPage:weakSelf.pageNumber
                               success:^(NSArray *history) {
+                                  if ([history count] == 0) {
+                                      weakSelf.pageNumber--;
+                                      DLog(@"No entries, reverted page number to %d", weakSelf.pageNumber);
+                                  }
                                   weakSelf.exchanges = [weakSelf.exchanges arrayByAddingObjectsFromArray:history];
                                   [weakSelf.tableView reloadData];
                                   [weakSelf.tableView.infiniteScrollingView stopAnimating];
                                   [customLoadingIndicator stopAnimating];
+                                  
+                                  if (!history || [history count] == 0)
+                                      [weakSelf.tableView.infiniteScrollingView reachedEnd];
                               } failure:^(NSError *error) {
                                   DLog(@"error: %@", error);
                                   weakSelf.pageNumber--;
@@ -124,47 +150,14 @@ static NSDateFormatter *_dateFormatter = nil;
                                   [customLoadingIndicator stopAnimating];
                               }];
     }];
+    
+    self.tableView.infiniteScrollingView.originalBottomInset = 0;
+    self.tableView.infiniteScrollingView.customViewOffset = TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET;
+    [self.tableView.infiniteScrollingView setCustomView:[[UIImageView alloc] initWithImage:[EVImages grayLoadingLogo]]
+                                               forState:SVInfiniteScrollingStateReachedEnd];
     [self.tableView.infiniteScrollingView setCustomView:customLoadingIndicator
                                                forState:SVInfiniteScrollingStateLoading];
 }
-
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    [self.tableView setFrame:[self.view bounds]];
-}
-
-- (NSString *)subtitleForHistoryItem:(EVHistoryItem *)historyItem {
-    return historyItem.memo;
-    
-    NSString *subtitle = @"";
-    NSString *memo = historyItem.memo;
-    EVObject<EVExchangeable> *exchangeable = nil;
-    if ([historyItem.source[@"type"] isEqualToString:@"Payment"])
-    {
-        if ([historyItem.from.dbid isEqualToString:[EVCIA me].dbid]) {
-            exchangeable = historyItem.to;
-        }
-        else if ([historyItem.to.dbid isEqualToString:[EVCIA me].dbid]) {
-            exchangeable = historyItem.from;
-        }
-    }
-    
-    if (exchangeable)
-    {
-        NSString *otherPerson = exchangeable.name;
-        if (memo)
-            subtitle = [NSString stringWithFormat:@"%@ • %@", otherPerson, historyItem.memo];
-        else
-            subtitle = otherPerson;
-    }
-    else
-    {
-        if (memo)
-            subtitle = memo;
-    }
-    return subtitle;
-}
-
 
 #pragma mark - TableView DataSource/Delegate
 
@@ -203,17 +196,54 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (CGRect)tableViewFrame {
     CGRect tableFrame = self.view.bounds;
-    tableFrame.size.height -= (44 - 20);
     return tableFrame;
 }
 
+- (CGPoint)noHistoryLabelCenter {
+    CGPoint tableViewCenter = self.tableView.center;
+    tableViewCenter.y += self.tableView.contentOffset.y + NO_HISTORY_LABEL_OFFSET;
+    return tableViewCenter;
+}
+
 #pragma mark - Utility
+
+- (NSString *)subtitleForHistoryItem:(EVHistoryItem *)historyItem {
+    return historyItem.memo;
+    
+    NSString *subtitle = @"";
+    NSString *memo = historyItem.memo;
+    EVObject<EVExchangeable> *exchangeable = nil;
+    if ([historyItem.source[@"type"] isEqualToString:@"Payment"])
+    {
+        if ([historyItem.from.dbid isEqualToString:[EVCIA me].dbid]) {
+            exchangeable = historyItem.to;
+        }
+        else if ([historyItem.to.dbid isEqualToString:[EVCIA me].dbid]) {
+            exchangeable = historyItem.from;
+        }
+    }
+    
+    if (exchangeable)
+    {
+        NSString *otherPerson = exchangeable.name;
+        if (memo)
+            subtitle = [NSString stringWithFormat:@"%@ • %@", otherPerson, historyItem.memo];
+        else
+            subtitle = otherPerson;
+    }
+    else
+    {
+        if (memo)
+            subtitle = memo;
+    }
+    return subtitle;
+}
 
 - (NSString *)displayStringForDate:(NSDate *)date {
     NSString *dateString = nil;
     @synchronized ([[self class] dateFormatter])
     {
-        dateString = [[[[self class] dateFormatter] stringFromDate:date] uppercaseString];
+        dateString = [[[self class] dateFormatter] stringFromDate:date];
     }
     return dateString;
 }

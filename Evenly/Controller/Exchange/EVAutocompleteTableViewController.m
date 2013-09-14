@@ -8,7 +8,6 @@
 
 #import "EVAutocompleteTableViewController.h"
 #import "ABContactsHelper.h"
-#import "EVSpreadLabel.h"
 
 #import "EVAutocompletePhotoCell.h"
 #import "EVAutocompleteEmailCell.h"
@@ -22,13 +21,13 @@
 @interface EVAutocompleteTableViewController ()
 
 @property (nonatomic, strong) UIView *evenlyFriendsHeaderView;
-@property (nonatomic, strong) EVSpreadLabel *evenlyFriendsHeaderLabel;
+@property (nonatomic, strong) EVLabel *evenlyFriendsHeaderLabel;
 
 @property (nonatomic, strong) UIView *contactsHeaderView;
-@property (nonatomic, strong) EVSpreadLabel *contactsLabel;
+@property (nonatomic, strong) EVLabel *contactsLabel;
 
 @property (nonatomic, strong) UIView *searchHeaderView;
-@property (nonatomic, strong) EVSpreadLabel *searchLabel;
+@property (nonatomic, strong) EVLabel *searchLabel;
 
 @property (nonatomic, strong) EVAutocompleteSearchOnServerCell *searchOnServerCell;
 
@@ -83,11 +82,11 @@
 }
 
 - (void)loadHeaderViews {
-    EVSpreadLabel *spreadLabel;
+    EVLabel *spreadLabel;
     UIView *headerView;
     UIView *bottomStripe;
     
-    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(X_MARGIN, Y_MARGIN, self.tableView.frame.size.width - 2*X_MARGIN, LABEL_HEIGHT)];
+    spreadLabel = [[EVLabel alloc] initWithFrame:CGRectMake(X_MARGIN, Y_MARGIN, self.tableView.frame.size.width - 2*X_MARGIN, LABEL_HEIGHT)];
     spreadLabel.backgroundColor = [UIColor clearColor];
     spreadLabel.textColor = [EVColor lightLabelColor];
     spreadLabel.font = [EVFont blackFontOfSize:11];
@@ -97,7 +96,7 @@
     headerView.backgroundColor = [EVColor requestGrayBackground];
     [headerView addSubview:spreadLabel];
     
-    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - 1, headerView.frame.size.width, 1)];
+    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - [EVUtilities scaledDividerHeight], headerView.frame.size.width, [EVUtilities scaledDividerHeight])];
     bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
     [headerView addSubview:bottomStripe];
     
@@ -105,7 +104,7 @@
     self.evenlyFriendsHeaderLabel.text = @"EVENLY FRIENDS";
     self.evenlyFriendsHeaderView = headerView;
     
-    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(X_MARGIN, Y_MARGIN, self.tableView.frame.size.width - 2*X_MARGIN, LABEL_HEIGHT)];
+    spreadLabel = [[EVLabel alloc] initWithFrame:CGRectMake(X_MARGIN, Y_MARGIN, self.tableView.frame.size.width - 2*X_MARGIN, LABEL_HEIGHT)];
     spreadLabel.backgroundColor = [UIColor clearColor];
     spreadLabel.textColor = [EVColor lightLabelColor];
     spreadLabel.font = [EVFont blackFontOfSize:11];
@@ -115,7 +114,7 @@
     headerView.backgroundColor = [EVColor requestGrayBackground];
     [headerView addSubview:spreadLabel];
     
-    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - 1, headerView.frame.size.width, 1)];
+    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - [EVUtilities scaledDividerHeight], headerView.frame.size.width, [EVUtilities scaledDividerHeight])];
     bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
     [headerView addSubview:bottomStripe];
     
@@ -123,7 +122,7 @@
     self.contactsLabel.text = @"CONTACTS";
     self.contactsHeaderView = headerView;
     
-    spreadLabel = [[EVSpreadLabel alloc] initWithFrame:CGRectMake(X_MARGIN, Y_MARGIN, self.tableView.frame.size.width - 20, LABEL_HEIGHT)];
+    spreadLabel = [[EVLabel alloc] initWithFrame:CGRectMake(X_MARGIN, Y_MARGIN, self.tableView.frame.size.width - 20, LABEL_HEIGHT)];
     spreadLabel.backgroundColor = [UIColor clearColor];
     spreadLabel.textColor = [EVColor lightLabelColor];
     spreadLabel.font = [EVFont blackFontOfSize:11];
@@ -133,7 +132,7 @@
     headerView.backgroundColor = [EVColor requestGrayBackground];
     [headerView addSubview:spreadLabel];
     
-    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - 1, headerView.frame.size.width, 1)];
+    bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - [EVUtilities scaledDividerHeight], headerView.frame.size.width, [EVUtilities scaledDividerHeight])];
     bottomStripe.backgroundColor = [EVColor newsfeedStripeColor];
     [headerView addSubview:bottomStripe];
     

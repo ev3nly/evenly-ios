@@ -18,9 +18,21 @@
 #define OPTION_AMOUNT_FIELD_RIGHT_MARGIN 5
 #define OPTION_FIELD_HEIGHT 25
 
-#define FRIENDS_BUTTON_X_MARGIN 135
+#define FRIENDS_BUTTON_X_MARGIN 145
 #define FRIENDS_BUTTON_WIDTH 130
 #define FRIENDS_BUTTON_HEIGHT 35
+
+#define TAPPABLE_BUTTON_WIDTH 44
+
+#define ARROW_BUTTON_Y_OFFSET 6
+
+@interface EVGroupRequestAmountCell ()
+
+@property (nonatomic, strong) UIButton *deleteButton;
+@property (nonatomic, strong) EVExpansionArrowButton *arrowButton;
+@property (nonatomic, strong) UIView *bottomStripe;
+
+@end
 
 @implementation EVGroupRequestAmountCell
 
@@ -36,7 +48,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
+        self.contentView.backgroundColor = [UIColor whiteColor];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.currencyFormatter = [[EVCurrencyTextFieldFormatter alloc] init];
         [self loadDeleteButton];
@@ -44,27 +56,31 @@
         [self loadFriendsButton];
         [self loadArrowButton];
         [self loadOptionNameField];
-        
-        UIView *bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0,
-                                                                        self.frame.size.height - 1,
-                                                                        self.frame.size.width,
-                                                                        1)];
-        [bottomStripe setBackgroundColor:[EVColor newsfeedStripeColor]];
-        [bottomStripe setAutoresizingMask:UIViewAutoresizingFlexibleTopMargin];
-        [self addSubview:bottomStripe];
+        [self loadBottomStripe];
         
         self.clipsToBounds = YES;
     }
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    self.bottomStripe.frame = [self bottomStripeFrame];
+    self.arrowButton.frame = [self arrowButtonFrame];
+}
+
+#pragma mark - View Loading
+
 - (void)loadDeleteButton {
     UIImage *deleteImage = [UIImage imageNamed:@"xbutton"];
-    self.deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(DELETE_BUTTON_X_ORIGIN,
-                                                                   ([[self class] standardHeight] - deleteImage.size.height) / 2.0,
-                                                                   deleteImage.size.width,
-                                                                   deleteImage.size.height)];
+    self.deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, TAPPABLE_BUTTON_WIDTH, [[self class] standardHeight])];
+    
+    float topBottomInset = [[self class] standardHeight]/2 - deleteImage.size.height/2;
+    [self.deleteButton setImageEdgeInsets:UIEdgeInsetsMake(topBottomInset, DELETE_BUTTON_X_ORIGIN, topBottomInset, TAPPABLE_BUTTON_WIDTH - deleteImage.size.width - DELETE_BUTTON_X_ORIGIN)];
+    
     self.deleteButton.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
+    [self.deleteButton addTarget:self action:@selector(deleteButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [self.deleteButton setImage:deleteImage forState:UIControlStateNormal];
     [self.contentView addSubview:self.deleteButton];
 }
@@ -90,14 +106,16 @@
                                                                         FRIENDS_BUTTON_WIDTH,
                                                                         FRIENDS_BUTTON_HEIGHT)];
     self.friendsButton.autoresizingMask = UIViewAutoresizingFlexibleBottomMargin;
-    [self.friendsButton.titleLabel setFont:[EVFont blackFontOfSize:12]];
-    [self.friendsButton setTitle:@"SELECT FRIENDS" forState:UIControlStateNormal];
+    [self.friendsButton addTarget:self action:@selector(friendsButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+    [self.friendsButton.titleLabel setFont:[EVFont blackFontOfSize:14]];
+    [self.friendsButton setTitle:@"Select Friends" forState:UIControlStateNormal];
     [self.contentView addSubview:self.friendsButton];
 }
 
 - (void)loadArrowButton {
-    self.arrowButton = [[EVExpansionArrowButton alloc] initWithFrame:CGRectZero];
-    self.accessoryView = self.arrowButton;
+    self.arrowButton = [[EVExpansionArrowButton alloc] initWithFrame:[self arrowButtonFrame]];
+    [self.contentView addSubview:self.arrowButton];
+    [self.arrowButton addTarget:self action:@selector(arrowButtonPress:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)loadOptionNameField {
@@ -106,18 +124,19 @@
                                                                               [[self class] standardHeight],
                                                                               self.frame.size.width,
                                                                               [[self class] expandedHeight] - [[self class] standardHeight])];
-    self.optionNameFieldBackground.backgroundColor = [EVColor creamColor];
+    self.optionNameFieldBackground.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.optionNameFieldBackground];
     
     UIView *bottomStripe = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                     0,
                                                                     self.frame.size.width,
-                                                                    1)];
-    [bottomStripe setBackgroundColor:[EVColor lightColor]];
+                                                                    [EVUtilities scaledDividerHeight])];
+    [bottomStripe setBackgroundColor:[EVColor newsfeedStripeColor]];
+    bottomStripe.alpha = 0.7;
     [self.optionNameFieldBackground addSubview:bottomStripe];
     
     self.optionNameField = [[EVTextField alloc] initWithFrame:CGRectMake(OPTION_NAME_FIELD_X_ORIGIN,
-                                                                         (self.optionNameFieldBackground.frame.size.height - OPTION_FIELD_HEIGHT) / 2.0 + 2,
+                                                                         (self.optionNameFieldBackground.frame.size.height - OPTION_FIELD_HEIGHT) / 2.0,
                                                                            OPTION_NAME_FIELD_WIDTH,
                                                                            OPTION_FIELD_HEIGHT)];
     self.optionNameField.autoresizingMask = UIViewAutoresizingNone;
@@ -127,21 +146,38 @@
     [self.optionNameFieldBackground addSubview:self.optionNameField];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (void)loadBottomStripe {
+    self.bottomStripe = [UIView new];
+    [self.bottomStripe setBackgroundColor:[EVColor newsfeedStripeColor]];
+    [self addSubview:self.bottomStripe];
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    // Keep the arrow on the first line when the cells expand.
-    CGPoint center = self.accessoryView.center;
-    center.y = [[self class] standardHeight] / 2.0;
-    [self.accessoryView setCenter:center];
+#pragma mark - View Manipulation
+
+- (void)addTopStripe {
+    UIView *topStripe = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, [EVUtilities scaledDividerHeight])];
+    topStripe.backgroundColor = [EVColor newsfeedStripeColor];
+    [self addSubview:topStripe];
 }
+
+#pragma mark - Button Handling
+
+- (void)deleteButtonPress:(id)sender {
+    if (self.handleDeletePress)
+        self.handleDeletePress(self);
+}
+
+- (void)friendsButtonPress:(id)sender {
+    if (self.handleSelectFriendsPress)
+        self.handleSelectFriendsPress(self);
+}
+
+- (void)arrowButtonPress:(id)sender {
+    if (self.handleArrowPress)
+        self.handleArrowPress(self);
+}
+
+#pragma mark - TextField Delegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if (textField == self.optionAmountField) {
@@ -179,6 +215,22 @@
     return didResign;
 }
 
+#pragma mark - Frames
+
+- (CGRect)bottomStripeFrame {
+    return CGRectMake(0,
+                      self.frame.size.height - [EVUtilities scaledDividerHeight],
+                      self.frame.size.width,
+                      [EVUtilities scaledDividerHeight]);
+}
+
+- (CGRect)arrowButtonFrame {
+    return CGRectMake(self.bounds.size.width - TAPPABLE_BUTTON_WIDTH,
+                      ARROW_BUTTON_Y_OFFSET,
+                      TAPPABLE_BUTTON_WIDTH,
+                      TAPPABLE_BUTTON_WIDTH);
+}
+
 @end
 
 
@@ -194,7 +246,7 @@
         UILabel *label = [[UILabel alloc] initWithFrame:self.bounds];
         label.autoresizingMask = EV_AUTORESIZE_TO_FIT;
         label.font = [EVFont defaultFontOfSize:16];
-        label.backgroundColor = [UIColor clearColor];
+        label.backgroundColor = [UIColor whiteColor];
         label.textColor = [EVColor darkLabelColor];
         label.text = @"+   Add Option";
         label.textAlignment = NSTextAlignmentCenter;

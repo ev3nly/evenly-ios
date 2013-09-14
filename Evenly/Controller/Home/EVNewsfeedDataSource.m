@@ -10,8 +10,10 @@
 #import "EVStory.h"
 #import "EVStoryCell.h"
 #import "EVLoadingIndicator.h"
+#import "EVPushManager.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "UIScrollView+SVInfiniteScrolling.h"
+
 @implementation EVNewsfeedDataSource
 
 - (id)init {
@@ -24,6 +26,10 @@
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(storyWasCreatedLocally:)
                                                      name:EVStoryLocallyCreatedNotification
+                                                   object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(receivedPushAboutNewPayment:)
+                                                     name:EVReceivedPushAboutNewPaymentNotification
                                                    object:nil];
         
         EVLoadingIndicator *customLoadingIndicator = [[EVLoadingIndicator alloc] initWithFrame:CGRectZero];
@@ -68,15 +74,19 @@
     [self.loadingIndicator startAnimating];
     [EVUser newsfeedStartingAtPage:self.pageNumber
                            success:^(NSArray *history) {
+                               BOOL reachedEnd = NO;
                                if ([history count] == 0) {
                                    self.pageNumber--;
+                                   reachedEnd = YES;
                                    DLog(@"No entries, reverted page number to %d", self.pageNumber);
                                }
                                [self.newsfeed addObjectsFromArray:history];
                                [self.tableView reloadData];
                                [self.tableView.infiniteScrollingView stopAnimating];
                                [self.loadingIndicator stopAnimating];
-                           } failure:^(NSError *error) {
+                               if (reachedEnd)
+                                   [self.tableView.infiniteScrollingView reachedEnd];
+                            } failure:^(NSError *error) {
                                DLog(@"error: %@", error);
                                self.pageNumber--;
                                DLog(@"Error, reverted page number to %d", self.pageNumber);
@@ -130,6 +140,11 @@
 - (void)didSignOut:(NSNotification *)notification {
     self.newsfeed = [NSMutableArray array];
     [self.tableView reloadData];
+}
+
+- (void)receivedPushAboutNewPayment:(NSNotification *)notification {
+    DLog(@"Received push about new payment");
+    [self loadNewestStories];
 }
 
 #pragma mark - UITableViewDataSource

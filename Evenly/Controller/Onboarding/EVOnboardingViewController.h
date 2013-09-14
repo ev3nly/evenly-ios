@@ -8,6 +8,6 @@
 
 #import "EVModalViewController.h"
 
-@interface EVOnboardingViewController : UIViewController <UIScrollViewDelegate>
+@interface EVOnboardingViewController : EVViewController <UIScrollViewDelegate>
 
 @end

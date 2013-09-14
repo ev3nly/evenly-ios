@@ -46,6 +46,7 @@
     self.tableView.backgroundColor = [EVColor creamColor];
     self.tableView.backgroundView = nil;
     [self.tableView registerClass:[EVTransactionDetailCell class] forCellReuseIdentifier:@"detailCell"];
+    self.tableView.contentOffset = CGPointZero;
     [self.view addSubview:self.tableView];
     
     [self.tableView setLoading:self.story.loading];
@@ -78,6 +79,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.story = self.story;
     cell.delegate = self;
+    cell.position = [tableView cellPositionForIndexPath:indexPath];
     return cell;
 }
 

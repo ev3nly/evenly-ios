@@ -12,16 +12,24 @@
 #import "EVInviteCell.h"
 #import "ReactiveCocoa.h"
 #import "UIAlertView+MKBlockAdditions.h"
+#import "AMBlurView.h"
 
 #define SEARCH_FIELD_HEIGHT 30
 #define SEARCH_FIELD_SIDE_BUFFER 10
 #define SEARCH_FIELD_TEXT_BUFFER 16
 #define SEARCH_BAR_HEIGHT 44
+#define SEARCH_BAR_Y_OFFSET 6
+#define SEARCH_BAR_BACKGROUND_COLOR ([EVUtilities userHasIOS7] ? [EVColor transparentBlueColor] : [EVColor blueColor])
 
 @interface EVInviteListViewController ()
 
+@property (nonatomic, strong) UIView *incentiveLabelContainer;
+@property (nonatomic, strong) UILabel *incentiveLabel;
+
 @property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, strong) UIView *shadeView;
+
+@property (nonatomic, strong) AMBlurView *blurView;
 
 @end
 
@@ -44,16 +52,24 @@
     [self loadTableView];
     [self loadRightButton];
     [self loadSearchBar];
+    [self loadIncentiveLabel];
     [self loadShadeView];
+    if ([EVUtilities userHasIOS7])
+        [self loadBlurView];
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)]];
+    
+    [self setUpReactions];    
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
+    self.incentiveLabelContainer.frame = [self incentiveLabelContainerFrame];
+    self.incentiveLabel.frame = [self incentiveLabelFrame];
     self.searchBar.frame = [self searchBarFrame];
     self.tableView.frame = [self tableViewFrame];
     self.shadeView.frame = [self shadeViewFrame];
+    self.blurView.frame = [self blurViewFrame];
 }
 
 #pragma mark - View Loading
@@ -67,35 +83,39 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundView = nil;
     self.tableView.rowHeight = [EVInviteCell cellHeight];
+    self.tableView.contentInset = UIEdgeInsetsMake(SEARCH_BAR_HEIGHT*2, 0, 0, 0);
     [self.view addSubview:self.tableView];
 }
 
 - (void)loadRightButton {
     EVNavigationBarButton *button = [[EVNavigationBarButton alloc] initWithTitle:@"Invite"];
-    [button addTarget:self action:@selector(inviteFriends) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(inviteFriendsButtonPress:) forControlEvents:UIControlEventTouchUpInside];
     [button setEnabled:NO];
     
     self.rightButton = [[UIBarButtonItem alloc] initWithCustomView:button];
     [self.navigationItem setRightBarButtonItem:self.rightButton animated:YES];
+}
 
-    RAC(self.navigationItem.rightBarButtonItem.enabled) = [RACSignal combineLatest:@[RACAble(self.selectedFriends)]
-                                                                            reduce:^(NSArray *array) {
-                                                                                NSString *suffix = [NSString stringWithFormat:@" (%i)", [self.selectedFriends count]];
-                                                                                NSString *buttonTitle = @"Invite";
-                                                                                if ([self.selectedFriends count] > 0)
-                                                                                    buttonTitle = [buttonTitle stringByAppendingString:suffix];
-                                                                                [UIView animateWithDuration:0.3
-                                                                                                 animations:^{
-                                                                                                     [button setTitle:buttonTitle forState:UIControlStateNormal];
-                                                                                                     [button setSize:[button frameForTitle:buttonTitle].size];
-                                                                                                 }];
-                                                                                return @([array count] > 0);
-                                                                            }];
+- (void)loadIncentiveLabel {
+    self.incentiveLabelContainer = [[UIView alloc] initWithFrame:[self incentiveLabelContainerFrame]];
+    self.incentiveLabelContainer.backgroundColor = SEARCH_BAR_BACKGROUND_COLOR;
+    
+    self.incentiveLabel = [[UILabel alloc] initWithFrame:[self incentiveLabelFrame]];
+    self.incentiveLabel.backgroundColor = [UIColor clearColor];
+    self.incentiveLabel.textColor = [UIColor whiteColor];
+    self.incentiveLabel.font = [EVFont defaultFontOfSize:15];
+    self.incentiveLabel.textAlignment = NSTextAlignmentCenter;
+    self.incentiveLabel.numberOfLines = 0;
+    self.incentiveLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    [self.incentiveLabelContainer addSubview:self.incentiveLabel];
+    [self.view addSubview:self.incentiveLabelContainer];
+    
+    [self updateIncentiveString];
 }
 
 - (void)loadSearchBar {
-    self.searchBar = [UISearchBar new];    
-    self.searchBar.backgroundImage = [EVImageUtility imageWithColor:[EVColor blueColor]];
+    self.searchBar = [UISearchBar new];
+    self.searchBar.backgroundImage = [EVImageUtility imageWithColor:SEARCH_BAR_BACKGROUND_COLOR];
     self.searchBar.showsCancelButton = NO;
     self.searchBar.delegate = self;
     [self.searchBar setPositionAdjustment:UIOffsetMake(1, 1) forSearchBarIcon:UISearchBarIconSearch];
@@ -108,11 +128,65 @@
     self.shadeView.alpha = 0;
 }
 
+- (void)loadBlurView {
+    self.blurView = [AMBlurView new];
+    self.blurView.frame = self.searchBar.frame;
+    self.blurView.blurTintColor = [EVColor blueColor];
+    [self.view insertSubview:self.blurView belowSubview:self.searchBar];
+}
+
+- (void)setUpReactions {
+    RAC(self.navigationItem.rightBarButtonItem.enabled) = [RACSignal combineLatest:@[RACAble(self.selectedFriends)]
+                                                                            reduce:^(NSArray *array) {
+                                                                                [self updateIncentiveString];
+                                                                                NSString *suffix = [NSString stringWithFormat:@" (%i)", [self.selectedFriends count]];
+                                                                                NSString *buttonTitle = @"Invite";
+                                                                                if ([self.selectedFriends count] > 0)
+                                                                                    buttonTitle = [buttonTitle stringByAppendingString:suffix];
+                                                                                [UIView animateWithDuration:0.3
+                                                                                                 animations:^{
+                                                                                                     EVNavigationBarButton *button = (EVNavigationBarButton *)self.rightButton.customView;
+                                                                                                     [button setTitle:buttonTitle forState:UIControlStateNormal];
+                                                                                                     [button setSize:[button frameForTitle:buttonTitle].size];
+                                                                                                 }];
+                                                                                return @([array count] > 0);
+                                                                            }];
+    
+    [RACAble(self.fullFriendList) subscribeNext:^(NSArray *array) {
+        [self updateIncentiveString];
+    }];
+}
+
+#pragma mark - Strings
+
+- (void)updateIncentiveString {
+    NSString *string = nil;
+    switch (self.selectedFriends.count) {
+        case 0:
+            string = [NSString stringWithFormat:@"Earn up to %@ by inviting friends!", [EVStringUtility inviteAmountStringForNumberOfInvitees:self.fullFriendList.count]];
+            break;
+        case 1:
+            string = [NSString stringWithFormat:@"Invite 2 more to earn $%d.", EV_DOLLARS_PER_PRIZE];
+            break;
+        case 2:
+            string = [NSString stringWithFormat:@"Invite 1 more to earn $%d.", EV_DOLLARS_PER_PRIZE];
+            break;
+        default:
+            string = [NSString stringWithFormat:@"When they sign up,\nyour friends get $%d, you get %@.", self.selectedFriends.count, [EVStringUtility inviteAmountStringForNumberOfInvitees:self.selectedFriends.count]];
+            break;
+    }
+    self.incentiveLabel.text = string;
+}
+
 #pragma mark - TableView DataSource/Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     self.tableView.loading = ([self.displayedFriendList count] == 0);
     return [self.displayedFriendList count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return nil; //implement in subclasses
 }
 
 #pragma mark - ScrollView Delegate
@@ -178,6 +252,10 @@ static NSString *previousSearch = @"";
 
 #pragma mark - Invite
 
+- (void)inviteFriendsButtonPress:(id)sender {
+    [self inviteFriends];
+}
+
 - (void)inviteFriends {
     //implement in subclass
 }
@@ -216,15 +294,30 @@ static NSString *previousSearch = @"";
 #pragma mark - Frames
 
 - (CGRect)tableViewFrame {
+    return self.view.bounds;
     return CGRectMake(0,
                       CGRectGetMaxY(self.searchBar.frame),
                       self.view.bounds.size.width,
                       self.view.bounds.size.height - self.searchBar.bounds.size.height);
 }
 
-- (CGRect)searchBarFrame {
+- (CGRect)incentiveLabelContainerFrame {
+    return CGRectMake(0,
+                      [self totalBarHeight],
+                      self.view.bounds.size.width,
+                      SEARCH_BAR_HEIGHT - SEARCH_BAR_Y_OFFSET);
+}
+
+- (CGRect)incentiveLabelFrame {
     return CGRectMake(0,
                       0,
+                      self.view.bounds.size.width,
+                      SEARCH_BAR_HEIGHT);
+}
+
+- (CGRect)searchBarFrame {
+    return CGRectMake(0,
+                      CGRectGetMaxY(self.incentiveLabelContainer.frame),
                       self.view.bounds.size.width,
                       SEARCH_BAR_HEIGHT);
 }
@@ -234,6 +327,13 @@ static NSString *previousSearch = @"";
                       CGRectGetMaxY(self.searchBar.frame),
                       self.view.bounds.size.width,
                       self.view.bounds.size.height - CGRectGetMaxY(self.searchBar.frame));
+}
+
+- (CGRect)blurViewFrame {
+    return CGRectMake(0,
+                      self.incentiveLabelContainer.frame.origin.y,
+                      self.view.bounds.size.width,
+                      CGRectGetMaxY(self.searchBar.frame) - self.incentiveLabelContainer.frame.origin.y);
 }
 
 @end

@@ -27,10 +27,15 @@
 #define CARD_SPACING 20.0
 #define MAX_CARD_WIDTH 190.0
 
+#define DEFAULT_NUMBER_OF_REWARD_OPTIONS 3
+
+#define VERTICAL_CARD_SPACING 20
+
 @interface EVRewardsGameViewController ()
 
 @property (nonatomic, strong) EVReward *reward;
 
+@property (nonatomic, strong) UIView *headerContainer;
 @property (nonatomic, strong) EVRewardHeaderView *headerView;
 @property (nonatomic, strong) EVSwitch *shareSwitch;
 
@@ -94,16 +99,29 @@
     [self loadTopLabels];
     [self loadFooter];
     [self loadCards];
+    
     if (self.reward == [EVReward rewardsExhaustedSentinel])
     {
         [self loadRewardsExhaustedView];
     }
-    
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (!self.rewardsExhaustedView && ![self hasDealtCards])
+    {
+        EV_DISPATCH_AFTER(0.1, ^{
+            [self dealCards];
+        });
+    }
+}
+
+#pragma mark - View Loading
+
 - (void)loadHeader {
-    UIView *headerContainer = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT)];
-    [self.view addSubview:headerContainer];
+    self.headerContainer = [[UIView alloc] initWithFrame:CGRectMake(0, [self totalBarHeight], self.view.frame.size.width, HEADER_HEIGHT)];
+    [self.view addSubview:self.headerContainer];
     
     self.headerView = [[EVRewardHeaderView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, HEADER_HEIGHT)];
     
@@ -111,32 +129,11 @@
     [self.shareSwitch addTarget:self action:@selector(shareSwitchChanged:) forControlEvents:UIControlEventValueChanged];
     [self.headerView setShareSwitch:self.shareSwitch];
     [self.shareSwitch setOn:[[EVCIA me] rewardSharingSetting]];
-    [headerContainer addSubview:self.headerView];
+    [self.headerContainer addSubview:self.headerView];
 }
 
 - (void)loadBalanceView {
-    self.balanceView = [[EVRewardBalanceView alloc] initWithFrame:CGRectMake(0, -HEADER_HEIGHT, self.view.frame.size.width, HEADER_HEIGHT)];
-}
-
-- (CGRect)topLabelOffScreenLeftFrame {
-    return CGRectMake(-self.view.frame.size.width,
-                      CGRectGetMaxY(self.headerView.frame),
-                      self.view.frame.size.width,
-                      TOP_LABEL_HEIGHT);
-}
-
-- (CGRect)topLabelFrame {
-    return CGRectMake(0,
-                      CGRectGetMaxY(self.headerView.frame),
-                      self.view.frame.size.width,
-                      TOP_LABEL_HEIGHT);
-}
-
-- (CGRect)topLabelOffScreenRightFrame {
-    return CGRectMake(self.view.frame.size.width,
-                      CGRectGetMaxY(self.headerView.frame),
-                      self.view.frame.size.width,
-                      TOP_LABEL_HEIGHT);
+    self.balanceView = [[EVRewardBalanceView alloc] initWithFrame:[self balanceViewFrame]];
 }
 
 - (void)loadTopLabels {
@@ -159,26 +156,12 @@
 }
 
 - (void)loadCards {
-    NSArray *colors = @[ [EVColor blueColor], [EVColor lightGreenColor], [EVColor darkColor], [EVColor lightRedColor] ];
     NSMutableArray *cardsArray = [NSMutableArray array];
-
-    int count;
-    if (self.reward)
-        count = MIN([self.reward.options count], [colors count]);
-    else
-        count = 3;
     
-    CGFloat spacing = 20.0;
-    
-    CGFloat availableHeight = CGRectGetMinY(self.footerLabel.frame) - CGRectGetMaxY(self.topLabel.frame) - NAVIGATION_BAR_OFFSET;
-    availableHeight -= count * spacing;
-    CGFloat height = availableHeight / count;
-    CGFloat width = MIN(MAX_CARD_WIDTH, height * 2.0);
-    
-    for (int i = 0; i < count; i++) {
-        EVRewardCard *card = [[EVRewardCard alloc] initWithFrame:CGRectMake(0, 0, width, height)
+    for (int i = 0; i < [self numberOfRewardOptions]; i++) {
+        EVRewardCard *card = [[EVRewardCard alloc] initWithFrame:CGRectMake(0, 0, [self cardSize].width, [self cardSize].height)
                                                             text:EV_STRING_FROM_INT(i+1)
-                                                           color:[colors objectAtIndex:i]];
+                                                           color:[[self cardColors] objectAtIndex:i]];
         [card addTarget:self action:@selector(cardTapped:) forControlEvents:UIControlEventTouchUpInside];
         [cardsArray addObject:card];
     }
@@ -208,16 +191,6 @@
     self.rewardsExhaustedView = [[EVRewardsExhaustedView alloc] initWithFrame:self.view.bounds];
     self.rewardsExhaustedView.autoresizingMask = EV_AUTORESIZE_TO_FIT;
     [self.view addSubview:self.rewardsExhaustedView];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (!self.rewardsExhaustedView)
-    {
-        EV_DISPATCH_AFTER(0.1, ^{
-            [self dealCards];
-        });
-    }
 }
 
 #pragma mark - Button Actions
@@ -279,14 +252,6 @@
                                            graphObject:action completionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
                                                DLog(@"Result: %@", result);
                                                DLog(@"Error? %@", error);
-//                                               if (result && [result valueForKey:@"id"]) {
-//                                                   [self.reward setFacebookStoryID:[result valueForKey:@"id"]];
-//                                                   [self.reward updateWithSuccess:^{
-//                                                       DLog(@"Updated reward with FB story id");
-//                                                   } failure:^(NSError *error) {
-//                                                       DLog(@"Failed to update: %@", error);
-//                                                   }];
-//                                               }
                                            }];
     };
 }
@@ -349,36 +314,6 @@
 
 #pragma mark - Animations
 
-- (CGSize)cardSize {
-    int count = self.cards.count;
-    CGFloat availableHeight = CGRectGetMinY(self.footerLabel.frame) - CGRectGetMaxY(self.topLabel.frame);
-    availableHeight -= count * CARD_SPACING;
-    CGFloat height = availableHeight / count;
-    CGFloat width = MIN(MAX_CARD_WIDTH, height * 2.0);
-    return CGSizeMake(width, height);
-}
-
-- (CGPoint)cardOffscreenCenter {
-    CGSize size = [self cardSize];
-    CGFloat xOrigin = -size.width;
-    CGFloat yOrigin = (self.view.frame.size.height - size.height) / 2.0;
-    return CGPointMake(xOrigin + size.width / 2.0, yOrigin + size.height / 2.0);
-}
-
-- (CGRect)cardFrameForIndex:(NSInteger)i {
-    
-    CGFloat spacing = 20.0;
-    CGSize size = [self cardSize];
-    CGFloat width = size.width;
-    CGFloat height = size.height;
-    CGFloat xOrigin = (self.view.frame.size.width - width) / 2.0;
-    CGRect frame = CGRectMake(xOrigin,
-                              CGRectGetMaxY(self.topLabel.frame) + i*height + i*spacing,
-                              width,
-                              height);
-    return frame;    
-}
-
 - (void)dealCards {
     NSTimeInterval spacing = 0.18;
     NSTimeInterval duration = EV_DEFAULT_ANIMATION_DURATION;
@@ -415,6 +350,9 @@
 }
 
 - (void)animateAmountLabel {
+    if (self.reward.selectedOptionIndex == NSNotFound)
+        return;
+    
     EVRewardCard *card = [self.cards objectAtIndex:self.reward.selectedOptionIndex];
     
     UILabel *faceLabel = card.face.amountLabel;
@@ -422,7 +360,7 @@
     newLabel.textColor = [EVColor mediumLabelColor];
     
     CGPoint faceLabelCenter = [self.view convertPoint:faceLabel.center fromView:card.face];
-    CGSize textSize = [faceLabel.text sizeWithFont:faceLabel.font];
+    CGSize textSize = [faceLabel.text _safeSizeWithAttributes:@{NSFontAttributeName: faceLabel.font}];
     [newLabel setSize:textSize];
     newLabel.center = faceLabelCenter;
     
@@ -446,9 +384,19 @@
 - (void)updateBalance {
     NSDecimalNumber *myBalance = [[EVCIA me] balance];
     NSDecimalNumber *rewardAmount = self.reward.selectedAmount;
-    NSDecimalNumber *newBalance = [myBalance decimalNumberByAdding:rewardAmount];
-    [self.balanceView.balanceLabel setText:[EVStringUtility amountStringForAmount:newBalance]];
-    [[[EVCIA sharedInstance] me] setBalance:newBalance];
+
+    // JH: Per Crashlytics #114, we're seeing some weird NSDecimalNumberOverflowExceptions being raised
+    // in this method when the addition takes place.  I have no idea why, considering we're never even coming
+    // close to overflowing NSDecimalNumber.  In any case, my solution is to catch the exception and,
+    // instead of doing the addition locally, just reload Me to update the balance.
+    @try {
+        NSDecimalNumber *newBalance = [myBalance decimalNumberByAdding:rewardAmount];
+        [self.balanceView.balanceLabel setText:[EVStringUtility amountStringForAmount:newBalance]];
+        [[[EVCIA sharedInstance] me] setBalance:newBalance];
+    }
+    @catch (NSException *exception) {
+        [EVCIA reloadMe];
+    }
 }
 
 - (void)switchTopLabel {
@@ -475,14 +423,95 @@
     }
 }
 
+#pragma mark - Animation Helpers
+
+- (CGSize)cardSize {
+    int count = [self numberOfRewardOptions];
+    CGFloat availableHeight = CGRectGetMinY(self.footerLabel.frame) - CGRectGetMaxY(self.topLabel.frame);
+    availableHeight -= count * CARD_SPACING;
+    CGFloat height = availableHeight / count;
+    CGFloat width = MIN(MAX_CARD_WIDTH, height * 2.0);
+    return CGSizeMake((int)width, (int)height);
+}
+
+- (CGPoint)cardOffscreenCenter {
+    CGSize size = [self cardSize];
+    CGFloat xOrigin = -size.width;
+    CGFloat yOrigin = (self.view.frame.size.height - size.height) / 2.0;
+    return CGPointMake(xOrigin + size.width / 2.0, yOrigin + size.height / 2.0);
+}
+
+- (CGRect)cardFrameForIndex:(NSInteger)i {
+    CGFloat spacing = VERTICAL_CARD_SPACING;
+    CGSize size = [self cardSize];
+    CGFloat width = size.width;
+    CGFloat height = size.height;
+    CGFloat xOrigin = (self.view.frame.size.width - width) / 2.0;
+    CGRect frame = CGRectMake(xOrigin,
+                              CGRectGetMaxY(self.topLabel.frame) + i*height + i*spacing,
+                              width,
+                              height);
+    return frame;
+}
+
 #pragma mark - TTTAttributedLabelDelegate
 
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
     EVWebViewController *controller = [[EVWebViewController alloc] initWithURL:url];
     controller.title = [url isEqual:[EVUtilities tosURL]] ? @"Terms of Service" : @"Privacy Policy";
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navController animated:YES completion:nil];
 }
 
+#pragma mark - Utility
+
+- (int)numberOfRewardOptions {
+    int count;
+    if (self.reward)
+        count = MIN([self.reward.options count], [[self cardColors] count]);
+    else
+        count = DEFAULT_NUMBER_OF_REWARD_OPTIONS;
+    return count;
+}
+
+- (NSArray *)cardColors {
+    return @[ [EVColor blueColor], [EVColor lightGreenColor], [EVColor darkColor], [EVColor lightRedColor] ];
+}
+
+- (BOOL)hasDealtCards {
+    EVRewardCard *card = [self.cards firstObject];
+    if (card.superview)
+        return YES;
+    return NO;
+}
+#pragma mark - Frames
+
+- (CGRect)topLabelOffScreenLeftFrame {
+    return CGRectMake(-self.view.frame.size.width,
+                      CGRectGetMaxY(self.headerContainer.frame),
+                      self.view.frame.size.width,
+                      TOP_LABEL_HEIGHT);
+}
+
+- (CGRect)topLabelFrame {
+    return CGRectMake(0,
+                      CGRectGetMaxY(self.headerContainer.frame),
+                      self.view.frame.size.width,
+                      TOP_LABEL_HEIGHT);
+}
+
+- (CGRect)topLabelOffScreenRightFrame {
+    return CGRectMake(self.view.frame.size.width,
+                      CGRectGetMaxY(self.headerContainer.frame),
+                      self.view.frame.size.width,
+                      TOP_LABEL_HEIGHT);
+}
+
+- (CGRect)balanceViewFrame {
+    return CGRectMake(0,
+                      -HEADER_HEIGHT,
+                      self.view.frame.size.width,
+                      HEADER_HEIGHT);
+}
 
 @end

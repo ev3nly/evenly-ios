@@ -29,14 +29,14 @@
         UIView *stripe = [[UIView alloc] initWithFrame:CGRectMake(0,
                                                                   self.frame.size.height / 2.0,
                                                                   CGRectGetMinX(imageView.frame) - LOGO_MARGIN,
-                                                                  1)];
+                                                                  [EVUtilities scaledDividerHeight])];
         [stripe setBackgroundColor:color];
         [self addSubview:stripe];
         
         stripe = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageView.frame) + LOGO_MARGIN,
                                                           self.frame.size.height / 2.0,
                                                           frame.size.width - CGRectGetMaxX(imageView.frame) - LOGO_MARGIN,
-                                                          1)];
+                                                          [EVUtilities scaledDividerHeight])];
         [stripe setBackgroundColor:color];
         [self addSubview:stripe];
     }

@@ -52,8 +52,8 @@
         UIView *square = [UIView new];
         square.backgroundColor = [UIColor whiteColor];
         square.layer.cornerRadius = 2.0;
-        square.layer.borderColor = [EV_RGB_COLOR(220, 220, 220) CGColor];
-        square.layer.borderWidth = 1.0;
+        square.layer.borderColor = [[EVColor newsfeedStripeColor] CGColor];
+        square.layer.borderWidth = [EVUtilities scaledDividerHeight];
         [self addSubview:square];
         [self.squares addObject:square];
     }

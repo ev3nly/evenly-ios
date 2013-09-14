@@ -12,6 +12,8 @@
 #import "EVEnterPINViewController.h"
 #import "EVNavigationManager.h"
 
+#define HAMBURGER_IMAGE_WIDTH_PADDING 14
+
 @interface EVMasterViewController ()
 
 @property (nonatomic, strong) NSURL *killswitchURL;
@@ -35,11 +37,21 @@
 
 - (UIBarButtonItem *)leftButtonForCenterPanel {
     UIImage *image = [UIImage imageNamed:@"Hamburger"];
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, image.size.width + 14, image.size.height)];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT, EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT)];
     [button setImage:image forState:UIControlStateNormal];
     [button addTarget:self action:@selector(toggleLeftPanel:) forControlEvents:UIControlEventTouchUpInside];
     button.adjustsImageWhenHighlighted = NO;
     button.showsTouchWhenHighlighted = YES;
+    
+    if (![EVUtilities userHasIOS7]) {
+        button.frame = CGRectMake(0, 0, image.size.width + HAMBURGER_IMAGE_WIDTH_PADDING, image.size.height);
+    }
+    else {
+        CGSize insetSize = CGSizeMake(EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.width,
+                                      (EV_VIEW_CONTROLLER_BAR_BUTTON_HEIGHT - image.size.height)/2);
+        [button setImageEdgeInsets:UIEdgeInsetsMake(insetSize.height, 0, insetSize.height, insetSize.width)];
+    }
+    
     UIBarButtonItem *barButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
     return barButtonItem;
 }
@@ -63,7 +75,7 @@
 									 animated:(BOOL)animated
 						authenticationSuccess:(void (^)(void))success {
     EVSignInViewController *signInViewController = [[EVSignInViewController alloc] initWithAuthenticationSuccess:success];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signInViewController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:signInViewController];
     [self presentViewController:navController animated:animated completion:completion];
 }
 
@@ -72,7 +84,7 @@
 - (void)showPINViewControllerAnimated:(BOOL)animated {
     EVEnterPINViewController *pinViewController = [[EVEnterPINViewController alloc] init];
     pinViewController.canDismissManually = NO;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinViewController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:pinViewController];
     [self presentViewController:navController animated:animated completion:nil];
 }
 
@@ -120,6 +132,12 @@
         self.killswitchAlertView = nil;
         self.killswitchURL = nil;
     }
+}
+
+#pragma mark - Status Bar
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 @end

@@ -14,6 +14,8 @@ extern NSString *const EVHasSeenGroupRequestDashboardAlertKey;
 extern NSString *const EVHasSeenPINAlertKey;
 extern NSString *const EVDateAppEnteredBackgroundKey;
 
+extern NSString *const EVSettingsWereLoadedFromServerNotification;
+
 @interface EVSettingsManager : NSObject
 
 @property (nonatomic, strong) EVNotificationSetting *notificationSetting;
@@ -21,5 +23,6 @@ extern NSString *const EVDateAppEnteredBackgroundKey;
 + (instancetype)sharedManager;
 
 - (void)loadSettingsFromServer;
+- (void)checkForPushPermissionAndUpdateSettingAccordingly;
 
 @end

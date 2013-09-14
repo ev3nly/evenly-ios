@@ -73,14 +73,7 @@ static void *EVAvatarViewContext = &EVAvatarViewContext;
 }
 
 - (void)configureMasks {
-    CGSize avatarSize = self.size;
     self.layer.cornerRadius = self.cornerRadius;
-
-    CAShapeLayer *borderLayer = (CAShapeLayer *)[self.border layer];
-    [borderLayer setPath:[[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, avatarSize.width, avatarSize.height) cornerRadius:self.cornerRadius - 1.0] CGPath]];
-    [borderLayer setLineWidth:1.0];
-    [borderLayer setStrokeColor:[EV_RGB_ALPHA_COLOR(0, 0, 0, 0.3) CGColor]];
-    [borderLayer setFillColor:[[UIColor clearColor] CGColor]];
 }
 
 - (void)setAvatarOwner:(id<EVAvatarOwning>)avatarOwner {

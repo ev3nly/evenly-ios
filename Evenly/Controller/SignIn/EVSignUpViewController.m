@@ -14,6 +14,8 @@
 #import "ReactiveCocoa.h"
 #import <QuartzCore/QuartzCore.h>
 #import "OpenInChromeController.h"
+#import "EVSettingsManager.h"
+
 
 #define CHECK_VIEW_HEIGHT 40
 #define FOOTER_VIEW_BOTTOM_MARGIN 10
@@ -64,11 +66,6 @@
     [self loadCells];
     [self loadSaveButton];
     [self configureReactions];
-
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(findAndResignFirstResponder)];
-    tapRecognizer.delegate = self;
-    tapRecognizer.cancelsTouchesInView = NO;
-    [self.view addGestureRecognizer:tapRecognizer];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -141,7 +138,7 @@
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {    
     EVWebViewController *controller = [[EVWebViewController alloc] initWithURL:url];
     controller.title = [url isEqual:[EVUtilities tosURL]] ? @"Terms of Service" : @"Privacy Policy";
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:controller];
     [self presentViewController:navController animated:YES completion:nil];
 }
  
@@ -181,6 +178,9 @@
             [[EVCIA sharedInstance] setMe:me];
             
             [EVUtilities registerForPushNotifications];
+            EV_DISPATCH_AFTER(10.0, ^{
+                [[EVSettingsManager sharedManager] checkForPushPermissionAndUpdateSettingAccordingly];
+            });
             
             [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusSuccess];
             [EVStatusBarManager sharedManager].duringSuccess = ^(void) {

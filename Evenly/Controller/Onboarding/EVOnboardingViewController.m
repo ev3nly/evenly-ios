@@ -75,7 +75,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     self.view.backgroundColor = EV_RGB_COLOR(27, 34, 38);
     [self loadScrollView];
     [self loadPageControl];
@@ -140,14 +140,16 @@
     
     UILabel *label = [UILabel new];
     label.backgroundColor = [UIColor clearColor];
-    label.text = @"Don't Get Mad.   Get Evenly";
+    label.text = @"Don't Get Mad.\nGet Evenly";
     label.numberOfLines = 2;
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor whiteColor];
     label.font = [EVFont romanFontOfSize:34];
+    label.clipsToBounds = NO;
     
-    float totalHeight = LOGO_LENGTH + LOGO_TEXT_BUFFER + [self sizeForLabel:label].height;
+    CGSize labelSize = [self sizeForLabel:label];
+    float totalHeight = LOGO_LENGTH + LOGO_TEXT_BUFFER + labelSize.height;
     
     UIImageView *logo = [[UIImageView alloc] initWithImage:[EVImages bigIcon]];
     logo.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - LOGO_LENGTH/2,
@@ -155,13 +157,12 @@
                             LOGO_LENGTH,
                             LOGO_LENGTH);
     logo.layer.masksToBounds = YES;
-    label.frame = CGRectMake(0,
-                             CGRectGetMaxY(logo.frame) + LOGO_TEXT_BUFFER,
-                             self.scrollView.bounds.size.width,
-                             [self sizeForLabel:label].height);
+    label.frame = CGRectMake(floorf(CGRectGetMidX(self.scrollView.bounds) - labelSize.width/2),
+                             floorf(CGRectGetMaxY(logo.frame) + LOGO_TEXT_BUFFER),
+                             ceilf(labelSize.width),
+                             ceilf(labelSize.height));
     
     [logo align];
-    [label align];
     
     [view addSubview:logo];
     [view addSubview:label];
@@ -254,14 +255,17 @@
     UILabel *descriptionLabel = [self descriptionLabelWithText:description];
     UIImageView *picture = [[UIImageView alloc] initWithImage:image];
     
-    titleLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:titleLabel].width/2,
+    CGSize titleLabelSize = [self sizeForLabel:titleLabel];
+    CGSize descriptionLabelSize = [self sizeForLabel:descriptionLabel];
+    
+    titleLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - titleLabelSize.width/2,
                                   TITLE_TOP_BUFFER,
-                                  [self sizeForLabel:titleLabel].width,
-                                  [self sizeForLabel:titleLabel].height);
-    descriptionLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - [self sizeForLabel:descriptionLabel].width/2,
+                                  titleLabelSize.width,
+                                  titleLabelSize.height);
+    descriptionLabel.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - descriptionLabelSize.width/2,
                                         CGRectGetMaxY(titleLabel.frame) + TITLE_SUBTITLE_BUFFER,
-                                        [self sizeForLabel:descriptionLabel].width,
-                                        [self sizeForLabel:descriptionLabel].height);
+                                        descriptionLabelSize.width,
+                                        descriptionLabelSize.height);
     picture.frame = CGRectMake(CGRectGetMidX(self.scrollView.bounds) - (image.size.width * imageScale)/2 + imageOffset.x,
                                self.scrollView.bounds.size.height - PICTURE_BOTTOM_BUFFER - (image.size.height * imageScale) + imageOffset.y,
                                image.size.width * imageScale,
@@ -332,15 +336,16 @@
 }
 
 - (CGSize)sizeForLabel:(UILabel *)label {
-    return [label.text sizeWithFont:label.font
-                  constrainedToSize:CGSizeMake(MAX_TEXT_WIDTH, 1000)
-                      lineBreakMode:label.lineBreakMode];
+    return [label.text _safeBoundingRectWithSize:CGSizeMake(MAX_TEXT_WIDTH, 1000)
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                      attributes:@{NSFontAttributeName: label.font}
+                                         context:NULL].size;
 }
 
 #pragma mark - Button Handling
 
 - (void)facebookButtonTapped {
-    [EVFacebookManager loadMeWithCompletion:^(NSDictionary *userDict) {
+    [EVFacebookManager loadMeForSignupWithCompletion:^(NSDictionary *userDict) {
         NSString *avatarUrlString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?width=176&height=176", [userDict objectForKey:@"id"]];
         EVUser *newUser = [EVUser new];
         newUser.name = [userDict objectForKey:@"name"];
@@ -349,18 +354,18 @@
         [newUser loadAvatar];
         
         EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
-            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{                
+            [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
                 EVGettingStartedViewController *controller = [[EVGettingStartedViewController alloc] initWithType:EVGettingStartedTypeAll];
-                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+                EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:controller];
                 [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
             }];
         } user:newUser];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
+        EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:signUpController];
         [self presentViewController:navController animated:YES completion:nil];
     } failure:^(NSError *error) {
         [[UIAlertView alertViewWithTitle:@"Error"
-                                  message:@"Sorry! We couldn't connect with Facebook right now. Please make sure you're using the right username and password and try again!"
-                        cancelButtonTitle:@"OK"] show];
+                                 message:@"Sorry! We couldn't connect with Facebook right now. Please make sure you're using the right username and password and try again!"
+                       cancelButtonTitle:@"OK"] show];
     }];
 }
 
@@ -368,11 +373,11 @@
     EVSignUpViewController *signUpController = [[EVSignUpViewController alloc] initWithSignUpSuccess:^{
         [self.presentingViewController dismissViewControllerAnimated:YES completion:^{
             EVSetPINViewController *pinController = [[EVSetPINViewController alloc] initWithNibName:nil bundle:nil];
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinController];
+            EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:pinController];
             [[EVNavigationManager sharedManager].masterViewController presentViewController:navController animated:YES completion:nil];
         }];
     }];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signUpController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:signUpController];
     [self presentViewController:navController animated:YES completion:nil];
 }
 
@@ -382,7 +387,7 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
     signInViewController.canDismissManually = YES;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:signInViewController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:signInViewController];
     [self presentViewController:navController animated:YES completion:nil];
 }
 
@@ -396,7 +401,7 @@
 
 - (CGRect)scrollViewFrame {
     return CGRectMake(0,
-                      0,
+                      [self totalBarHeight],
                       self.view.bounds.size.width,
                       CARD_HEIGHT + CARD_SIDE_BUFFER);
 }
@@ -425,6 +430,12 @@
 
 - (float)bottomSectionHeight {
     return (self.view.bounds.size.height - CGRectGetMaxY(self.scrollView.frame));
+}
+
+#pragma mark - Status Bar
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 @end

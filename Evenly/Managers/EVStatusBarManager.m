@@ -8,11 +8,13 @@
 
 #import "EVStatusBarManager.h"
 #import "EVNavigationManager.h"
+#import "AMBlurView.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define DEFAULT_IN_PROGRESS_TEXT @"SAVING.."
 #define DEFAULT_SUCCESS_TEXT @"SUCCESS!"
-#define DEFAULT_FAILURE_TEXT @"WHOOPS! SOMETHING WENT WRONG."
+#define DEFAULT_FAILURE_TEXT @"Whoops! Try again."
+//#define DEFAULT_FAILURE_TEXT @"WHOOPS! SOMETHING WENT WRONG."
 
 typedef void(^EVStatusBarManagerActionBlock)(void);
 
@@ -21,6 +23,8 @@ typedef void(^EVStatusBarManagerActionBlock)(void);
 @property (nonatomic, strong) EVStatusBarProgressView *progressView;
 @property (nonatomic, strong) NSDate *lastStatusChange;
 @property (nonatomic, strong) NSMutableArray *actionStack;
+
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 - (BOOL)mustWait;
 
@@ -53,6 +57,10 @@ static EVStatusBarManager *_sharedManager = nil;
 - (void)setStatus:(EVStatusBarStatus)status text:(NSString *)text {
     if (status == EVStatusBarStatusNone)
         return; //manager sets this
+    
+    text = [text lowercaseString];
+    text = [text stringByReplacingCharactersInRange:NSMakeRange(0, 1)
+                                         withString:[[text substringToIndex:1] uppercaseString]];
     EV_PERFORM_ON_MAIN_QUEUE(^{
         EVStatusBarManagerActionBlock action = [self actionForStatus:status text:text];
         
@@ -97,7 +105,16 @@ static EVStatusBarManager *_sharedManager = nil;
 
 #pragma mark - View Modification
 
-- (void)progressWithText:(NSString *)text {    
+- (void)progressWithText:(NSString *)text {
+    self.hud = [MBProgressHUD showHUDAddedTo:[self viewForHUD] animated:YES];
+    self.hud.labelFont = [EVFont defaultFontOfSize:16];
+    self.hud.labelText = text;
+    [self.progressView setStatus:EVStatusBarStatusInProgress text:text];
+    self.lastStatusChange = [NSDate date];
+
+    return;
+    
+    
     CGRect originalFrame = [UIApplication sharedApplication].statusBarFrame;
     self.progressView.frame = [self startingFrame];
     [self.progressView setStatus:EVStatusBarStatusInProgress text:text];
@@ -117,6 +134,39 @@ static EVStatusBarManager *_sharedManager = nil;
     self.lastStatusChange = [NSDate date];
 }
 
+- (void)endWithText:(NSString *)text {
+    if (self.preSuccess && self.progressView.status == EVStatusBarStatusSuccess)
+        self.preSuccess();
+    self.preSuccess = nil;
+    
+    self.hud.mode = MBProgressHUDModeText;
+    self.hud.labelText = text;
+    EV_DISPATCH_AFTER(1.0, ^{
+        [MBProgressHUD hideHUDForView:[self viewForHUD] animated:YES];
+        self.hud = nil;
+        
+        if (self.duringSuccess && self.progressView.status == EVStatusBarStatusSuccess)
+            self.duringSuccess();
+        self.duringSuccess = nil;
+        
+        if (self.postSuccess && self.progressView.status == EVStatusBarStatusSuccess)
+            self.postSuccess();
+        self.postSuccess = nil;
+        
+        [self runStackAction];
+    });
+    self.lastStatusChange = [NSDate date];
+}
+
+- (UIView *)viewForHUD {
+    UIView *mainView = [UIApplication sharedApplication].keyWindow;
+    for (UIView *window in [UIApplication sharedApplication].windows) {
+        if ([window isMemberOfClass:[UIWindow class]])
+            mainView = window;
+    }
+    return mainView;
+}
+
 - (void)successWithText:(NSString *)text {
     if ([self mustWait]) {
         EV_DISPATCH_AFTER(0.5, ^(void) {
@@ -124,9 +174,10 @@ static EVStatusBarManager *_sharedManager = nil;
         });
         return;
     }
-    if (self.preSuccess)
-        self.preSuccess();
-    self.preSuccess = nil;
+    [self.progressView setStatus:EVStatusBarStatusSuccess text:text];
+    [self endWithText:text];
+    return;
+    
     [self.progressView setStatus:EVStatusBarStatusSuccess text:text];
     [self hideProgressView];
     self.lastStatusChange = [NSDate date];
@@ -139,6 +190,10 @@ static EVStatusBarManager *_sharedManager = nil;
         });
         return;
     }
+    [self.progressView setStatus:EVStatusBarStatusFailure text:text];
+    [self endWithText:text];
+    return;
+    
     [self.progressView setStatus:EVStatusBarStatusFailure text:text];
     [self hideProgressView];
     self.lastStatusChange = [NSDate date];

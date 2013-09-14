@@ -12,8 +12,6 @@
 #import "EVSession.h"
 #import "EVNavigationManager.h"
 
-#import "EVFormView.h"
-
 #import "EVNotificationsViewController.h"
 #import "EVPINSettingsViewController.h"
 
@@ -21,7 +19,7 @@
 #import "EVFacebookManager.h"
 #import "EVUser.h"
 
-#define EV_SETTINGS_MARGIN 10.0
+#define EV_SETTINGS_MARGIN ([EVUtilities userHasIOS7] ? 10.0 : 0)
 #define EV_SETTINGS_ROW_HEIGHT 50.0
 #define EV_SETTINGS_STRIPE_HEIGHT 1.0
 

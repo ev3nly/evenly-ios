@@ -19,6 +19,7 @@
 #import "EVHomeViewController.h"
 #import "EVWalletViewController.h"
 #import "EVSession.h"
+#import "EVPayment.h"
 #import "EVCIA.h"
 #import "EVSettingsManager.h"
 #import "EVHTTPClient.h"
@@ -34,6 +35,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <Parse/Parse.h>
 #import "ABContactsHelper.h"
+#import "EVFacebookManager.h"
 
 #define EV_APP_GRACE_PERIOD_FOR_PIN_REENTRY 60
 
@@ -72,6 +74,8 @@
         [self handleRemoteNotification:[launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey] requirePIN:YES];
     }
     
+    [self showPINIfSet];
+    
     return YES;
 }
 
@@ -95,6 +99,9 @@
     // Load user and session from cache.
     [EVSession setSharedSession:[[EVCIA sharedInstance] session]];
     
+    if ([[EVCIA sharedInstance] session]) {
+        [EVFacebookManager quietlyOpenSessionWithCompletion:NULL];
+    }
     [EVCIA reloadMe];
     
     [[EVKeyboardTracker sharedTracker] registerForNotifications];
@@ -105,9 +112,19 @@
 }
 
 - (void)setUpAppearance {
-    [[UINavigationBar appearance] setBackgroundImage:[EVImages navBarBackground] forBarMetrics:UIBarMetricsDefault];
-    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
-
+    if ([EVUtilities userHasIOS7]) {
+        self.window.tintColor = [EVColor blueColor];
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+        UIImage *clearImage = [EVImageUtility imageWithColor:[UIColor clearColor]];
+        [[UINavigationBar appearance] setBackgroundImage:clearImage forBarMetrics:UIBarMetricsDefault];
+    }
+    else {
+        UIImage *blueImage = [EVImageUtility imageWithColor:[EVColor blueColor]];
+        [[UINavigationBar appearance] setBackgroundImage:blueImage forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    }
+    
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackground] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     [[UIBarButtonItem appearance] setBackgroundImage:[EVImages barButtonItemBackgroundPress] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
 }
@@ -129,19 +146,15 @@
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
-    if ([EVSession sharedSession].authenticationToken) {
-        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]
-                                                  forKey:EVDateAppEnteredBackgroundKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        if ([[EVPINUtility sharedUtility] pinIsSet])
-            [[self masterViewController] showPINViewControllerAnimated:NO];
-    }
+    [self showPINIfSet];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    if ([[EVCIA sharedInstance] session]) {
+        [EVFacebookManager quietlyOpenSessionWithCompletion:NULL];
+    }
     [EVCIA reloadMe];
 }
 
@@ -151,7 +164,9 @@
     
     [FBSession.activeSession handleDidBecomeActive];
     [EVAnalyticsUtility trackEvent:EVAnalyticsOpenedApp];
-    [EVUtilities registerForPushNotifications];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:EVShouldRegisterForPushAtStartup] == YES)
+        [EVUtilities registerForPushNotifications];
 
     EV_DISPATCH_AFTER(0.5, ^{
         if ([[EVCIA sharedInstance] session]) {
@@ -171,6 +186,8 @@
     return [FBSession.activeSession handleOpenURL:url];
 }
 
+#pragma mark - Push Notifications
+
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
@@ -181,6 +198,11 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         [mixpanel.people addPushDeviceToken:deviceToken];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:EVApplicationDidRegisterForPushesNotification
+                                                        object:nil
+                                                      userInfo:@{ @"deviceToken" : deviceToken }];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:EVShouldRegisterForPushAtStartup];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
@@ -188,19 +210,31 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     [EVCIA reloadMe];
 }
 
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    DLog(@"Registering for push failed: %@", error);
+}
+
 - (void)handleRemoteNotification:(NSDictionary *)userInfo requirePIN:(BOOL)requirePIN {
     DLog(@"Remote notification: %@", userInfo);
     [PFPush handlePush:userInfo];
+    
+    EVObject *object = [[EVPushManager sharedManager] objectFromPushDictionary:userInfo[@"meta"]];
+    if ([object isKindOfClass:[EVPayment class]])
+    {
+        [EVCIA reloadMe];
+        [[NSNotificationCenter defaultCenter] postNotificationName:EVReceivedPushAboutNewPaymentNotification object:nil];
+    }
+    
     EVViewController *viewController = [[EVPushManager sharedManager] viewControllerFromPushDictionary:userInfo[@"meta"]];
     if (viewController)
     {
-        UINavigationController *pushNavController = [[UINavigationController alloc] initWithRootViewController:viewController];
+        EVNavigationController *pushNavController = [[EVNavigationController alloc] initWithRootViewController:viewController];
         
         void (^completionBlock)(void) = nil;
         if (requirePIN && [[EVPINUtility sharedUtility] pinIsSet]) {
             EVEnterPINViewController *pinViewController = [[EVEnterPINViewController alloc] init];
             pinViewController.canDismissManually = NO;
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:pinViewController];
+            EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:pinViewController];
             completionBlock = ^{
                 [pushNavController presentViewController:navController animated:NO completion:nil];
             };
@@ -211,6 +245,17 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 }
 
 #pragma mark - PIN Setting
+
+- (void)showPINIfSet {
+    if ([EVSession sharedSession].authenticationToken) {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date]
+                                                  forKey:EVDateAppEnteredBackgroundKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        if ([[EVPINUtility sharedUtility] pinIsSet])
+            [[self masterViewController] showPINViewControllerAnimated:NO];
+    }
+}
 
 - (BOOL)userHasNotSeenPINAlert {
     return ([[NSUserDefaults standardUserDefaults] boolForKey:EVHasSeenPINAlertKey] != YES);
@@ -231,7 +276,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 }
 
 - (void)showSetPINController {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[EVSetPINViewController new]];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:[EVSetPINViewController new]];
     [self.masterViewController presentViewController:navController animated:YES completion:nil];
 }
 

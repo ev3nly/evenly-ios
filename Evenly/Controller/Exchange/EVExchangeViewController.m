@@ -293,11 +293,18 @@
     }
     self.privacySelector.hidden = !shouldShowPrivacySelector;
     
-    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorToggle lineHeight];
+    float yOrigin = self.view.bounds.size.height - EV_DEFAULT_KEYBOARD_HEIGHT - [EVPrivacySelectorToggle lineHeight] - [self totalBarHeight];
     return CGRectMake(0,
                       yOrigin,
                       self.view.bounds.size.width,
                       [EVPrivacySelectorToggle lineHeight] * [EVPrivacySelectorToggle numberOfLines]);
+}
+
+- (CGRect)exchangeViewDefaultFrame {
+    CGRect frame = self.view.bounds;
+    frame.origin.y += [self totalBarHeight];
+    frame.size.height -= [self totalBarHeight];
+    return frame;
 }
 
 @end

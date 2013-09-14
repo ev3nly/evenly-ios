@@ -19,8 +19,8 @@
 
 @interface EVPartialPaymentViewController ()
 
-@property (nonatomic, strong) UILabel *youOweLabel;
-@property (nonatomic, strong) UILabel *howMuchToPayLabel;
+@property (nonatomic, strong) EVLabel *youOweLabel;
+@property (nonatomic, strong) EVLabel *howMuchToPayLabel;
 @property (nonatomic, strong) EVNavigationBarButton *payButton;
 @property (nonatomic, strong) EVExchangeBigAmountView *bigAmountView;
 
@@ -57,7 +57,7 @@
 }
 
 - (void)loadYouOweLabel {
-    self.youOweLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_RIGHT_MARGIN,
+    self.youOweLabel = [[EVLabel alloc] initWithFrame:CGRectMake(LEFT_RIGHT_MARGIN,
                                                                 TOP_MARGIN,
                                                                 self.view.frame.size.width - 2*LEFT_RIGHT_MARGIN,
                                                                 LABEL_HEIGHT)];
@@ -65,7 +65,7 @@
     self.youOweLabel.textAlignment = NSTextAlignmentCenter;
     self.youOweLabel.textColor = [UIColor blackColor];
     self.youOweLabel.backgroundColor = [UIColor clearColor];
-    self.youOweLabel.adjustsLetterSpacingToFitWidth = YES;
+    self.youOweLabel.adjustLetterSpacingToFitWidth = YES;
     self.youOweLabel.adjustsFontSizeToFitWidth = YES;
     self.youOweLabel.minimumScaleFactor = 0.6;
     self.youOweLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -74,7 +74,7 @@
 }
 
 - (void)loadHowMuchToPayLabel {
-    self.howMuchToPayLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_RIGHT_MARGIN,
+    self.howMuchToPayLabel = [[EVLabel alloc] initWithFrame:CGRectMake(LEFT_RIGHT_MARGIN,
                                                                  CGRectGetMaxY(self.youOweLabel.frame),
                                                                  self.view.frame.size.width - 2*LEFT_RIGHT_MARGIN,
                                                                  LABEL_HEIGHT)];
@@ -82,7 +82,7 @@
     self.howMuchToPayLabel.textAlignment = NSTextAlignmentCenter;
     self.howMuchToPayLabel.textColor = [UIColor blackColor];
     self.howMuchToPayLabel.backgroundColor = [UIColor clearColor];
-    self.howMuchToPayLabel.adjustsLetterSpacingToFitWidth = YES;
+    self.howMuchToPayLabel.adjustLetterSpacingToFitWidth = YES;
     self.howMuchToPayLabel.adjustsFontSizeToFitWidth = YES;
     self.howMuchToPayLabel.minimumScaleFactor = 0.6;
     self.howMuchToPayLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -136,7 +136,7 @@
 
 - (void)showGameForReward:(EVReward *)reward {
     EVRewardsGameViewController *rewardsViewController = [[EVRewardsGameViewController alloc] initWithReward:reward];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:rewardsViewController];
+    EVNavigationController *navController = [[EVNavigationController alloc] initWithRootViewController:rewardsViewController];
     [self.navigationController presentViewController:navController animated:YES completion:^{
         [self.navigationController popViewControllerAnimated:YES];
     }];

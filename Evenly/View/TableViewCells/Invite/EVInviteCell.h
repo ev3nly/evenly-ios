@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UIImageView *defaultAvatar;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UIButton *inviteButton;
+@property (nonatomic, strong) UITapGestureRecognizer *tapRecognizer;
 
 @property (nonatomic, assign) BOOL shouldInvite;
 @property (nonatomic, strong) void (^handleSelection)(id identifier);

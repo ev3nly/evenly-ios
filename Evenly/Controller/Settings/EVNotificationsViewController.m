@@ -8,6 +8,7 @@
 
 #import "EVNotificationsViewController.h"
 #import "EVSettingsManager.h"
+#import "EVPushManager.h"
 
 #import "EVFormView.h"
 #import "EVFormRow.h"
@@ -17,8 +18,9 @@
 #define CONTEXT_LABEL_Y_MARGIN 15.0
 #define CONTEXT_LABEL_HEIGHT 20.0
 
+#define FORM_CELL_SIDE_MARGIN ([EVUtilities userHasIOS7] ? 0 : 10)
 #define FORM_Y_ORIGIN 44.0
-#define FORM_MARGIN 10.0
+#define FORM_MARGIN ([EVUtilities userHasIOS7] ? 10.0 : 0)
 #define FORM_ROW_HEIGHT 50.0
 
 @interface EVNotificationsViewController ()
@@ -49,6 +51,10 @@
     return self;
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -58,7 +64,14 @@
     [self loadContextLabel];
     [self loadForm];
     [self loadRows];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(settingsDidReload:)
+                                                 name:EVSettingsWereLoadedFromServerNotification
+                                               object:nil];
 }
+
+#pragma mark - View Loading
 
 - (void)loadTableView {
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -81,16 +94,16 @@
 }
 
 - (void)loadForm {
-    self.form = [[EVFormView alloc] initWithFrame:CGRectMake(FORM_MARGIN,
+    self.form = [[EVFormView alloc] initWithFrame:CGRectMake(FORM_CELL_SIDE_MARGIN,
                                                              FORM_Y_ORIGIN,
-                                                             self.view.frame.size.width - 2*FORM_MARGIN,
+                                                             self.view.frame.size.width - FORM_CELL_SIDE_MARGIN*2,
                                                              3*FORM_ROW_HEIGHT)];
     [self.tableView addSubview:self.form];
 }
 
 - (void)loadRows {
     EVFormRow *row = nil;
-    CGRect rect = CGRectMake(0, 0, self.form.frame.size.width, FORM_ROW_HEIGHT);
+    CGRect rect = CGRectMake(0, 0, self.form.frame.size.width - FORM_MARGIN*2, FORM_ROW_HEIGHT);
     NSMutableArray *array = [NSMutableArray array];
     
     row = [[EVFormRow alloc] initWithFrame:rect];
@@ -120,9 +133,22 @@
     [self.form setFormRows:array];
 }
 
+#pragma mark - Switches
+
 - (void)pushSwitchChanged:(EVSwitch *)sender {
     if (sender.on != self.setting.push)
     {
+        if (sender.on) {
+            if (![EVPushManager acceptsPushNotifications]) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Push Notifications Disabled"
+                                                                message:@"To receive push notifications from Evenly, go to Settings -> Notifications -> Evenly and enable alert banners.  Thanks!"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Close"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+            [EVUtilities registerForPushNotifications];
+        }
         [self.setting setPush:sender.on];
         [self.setting updateWithSuccess:^{
             DLog(@"Success");
@@ -142,6 +168,13 @@
             DLog(@"Failure: %@", error);
         }];
     }
+}
+
+- (void)settingsDidReload:(NSNotification *)notification {
+    self->_setting = [[EVSettingsManager sharedManager] notificationSetting];
+    self.pushSwitch.on = self.setting.push;
+    self.emailSwitch.on = self.setting.email;
+    self.smsSwitch.on = self.setting.sms;
 }
 
 - (void)smsSwitchChanged:(EVSwitch *)sender {
