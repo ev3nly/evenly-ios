@@ -1047,6 +1047,7 @@
 		9CAC447C177F97E400CA27C5 /* EVGroupRequestPendingPaymentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EVGroupRequestPendingPaymentCell.m; sourceTree = "<group>"; };
 		9CAC447E177FA07000CA27C5 /* EVPartialPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVPartialPaymentViewController.h; sourceTree = "<group>"; };
 		9CAC447F177FA07000CA27C5 /* EVPartialPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVPartialPaymentViewController.m; sourceTree = "<group>"; };
+		9CAFD88917E3DFFC00ECE076 /* Icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-120.png"; sourceTree = "<group>"; };
 		9CB08C0317BEB8CB005F575C /* EVAutocompleteSearchOnServerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EVAutocompleteSearchOnServerCell.h; sourceTree = "<group>"; };
 		9CB08C0417BEB8CB005F575C /* EVAutocompleteSearchOnServerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EVAutocompleteSearchOnServerCell.m; sourceTree = "<group>"; };
 		9CB285661761521E009B26BB /* FeedActionLeftArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FeedActionLeftArrow.png; sourceTree = "<group>"; };
@@ -2323,6 +2324,7 @@
 		9C981B16174FD95600BE9506 = {
 			isa = PBXGroup;
 			children = (
+				9CAFD88917E3DFFC00ECE076 /* Icon-120.png */,
 				9CD473B81790AE3400E60E37 /* Default-568h@2x.png */,
 				9CD473B41790AE2E00E60E37 /* Default.png */,
 				D0A0BB66179E0E94002C0EA0 /* Default@2x.png */,
