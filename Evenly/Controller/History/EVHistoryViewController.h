@@ -10,8 +10,6 @@
 
 @interface EVHistoryViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) NSArray *exchanges;
-
 - (void)reloadHistory;
 
 @end

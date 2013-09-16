@@ -23,12 +23,17 @@
 #define TABLE_VIEW_INFINITE_SCROLL_VIEW_OFFSET -7
 
 #define NO_HISTORY_LABEL_OFFSET ([EVUtilities userHasIOS7] ? 6 : -20)
+#define SECTION_HEADER_HEIGHT 40.0
 
 @interface EVHistoryViewController ()
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *noHistoryLabel;
 @property (nonatomic) int pageNumber;
+
+@property (nonatomic, strong) NSMutableArray *bucketKeys;
+@property (nonatomic, strong) NSMutableDictionary *buckets;
+@property (nonatomic, strong) NSMutableDictionary *headerViews;
 
 - (void)loadTableView;
 
@@ -47,13 +52,24 @@ static NSDateFormatter *_dateFormatter = nil;
     return _dateFormatter;
 }
 
+static NSDateFormatter *_bucketDateFormatter;
+- (NSDateFormatter *)bucketDateFormatter {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _bucketDateFormatter = [[NSDateFormatter alloc] init];
+        [_bucketDateFormatter setDateFormat:@"MMMM yyyy"];
+    });
+    return _bucketDateFormatter;
+}
+
 #pragma mark - Lifecycle
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         self.title = @"History";
         self.pageNumber = 1;
-        self.exchanges = [[EVCIA sharedInstance] history];
+        self.bucketKeys = [NSMutableArray array];
+        self.buckets = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -103,11 +119,11 @@ static NSDateFormatter *_dateFormatter = nil;
 #pragma mark - Data Loading
 
 - (void)reloadHistory {
-    if ([self.exchanges count] == 0)
+    if ([self.bucketKeys count] == 0)
         self.tableView.loading = YES;
     [[EVCIA sharedInstance] reloadHistoryWithCompletion:^(NSArray *history) {
         self.tableView.loading = NO;
-        self.exchanges = history;
+        [self setHistory:history];
         [self.tableView reloadData];
         
         if ([history count] == 0) {
@@ -120,6 +136,26 @@ static NSDateFormatter *_dateFormatter = nil;
         }
         [self addInfiniteScrolling];
     }];
+}
+
+- (void)setHistory:(NSArray *)history {
+    [self.bucketKeys removeAllObjects];
+    [self.buckets removeAllObjects];
+    [self addToHistory:history];
+}
+
+- (void)addToHistory:(NSArray *)history {
+    for (EVHistoryItem *item in history) {
+        NSDate *itemDate = item.createdAt;
+        NSString *bucketKey = [[self bucketDateFormatter] stringFromDate:itemDate];
+        NSMutableArray *bucket;
+        if (!(bucket = [self.buckets objectForKey:bucketKey])) {
+            [self.bucketKeys addObject:bucketKey];
+            bucket = [NSMutableArray array];
+            [self.buckets setObject:bucket forKey:bucketKey];
+        }
+        [bucket addObject:item];
+    }
 }
 
 - (void)addInfiniteScrolling {
@@ -136,7 +172,7 @@ static NSDateFormatter *_dateFormatter = nil;
                                       weakSelf.pageNumber--;
                                       DLog(@"No entries, reverted page number to %d", weakSelf.pageNumber);
                                   }
-                                  weakSelf.exchanges = [weakSelf.exchanges arrayByAddingObjectsFromArray:history];
+                                  [weakSelf addToHistory:history];
                                   [weakSelf.tableView reloadData];
                                   [weakSelf.tableView.infiniteScrollingView stopAnimating];
                                   [customLoadingIndicator stopAnimating];
@@ -161,22 +197,33 @@ static NSDateFormatter *_dateFormatter = nil;
 
 #pragma mark - TableView DataSource/Delegate
 
+- (EVHistoryItem *)itemAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *key = [self.bucketKeys objectAtIndex:indexPath.section];
+    EVHistoryItem *historyItem = (EVHistoryItem *)[[self.buckets objectForKey:key] objectAtIndex:indexPath.row];
+    return historyItem;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return [self.bucketKeys count];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.exchanges count];
+    NSString *key = [self.bucketKeys objectAtIndex:section];
+    return [[self.buckets objectForKey:key] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (!self.exchanges)
+    if (self.bucketKeys.count == 0)
         return 0;
     
-    EVHistoryItem *historyItem = (EVHistoryItem *)[self.exchanges objectAtIndex:indexPath.row];
+    EVHistoryItem *historyItem = [self itemAtIndexPath:indexPath];
     NSString *subtitle = [self subtitleForHistoryItem:historyItem];
     return [EVHistoryCell heightGivenSubtitle:subtitle];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     EVHistoryCell *cell = (EVHistoryCell *)[tableView dequeueReusableCellWithIdentifier:@"historyCell" forIndexPath:indexPath];
-    EVHistoryItem *historyItem = (EVHistoryItem *)[self.exchanges objectAtIndex:indexPath.row];
+    EVHistoryItem *historyItem = [self itemAtIndexPath:indexPath];
     NSString *subtitle = [self subtitleForHistoryItem:historyItem];
     NSDecimalNumber *amount = historyItem.amount;
     [cell setTitle:[self displayStringForDate:historyItem.createdAt] subtitle:subtitle amount:amount];
@@ -187,9 +234,33 @@ static NSDateFormatter *_dateFormatter = nil;
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    EVHistoryItem *historyItem = [self.exchanges objectAtIndex:indexPath.row];
+    EVHistoryItem *historyItem = [self itemAtIndexPath:indexPath];
     EVHistoryItemViewController *viewController = [[EVHistoryItemViewController alloc] initWithHistoryItem:historyItem];
     [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [self.bucketKeys objectAtIndex:section];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return SECTION_HEADER_HEIGHT;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    UIView *header = [self.headerViews objectForKey:[self.bucketKeys objectAtIndex:section]];
+    if (!header)
+    {
+        header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [self tableView:tableView heightForHeaderInSection:section])];
+        UILabel *label = [[UILabel alloc] initWithFrame:header.bounds];
+        label.backgroundColor = [UIColor clearColor];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [EVColor darkLabelColor];
+        label.font = [EVFont defaultFontOfSize:15];
+        label.text = [self tableView:tableView titleForHeaderInSection:section];
+        [header addSubview:label];
+    }
+    return header;
 }
 
 #pragma mark - Frames
