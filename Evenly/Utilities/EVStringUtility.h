@@ -53,6 +53,7 @@
 + (NSString *)strippedPhoneNumber:(NSString *)phoneNumber;
 
 + (NSString *)stringForPrivacySetting:(EVPrivacySetting)privacySetting;
++ (NSAttributedString *)attributedStringForLiker:(EVUser *)liker;
 
 #pragma mark - Contacts
 
