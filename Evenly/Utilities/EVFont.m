@@ -11,11 +11,11 @@
 @implementation EVFont
 
 + (UIFont *)defaultFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"Avenir-Roman" size:fontSize];
+    return [UIFont fontWithName:@"Avenir-Book" size:fontSize];
 }
 
 + (UIFont *)boldFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"Avenir" size:fontSize];
+    return [UIFont fontWithName:@"Avenir-Roman" size:fontSize];
 }
 
 + (UIFont *)blackFontOfSize:(CGFloat)fontSize {

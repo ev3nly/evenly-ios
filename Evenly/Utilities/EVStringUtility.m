@@ -103,6 +103,23 @@ static NSDateFormatter *_shortDateFormatter;
     return @"private";
 }
 
++ (NSAttributedString *)attributedStringForLiker:(EVUser *)liker {
+    NSDictionary *boldAttributes = @{ NSFontAttributeName : [EVFont blackFontOfSize:14],
+                                      NSForegroundColorAttributeName : [EVColor darkColor] };
+    NSDictionary *regularAttributes = @{ NSFontAttributeName : [EVFont defaultFontOfSize:14],
+                                         NSForegroundColorAttributeName : [EVColor darkColor] };
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:@""];
+    if ([liker isEqual:[EVCIA me]]) {
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@"You" attributes:boldAttributes]];
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" like this" attributes:regularAttributes]];
+    } else {
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:[liker name] attributes:boldAttributes]];
+        [attrString appendAttributedString:[[NSAttributedString alloc] initWithString:@" likes this" attributes:regularAttributes]];
+    }
+    return attrString;
+}
+
 + (NSAttributedString *)attributedStringForPendingExchange:(EVExchange *)exchange {
     NSDictionary *components = [self subjectVerbAndObjectForPendingExchange:exchange];
     
