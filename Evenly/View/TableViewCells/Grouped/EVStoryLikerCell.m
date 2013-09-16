@@ -36,14 +36,8 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.avatarView.frame = CGRectMake(AVATAR_MARGIN,
-                                       (self.contentView.frame.size.height - AVATAR_VIEW_DIMENSION) / 2.0,
-                                       AVATAR_VIEW_DIMENSION,
-                                       AVATAR_VIEW_DIMENSION);
-    self.likerLabel.frame = CGRectMake(CGRectGetMaxX(self.avatarView.frame) + AVATAR_SPACING,
-                                       (self.contentView.frame.size.height - self.likerLabel.frame.size.height) / 2.0,
-                                       self.likerLabel.frame.size.width,
-                                       self.likerLabel.frame.size.height);
+    self.avatarView.frame = [self avatarViewFrame];
+    self.likerLabel.frame = [self likerLabelFrame];
 }
 
 - (void)setLiker:(EVUser *)liker {
@@ -53,6 +47,22 @@
     [self.likerLabel setAttributedText:attrString];
     [self.likerLabel sizeToFit];
     [self setNeedsLayout];
+}
+
+#pragma mark - Frames
+
+- (CGRect)avatarViewFrame {
+    return CGRectMake(AVATAR_MARGIN,
+                      (self.contentView.frame.size.height - AVATAR_VIEW_DIMENSION) / 2.0,
+                      AVATAR_VIEW_DIMENSION,
+                      AVATAR_VIEW_DIMENSION);
+}
+
+- (CGRect)likerLabelFrame {
+    return CGRectMake(CGRectGetMaxX(self.avatarView.frame) + AVATAR_SPACING,
+                      (self.contentView.frame.size.height - self.likerLabel.frame.size.height) / 2.0,
+                      self.likerLabel.frame.size.width,
+                      self.likerLabel.frame.size.height);
 }
 
 @end
