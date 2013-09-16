@@ -93,6 +93,7 @@
 - (void)sendSingleRequestToServer {
     [self setVisibilityForExchange:self.request];
     self.request.memo = self.singleWhatForView.descriptionField.text;
+    EV_TRUNCATE_STRING(self.request.memo);
     
     [self.request saveWithSuccess:^{
         
@@ -110,6 +111,9 @@
 - (void)sendGroupRequestToServer {
     self.groupRequest.title = self.groupWhatForView.nameField.text;
     self.groupRequest.memo = self.groupWhatForView.descriptionField.text;
+    EV_TRUNCATE_STRING(self.groupRequest.title);
+    EV_TRUNCATE_STRING(self.groupRequest.memo);
+    
     [self setVisibilityForGroupRequest:self.groupRequest];
     DLog(@"Group request dictionary representation: %@", [self.groupRequest dictionaryRepresentation]);
     

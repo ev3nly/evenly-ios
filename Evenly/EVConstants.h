@@ -93,3 +93,7 @@ typedef void(^EVHandleTextChangeBlock)(NSString *text);
 
 #define EV_INVITES_NEEDED_FOR_PRIZE 3
 #define EV_DOLLARS_PER_PRIZE 5
+
+#pragma mark - String Size Limitations
+
+#define EV_MAX_CHARACTER_COUNT 2000
