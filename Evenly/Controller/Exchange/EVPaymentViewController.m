@@ -62,6 +62,7 @@
     [[EVStatusBarManager sharedManager] setStatus:EVStatusBarStatusInProgress text:@"SENDING PAYMENT..."];
     
     self.payment.memo = self.whatForView.descriptionField.text;
+    EV_TRUNCATE_STRING(self.payment.memo);
     [self setVisibilityForExchange:self.payment];
     
     [self.payment saveWithSuccess:^{
