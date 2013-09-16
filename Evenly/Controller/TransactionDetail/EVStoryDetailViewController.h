@@ -11,6 +11,12 @@
 
 @class EVStory;
 
+typedef enum {
+    EVStoryDetailViewControllerSectionStory,
+    EVStoryDetailViewControllerSectionLikes,
+    EVStoryDetailViewControllerSectionCOUNT
+} EVStoryDetailViewControllerSection;
+
 @interface EVStoryDetailViewController : EVModalViewController <UITableViewDataSource, UITableViewDelegate, EVTransactionDetailCellDelegate, EVReloadable>
 
 @property (nonatomic, strong) EVStory *story;

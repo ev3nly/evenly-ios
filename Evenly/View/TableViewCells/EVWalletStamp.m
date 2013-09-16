@@ -59,11 +59,9 @@
         self.backgroundView = [[EVWalletStampBorder alloc] initWithFrame:self.bounds];
         [self addSubview:self.backgroundView];
         
-        UIBezierPath *shapePath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) cornerRadius:2.0];
-        [shapePath addClip];
-        
+        self.opaque = NO;
+
         self.shapeLayer = (CAShapeLayer *)self.backgroundView.layer;
-        self.shapeLayer.path = [shapePath CGPath];
         self.shapeLayer.lineWidth = [EVUtilities scaledDividerHeight];
         self.shapeLayer.strokeColor = [[EVColor sidePanelStripeColor] CGColor];
         self.shapeLayer.fillColor = [[EVColor sidePanelSelectedColor] CGColor];
@@ -76,6 +74,16 @@
         [self addSubview:self.label];
     }
     return self;
+}
+
+- (void)drawRect:(CGRect)rect {
+    UIBezierPath *shapePath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0,
+                                                                                 0,
+                                                                                 self.bounds.size.width,
+                                                                                 self.bounds.size.height)
+                                                         cornerRadius:2.0];
+    [shapePath addClip];
+    self.shapeLayer.path = [shapePath CGPath];
 }
 
 - (void)setStrokeColor:(UIColor *)strokeColor {
