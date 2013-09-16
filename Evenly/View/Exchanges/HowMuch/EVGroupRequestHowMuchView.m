@@ -405,6 +405,7 @@
             EVGroupRequestTier *tier = [[EVGroupRequestTier alloc] init];
             tier.price = [EVStringUtility amountFromAmountString:cell.optionAmountField.text];
             tier.name = cell.optionNameField.text;
+            EV_TRUNCATE_STRING(tier.name);
             [tmpTiers addObject:tier];
         }
         tiers = [NSArray arrayWithArray:tmpTiers];

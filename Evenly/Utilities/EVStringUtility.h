@@ -9,6 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "EVUser.h"
 
+#define EV_TRUNCATE_STRING(arg) \
+    do { \
+        if (arg.length > EV_MAX_CHARACTER_COUNT) { \
+            arg = [arg substringToIndex:EV_MAX_CHARACTER_COUNT]; \
+        } \
+    } while (0)
+
 @class  EVExchange,
         EVPayment,
         EVRequest,
